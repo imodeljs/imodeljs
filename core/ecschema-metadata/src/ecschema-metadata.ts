@@ -38,7 +38,6 @@ export { Unit } from "./Metadata/Unit";
 export { UnitSystem } from "./Metadata/UnitSystem";
 export * from "./PropertyTypes";
 export * from "./SchemaKey";
-export * from "./utils/FormatEnums";
 export * from "./Validation/Diagnostic";
 export * from "./Validation/DiagnosticReporter";
 export { DiagnosticCodes, Diagnostics, ECRuleSet } from "./Validation/ECRules";

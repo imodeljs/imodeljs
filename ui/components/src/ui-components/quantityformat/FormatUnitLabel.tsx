@@ -9,7 +9,7 @@
 import classnames from "classnames";
 import * as React from "react";
 import { Checkbox, CommonProps, Select, SelectOption } from "@bentley/ui-core";
-import { Format, FormatProps, FormatTraits } from "@bentley/imodeljs-quantity";
+import { Format, FormatProps, FormatTraits, getTraitString } from "@bentley/imodeljs-quantity";
 import { UiComponents } from "../UiComponents";
 
 interface UomSeparatorSelectorProps extends CommonProps {
@@ -69,7 +69,7 @@ export function FormatUnitLabel(props: FormatUnitLabelProps) {
   }, [formatProps]);
 
   const setFormatTrait = React.useCallback((trait: FormatTraits, setActive: boolean) => {
-    const traitStr = Format.getTraitString(trait);
+    const traitStr = getTraitString(trait);
     let formatTraits: string[] = [traitStr];
     if (setActive) {// setting trait
       // istanbul ignore else

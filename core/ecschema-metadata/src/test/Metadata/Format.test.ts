@@ -10,7 +10,7 @@ import { FormatProps } from "../../Deserialization/JsonProps";
 import { ECObjectsError } from "../../Exception";
 import { Format } from "../../Metadata/Format";
 import { MutableSchema, Schema } from "../../Metadata/Schema";
-import { DecimalPrecision, FormatTraits, FormatType, ShowSignOption } from "../../utils/FormatEnums";
+import { DecimalPrecision, FormatTraits, FormatType, QuantityError, ShowSignOption } from "@bentley/imodeljs-quantity";
 import { createSchemaJsonWithItems } from "../TestUtils/DeserializationHelpers";
 import { TestSchemaLocater } from "../TestUtils/FormatTestHelper";
 import { createEmptyXmlDocument, getElementChildrenByTagName } from "../TestUtils/SerializationHelper";
@@ -249,10 +249,10 @@ describe("Format", () => {
       type: "BadType",
     };
     it("sync - invalid type attribute value", () => {
-      assert.throws(() => testFormat.fromJSONSync(invalidTypeAttributeValue), ECObjectsError, `The Format TestSchema.TestFormat has an invalid 'type' attribute.`);
+      assert.throws(() => testFormat.fromJSONSync(invalidTypeAttributeValue), QuantityError, `The Format TestFormat has an invalid 'type' attribute.`);
     });
     it("async - invalid type attribute value", async () => {
-      await expect(testFormat.fromJSON(invalidTypeAttributeValue)).to.be.rejectedWith(ECObjectsError, `The Format TestSchema.TestFormat has an invalid 'type' attribute.`);
+      await expect(testFormat.fromJSON(invalidTypeAttributeValue)).to.be.rejectedWith(QuantityError, `The Format TestFormat has an invalid 'type' attribute.`);
     });
 
     const invalidPrecisionDecimal: FormatProps = {
@@ -273,14 +273,14 @@ describe("Format", () => {
       precision: -1,
     };
     it("sync - precision value is invalid with different format types", () => {
-      assert.throws(() => testFormat.fromJSONSync(invalidPrecisionDecimal), ECObjectsError, `The Format TestSchema.TestFormat has an invalid 'precision' attribute.`);
-      assert.throws(() => testFormat.fromJSONSync(invalidPrecisionScientific), ECObjectsError, `The Format TestSchema.TestFormat has an invalid 'precision' attribute.`);
-      assert.throws(() => testFormat.fromJSONSync(invalidPrecisionStation), ECObjectsError, `The Format TestSchema.TestFormat has an invalid 'precision' attribute.`);
+      assert.throws(() => testFormat.fromJSONSync(invalidPrecisionDecimal), QuantityError, `The Format TestFormat has an invalid 'precision' attribute.`);
+      assert.throws(() => testFormat.fromJSONSync(invalidPrecisionScientific), QuantityError, `The Format TestFormat has an invalid 'precision' attribute.`);
+      assert.throws(() => testFormat.fromJSONSync(invalidPrecisionStation), QuantityError, `The Format TestFormat has an invalid 'precision' attribute.`);
     });
     it("async - precision value is invalid with different format types", async () => {
-      await expect(testFormat.fromJSON(invalidPrecisionDecimal)).to.be.rejectedWith(ECObjectsError, `The Format TestSchema.TestFormat has an invalid 'precision' attribute.`);
-      await expect(testFormat.fromJSON(invalidPrecisionScientific)).to.be.rejectedWith(ECObjectsError, `The Format TestSchema.TestFormat has an invalid 'precision' attribute.`);
-      await expect(testFormat.fromJSON(invalidPrecisionStation)).to.be.rejectedWith(ECObjectsError, `The Format TestSchema.TestFormat has an invalid 'precision' attribute.`);
+      await expect(testFormat.fromJSON(invalidPrecisionDecimal)).to.be.rejectedWith(QuantityError, `The Format TestFormat has an invalid 'precision' attribute.`);
+      await expect(testFormat.fromJSON(invalidPrecisionScientific)).to.be.rejectedWith(QuantityError, `The Format TestFormat has an invalid 'precision' attribute.`);
+      await expect(testFormat.fromJSON(invalidPrecisionStation)).to.be.rejectedWith(QuantityError, `The Format TestFormat has an invalid 'precision' attribute.`);
     });
 
     const validPrecisionDecimal: FormatProps = {
@@ -332,17 +332,17 @@ describe("Format", () => {
       minWidth: 5.5,
     };
     it("sync - minWidth value is invalid", () => {
-      assert.throws(() => testFormat.fromJSONSync(invalidMinWidth), ECObjectsError, `The Format TestSchema.TestFormat has an invalid 'minWidth' attribute. It should be a positive integer.`);
+      assert.throws(() => testFormat.fromJSONSync(invalidMinWidth), QuantityError, `The Format TestFormat has an invalid 'minWidth' attribute. It should be a positive integer.`);
 
       invalidMinWidth.minWidth = -1;
-      assert.throws(() => testFormat.fromJSONSync(invalidMinWidth), ECObjectsError, `The Format TestSchema.TestFormat has an invalid 'minWidth' attribute. It should be a positive integer.`);
+      assert.throws(() => testFormat.fromJSONSync(invalidMinWidth), QuantityError, `The Format TestFormat has an invalid 'minWidth' attribute. It should be a positive integer.`);
     });
     it("async - minWidth value is invalid", async () => {
       invalidMinWidth.minWidth = 5.5; // TODO fix this
-      await expect(testFormat.fromJSON(invalidMinWidth)).to.be.rejectedWith(ECObjectsError, `The Format TestSchema.TestFormat has an invalid 'minWidth' attribute. It should be a positive integer.`);
+      await expect(testFormat.fromJSON(invalidMinWidth)).to.be.rejectedWith(QuantityError, `The Format TestFormat has an invalid 'minWidth' attribute. It should be a positive integer.`);
 
       invalidMinWidth.minWidth = -1;
-      await expect(testFormat.fromJSON(invalidMinWidth)).to.be.rejectedWith(ECObjectsError, `The Format TestSchema.TestFormat has an invalid 'minWidth' attribute. It should be a positive integer.`);
+      await expect(testFormat.fromJSON(invalidMinWidth)).to.be.rejectedWith(QuantityError, `The Format TestFormat has an invalid 'minWidth' attribute. It should be a positive integer.`);
     });
 
     const missingScientificType: FormatProps = {
@@ -350,10 +350,10 @@ describe("Format", () => {
       type: "Scientific",
     };
     it("sync - scientific type is required when type is scientific", () => {
-      assert.throws(() => testFormat.fromJSONSync(missingScientificType), ECObjectsError, `The Format TestSchema.TestFormat is 'Scientific' type therefore the attribute 'scientificType' is required.`);
+      assert.throws(() => testFormat.fromJSONSync(missingScientificType), QuantityError, `The Format TestFormat is 'Scientific' type therefore the attribute 'scientificType' is required.`);
     });
     it("async - scientific type is required when type is scientific", async () => {
-      await expect(testFormat.fromJSON(missingScientificType)).to.be.rejectedWith(ECObjectsError, `The Format TestSchema.TestFormat is 'Scientific' type therefore the attribute 'scientificType' is required.`);
+      await expect(testFormat.fromJSON(missingScientificType)).to.be.rejectedWith(QuantityError, `The Format TestFormat is 'Scientific' type therefore the attribute 'scientificType' is required.`);
     });
 
     const invalidScientificType: FormatProps = {
@@ -362,10 +362,10 @@ describe("Format", () => {
       scientificType: "badType",
     };
     it("sync - scientific type is not supported", () => {
-      assert.throws(() => testFormat.fromJSONSync(invalidScientificType), ECObjectsError, `The Format TestSchema.TestFormat has an invalid 'scientificType' attribute.`);
+      assert.throws(() => testFormat.fromJSONSync(invalidScientificType), QuantityError, `The Format TestFormat has an invalid 'scientificType' attribute.`);
     });
     it("async - scientific type is not supported", async () => {
-      await expect(testFormat.fromJSON(invalidScientificType)).to.be.rejectedWith(ECObjectsError, `The Format TestSchema.TestFormat has an invalid 'scientificType' attribute.`);
+      await expect(testFormat.fromJSON(invalidScientificType)).to.be.rejectedWith(QuantityError, `The Format TestFormat has an invalid 'scientificType' attribute.`);
     });
 
     const missingStationOffsetSize: FormatProps = {
@@ -373,10 +373,10 @@ describe("Format", () => {
       type: "station",
     };
     it("sync - stationOffsetSize is required when type is station", () => {
-      assert.throws(() => testFormat.fromJSONSync(missingStationOffsetSize), ECObjectsError, `The Format TestSchema.TestFormat is 'Station' type therefore the attribute 'stationOffsetSize' is required.`);
+      assert.throws(() => testFormat.fromJSONSync(missingStationOffsetSize), QuantityError, `The Format TestFormat is 'Station' type therefore the attribute 'stationOffsetSize' is required.`);
     });
     it("async - stationOffsetSize is required when type is station", async () => {
-      await expect(testFormat.fromJSON(missingStationOffsetSize)).to.be.rejectedWith(ECObjectsError, `The Format TestSchema.TestFormat is 'Station' type therefore the attribute 'stationOffsetSize' is required.`);
+      await expect(testFormat.fromJSON(missingStationOffsetSize)).to.be.rejectedWith(QuantityError, `The Format TestFormat is 'Station' type therefore the attribute 'stationOffsetSize' is required.`);
     });
 
     const invalidStationOffsetSize: FormatProps = {
@@ -385,10 +385,10 @@ describe("Format", () => {
       stationOffsetSize: -1,
     };
     it("sync - stationOffsetSize is invalid value", () => {
-      assert.throws(() => testFormat.fromJSONSync(invalidStationOffsetSize), ECObjectsError, `The Format TestSchema.TestFormat has an invalid 'stationOffsetSize' attribute. It should be a positive integer.`);
+      assert.throws(() => testFormat.fromJSONSync(invalidStationOffsetSize), QuantityError, `The Format TestFormat has an invalid 'stationOffsetSize' attribute.`);
     });
     it("async - stationOffsetSize is invalid value", async () => {
-      await expect(testFormat.fromJSON(invalidStationOffsetSize)).to.be.rejectedWith(ECObjectsError, `The Format TestSchema.TestFormat has an invalid 'stationOffsetSize' attribute. It should be a positive integer.`);
+      await expect(testFormat.fromJSON(invalidStationOffsetSize)).to.be.rejectedWith(QuantityError, `The Format TestFormat has an invalid 'stationOffsetSize' attribute.`);
     });
 
     const invalidShowSignOption: FormatProps = {
@@ -397,10 +397,10 @@ describe("Format", () => {
       showSignOption: "noSigned",
     };
     it("sync - scientific type is not supported", () => {
-      assert.throws(() => testFormat.fromJSONSync(invalidShowSignOption), ECObjectsError, `The Format TestSchema.TestFormat has an invalid 'showSignOption' attribute.`);
+      assert.throws(() => testFormat.fromJSONSync(invalidShowSignOption), QuantityError, `The Format TestFormat has an invalid 'showSignOption' attribute.`);
     });
     it("async - scientific type is not supported", async () => {
-      await expect(testFormat.fromJSON(invalidShowSignOption)).to.be.rejectedWith(ECObjectsError, `The Format TestSchema.TestFormat has an invalid 'showSignOption' attribute.`);
+      await expect(testFormat.fromJSON(invalidShowSignOption)).to.be.rejectedWith(QuantityError, `The Format TestFormat has an invalid 'showSignOption' attribute.`);
     });
 
     const invalidDecimalSeparator: FormatProps = {
@@ -409,10 +409,10 @@ describe("Format", () => {
       decimalSeparator: "badSeparator",
     };
     it("sync - decimal separator cannot be larger than 1 character", () => {
-      assert.throws(() => testFormat.fromJSONSync(invalidDecimalSeparator), ECObjectsError, `The Format TestSchema.TestFormat has an invalid 'decimalSeparator' attribute.`);
+      assert.throws(() => testFormat.fromJSONSync(invalidDecimalSeparator), QuantityError, `The Format TestFormat has an invalid 'decimalSeparator' attribute. It should be an empty or one character string.`);
     });
     it("async - decimal separator cannot be larger than 1 character", async () => {
-      await expect(testFormat.fromJSON(invalidDecimalSeparator)).to.be.rejectedWith(ECObjectsError, `The Format TestSchema.TestFormat has an invalid 'decimalSeparator' attribute.`);
+      await expect(testFormat.fromJSON(invalidDecimalSeparator)).to.be.rejectedWith(QuantityError, `The Format TestFormat has an invalid 'decimalSeparator' attribute. It should be an empty or one character string.`);
     });
 
     const invalidThousandSeparator: FormatProps = {
@@ -421,10 +421,10 @@ describe("Format", () => {
       thousandSeparator: "badSeparator",
     };
     it("sync - thousand separator cannot be larger than 1 character", () => {
-      assert.throws(() => testFormat.fromJSONSync(invalidThousandSeparator), ECObjectsError, `The Format TestSchema.TestFormat has an invalid 'thousandSeparator' attribute.`);
+      assert.throws(() => testFormat.fromJSONSync(invalidThousandSeparator), QuantityError, `The Format TestFormat has an invalid 'thousandSeparator' attribute. It should be an empty or one character string.`);
     });
     it("async - thousand separator cannot be larger than 1 character", async () => {
-      await expect(testFormat.fromJSON(invalidThousandSeparator)).to.be.rejectedWith(ECObjectsError, `The Format TestSchema.TestFormat has an invalid 'thousandSeparator' attribute.`);
+      await expect(testFormat.fromJSON(invalidThousandSeparator)).to.be.rejectedWith(QuantityError, `The Format TestFormat has an invalid 'thousandSeparator' attribute. It should be an empty or one character string.`);
     });
 
     const invalidUOMSeparator: FormatProps = {
@@ -433,10 +433,10 @@ describe("Format", () => {
       uomSeparator: "badSeparator",
     };
     it("sync - UOM separator cannot be larger than 1 character", () => {
-      assert.throws(() => testFormat.fromJSONSync(invalidUOMSeparator), ECObjectsError, `The Format TestSchema.TestFormat has an invalid 'uomSeparator' attribute.`);
+      assert.throws(() => testFormat.fromJSONSync(invalidUOMSeparator), QuantityError, `The Format TestFormat has an invalid 'uomSeparator' attribute. It should be an empty or one character string.`);
     });
     it("async - UOM separator cannot be larger than 1 character", async () => {
-      await expect(testFormat.fromJSON(invalidUOMSeparator)).to.be.rejectedWith(ECObjectsError, `The Format TestSchema.TestFormat has an invalid 'uomSeparator' attribute.`);
+      await expect(testFormat.fromJSON(invalidUOMSeparator)).to.be.rejectedWith(QuantityError, `The Format TestFormat has an invalid 'uomSeparator' attribute. It should be an empty or one character string.`);
     });
 
     const invalidStationSeparator: FormatProps = {
@@ -445,10 +445,10 @@ describe("Format", () => {
       stationSeparator: "badSeparator",
     };
     it("sync - station separator cannot be larger than 1 character", () => {
-      assert.throws(() => testFormat.fromJSONSync(invalidStationSeparator), ECObjectsError, `The Format TestSchema.TestFormat has an invalid 'stationSeparator' attribute.`);
+      assert.throws(() => testFormat.fromJSONSync(invalidStationSeparator), QuantityError, `The Format TestFormat has an invalid 'stationSeparator' attribute. It should be an empty or one character string.`);
     });
     it("async - station separator cannot be larger than 1 character", async () => {
-      await expect(testFormat.fromJSON(invalidStationSeparator)).to.be.rejectedWith(ECObjectsError, `The Format TestSchema.TestFormat has an invalid 'stationSeparator' attribute.`);
+      await expect(testFormat.fromJSON(invalidStationSeparator)).to.be.rejectedWith(QuantityError, `The Format TestFormat has an invalid 'stationSeparator' attribute. It should be an empty or one character string.`);
     });
 
     describe("format traits", () => {
@@ -568,10 +568,10 @@ describe("Format", () => {
         formatTraits: "applyRounding\fractionDash;showUnitLabel",
       };
       it("sync - invalid format trait separator", () => {
-        assert.throws(() => testFormat.fromJSONSync(invalidSeparator), ECObjectsError, `The Format TestSchema.TestFormat has an invalid 'formatTraits' attribute. The string 'applyRounding\fractionDash' is not a valid format trait.`);
+        assert.throws(() => testFormat.fromJSONSync(invalidSeparator), QuantityError, `The Format TestFormat has an invalid 'formatTraits' attribute.`);
       });
       it("async - invalid format trait separator", async () => {
-        await expect(testFormat.fromJSON(invalidSeparator)).to.be.rejectedWith(ECObjectsError, `The Format TestSchema.TestFormat has an invalid 'formatTraits' attribute. The string 'applyRounding\fractionDash' is not a valid format trait.`);
+        await expect(testFormat.fromJSON(invalidSeparator)).to.be.rejectedWith(QuantityError, `The Format TestFormat has an invalid 'formatTraits' attribute.`);
       });
 
       const invalidFormatTraitInString: FormatProps = {
@@ -580,10 +580,10 @@ describe("Format", () => {
         formatTraits: "badTraits",
       };
       it("sync - invalid format trait within a string", () => {
-        assert.throws(() => testFormat.fromJSONSync(invalidFormatTraitInString), ECObjectsError, `The Format TestSchema.TestFormat has an invalid 'formatTraits' attribute. The string 'badTraits' is not a valid format trait.`);
+        assert.throws(() => testFormat.fromJSONSync(invalidFormatTraitInString), QuantityError, `The Format TestFormat has an invalid 'formatTraits' attribute.`);
       });
       it("async - invalid format trait within a string", async () => {
-        await expect(testFormat.fromJSON(invalidFormatTraitInString)).to.be.rejectedWith(ECObjectsError, `The Format TestSchema.TestFormat has an invalid 'formatTraits' attribute. The string 'badTraits' is not a valid format trait.`);
+        await expect(testFormat.fromJSON(invalidFormatTraitInString)).to.be.rejectedWith(QuantityError, `The Format TestFormat has an invalid 'formatTraits' attribute.`);
       });
 
       const invalidFormatTraitInArray: FormatProps = {
@@ -594,10 +594,10 @@ describe("Format", () => {
         ],
       };
       it("sync - invalid format trait within a array", () => {
-        assert.throws(() => testFormat.fromJSONSync(invalidFormatTraitInArray), ECObjectsError, `The Format TestSchema.TestFormat has an invalid 'formatTraits' attribute. The string 'badTraits' is not a valid format trait.`);
+        assert.throws(() => testFormat.fromJSONSync(invalidFormatTraitInArray), QuantityError, `The Format TestFormat has an invalid 'formatTraits' attribute.`);
       });
       it("async - invalid format trait within a array", async () => {
-        await expect(testFormat.fromJSON(invalidFormatTraitInArray)).to.be.rejectedWith(ECObjectsError, `The Format TestSchema.TestFormat has an invalid 'formatTraits' attribute. The string 'badTraits' is not a valid format trait.`);
+        await expect(testFormat.fromJSON(invalidFormatTraitInArray)).to.be.rejectedWith(QuantityError, `The Format TestFormat has an invalid 'formatTraits' attribute.`);
       });
     }); // formatTraits
 

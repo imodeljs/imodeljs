@@ -10,7 +10,7 @@ import { ColorByName, ColorDef } from "@bentley/imodeljs-common";
 import {
   ActivityMessageDetails, ActivityMessageEndReason, IModelApp, NotifyMessageDetails, OutputMessagePriority, OutputMessageType, QuantityType,
 } from "@bentley/imodeljs-frontend";
-import { Format, FormatProps, FormatterSpec, FormatTraits, UnitProps, UnitsProvider } from "@bentley/imodeljs-quantity";
+import { Format, FormatProps, FormatterSpec, FormatTraits, getTraitString, UnitProps, UnitsProvider } from "@bentley/imodeljs-quantity";
 import { DateFormatter, IconSpecUtilities, ParseResults, RelativePosition, TimeDisplay } from "@bentley/ui-abstract";
 import {
   adjustDateToTimezone, ColorPickerButton, ColorPickerDialog, ColorPickerPopup, ColorSwatch, DatePickerPopupButton, DatePickerPopupButtonProps,
@@ -56,7 +56,7 @@ function MySettingsPage() {
 }
 
 function setFormatTrait(formatProps: FormatProps, trait: FormatTraits, setActive: boolean) {
-  const traitStr = Format.getTraitString(trait);
+  const traitStr = getTraitString(trait);
   if (undefined === traitStr)
     return;
   let formatTraits: string[] | undefined;

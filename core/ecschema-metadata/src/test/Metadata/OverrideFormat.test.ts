@@ -10,7 +10,7 @@ import { InvertedUnit } from "../../Metadata/InvertedUnit";
 import { OverrideFormat } from "../../Metadata/OverrideFormat";
 import { Schema } from "../../Metadata/Schema";
 import { Unit } from "../../Metadata/Unit";
-import { FormatTraits, FractionalPrecision, ShowSignOption } from "../../utils/FormatEnums";
+import { FormatTraits, FractionalPrecision, ShowSignOption } from "@bentley/imodeljs-quantity";
 import { createSchemaJsonWithItems } from "../TestUtils/DeserializationHelpers";
 import { TestSchemaLocater } from "../TestUtils/FormatTestHelper";
 

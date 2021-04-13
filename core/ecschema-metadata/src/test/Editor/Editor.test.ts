@@ -6,10 +6,11 @@ import { expect } from "chai";
 import { SchemaContext } from "../../Context";
 import { ECClassModifier, PrimitiveType, SchemaItemType, StrengthDirection } from "../../ECObjects";
 import {
-  EntityClass, EntityClassProps, Enumeration, EnumerationProperty, Format, FormatTraits, FormatType, InvertedUnit, KindOfQuantity,
+  EntityClass, EntityClassProps, Enumeration, EnumerationProperty, Format, InvertedUnit, KindOfQuantity,
   KindOfQuantityProps, NavigationProperty, Phenomenon, PrimitiveArrayProperty, PrimitiveProperty, PropertyCategory, RelationshipClass,
   RelationshipClassProps, RelationshipConstraintProps, StructArrayProperty, StructClass, StructProperty, Unit, UnitSystem,
 } from "../../ecschema-metadata";
+import { FormatTraits, FormatType } from "@bentley/imodeljs-quantity";
 import { SchemaContextEditor } from "../../Editor/Editor";
 import { Schema } from "../../Metadata/Schema";
 import { ECVersion, SchemaItemKey, SchemaKey } from "../../SchemaKey";

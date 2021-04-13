@@ -10,10 +10,8 @@ import { FormatProps } from "../Deserialization/JsonProps";
 import { XmlSerializationUtils } from "../Deserialization/XmlSerializationUtils";
 import { SchemaItemType } from "../ECObjects";
 import { ECObjectsError, ECObjectsStatus } from "../Exception";
-import {
-  DecimalPrecision, FormatTraits, formatTraitsToArray, FormatType, formatTypeToString, FractionalPrecision, parseFormatTrait, parseFormatType,
-  parsePrecision, parseScientificType, parseShowSignOption, ScientificType, scientificTypeToString, ShowSignOption, showSignOptionToString,
-} from "../utils/FormatEnums";
+import { BaseFormat, DecimalPrecision, FormatTraits, formatTraitsToArray, FormatType, formatTypeToString, FractionalPrecision,
+  ScientificType, scientificTypeToString, ShowSignOption, showSignOptionToString} from "@bentley/imodeljs-quantity";
 import { InvertedUnit } from "./InvertedUnit";
 import { Schema } from "./Schema";
 import { SchemaItem } from "./SchemaItem";
@@ -22,69 +20,40 @@ import { Unit } from "./Unit";
 /**
  * @beta
  */
-export class Format extends SchemaItem {
+export class Format extends SchemaItem   {
   public readonly schemaItemType!: SchemaItemType.Format; // eslint-disable-line
-  protected _roundFactor: number;
-  protected _type: FormatType; // required; options are decimal, fractional, scientific, station
-  protected _precision: number; // required
-  protected _showSignOption: ShowSignOption; // options: noSign, onlyNegative, signAlways, negativeParentheses
-  protected _decimalSeparator: string; // optional; default is based on current locale.... TODO: Default is based on current locale
-  protected _thousandSeparator: string; // optional; default is based on current locale.... TODO: Default is based on current locale
-  protected _uomSeparator: string; // optional; default is " "; defined separator between magnitude and the unit
-  protected _stationSeparator: string; // optional; default is "+"
-  protected _formatTraits: FormatTraits;
-  protected _spacer: string; // optional; default is " "
-  protected _includeZero: boolean; // optional; default is true
-  protected _minWidth?: number; // optional; positive int
-  protected _scientificType?: ScientificType; // required if type is scientific; options: normalized, zeroNormalized
-  protected _stationOffsetSize?: number; // required when type is station; positive integer > 0
+  protected _base: BaseFormat;
   protected _units?: Array<[Unit | InvertedUnit, string | undefined]>;
 
   constructor(schema: Schema, name: string) {
     super(schema, name);
     this.schemaItemType = SchemaItemType.Format;
 
-    this._roundFactor = 0.0;
-    this._type = FormatType.Decimal;
-    this._precision = DecimalPrecision.Six;
-    this._showSignOption = ShowSignOption.OnlyNegative;
-    this._decimalSeparator = ".";
-    this._thousandSeparator = ",";
-    this._uomSeparator = " ";
-    this._stationSeparator = "+";
-    this._formatTraits = 0x0;
-    this._spacer = " ";
-    this._includeZero = true;
+    this._base = new BaseFormat(name);
   }
 
-  public get roundFactor(): number { return this._roundFactor; }
-  public get type(): FormatType { return this._type; }
-  public get precision(): DecimalPrecision | FractionalPrecision { return this._precision; }
-  public get minWidth(): number | undefined { return this._minWidth; }
-  public get scientificType(): ScientificType | undefined { return this._scientificType; }
-  public get showSignOption(): ShowSignOption { return this._showSignOption; }
-  public get decimalSeparator(): string { return this._decimalSeparator; }
-  public get thousandSeparator(): string { return this._thousandSeparator; }
-  public get uomSeparator(): string { return this._uomSeparator; }
-  public get stationSeparator(): string { return this._stationSeparator; }
-  public get stationOffsetSize(): number | undefined { return this._stationOffsetSize; }
-  public get formatTraits(): FormatTraits { return this._formatTraits; }
-  public get spacer(): string | undefined { return this._spacer; }
-  public get includeZero(): boolean | undefined { return this._includeZero; }
+  public get roundFactor(): number { return this._base.roundFactor; }
+  public get type(): FormatType { return this._base.type; }
+  public get precision(): DecimalPrecision | FractionalPrecision { return this._base.precision; }
+  public get minWidth(): number | undefined { return this._base.minWidth; }
+  public get scientificType(): ScientificType | undefined { return this._base.scientificType; }
+  public get showSignOption(): ShowSignOption { return this._base.showSignOption; }
+  public get decimalSeparator(): string { return this._base.decimalSeparator; }
+  public get thousandSeparator(): string { return this._base.thousandSeparator; }
+  public get uomSeparator(): string { return this._base.uomSeparator; }
+  public get stationSeparator(): string { return this._base.stationSeparator; }
+  public get stationOffsetSize(): number | undefined { return this._base.stationOffsetSize; }
+  public get formatTraits(): FormatTraits { return this._base.formatTraits; }
+  public get spacer(): string | undefined { return this._base.spacer; }
+  public get includeZero(): boolean | undefined { return this._base.includeZero; }
   public get units(): Array<[Unit | InvertedUnit, string | undefined]> | undefined { return this._units; }
 
   private parseFormatTraits(formatTraitsFromJson: string | string[]) {
-    const formatTraits = Array.isArray(formatTraitsFromJson) ? formatTraitsFromJson : formatTraitsFromJson.split(/,|;|\|/);
-    for (const traitStr of formatTraits) {
-      const formatTrait = parseFormatTrait(traitStr);
-      if (undefined === formatTrait)
-        throw new ECObjectsError(ECObjectsStatus.InvalidECJson, `The Format ${this.fullName} has an invalid 'formatTraits' attribute. The string '${traitStr}' is not a valid format trait.`);
-      this._formatTraits = this._formatTraits | formatTrait;
-    }
+    return this._base.parseFormatTraits(formatTraitsFromJson);
   }
 
   public hasFormatTrait(formatTrait: FormatTraits) {
-    return (this._formatTraits & formatTrait) === formatTrait;
+    return this._base.hasFormatTraitSet(formatTrait);
   }
 
   /**
@@ -105,91 +74,19 @@ export class Format extends SchemaItem {
     this._units.push([unit, label]);
   }
 
-  protected setPrecision(precision: number) { this._precision = precision; }
+  protected setPrecision(precision: number) { this._base.precision = precision; }
 
   private typecheck(formatProps: FormatProps) {
-    const formatType = parseFormatType(formatProps.type);
-    if (undefined === formatType)
-      throw new ECObjectsError(ECObjectsStatus.InvalidECJson, `The Format ${this.fullName} has an invalid 'type' attribute.`);
-    this._type = formatType;
-
-    if (undefined !== formatProps.precision) {
-      if (!Number.isInteger(formatProps.precision)) // must be an integer
-        throw new ECObjectsError(ECObjectsStatus.InvalidECJson, `The Format ${this.fullName} has an invalid 'precision' attribute. It should be an integer.`);
-      const precision = parsePrecision(formatProps.precision, this._type);
-      if (undefined === precision)
-        throw new ECObjectsError(ECObjectsStatus.InvalidECJson, `The Format ${this.fullName} has an invalid 'precision' attribute.`);
-      this._precision = precision;
-    }
-
-    if (undefined !== formatProps.minWidth) {
-      if (!Number.isInteger(formatProps.minWidth) || formatProps.minWidth < 0) // must be a positive int
-        throw new ECObjectsError(ECObjectsStatus.InvalidECJson, `The Format ${this.fullName} has an invalid 'minWidth' attribute. It should be a positive integer.`);
-      this._minWidth = formatProps.minWidth;
-    }
-
-    if (FormatType.Scientific === this.type) {
-      if (undefined === formatProps.scientificType) // if format type is scientific and scientific type is undefined, throw
-        throw new ECObjectsError(ECObjectsStatus.InvalidECJson, `The Format ${this.fullName} is 'Scientific' type therefore the attribute 'scientificType' is required.`);
-      const scientificType = parseScientificType(formatProps.scientificType);
-      if (undefined === scientificType)
-        throw new ECObjectsError(ECObjectsStatus.InvalidECJson, `The Format ${this.fullName} has an invalid 'scientificType' attribute.`);
-      this._scientificType = scientificType;
-    }
-
-    if (FormatType.Station === this.type) {
-      if (undefined === formatProps.stationOffsetSize)
-        throw new ECObjectsError(ECObjectsStatus.InvalidECJson, `The Format ${this.fullName} is 'Station' type therefore the attribute 'stationOffsetSize' is required.`);
-      if (!Number.isInteger(formatProps.stationOffsetSize) || formatProps.stationOffsetSize < 0) // must be a positive int > 0
-        throw new ECObjectsError(ECObjectsStatus.InvalidECJson, `The Format ${this.fullName} has an invalid 'stationOffsetSize' attribute. It should be a positive integer.`);
-      this._stationOffsetSize = formatProps.stationOffsetSize;
-    }
-
-    if (undefined !== formatProps.showSignOption) {
-      const signOption = parseShowSignOption(formatProps.showSignOption);
-      if (undefined === signOption)
-        throw new ECObjectsError(ECObjectsStatus.InvalidECJson, `The Format ${this.fullName} has an invalid 'showSignOption' attribute.`);
-      this._showSignOption = signOption;
-    }
-
-    if (undefined !== formatProps.formatTraits && formatProps.formatTraits.length !== 0)
-      this.parseFormatTraits(formatProps.formatTraits);
-
-    if (undefined !== formatProps.roundFactor)
-      this._roundFactor = formatProps.roundFactor;
-
-    if (undefined !== formatProps.decimalSeparator) {
-      if (formatProps.decimalSeparator.length > 1)
-        throw new ECObjectsError(ECObjectsStatus.InvalidECJson, `The Format ${this.fullName} has an invalid 'decimalSeparator' attribute. It should be an empty or one character string.`);
-      this._decimalSeparator = formatProps.decimalSeparator;
-    }
-
-    if (undefined !== formatProps.thousandSeparator) {
-      if (formatProps.thousandSeparator.length > 1)
-        throw new ECObjectsError(ECObjectsStatus.InvalidECJson, `The Format ${this.fullName} has an invalid 'thousandSeparator' attribute. It should be an empty or one character string.`);
-      this._thousandSeparator = formatProps.thousandSeparator;
-    }
-
-    if (undefined !== formatProps.uomSeparator) {
-      if (formatProps.uomSeparator.length > 1)
-        throw new ECObjectsError(ECObjectsStatus.InvalidECJson, `The Format ${this.fullName} has an invalid 'uomSeparator' attribute. It should be an empty or one character string.`);
-      this._uomSeparator = formatProps.uomSeparator;
-    }
-
-    if (undefined !== formatProps.stationSeparator) {
-      if (formatProps.stationSeparator.length > 1)
-        throw new ECObjectsError(ECObjectsStatus.InvalidECJson, `The Format ${this.fullName} has an invalid 'stationSeparator' attribute. It should be an empty or one character string.`);
-      this._stationSeparator = formatProps.stationSeparator;
-    }
+    this._base.loadFormatProperties(formatProps);
 
     if (undefined !== formatProps.composite) { // TODO: This is duplicated below when the units need to be processed...
       if (undefined !== formatProps.composite.includeZero)
-        this._includeZero = formatProps.composite.includeZero;
+        this._base.includeZero = formatProps.composite.includeZero;
 
       if (undefined !== formatProps.composite.spacer) {
         if (formatProps.composite.spacer.length > 1)
           throw new ECObjectsError(ECObjectsStatus.InvalidECJson, `The Format ${this.fullName} has a composite with an invalid 'spacer' attribute. It should be an empty or one character string.`);
-        this._spacer = formatProps.composite.spacer;
+        this._base.spacer = formatProps.composite.spacer;
       }
 
       // Composite requires 1-4 units
@@ -329,49 +226,49 @@ export class Format extends SchemaItem {
    * @alpha Used in schema editing.
    */
   protected setFormatType(formatType: FormatType) {
-    this._type = formatType;
+    this._base.type = formatType;
   }
 
   /**
    * @alpha Used in schema editing.
    */
   protected setRoundFactor(roundFactor: number) {
-    this._roundFactor = roundFactor;
+    this._base.roundFactor = roundFactor;
   }
 
   /**
    * @alpha Used in schema editing.
    */
   protected setShowSignOption(signOption: ShowSignOption) {
-    this._showSignOption = signOption;
+    this._base.showSignOption = signOption;
   }
 
   /**
    * @alpha Used in schema editing.
    */
   protected setDecimalSeparator(separator: string) {
-    this._decimalSeparator = separator;
+    this._base.decimalSeparator = separator;
   }
 
   /**
    * @alpha Used in schema editing.
    */
   protected setThousandSeparator(separator: string) {
-    this._thousandSeparator = separator;
+    this._base.thousandSeparator = separator;
   }
 
   /**
    * @alpha Used in schema editing.
    */
   protected setUomSeparator(separator: string) {
-    this._uomSeparator = separator;
+    this._base.uomSeparator = separator;
   }
 
   /**
    * @alpha Used in schema editing.
    */
   protected setStationSeparator(separator: string) {
-    this._stationSeparator = separator;
+    this._base.stationSeparator = separator;
   }
 }
 

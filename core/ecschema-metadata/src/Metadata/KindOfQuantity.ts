@@ -12,7 +12,7 @@ import { XmlSerializationUtils } from "../Deserialization/XmlSerializationUtils"
 import { SchemaItemType } from "../ECObjects";
 import { ECObjectsError, ECObjectsStatus } from "../Exception";
 import { LazyLoadedInvertedUnit, LazyLoadedUnit } from "../Interfaces";
-import { formatStringRgx } from "../utils/FormatEnums";
+import { formatStringRgx } from "@bentley/imodeljs-quantity";
 import { Format } from "./Format";
 import { InvertedUnit } from "./InvertedUnit";
 import { OverrideFormat } from "./OverrideFormat";

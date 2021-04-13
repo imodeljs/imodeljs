@@ -27,7 +27,7 @@ import { Schema } from "../Metadata/Schema";
 import { SchemaItem } from "../Metadata/SchemaItem";
 import { Unit } from "../Metadata/Unit";
 import { propertyTypeToString } from "../PropertyTypes";
-import { formatTraitsToArray, formatTypeToString, scientificTypeToString, showSignOptionToString } from "../utils/FormatEnums";
+import { formatTraitsToArray, formatTypeToString, scientificTypeToString, showSignOptionToString } from "@bentley/imodeljs-quantity";
 import { ISchemaCompareReporter } from "./SchemaCompareReporter";
 import { SchemaCompareResultDelegate } from "./SchemaCompareResultDelegate";
 import { SchemaCompareVisitor } from "./SchemaCompareVisitor";

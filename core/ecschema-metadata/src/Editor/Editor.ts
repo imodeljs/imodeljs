@@ -34,7 +34,7 @@ import { MutableSchema, Schema } from "../Metadata/Schema";
 import { MutableUnit, Unit } from "../Metadata/Unit";
 import { MutableUnitSystem, UnitSystem } from "../Metadata/UnitSystem";
 import { SchemaItemKey, SchemaKey } from "../SchemaKey";
-import { FormatType } from "../utils/FormatEnums";
+import { FormatType } from "@bentley/imodeljs-quantity";
 import * as Rules from "../Validation/ECRules";
 
 // We can either add validation in Editor, or in the protected methods of Schema.

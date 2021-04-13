@@ -11,7 +11,7 @@ import { KindOfQuantity } from "../../Metadata/KindOfQuantity";
 import { OverrideFormat } from "../../Metadata/OverrideFormat";
 import { Schema } from "../../Metadata/Schema";
 import { Unit } from "../../Metadata/Unit";
-import { DecimalPrecision } from "../../utils/FormatEnums";
+import { DecimalPrecision } from "@bentley/imodeljs-quantity";
 import { createSchemaJsonWithItems } from "../TestUtils/DeserializationHelpers";
 import { TestSchemaLocater } from "../TestUtils/FormatTestHelper";
 import { createEmptyXmlDocument } from "../TestUtils/SerializationHelper";

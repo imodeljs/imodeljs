@@ -22,7 +22,7 @@ import { SchemaItem } from "../Metadata/SchemaItem";
 import { Unit } from "../Metadata/Unit";
 import { ECVersion, SchemaItemKey, SchemaKey } from "../SchemaKey";
 import { ISchemaPartVisitor, SchemaPartVisitorDelegate } from "../SchemaPartVisitorDelegate";
-import { getItemNamesFromFormatString } from "../utils/FormatEnums";
+import { getItemNamesFromFormatString } from "@bentley/imodeljs-quantity";
 import { AbstractParser, AbstractParserConstructor, CAProviderTuple } from "./AbstractParser";
 import { ClassProps, PropertyProps, RelationshipConstraintProps, SchemaReferenceProps } from "./JsonProps";
 import {validateSchemaReferences, validateSchemaReferencesSync} from "../Validation/ECRules";

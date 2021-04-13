@@ -8,7 +8,7 @@
 
 import { XmlSerializationUtils } from "../Deserialization/XmlSerializationUtils";
 import { SchemaItemType } from "../ECObjects";
-import { DecimalPrecision, FormatTraits, FormatType, FractionalPrecision, ScientificType, ShowSignOption } from "../utils/FormatEnums";
+import { DecimalPrecision, FormatTraits, FormatType, FractionalPrecision, ScientificType, ShowSignOption } from "@bentley/imodeljs-quantity";
 import { Format } from "./Format";
 import { InvertedUnit } from "./InvertedUnit";
 import { Schema } from "./Schema";

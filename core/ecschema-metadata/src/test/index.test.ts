@@ -32,7 +32,6 @@ import * as Unit from "../Metadata/Unit";
 import * as UnitSystem from "../Metadata/UnitSystem";
 import * as PropertyTypes from "../PropertyTypes";
 import * as SchemaKey from "../SchemaKey";
-import * as FormatEnums from "../utils/FormatEnums";
 
 // new type with specified index signature
 interface Dict {
@@ -54,7 +53,6 @@ const moduleImports: Dict = {
   ...DelayedPromise,
   ...Exception,
   ...PropertyTypes,
-  ...FormatEnums,
   Schema,
   ...SchemaItem,
   ...SchemaKey,

@@ -8,7 +8,7 @@
 
 import * as React from "react";
 import { CommonProps } from "@bentley/ui-core";
-import { Format, FormatProps, FormatType } from "@bentley/imodeljs-quantity";
+import { FormatProps, FormatType, parseFormatType } from "@bentley/imodeljs-quantity";
 import { DecimalPrecisionSelector } from "./misc/DecimalPrecision";
 import { FractionPrecisionSelector } from "./misc/FractionPrecision";
 import { UiComponents } from "../UiComponents";
@@ -32,7 +32,7 @@ export function FormatPrecision(props: FormatPrecisionProps) {
     onChange && onChange(newFormatProps);
   }, [formatProps, onChange]);
 
-  const formatType = Format.parseFormatType(formatProps.type, "format");
+  const formatType = parseFormatType(formatProps.type, "format");
 
   const label = React.useRef (UiComponents.translate("QuantityFormat.labels.precision"));
   return (
