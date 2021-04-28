@@ -3,8 +3,8 @@
 * See LICENSE.md in the project root for license terms and full copyright notice.
 *--------------------------------------------------------------------------------------------*/
 import { expect } from "chai";
-import { BuffersContainer, VAOContainer, VBOContainer } from "../../../render/webgl/AttributeBuffers";
 import { IModelApp } from "../../../IModelApp";
+import { BuffersContainer, VAOContainer, VBOContainer } from "../../../render/webgl/AttributeBuffers";
 
 describe("BuffersContainer", () => {
   afterEach(async () => {

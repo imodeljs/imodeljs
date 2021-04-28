@@ -6,15 +6,15 @@ import { assert, expect } from "chai";
 import { WebGLExtensionName } from "@bentley/webgl-compatibility";
 import { IModelApp } from "../../../IModelApp";
 import { AttributeMap } from "../../../render/webgl/AttributeMap";
-import { CompileStatus } from "../../../render/webgl/ShaderProgram";
+import { ViewportQuadGeometry } from "../../../render/webgl/CachedGeometry";
 import { DrawParams, ShaderProgramParams } from "../../../render/webgl/DrawCommand";
-import { FeatureMode, TechniqueFlags } from "../../../render/webgl/TechniqueFlags";
 import { FragmentShaderComponent, ProgramBuilder, VariableType, VertexShaderComponent } from "../../../render/webgl/ShaderBuilder";
-import { SingularTechnique } from "../../../render/webgl/Technique";
+import { CompileStatus } from "../../../render/webgl/ShaderProgram";
 import { System } from "../../../render/webgl/System";
 import { Target } from "../../../render/webgl/Target";
+import { SingularTechnique } from "../../../render/webgl/Technique";
+import { FeatureMode, TechniqueFlags } from "../../../render/webgl/TechniqueFlags";
 import { TechniqueId } from "../../../render/webgl/TechniqueId";
-import { ViewportQuadGeometry } from "../../../render/webgl/CachedGeometry";
 
 function createPurpleQuadBuilder(): ProgramBuilder {
   const builder = new ProgramBuilder(AttributeMap.findAttributeMap(undefined, false));
@@ -54,7 +54,9 @@ describe("Techniques", () => {
     const useWebGL2 = webGLVersion === 2;
     describe(`WebGL ${webGLVersion}`, () => {
       before(async () => {
-        await IModelApp.startup({ renderSys: { useWebGL2 } });
+        await IModelApp.startup({
+          renderSys: { useWebGL2 },
+        });
       });
 
       after(async () => {
@@ -109,7 +111,9 @@ describe("Techniques", () => {
         if (disabledExtension) {
           // Reset render system to previous state
           await IModelApp.shutdown();
-          await IModelApp.startup({ renderSys: { useWebGL2: false } });
+          await IModelApp.startup({
+            renderSys: { useWebGL2: false },
+          });
         }
       }
 

@@ -17,7 +17,9 @@ function withinTolerance(x: number, y: number): boolean {
 }
 
 describe("RenderState", () => {
-  before(async () => IModelApp.startup());
+  before(async () => {
+    await IModelApp.startup();
+  });
   after(async () => IModelApp.shutdown());
 
   it("should compare as expected", () => {

@@ -3,11 +3,12 @@
 * See LICENSE.md in the project root for license terms and full copyright notice.
 *--------------------------------------------------------------------------------------------*/
 
-import { Parser } from "@bentley/imodeljs-quantity";
 import { assert } from "chai";
+import { Parser } from "@bentley/imodeljs-quantity";
+import { BasicUnitsProvider } from "../quantity-formatting/BasicUnitsProvider";
 import { LocalUnitFormatProvider } from "../quantity-formatting/LocalUnitFormatProvider";
-
 import { OverrideFormatEntry, QuantityFormatter, QuantityType, QuantityTypeArg } from "../quantity-formatting/QuantityFormatter";
+import { UNIT_EXTRA_DATA } from "../quantity-formatting/UnitsData";
 import { BearingQuantityType } from "./BearingQuantityType";
 
 function withinTolerance(x: number, y: number, tolerance?: number): boolean {
@@ -55,7 +56,7 @@ describe("Quantity formatter", async () => {
   });
 
   beforeEach(async () => {
-    quantityFormatter = new QuantityFormatter();
+    quantityFormatter = new QuantityFormatter(new BasicUnitsProvider(UNIT_EXTRA_DATA));
     await quantityFormatter.onInitialized();
   });
 
@@ -424,13 +425,13 @@ describe("Quantity formatter", async () => {
     assert.equal(imperialFormattedValue, "1076391.0417 ft²");
   });
 
-  describe("Mimic Native unit conversions", async () => {
+  describe("Test native unit conversions", async () => {
     async function testUnitConversion(magnitude: number, fromUnitName: string, expectedValue: number, toUnitName: string, tolerance?: number) {
       const fromUnit = await quantityFormatter.findUnitByName(fromUnitName);
       const toUnit = await quantityFormatter.findUnitByName(toUnitName);
       const unitConversion = await quantityFormatter.getConversion(fromUnit, toUnit);
       const convertedValue = (magnitude * unitConversion.factor) + unitConversion.offset;
-      assert(withinTolerance(convertedValue, expectedValue, tolerance));
+      assert(withinTolerance(convertedValue, expectedValue, tolerance), `Expected ${expectedValue} ${toUnitName}, got ${convertedValue} ${toUnitName}`);
     }
 
     it("UnitConversionTests, USCustomaryLengths", async () => {
@@ -481,7 +482,7 @@ describe("Quantity formatter", async () => {
 describe("Test Custom QuantityType", async () => {
   let quantityFormatter: QuantityFormatter;
   beforeEach(async () => {
-    quantityFormatter = new QuantityFormatter();
+    quantityFormatter = new QuantityFormatter(new BasicUnitsProvider(UNIT_EXTRA_DATA));
     await quantityFormatter.onInitialized();
   });
 
@@ -515,7 +516,7 @@ describe("Test Custom QuantityType", async () => {
 describe("Test Formatted Quantities", async () => {
   let quantityFormatter: QuantityFormatter;
   beforeEach(async () => {
-    quantityFormatter = new QuantityFormatter();
+    quantityFormatter = new QuantityFormatter(new BasicUnitsProvider(UNIT_EXTRA_DATA));
     await quantityFormatter.onInitialized();
   });
 

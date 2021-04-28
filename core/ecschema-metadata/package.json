@@ -38,6 +38,7 @@
     "@bentley/build-tools": "2.16.0-dev.18",
     "@bentley/eslint-plugin": "2.16.0-dev.18",
     "@bentley/imodeljs-i18n": "2.16.0-dev.18",
+    "@bentley/imodeljs-quantity": "2.16.0-dev.18",
     "@bentley/units-schema": "^1.0.5",
     "@types/almost-equal": "1.1.0",
     "@types/benchmark": "^2.1.0",
@@ -64,7 +65,8 @@
   },
   "peerDependencies": {
     "@bentley/bentleyjs-core": "^2.16.0-dev.18",
-    "@bentley/imodeljs-i18n": "^2.16.0-dev.18"
+    "@bentley/imodeljs-i18n": "^2.16.0-dev.18",
+    "@bentley/imodeljs-quantity": "^2.16.0-dev.18"
   },
   "dependencies": {
     "almost-equal": "^1.1.0"

@@ -11,7 +11,6 @@ import {
   Format, FormatProps, FormatterSpec, ParseError, ParserSpec, QuantityParseResult, UnitConversion, UnitProps, UnitsProvider,
 } from "@bentley/imodeljs-quantity";
 import { IModelApp } from "../IModelApp";
-import { BasicUnitsProvider } from "./BasicUnitsProvider";
 import { IModelConnection } from "../imodeljs-frontend";
 
 // cSpell:ignore FORMATPROPS FORMATKEY ussurvey uscustomary USCUSTOM
@@ -303,7 +302,6 @@ export interface UnitFormattingSettingsProvider {
  * @beta
  */
 export class QuantityFormatter implements UnitsProvider {
-  private _unitsProvider: UnitsProvider = new BasicUnitsProvider();
   protected _quantityTypeRegistry: Map<QuantityTypeKey, QuantityTypeDefinition> = new Map<QuantityTypeKey, QuantityTypeDefinition>();
   protected _activeUnitSystem: UnitSystemKey = "imperial";
   protected _activeFormatSpecsByType = new Map<QuantityTypeKey, FormatterSpec>();
@@ -340,10 +338,11 @@ export class QuantityFormatter implements UnitsProvider {
 
   /**
    * constructor
+   * @param _context - SchemaContext with Units for _unitsProvider to find Units from
    * @param showMetricOrUnitSystem - Pass in `true` to show Metric formatted quantity values. Defaults to Imperial. To explicitly
    * set it to a specific unit system pass a UnitSystemKey.
    */
-  constructor(showMetricOrUnitSystem?: boolean | UnitSystemKey) {
+  constructor(private _unitsProvider: UnitsProvider, showMetricOrUnitSystem?: boolean | UnitSystemKey) {
     if (undefined !== showMetricOrUnitSystem) {
       if (typeof showMetricOrUnitSystem === "boolean")
         this._activeUnitSystem = showMetricOrUnitSystem ? "metric" : "imperial";
@@ -811,8 +810,8 @@ export class QuantityFormatter implements UnitsProvider {
   }
 
   // keep following to maintain existing API of implementing UnitsProvider
-  public async findUnit(unitLabel: string, phenomenon?: string, unitSystem?: string): Promise<UnitProps> {
-    return this._unitsProvider.findUnit(unitLabel, phenomenon, unitSystem);
+  public async findUnit(unitLabel: string, schemaName?: string, phenomenon?: string, unitSystem?: string): Promise<UnitProps> {
+    return this._unitsProvider.findUnit(unitLabel, schemaName, phenomenon, unitSystem);
   }
 
   public async getUnitsByFamily(phenomenon: string): Promise<UnitProps[]> {

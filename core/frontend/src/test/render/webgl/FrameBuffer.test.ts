@@ -10,12 +10,14 @@ import { Debug } from "../../../render/webgl/Diagnostics";
 import { FrameBuffer } from "../../../render/webgl/FrameBuffer";
 import { GL } from "../../../render/webgl/GL";
 import { RenderBuffer } from "../../../render/webgl/RenderBuffer";
-import { TextureHandle } from "../../../render/webgl/Texture";
 import { System } from "../../../render/webgl/System";
+import { TextureHandle } from "../../../render/webgl/Texture";
 
 describe("FrameBuffer tests", () => {
   // eslint-disable-next-line no-return-await
-  before(async () => await IModelApp.startup());
+  before(async () => {
+    await IModelApp.startup();
+  });
   // eslint-disable-next-line no-return-await
   after(async () => await IModelApp.shutdown());
 

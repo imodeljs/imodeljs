@@ -3,20 +3,14 @@
 * See LICENSE.md in the project root for license terms and full copyright notice.
 *--------------------------------------------------------------------------------------------*/
 
-import { MapLayerSettings, ServerError } from "@bentley/imodeljs-common";
-import { RequestBasicCredentials } from "@bentley/itwin-client";
 import * as chai from "chai";
 import * as chaiAsPromised from "chai-as-promised";
 import * as sinon from "sinon";
+import { MapLayerSettings, ServerError } from "@bentley/imodeljs-common";
+import { RequestBasicCredentials } from "@bentley/itwin-client";
 import { IModelApp } from "../../../IModelApp";
-
 import {
-  MapLayerImageryProvider,
-  MapLayerImageryProviderStatus,
-  WmsCapabilities,
-  WmsMapLayerImageryProvider,
-  WmtsCapabilities,
-  WmtsMapLayerImageryProvider,
+  MapLayerImageryProvider, MapLayerImageryProviderStatus, WmsCapabilities, WmsMapLayerImageryProvider, WmtsCapabilities, WmtsMapLayerImageryProvider,
 } from "../../../tile/internal";
 
 chai.use(chaiAsPromised);

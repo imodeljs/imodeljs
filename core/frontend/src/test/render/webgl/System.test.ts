@@ -9,8 +9,8 @@ import { IModelApp } from "../../../IModelApp";
 import { IModelConnection } from "../../../IModelConnection";
 import { MockRender } from "../../../render/MockRender";
 import { RenderSystem } from "../../../render/RenderSystem";
-import { TileAdmin } from "../../../tile/internal";
 import { System } from "../../../render/webgl/System";
+import { TileAdmin } from "../../../tile/internal";
 
 function _createCanvas(): HTMLCanvasElement | undefined {
   const canvas = document.createElement("canvas");

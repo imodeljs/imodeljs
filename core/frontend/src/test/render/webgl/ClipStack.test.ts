@@ -3,11 +3,11 @@
 * See LICENSE.md in the project root for license terms and full copyright notice.
 *--------------------------------------------------------------------------------------------*/
 import { expect } from "chai";
-import { ClipVector, Point3d, Transform  } from "@bentley/geometry-core";
-import { ClipVolume } from "../../../render/webgl/ClipVolume";
-import { ClipStack } from "../../../render/webgl/ClipStack";
-import { RenderSystem } from "../../../render/RenderSystem";
+import { ClipVector, Point3d, Transform } from "@bentley/geometry-core";
 import { IModelApp } from "../../../IModelApp";
+import { RenderSystem } from "../../../render/RenderSystem";
+import { ClipStack } from "../../../render/webgl/ClipStack";
+import { ClipVolume } from "../../../render/webgl/ClipVolume";
 
 for (let i = 0; i < 2; i++) {
   let renderSys: RenderSystem.Options | undefined;

@@ -6,13 +6,13 @@ import { expect } from "chai";
 import { dispose } from "@bentley/bentleyjs-core";
 import { ClipVector, Point3d, Transform } from "@bentley/geometry-core";
 import { IModelApp } from "../../../IModelApp";
-import { ViewRect } from "../../../ViewRect";
-import { createEmptyRenderPlan } from "../../../render/RenderPlan";
 import { GraphicBranch } from "../../../render/GraphicBranch";
-import { Branch } from "../../../render/webgl/Graphic";
-import { ClipVolume } from "../../../render/webgl/ClipVolume";
+import { createEmptyRenderPlan } from "../../../render/RenderPlan";
 import { ClipStack } from "../../../render/webgl/ClipStack";
+import { ClipVolume } from "../../../render/webgl/ClipVolume";
+import { Branch } from "../../../render/webgl/Graphic";
 import { Target } from "../../../render/webgl/Target";
+import { ViewRect } from "../../../ViewRect";
 
 function makeClipVolume(): ClipVolume {
   const vec = ClipVector.createEmpty();

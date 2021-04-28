@@ -38,6 +38,7 @@ describe("Parsing tests:", () => {
     const conversion = await unitsProvider.getConversion(meterUnit, inchUnit);
     const inchesQty = meterQty.convertTo(inchUnit, conversion);
 
+    assert.isFalse(conversion.error);
     assert.isTrue(meterQty.magnitude === 1.0);
     assert.isTrue(inchesQty!.magnitude === meterQty.magnitude * conversion.factor);
   });
@@ -60,6 +61,7 @@ describe("Parsing tests:", () => {
       for (const toVal of tstVal.cvtTo) {
         const toUnit = await unitsProvider.findUnit(toVal.label, fromUnit.phenomenon);
         const conversionData = await unitsProvider.getConversion(fromUnit, toUnit);
+        assert.isFalse(conversionData.error);
         assert.isTrue(Math.fround(conversionData.factor) === toVal.factor);
       }
     }
@@ -146,6 +148,7 @@ describe("Parsing tests:", () => {
       for (const toVal of tstVal.cvtTo) {
         const toUnit = await unitsProvider.findUnit(toVal.label, fromUnit.phenomenon);
         const conversionData = await unitsProvider.getConversion(fromUnit, toUnit);
+        assert.isFalse(conversionData.error);
         assert.isTrue(Math.fround(conversionData.factor) === toVal.factor);
       }
     }

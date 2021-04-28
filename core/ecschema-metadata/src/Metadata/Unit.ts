@@ -62,6 +62,13 @@ export class Unit extends SchemaItem {
   }
 
   /**
+   * @alpha
+   */
+  public static isUnit(object: any): object is Unit {
+    return SchemaItem.isSchemaItem(object) && object.schemaItemType === SchemaItemType.Unit;
+  }
+
+  /**
    * Save this Unit's properties to an object for serializing to JSON.
    * @param standalone Serialization includes only this object (as opposed to the full schema).
    * @param includeSchemaVersion Include the Schema's version information in the serialized object.

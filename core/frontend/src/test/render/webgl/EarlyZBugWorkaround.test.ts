@@ -5,8 +5,8 @@
 
 import { expect } from "chai";
 import { Capabilities, WebGLContext } from "@bentley/webgl-compatibility";
-import { RenderSystem } from "../../../render/RenderSystem";
 import { IModelApp } from "../../../IModelApp";
+import { RenderSystem } from "../../../render/RenderSystem";
 import { CompileStatus, ShaderProgram } from "../../../render/webgl/ShaderProgram";
 import { System } from "../../../render/webgl/System";
 

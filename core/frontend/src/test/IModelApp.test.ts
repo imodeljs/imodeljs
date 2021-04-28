@@ -3,6 +3,7 @@
 * See LICENSE.md in the project root for license terms and full copyright notice.
 *--------------------------------------------------------------------------------------------*/
 import { assert, expect } from "chai";
+import { BentleyStatus, DbResult, IModelStatus } from "@bentley/bentleyjs-core";
 import { I18NNamespace } from "@bentley/imodeljs-i18n";
 import { AccuDraw } from "../AccuDraw";
 import { IModelApp, IModelAppOptions } from "../IModelApp";
@@ -11,7 +12,6 @@ import { IdleTool } from "../tools/IdleTool";
 import { SelectionTool } from "../tools/SelectTool";
 import { Tool } from "../tools/Tool";
 import { PanViewTool, RotateViewTool } from "../tools/ViewTool";
-import { BentleyStatus, DbResult, IModelStatus } from "@bentley/bentleyjs-core";
 
 /** class to simulate overriding the default AccuDraw */
 class TestAccuDraw extends AccuDraw { }
