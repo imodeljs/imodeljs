@@ -914,12 +914,10 @@ export class Table extends React.Component<TableProps, TableState> {
         this.props.onRowsLoaded(index, index + loadResult.rows.length - 1);
 
       const showFilter = this._isShowFilterRow();
-      if (showFilter !== this._filterRowShown) {
-        // istanbul ignore else
-        if (showFilter)
-          await this.loadDistinctValues();
-        this.toggleFilterRow(showFilter);
-      }
+      // istanbul ignore else
+      if (showFilter)
+        await this.loadDistinctValues();
+      this.toggleFilterRow(showFilter);
     });
   });
 
