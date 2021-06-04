@@ -50,7 +50,7 @@ beta;diagnosticCategoryToString(category: DiagnosticCategory): "Error" | "Warnin
 beta;DiagnosticCodes:
 beta;Diagnostics:
 beta;DiagnosticType
-beta;diagnosticTypeToString(type: DiagnosticType): "Schema" | "None" | "CustomAttributeContainer" | "Property" | "RelationshipConstraint" | "SchemaItem"
+beta;diagnosticTypeToString(type: DiagnosticType): "None" | "Schema" | "SchemaItem" | "CustomAttributeContainer" | "Property" | "RelationshipConstraint"
 beta;class ECClass 
 beta;ECClassModifier
 beta;ECName
@@ -167,7 +167,7 @@ alpha;PropertyEditResults
 alpha;PropertyMissing 
 beta;PropertyProps
 beta;PropertyType
-beta;propertyTypeToString(type: PropertyType): "PrimitiveProperty" | "StructProperty" | "StructArrayProperty" | "NavigationProperty" | "PrimitiveArrayProperty"
+beta;propertyTypeToString(type: PropertyType): "PrimitiveArrayProperty" | "PrimitiveProperty" | "NavigationProperty" | "StructProperty" | "StructArrayProperty"
 beta;PropertyTypeUtils
 alpha;PropertyValueChange 
 beta;RelationshipClass 

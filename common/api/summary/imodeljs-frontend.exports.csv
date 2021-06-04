@@ -450,11 +450,19 @@ internal;RealityModelTileTree
 internal;RealityModelTileTree
 internal;RealityModelTileUtils
 internal;RealityTile 
+alpha;RealityTileByDrapeLineStringCollector 
+alpha;RealityTileCollectionSelectionStatus
+alpha;RealityTileCollectionStatus
+alpha;class RealityTileCollector
+internal;RealityTileContent 
+alpha;RealityTileDrapeStatus
 internal;RealityTileDrawArgs 
+alpha;RealityTileGeometry
 internal;class RealityTileLoader
 internal;RealityTileParams 
 internal;RealityTileTree 
 internal;RealityTileTreeParams 
+internal;RealityTreeReference 
 public;RemoteBriefcaseConnection 
 deprecated;RemoteBriefcaseConnection 
 public;class RenderClipVolume
@@ -465,13 +473,13 @@ public;class RenderGraphicOwner
 internal;RenderMemory
 internal;RenderPlan
 internal;class RenderPlanarClassifier 
-internal;class RenderRealityMeshGeometry 
 internal;RenderScheduleState 
 public;class RenderSystem 
 public;RenderSystem
 beta;RenderSystemDebugControl
 internal;class RenderTarget 
 internal;RenderTargetDebugControl
+internal;class RenderTerrainGeometry 
 internal;class RenderTextureDrape 
 internal;RequestTileTreePropsFunc = (iModel: IModelConnection, treeId: string) => Promise
 internal;RootIModelTile = Tile &

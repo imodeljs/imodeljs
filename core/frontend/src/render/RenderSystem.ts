@@ -133,8 +133,9 @@ export interface RenderSystemDebugControl {
 }
 
 /** @internal */
-export abstract class RenderRealityMeshGeometry implements IDisposable, RenderMemory.Consumer {
+export abstract class RenderTerrainGeometry implements IDisposable, RenderMemory.Consumer {
   public abstract dispose(): void;
+  public abstract get transform(): Transform | undefined;
   public abstract collectStatistics(stats: RenderMemory.Statistics): void;
 }
 /** @internal */
@@ -305,9 +306,9 @@ export abstract class RenderSystem implements IDisposable {
   /** @internal */
   public createPolyline(_params: PolylineParams, _instances?: InstancedGraphicParams | Point3d): RenderGraphic | undefined { return undefined; }
   /** @internal */
-  public createRealityMeshFromTerrain(_terrainMesh: TerrainMeshPrimitive, _transform?: Transform): RenderRealityMeshGeometry | undefined { return undefined; }
+  public createRealityMeshFromTerrain(_terrainMesh: TerrainMeshPrimitive, _transform?: Transform): RenderTerrainGeometry | undefined { return undefined; }
   /** @internal */
-  public createRealityMeshGraphic(_terrainGeometry: RenderRealityMeshGeometry, _featureTable: PackedFeatureTable, _tileId: string | undefined, _baseColor: ColorDef | undefined, _baseTransparent: boolean, _textures?: TerrainTexture[]): RenderGraphic | undefined { return undefined; }
+  public createRealityMeshGraphic(_terrainGeometry: RenderTerrainGeometry, _featureTable: PackedFeatureTable, _tileId: string | undefined, _baseColor: ColorDef | undefined, _baseTransparent: boolean, _textures?: TerrainTexture[]): RenderGraphic | undefined { return undefined; }
   /** @internal */
   public createRealityMesh(_realityMesh: RealityMeshPrimitive): RenderGraphic | undefined { return undefined; }
   /** @internal */

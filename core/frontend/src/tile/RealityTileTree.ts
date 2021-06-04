@@ -7,13 +7,14 @@
  */
 
 import { assert, BeTimePoint } from "@bentley/bentleyjs-core";
-import { Transform } from "@bentley/geometry-core";
+import { ConvexClipPlaneSet, GrowableXYZArray, LineString3d, PolyfaceQuery, Range3d, Transform } from "@bentley/geometry-core";
 import { ColorDef, Frustum, FrustumPlanes, ViewFlagOverrides } from "@bentley/imodeljs-common";
 import { IModelApp } from "../IModelApp";
 import { GraphicBranch } from "../render/GraphicBranch";
 import { GraphicBuilder } from "../render/GraphicBuilder";
 import { SceneContext } from "../ViewContext";
-import { GraphicsCollectorDrawArgs, MapTile, RealityTile, RealityTileDrawArgs, RealityTileLoader, RealityTileParams, Tile, TileDrawArgs, TileGraphicType, TileParams, TileTree, TileTreeParams } from "./internal";
+import { Viewport } from "../Viewport";
+import { GraphicsCollectorDrawArgs, MapTile, RealityTile, RealityTileDrawArgs, RealityTileGeometry, RealityTileLoader, RealityTileParams, Tile, TileDrawArgs, TileGraphicType, TileParams, TileTree, TileTreeParams } from "./internal";
 
 /** @internal */
 export class TraversalDetails {
@@ -112,6 +113,104 @@ export interface RealityTileTreeParams extends TileTreeParams {
   readonly rootTile: RealityTileParams;
 }
 
+/** The return status for collecting a tile with [[RealityTileCollector.SelectTile]]
+ * @alpha
+ */
+export enum RealityTileCollectionSelectionStatus { Continue, Reject, Accept }
+
+/**  The return status for collecting a set of tiles with [[RealityTileTree.collectTiles.
+ * @alpha
+ */
+export enum RealityTileCollectionStatus { Loading, Success }
+
+/** @alpha */
+export enum RealityTileDrapeStatus { Loading, Success, Error }
+
+/** Base class for a collecting reality tiles from a [[RealityTileTree]].
+ * @alpha
+ */
+export abstract class RealityTileCollector {
+  public acceptedGeometry(): RealityTileGeometry[] {
+    const geometry = new Array<RealityTileGeometry>();
+    for (const accepted of this.accepted) {
+      if (accepted.geometry)
+        geometry.push(accepted.geometry);
+    }
+
+    return geometry;
+  }
+
+  /** Missing (not yet loaded) tiles.  Loading of these tiles can be requested by calling [[RealityTileCollector.requestMissingTiles]].
+   * @internal
+  */
+  public missing = new Set<RealityTile>();
+  /** The accepted tiles. If [[RealityTileTree.collectTiles]] returns [[RealityTileCollectionStatus.Success]] then this contains complete
+   * collection of loaded tiles accepted by [[RealityTileCollector.selectTile]].
+   * @internal
+   */
+  public accepted = new Array<RealityTile>();
+
+  protected constructor(private _tolerance: number, private _range: Range3d, protected _iModelTransform: Transform) {  }
+
+  private _childrenLoading = false;
+
+  /** @internal */
+  public markChildrenLoading() {
+    this._childrenLoading = true;
+  }
+  /** @internal */
+  public get loadingComplete() {
+    return !this._childrenLoading && 0 === this.missing.size;
+  }
+
+  /** Request missing (unloaded) tiles.  Call this method if [[RealityTileTree.collectTiles]] returns [[RealityTileCollectionStatus.Loading]]. */
+  public requestMissingTiles(viewport: Viewport) {
+    IModelApp.tileAdmin.requestTiles(viewport, this.missing);
+  }
+
+  /** select tile based on the range and tolerance.   Subclasses can refine the selection by calling this method first and
+   * then performing additional filtering on accepted tiles.
+   */
+  public selectTile(tile: Tile): RealityTileCollectionSelectionStatus {
+    const tileRange = this._iModelTransform.multiplyRange(tile.range);
+    if (!tileRange.intersectsRange(this._range))
+      return RealityTileCollectionSelectionStatus.Reject;
+
+    if (tile.maximumSize === 0.0 || !tile.isDisplayable)
+      return RealityTileCollectionSelectionStatus.Continue;
+
+    const tileTolerance = tile.radius/ tile.maximumSize;
+    return tileTolerance < this._tolerance ? RealityTileCollectionSelectionStatus.Accept : RealityTileCollectionSelectionStatus.Continue;
+  }
+}
+
+/** [[RealityTileCollector]] subclass that restricts selection to tiles that overlap a line string.
+ * @alpha
+ */
+export class RealityTileByDrapeLineStringCollector extends RealityTileCollector {
+  constructor(tolerance: number, range: Range3d, iModelTransform: Transform, private _points: GrowableXYZArray) {
+    super(tolerance, range, iModelTransform);
+  }
+  public selectTile(tile: Tile): RealityTileCollectionSelectionStatus {
+    let status = super.selectTile(tile);
+
+    if (RealityTileCollectionSelectionStatus.Reject !== status && !this.rangeOverlapsLineString(tile.range))
+      status = RealityTileCollectionSelectionStatus.Reject;
+
+    return status;
+  }
+
+  private rangeOverlapsLineString(range: Range3d) {
+    let inside = false;
+    const clipper = ConvexClipPlaneSet.createRange3dPlanes (range, true, true, true, true, false, false);
+    clipper.transformInPlace(this._iModelTransform);
+    for (let i = 0; i < this._points.length - 1 && !inside; i++)
+      inside = clipper.announceClippedSegmentIntervals (0, 1, this._points.getPoint3dAtUncheckedPointIndex(i), this._points.getPoint3dAtUncheckedPointIndex(i+1));
+
+    return inside;
+  }
+}
+
 /** @internal */
 export class RealityTileTree extends TileTree {
   public traversalChildrenByDepth: TraversalChildrenDetails[] = [];
@@ -136,6 +235,12 @@ export class RealityTileTree extends TileTree {
   public get parentsAndChildrenExclusive() { return this.loader.parentsAndChildrenExclusive; }
 
   public createTile(props: TileParams): RealityTile { return new RealityTile(props, this); }
+
+  public collectRealityTiles(collector: RealityTileCollector): RealityTileCollectionStatus {
+    this.rootTile.collectRealityTiles(collector);
+
+    return collector.loadingComplete ? RealityTileCollectionStatus.Success : RealityTileCollectionStatus.Loading;
+  }
 
   public prune(): void {
     const olderThan = BeTimePoint.now().minus(this.expirationTime);
@@ -318,4 +423,30 @@ export class RealityTileTree extends TileTree {
     depthMap.forEach((key, value) => depthString += `${key}-${value}, `);
     console.log(label + ": " + count + " Min: " + min + " Max: " + max + " Depths: " + depthString);    // eslint-disable-line
   }
+
+  /** Drape a line string on a reality  tile tree.
+   * @alpha
+   */
+  public drapeLinestring(outStrings: LineString3d[], inPoints: GrowableXYZArray, tolerance: number, viewport: Viewport, maxDistance = 1.0E5): RealityTileDrapeStatus {
+    const range = Range3d.createNull();
+    range.extendArray(inPoints);
+    range.extendZOnly(-maxDistance);  // Expand - but not so much that we get opposite side of globe.
+    range.extendZOnly(maxDistance);
+    const tileSelector = new RealityTileByDrapeLineStringCollector(tolerance, range, this.iModelTransform, inPoints);
+    const collectionStatus = this.collectRealityTiles(tileSelector);
+
+    if (collectionStatus === RealityTileCollectionStatus.Loading)
+      tileSelector.requestMissingTiles(viewport);
+
+    for (const geometry of tileSelector.acceptedGeometry()) {
+      if (geometry.polyfaces)
+        geometry.polyfaces.forEach((polyface) => {
+          const sweepStrings = PolyfaceQuery.sweepLinestringToFacetsXYReturnChains(inPoints, polyface);
+          sweepStrings.forEach((sweepString) => outStrings.push(sweepString));
+        });
+    }
+
+    return collectionStatus === RealityTileCollectionStatus.Loading ? RealityTileDrapeStatus.Loading : RealityTileDrapeStatus.Success;
+  }
 }
+

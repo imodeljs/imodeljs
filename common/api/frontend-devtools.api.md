@@ -1994,6 +1994,36 @@ export abstract class SourceAspectIdTool extends Tool {
     run(idToQuery?: string, copyToClipboard?: boolean): boolean;
 }
 
+// @alpha
+export class TerrainDrapeTool extends PrimitiveTool {
+    // (undocumented)
+    createDecorations(context: DecorateContext, _suspend: boolean): void;
+    // (undocumented)
+    decorate(context: DecorateContext): void;
+    // (undocumented)
+    decorateSuspended(context: DecorateContext): void;
+    // (undocumented)
+    filterHit(hit: HitDetail, _out?: LocateResponse): Promise<LocateFilterStatus>;
+    // (undocumented)
+    onDataButtonDown(ev: BeButtonEvent): Promise<EventHandled>;
+    // (undocumented)
+    onMouseMotion(ev: BeButtonEvent): Promise<void>;
+    // (undocumented)
+    onPostInstall(): void;
+    // (undocumented)
+    onResetButtonUp(ev: BeButtonEvent): Promise<EventHandled>;
+    // (undocumented)
+    onRestartTool(): void;
+    // (undocumented)
+    onUnsuspend(): void;
+    // (undocumented)
+    parseAndRun(..._args: string[]): boolean;
+    // (undocumented)
+    requireWriteableTarget(): boolean;
+    // (undocumented)
+    static toolId: string;
+}
+
 // @beta
 export class TestClipStyleTool extends DisplayStyleTool {
     // (undocumented)

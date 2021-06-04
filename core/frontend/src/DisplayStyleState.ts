@@ -31,6 +31,7 @@ import { OsmBuildingDisplayOptions, ScreenViewport, Viewport } from "./Viewport"
 export class TerrainDisplayOverrides {
   public wantSkirts?: boolean;
   public wantNormals?: boolean;
+  public produceGeometry?: boolean;
 }
 
 /** A DisplayStyle defines the parameters for 'styling' the contents of a [[ViewState]].

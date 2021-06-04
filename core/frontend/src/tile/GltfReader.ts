@@ -7,7 +7,7 @@
  */
 
 import { assert, ByteStream, Id64String, JsonUtils, utf8ToString } from "@bentley/bentleyjs-core";
-import { Angle, Matrix3d, Point2d, Point3d, Range2d, Range3d, Transform, Vector3d } from "@bentley/geometry-core";
+import { Angle, IndexedPolyface, Matrix3d, Point2d, Point3d, Polyface, Range2d, Range3d, Transform, Vector3d } from "@bentley/geometry-core";
 import {
   BatchType, ColorDef, ElementAlignedBox3d, FeatureTable, FillFlags, GltfBufferData, GltfBufferView, GltfDataType, GltfHeader, GltfMeshMode,
   ImageSource, ImageSourceFormat, LinePixels, MeshEdge, MeshEdges, MeshPolyline, MeshPolylineList, OctEncodedNormal, PackedFeatureTable, QParams2d, QParams3d, QPoint2dList, QPoint3dList,
@@ -23,7 +23,7 @@ import { Mesh, MeshGraphicArgs } from "../render/primitives/mesh/MeshPrimitives"
 import { RealityMeshPrimitive } from "../render/primitives/mesh/RealityMeshPrimitive";
 import { RenderGraphic } from "../render/RenderGraphic";
 import { RenderSystem } from "../render/RenderSystem";
-import { TileContent } from "./internal";
+import { RealityTileGeometry, TileContent } from "./internal";
 
 // eslint-disable-next-line prefer-const
 let forceLUT = false;
@@ -176,12 +176,8 @@ export abstract class GltfReader {
   protected get _isCanceled(): boolean { return undefined !== this._canceled && this._canceled(this); }
   protected get _isVolumeClassifier(): boolean { return BatchType.VolumeClassifier === this._type; }
 
-  protected readGltfAndCreateGraphics(isLeaf: boolean, featureTable: FeatureTable, contentRange: ElementAlignedBox3d, transformToRoot?: Transform, pseudoRtcBias?: Vector3d, instances?: InstancedGraphicParams): GltfReaderResult {
-    if (this._isCanceled)
-      return { readStatus: TileReadStatus.Canceled, isLeaf };
-
-    if (this._returnToCenter !== undefined || this._nodes[0]?.matrix !== undefined || (pseudoRtcBias !== undefined && pseudoRtcBias.magnitude() < 1.0E5))
-      pseudoRtcBias = undefined;
+  private _getNodes(): any[] {
+    const nodes = [];
 
     const childNodes = new Set<string>();
     for (const key of Object.keys(this._nodes)) {
@@ -191,24 +187,25 @@ export abstract class GltfReader {
           childNodes.add(child.toString());
     }
 
-    const renderGraphicList: RenderGraphic[] = [];
-    let readStatus: TileReadStatus = TileReadStatus.InvalidTileData;
     for (const nodeKey of Object.keys(this._nodes))
       if (!childNodes.has(nodeKey))
-        if (TileReadStatus.Success !== (readStatus = this.readNodeAndCreateGraphics(renderGraphicList, this._nodes[nodeKey], featureTable, undefined, instances, pseudoRtcBias)))
-          return { readStatus, isLeaf };
+        nodes.push(this._nodes[nodeKey]);
 
-    if (0 === renderGraphicList.length)
-      return { readStatus: TileReadStatus.InvalidTileData, isLeaf };
+    return nodes;
+  }
 
-    let renderGraphic: RenderGraphic | undefined;
-    if (1 === renderGraphicList.length)
-      renderGraphic = renderGraphicList[0];
-    else
-      renderGraphic = this._system.createGraphicList(renderGraphicList);
+  public readGltfAndCreateGeometry(transformToRoot?: Transform, needNormals = false, needParams = false): RealityTileGeometry {
+    const tileTransform = this.getTileTransform(transformToRoot);
+    const polyfaces =  new Array<Polyface>();
+    for (const node of this._getNodes())
+      this.readNodeAndCreatePolyfaces(polyfaces, node, tileTransform, needNormals, needParams);
 
+    return { polyfaces };
+  }
+
+  private getTileTransform(transformToRoot?: Transform, pseudoRtcBias?: Vector3d) {
     let transform;
-    let range = contentRange;
+
     if (undefined !== this._returnToCenter || undefined !== pseudoRtcBias || this._yAxisUp || undefined !== transformToRoot) {
       if (undefined !== this._returnToCenter)
         transform = Transform.createTranslationXYZ(this._returnToCenter[0], this._returnToCenter[1], this._returnToCenter[2]);
@@ -222,8 +219,37 @@ export abstract class GltfReader {
       if (undefined !== transformToRoot)
         transform = transformToRoot.multiplyTransformTransform(transform);
 
-      range = transform.inverse()!.multiplyRange(contentRange);
     }
+    return transform;
+  }
+
+  protected readGltfAndCreateGraphics(isLeaf: boolean, featureTable: FeatureTable, contentRange: ElementAlignedBox3d, transformToRoot?: Transform, pseudoRtcBias?: Vector3d, instances?: InstancedGraphicParams): GltfReaderResult {
+    if (this._isCanceled)
+      return { readStatus: TileReadStatus.Canceled, isLeaf };
+
+    if (this._returnToCenter !== undefined || this._nodes[0]?.matrix !== undefined || (pseudoRtcBias !== undefined && pseudoRtcBias.magnitude() < 1.0E5))
+      pseudoRtcBias = undefined;
+
+    const renderGraphicList: RenderGraphic[] = [];
+    let readStatus: TileReadStatus = TileReadStatus.InvalidTileData;
+    for (const node of this._getNodes())
+      if (TileReadStatus.Success !== (readStatus = this.readNodeAndCreateGraphics(renderGraphicList, node, featureTable, undefined, instances, pseudoRtcBias)))
+        return { readStatus, isLeaf };
+
+    if (0 === renderGraphicList.length)
+      return { readStatus: TileReadStatus.InvalidTileData, isLeaf };
+
+    let renderGraphic: RenderGraphic | undefined;
+    if (1 === renderGraphicList.length)
+      renderGraphic = renderGraphicList[0];
+    else
+      renderGraphic = this._system.createGraphicList(renderGraphicList);
+
+    const transform = this.getTileTransform(transformToRoot, pseudoRtcBias);
+    let range = contentRange;
+    if (transform)
+      range = transform.inverse()!.multiplyRange(range);
+
     renderGraphic = this._system.createBatch(renderGraphic, PackedFeatureTable.pack(featureTable), range);
     if (transform) {
       const branch = new GraphicBranch(true);
@@ -268,17 +294,94 @@ export abstract class GltfReader {
     return mesh.getGraphics(meshGraphicArgs, this._system, instances);
   }
 
-  private readNodeAndCreateGraphics(renderGraphicList: RenderGraphic[], node: any, featureTable: FeatureTable, parentTransform: Transform | undefined, instances?: InstancedGraphicParams, pseudoRtcBias?: Vector3d): TileReadStatus {
-    if (undefined === node)
-      return TileReadStatus.InvalidTileData;
-
+  private getNodeTransform(node: any, parentTransform: Transform | undefined): Transform | undefined {
     let thisTransform = parentTransform;
-    let thisBias;
     if (Array.isArray(node.matrix)) {
       const jTrans = node.matrix;
       const nodeTransform = Transform.createOriginAndMatrix(Point3d.create(jTrans[12], jTrans[13], jTrans[14]), Matrix3d.createRowValues(jTrans[0], jTrans[4], jTrans[8], jTrans[1], jTrans[5], jTrans[9], jTrans[2], jTrans[6], jTrans[10]));
       thisTransform = thisTransform ? thisTransform.multiplyTransformTransform(nodeTransform) : nodeTransform;
     }
+    return thisTransform;
+  }
+
+  private readMeshPrimitives(node: any, featureTable?: FeatureTable, thisBias?: Vector3d): GltfMeshData[] {
+    const meshes = new Array<GltfMeshData>();
+    const meshKey = node.meshes ? node.meshes : node.mesh;
+    if (undefined !== meshKey) {
+      const nodeMesh = this._meshes[meshKey];
+      if (nodeMesh) {
+        for (const primitive of nodeMesh.primitives) {
+          const geometry = this.readMeshPrimitive(primitive, featureTable, thisBias);
+          if (undefined !== geometry)
+            meshes.push(geometry);
+        }
+      }
+    }
+    return meshes;
+  }
+  private polyfaceFromGltfMesh(mesh: GltfMeshData, transform: Transform | undefined , needNormals: boolean, needParams: boolean): Polyface | undefined {
+    if (!mesh.pointQParams || !mesh.points || !mesh.indices) {
+      return undefined;
+    }
+    const { points, pointQParams, normals, uvs, uvQParams, indices } = mesh;
+
+    const includeNormals = needNormals && undefined !== normals;
+    const includeParams = needParams && undefined !== uvQParams && undefined !== uvs;
+
+    const polyface = IndexedPolyface.create(includeNormals, includeParams);
+    for (let i = 0; i < points.length; ) {
+      const point = pointQParams.unquantize(points[i++], points[i++], points[i++]);
+      if (transform)
+        transform.multiplyPoint3d(point, point);
+
+      polyface.addPoint(point);
+    }
+
+    if (includeNormals && normals)
+      for (let i = 0; i < normals.length; )
+        polyface.addNormal(OctEncodedNormal.decodeValue(normals[i++]));
+
+    if (includeParams && uvs && uvQParams)
+      for (let i = 0; i < uvs.length; )
+        polyface.addParam(uvQParams.unquantize(uvs[i++], uvs[i++]));
+
+    let j = 0;
+    indices.forEach((index: number) => {
+      polyface.addPointIndex(index);
+      if (includeNormals)
+        polyface.addNormalIndex(index);
+      if (includeParams)
+        polyface.addParamIndex(index);
+      if (0 === (++j % 3))
+        polyface.terminateFacet();
+    });
+    return polyface;
+
+  }
+
+  private readNodeAndCreatePolyfaces(polyfaces: Polyface[], node: any, parentTransform: Transform | undefined, needNormals: boolean, needParams: boolean) {
+    const thisTransform = this.getNodeTransform(node, parentTransform);
+    const meshes = this.readMeshPrimitives(node);
+
+    for (const mesh of meshes) {
+      const polyface = this.polyfaceFromGltfMesh (mesh, thisTransform, needNormals, needParams);
+      if (polyface)
+        polyfaces.push(polyface);
+    }
+
+    if (node.children) {
+      for (const child of node.children)
+        this.readNodeAndCreatePolyfaces(polyfaces, this._nodes[child], thisTransform, needNormals, needParams);
+    }
+  }
+
+  private readNodeAndCreateGraphics(renderGraphicList: RenderGraphic[], node: any, featureTable: FeatureTable, parentTransform: Transform | undefined, instances?: InstancedGraphicParams, pseudoRtcBias?: Vector3d): TileReadStatus {
+    if (undefined === node)
+      return TileReadStatus.InvalidTileData;
+
+    const thisTransform = this.getNodeTransform(node, parentTransform);
+
+    let thisBias;
     /**
      * This is a workaround for tiles generated by
      * context capture which have a large offset from the tileset origin that exceeds the
@@ -290,41 +393,29 @@ export abstract class GltfReader {
     if (undefined !== pseudoRtcBias) {
       thisBias = (undefined === thisTransform) ? pseudoRtcBias : thisTransform.matrix.multiplyInverse(pseudoRtcBias);
     }
-    const meshKey = node.meshes ? node.meshes : node.mesh;
-    if (undefined !== meshKey) {
-      const nodeMesh = this._meshes[meshKey];
-      if (nodeMesh) {
-        const meshGraphicArgs = new MeshGraphicArgs();
-        const meshes = [];
-        for (const primitive of nodeMesh.primitives) {
-          const geometry = this.readMeshPrimitive(primitive, featureTable, thisBias);
-          if (undefined !== geometry)
-            meshes.push(geometry);
-        }
+    const meshes = this.readMeshPrimitives(node, featureTable, thisBias);
 
-        let renderGraphic: RenderGraphic | undefined;
-        if (0 !== meshes.length) {
-          if (1 === meshes.length) {
-            renderGraphic = this.graphicFromMeshData(meshes[0], meshGraphicArgs, instances);
-          } else {
-            const thisList: RenderGraphic[] = [];
-            for (const mesh of meshes) {
-              renderGraphic = this.graphicFromMeshData(mesh, meshGraphicArgs, instances);
-              if (undefined !== renderGraphic)
-                thisList.push(renderGraphic);
-            }
-            if (0 !== thisList.length)
-              renderGraphic = this._system.createGraphicList(thisList);
-          }
-          if (renderGraphic) {
-            if (thisTransform && !thisTransform.isIdentity) {
-              const branch = new GraphicBranch(true);
-              branch.add(renderGraphic);
-              renderGraphic = this._system.createBranch(branch, thisTransform);
-            }
-            renderGraphicList.push(renderGraphic);
-          }
+    let renderGraphic: RenderGraphic | undefined;
+    if (0 !== meshes.length) {
+      const meshGraphicArgs = new MeshGraphicArgs();
+      if (1 === meshes.length) {
+        renderGraphic = this.graphicFromMeshData(meshes[0], meshGraphicArgs, instances);
+      } else {
+        const thisList: RenderGraphic[] = [];        for (const mesh of meshes) {
+          renderGraphic = this.graphicFromMeshData(mesh, meshGraphicArgs, instances);
+          if (undefined !== renderGraphic)
+            thisList.push(renderGraphic);
         }
+        if (0 !== thisList.length)
+          renderGraphic = this._system.createGraphicList(thisList);
+      }
+      if (renderGraphic) {
+        if (thisTransform && !thisTransform.isIdentity) {
+          const branch = new GraphicBranch(true);
+          branch.add(renderGraphic);
+          renderGraphic = this._system.createBranch(branch, thisTransform);
+        }
+        renderGraphicList.push(renderGraphic);
       }
     }
     if (node.children) {

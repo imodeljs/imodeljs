@@ -6,13 +6,12 @@
 
 import { ECSchemaRpcInterface } from '@bentley/ecschema-rpcinterface-common';
 import { IModelRpcProps } from '@bentley/imodeljs-common';
-import { SchemaKeyProps } from '@bentley/ecschema-metadata';
-import { SchemaProps } from '@bentley/ecschema-metadata';
+import { SchemaKey } from '@bentley/ecschema-metadata';
 
 // @internal
 export class ECSchemaRpcImpl extends ECSchemaRpcInterface {
-    getSchemaJSON(tokenProps: IModelRpcProps, schemaName: string): Promise<SchemaProps>;
-    getSchemaKeys(tokenProps: IModelRpcProps): Promise<SchemaKeyProps[]>;
+    getSchemaJSON(tokenProps: IModelRpcProps, schemaName: string): Promise<string>;
+    getSchemaKeys(tokenProps: IModelRpcProps): Promise<SchemaKey[]>;
     static register(): void;
 }
 

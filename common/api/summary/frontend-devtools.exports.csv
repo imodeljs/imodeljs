@@ -177,6 +177,7 @@ beta;SnowParams
 beta;SnowParticle 
 beta;SourceAspectIdFromElementIdTool 
 beta;class SourceAspectIdTool 
+alpha;TerrainDrapeTool 
 beta;TestClipStyleTool 
 beta;TextBox
 alpha;TextBoxHandler = (textbox: HTMLInputElement) => void

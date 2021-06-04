@@ -14,7 +14,7 @@ import { GraphicBuilder } from "../../render/GraphicBuilder";
 import { TerrainMeshPrimitive } from "../../render/primitives/mesh/TerrainMeshPrimitive";
 import { RenderGraphic } from "../../render/RenderGraphic";
 import { RenderMemory } from "../../render/RenderMemory";
-import { RenderRealityMeshGeometry, RenderSystem, TerrainTexture } from "../../render/RenderSystem";
+import { RenderSystem, RenderTerrainGeometry, TerrainTexture } from "../../render/RenderSystem";
 import { ViewingSpace } from "../../ViewingSpace";
 import { ImageryMapTile, MapCartoRectangle, MapTileLoader, MapTileTree, QuadId, RealityTile, Tile, TileContent, TileDrawArgs, TileLoadStatus, TileParams, TileTreeLoadStatus, TraversalSelectionContext } from "../internal";
 import { TileGraphicType } from "../TileTreeReference";
@@ -93,7 +93,7 @@ class PlanarProjection extends MapTileProjection {
 /** @internal */
 export interface TerrainTileContent extends TileContent {
   terrain?: {
-    geometry?: RenderRealityMeshGeometry;
+    renderGeometry?: RenderTerrainGeometry;
     /** Used on leaves to support up-sampling. */
     mesh?: TerrainMeshPrimitive;
   };
@@ -116,13 +116,13 @@ export class MapTile extends RealityTile {
   private _imageryTiles?: ImageryMapTile[];
   public everLoaded = false;                    // If the tile is only required for availability metadata, load it once and then allow it to be unloaded.
   protected _heightRange: Range1d | undefined;
-  protected _geometry?: RenderRealityMeshGeometry;
+  protected _renderGeometry?: RenderTerrainGeometry;
   protected _mesh?: TerrainMeshPrimitive;     // Primitive retained on leaves only for upsampling.
   public get isReady(): boolean { return super.isReady && this.baseImageryIsReady; }
-  public get geometry() { return this._geometry; }
+  public get renderGeometry() { return this._renderGeometry; }
   public get mesh() { return this._mesh; }
   public get loadableTerrainTile() { return this.loadableTile as MapTile; }
-  public get hasGraphics(): boolean { return undefined !== this.geometry; }
+  public get hasGraphics(): boolean { return undefined !== this.renderGeometry; }
   public get isPlanar(): boolean { return this._patch instanceof PlanarTilePatch; }
   public get imageryTiles(): ImageryMapTile[] | undefined { return this._imageryTiles; }
 
@@ -334,7 +334,9 @@ export class MapTile extends RealityTile {
           const diagonal = Math.max(corners[0].distance(corners[3]), corners[1].distance(corners[2])) / 2.0;
           const chordHeight = globeMode === GlobeMode.Ellipsoid ? Math.sqrt(diagonal * diagonal + Constant.earthRadiusWGS84.equator * Constant.earthRadiusWGS84.equator) - Constant.earthRadiusWGS84.equator : 0.0;
           const range = Range3d.createArray(MapTile.computeRangeCorners(corners, normal, chordHeight, scratchCorners, heightRange));
-          children.push(this.mapTree.createPlanarChild({ contentId: quadId.contentId, maximumSize: 512, range, parent: this, isLeaf: childrenAreLeaves }, quadId, corners, normal, rectangle, chordHeight, heightRange));
+          const child = this.mapTree.createPlanarChild({ contentId: quadId.contentId, maximumSize: 512, range, parent: this, isLeaf: childrenAreLeaves }, quadId, corners, normal, rectangle, chordHeight, heightRange);
+          if (child)
+            children.push(child);
         }
       }
       resolveChildren(children);
@@ -415,7 +417,7 @@ export class MapTile extends RealityTile {
     if (undefined !== this._graphic && this.imageryIsReady)
       return this._graphic;
 
-    const geometry = this.geometry;
+    const geometry = this.renderGeometry;
     assert(undefined !== geometry);
     if (undefined === geometry)
       return undefined;
@@ -437,8 +439,8 @@ export class MapTile extends RealityTile {
   protected _collectStatistics(stats: RenderMemory.Statistics): void {
     super._collectStatistics(stats);
 
-    if (undefined !== this._geometry)
-      this._geometry.collectStatistics(stats);
+    if (undefined !== this._renderGeometry)
+      this._renderGeometry.collectStatistics(stats);
 
     if (undefined !== this._mesh)
       this._mesh.collectStatistics(stats);
@@ -604,9 +606,19 @@ export class MapTile extends RealityTile {
   }
 
   public setContent(content: TerrainTileContent): void {
-    dispose(this._geometry); // This should never happen but paranoia.
-    this._geometry = content.terrain?.geometry;
     this._mesh = content.terrain?.mesh;
+    if (this.mapTree.produceGeometry) {
+      const iModelTransform = this.mapTree.iModelTransform;
+      const geometryTransform =  content.terrain?.renderGeometry?.transform;
+      const transform = geometryTransform ? iModelTransform.multiplyTransformTransform(geometryTransform) : iModelTransform;
+      const polyface = content.terrain?.mesh?.createPolyface(transform);
+      this._geometry = polyface ? { polyfaces: [polyface] } : undefined;
+
+    } else {
+      dispose(this._renderGeometry); // This should never happen but paranoia.
+      this._renderGeometry = content.terrain?.renderGeometry;
+    }
+
     this.everLoaded = true;
 
     if (undefined !== content.contentRange)
@@ -621,7 +633,7 @@ export class MapTile extends RealityTile {
 
   public disposeContents() {
     super.disposeContents();
-    this._geometry = dispose(this._geometry);
+    this._renderGeometry = dispose(this._renderGeometry);
     this.clearImageryTiles();
     // Note - don't dispose of mesh - these should only ever exist on terrain leaf tile and are required by children.  Let garbage collector handle them.
   }
@@ -638,32 +650,34 @@ export class UpsampledMapTile extends MapTile {
       ;
     return parent;
   }
-
-  public get geometry() {
-    if (undefined === this._geometry) {
-      const parent = this.loadableTerrainTile;
-      const parentMesh = parent.mesh;
-      if (undefined === parentMesh) {
-        return undefined;
-      }
-      const thisId = this.quadId, parentId = parent.quadId;
-      const levelDelta = thisId.level - parentId.level;
-      const thisColumn = thisId.column - (parentId.column << levelDelta);
-      const thisRow = thisId.row - (parentId.row << levelDelta);
-      const scale = 1.0 / (1 << levelDelta);
-      const parentParameterRange = Range2d.createXYXY(scale * thisColumn, scale * thisRow, scale * (thisColumn + 1), scale * (thisRow + 1));
-      const upsample = parentMesh.upsample(parentParameterRange);
-      if (undefined === upsample)
-        return undefined;
-
-      this.adjustHeights(upsample.heightRange.low, upsample.heightRange.high);
-      const projection = parent.getProjection(this.heightRange);
-      this._geometry = IModelApp.renderSystem.createRealityMeshFromTerrain(upsample.mesh, projection.transformFromLocal);
+  private upsampleFromParent() {
+    const parent = this.loadableTerrainTile;
+    const parentMesh = parent.mesh;
+    if (undefined === parentMesh) {
+      return undefined;
     }
-    return this._geometry;
+    const thisId = this.quadId, parentId = parent.quadId;
+    const levelDelta = thisId.level - parentId.level;
+    const thisColumn = thisId.column - (parentId.column << levelDelta);
+    const thisRow = thisId.row - (parentId.row << levelDelta);
+    const scale = 1.0 / (1 << levelDelta);
+    const parentParameterRange = Range2d.createXYXY(scale * thisColumn, scale * thisRow, scale * (thisColumn + 1), scale * (thisRow + 1));
+    const upsample = parentMesh.upsample(parentParameterRange);
+    this.adjustHeights(upsample.heightRange.low, upsample.heightRange.high);
+    return upsample;
+  }
+
+  public get renderGeometry() {
+    if (undefined === this._renderGeometry) {
+      const upsample = this.upsampleFromParent();
+      const projection = this.loadableTerrainTile.getProjection(this.heightRange);
+      if (upsample)
+        this._renderGeometry = IModelApp.renderSystem.createRealityMeshFromTerrain(upsample.mesh, projection.transformFromLocal);
+    }
+    return this._renderGeometry;
   }
   public get isLoading(): boolean { return this.loadableTile.isLoading; }
   public get isQueued(): boolean { return this.loadableTile.isQueued; }
   public get isNotFound(): boolean { return this.loadableTile.isNotFound; }
-  public get isReady(): boolean { return (this._geometry !== undefined || this.loadableTile.loadStatus === TileLoadStatus.Ready) && this.baseImageryIsReady; }
+  public get isReady(): boolean { return (this._renderGeometry !== undefined || this.loadableTile.loadStatus === TileLoadStatus.Ready) && this.baseImageryIsReady; }
 }

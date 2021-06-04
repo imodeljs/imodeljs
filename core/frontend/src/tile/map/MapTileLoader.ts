@@ -7,7 +7,7 @@
  */
 
 import { assert, ClientRequestContext, Id64String } from "@bentley/bentleyjs-core";
-import { Range1d } from "@bentley/geometry-core";
+import { Polyface, Range1d } from "@bentley/geometry-core";
 import { Feature, FeatureTable } from "@bentley/imodeljs-common";
 import { request } from "@bentley/itwin-client";
 import { IModelConnection } from "../../IModelConnection";
@@ -100,9 +100,13 @@ export class MapTileLoader extends RealityTileLoader {
       contentRange: projection.transformFromLocal.multiplyRange(projection.localRange),
       terrain: {
         mesh: unavailableChild ? mesh : undefined, // If a child is unavilable retain mesh for upsampling.,
-        geometry: terrainGeometry,
+        renderGeometry: terrainGeometry,
       },
     };
+  }
+
+  public loadPolyfaces(_tile: RealityTile,  _data: TileRequest.ResponseData, _system: RenderSystem): Polyface[] | undefined {
+    assert (false, "load polyFaces not implmented for map tiles");
   }
 
   public getChildHeightRange(quadId: QuadId, rectangle: MapCartoRectangle, parent: MapTile): Range1d | undefined {

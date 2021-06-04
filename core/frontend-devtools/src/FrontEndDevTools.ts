@@ -64,6 +64,7 @@ import { ToggleTileRequestDecorationTool } from "./tools/TileRequestDecoration";
 import { ToggleTileTreeBoundsDecorationTool } from "./tools/TileTreeBoundsDecoration";
 import { ToggleToolTipsTool } from "./tools/ToolTipProvider";
 import { ChangeCameraTool } from "./tools/ViewportTools";
+import { TerrainDrapeTool } from "./tools/TerrainDrapeTool";
 
 /** Entry-point for the package. Before using the package you *must* call [[FrontendDevTools.initialize]].
  * @beta
@@ -87,6 +88,7 @@ export class FrontendDevTools {
 
     const i18n = IModelApp.i18n.registerNamespace("FrontendDevTools");
     const tools = [
+      TerrainDrapeTool,
       AttachMapLayerTool,
       AttachMapOverlayTool,
       AttachArcGISMapLayerByUrlTool,

@@ -7,13 +7,15 @@
  */
 
 import { BeTimePoint } from "@bentley/bentleyjs-core";
-import { ClipMaskXYZRangePlanes, ClipShape, ClipVector, Point3d, Transform } from "@bentley/geometry-core";
+import { ClipMaskXYZRangePlanes, ClipShape, ClipVector, Point3d, Polyface, Transform } from "@bentley/geometry-core";
 import { ColorDef } from "@bentley/imodeljs-common";
 import { GraphicBuilder } from "../render/GraphicBuilder";
 import { RenderSystem } from "../render/RenderSystem";
 import { ViewingSpace } from "../ViewingSpace";
 import { Viewport } from "../Viewport";
 import {
+  RealityTileCollectionSelectionStatus,
+  RealityTileCollector,
   RealityTileTree, Tile, TileContent, TileDrawArgs, TileGraphicType, TileLoadStatus, TileParams, TileRequest, TileRequestChannel, TileTreeLoadStatus, TraversalDetails, TraversalSelectionContext,
 } from "./internal";
 
@@ -23,6 +25,17 @@ export interface RealityTileParams extends TileParams {
   readonly additiveRefinement?: boolean;
   readonly noContentButTerminateOnSelection?: boolean;
   readonly rangeCorners?: Point3d[];
+}
+/** The geometry representing the contents of a reality tile.  Currently only polyfaces are returned
+ * @alpha
+ */
+export interface RealityTileGeometry {
+  polyfaces?: Polyface[];
+}
+
+/** @internal */
+export interface RealityTileContent extends TileContent {
+  geometry?: RealityTileGeometry;
 }
 
 const scratchLoadedChildren = new Array<RealityTile>();
@@ -36,6 +49,7 @@ export class RealityTile extends Tile {
   public readonly additiveRefinement?: boolean;
   public readonly noContentButTerminateOnSelection?: boolean;
   public readonly rangeCorners?: Point3d[];
+  protected _geometry?: RealityTileGeometry;
   private _everDisplayed = false;
 
   public constructor(props: RealityTileParams, tree: RealityTileTree) {
@@ -58,6 +72,10 @@ export class RealityTile extends Tile {
     if (undefined !== this._contentRange)
       this.transformToRoot.multiplyRange(this._contentRange, this._contentRange);
   }
+  public setContent(content: RealityTileContent): void {
+    super.setContent(content);
+    this._geometry = content.geometry;
+  }
 
   public get realityChildren(): RealityTile[] | undefined { return this.children as RealityTile[] | undefined; }
   public get realityParent(): RealityTile { return this.parent as RealityTile; }
@@ -66,6 +84,7 @@ export class RealityTile extends Tile {
   public get maxDepth(): number { return this.realityRoot.loader.maxDepth; }
   public get isPointCloud() { return this.realityRoot.loader.containsPointClouds; }
   public get isLoaded() { return this.loadStatus === TileLoadStatus.Ready; }      // Reality tiles may depend on secondary tiles (maps) so can ge loaded but not ready.
+  public get geometry(): RealityTileGeometry | undefined { return this._geometry;  }
   public get isDisplayable(): boolean {
     if (this.noContentButTerminateOnSelection)
       return false;
@@ -274,5 +293,35 @@ export class RealityTile extends Tile {
 
     // For global tiles (as in OSM buildings) return the range corners - this allows an algorithm that uses the area of the projected corners to attenuate horizon tiles.
     return this.range.corners(scratchCorners);
+  }
+  public collectRealityTiles(collector: RealityTileCollector) {
+    const status = collector.selectTile(this);
+
+    switch(status) {
+      case RealityTileCollectionSelectionStatus.Reject:
+        return;
+
+      case RealityTileCollectionSelectionStatus.Continue:
+        if (!this.isLeaf && !this._anyChildNotFound) {
+          const childrenLoadStatus = this.loadChildren(); // NB: asynchronous
+          if (TileTreeLoadStatus.Loading === childrenLoadStatus) {
+            collector.markChildrenLoading();
+            return;
+          }
+          if (undefined !== this.realityChildren && !this._anyChildNotFound)
+            for (const child of this.realityChildren)
+              child.collectRealityTiles(collector);
+          break;
+        }
+
+      // eslint-disable-next-line no-fallthrough
+      case RealityTileCollectionSelectionStatus.Accept:
+        if (this.isReady)
+          collector.accepted.push(this);
+        else
+          collector.missing.add(this.loadableTile);
+
+        break;
+    }
   }
 }

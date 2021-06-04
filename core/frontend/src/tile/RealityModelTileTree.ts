@@ -7,7 +7,7 @@
  */
 
 import {
-  assert, BentleyStatus, compareNumbers, compareStrings, compareStringsOrUndefined, CompressedId64Set, Guid, Id64String,
+  assert, BentleyStatus, compareBooleansOrUndefined, compareNumbers, compareStrings, compareStringsOrUndefined, CompressedId64Set, Guid, Id64String,
 } from "@bentley/bentleyjs-core";
 import { Constant, Ellipsoid, Matrix3d, Point3d, Range3d, Ray3d, Transform, TransformProps, Vector3d, XYZ } from "@bentley/geometry-core";
 import {
@@ -44,6 +44,7 @@ interface RealityTreeId {
   transform?: Transform;
   modelId: Id64String;
   maskModelIds?: string;
+  produceGeometry?: boolean;
 }
 
 function compareOrigins(lhs: XYZ, rhs: XYZ): number {
@@ -78,7 +79,7 @@ class RealityTreeSupplier implements TileTreeSupplier {
     if (treeId.maskModelIds)
       await iModel.models.load(CompressedId64Set.decompressSet(treeId.maskModelIds));
 
-    return RealityModelTileTree.createRealityModelTileTree(treeId.url, iModel, treeId.modelId, treeId.transform);
+    return RealityModelTileTree.createRealityModelTileTree(treeId.url, iModel, treeId.modelId, treeId.transform, treeId.produceGeometry);
   }
 
   public compareTileTreeIds(lhs: RealityTreeId, rhs: RealityTreeId): number {
@@ -90,6 +91,10 @@ class RealityTreeSupplier implements TileTreeSupplier {
       return cmp;
 
     cmp = compareStringsOrUndefined(lhs.maskModelIds, rhs.maskModelIds);
+    if (0 !== cmp)
+      return cmp;
+
+    cmp = compareBooleansOrUndefined(lhs.produceGeometry, rhs.produceGeometry);
     if (0 !== cmp)
       return cmp;
 
@@ -336,8 +341,8 @@ class RealityModelTileLoader extends RealityTileLoader {
   private readonly _batchedIdMap?: BatchedTileIdMap;
   private _viewFlagOverrides: ViewFlagOverrides;
 
-  public constructor(tree: RealityModelTileTreeProps, batchedIdMap?: BatchedTileIdMap) {
-    super();
+  public constructor(tree: RealityModelTileTreeProps, batchedIdMap?: BatchedTileIdMap, produceGeometry?: boolean) {
+    super(produceGeometry);
     this.tree = tree;
     this._batchedIdMap = batchedIdMap;
     this._viewFlagOverrides = createDefaultViewFlagOverrides({ lighting: true });
@@ -458,6 +463,7 @@ export namespace RealityModelTileTree {
   export interface ReferenceProps extends ReferenceBaseProps {
     url: string;
     requestAuthorization?: string;
+    produceGeometry?: boolean;
   }
 
   export abstract class Reference extends TileTreeReference {
@@ -466,7 +472,8 @@ export namespace RealityModelTileTree {
     protected _transform?: Transform;
     protected _iModel: IModelConnection;
     protected _maskModelIds?: string;
-    private _modelId: Id64String;
+    protected _modelId: Id64String;
+    protected _source: RealityModelSource;
     private _isGlobal?: boolean;
     protected _planarClipMask?: PlanarClipMaskState;
     protected _classifier?: SpatialClassifierTileTreeReference;
@@ -495,6 +502,7 @@ export namespace RealityModelTileTree {
         this._transform = transform;
       }
       this._iModel = props.iModel;
+      this._source = props.source;
       this._planarClipMask = (props.planarMask && props.planarMask.mode !== PlanarClipMaskMode.None) ? PlanarClipMaskState.create(PlanarClipMaskSettings.fromJSON(props.planarMask)) : undefined;
       this._maskModelIds = props.planarMask?.modelIds;
 
@@ -560,9 +568,9 @@ export namespace RealityModelTileTree {
     }
   }
 
-  export async function createRealityModelTileTree(url: string, iModel: IModelConnection, modelId: Id64String, tilesetToDb?: Transform): Promise<TileTree | undefined> {
+  export async function createRealityModelTileTree(url: string, iModel: IModelConnection, modelId: Id64String, tilesetToDb?: Transform, produceGeometry?: boolean): Promise<TileTree | undefined> {
     const props = await getTileTreeProps(url, tilesetToDb, iModel);
-    const loader = new RealityModelTileLoader(props, new BatchedTileIdMap(iModel));
+    const loader = new RealityModelTileLoader(props, new BatchedTileIdMap(iModel), produceGeometry);
     const params = new RealityModelTileTreeParams(url, iModel, modelId, loader);
 
     return new RealityModelTileTree(params);
@@ -639,16 +647,23 @@ export namespace RealityModelTileTree {
 /** Supplies a reality data [[TileTree]] from a URL. May be associated with a persistent [[GeometricModelState]], or attached at run-time via a [[ContextRealityModelState]].
  * @internal
  */
-class RealityTreeReference extends RealityModelTileTree.Reference {
+export class RealityTreeReference extends RealityModelTileTree.Reference {
   private readonly _url: string;
+  private readonly _produceGeometry?: boolean;
 
   public constructor(props: RealityModelTileTree.ReferenceProps) {
     super(props);
     this._url = props.url;
+    this._produceGeometry = props.produceGeometry;
   }
   public get treeOwner(): TileTreeOwner {
-    const treeId = { url: this._url, transform: this._transform, modelId: this.modelId, maskModelIds: this._maskModelIds };
+    const treeId = { url: this._url, transform: this._transform, modelId: this.modelId, maskModelIds: this._maskModelIds, produceGeometry: this._produceGeometry };
     return realityTreeSupplier.getOwner(treeId, this._iModel);
+  }
+
+  /** create geometry tree */
+  public createGeometryTreeRef(): TileTreeReference | undefined {
+    return new RealityTreeReference({ iModel: this._iModel, modelId: this._modelId, source: this._source, url: this._url, name: this._name, produceGeometry: true });
   }
 
   public get castsShadows() {

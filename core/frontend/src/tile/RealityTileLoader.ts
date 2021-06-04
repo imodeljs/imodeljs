@@ -14,7 +14,7 @@ import { GraphicBranch } from "../render/GraphicBranch";
 import { RenderSystem } from "../render/RenderSystem";
 import { Viewport } from "../Viewport";
 import {
-  B3dmReader, BatchedTileIdMap, createDefaultViewFlagOverrides, GltfReader, I3dmReader, readPointCloudTileContent, RealityTile, Tile, TileContent,
+  B3dmReader, BatchedTileIdMap, createDefaultViewFlagOverrides, GltfReader, I3dmReader, readPointCloudTileContent, RealityTile, RealityTileContent, Tile, TileContent,
   TileDrawArgs, TileLoadPriority, TileRequest, TileRequestChannel,
 } from "./internal";
 
@@ -31,7 +31,7 @@ export abstract class RealityTileLoader {
   public readonly preloadRealityParentDepth: number;
   public readonly preloadRealityParentSkip: number;
 
-  public constructor() {
+  public constructor(private _produceGeometry?: boolean) {
     this.preloadRealityParentDepth = IModelApp.tileAdmin.contextPreloadParentDepth;
     this.preloadRealityParentSkip = IModelApp.tileAdmin.contextPreloadParentSkip;
   }
@@ -57,17 +57,33 @@ export abstract class RealityTileLoader {
   public processSelectedTiles(selected: Tile[], _args: TileDrawArgs): Tile[] { return selected; }
 
   // NB: The isCanceled arg is chiefly for tests...in usual case it just returns false if the tile is no longer in 'loading' state.
-  public async loadTileContent(tile: Tile, data: TileRequest.ResponseData, system: RenderSystem, isCanceled?: () => boolean): Promise<TileContent> {
+  public async loadTileContent(tile: Tile, data: TileRequest.ResponseData, system: RenderSystem, isCanceled?: () => boolean): Promise<RealityTileContent> {
     assert(data instanceof Uint8Array);
     const blob = data;
     const streamBuffer = new ByteStream(blob.buffer);
-    return this.loadTileContentFromStream(tile as RealityTile, streamBuffer, system, isCanceled);
+    const realityTile = tile as RealityTile;
+    return this._produceGeometry ? this.loadGeometryFromStream(realityTile, streamBuffer, system) : this.loadGraphicsFromStream(realityTile, streamBuffer, system, isCanceled);
   }
 
-  public async loadTileContentFromStream(tile: RealityTile, streamBuffer: ByteStream, system: RenderSystem, isCanceled?: () => boolean): Promise<TileContent> {
+  private _getFormat(streamBuffer: ByteStream) {
     const position = streamBuffer.curPos;
     const format = streamBuffer.nextUint32;
     streamBuffer.curPos = position;
+    return format;
+
+  }
+  public async loadGeometryFromStream(tile: RealityTile,  streamBuffer: ByteStream, system: RenderSystem): Promise<RealityTileContent> {
+    const format = this._getFormat(streamBuffer);
+    if (format !== TileFormat.B3dm)
+      return {};
+
+    const { is3d, yAxisUp, iModel, modelId } = tile.realityRoot;
+    const reader = B3dmReader.create(streamBuffer, iModel, modelId, is3d, tile.contentRange, system, yAxisUp, tile.isLeaf, tile.center, tile.transformToRoot, undefined, this.getBatchIdMap());
+    return { geometry: reader?.readGltfAndCreateGeometry(tile.tree.iModelTransform) };
+  }
+
+  private async loadGraphicsFromStream(tile: RealityTile, streamBuffer: ByteStream, system: RenderSystem, isCanceled?: () => boolean): Promise<TileContent> {
+    const format = this._getFormat(streamBuffer);
 
     if (undefined === isCanceled)
       isCanceled = () => !tile.isLoading;
@@ -101,7 +117,7 @@ export abstract class RealityTileLoader {
           streamBuffer.advance(8);    // Skip magic and version.
           const tileBytes = streamBuffer.nextUint32;
           streamBuffer.curPos = tilePosition;
-          const result = await this.loadTileContentFromStream(tile, streamBuffer, system, isCanceled);
+          const result = await this.loadGraphicsFromStream(tile, streamBuffer, system, isCanceled);
           if (result.graphic)
             branch.add(result.graphic);
           streamBuffer.curPos = tilePosition + tileBytes;

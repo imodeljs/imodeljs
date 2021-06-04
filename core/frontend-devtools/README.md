@@ -323,3 +323,4 @@ These keysins control the planar masking of reality models.
 * `fdt aasamples <nSamples>` - Sets the number of antialias samples for the current viewport where nSamples is the number of samples to use; if 1 or less then antialiasing is turned off, if > 1 then antialiasing is turned on and it will attempt to use that many samples (restricted by the given hardware constraints)
 The following arguments can also be supplied:
   * `all`: (optional) sets it for all open viewports as well as all future viewports
+* `fdt drape terrain` - Start a tool that demonstrates draping a linestring to either a reality mesh model or background map with terrain applied. The model is first selected and subsequent points define the linestring.

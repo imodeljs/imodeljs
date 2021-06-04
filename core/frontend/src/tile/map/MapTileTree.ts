@@ -6,7 +6,7 @@
  * @module Tiles
  */
 
-import { assert, compareBooleans, compareNumbers, compareStrings, compareStringsOrUndefined, CompressedId64Set, Id64String } from "@bentley/bentleyjs-core";
+import { assert, compareBooleans, compareBooleansOrUndefined, compareNumbers, compareStrings, compareStringsOrUndefined, CompressedId64Set, Id64String } from "@bentley/bentleyjs-core";
 import {
   Angle, AngleSweep, Constant, Ellipsoid, EllipsoidPatch, Point3d, Range1d, Range3d, Ray3d, Transform, Vector3d, XYZProps,
 } from "@bentley/geometry-core";
@@ -75,6 +75,7 @@ export class MapTileTree extends RealityTileTree {
   public baseColor?: ColorDef;
   public baseTransparent: boolean;
   public mapTransparent: boolean;
+  public produceGeometry?: boolean;
 
   constructor(params: RealityTileTreeParams, public ecefToDb: Transform, public bimElevationBias: number, public geodeticOffset: number, gcsConverterAvailable: boolean, public sourceTilingScheme: MapTilingScheme, id: MapTreeId) {
     super(params);
@@ -97,6 +98,7 @@ export class MapTileTree extends RealityTileTree {
     if (id.applyTerrain) {
       this.minEarthEllipsoid = Ellipsoid.createCenterMatrixRadii(this.globeOrigin, this.ecefToDb.matrix, Constant.earthRadiusWGS84.equator + globalHeightRange.low, Constant.earthRadiusWGS84.equator + globalHeightRange.low, Constant.earthRadiusWGS84.polar + globalHeightRange.low);
       this.maxEarthEllipsoid = Ellipsoid.createCenterMatrixRadii(this.globeOrigin, this.ecefToDb.matrix, Constant.earthRadiusWGS84.equator + globalHeightRange.high, Constant.earthRadiusWGS84.equator + globalHeightRange.high, Constant.earthRadiusWGS84.polar + globalHeightRange.high);
+      this.produceGeometry = id.produceGeometry;
     } else {
       this.minEarthEllipsoid = this.earthEllipsoid;
       this.maxEarthEllipsoid = this.earthEllipsoid;
@@ -144,10 +146,13 @@ export class MapTileTree extends RealityTileTree {
 
     return maxDepth;
   }
-  public createPlanarChild(params: TileParams, quadId: QuadId, corners: Point3d[], normal: Vector3d, rectangle: MapCartoRectangle, chordHeight: number, heightRange?: Range1d): MapTile {
+  public createPlanarChild(params: TileParams, quadId: QuadId, corners: Point3d[], normal: Vector3d, rectangle: MapCartoRectangle, chordHeight: number, heightRange?: Range1d): MapTile | undefined {
+    const childAvailable = this.mapLoader.isTileAvailable(quadId);
+    if (!childAvailable && this.produceGeometry)
+      return undefined;
     const patch = new PlanarTilePatch(corners, normal, chordHeight);
     const cornerNormals = this.getCornerRays(rectangle);
-    const ctor = this.mapLoader.isTileAvailable(quadId) ? MapTile : UpsampledMapTile;
+    const ctor = childAvailable ? MapTile : UpsampledMapTile;
     return new ctor(params, this, quadId, patch, rectangle, heightRange, cornerNormals);
   }
 
@@ -377,6 +382,7 @@ interface MapTreeId {
   baseTransparent: boolean;
   mapTransparent: boolean;
   maskModelIds?: string;
+  produceGeometry?: boolean;
 }
 
 /** @internal */
@@ -433,8 +439,11 @@ class MapTreeSupplier implements TileTreeSupplier {
                             cmp = compareNumbers(lhs.terrainHeightOrigin, rhs.terrainHeightOrigin);
                             if (0 === cmp) {
                               cmp = compareNumbers(lhs.terrainHeightOriginMode, rhs.terrainHeightOriginMode);
-                              if (0 === cmp)
+                              if (0 === cmp) {
                                 cmp = compareNumbers(lhs.terrainExaggeration, rhs.terrainExaggeration);
+                                if (0 === cmp)
+                                  cmp = compareBooleansOrUndefined(lhs.produceGeometry, rhs.produceGeometry);
+                              }
                             }
                           }
                         } else {
@@ -554,6 +563,13 @@ export class MapTileTreeReference extends TileTreeReference {
   public get baseColor(): ColorDef | undefined { return this._baseColor; }
   public get planarclipMaskPriority(): number { return PlanarClipMaskPriority.BackgroundMap; }
 
+  public createGeometryTreeRef(): TileTreeReference | undefined {
+    if (! this._settings.applyTerrain || this._isDrape)
+      return undefined;     // Don't bother generating non-terrain (flat) geometry.
+
+    return new MapTileTreeReference(this._settings, undefined, [], this._iModel, this._viewportId, false, false, () => { return { produceGeometry: true }; });
+  }
+
   /** Terrain  tiles do not contribute to the range used by "fit view". */
   public unionFitRange(_range: Range3d): void { }
   public get settings(): BackgroundMapSettings { return this._settings; }
@@ -646,6 +662,7 @@ export class MapTileTreeReference extends TileTreeReference {
       baseTransparent: this._baseTransparent,
       mapTransparent: this.settings.transparency > 0,
       maskModelIds: this._planarClipMask?.settings.modelIds,
+      produceGeometry: false,
     };
 
     if (undefined !== this._overrideTerrainDisplay) {
@@ -653,6 +670,7 @@ export class MapTileTreeReference extends TileTreeReference {
       if (undefined !== ovr) {
         id.wantSkirts = ovr.wantSkirts ?? id.wantSkirts;
         id.wantNormals = ovr.wantNormals ?? id.wantNormals;
+        id.produceGeometry = ovr.produceGeometry === true;
       }
     }
 

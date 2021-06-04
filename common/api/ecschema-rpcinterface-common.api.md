@@ -10,15 +10,13 @@ import { RpcInterface } from '@bentley/imodeljs-common';
 import { Schema } from '@bentley/ecschema-metadata';
 import { SchemaContext } from '@bentley/ecschema-metadata';
 import { SchemaKey } from '@bentley/ecschema-metadata';
-import { SchemaKeyProps } from '@bentley/ecschema-metadata';
 import { SchemaMatchType } from '@bentley/ecschema-metadata';
-import { SchemaProps } from '@bentley/ecschema-metadata';
 
 // @internal
 export abstract class ECSchemaRpcInterface extends RpcInterface {
     static getClient(): ECSchemaRpcInterface;
-    getSchemaJSON(_tokenProps: IModelRpcProps, _schemaName: string): Promise<SchemaProps>;
-    getSchemaKeys(_tokenProps: IModelRpcProps): Promise<SchemaKeyProps[]>;
+    getSchemaJSON(_tokenProps: IModelRpcProps, _schemaName: string): Promise<string>;
+    getSchemaKeys(_tokenProps: IModelRpcProps): Promise<SchemaKey[]>;
     // (undocumented)
     static readonly interfaceName = "ECSchemaRpcInterface";
     // (undocumented)
