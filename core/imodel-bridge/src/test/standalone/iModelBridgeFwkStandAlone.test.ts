@@ -13,7 +13,7 @@ import { KnownTestLocations } from "../KnownTestLocations";
 import { BridgeJobDefArgs, BridgeRunner } from "../../BridgeRunner";
 
 import * as path from "path";
-import { BADGERSIssueReporter } from "../../BADGERSIssueReporter_old";
+import { BadgersIssueReporter } from "../../BadgersIssueReporter";
 
 describe("IModelBridgeFwkStandAlone", () => {
 
@@ -47,7 +47,7 @@ describe("IModelBridgeFwkStandAlone", () => {
     const runner = new BridgeRunner(bridgeJobDef);
     const fileName = `${path.basename(assetFile, path.extname(assetFile))}.bim`;
     const filePath = path.join(KnownTestLocations.outputDir, fileName);
-    const issueReporter = new BADGERSIssueReporter("", "", "", "TestBridge.json", undefined, assetFile, KnownTestLocations.outputDir);
+    const issueReporter = new BadgersIssueReporter("", "", "", "TestBridge.json", undefined, assetFile, KnownTestLocations.outputDir);
     issueReporter.recordSourceFileInfo("TestBridge.json", "TestBridge", "TestBridge", "itemType", "dataSource", "state", "failureReason", true, 200, true);
     runner.setIssueReporter(issueReporter);
     const status = await runner.synchronize();

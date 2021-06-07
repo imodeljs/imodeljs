@@ -27,7 +27,7 @@ interface FileInfo {
 /** BADGERS issue reporter. Can be provided to BridgeRunner in setIssueReporter
  * @beta
  */
-export class BADGERSIssueReporter implements BridgeIssueReporter {
+export class BadgersIssueReporter implements BridgeIssueReporter {
     private _reportDb;
     private _reportFile;
     private _reportSummaryFile; //ToDo create summary report
