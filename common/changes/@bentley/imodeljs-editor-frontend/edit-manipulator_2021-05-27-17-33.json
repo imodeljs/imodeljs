@@ -1,0 +1,11 @@
+{
+  "changes": [
+    {
+      "packageName": "@bentley/imodeljs-editor-frontend",
+      "comment": "Make EditManipulator public",
+      "type": "none"
+    }
+  ],
+  "packageName": "@bentley/imodeljs-editor-frontend",
+  "email": "65233531+bbastings@users.noreply.github.com"
+}

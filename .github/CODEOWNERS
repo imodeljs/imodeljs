@@ -68,8 +68,8 @@ rush.json       @calebmshafer @scsewall
 /common/**/geometry-core/                         @EarlinLutz @mgooding @RBBentley @bbastings
 /common/**/hypermodeling-frontend.*               @imodeljs/display @bbastings
 /common/**/hypermodeling-frontend/                @imodeljs/display @bbastings
-/common/**/imodel-bridge.*                        @abeesh @c-macdonald @swwilson-bsi
-/common/**/imodel-bridge/                         @abeesh @c-macdonald @swwilson-bsi
+/common/**/imodel-bridge.*                        @imodeljs/connectors
+/common/**/imodel-bridge/                         @imodeljs/connectors
 /common/**/imodeljs-backend.*                     @imodeljs/admins
 /common/**/imodeljs-backend/                      @imodeljs/admins
 /common/**/imodeljs-common.*                      @imodeljs/admins @imodeljs/display
@@ -125,7 +125,7 @@ rush.json       @calebmshafer @scsewall
 /core/geometry                  @bbastings @EarlinLutz @mgooding @RBBentley
 /core/hypermodeling             @bbastings @imodeljs/display
 /core/i18n                      @wgoehrig @calebmshafer
-/core/imodel-bridge             @abeesh @c-macdonald @swwilson-bsi
+/core/imodel-bridge             @imodeljs/connectors
 /core/logger-config             @swwilson-bsi @scsewall
 /core/markup                    @kabentley @pmconne @bbastings
 /core/orbitgt                   @imodeljs/display

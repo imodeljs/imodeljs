@@ -823,6 +823,18 @@ describe("NineZoneStateReducer", () => {
       (!!newState.floatingWidgets.byId.fw1).should.false;
     });
 
+    it("should remove popout widget", () => {
+      let state = createNineZoneState();
+      state = addPopoutWidget(state, "pow1", ["t1"]);
+      state = addTab(state, "t1");
+      const newState = produce(state, (draft) => {
+        removeTab(draft, "t1");
+      });
+      (!!newState.popoutWidgets.byId.pow1).should.false;
+      // tab state should remain so preferred sizes are retained
+      should().exist(newState.tabs.t1);
+    });
+
     it("should keep active tab", () => {
       let state = createNineZoneState();
       state = addFloatingWidget(state, "fw1", ["t1", "t2"], undefined, { activeTabId: "t2" });

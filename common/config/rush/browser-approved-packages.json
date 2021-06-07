@@ -411,6 +411,10 @@
       "allowedCategories": [ "tools" ]
     },
     {
+      "name": "copy-webpack-plugin",
+      "allowedCategories": [ "tools" ]
+    },
+    {
       "name": "cpx",
       "allowedCategories": [ "backend", "common", "edit", "extensions", "frontend", "integration-testing", "internal", "tools" ]
     },
@@ -892,7 +896,7 @@
     },
     {
       "name": "request-promise",
-      "allowedCategories": [ "backend" ]
+      "allowedCategories": [ "backend", "internal" ]
     },
     {
       "name": "request-promise-native",

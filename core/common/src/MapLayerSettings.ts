@@ -109,9 +109,9 @@ export class MapSubLayerSettings {
  * @beta
  */
 export interface MapLayerProps {
-  /** Controls visibility of layer */
+  /** Controls visibility of layer. Defaults to 'true'. */
   visible?: boolean;
-  /** Identifies the map layers source. */
+  /** Identifies the map layers source. Defaults to 'WMS'. */
   formatId?: string;
   /** Name */
   name?: string;
@@ -119,13 +119,13 @@ export interface MapLayerProps {
   url?: string;
   /** Source layers. If undefined all layers are displayed. */
   subLayers?: MapSubLayerProps[];
-  /** A transparency value from 0.0 (fully opaque) to 1.0 (fully transparent) to apply to map graphics when drawing, or false to indicate the transparency should not be overridden. Default value: 0. */
+  /** A transparency value from 0.0 (fully opaque) to 1.0 (fully transparent) to apply to map graphics when drawing,
+   * or false to indicate the transparency should not be overridden. Default value: 0.
+   * If omitted, defaults to 0. */
   transparency?: number;
-  /** True to indicate background is tranparent */
+  /** True to indicate background is transparent.  Defaults to 'true'. */
   transparentBackground?: boolean;
-  /** Maximum zoom level */
-  maxZoom?: number;
-  /** Is a base layer */
+  /** Is a base layer.  Defaults to 'false'. */
   isBase?: boolean;
   /** Access Key for the Layer, like a subscription key or access token */
   accessKey?: MapLayerKey;
@@ -162,7 +162,6 @@ export class MapLayerSettings {
     this.password = password;
   }
 
-  // eslint-disable-next-line no-undef-init
   private constructor(url: string, name: string, formatId: string = "WMS", visible = true,
     jsonSubLayers: MapSubLayerProps[] | undefined = undefined, transparency: number = 0,
     transparentBackground = true, isBase = false, userName?: string, password?: string, accessKey?: MapLayerKey) {
@@ -219,6 +218,7 @@ export class MapLayerSettings {
       props.transparentBackground = this.transparentBackground;
     if (this.isBase === true)
       props.isBase = this.isBase;
+    props.visible = this.visible;
     return props;
   }
 

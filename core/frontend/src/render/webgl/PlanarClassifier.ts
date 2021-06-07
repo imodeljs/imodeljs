@@ -9,7 +9,9 @@
 
 import { dispose } from "@bentley/bentleyjs-core";
 import { Matrix4d, Plane3dByOriginAndUnitNormal, Point3d, Vector3d } from "@bentley/geometry-core";
-import { ColorDef, Frustum, FrustumPlanes, RenderMode, RenderTexture, SpatialClassificationProps, ViewFlags } from "@bentley/imodeljs-common";
+import {
+  ColorDef, Frustum, FrustumPlanes, RenderMode, RenderTexture, SpatialClassifier, SpatialClassifierInsideDisplay, SpatialClassifierOutsideDisplay, ViewFlags,
+} from "@bentley/imodeljs-common";
 import { PlanarClipMaskState } from "../../PlanarClipMaskState";
 import { GraphicsCollectorDrawArgs, SpatialClassifierTileTreeReference, TileTreeReference } from "../../tile/internal";
 import { SceneContext } from "../../ViewContext";
@@ -315,7 +317,7 @@ export class PlanarClassifier extends RenderPlanarClassifier implements RenderMe
   private _anyHilited = false;
   private _anyOpaque = false;
   private _anyTranslucent = false;
-  private _classifier?: SpatialClassificationProps.Classifier;
+  private _classifier?: SpatialClassifier;
   private readonly _plane = Plane3dByOriginAndUnitNormal.create(new Point3d(0, 0, 0), new Vector3d(0, 0, 1))!;    // TBD -- Support other planes - default to X-Y for now.
   private readonly _renderState = new RenderState();
   private readonly _renderCommands: RenderCommands;
@@ -337,7 +339,7 @@ export class PlanarClassifier extends RenderPlanarClassifier implements RenderMe
   private _isClassifyingPointCloud?: boolean; // we will detect this the first time we draw
   private readonly _bgColor = ColorDef.from(0, 0, 0, 255);
 
-  private constructor(classifier: SpatialClassificationProps.Classifier | undefined, target: Target) {
+  private constructor(classifier: SpatialClassifier | undefined, target: Target) {
     super();
     this._classifier = classifier;
 
@@ -357,20 +359,20 @@ export class PlanarClassifier extends RenderPlanarClassifier implements RenderMe
 
   public get hiliteTexture(): Texture | undefined { return undefined !== this._classifierBuffers ? this._classifierBuffers.textures.hilite : undefined; }
   public get projectionMatrix(): Matrix4d { return this._projectionMatrix; }
-  // public get properties(): SpatialClassificationProps.Classifier { return this._classifier; }
+  // public get properties(): SpatialClassifier { return this._classifier; }
   public get baseBatchId(): number { return this._baseBatchId; }
   public get anyHilited(): boolean { return this._anyHilited; }
   public get anyOpaque(): boolean { return this._anyOpaque; }
   public get anyTranslucent(): boolean { return this._anyTranslucent; }
-  public get insideDisplay(): SpatialClassificationProps.Display { return this._classifier ? this._classifier.flags.inside : SpatialClassificationProps.Display.Off; }
-  public get outsideDisplay(): SpatialClassificationProps.Display { return this._classifier ? this._classifier.flags.outside : SpatialClassificationProps.Display.On; }
+  public get insideDisplay(): SpatialClassifierInsideDisplay { return this._classifier ? this._classifier.flags.inside : SpatialClassifierInsideDisplay.Off; }
+  public get outsideDisplay(): SpatialClassifierOutsideDisplay { return this._classifier ? this._classifier.flags.outside : SpatialClassifierOutsideDisplay.On; }
   public get isClassifyingPointCloud(): boolean { return true === this._isClassifyingPointCloud; }
 
   public addGraphic(graphic: RenderGraphic) {
     this._graphics!.push(graphic);
   }
 
-  public static create(properties: SpatialClassificationProps.Classifier | undefined, target: Target): PlanarClassifier {
+  public static create(properties: SpatialClassifier | undefined, target: Target): PlanarClassifier {
     return new PlanarClassifier(properties, target);
   }
 

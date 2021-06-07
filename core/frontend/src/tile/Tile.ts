@@ -76,7 +76,9 @@ export abstract class Tile {
   protected _request?: TileRequest;
   /** @internal */
   protected _isLeaf: boolean;
-  /** @internal */
+  /** A volume no larger than this tile's `range`, and optionally more tightly encompassing its contents, used for more accurate culling.
+   * [[contentRange]] uses this range if defined; otherwise it uses [[range]].
+   */
   protected _contentRange?: ElementAlignedBox3d;
   /** The maximum size in pixels this tile can be drawn. If the size of the tile on screen exceeds this maximum, a higher-resolution tile should be drawn in its place. */
   protected _maximumSize: number;
@@ -242,7 +244,7 @@ export abstract class Tile {
   public get hasGraphics(): boolean { return undefined !== this._graphic; }
   /** True if this tile has a known volume tightly encompassing its graphics. */
   public get hasContentRange(): boolean { return undefined !== this._contentRange; }
-  /** A volume no larger than this tile's `range`, and optionally more tightly encompassing its contents. Used for more accurate culling. */
+  /** A volume no larger than this tile's `range`, and optionally more tightly encompassing its contents, used for more accurate culling. */
   public get contentRange(): ElementAlignedBox3d {
     if (undefined !== this._contentRange)
       return this._contentRange;

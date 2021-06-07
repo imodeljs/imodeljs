@@ -5,6 +5,7 @@
 ```ts
 
 import { BentleyError } from '@bentley/bentleyjs-core';
+import { CompressedId64Set } from '@bentley/bentleyjs-core';
 import { EntityProps } from '@bentley/imodeljs-common';
 import { FormatProps } from '@bentley/imodeljs-quantity';
 import { GetMetaDataFunction } from '@bentley/bentleyjs-core';
@@ -59,6 +60,22 @@ export interface BaseNodeKey {
 export interface BaseTypeDescription {
     typeName: string;
     valueFormat: PropertyValueFormat;
+}
+
+// @public
+export interface BooleanRulesetVariable extends RulesetVariableBase {
+    // (undocumented)
+    type: VariableValueTypes.Bool;
+    // (undocumented)
+    value: boolean;
+}
+
+// @public
+export interface BooleanRulesetVariableJSON extends RulesetVariableBaseJSON {
+    // (undocumented)
+    type: VariableValueTypes.Bool;
+    // (undocumented)
+    value: boolean;
 }
 
 // @public
@@ -215,18 +232,20 @@ export class Content {
 }
 
 // @public
-export interface ContentDescriptorRequestOptions<TIModel, TKeySet> extends RequestOptionsWithRuleset<TIModel> {
+export interface ContentDescriptorRequestOptions<TIModel, TKeySet, TRulesetVariable = RulesetVariable> extends RequestOptionsWithRuleset<TIModel, TRulesetVariable> {
     displayType: string;
     keys: TKeySet;
     selection?: SelectionInfo;
 }
 
 // @public
-export type ContentDescriptorRpcRequestOptions = PresentationRpcRequestOptions<ContentDescriptorRequestOptions<never, KeySetJSON>>;
+export type ContentDescriptorRpcRequestOptions = PresentationRpcRequestOptions<ContentDescriptorRequestOptions<never, KeySetJSON, RulesetVariableJSON>>;
 
 // @public
 export enum ContentFlags {
     DistinctValues = 16,
+    // @beta
+    IncludeInputKeys = 256,
     KeysOnly = 1,
     MergeResults = 8,
     NoFields = 32,
@@ -282,11 +301,11 @@ export interface ContentRelatedInstancesSpecificationNew extends ContentSpecific
 }
 
 // @public @deprecated
-export interface ContentRequestOptions<TIModel> extends RequestOptionsWithRuleset<TIModel> {
+export interface ContentRequestOptions<TIModel, TRulesetVariable = RulesetVariable> extends RequestOptionsWithRuleset<TIModel, TRulesetVariable> {
 }
 
 // @public @deprecated
-export type ContentRpcRequestOptions = PresentationRpcRequestOptions<ContentRequestOptions<never>>;
+export type ContentRpcRequestOptions = PresentationRpcRequestOptions<ContentRequestOptions<never, RulesetVariableJSON>>;
 
 // @public
 export interface ContentRule extends RuleBase, ConditionContainer {
@@ -653,14 +672,14 @@ export interface DisplayValuesMapJSON extends ValuesDictionary<DisplayValueJSON>
 }
 
 // @public
-export interface DistinctValuesRequestOptions<TIModel, TDescriptor, TKeySet> extends Paged<RequestOptionsWithRuleset<TIModel>> {
+export interface DistinctValuesRequestOptions<TIModel, TDescriptor, TKeySet, TRulesetVariable = RulesetVariable> extends Paged<RequestOptionsWithRuleset<TIModel, TRulesetVariable>> {
     descriptor: TDescriptor | DescriptorOverrides;
     fieldDescriptor: FieldDescriptor;
     keys: TKeySet;
 }
 
 // @public
-export type DistinctValuesRpcRequestOptions = PresentationRpcRequestOptions<DistinctValuesRequestOptions<never, DescriptorJSON, KeySetJSON>>;
+export type DistinctValuesRpcRequestOptions = PresentationRpcRequestOptions<DistinctValuesRequestOptions<never, DescriptorJSON, KeySetJSON, RulesetVariableJSON>>;
 
 // @public
 export interface ECClassGroupingNodeKey extends GroupingNodeKey {
@@ -742,13 +761,13 @@ export interface ExpandedNodeUpdateRecordJSON {
 }
 
 // @public
-export interface ExtendedContentRequestOptions<TIModel, TDescriptor, TKeySet> extends RequestOptionsWithRuleset<TIModel> {
+export interface ExtendedContentRequestOptions<TIModel, TDescriptor, TKeySet, TRulesetVariable = RulesetVariable> extends RequestOptionsWithRuleset<TIModel, TRulesetVariable> {
     descriptor: TDescriptor | DescriptorOverrides;
     keys: TKeySet;
 }
 
 // @public
-export type ExtendedContentRpcRequestOptions = PresentationRpcRequestOptions<ExtendedContentRequestOptions<never, DescriptorJSON, KeySetJSON>>;
+export type ExtendedContentRpcRequestOptions = PresentationRpcRequestOptions<ExtendedContentRequestOptions<never, DescriptorJSON, KeySetJSON, RulesetVariableJSON>>;
 
 // @public
 export interface ExtendedDataRule extends RuleBase, ConditionContainer {
@@ -760,12 +779,12 @@ export interface ExtendedDataRule extends RuleBase, ConditionContainer {
 }
 
 // @public
-export interface ExtendedHierarchyRequestOptions<TIModel, TNodeKey> extends RequestOptionsWithRuleset<TIModel> {
+export interface ExtendedHierarchyRequestOptions<TIModel, TNodeKey, TRulesetVariable = RulesetVariable> extends RequestOptionsWithRuleset<TIModel, TRulesetVariable> {
     parentKey?: TNodeKey;
 }
 
 // @public
-export type ExtendedHierarchyRpcRequestOptions = PresentationRpcRequestOptions<ExtendedHierarchyRequestOptions<never, NodeKeyJSON>>;
+export type ExtendedHierarchyRpcRequestOptions = PresentationRpcRequestOptions<ExtendedHierarchyRequestOptions<never, NodeKeyJSON, RulesetVariableJSON>>;
 
 // @public
 export class Field {
@@ -891,7 +910,7 @@ export interface HierarchyCompareInfoJSON {
 }
 
 // @public
-export interface HierarchyCompareOptions<TIModel, TNodeKey> extends RequestOptionsWithRuleset<TIModel> {
+export interface HierarchyCompareOptions<TIModel, TNodeKey, TRulesetVariable = RulesetVariable> extends RequestOptionsWithRuleset<TIModel, TRulesetVariable> {
     // (undocumented)
     continuationToken?: {
         prevHierarchyNode: string;
@@ -902,21 +921,21 @@ export interface HierarchyCompareOptions<TIModel, TNodeKey> extends RequestOptio
     // (undocumented)
     prev: {
         rulesetOrId?: Ruleset | string;
-        rulesetVariables?: RulesetVariable[];
+        rulesetVariables?: TRulesetVariable[];
     };
     // (undocumented)
     resultSetSize?: number;
 }
 
 // @public
-export type HierarchyCompareRpcOptions = PresentationRpcRequestOptions<HierarchyCompareOptions<never, NodeKeyJSON>>;
+export type HierarchyCompareRpcOptions = PresentationRpcRequestOptions<HierarchyCompareOptions<never, NodeKeyJSON, RulesetVariableJSON>>;
 
 // @public @deprecated
-export interface HierarchyRequestOptions<TIModel> extends RequestOptionsWithRuleset<TIModel> {
+export interface HierarchyRequestOptions<TIModel, TRulesetVariable = RulesetVariable> extends RequestOptionsWithRuleset<TIModel, TRulesetVariable> {
 }
 
 // @public @deprecated
-export type HierarchyRpcRequestOptions = PresentationRpcRequestOptions<HierarchyRequestOptions<never>>;
+export type HierarchyRpcRequestOptions = PresentationRpcRequestOptions<HierarchyRequestOptions<never, RulesetVariableJSON>>;
 
 // @alpha (undocumented)
 export type HierarchyUpdateInfo = typeof UPDATE_FULL | HierarchyUpdateRecord[];
@@ -954,6 +973,38 @@ export interface HierarchyUpdateRecordJSON {
     nodesCount: number;
     // (undocumented)
     parent?: NodeKeyJSON;
+}
+
+// @public
+export interface Id64RulesetVariable extends RulesetVariableBase {
+    // (undocumented)
+    type: VariableValueTypes.Id64;
+    // (undocumented)
+    value: Id64String;
+}
+
+// @public
+export interface Id64RulesetVariableJSON extends RulesetVariableBaseJSON {
+    // (undocumented)
+    type: VariableValueTypes.Id64;
+    // (undocumented)
+    value: Id64String;
+}
+
+// @public
+export interface Id64sRulesetVariable extends RulesetVariableBase {
+    // (undocumented)
+    type: VariableValueTypes.Id64Array;
+    // (undocumented)
+    value: Id64String[];
+}
+
+// @public
+export interface Id64sRulesetVariableJSON extends RulesetVariableBaseJSON {
+    // (undocumented)
+    type: VariableValueTypes.Id64Array;
+    // (undocumented)
+    value: Id64String[] | CompressedId64Set;
 }
 
 // @public
@@ -1092,8 +1143,40 @@ export interface InstanceNodesOfSpecificClassesSpecification extends ChildNodeSp
     specType: ChildNodeSpecificationTypes.InstanceNodesOfSpecificClasses;
 }
 
+// @public
+export interface IntRulesetVariable extends RulesetVariableBase {
+    // (undocumented)
+    type: VariableValueTypes.Int;
+    // (undocumented)
+    value: number;
+}
+
+// @public
+export interface IntRulesetVariableJSON extends RulesetVariableBaseJSON {
+    // (undocumented)
+    type: VariableValueTypes.Int;
+    // (undocumented)
+    value: number;
+}
+
+// @public
+export interface IntsRulesetVariable extends RulesetVariableBase {
+    // (undocumented)
+    type: VariableValueTypes.IntArray;
+    // (undocumented)
+    value: number[];
+}
+
+// @public
+export interface IntsRulesetVariableJSON extends RulesetVariableBaseJSON {
+    // (undocumented)
+    type: VariableValueTypes.IntArray;
+    // (undocumented)
+    value: number[];
+}
+
 // @internal (undocumented)
-export const isContentDescriptorRequestOptions: <TIModel, TKeySet>(opts: ContentRequestOptions<TIModel> | ContentDescriptorRequestOptions<TIModel, TKeySet>) => opts is ContentDescriptorRequestOptions<TIModel, TKeySet>;
+export const isContentDescriptorRequestOptions: <TIModel, TKeySet, TRulesetVariable>(opts: ContentRequestOptions<TIModel, RulesetVariable> | ContentDescriptorRequestOptions<TIModel, TKeySet, TRulesetVariable>) => opts is ContentDescriptorRequestOptions<TIModel, TKeySet, TRulesetVariable>;
 
 // @internal (undocumented)
 export const isDisplayLabelRequestOptions: <TIModel, TInstanceKey>(opts: LabelRequestOptions<TIModel> | DisplayLabelRequestOptions<TIModel, TInstanceKey>) => opts is DisplayLabelRequestOptions<TIModel, TInstanceKey>;
@@ -1102,10 +1185,10 @@ export const isDisplayLabelRequestOptions: <TIModel, TInstanceKey>(opts: LabelRe
 export const isDisplayLabelsRequestOptions: <TIModel, TInstanceKey>(opts: LabelRequestOptions<TIModel> | DisplayLabelsRequestOptions<TIModel, TInstanceKey>) => opts is DisplayLabelsRequestOptions<TIModel, TInstanceKey>;
 
 // @internal (undocumented)
-export const isExtendedContentRequestOptions: <TIModel, TDescriptor, TKeySet>(opts: ContentRequestOptions<TIModel> | ExtendedContentRequestOptions<TIModel, TDescriptor, TKeySet>) => opts is ExtendedContentRequestOptions<TIModel, TDescriptor, TKeySet>;
+export const isExtendedContentRequestOptions: <TIModel, TDescriptor, TKeySet, TRulesetVariable>(opts: ContentRequestOptions<TIModel, RulesetVariable> | ExtendedContentRequestOptions<TIModel, TDescriptor, TKeySet, TRulesetVariable>) => opts is ExtendedContentRequestOptions<TIModel, TDescriptor, TKeySet, TRulesetVariable>;
 
 // @internal (undocumented)
-export const isExtendedHierarchyRequestOptions: <TIModel, TNodeKey>(opts: HierarchyRequestOptions<TIModel> | ExtendedHierarchyRequestOptions<TIModel, TNodeKey>) => opts is ExtendedHierarchyRequestOptions<TIModel, TNodeKey>;
+export const isExtendedHierarchyRequestOptions: <TIModel, TNodeKey, TRulesetVariable>(opts: HierarchyRequestOptions<TIModel, RulesetVariable> | ExtendedHierarchyRequestOptions<TIModel, TNodeKey, TRulesetVariable>) => opts is ExtendedHierarchyRequestOptions<TIModel, TNodeKey, TRulesetVariable>;
 
 // @public
 export class Item {
@@ -1119,6 +1202,8 @@ export class Item {
     };
     static fromJSON(json: ItemJSON | string | undefined): Item | undefined;
     imageId: string;
+    // @beta
+    inputKeys?: InstanceKey[];
     isFieldMerged(fieldName: string): boolean;
     label: LabelDefinition;
     mergedFieldNames: string[];
@@ -1141,6 +1226,8 @@ export interface ItemJSON {
     };
     // (undocumented)
     imageId: string;
+    // @beta (undocumented)
+    inputKeys?: InstanceKeyJSON[];
     // (undocumented)
     labelDefinition: LabelDefinitionJSON;
     // (undocumented)
@@ -1665,7 +1752,7 @@ export const PRESENTATION_COMMON_ROOT: string;
 export const PRESENTATION_IPC_CHANNEL_NAME = "presentation-ipc-interface";
 
 // @public @deprecated
-export type PresentationDataCompareOptions<TIModel, TNodeKey> = HierarchyCompareOptions<TIModel, TNodeKey>;
+export type PresentationDataCompareOptions<TIModel, TNodeKey, TRulesetVariable = RulesetVariable> = HierarchyCompareOptions<TIModel, TNodeKey, TRulesetVariable>;
 
 // @public
 export class PresentationError extends BentleyError {
@@ -2190,9 +2277,9 @@ export interface RequestOptions<TIModel> {
 }
 
 // @public
-export interface RequestOptionsWithRuleset<TIModel> extends RequestOptions<TIModel> {
+export interface RequestOptionsWithRuleset<TIModel, TRulesetVariable = RulesetVariable> extends RequestOptions<TIModel> {
     rulesetOrId: Ruleset | string;
-    rulesetVariables?: RulesetVariable[];
+    rulesetVariables?: TRulesetVariable[];
 }
 
 // @public
@@ -2220,38 +2307,38 @@ export class RpcRequestsHandler implements IDisposable {
     constructor(props?: RpcRequestsHandlerProps);
     readonly clientId: string;
     // (undocumented)
-    compareHierarchies(options: HierarchyCompareOptions<IModelRpcProps, NodeKeyJSON>): Promise<PartialHierarchyModificationJSON[]>;
+    compareHierarchies(options: HierarchyCompareOptions<IModelRpcProps, NodeKeyJSON, RulesetVariableJSON>): Promise<PartialHierarchyModificationJSON[]>;
     // (undocumented)
-    compareHierarchiesPaged(options: HierarchyCompareOptions<IModelRpcProps, NodeKeyJSON>): Promise<HierarchyCompareInfoJSON>;
+    compareHierarchiesPaged(options: HierarchyCompareOptions<IModelRpcProps, NodeKeyJSON, RulesetVariableJSON>): Promise<HierarchyCompareInfoJSON>;
     // (undocumented)
     computeSelection(options: SelectionScopeRequestOptions<IModelRpcProps>, ids: Id64String[], scopeId: string): Promise<KeySetJSON>;
     // (undocumented)
     dispose(): void;
     // (undocumented)
-    getContentDescriptor(options: ContentDescriptorRequestOptions<IModelRpcProps, KeySetJSON>): Promise<DescriptorJSON | undefined>;
+    getContentDescriptor(options: ContentDescriptorRequestOptions<IModelRpcProps, KeySetJSON, RulesetVariableJSON>): Promise<DescriptorJSON | undefined>;
     // (undocumented)
-    getContentSetSize(options: ExtendedContentRequestOptions<IModelRpcProps, DescriptorJSON, KeySetJSON>): Promise<number>;
+    getContentSetSize(options: ExtendedContentRequestOptions<IModelRpcProps, DescriptorJSON, KeySetJSON, RulesetVariableJSON>): Promise<number>;
     // (undocumented)
     getDisplayLabelDefinition(options: DisplayLabelRequestOptions<IModelRpcProps, InstanceKeyJSON>): Promise<LabelDefinitionJSON>;
     // (undocumented)
-    getFilteredNodePaths(options: ExtendedHierarchyRequestOptions<IModelRpcProps, never>, filterText: string): Promise<NodePathElementJSON[]>;
+    getFilteredNodePaths(options: ExtendedHierarchyRequestOptions<IModelRpcProps, never, RulesetVariableJSON>, filterText: string): Promise<NodePathElementJSON[]>;
     // (undocumented)
-    getNodePaths(options: ExtendedHierarchyRequestOptions<IModelRpcProps, never>, paths: InstanceKeyJSON[][], markedIndex: number): Promise<NodePathElementJSON[]>;
+    getNodePaths(options: ExtendedHierarchyRequestOptions<IModelRpcProps, never, RulesetVariableJSON>, paths: InstanceKeyJSON[][], markedIndex: number): Promise<NodePathElementJSON[]>;
     // (undocumented)
-    getNodesCount(options: ExtendedHierarchyRequestOptions<IModelRpcProps, NodeKeyJSON>): Promise<number>;
+    getNodesCount(options: ExtendedHierarchyRequestOptions<IModelRpcProps, NodeKeyJSON, RulesetVariableJSON>): Promise<number>;
     // (undocumented)
-    getPagedContent(options: Paged<ExtendedContentRequestOptions<IModelRpcProps, DescriptorJSON, KeySetJSON>>): Promise<{
+    getPagedContent(options: Paged<ExtendedContentRequestOptions<IModelRpcProps, DescriptorJSON, KeySetJSON, RulesetVariableJSON>>): Promise<{
         descriptor: DescriptorJSON;
         contentSet: PagedResponse<ItemJSON>;
     } | undefined>;
     // (undocumented)
-    getPagedContentSet(options: Paged<ExtendedContentRequestOptions<IModelRpcProps, DescriptorJSON, KeySetJSON>>): Promise<PagedResponse<ItemJSON>>;
+    getPagedContentSet(options: Paged<ExtendedContentRequestOptions<IModelRpcProps, DescriptorJSON, KeySetJSON, RulesetVariableJSON>>): Promise<PagedResponse<ItemJSON>>;
     // (undocumented)
     getPagedDisplayLabelDefinitions(options: DisplayLabelsRequestOptions<IModelRpcProps, InstanceKeyJSON>): Promise<PagedResponse<LabelDefinitionJSON>>;
     // (undocumented)
-    getPagedDistinctValues(options: DistinctValuesRequestOptions<IModelRpcProps, DescriptorJSON, KeySetJSON>): Promise<PagedResponse<DisplayValueGroupJSON>>;
+    getPagedDistinctValues(options: DistinctValuesRequestOptions<IModelRpcProps, DescriptorJSON, KeySetJSON, RulesetVariableJSON>): Promise<PagedResponse<DisplayValueGroupJSON>>;
     // (undocumented)
-    getPagedNodes(options: Paged<ExtendedHierarchyRequestOptions<IModelRpcProps, NodeKeyJSON>>): Promise<PagedResponse<NodeJSON>>;
+    getPagedNodes(options: Paged<ExtendedHierarchyRequestOptions<IModelRpcProps, NodeKeyJSON, RulesetVariableJSON>>): Promise<PagedResponse<NodeJSON>>;
     // (undocumented)
     getSelectionScopes(options: SelectionScopeRequestOptions<IModelRpcProps>): Promise<SelectionScope[]>;
     request<TResult, TOptions extends RequestOptions<IModelRpcProps>, TArg = any>(func: (token: IModelRpcProps, options: PresentationRpcRequestOptions<TOptions>, ...args: TArg[]) => PresentationRpcResponse<TResult>, options: TOptions, ...additionalOptions: TArg[]): Promise<TResult>;
@@ -2284,6 +2371,8 @@ export interface Ruleset {
     // @deprecated
     supportedSchemas?: SchemasSpecification;
     vars?: VariablesGroup[];
+    // @beta
+    version?: string;
 }
 
 // @public
@@ -2295,7 +2384,16 @@ export class RulesetsFactory {
     }
 
 // @public
-export interface RulesetVariable {
+export type RulesetVariable = BooleanRulesetVariable | StringRulesetVariable | IntRulesetVariable | IntsRulesetVariable | Id64RulesetVariable | Id64sRulesetVariable;
+
+// @public (undocumented)
+export namespace RulesetVariable {
+    export function fromJSON(json: RulesetVariableJSON): RulesetVariable;
+    export function toJSON(variable: RulesetVariable): RulesetVariableJSON;
+}
+
+// @public
+export interface RulesetVariableBase {
     // (undocumented)
     id: string;
     // (undocumented)
@@ -2305,7 +2403,7 @@ export interface RulesetVariable {
 }
 
 // @public
-export interface RulesetVariableJSON {
+export interface RulesetVariableBaseJSON {
     // (undocumented)
     id: string;
     // (undocumented)
@@ -2313,6 +2411,9 @@ export interface RulesetVariableJSON {
     // (undocumented)
     value: VariableValueJSON;
 }
+
+// @public
+export type RulesetVariableJSON = BooleanRulesetVariableJSON | StringRulesetVariableJSON | IntRulesetVariableJSON | IntsRulesetVariableJSON | Id64RulesetVariableJSON | Id64sRulesetVariableJSON;
 
 // @public
 export enum RuleTypes {
@@ -2477,6 +2578,22 @@ export interface StringQuerySpecification extends QuerySpecificationBase {
 }
 
 // @public
+export interface StringRulesetVariable extends RulesetVariableBase {
+    // (undocumented)
+    type: VariableValueTypes.String;
+    // (undocumented)
+    value: string;
+}
+
+// @public
+export interface StringRulesetVariableJSON extends RulesetVariableBaseJSON {
+    // (undocumented)
+    type: VariableValueTypes.String;
+    // (undocumented)
+    value: string;
+}
+
+// @public
 export interface StrippedRelatedClassInfo {
     // (undocumented)
     isForwardRelationship: boolean;
@@ -2630,10 +2747,10 @@ export interface VariablesGroup {
 }
 
 // @public
-export type VariableValue = boolean | string | number | number[] | Id64String[];
+export type VariableValue = boolean | string | number | number[] | Id64String | Id64String[];
 
 // @public
-export type VariableValueJSON = boolean | string | string[] | number | number[];
+export type VariableValueJSON = boolean | string | number | number[] | Id64String | Id64String[] | CompressedId64Set;
 
 // @public
 export enum VariableValueType {

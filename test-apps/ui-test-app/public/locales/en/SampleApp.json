@@ -176,7 +176,8 @@
     "misc": "Miscellaneous",
     "accuDrawDialogVertical": "AccuDraw Dialog - Vertical",
     "accuDrawDialogHorizontal": "AccuDraw Dialog - Horizontal",
-    "bumpToolSettingToggle": "Bump Tool Setting Toggle"
+    "bumpToolSettingToggle": "Bump Tool Setting Toggle",
+    "sketch": "Sketch New Geometry"
   },
   "tools": {
     "ToolWithSettings": {

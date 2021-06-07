@@ -11,7 +11,7 @@
 /** Interface used to provide a custom Date Time formatter and optional parser
  * for use by `DatePickerPopup`. If a parseData function is not implemented
  * then string to date parsing will not be possible when a `DateFormatter` is used.
- * @beta
+ * @public
  */
 export interface DateFormatter {
   formateDate: (day: Date) => string;
@@ -19,7 +19,7 @@ export interface DateFormatter {
 }
 
 /** Alternate Data Formats that can be provide by javascript. Can be used by Date TypeConverter and TypeEditor.
- * @beta
+ * @public
  */
 export enum AlternateDateFormats {
   None = 0,
@@ -38,7 +38,7 @@ export enum AlternateDateFormats {
 }
 
 /** Enum that defines supported time formats.
- * @beta
+ * @public
  */
 export enum TimeDisplay {
   // 12 hour with minutes and cycle(AM/PM)
@@ -53,7 +53,7 @@ export enum TimeDisplay {
 
 /**
  * Enum for Property Editor Param Types
- * @beta
+ * @public
  */
 export enum PropertyEditorParamTypes {
   ButtonGroupData = "UiAbstract-ButtonGroupData",
@@ -74,7 +74,7 @@ export enum PropertyEditorParamTypes {
 
 /**
  * [[BasePropertyEditorParams]] Base interface for Property Editor Params
- * @beta
+ * @public
  */
 export interface BasePropertyEditorParams {
   type: string;
@@ -82,10 +82,10 @@ export interface BasePropertyEditorParams {
 
 /**
  * Parameters used by PropertyEditors that use HTML <input> element.
- * @beta
+ * @public
  */
 /** [[InputEditorSizeParams]] type guard.
- * @beta
+ * @public
  */
 export interface InputEditorSizeParams extends BasePropertyEditorParams {
   type: PropertyEditorParamTypes.InputEditorSize;
@@ -96,7 +96,7 @@ export interface InputEditorSizeParams extends BasePropertyEditorParams {
 }
 
 /** InputEditorSizeParams type guard.
- * @beta
+ * @public
  */
 export const isInputEditorSizeParams = (item: BasePropertyEditorParams): item is InputEditorSizeParams => {
   return item.type === PropertyEditorParamTypes.InputEditorSize;
@@ -105,7 +105,7 @@ export const isInputEditorSizeParams = (item: BasePropertyEditorParams): item is
 /**
  * [[ColorEditorParams]] Parameters used to populate color type editor with a specific set of colors. If not specified the Color
  * Editor will show a default palette of 16 colors.
- * @beta
+ * @public
  */
 export interface ColorEditorParams extends BasePropertyEditorParams {
   type: PropertyEditorParamTypes.ColorData;
@@ -116,7 +116,7 @@ export interface ColorEditorParams extends BasePropertyEditorParams {
 }
 
 /** ColorEditorParams type guard.
- * @beta
+ * @public
  */
 export const isColorEditorParams = (item: BasePropertyEditorParams): item is ColorEditorParams => {
   return item.type === PropertyEditorParamTypes.ColorData;
@@ -124,7 +124,7 @@ export const isColorEditorParams = (item: BasePropertyEditorParams): item is Col
 
 /**
  * [[IconListEditorParams]] Parameters used to populate icon type editor with a specific set of icons.
- * @beta
+ * @public
  */
 export interface IconListEditorParams extends BasePropertyEditorParams {
   type: PropertyEditorParamTypes.IconListData;
@@ -137,7 +137,7 @@ export interface IconListEditorParams extends BasePropertyEditorParams {
 }
 
 /** IconListEditorParams type guard.
- * @beta
+ * @public
  */
 export const isIconListEditorParams = (item: BasePropertyEditorParams): item is IconListEditorParams => {
   return item.type === PropertyEditorParamTypes.IconListData;
@@ -145,7 +145,7 @@ export const isIconListEditorParams = (item: BasePropertyEditorParams): item is 
 
 /**
  * [[IconDefinition]] Information about an icon displayed next to a property editor.
- * @beta
+ * @public
  */
 export interface IconDefinition {
   /** Icon specification. The value is the name of an icon WebFont entry, or if specifying an SVG symbol, use `svg:` prefix. */
@@ -156,7 +156,7 @@ export interface IconDefinition {
 
 /**
  * [[ButtonGroupEditorParams]] Parameters used by EnumButtonGroupEditor to define icons in button group.
- * @beta
+ * @public
  */
 export interface ButtonGroupEditorParams extends BasePropertyEditorParams {
   type: PropertyEditorParamTypes.ButtonGroupData;
@@ -164,7 +164,7 @@ export interface ButtonGroupEditorParams extends BasePropertyEditorParams {
 }
 
 /** ButtonGroupEditorParams type guard.
- * @beta
+ * @public
  */
 export const isButtonGroupEditorParams = (item: BasePropertyEditorParams): item is ButtonGroupEditorParams => {
   return item.type === PropertyEditorParamTypes.ButtonGroupData;
@@ -172,7 +172,7 @@ export const isButtonGroupEditorParams = (item: BasePropertyEditorParams): item 
 
 /**
  * [[SuppressLabelEditorParams]] Parameters used to suppress the label for a type editor in the ToolSettings widget.
- * @beta
+ * @public
  */
 export interface SuppressLabelEditorParams extends BasePropertyEditorParams {
   type: PropertyEditorParamTypes.SuppressEditorLabel;
@@ -181,7 +181,7 @@ export interface SuppressLabelEditorParams extends BasePropertyEditorParams {
 }
 
 /** SuppressLabelEditorParams type guard.
- * @beta
+ * @public
  */
 export const isSuppressLabelEditorParams = (item: BasePropertyEditorParams): item is SuppressLabelEditorParams => {
   return item.type === PropertyEditorParamTypes.SuppressEditorLabel;
@@ -198,7 +198,7 @@ export const isSuppressLabelEditorParams = (item: BasePropertyEditorParams): ite
 
 /**
  * Parameters used by PropertyEditors that support defining a minimum and maximum value.
- * @beta
+ * @public
  */
 export interface RangeEditorParams extends BasePropertyEditorParams {
   type: PropertyEditorParamTypes.Range;
@@ -215,7 +215,7 @@ export interface RangeEditorParams extends BasePropertyEditorParams {
 /**
  * Parameters used to indicate that a Slider should be presented for the property
  * and to specify the values needed by the slider.
- * @beta
+ * @public
  */
 export interface SliderEditorParams extends BasePropertyEditorParams {
   type: PropertyEditorParamTypes.Slider;
@@ -272,7 +272,7 @@ export interface SliderEditorParams extends BasePropertyEditorParams {
 /**
  * Parameter that is used to indicate that a multiline text editor should be created.
  * The number of rows specified will determine the height of the editor control.
- * @beta
+ * @public
  */
 export interface MultilineTextEditorParams extends BasePropertyEditorParams {
   type: PropertyEditorParamTypes.MultilineText;
@@ -281,7 +281,7 @@ export interface MultilineTextEditorParams extends BasePropertyEditorParams {
 
 /**
  * Parameters used to display an icon next to property editor.
- * @beta
+ * @public
  */
 export interface IconEditorParams extends BasePropertyEditorParams {
   type: PropertyEditorParamTypes.Icon;
@@ -290,7 +290,7 @@ export interface IconEditorParams extends BasePropertyEditorParams {
 
 /**
  * Parameters for ImageCheckBoxEditor
- * @beta
+ * @public
  */
 export interface ImageCheckBoxParams extends BasePropertyEditorParams {
   type: PropertyEditorParamTypes.CheckBoxImages;
@@ -309,7 +309,7 @@ export interface ImageCheckBoxParams extends BasePropertyEditorParams {
 
 /**
  * defines Results of parsing a string input by a user into its desired value type
- * @beta
+ * @public
  */
 export interface ParseResults {
   value?: string | number | boolean | {} | string[] | Date | [] | undefined;
@@ -318,7 +318,7 @@ export interface ParseResults {
 
 /**
  * Parameters used with properties that want to control parsing and formatting.
- * @beta
+ * @public
  */
 export interface CustomFormattedNumberParams extends BasePropertyEditorParams {
   type: PropertyEditorParamTypes.CustomFormattedNumber;
@@ -327,7 +327,7 @@ export interface CustomFormattedNumberParams extends BasePropertyEditorParams {
 }
 
 /** CustomFormattedNumberParams type guard.
- * @beta
+ * @public
  */
 export const isCustomFormattedNumberParams = (item: BasePropertyEditorParams): item is CustomFormattedNumberParams => {
   return item.type === PropertyEditorParamTypes.CustomFormattedNumber;
@@ -335,6 +335,6 @@ export const isCustomFormattedNumberParams = (item: BasePropertyEditorParams): i
 
 /**
  * Type definition for Property Editor params
- * @beta
+ * @public
  */
 export type PropertyEditorParams = BasePropertyEditorParams;

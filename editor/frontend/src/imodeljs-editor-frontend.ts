@@ -11,3 +11,5 @@ export * from "./EditTool";
 export * from "./SketchTools";
 export * from "./TransformElementsTool";
 export * from "./UndoRedoTool";
+export * from "./ProjectLocation/ProjectExtentsDecoration";
+export * from "./ProjectLocation/ProjectGeolocation";

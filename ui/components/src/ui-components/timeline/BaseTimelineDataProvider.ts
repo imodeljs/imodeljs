@@ -7,7 +7,7 @@
  */
 
 import { ScreenViewport } from "@bentley/imodeljs-frontend";
-import { Milestone, PlaybackSettings, TimelineDataProvider } from "./interfaces";
+import { PlaybackSettings, TimelineDataProvider } from "./interfaces";
 
 /** Base Timeline Data Provider
  * @alpha
@@ -20,7 +20,6 @@ export class BaseTimelineDataProvider implements TimelineDataProvider {
 
   public supportsTimelineAnimation = false; // set to true when provider determines animation data is available.
   public animationFraction: number = 0; // value from 0.0 to 1.0 that specifies the percentage complete for the animation.
-  protected _milestones: Milestone[] = [];
   protected _viewport: ScreenViewport | undefined;
 
   constructor(viewport?: ScreenViewport) {
@@ -66,53 +65,6 @@ export class BaseTimelineDataProvider implements TimelineDataProvider {
 
   public get loop(): boolean {
     return (undefined === this.getSettings().loop) ? /* istanbul ignore next */ false : this.getSettings().loop!;
-  }
-
-  public getMilestonesCount(parent?: Milestone): number {
-    if (undefined === parent)
-      return this._milestones.length;
-
-    if (undefined === parent.children)
-      return 0;
-
-    return parent.children.length;
-  }
-
-  private findMilestone(milestoneId: string, milestones: Milestone[]): Milestone | undefined {
-    if (milestones.length <= 0)
-      return undefined;
-
-    let milestone = milestones.find((value) => value.id.toLowerCase() === milestoneId);
-    if (milestone)
-      return milestone;
-
-    // eslint-disable-next-line @typescript-eslint/prefer-for-of
-    for (let i = 0; i < milestones.length; i++) {
-      if (milestones[i].children) {
-        milestone = this.findMilestone(milestoneId, milestones[i].children!);
-        if (milestone)
-          return milestone;
-      }
-    }
-    return undefined;
-  }
-
-  public findMilestoneById(milestoneId: string, milestones?: Milestone[]): Milestone | undefined {
-    if (undefined === milestones)
-      milestones = this._milestones;
-
-    return this.findMilestone(milestoneId.toLowerCase(), milestones);
-  }
-
-  public getMilestones(parent?: Milestone): Milestone[] {
-    if (undefined === parent) {
-      return this._milestones;
-    }
-
-    if (parent && parent.children)
-      return parent.children;
-
-    return [];
   }
 
   public getSettings(): PlaybackSettings {

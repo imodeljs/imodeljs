@@ -3,9 +3,9 @@
 * See LICENSE.md in the project root for license terms and full copyright notice.
 *--------------------------------------------------------------------------------------------*/
 import { assert, expect } from "chai";
-import { ColorDef, Feature, FeatureAppearance, FeatureAppearanceProps, LinePixels, RgbColor } from "@bentley/imodeljs-common";
+import { ColorDef, Feature, FeatureAppearance, FeatureAppearanceProps, FeatureOverrideType, LinePixels, RgbColor } from "@bentley/imodeljs-common";
 import {
-  EmphasizeElements, FeatureOverrideType, FeatureSymbology, IModelConnection, MockRender, ScreenViewport, SnapshotConnection, SpatialViewState,
+  EmphasizeElements, FeatureSymbology, IModelConnection, MockRender, ScreenViewport, SnapshotConnection, SpatialViewState,
   StandardViewId,
 } from "@bentley/imodeljs-frontend";
 

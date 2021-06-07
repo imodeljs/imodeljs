@@ -70,12 +70,12 @@ export interface RequestOptions<TIModel> {
  *
  * @public
  */
-export interface RequestOptionsWithRuleset<TIModel> extends RequestOptions<TIModel> {
+export interface RequestOptionsWithRuleset<TIModel, TRulesetVariable = RulesetVariable> extends RequestOptions<TIModel> {
   /** Ruleset or id of the ruleset to use when requesting data */
   rulesetOrId: Ruleset | string;
 
   /** Ruleset variables to use when requesting data */
-  rulesetVariables?: RulesetVariable[];
+  rulesetVariables?: TRulesetVariable[];
 }
 
 /**
@@ -83,21 +83,21 @@ export interface RequestOptionsWithRuleset<TIModel> extends RequestOptions<TIMod
  * @public
  * @deprecated Use [[ExtendedHierarchyRequestOptions]]
  */
-export interface HierarchyRequestOptions<TIModel> extends RequestOptionsWithRuleset<TIModel> { // eslint-disable-line @typescript-eslint/no-empty-interface
+export interface HierarchyRequestOptions<TIModel, TRulesetVariable = RulesetVariable> extends RequestOptionsWithRuleset<TIModel, TRulesetVariable> { // eslint-disable-line @typescript-eslint/no-empty-interface
 }
 
 /**
  * Request type for hierarchy requests
  * @public
  */
-export interface ExtendedHierarchyRequestOptions<TIModel, TNodeKey> extends RequestOptionsWithRuleset<TIModel> {
+export interface ExtendedHierarchyRequestOptions<TIModel, TNodeKey, TRulesetVariable = RulesetVariable> extends RequestOptionsWithRuleset<TIModel, TRulesetVariable> {
   /** Key of the parent node to get children for */
   parentKey?: TNodeKey;
 }
 /** @internal */
 // eslint-disable-next-line deprecation/deprecation
-export const isExtendedHierarchyRequestOptions = <TIModel, TNodeKey>(opts: HierarchyRequestOptions<TIModel> | ExtendedHierarchyRequestOptions<TIModel, TNodeKey>): opts is ExtendedHierarchyRequestOptions<TIModel, TNodeKey> => {
-  return !!(opts as ExtendedHierarchyRequestOptions<TIModel, TNodeKey>).parentKey;
+export const isExtendedHierarchyRequestOptions = <TIModel, TNodeKey, TRulesetVariable>(opts: HierarchyRequestOptions<TIModel> | ExtendedHierarchyRequestOptions<TIModel, TNodeKey, TRulesetVariable>): opts is ExtendedHierarchyRequestOptions<TIModel, TNodeKey, TRulesetVariable> => {
+  return !!(opts as ExtendedHierarchyRequestOptions<TIModel, TNodeKey, TRulesetVariable>).parentKey;
 };
 
 /**
@@ -105,14 +105,14 @@ export const isExtendedHierarchyRequestOptions = <TIModel, TNodeKey>(opts: Hiera
  * @public
  * @deprecated Use [[ContentDescriptorRequestOptions]] or [[ExtendedContentRequestOptions]]
  */
-export interface ContentRequestOptions<TIModel> extends RequestOptionsWithRuleset<TIModel> { // eslint-disable-line @typescript-eslint/no-empty-interface
+export interface ContentRequestOptions<TIModel, TRulesetVariable = RulesetVariable> extends RequestOptionsWithRuleset<TIModel, TRulesetVariable> { // eslint-disable-line @typescript-eslint/no-empty-interface
 }
 
 /**
  * Request type for content descriptor requests
  * @public
  */
-export interface ContentDescriptorRequestOptions<TIModel, TKeySet> extends RequestOptionsWithRuleset<TIModel> {
+export interface ContentDescriptorRequestOptions<TIModel, TKeySet, TRulesetVariable = RulesetVariable> extends RequestOptionsWithRuleset<TIModel, TRulesetVariable> {
   /**
    * Content display type.
    * @see [[DefaultContentDisplayTypes]]
@@ -125,15 +125,15 @@ export interface ContentDescriptorRequestOptions<TIModel, TKeySet> extends Reque
 }
 /** @internal */
 // eslint-disable-next-line deprecation/deprecation
-export const isContentDescriptorRequestOptions = <TIModel, TKeySet>(opts: ContentRequestOptions<TIModel> | ContentDescriptorRequestOptions<TIModel, TKeySet>): opts is ContentDescriptorRequestOptions<TIModel, TKeySet> => {
-  return !!(opts as ContentDescriptorRequestOptions<TIModel, TKeySet>).keys;
+export const isContentDescriptorRequestOptions = <TIModel, TKeySet, TRulesetVariable>(opts: ContentRequestOptions<TIModel> | ContentDescriptorRequestOptions<TIModel, TKeySet, TRulesetVariable>): opts is ContentDescriptorRequestOptions<TIModel, TKeySet, TRulesetVariable> => {
+  return !!(opts as ContentDescriptorRequestOptions<TIModel, TKeySet, TRulesetVariable>).keys;
 };
 
 /**
  * Request type for content requests
  * @public
  */
-export interface ExtendedContentRequestOptions<TIModel, TDescriptor, TKeySet> extends RequestOptionsWithRuleset<TIModel> {
+export interface ExtendedContentRequestOptions<TIModel, TDescriptor, TKeySet, TRulesetVariable = RulesetVariable> extends RequestOptionsWithRuleset<TIModel, TRulesetVariable> {
   /** Content descriptor or overrides for customizing the returned content */
   descriptor: TDescriptor | DescriptorOverrides;
   /** Input keys for getting the content */
@@ -141,16 +141,16 @@ export interface ExtendedContentRequestOptions<TIModel, TDescriptor, TKeySet> ex
 }
 /** @internal */
 // eslint-disable-next-line deprecation/deprecation
-export const isExtendedContentRequestOptions = <TIModel, TDescriptor, TKeySet>(opts: ContentRequestOptions<TIModel> | ExtendedContentRequestOptions<TIModel, TDescriptor, TKeySet>): opts is ExtendedContentRequestOptions<TIModel, TDescriptor, TKeySet> => {
-  return !!(opts as ExtendedContentRequestOptions<TIModel, TDescriptor, TKeySet>).descriptor
-    && !!(opts as ExtendedContentRequestOptions<TIModel, TDescriptor, TKeySet>).keys;
+export const isExtendedContentRequestOptions = <TIModel, TDescriptor, TKeySet, TRulesetVariable>(opts: ContentRequestOptions<TIModel> | ExtendedContentRequestOptions<TIModel, TDescriptor, TKeySet, TRulesetVariable>): opts is ExtendedContentRequestOptions<TIModel, TDescriptor, TKeySet, TRulesetVariable> => {
+  return !!(opts as ExtendedContentRequestOptions<TIModel, TDescriptor, TKeySet, TRulesetVariable>).descriptor
+    && !!(opts as ExtendedContentRequestOptions<TIModel, TDescriptor, TKeySet, TRulesetVariable>).keys;
 };
 
 /**
  * Request type for distinct values' requests
  * @public
  */
-export interface DistinctValuesRequestOptions<TIModel, TDescriptor, TKeySet> extends Paged<RequestOptionsWithRuleset<TIModel>> {
+export interface DistinctValuesRequestOptions<TIModel, TDescriptor, TKeySet, TRulesetVariable = RulesetVariable> extends Paged<RequestOptionsWithRuleset<TIModel, TRulesetVariable>> {
   /** Content descriptor for content we're requesting distinct values for or overrides for customizing the returned content */
   descriptor: TDescriptor | DescriptorOverrides;
   /** Input keys for getting the content */
@@ -205,16 +205,16 @@ export interface SelectionScopeRequestOptions<TIModel> extends RequestOptions<TI
  * @public
  * @deprecated Use [[HierarchyCompareOptions]]
  */
-export type PresentationDataCompareOptions<TIModel, TNodeKey> = HierarchyCompareOptions<TIModel, TNodeKey>;
+export type PresentationDataCompareOptions<TIModel, TNodeKey, TRulesetVariable = RulesetVariable> = HierarchyCompareOptions<TIModel, TNodeKey, TRulesetVariable>;
 
 /**
  * Data structure for comparing a hierarchy after ruleset or ruleset variable changes.
  * @public
  */
-export interface HierarchyCompareOptions<TIModel, TNodeKey> extends RequestOptionsWithRuleset<TIModel> {
+export interface HierarchyCompareOptions<TIModel, TNodeKey, TRulesetVariable = RulesetVariable> extends RequestOptionsWithRuleset<TIModel, TRulesetVariable> {
   prev: {
     rulesetOrId?: Ruleset | string;
-    rulesetVariables?: RulesetVariable[];
+    rulesetVariables?: TRulesetVariable[];
   };
   expandedNodeKeys?: TNodeKey[];
   continuationToken?: {

@@ -2,13 +2,18 @@
 * Copyright (c) Bentley Systems, Incorporated. All rights reserved.
 * See LICENSE.md in the project root for license terms and full copyright notice.
 *--------------------------------------------------------------------------------------------*/
+
 import { DbResult, GuidString, OpenMode } from "@bentley/bentleyjs-core";
 import { IModelError, IModelVersion } from "@bentley/imodeljs-common";
 import { TestUsers, TestUtility } from "@bentley/oidc-signin-tool";
 import { assert } from "chai";
+import { AuthorizedBackendRequestContext } from "../../BackendRequestContext";
+import { BriefcaseManager } from "../../BriefcaseManager";
+import { ChangedElementsDb, ProcessChangesetOptions } from "../../ChangedElementsDb";
 import { ChangedElementsManager } from "../../ChangedElementsManager";
 import { SnapshotDb } from "../../IModelDb";
-import { AuthorizedBackendRequestContext, BriefcaseManager, ChangedElementsDb, IModelHost, IModelJsFs, ProcessChangesetOptions } from "../../imodeljs-backend";
+import { IModelHost } from "../../IModelHost";
+import { IModelJsFs } from "../../IModelJsFs";
 import { IModelTestUtils } from "../IModelTestUtils";
 import { HubUtility } from "./HubUtility";
 
@@ -19,15 +24,9 @@ describe("ChangedElements (#integration)", () => {
 
   before(async () => {
     requestContext = await TestUtility.getAuthorizedClientRequestContext(TestUsers.regular);
-
     testContextId = await HubUtility.getTestContextId(requestContext);
-    requestContext.enter();
     testIModelId = await HubUtility.getTestIModelId(requestContext, HubUtility.testIModelNames.readOnly);
-    requestContext.enter();
 
-    // Purge briefcases that are close to reaching the acquire limit
-    await HubUtility.purgeAcquiredBriefcasesById(requestContext, testIModelId);
-    requestContext.enter();
   });
 
   it("Create ChangedElements Cache and process changesets", async () => {
@@ -36,7 +35,7 @@ describe("ChangedElements (#integration)", () => {
       IModelJsFs.removeSync(cacheFilePath);
 
     const iModel = await IModelTestUtils.downloadAndOpenCheckpoint({ requestContext, contextId: testContextId, iModelId: testIModelId, asOf: IModelVersion.first().toJSON() });
-    const changeSets = await IModelHost.iModelClient.changeSets.get(requestContext, testIModelId);
+    const changeSets = await IModelHost.hubAccess.queryChangesets({ requestContext, iModelId: testIModelId });
     assert.exists(iModel);
 
     const filePath = ChangedElementsManager.getChangedElementsPathName(iModel.iModelId);
@@ -45,8 +44,8 @@ describe("ChangedElements (#integration)", () => {
 
     let cache = ChangedElementsDb.createDb(iModel, filePath);
     assert.isDefined(cache);
-    const startChangesetId = changeSets[0].id!;
-    const endChangesetId = changeSets[changeSets.length - 1].id!;
+    const startChangesetId = changeSets[0].id;
+    const endChangesetId = changeSets[changeSets.length - 1].id;
     // Check that the changesets have not been processed yet
     assert.isFalse(cache.isProcessed(startChangesetId));
     assert.isFalse(cache.isProcessed(endChangesetId));
@@ -171,7 +170,7 @@ describe("ChangedElements (#integration)", () => {
       IModelJsFs.removeSync(cacheFilePath);
 
     const iModel = await IModelTestUtils.downloadAndOpenCheckpoint({ requestContext, contextId: testContextId, iModelId: testIModelId, asOf: IModelVersion.first().toJSON() });
-    const changeSets = await IModelHost.iModelClient.changeSets.get(requestContext, testIModelId);
+    const changeSets = await IModelHost.hubAccess.queryChangesets({ requestContext, iModelId: testIModelId });
     assert.exists(iModel);
 
     const filePath = ChangedElementsManager.getChangedElementsPathName(iModel.iModelId);
@@ -181,7 +180,7 @@ describe("ChangedElements (#integration)", () => {
     const cache = ChangedElementsDb.createDb(iModel, filePath);
     assert.isDefined(cache);
     // Process single
-    const changesetId = changeSets[0].id!;
+    const changesetId = changeSets[0].id;
     // Check that the changesets have not been processed yet
     assert.isFalse(cache.isProcessed(changesetId));
 

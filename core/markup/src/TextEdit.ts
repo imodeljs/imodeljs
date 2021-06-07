@@ -18,7 +18,7 @@ import { RedlineTool } from "./RedlineTool";
 // cspell:ignore rbox
 
 /** Tool to place new text notes on a Markup.
- * @beta
+ * @public
  */
 export class PlaceTextTool extends RedlineTool {
   public static toolId = "Markup.Text.Place";
@@ -53,7 +53,7 @@ export class PlaceTextTool extends RedlineTool {
 }
 
 /** Tool for editing text. Started automatically by the place text tool and by clicking on text from the SelectTool
- * @beta
+ * @public
  */
 export class EditTextTool extends MarkupTool {
   public static toolId = "Markup.Text.Edit";

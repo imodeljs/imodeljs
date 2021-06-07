@@ -12,7 +12,7 @@ import { MarkupApp } from "./Markup";
 
 // cspell:ignore lmultiply matrixify dmove
 
-/** @beta */
+/** @public */
 export interface MarkupColor {
   fill: any;
   stroke: any;

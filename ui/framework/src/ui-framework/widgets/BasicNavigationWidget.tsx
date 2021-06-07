@@ -1,6 +1,6 @@
 /*---------------------------------------------------------------------------------------------
 * Copyright (c) Bentley Systems, Incorporated. All rights reserved.
-* Licensed under the MIT License. See LICENSE.md in the project root for license terms.
+* See LICENSE.md in the project root for license terms and full copyright notice.
 *--------------------------------------------------------------------------------------------*/
 /** @packageDocumentation
  * @module Widget
@@ -16,7 +16,7 @@ import { useUiVisibility } from "./BasicToolWidget";
 import { NavigationWidgetComposer } from "./NavigationWidgetComposer";
 
 /** Properties that can be used to append items to the default set of toolbar items of [[DefaultNavigationWidget]].
- * @beta
+ * @public
  */
 export interface BasicNavigationWidgetProps {
   /** optional set of additional items to include in horizontal toolbar */
@@ -27,7 +27,7 @@ export interface BasicNavigationWidgetProps {
 
 /** Basic Navigation Widget that provides standard tools to manipulate views containing element data.
  * Supports the specification of additional horizontal and vertical toolbar items through props.
- * @beta
+ * @public
  */
 export function BasicNavigationWidget(props: BasicNavigationWidgetProps) {
 

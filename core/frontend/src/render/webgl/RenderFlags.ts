@@ -197,9 +197,3 @@ export const enum OvrFlags {
 
 /** @internal */
 export const enum IsTranslucent { No, Yes, Maybe }
-
-/** @internal */
-export const enum FlashMode {
-  MixHiliteColor,
-  Brighten,
-}

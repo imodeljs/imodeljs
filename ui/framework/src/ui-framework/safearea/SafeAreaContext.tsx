@@ -12,7 +12,7 @@ import { SafeAreaInsets } from "@bentley/ui-ninezone";
 
 /**
  * Context used to manage safe area (feature used by devices with non-rectangular screens).
- * @alpha
+ * @public
  */
 // eslint-disable-next-line @typescript-eslint/naming-convention
 export const SafeAreaContext = React.createContext<SafeAreaInsets>(SafeAreaInsets.None);
@@ -22,7 +22,7 @@ interface InjectedWithSafeAreaProps {
 }
 
 /** HOC that injects SafeAreaInsets.
- * @alpha
+ * @public
  */
 export const withSafeArea = <P extends InjectedWithSafeAreaProps, C>(
   // eslint-disable-next-line @typescript-eslint/naming-convention

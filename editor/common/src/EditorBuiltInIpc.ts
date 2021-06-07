@@ -7,8 +7,8 @@
  */
 
 import { CompressedId64Set, Id64String, IModelStatus } from "@bentley/bentleyjs-core";
-import { Matrix3dProps, TransformProps } from "@bentley/geometry-core";
-import { ElementGeometryDataEntry, ElementGeometryInfo, ElementGeometryOpcode, GeometricElementProps, GeometryPartProps } from "@bentley/imodeljs-common";
+import { Matrix3dProps, Range3dProps, TransformProps } from "@bentley/geometry-core";
+import { EcefLocationProps, ElementGeometryDataEntry, ElementGeometryInfo, ElementGeometryOpcode, GeometricElementProps, GeometryPartProps } from "@bentley/imodeljs-common";
 import { EditCommandIpc } from "./EditorIpc";
 
 /** @alpha */
@@ -89,4 +89,17 @@ export interface BasicManipulationCommandIpc extends EditCommandIpc {
    * @throws [[IModelError]] if unable to query the element
    */
   requestElementGeometry(id: Id64String, filter?: FlatBufferGeometryFilter): Promise<ElementGeometryInfo | undefined>;
+
+  /** Update the project extents for the iModel.
+   * @param extents New project extents.
+   * @throws [[IModelError]] if unable to update the extents property.
+   */
+  updateProjectExtents: (extents: Range3dProps) => Promise<void>;
+
+  /** Update the position of the iModel on the earth.
+   * @param ecefLocation New ecef location properties.
+   * @throws [[IModelError]] if unable to update the ecef location property.
+   * @note Clears the geographic coordinate reference system of the iModel, should only be called if invalid.
+   */
+  updateEcefLocation: (ecefLocation: EcefLocationProps) => Promise<void>;
 }

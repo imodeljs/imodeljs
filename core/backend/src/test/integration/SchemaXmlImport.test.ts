@@ -2,13 +2,14 @@
 * Copyright (c) Bentley Systems, Incorporated. All rights reserved.
 * See LICENSE.md in the project root for license terms and full copyright notice.
 *--------------------------------------------------------------------------------------------*/
-import { GuidString } from "@bentley/bentleyjs-core";
-import { TestUsers, TestUtility } from "@bentley/oidc-signin-tool";
+
 import { assert } from "chai";
 import * as fs from "fs";
 import * as path from "path";
+import { GuidString } from "@bentley/bentleyjs-core";
 import { AuthorizedBackendRequestContext, IModelHost, PhysicalElement } from "../../imodeljs-backend";
-import { IModelTestUtils } from "../IModelTestUtils";
+import { HubMock } from "../HubMock";
+import { IModelTestUtils, TestUserType } from "../IModelTestUtils";
 import { KnownTestLocations } from "../KnownTestLocations";
 import { HubUtility } from "./HubUtility";
 
@@ -26,17 +27,19 @@ describe("Schema XML Import Tests (#integration)", () => {
   let readWriteTestIModelId: GuidString;
 
   before(async () => {
-    requestContext = await TestUtility.getAuthorizedClientRequestContext(TestUsers.manager);
+    HubMock.startup("schemaImport");
+    requestContext = await IModelTestUtils.getUserContext(TestUserType.Manager);
     testContextId = await HubUtility.getTestContextId(requestContext);
-    requestContext.enter();
     readWriteTestIModelId = await HubUtility.recreateIModel(requestContext, testContextId, HubUtility.generateUniqueName("ReadWriteTest"));
-    requestContext.enter();
   });
 
   after(async () => {
     try {
-      await IModelHost.iModelClient.iModels.delete(requestContext, testContextId, readWriteTestIModelId);
+      await IModelHost.hubAccess.deleteIModel({ requestContext, contextId: testContextId, iModelId: readWriteTestIModelId });
+      HubMock.shutdown();
     } catch (err) {
+      // eslint-disable-next-line no-console
+      console.log(err);
     }
   });
 
@@ -45,14 +48,13 @@ describe("Schema XML Import Tests (#integration)", () => {
     const schemaString = fs.readFileSync(schemaFilePath, "utf8");
 
     const iModel = await IModelTestUtils.downloadAndOpenBriefcase({ requestContext, contextId: testContextId, iModelId: readWriteTestIModelId });
-    requestContext.enter();
     await iModel.importSchemaStrings(requestContext, [schemaString]); // will throw an exception if import fails
-    requestContext.enter();
 
     const testDomainClass = iModel.getMetaData("Test3:Test3Element"); // will throw on failure
 
     assert.equal(testDomainClass.baseClasses.length, 1);
     assert.equal(testDomainClass.baseClasses[0], PhysicalElement.classFullName);
+    iModel.close();
   });
 
 });

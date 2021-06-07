@@ -1,0 +1,11 @@
+{
+  "changes": [
+    {
+      "packageName": "@bentley/ui-core",
+      "comment": "Publish in-use APIs",
+      "type": "none"
+    }
+  ],
+  "packageName": "@bentley/ui-core",
+  "email": "45079789+NancyMcCallB@users.noreply.github.com"
+}

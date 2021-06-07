@@ -22,6 +22,7 @@ export * from "./InstanceOf";
 export * from "./JsonUtils";
 export * from "./Logger";
 export * from "./LRUMap";
+export * from "./Mutable";
 export * from "./ProcessDetector";
 export * from "./ObservableSet";
 export * from "./OneAtATimeAction";

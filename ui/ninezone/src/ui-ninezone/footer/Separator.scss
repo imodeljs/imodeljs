@@ -6,6 +6,7 @@
 @import "variables";
 
 .nz-footer-separator {
+  height: calc(100% - ($nz-footer-indicator-vertical-padding * 2));
   width: 1px;
   filter: drop-shadow(1px 0 $buic-foreground-body-reverse);
   margin: $nz-footer-indicator-vertical-padding 0;

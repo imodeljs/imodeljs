@@ -5,15 +5,15 @@
 import { assert } from "chai";
 import { DbOpcode, GuidString, Id64String } from "@bentley/bentleyjs-core";
 import { IModel, SubCategoryAppearance } from "@bentley/imodeljs-common";
-import { TestUsers, TestUtility } from "@bentley/oidc-signin-tool";
 import { BriefcaseManager } from "../../BriefcaseManager";
 import { SpatialCategory } from "../../Category";
 import { ConcurrencyControl } from "../../ConcurrencyControl";
 import { InformationPartitionElement, Subject } from "../../Element";
 import { BriefcaseDb, IModelDb } from "../../IModelDb";
-import { AuthorizedBackendRequestContext, ChannelRootAspect, IModelHost } from "../../imodeljs-backend";
+import { AuthorizedBackendRequestContext, ChannelRootAspect } from "../../imodeljs-backend";
 import { DictionaryModel } from "../../Model";
-import { IModelTestUtils } from "../IModelTestUtils";
+import { HubMock } from "../HubMock";
+import { IModelTestUtils, TestUserType } from "../IModelTestUtils";
 import { HubUtility } from "./HubUtility";
 
 function createAndInsertSpatialCategory(testIModel: IModelDb, name: string): Id64String {
@@ -35,14 +35,15 @@ describe("Channel Control (#integration)", () => {
   let el21: Id64String;
 
   before(async () => {
-    managerRequestContext = await TestUtility.getAuthorizedClientRequestContext(TestUsers.manager);
+    HubMock.startup("channels");
+    managerRequestContext = await IModelTestUtils.getUserContext(TestUserType.Manager);
     testProjectId = await HubUtility.getTestContextId(managerRequestContext);
-    readWriteTestIModelId = await HubUtility.recreateIModel(managerRequestContext, testProjectId, HubUtility.generateUniqueName("ChannelControlIModel"));
+    readWriteTestIModelId = await HubUtility.recreateIModel(managerRequestContext, testProjectId, "ChannelControlIModel");
   });
 
   after(async () => {
     try {
-      await IModelHost.iModelClient.iModels.delete(managerRequestContext, testProjectId, readWriteTestIModelId);
+      HubMock.shutdown();
     } catch (err) {
     }
   });
@@ -219,7 +220,7 @@ describe("Channel Control (#integration)", () => {
 
     // TODO: Verify that you can write to a normal, non-private channel
 
-    // imodel1.close();
+    imodel1.close();
   });
 
 });

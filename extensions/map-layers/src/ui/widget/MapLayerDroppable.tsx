@@ -70,10 +70,9 @@ export function MapLayerDroppable(props: MapLayerDroppableProps) {
 
                 ModalDialogManager.openDialog(<MapUrlDialog activeViewport={props.activeViewport}
                   isOverlay={props.isOverlay}
-                  layerToEdit={layerSettings?.toJSON()}
+                  layerRequiringCredentials={layerSettings?.toJSON()}
                   onOkResult={props.onItemEdited}
-                  mapTypesOptions={props.mapTypesOptions}
-                  askForCredentialsOnly={true} />);
+                  mapTypesOptions={props.mapTypesOptions}></MapUrlDialog>);
               }
 
             }}

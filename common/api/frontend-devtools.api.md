@@ -9,10 +9,12 @@ import { BeButtonEvent } from '@bentley/imodeljs-frontend';
 import { BeDuration } from '@bentley/bentleyjs-core';
 import { Camera } from '@bentley/imodeljs-common';
 import { ColorDef } from '@bentley/imodeljs-common';
+import { ContextRealityModelState } from '@bentley/imodeljs-frontend';
 import { DecorateContext } from '@bentley/imodeljs-frontend';
 import { Decorator } from '@bentley/imodeljs-frontend';
 import { EmphasizeElements } from '@bentley/imodeljs-frontend';
 import { EventHandled } from '@bentley/imodeljs-frontend';
+import { FlashSettings } from '@bentley/imodeljs-frontend';
 import { GeometrySummaryOptions } from '@bentley/imodeljs-common';
 import { GpuMemoryLimit } from '@bentley/imodeljs-frontend';
 import { Hilite } from '@bentley/imodeljs-common';
@@ -25,6 +27,7 @@ import { LocateFilterStatus } from '@bentley/imodeljs-frontend';
 import { LocateResponse } from '@bentley/imodeljs-frontend';
 import { MapLayerSource } from '@bentley/imodeljs-frontend';
 import { ParticleProps } from '@bentley/imodeljs-frontend';
+import { PlanarClipMaskSettings } from '@bentley/imodeljs-common';
 import { Point3d } from '@bentley/geometry-core';
 import { PrimitiveTool } from '@bentley/imodeljs-frontend';
 import { Range1d } from '@bentley/geometry-core';
@@ -236,6 +239,20 @@ export class ChangeEmphasisSettingsTool extends ChangeHiliteTool {
     protected apply(vp: Viewport, settings?: Hilite.Settings): void;
     // (undocumented)
     protected getCurrentSettings(vp: Viewport): Hilite.Settings;
+    // (undocumented)
+    static toolId: string;
+}
+
+// @beta
+export class ChangeFlashSettingsTool extends Tool {
+    // (undocumented)
+    static get maxArgs(): number;
+    // (undocumented)
+    static get minArgs(): number;
+    // (undocumented)
+    parseAndRun(...inputArgs: string[]): boolean;
+    // (undocumented)
+    run(settings?: FlashSettings): boolean;
     // (undocumented)
     static toolId: string;
 }
@@ -1351,6 +1368,12 @@ export abstract class PlanarMaskBaseTool extends PrimitiveTool {
     // (undocumented)
     protected abstract applyMask(vp: ScreenViewport): void;
     // (undocumented)
+    protected createElementMask(option: "include" | "exclude"): PlanarClipMaskSettings;
+    // (undocumented)
+    protected createModelMask(): PlanarClipMaskSettings;
+    // (undocumented)
+    protected createSubCategoryMask(): PlanarClipMaskSettings;
+    // (undocumented)
     protected abstract createToolInstance(): PlanarMaskBaseTool;
     // (undocumented)
     protected elementRequired(): boolean;
@@ -1373,9 +1396,11 @@ export abstract class PlanarMaskBaseTool extends PrimitiveTool {
     // (undocumented)
     requireWriteableTarget(): boolean;
     // (undocumented)
+    protected setRealityModelMask(vp: ScreenViewport, mask: PlanarClipMaskSettings): void;
+    // (undocumented)
     protected abstract showPrompt(): void;
     // (undocumented)
-    protected _targetMaskModelId?: Id64String | number;
+    protected _targetMaskModel?: Id64String | ContextRealityModelState;
     // (undocumented)
     protected targetModelRequired(): boolean;
     // (undocumented)

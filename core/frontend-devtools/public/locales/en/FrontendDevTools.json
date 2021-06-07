@@ -108,6 +108,9 @@
     "ChangeEmphasisSettings": {
       "keyin": "fdt emphasis settings"
     },
+    "ChangeFlashSettings": {
+      "keyin": "fdt flash settings"
+    },
     "ChangeUnits": {
       "keyin": "fdt metric"
     },

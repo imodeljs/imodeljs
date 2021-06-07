@@ -6,7 +6,9 @@ import * as requestPromise from "request-promise-native";
 import { Id64String, JsonUtils } from "@bentley/bentleyjs-core";
 import { Matrix3d, Point3d, Range3d, StandardViewIndex, Transform, Vector3d } from "@bentley/geometry-core";
 import { CategorySelector, DisplayStyle3d, IModelDb, ModelSelector, OrthographicViewDefinition } from "@bentley/imodeljs-backend";
-import { AxisAlignedBox3d, BackgroundMapProps, Cartographic, IModel, SpatialClassificationProps, ViewFlags } from "@bentley/imodeljs-common";
+import {
+  AxisAlignedBox3d, BackgroundMapProps, Cartographic, IModel, SpatialClassifierInsideDisplay, SpatialClassifierOutsideDisplay, ViewFlags,
+} from "@bentley/imodeljs-common";
 
 class RealityModelTileUtils {
   public static rangeFromBoundingVolume(boundingVolume: any): Range3d | undefined {
@@ -67,37 +69,32 @@ class RealityModelTileUtils {
   }
 }
 
-function parseDisplayMode(defaultDisplay: SpatialClassificationProps.Display, option?: string) {
+function parseDisplayMode(defaultDisplay: number, option?: string) {
   switch (option) {
     case "off":
-      return SpatialClassificationProps.Display.Off;
-
+      return SpatialClassifierInsideDisplay.Off;
     case "on":
-      return SpatialClassificationProps.Display.On;
-
+      return SpatialClassifierInsideDisplay.On;
     case "dimmed":
-      return SpatialClassificationProps.Display.Dimmed;
-
+      return SpatialClassifierInsideDisplay.Dimmed;
     case "hilite":
-      return SpatialClassificationProps.Display.Hilite;
-
+      return SpatialClassifierInsideDisplay.Hilite;
     case "color":
-      return SpatialClassificationProps.Display.ElementColor;
-
+      return SpatialClassifierInsideDisplay.ElementColor;
     default:
       return defaultDisplay;
   }
 }
-export async function insertClassifiedRealityModel(url: string, classifierModelId: Id64String, classifierCategoryId: Id64String, iModelDb: IModelDb, viewFlags: ViewFlags, isPlanar: boolean, backgroundMap?: BackgroundMapProps, inputName?: string, inside?: string, outside?: string): Promise<void> {
 
+export async function insertClassifiedRealityModel(url: string, classifierModelId: Id64String, classifierCategoryId: Id64String, iModelDb: IModelDb, viewFlags: ViewFlags, isPlanar: boolean, backgroundMap?: BackgroundMapProps, inputName?: string, inside?: string, outside?: string): Promise<void> {
   const name = inputName ? inputName : url;
-  const classificationFlags = new SpatialClassificationProps.Flags();
-  classificationFlags.inside = parseDisplayMode(SpatialClassificationProps.Display.ElementColor, inside);
-  classificationFlags.outside = parseDisplayMode(SpatialClassificationProps.Display.Dimmed, outside);
-  classificationFlags.isVolumeClassifier = !isPlanar;
+  const classificationFlags = {
+    inside: parseDisplayMode(SpatialClassifierInsideDisplay.ElementColor, inside),
+    outside: parseDisplayMode(SpatialClassifierOutsideDisplay.Dimmed, outside),
+    isVolumeClassifier: !isPlanar,
+  };
 
   const classifier = { modelId: classifierModelId, name, flags: classificationFlags, isActive: true, expand: 1.0 };
-
   const realityModel = { tilesetUrl: url, name, classifiers: [classifier] };
   const displayStyleId = DisplayStyle3d.insert(iModelDb, IModel.dictionaryId, name, { viewFlags, backgroundMap, contextRealityModels: [realityModel] });
 

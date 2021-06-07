@@ -20,14 +20,14 @@ import { BeUiEvent } from "@bentley/bentleyjs-core";
 import { AccuDrawUiAdmin } from "./accudraw/AccuDrawUiAdmin";
 
 /** The Generic UI Event args contains information useful for any UI message
- * @beta
+ * @public
  */
 export interface GenericUiEventArgs {
   uiComponentId: string;
 }
 
 /** Optional props to pass to the Dialog control that is generated.
- * @beta
+ * @public
  */
 export interface DialogProps {
   /** Indicates whether the user can resize dialog with cursor. */
@@ -49,12 +49,12 @@ export interface DialogProps {
 }
 
 /** The GenericUiEvent is the base event class for UI events that target a specific component, as identified in uiComponentId.
- * @beta
+ * @public
  */
 export class GenericUiEvent extends BeUiEvent<GenericUiEventArgs> { }
 
 /** Flags that control enabling/disabling certain UI features
- * @beta
+ * @public
  */
 export interface UiFlags {
   /** if true then Ctrl+F2 will show popup key-in palette */
@@ -62,7 +62,7 @@ export interface UiFlags {
 }
 
 /** The UiAdmin controls various UI components and is callable from IModelApp.uiAdmin in the imodeljs-frontend package.
- * @beta
+ * @public
  */
 export class UiAdmin {
   private _featureFlags: UiFlags = {};

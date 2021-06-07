@@ -18,7 +18,7 @@ import { MarkupApp } from "./Markup";
 import { MarkupTool } from "./MarkupTool";
 
 /** Base class for tools that place new Markup elements
- * @beta
+ * @public
  */
 export abstract class RedlineTool extends MarkupTool {
   protected _minPoints = 1;
@@ -103,7 +103,7 @@ export abstract class RedlineTool extends MarkupTool {
 }
 
 /** Tool for placing Markup Lines
- * @beta
+ * @public
  */
 export class LineTool extends RedlineTool {
   public static toolId = "Markup.Line";
@@ -124,7 +124,7 @@ export class LineTool extends RedlineTool {
 }
 
 /** Tool for placing Markup Rectangles
- * @beta
+ * @public
  */
 export class RectangleTool extends RedlineTool {
   public static toolId = "Markup.Rectangle";
@@ -155,7 +155,7 @@ export class RectangleTool extends RedlineTool {
 }
 
 /** Tool for placing Markup Polygons
- * @beta
+ * @public
  */
 export class PolygonTool extends RedlineTool {
   public static toolId = "Markup.Polygon";
@@ -204,7 +204,7 @@ export class PolygonTool extends RedlineTool {
 }
 
 /** Tool for placing Markup Clouds
- * @beta
+ * @public
  */
 export class CloudTool extends RedlineTool {
   public static toolId = "Markup.Cloud";
@@ -244,7 +244,7 @@ export class CloudTool extends RedlineTool {
 }
 
 /** Tool for placing Markup Circles
- * @beta
+ * @public
  */
 export class CircleTool extends RedlineTool {
   public static toolId = "Markup.Circle";
@@ -268,7 +268,7 @@ export class CircleTool extends RedlineTool {
 }
 
 /** Tool for placing Markup Ellipses
- * @beta
+ * @public
  */
 export class EllipseTool extends RedlineTool {
   public static toolId = "Markup.Ellipse";
@@ -295,7 +295,7 @@ export class EllipseTool extends RedlineTool {
 }
 
 /** Tool for placing Markup Arrows
- * @beta
+ * @public
  */
 export class ArrowTool extends RedlineTool {
   public static toolId = "Markup.Arrow";
@@ -349,7 +349,7 @@ export class ArrowTool extends RedlineTool {
 }
 
 /** Tool for measuring distances and placing Markups of them
- * @beta
+ * @public
  */
 export class DistanceTool extends ArrowTool {
   public static toolId = "Markup.Distance";
@@ -410,7 +410,7 @@ export class DistanceTool extends ArrowTool {
 }
 
 /** Tool for placing Markup freehand sketches
- * @beta
+ * @public
  */
 export class SketchTool extends RedlineTool {
   public static toolId = "Markup.Sketch";
@@ -442,7 +442,7 @@ export class SketchTool extends RedlineTool {
 }
 
 /** Tool for placing SVG symbols on a Markup
- * @beta
+ * @public
  */
 export class SymbolTool extends RedlineTool {
   public static toolId = "Markup.Symbol";

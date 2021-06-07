@@ -4,7 +4,13 @@
 *--------------------------------------------------------------------------------------------*/
 @import "../style/index";
 
-@mixin uicore-spinner($size, $borderSize: $size / 8, $activeColor: $buic-foreground-primary, $selector: "&::after", $time: 1.5s) {
+@mixin uicore-spinner(
+  $size,
+  $borderSize: $size * 0.125,
+  $activeColor: $buic-foreground-primary,
+  $selector: "&::after",
+  $time: 1.5s
+) {
   // Animation Keyframes
   @keyframes uicoreSpinner {
     0% {
@@ -49,4 +55,3 @@
     will-change: transform;
   }
 }
-

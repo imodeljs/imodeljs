@@ -277,6 +277,10 @@ These keysins control the planar masking of reality models.
   * "v", "h": The visible or hidden ratio in [0..1].
   * "s": The silhouette as an integer in [0..2] (see Hilite.Silhouette enum).
 * `fdt emphasis settings` - Modifies the hilite settings used for emphasized elements in the selected viewport. If no arguments are specified, it does nothing. See `fdt hilite settings` for supported arguments.
+* `fdt flash settings` - Modifies the FlashSettings used in the selected viewport. If no arguments are supplied, it does nothing. If "default" is supplied as the only argument, it resets to the default settings. Otherwise, it accepts any combination of the following arguments in the form "name=value", where `name` is case-insensitive and only the first character matters:
+  * "intensity" as a number in [0..1] to change FlashSettings.maxIntensity.
+  * "mode" as either "brighten" or "hilite" (case-insensitive, only first character matters) to change FlashMode.
+  * "duration" as the number of seconds for FlashSettings.duration.
 * `fdt gpu mem limit` - Changes the value of `TileAdmin.gpuMemoryLimit` controlling how much GPU memory can be allocated to tile graphics before graphics of least-recently-drawn tiles begin to be discarded. Accepts one integer greater than or equal to zero representing the amount of memory in bytes; or one of "default", "relaxed", "aggressive", or "none". Any other input is treated as "none".
 * `fdt tilesize default` - Changes the default tile size modifier used by viewports that don't explicitly override it. Accepts a floating point number greater than zero.
 * `fdt tilesize viewport` - Overrides the tile size modifier for the selected viewport (if a floating point number is supplied) or clears the override (if the string "reset" is supplied). The modifier must be greater than zero.

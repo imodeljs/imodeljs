@@ -72,7 +72,7 @@ const iModelAndViewMapStateToProps = (mapStateToProps: any) => {
 /** Function that will connect a component to the IModelConnection data in the Redux store.
  * @param mapStateToProps optional user function that, if defined, will be executed to provide additional properties from store.
  * @param mapDispatchToProps data passed to Redux connect function.
- * @beta
+ * @public
  */
 export const connectIModelConnection = (mapStateToProps?: any, mapDispatchToProps?: any) => {
   return connect(iModeMapStateToProps(mapStateToProps), mapDispatchToProps);

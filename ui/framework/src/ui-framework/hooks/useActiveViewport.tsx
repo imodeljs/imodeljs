@@ -11,7 +11,7 @@ import { IModelApp, ScreenViewport } from "@bentley/imodeljs-frontend";
 import { ActiveContentChangedEventArgs, ContentViewManager } from "../content/ContentViewManager";
 
 /** React hook that maintains the active viewport.
- * @beta
+ * @public
  */
 export function useActiveViewport(): ScreenViewport | undefined {
   const [activeViewport, setActiveViewport] = useState(IModelApp.viewManager.selectedView);

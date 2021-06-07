@@ -1448,8 +1448,8 @@ describe("Frontstage local storage wrapper", () => {
     });
 
     describe("restoreNineZoneState", () => {
-      it("should log error if widgetDef is not found", () => {
-        const spy = sinon.spy(Logger, "logError");
+      it("should log info if widgetDef is not found", () => {
+        const spy = sinon.spy(Logger, "logInfo");
         const frontstageDef = new FrontstageDef();
         const savedState = {
           ...createSavedNineZoneState(),
@@ -1462,24 +1462,26 @@ describe("Frontstage local storage wrapper", () => {
         spy.firstCall.args[2]!().should.matchSnapshot();
       });
 
-      it("should remove tab if widgetDef is not found", () => {
+      it("should remove tab from widgetState if widgetDef is not found", () => {
         const frontstageDef = new FrontstageDef();
-        sinon.stub(frontstageDef, "findWidgetDef").withArgs("t2").returns(new WidgetDef({}));
+        sinon.stub(frontstageDef, "findWidgetDef").withArgs("t2").returns(new WidgetDef({ id: "t2" }));
         let state = createNineZoneState();
         state = addPanelWidget(state, "left", "w1", ["t1", "t2"]);
-        state = addTab(state, "t1");
-        state = addTab(state, "t2");
+        state = addTab(state, "t1", { label: "t1" });
+        state = addTab(state, "t2", { label: "t2" });
+        state = addTab(state, "t3", { label: "t3" });
         const savedState = {
           ...createSavedNineZoneState(state),
           tabs: {
             t1: createSavedTabState("t1"),
             t2: createSavedTabState("t2"),
+            t3: createSavedTabState("t3", { preferredFloatingWidgetSize: { width: 444, height: 555 } }),
           },
         };
         const newState = restoreNineZoneState(frontstageDef, savedState);
-        (newState.tabs.t1 === undefined).should.true;
         newState.widgets.w1.tabs.indexOf("t1").should.eq(-1);
         newState.widgets.w1.tabs.indexOf("t2").should.eq(0);
+        newState.tabs.t3.preferredFloatingWidgetSize?.width.should.eq(444);
       });
 
       it("should restore tabs", () => {
@@ -1582,14 +1584,17 @@ describe("Frontstage local storage wrapper", () => {
       });
 
       it("should add bottomLeft widgets", () => {
-        const state = createNineZoneState();
+        let state = createNineZoneState();
+        state = addTab(state, "t2");
         const frontstageDef = new FrontstageDef();
         const zoneDef = new ZoneDef();
-        const widgetDef = new WidgetDef({ id: "w1" });
-        sinon.stub(zoneDef, "widgetDefs").get(() => [widgetDef]);
+        const widgetDef = new WidgetDef({ id: "t1" });
+        const widgetDef2 = new WidgetDef({ id: "t2" });
+        sinon.stub(zoneDef, "widgetDefs").get(() => [widgetDef, widgetDef2]);
         sinon.stub(frontstageDef, "bottomLeft").get(() => zoneDef);
         const newState = addMissingWidgets(frontstageDef, state);
-        should().exist(newState.tabs.w1);
+        should().exist(newState.tabs.t1);
+        should().exist(newState.tabs.t2);
       });
 
       it("should add centerRight widgets", () => {
@@ -1923,7 +1928,7 @@ describe("Frontstage local storage wrapper", () => {
         should().exist(frontstageDef.nineZoneState!.tabs.LeftStart1, "LeftStart1");
         should().exist(frontstageDef.nineZoneState!.tabs.TestUi2ProviderRM1, "TestUi2ProviderRM1");
         should().exist(frontstageDef.nineZoneState!.tabs.TestUi2ProviderW1, "TestUi2ProviderW1");
-        frontstageDef.nineZoneState!.widgets.rightMiddle.tabs.should.eql(["TestUi2ProviderRM1"], "rigthMiddle widget tabs");
+        frontstageDef.nineZoneState!.widgets.rightMiddle.tabs.should.eql(["TestUi2ProviderRM1"], "rightMiddle widget tabs");
         frontstageDef.nineZoneState!.widgets.leftStart.tabs.should.eql(["LeftStart1", "TestUi2ProviderW1"], "leftStart widget tabs");
 
         act(() => {
@@ -1932,9 +1937,10 @@ describe("Frontstage local storage wrapper", () => {
 
         await TestUtils.flushAsyncOperations();
         should().exist(frontstageDef.nineZoneState!.tabs.LeftStart1, "LeftStart1 after unregister");
-        should().not.exist(frontstageDef.nineZoneState!.tabs.TestUi2ProviderRM1, "TestUi2ProviderRM1 after unregister");
-        should().not.exist(frontstageDef.nineZoneState!.tabs.TestUi2ProviderW1, "TestUi2ProviderW1 after unregister");
-        should().not.exist(frontstageDef.nineZoneState!.widgets.rightMiddle, "rigthMiddle widget");
+        // tabs should remain but no widget container should reference them
+        should().exist(frontstageDef.nineZoneState!.tabs.TestUi2ProviderRM1, "TestUi2ProviderRM1 after unregister");
+        should().exist(frontstageDef.nineZoneState!.tabs.TestUi2ProviderW1, "TestUi2ProviderW1 after unregister");
+        should().not.exist(frontstageDef.nineZoneState!.widgets.rightMiddle, "rightMiddle widget");
         frontstageDef.nineZoneState!.widgets.leftStart.tabs.should.eql(["LeftStart1"], "leftStart widget tabs");
       });
 

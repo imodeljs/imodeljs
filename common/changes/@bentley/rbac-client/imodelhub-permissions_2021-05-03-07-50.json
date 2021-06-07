@@ -1,0 +1,11 @@
+{
+  "changes": [
+    {
+      "packageName": "@bentley/rbac-client",
+      "comment": "Remove deprecated iModelHub permissions API",
+      "type": "none"
+    }
+  ],
+  "packageName": "@bentley/rbac-client",
+  "email": "69573450+azonys@users.noreply.github.com"
+}

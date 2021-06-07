@@ -2,6 +2,30 @@
   "name": "@bentley/product-settings-client",
   "entries": [
     {
+      "version": "2.16.2",
+      "tag": "@bentley/product-settings-client_v2.16.2",
+      "date": "Thu, 03 Jun 2021 18:08:11 GMT",
+      "comments": {}
+    },
+    {
+      "version": "2.16.1",
+      "tag": "@bentley/product-settings-client_v2.16.1",
+      "date": "Thu, 27 May 2021 20:04:22 GMT",
+      "comments": {}
+    },
+    {
+      "version": "2.16.0",
+      "tag": "@bentley/product-settings-client_v2.16.0",
+      "date": "Mon, 24 May 2021 15:58:39 GMT",
+      "comments": {}
+    },
+    {
+      "version": "2.15.6",
+      "tag": "@bentley/product-settings-client_v2.15.6",
+      "date": "Wed, 26 May 2021 15:55:19 GMT",
+      "comments": {}
+    },
+    {
       "version": "2.15.5",
       "tag": "@bentley/product-settings-client_v2.15.5",
       "date": "Thu, 20 May 2021 15:06:26 GMT",

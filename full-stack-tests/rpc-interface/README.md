@@ -40,7 +40,7 @@ if you wish to use JWTs instead, you may set the `oidc_client_id` environment va
 
 In order to run the integration tests they need to have a valid OIDC client id which can be obtains by performing the following steps:
 
-1. Go to [Registration Dashboard](https://www.itwinjs.org/getting-started/registration-dashboard/) and sign in
+1. Go to the "[Register your application](https://developer.bentley.com/register/)" page and sign in
 1. Click 'New App'
 1. Select "SPA" application
 1. Specify a client name (can be anything you want)

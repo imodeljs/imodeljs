@@ -1,0 +1,11 @@
+{
+  "changes": [
+    {
+      "packageName": "@bentley/eslint-plugin",
+      "comment": "Added no-internal-report command to @bentley/eslint-plugin",
+      "type": "none"
+    }
+  ],
+  "packageName": "@bentley/eslint-plugin",
+  "email": "48103957+toddsouthenbentley@users.noreply.github.com"
+}

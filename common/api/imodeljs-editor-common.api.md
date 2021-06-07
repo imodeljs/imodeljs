@@ -5,6 +5,7 @@
 ```ts
 
 import { CompressedId64Set } from '@bentley/bentleyjs-core';
+import { EcefLocationProps } from '@bentley/imodeljs-common';
 import { ElementGeometryDataEntry } from '@bentley/imodeljs-common';
 import { ElementGeometryInfo } from '@bentley/imodeljs-common';
 import { ElementGeometryOpcode } from '@bentley/imodeljs-common';
@@ -13,6 +14,7 @@ import { GeometryPartProps } from '@bentley/imodeljs-common';
 import { Id64String } from '@bentley/bentleyjs-core';
 import { IModelStatus } from '@bentley/bentleyjs-core';
 import { Matrix3dProps } from '@bentley/geometry-core';
+import { Range3dProps } from '@bentley/geometry-core';
 import { TransformProps } from '@bentley/geometry-core';
 
 // @alpha (undocumented)
@@ -26,7 +28,9 @@ export interface BasicManipulationCommandIpc extends EditCommandIpc {
     rotatePlacement: (ids: CompressedId64Set, matrix: Matrix3dProps, aboutCenter: boolean) => Promise<IModelStatus>;
     // (undocumented)
     transformPlacement: (ids: CompressedId64Set, transform: TransformProps) => Promise<IModelStatus>;
+    updateEcefLocation: (ecefLocation: EcefLocationProps) => Promise<void>;
     updateGeometricElement(propsOrId: GeometricElementProps | Id64String, data?: FlatBufferGeometricElementData): Promise<void>;
+    updateProjectExtents: (extents: Range3dProps) => Promise<void>;
 }
 
 // @alpha (undocumented)

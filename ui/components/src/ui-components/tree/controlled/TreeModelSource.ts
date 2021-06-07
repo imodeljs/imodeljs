@@ -12,7 +12,7 @@ import { MutableTreeModel, TreeModel, VisibleTreeNodes } from "./TreeModel";
 
 /**
  * Data structure that describes changes which happened to the tree model
- * @beta
+ * @public
  */
 export interface TreeModelChanges {
   addedNodeIds: string[];
@@ -23,7 +23,7 @@ export interface TreeModelChanges {
 /**
  * Controls tree model and visible tree nodes.
  * It is used to modify model and inform when tree model changes.
- * @beta
+ * @public
  */
 export class TreeModelSource {
   private _visibleNodes?: VisibleTreeNodes;

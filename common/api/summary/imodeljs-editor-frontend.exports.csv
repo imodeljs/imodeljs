@@ -1,7 +1,10 @@
 sep=;
 Release Tag;API Item
+alpha;ArcMethod
 alpha;computeChordToleranceFromPoint(vp: Viewport, pt: Point3d, radius?: number): number
 alpha;computeChordToleranceFromRange(vp: Viewport, range: Range3d): number
+alpha;CreateArcTool 
+alpha;CreateCurvePhase
 alpha;class CreateElementTool 
 alpha;CreateLineStringTool 
 alpha;class CreateOrContinuePathTool 
@@ -10,6 +13,15 @@ alpha;DynamicGraphicsProvider
 alpha;EditorOptions
 alpha;EditTools
 alpha;MoveElementsTool 
+beta;ProjectExtentsClipDecoration 
+beta;ProjectGeolocationMoveTool 
+beta;ProjectGeolocationNorthTool 
+beta;ProjectGeolocationPointTool 
+beta;ProjectLocationCancelTool 
+beta;ProjectLocationChanged
+beta;ProjectLocationHideTool 
+beta;ProjectLocationSaveTool 
+beta;ProjectLocationShowTool 
 alpha;RedoTool 
 alpha;RotateAbout
 alpha;RotateElementsTool 

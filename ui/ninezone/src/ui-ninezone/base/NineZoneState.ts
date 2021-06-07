@@ -655,7 +655,7 @@ export const NineZoneStateReducer: (state: NineZoneState, action: NineZoneAction
         position: Point.create(action.position).toProps(),
         home,
       };
-      removeWidgetTabInternal(state, action.widgetId, action.floatingWidgetId, action.side, action.id);
+      removeWidgetTabInternal(state, action.widgetId, action.floatingWidgetId, undefined, action.side, action.id);
       return;
     }
     case "WIDGET_TAB_DRAG": {
@@ -771,8 +771,9 @@ export function removeWidgetTab(state: Draft<NineZoneState>, tabId: TabState["id
   if (!location)
     return;
   const floatingWidgetId = "floatingWidgetId" in location ? location.floatingWidgetId : undefined;
+  const popoutWidgetId = "popoutWidgetId" in location ? location.popoutWidgetId : undefined;
   const side = "side" in location ? location.side : undefined;
-  return removeWidgetTabInternal(state, location.widgetId, floatingWidgetId, side, tabId);
+  return removeWidgetTabInternal(state, location.widgetId, floatingWidgetId, popoutWidgetId, side, tabId);
 }
 
 /** Removes tab from the UI and deletes the tab state.
@@ -780,13 +781,14 @@ export function removeWidgetTab(state: Draft<NineZoneState>, tabId: TabState["id
  */
 export function removeTab(state: Draft<NineZoneState>, tabId: TabState["id"]) {
   removeWidgetTab(state, tabId);
-  delete state.tabs[tabId];
+  // keep state.tabs[tabId] around for preferred size info
 }
 
 function removeWidgetTabInternal(
   state: Draft<NineZoneState>,
   widgetId: WidgetState["id"],
   floatingWidgetId: FloatingWidgetState["id"] | undefined,
+  popoutWidgetId: PopoutWidgetState["id"] | undefined,
   side: PanelSide | undefined,
   tabId: TabState["id"],
 ) {
@@ -803,6 +805,11 @@ function removeWidgetTabInternal(
       delete state.floatingWidgets.byId[floatingWidgetId];
       const idIndex = state.floatingWidgets.allIds.indexOf(floatingWidgetId);
       state.floatingWidgets.allIds.splice(idIndex, 1);
+    }
+    if (popoutWidgetId !== undefined) {
+      delete state.popoutWidgets.byId[popoutWidgetId];
+      const idIndex = state.popoutWidgets.allIds.indexOf(popoutWidgetId);
+      state.popoutWidgets.allIds.splice(idIndex, 1);
     }
     if (side) {
       const widgets = state.panels[side].widgets;

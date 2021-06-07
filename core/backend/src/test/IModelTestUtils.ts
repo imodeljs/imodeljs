@@ -2,9 +2,14 @@
 * Copyright (c) Bentley Systems, Incorporated. All rights reserved.
 * See LICENSE.md in the project root for license terms and full copyright notice.
 *--------------------------------------------------------------------------------------------*/
+
+import * as chai from "chai";
+import * as chaiAsPromised from "chai-as-promised";
+import * as path from "path";
 import { BackendITwinClientLoggerCategory } from "@bentley/backend-itwin-client";
 import {
-  BeEvent, BentleyLoggerCategory, ChangeSetStatus, DbResult, GuidString, Id64, Id64String, IDisposable, IModelStatus, Logger, LogLevel, OpenMode,
+  BeEvent, BentleyLoggerCategory, ChangeSetStatus, DbResult, Guid, GuidString, Id64, Id64String, IDisposable, IModelStatus, Logger, LogLevel,
+  OpenMode,
 } from "@bentley/bentleyjs-core";
 import { loadEnv } from "@bentley/config-loader";
 import { IModelHubClientLoggerCategory } from "@bentley/imodelhub-client";
@@ -13,10 +18,8 @@ import {
   RequestNewBriefcaseProps, RpcConfiguration, RpcManager, RpcPendingResponse, SyncMode,
 } from "@bentley/imodeljs-common";
 import { IModelJsNative, NativeLoggerCategory } from "@bentley/imodeljs-native";
-import { AuthorizedClientRequestContext, ITwinClientLoggerCategory } from "@bentley/itwin-client";
-import * as path from "path";
-import * as chai from "chai";
-import * as chaiAsPromised from "chai-as-promised";
+import { AccessToken, AccessTokenProps, AuthorizedClientRequestContext, ITwinClientLoggerCategory } from "@bentley/itwin-client";
+import { TestUserCredentials, TestUsers, TestUtility } from "@bentley/oidc-signin-tool";
 import { BackendLoggerCategory as BackendLoggerCategory } from "../BackendLoggerCategory";
 import { CheckpointProps, V1CheckpointManager } from "../CheckpointManager";
 import { ClassRegistry } from "../ClassRegistry";
@@ -29,7 +32,9 @@ import { DrawingModel } from "../Model";
 import { ElementDrivesElement, RelationshipProps } from "../Relationship";
 import { DownloadAndOpenArgs, RpcBriefcaseUtility } from "../rpc-impl/RpcBriefcaseUtility";
 import { Schema, Schemas } from "../Schema";
+import { HubMock } from "./HubMock";
 import { KnownTestLocations } from "./KnownTestLocations";
+import { HubUtility } from "./integration/HubUtility";
 
 const assert = chai.assert;
 chai.use(chaiAsPromised);
@@ -113,9 +118,69 @@ export class TestPhysicalObject extends PhysicalElement implements TestPhysicalO
   public static onAllInputsHandled(id: Id64String, imodel: IModelDb): void { this.allInputsHandled.raiseEvent(id, imodel); }
 }
 
+/** the types of users available for tests
+ * @beta
+ */
+export enum TestUserType {
+  Regular,
+  Manager,
+  Super,
+  SuperManager
+}
+
 export class IModelTestUtils {
+  private static testOrg = {
+    name: "Test Organization",
+    id: Guid.createValue(),
+  };
+  /** get an AuthorizedClientRequestContext for a [[TestUserType]].
+     * @note if the current test is using [[HubMock]], calling this method multiple times with the same type will return users from the same organization,
+     * but with different credentials. This can be useful for simulating more than one user of the same type on the same project.
+     * However, if a real IModelHub is used, the credentials are supplied externally and will always return the same value (because otherwise they would be valid.)
+     */
+  public static async getUserContext(user: TestUserType): Promise<AuthorizedClientRequestContext> {
+    if (HubMock.isValid) {
+      const firstName = TestUserType[user];
+      const lastName = "User";
+      const props: AccessTokenProps = {
+        tokenString: "bogus",
+        userInfo: {
+          id: Guid.createValue(),
+          email: {
+            id: `${firstName}.user@test.org`,
+          },
+          profile: {
+            firstName,
+            lastName,
+            name: `${firstName} ${lastName}`,
+          },
+          organization: this.testOrg,
+        },
+      };
+      return new AuthorizedClientRequestContext(AccessToken.fromJson(props));
+    }
+
+    let credentials: TestUserCredentials;
+    switch (user) {
+      case TestUserType.Regular:
+        credentials = TestUsers.regular;
+        break;
+      case TestUserType.Manager:
+        credentials = TestUsers.manager;
+        break;
+      case TestUserType.Super:
+        credentials = TestUsers.super;
+        break;
+      case TestUserType.SuperManager:
+        credentials = TestUsers.superManager;
+        break;
+    }
+    return TestUtility.getAuthorizedClientRequestContext(credentials);
+  }
+
   /** Helper to open a briefcase db directly with the BriefcaseManager API */
   public static async downloadAndOpenBriefcase(args: RequestNewBriefcaseProps & { requestContext: AuthorizedClientRequestContext }): Promise<BriefcaseDb> {
+    assert.isTrue(HubUtility.allowHubBriefcases || HubMock.isValid, "Must use HubMock for tests that modify iModels");
     const props = await BriefcaseManager.downloadBriefcase(args.requestContext, args);
     return BriefcaseDb.open(args.requestContext, { fileName: props.fileName });
   }
@@ -130,13 +195,14 @@ export class IModelTestUtils {
       tokenProps: {
         contextId: args.contextId,
         iModelId: args.iModelId,
-        changeSetId: (await BriefcaseManager.evaluateVersion(args.requestContext, IModelVersion.fromJSON(args.asOf), args.iModelId)).changeSetId,
+        changeSetId: (await BriefcaseManager.changesetFromVersion(args.requestContext, IModelVersion.fromJSON(args.asOf), args.iModelId)).changesetId,
       },
       requestContext: args.requestContext,
       syncMode: args.briefcaseId === 0 ? SyncMode.PullOnly : SyncMode.PullAndPush,
       forceDownload: args.deleteFirst,
     };
 
+    assert.isTrue(HubMock.isValid || openArgs.syncMode === SyncMode.PullOnly, "use HubMock to acquire briefcases");
     while (true) {
       try {
         return (await RpcBriefcaseUtility.open(openArgs)) as BriefcaseDb;
@@ -156,7 +222,7 @@ export class IModelTestUtils {
       contextId: args.contextId,
       iModelId: args.iModelId,
       requestContext: args.requestContext,
-      changeSetId: (await BriefcaseManager.evaluateVersion(args.requestContext, IModelVersion.fromJSON(args.asOf), args.iModelId)).changeSetId,
+      changeSetId: (await BriefcaseManager.changesetFromVersion(args.requestContext, IModelVersion.fromJSON(args.asOf), args.iModelId)).changesetId,
     };
 
     return V1CheckpointManager.getCheckpointDb({ checkpoint, localFile: V1CheckpointManager.getFileName(checkpoint) });
@@ -172,7 +238,7 @@ export class IModelTestUtils {
       tokenProps: {
         contextId: args.contextId,
         iModelId: args.iModelId,
-        changeSetId: (await BriefcaseManager.evaluateVersion(args.requestContext, IModelVersion.fromJSON(args.asOf), args.iModelId)).changeSetId,
+        changeSetId: (await BriefcaseManager.changesetFromVersion(args.requestContext, IModelVersion.fromJSON(args.asOf), args.iModelId)).changesetId,
       },
       requestContext: args.requestContext,
       syncMode: SyncMode.FixedVersion,
@@ -191,8 +257,6 @@ export class IModelTestUtils {
   }
 
   public static async closeAndDeleteBriefcaseDb(requestContext: AuthorizedClientRequestContext, briefcaseDb: IModelDb) {
-    requestContext.enter();
-
     const fileName = briefcaseDb.pathName;
     const iModelId = briefcaseDb.iModelId;
     briefcaseDb.close();

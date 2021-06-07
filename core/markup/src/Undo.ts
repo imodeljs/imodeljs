@@ -10,6 +10,7 @@ import { assert } from "@bentley/bentleyjs-core";
 import { Element as MarkupElement } from "@svgdotjs/svg.js";
 import { MarkupApp } from "./Markup";
 
+/* @internal */
 abstract class UndoAction {
   public cmdId: number = 0;
   public abstract reverse(): void;
@@ -80,7 +81,7 @@ class ModifyAction extends UndoAction {
 }
 
 /** Stores the sequence of operations performed on a Markup. Facilitates undo/redo of the operations.
- * @beta
+ * @public
  */
 export class UndoManager {
   private _currentCmd = 0;
@@ -96,8 +97,9 @@ export class UndoManager {
     this._currentPos = this.size;
   }
 
+  /** @internal */
   public get size() { return this._stack.length; }
-  private startCommand() { if (0 === this._grouped)++this._currentCmd; }
+  private startCommand() { if (0 === this._grouped) ++this._currentCmd; }
   private startGroup() { this.startCommand(); ++this._grouped; }
   private endGroup() { --this._grouped; }
 

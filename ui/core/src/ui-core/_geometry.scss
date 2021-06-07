@@ -13,7 +13,7 @@
 }
 
 @mixin triangle-left($height, $width: $height, $color: currentColor) {
-  border-width: ($height / 2) $width ($height / 2) 0;
+  border-width: ($height * 0.5) $width ($height * 0.5) 0;
 
   @include triangle-common;
   @include triangle-left-color($color);
@@ -24,7 +24,7 @@
 }
 
 @mixin triangle-top($height, $width: $height, $color: currentColor) {
-  border-width: 0 ($width / 2) $height ($width / 2);
+  border-width: 0 ($width * 0.5) $height ($width * 0.5);
 
   @include triangle-common;
   @include triangle-top-color($color);
@@ -35,7 +35,7 @@
 }
 
 @mixin triangle-right($height, $width: $height, $color: currentColor) {
-  border-width: ($height / 2) 0 ($height / 2) $width;
+  border-width: ($height * 0.5) 0 ($height * 0.5) $width;
 
   @include triangle-common;
   @include triangle-right-color($color);
@@ -46,7 +46,7 @@
 }
 
 @mixin triangle-bottom($height, $width: $height, $color: currentColor) {
-  border-width: $height ($width / 2) 0 ($width / 2);
+  border-width: $height ($width * 0.5) 0 ($width * 0.5);
 
   @include triangle-common;
   @include triangle-bottom-color($color);
@@ -66,5 +66,5 @@
 @mixin oval($width, $height: $width) {
   width: $width;
   height: $height;
-  border-radius: #{$width / 2} / #{$height / 2};
+  border-radius: #{$width * 0.5} / #{$height * 0.5};
 }

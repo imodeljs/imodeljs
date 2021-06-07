@@ -10,7 +10,7 @@ import * as moq from "typemoq";
 import { Id64String } from "@bentley/bentleyjs-core";
 import { IModelRpcProps, RpcInterface, RpcInterfaceDefinition, RpcManager } from "@bentley/imodeljs-common";
 import {
-  DescriptorJSON, DistinctValuesRpcRequestOptions, HierarchyRequestOptions, KeySet, KeySetJSON, Paged, PresentationError, PresentationRpcInterface,
+  DescriptorJSON, DistinctValuesRpcRequestOptions, KeySet, KeySetJSON, Paged, PresentationError, PresentationRpcInterface,
   PresentationRpcRequestOptions, PresentationRpcResponse, PresentationStatus, RpcRequestsHandler, SelectionInfo, SelectionScopeRequestOptions,
 } from "../presentation-common";
 import { FieldDescriptorType } from "../presentation-common/content/Fields";
@@ -26,6 +26,7 @@ import {
   ContentDescriptorRpcRequestOptions, DisplayLabelRpcRequestOptions, DisplayLabelsRpcRequestOptions, ExtendedContentRpcRequestOptions,
   ExtendedHierarchyRpcRequestOptions, HierarchyCompareRpcOptions,
 } from "../presentation-common/PresentationRpcInterface";
+import { RulesetVariableJSON } from "../presentation-common/RulesetVariables";
 import { HierarchyCompareInfoJSON, PartialHierarchyModificationJSON } from "../presentation-common/Update";
 import {
   createRandomDescriptorJSON, createRandomECInstanceKeyJSON, createRandomECInstancesNodeJSON, createRandomECInstancesNodeKeyJSON,
@@ -192,7 +193,7 @@ describe("RpcRequestsHandler", () => {
     });
 
     it("forwards getNodesCount call for root nodes", async () => {
-      const handlerOptions: ExtendedHierarchyRequestOptions<IModelRpcProps, NodeKeyJSON> = {
+      const handlerOptions: ExtendedHierarchyRequestOptions<IModelRpcProps, NodeKeyJSON, RulesetVariableJSON> = {
         imodel: token,
         rulesetOrId: faker.random.word(),
       };
@@ -209,12 +210,12 @@ describe("RpcRequestsHandler", () => {
     });
 
     it("forwards getNodesCount call for child nodes", async () => {
-      const handlerOptions: ExtendedHierarchyRequestOptions<IModelRpcProps, NodeKeyJSON> = {
+      const handlerOptions: ExtendedHierarchyRequestOptions<IModelRpcProps, NodeKeyJSON, RulesetVariableJSON> = {
         imodel: token,
         rulesetOrId: faker.random.word(),
         parentKey: createRandomECInstancesNodeKeyJSON(),
       };
-      const rpcOptions: PresentationRpcRequestOptions<ExtendedHierarchyRequestOptions<any, NodeKeyJSON>> = {
+      const rpcOptions: ExtendedHierarchyRpcRequestOptions = {
         clientId,
         rulesetOrId: handlerOptions.rulesetOrId,
         parentKey: handlerOptions.parentKey,
@@ -228,13 +229,13 @@ describe("RpcRequestsHandler", () => {
     });
 
     it("forwards getPagedNodes call", async () => {
-      const handlerOptions: Paged<ExtendedHierarchyRequestOptions<IModelRpcProps, NodeKeyJSON>> = {
+      const handlerOptions: Paged<ExtendedHierarchyRequestOptions<IModelRpcProps, NodeKeyJSON, RulesetVariableJSON>> = {
         imodel: token,
         rulesetOrId: faker.random.word(),
         paging: { start: 1, size: 2 },
         parentKey: createRandomECInstancesNodeKeyJSON(),
       };
-      const rpcOptions: PresentationRpcRequestOptions<Paged<ExtendedHierarchyRequestOptions<any, NodeKeyJSON>>> = {
+      const rpcOptions: Paged<ExtendedHierarchyRpcRequestOptions> = {
         clientId,
         rulesetOrId: handlerOptions.rulesetOrId,
         paging: { start: 1, size: 2 },
@@ -249,11 +250,11 @@ describe("RpcRequestsHandler", () => {
     });
 
     it("forwards getFilteredNodePaths call", async () => {
-      const handlerOptions: HierarchyRequestOptions<IModelRpcProps> = {
+      const handlerOptions: ExtendedHierarchyRequestOptions<IModelRpcProps, never, RulesetVariableJSON> = {
         imodel: token,
         rulesetOrId: faker.random.word(),
       };
-      const rpcOptions: PresentationRpcRequestOptions<HierarchyRequestOptions<any>> = {
+      const rpcOptions: ExtendedHierarchyRpcRequestOptions = {
         clientId,
         rulesetOrId: handlerOptions.rulesetOrId,
       };
@@ -267,11 +268,11 @@ describe("RpcRequestsHandler", () => {
     });
 
     it("forwards getNodePaths call", async () => {
-      const handlerOptions: HierarchyRequestOptions<IModelRpcProps> = {
+      const handlerOptions: ExtendedHierarchyRequestOptions<IModelRpcProps, never, RulesetVariableJSON> = {
         imodel: token,
         rulesetOrId: faker.random.word(),
       };
-      const rpcOptions: PresentationRpcRequestOptions<HierarchyRequestOptions<any>> = {
+      const rpcOptions: ExtendedHierarchyRpcRequestOptions = {
         clientId,
         rulesetOrId: handlerOptions.rulesetOrId,
       };
@@ -289,7 +290,7 @@ describe("RpcRequestsHandler", () => {
       const displayType = faker.random.word();
       const keys = new KeySet().toJSON();
       const selectionInfo: SelectionInfo = { providerName: faker.random.word() };
-      const handlerOptions: ContentDescriptorRequestOptions<IModelRpcProps, KeySetJSON> = {
+      const handlerOptions: ContentDescriptorRequestOptions<IModelRpcProps, KeySetJSON, RulesetVariableJSON> = {
         imodel: token,
         rulesetOrId: faker.random.word(),
         displayType,
@@ -313,7 +314,7 @@ describe("RpcRequestsHandler", () => {
       const descriptor = createRandomDescriptorJSON();
       const keys = new KeySet().toJSON();
       const result = faker.random.number();
-      const handlerOptions: ExtendedContentRequestOptions<IModelRpcProps, DescriptorJSON, KeySetJSON> = {
+      const handlerOptions: ExtendedContentRequestOptions<IModelRpcProps, DescriptorJSON, KeySetJSON, RulesetVariableJSON> = {
         imodel: token,
         rulesetOrId: faker.random.word(),
         descriptor,
@@ -340,7 +341,7 @@ describe("RpcRequestsHandler", () => {
           items: new Array<ItemJSON>(),
         },
       };
-      const handlerOptions: Paged<ExtendedContentRequestOptions<IModelRpcProps, DescriptorJSON, KeySetJSON>> = {
+      const handlerOptions: Paged<ExtendedContentRequestOptions<IModelRpcProps, DescriptorJSON, KeySetJSON, RulesetVariableJSON>> = {
         imodel: token,
         rulesetOrId: faker.random.word(),
         descriptor,
@@ -366,7 +367,7 @@ describe("RpcRequestsHandler", () => {
         total: 123,
         items: new Array<ItemJSON>(),
       };
-      const handlerOptions: Paged<ExtendedContentRequestOptions<IModelRpcProps, DescriptorJSON, KeySetJSON>> = {
+      const handlerOptions: Paged<ExtendedContentRequestOptions<IModelRpcProps, DescriptorJSON, KeySetJSON, RulesetVariableJSON>> = {
         imodel: token,
         rulesetOrId: faker.random.word(),
         descriptor,
@@ -386,7 +387,7 @@ describe("RpcRequestsHandler", () => {
     });
 
     it("forwards getPagedDistinctValues call", async () => {
-      const handlerOptions: DistinctValuesRequestOptions<IModelRpcProps, DescriptorJSON, KeySetJSON> = {
+      const handlerOptions: DistinctValuesRequestOptions<IModelRpcProps, DescriptorJSON, KeySetJSON, RulesetVariableJSON> = {
         imodel: token,
         rulesetOrId: faker.random.word(),
         descriptor: createRandomDescriptorJSON(),
@@ -485,7 +486,7 @@ describe("RpcRequestsHandler", () => {
     });
 
     it("[deprecated] forwards compareHierarchies call", async () => {
-      const handlerOptions: HierarchyCompareOptions<IModelRpcProps, NodeKeyJSON> = {
+      const handlerOptions: HierarchyCompareOptions<IModelRpcProps, NodeKeyJSON, RulesetVariableJSON> = {
         imodel: token,
         prev: {
           rulesetOrId: "test1",
@@ -508,7 +509,7 @@ describe("RpcRequestsHandler", () => {
     });
 
     it("forwards compareHierarchiesPaged call", async () => {
-      const handlerOptions: HierarchyCompareOptions<IModelRpcProps, NodeKeyJSON> = {
+      const handlerOptions: HierarchyCompareOptions<IModelRpcProps, NodeKeyJSON, RulesetVariableJSON> = {
         imodel: token,
         prev: {
           rulesetOrId: "test1",

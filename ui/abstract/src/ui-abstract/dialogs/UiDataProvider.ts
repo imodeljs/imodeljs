@@ -10,12 +10,12 @@ import { BeUiEvent } from "@bentley/bentleyjs-core";
 import { DialogPropertyItem, DialogPropertySyncItem } from "./DialogItem";
 
 /** Sync UI Control Properties Event class.
- * @beta
+ * @public
  */
 export class SyncPropertiesChangeEvent extends BeUiEvent<SyncPropertiesChangeEventArgs> { }
 
 /** [[UiDataProvider]] Abstract class that allows property values to be passed between hosting API and UI.
- * @beta
+ * @public
  */
 // istanbul ignore next
 export abstract class UiDataProvider {
@@ -59,14 +59,14 @@ export abstract class UiDataProvider {
 }
 
 /** Sync UI Control Properties Event Args interface.
- * @beta
+ * @public
  */
 export interface SyncPropertiesChangeEventArgs {
   properties: DialogPropertySyncItem[];
 }
 
 /** Status of Proposed property changes from UI to UiDataProvider
- * @beta
+ * @public
  */
 export enum PropertyChangeStatus {
   /** Property Change(s) Succeeded */
@@ -76,7 +76,7 @@ export enum PropertyChangeStatus {
 }
 
 /** Interface used by UiDataProvider to report change status (validation) to UI.
- * @beta
+ * @public
  */
 export interface PropertyChangeResult {
   errorMsg?: string;

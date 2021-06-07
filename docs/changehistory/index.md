@@ -1,4 +1,42 @@
-# 2.15.0 Change Notes
+# 2.16.0 Change Notes
+
+Overview:
+
+- [Promoted APIs](#promoted-apis)
+- Breaking Changes:
+  - [Breaking API changes](#breaking-api-changes)
+- [Obtaining element geometry on the frontend](#obtaining-element-geometry-on-the-frontend)
+- Visualization
+  - [Clipping enhancements](#clipping-enhancements)
+    - [Colorization](#colorization)
+    - [Model clip groups](#model-clip-groups)
+    - [Nested clip volumes](#nested-clip-volumes)
+  - [Grid display enhancements](#grid-display-enhancements)
+  - [Schedule script enhancements](#schedule-script-enhancements)
+  - [Querying visible elements](#querying-visible-elements)
+  - [Creating graphics](#creating-graphics)
+  - [Map tile trees refactoring](#map-tile-trees-refactoring)
+- [Presentation](#presentation-changes)
+  - [InstanceLabelOverride enhancements](#instancelabeloverride-enhancements)
+  - [Custom category renderers](#custom-category-renderers)
+  - [Custom category nesting](#custom-category-nesting)
+  - [Presentation rule schema requirements](#presentation-rule-schema-requirements)
+
+## Obtaining element geometry on the frontend
+
+Until now, an element's [GeometryStreamProps]($common) was only available on the backend - [IModelConnection.Elements.getProps]($frontend) always omits the geometry. [IModelConnection.Elements.loadProps]($frontend) has been introduced to provide greater control over which properties are returned. It accepts the Id, federation Guid, or [Code]($common) of the element of interest, and optionally an [ElementLoadOptions]($common) specifying which properties to include or exclude. For example, the following code queries for and iterates over the geometry of a [GeometricElement3d]($backend):
+
+```ts
+  function printGeometryStream(elementId: Id64String, iModel: IModelConnection): void {
+    const props = await iModel.elements.loadProps(elementId, { wantGeometry: true }) as GeometricElement3dProps;
+    assert(undefined !== props, `Element ${elementId} does not exist`);
+    const iterator = GeometryStreamIterator.fromGeometricElement3d(props);
+    for (const entry of iterator)
+      console.log(JSON.stringify(entry));
+  }
+```
+
+Keep in mind that geometry streams can be extremely large. They may also contain data like [BRepEntity.DataProps]($common) that cannot be interpreted on the frontend; for this reason BRep data is omitted from the geometry stream, unless explicitly requested via [ElementLoadOptions.wantBRepData]($common).
 
 ## Clipping enhancements
 
@@ -16,169 +54,92 @@ The contents of a [ViewState]($frontend) can be clipped by applying a [ClipVecto
 
 Clip volumes now nest. For example, if you define a view clip, a model clip group, and a schedule script that applies its own clip volume, then geometry will be clipped by the **intersection** of all three clip volumes. Previously, only one clip volume could be active at a time.
 
-## Txn monitoring
+## Grid display enhancements
 
-[TxnManager]($backend) now has additional events for monitoring changes to the iModel resulting from [Txns]($docs/learning/InteractiveEditing.md), including:
+The planar grid that is displayed when [ViewFlags.grid]($common) is now displayed with a shader rather than as explicit geometry.  This improved the overall appearance and efficiency of the grid display and corrects several anomalies when grid display was unstable at the horizon of a perspective view.  The view frustum is now expanded as necessary when grids are displayed to avoid truncating the grid to the displayed geometry.
 
-* [TxnManager.onModelsChanged]($backend) for changes to the properties of [Model]($backend)s and
-* [TxnManager.onModelGeometryChanged]($backend) for changes to the geometry contained within [GeometricModel]($backend)s.
+## Schedule script enhancements
 
-[BriefcaseConnection.txns]($frontend) now exposes the same events provided by `TxnManager`, but on the frontend, via [BriefcaseTxns]($frontend).
+The [RenderSchedule]($common) API for defining how to animate the contents of a view over time has been cleaned up and expanded. A new [RenderTimeline]($backend) element class has been introduced with version 1.0.13 of the BisCore ECSchema, to host a [RenderSchedule.Script]($common). `DisplayStyleSettings.scheduleScriptProps` has been deprecated in favor of [DisplayStyleSettings.renderTimeline]($common) specifying the Id of the RenderTimeline element hosting the script to be applied to the display style. A [DisplayStyleState]($frontend)'s schedule script is now loaded asynchronously via [DisplayStyleState.load]($frontend) - this is done automatically by [ViewState.load]($frontend) but must be done manually for display styles obtained through other means.
 
-## New settings UI features
+Sometimes it is useful to make the elements animated by the script more visible by de-emphasizing elements unaffected by the script. The appearance of non-animated elements can now be controlled by [EmphasizeElements.unanimatedAppearance]($frontend).
 
-### Add settings tabs and pages to UI
+## Querying visible elements
 
-#### Quantity formatting settings
+The new `@beta` API [Viewport.queryVisibleFeatures]($frontend) can be used to determine the set of [Feature]($common)s - typically, elements - that are currently visible in the viewport. The API offers a choice between two criteria that can be used to determine visibility:
 
-The [QuantityFormatSettingsPage]($ui-framework) component has been added to provide the UI to set both the [PresentationUnitSystem]($presentation-common) and formatting overrides in the [QuantityFormatter]($frontend). This component can be used in the new [SettingsContainer]($ui-core) UI component. The function `getQuantityFormatsSettingsManagerEntry` will return a [SettingsTabEntry]($ui-core) for use by the [SettingsManager]($ui-core).
+- The feature lit up at least one pixel on the screen. Pixels drawn behind other, transparent pixels are not included in this criterion. Pixel-based queries can be constrained to a sub-region of the viewport.
+- The feature is included in at least one [Tile]($frontend) currently being displayed by the viewport. By this criterion, if a [ClipVector]($geometry-core) is clipping the contents of the viewport, a feature contained in a tile that intersects the clip volume is considered visible even if the feature's geometry would be completely clipped out.
 
-#### User Interface Settings
+## Creating graphics
 
-The [UiSettingsPage]($ui-framework) component has been to provide the UI to set general UI settings that effect the look and feel of the App UI user interface. This component can be used in the new [SettingsContainer]($ui-core) UI component. The function `getUiSettingsManagerEntry` will return a [SettingsTabEntry]($ui-core) for use by the [SettingsManager]($ui-core).
+The new [GraphicBuilderOptions]($frontend) makes it easier to create a [GraphicBuilder]($frontend) and enables some additional features. [DecorateContext.createGraphic]($frontend) and [RenderSystem.createGraphic]($frontend) have been added, superseding [DecorateContext.createGraphicBuilder]($frontend) and [RenderSystem.createGraphicBuilder]($frontend). Each accepts a GraphicBuilderOptions specifying only those aspects of the GraphicBuilder that the caller wishes to customize. In particular, the behavior of pickable decorations can be customized using [GraphicBuilderOptions.pickable]($frontend):
 
-#### Registering settings
+- [PickableGraphicOptions.noHilite]($frontend) and [PickableGraphicOptions.noFlash]($frontend) can prevent pickable graphics from being flashed and/or hilited by tools.
+- [PickableGraphicOptions.locateOnly]($frontend) allows a pickable graphic to be located by tools but not drawn to the screen.
 
-Below is an example of registering the `QuantityFormatSettingsPage` with the `SettingsManager`.
+## Map tile trees refactoring
 
-```ts
-// Sample settings provider that dynamically adds settings into the setting stage
-export class AppSettingsTabsProvider implements SettingsTabsProvider {
-  public readonly id = "AppSettingsTabsProvider";
+The map tile trees have been moved from [DisplayStyleState]($frontend) to [Viewport]($frontend).  This enables the maps to be maintained correctly when viewports are synchronized.  This will primarily not affect applications except calls to [ViewState.areAllTileTreesLoaded]($frontend) should replaced with [Viewport.areAllTileTreesLoaded]($frontend) if the map tile trees should be tested.
 
-  public getSettingEntries(_stageId: string, _stageUsage: string): ReadonlyArray<SettingsTabEntry> | undefined {
-    return [
-      getQuantityFormatsSettingsManagerEntry(10, {availableUnitSystems:new Set(["metric","imperial","usSurvey"])}),
-      getUiSettingsManagerEntry(30, true),
-    ];
-  }
+## Presentation changes
 
-  public static initializeAppSettingProvider() {
-    UiFramework.settingsManager.addSettingsProvider(new AppSettingsTabsProvider());
-  }
-}
-```
+### InstanceLabelOverride enhancements
 
-The `QuantityFormatSettingsPage` is marked as alpha in this release and is subject to minor modifications in future releases.
+The [InstanceLabelOverride]($presentation-common) rule was enhanced with abilities to compose label using related instance values:
 
-## @bentley/imodeljs-quantity
+- A `propertySource` attribute was added to [InstanceLabelOverridePropertyValueSpecification]($presentation-common) to allow picking a
+property value from a related instance.
 
-The alpha classes, interfaces, and definitions in the package `@bentley/imodeljs-quantity` have been updated to beta.
+- A new [InstanceLabelOverrideRelatedInstanceLabelSpecification]($presentation-common) was added to allow taking label of a related
+instance. The related instance, possibly being a of a different ECClass, might have some different label overrides of its own.
 
-## Added NativeHost.settingsStore for storing user-level settings for native applications
+### Custom category renderers
 
-The @beta class `NativeHost` now has a member [NativeHost.settingsStore]($backend) that may be used by native applications to store user-level data in a file in the [[NativeHost.appSettingsCacheDir]($backend) directory. It uses the [NativeAppStorage]($backend) api to store and load key/value pairs. Note that these settings are stored in a local file that may be deleted by the user, so it should only be used for a local cache of values that may be restored elsewhere.
+[VirtualizedPropertyGrid]($ui-components) now allows developers to fully customize displayed category contents, if the category is assigned a custom renderer via Presentation Rules. You can read more about that in our [Category customization learning page](../learning/presentation/Customization/PropertyCategoryRenderers.md).
 
-## NativeApp is now @beta
+### Custom category nesting
 
-The class [NativeApp]($frontend) has been promoted from @alpha to @beta. `NativeApp` is relevant for both Electron and mobile applications. Please provide feedback if you have issues or concerns on its use.
+A new `parentId` attribute was added to [PropertyCategorySpecification]($presentation-common) to provide nesting abilities. See more details in our [property categorization page](../learning/presentation/Content/PropertyCategorization.md#category-nesting).
 
-## Properly declare changeSetId
+### Presentation rule schema requirements
 
-There were a number of places where *changeSetId* variables/parameters were incorrectly typed as [GuidString]($bentley) instead of `string`.
-A *changeSetId* is a string hash value based on the ChangeSet contents and parent. It is not a GUID.
-This is not a breaking change because `GuidString` is just a type alias for `string`.
-It was, however, confusing from a usage and documentation perspective and needed to be corrected.
+A new `requiredSchemas` attribute was added to [Ruleset]($presentation-common), [Rule]($presentation-common) and [SubCondition]($presentation-common) definitions. The attribute allows specifying ECSchema requirements for rules and avoid using them when requirements are not met. See the [schema requirements page](../learning/presentation/SchemaRequirements.md) for more details.
 
 ## Promoted APIs
 
 The following APIs have been promoted to `public`. Public APIs are guaranteed to remain stable for the duration of the current major version of a package.
 
-### [@bentley/bentleyjs-core](https://www.itwinjs.org/reference/bentleyjs-core/)
+### [@bentley/webgl-compatibility](https://www.itwinjs.org/reference/webgl-compatibility/)
 
-* [assert]($bentleyjs-core) for asserting logic invariants.
-* [ProcessDetector]($bentleyjs-core) for querying the type of executing JavaScript process.
-* [ObservableSet]($bentleyjs-core) for a [Set](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Set) that emits events when its contents are modified.
-* [ByteStream]($bentleyjs-core) for extracting data from binary streams.
-* Types related to collections of [Id64String]($bentleyjs-core)s
-  * [OrderedId64Iterable]($bentleyjs-core) and [OrderedId64Array]($bentleyjs-core)
-  * [CompressedId64Set]($bentleyjs-core) and [MutableCompressedId64Set]($bentleyjs-core)
-
-### [@bentley/hypermodeling-frontend](https://www.itwinjs.org/reference/hypermodeling-frontend/)
-
-All hyper-modeling APIs are now public. [This interactive sample](https://www.itwinjs.org/sample-showcase/?group=Viewer&sample=hypermodeling-sample&imodel=House+Sample) demonstrates how to use hyper-modeling features.
-
-### [@bentley/imodeljs-common](https://www.itwinjs.org/reference/imodeljs-common/)
-
-* [ThematicDisplay]($common) for colorizing a [Viewport]($frontend)'s scene based on aspects of the rendered geometry. [This interactive sample](https://www.itwinjs.org/sample-showcase/?group=Viewer+Features&sample=thematic-display-sample&imodel=CoffsHarborDemo) demonstrates the usage of thematic display.
-* [Tween]($common) for smooth interpolation of values (based on [Tween.js](https://github.com/tweenjs/tween.js/blob/master/docs/user_guide.md))
-
-### [@bentley/imodeljs-frontend](https://www.itwinjs.org/reference/imodeljs-frontend/)
-
-* [ViewGlobeSatelliteTool]($frontend), [ViewGlobeBirdTool]($frontend), [ViewGlobeLocationTool]($frontend), [ViewGlobeIModelTool]($frontend) for viewing the iModel in a global context.
-* [MeasureLengthTool]($frontend), [MeasureAreaTool]($frontend), [MeasureVolumeTool]($frontend) for reporting element mass properties.
-* [MeasureLocationTool]($frontend), [MeasureDistanceTool]($frontend), [MeasureAreaByPointsTool]($frontend) for reporting point coordinates, point to point distance, and area defined by points.
-* [SetupWalkCameraTool]($frontend) to establish the starting position for the walk tool by identifying a point on the floor and look direction.
-* [ViewClipByPlaneTool]($frontend), [ViewClipByRangeTool]($frontend), [ViewClipByShapeTool]($frontend), [ViewClipByElementTool]($frontend), [ViewClipClearTool]($frontend) to section a view by a set of clip planes or clip volume.
-
-### [@bentley/imodeljs-backend](https://www.itwinjs.org/reference/imodeljs-backend/)
-
-* [StandaloneDb]($backend) for opening Standalone iModels
+- [queryRenderCompatibility]($webgl-compatibility) for querying the client system's compatibility with the iTwin.js rendering system.
+- [WebGLRenderCompatibilityInfo]($webgl-compatibility) for summarizing the client system's compatibility.
+- [WebGLFeature]($webgl-compatibility) for enumerating the required and optionals features used by the iTwin.js rendering system.
+- [WebGLRenderCompatibilityStatus]($webgl-compatibility) for describing a general compatibility rating of a client system.
+- [GraphicsDriverBugs]($webgl-compatibility) for describing any known graphics driver bugs for which iTwin.js will apply workarounds.
+- [ContextCreator]($webgl-compatibility) for describing a function that creates and returns a WebGLContext for [queryRenderCompatibility]($webgl-compatibility).
 
 ## Breaking API changes
 
-### @bentley/imodeljs-frontend
+### @bentley/imodeljs-backend package
 
-The beta class `InteractiveEditingSession` was renamed to [GraphicalEditingScope]($frontend), resulting in renaming of several related APIs:
-  * [GraphicalEditingScope.exit]($frontend) replaces `end`.
-  * [GraphicalEditingScope.onEnter]($frontend), [GraphicalEditingScope.onExiting]($frontend), and [GraphicalEditingScope.onExited]($frontend) replace `onBegin`, `onEnding`, and `onEnded` respectively.
-  * [BriefcaseConnection.editingScope]($frontend) and [BriefcaseConnection.enterEditingScope]($frontend) replace `editingSession` and `beginEditingSession`.
-  * [BriefcaseConnection.supportsGraphicalEditing]($frontend) replaces `supportsInteractiveEditing`.
+The arguments for the @beta protected static methods called during modifications have been changed to be more consistent and extensible:
 
-### @bentley/ui-core
+- [Element]($backend) `[onInsert, onInserted, onUpdate, onUpdated, onDelete, onDeleted]`
+- [Model]($backend) `[onInsert, onInserted, onUpdate, onUpdated, onDelete, onDeleted]`
+- [ElementAspect]($backend) `[onInsert, onInserted, onUpdate, onUpdated, onDelete, onDeleted]`
 
-The beta class `SettingsProvider` was renamed to `SettingsTabsProvider`.
+In addition, new protected static methods were added:
 
-### @bentley/ui-framework
+- [Element]($backend) `[onChildInsert, onChildInserted, onChildUpdate, onChildUpdated, onChildDelete, onChildDeleted, onChildAdd, onChildAdded, onChildDrop, onChildDropped]`
+- [Model]($backend) `[onInsertElement, onInsertedElement, onUpdateElement, onUpdatedElement, onDeleteElement, onDeletedElement]`
 
-The beta class `QuantityFormatSettingsPanel` was renamed to `QuantityFormatSettingsPage`.
+The following method is now `async` to make it easier to integrate with asynchronous status and health reporting services:
 
-### @bentley/imodeljs-quantity
+- [IModelExportHandler.onProgress]($backend)
 
-#### UnitProps property name change
+### @bentley/ecschema-metadata package
 
-The interface [UnitProps]($quantity) property `unitFamily` has been renamed to `phenomenon` to be consistent with naming in `ecschema-metadata` package.
-
-### @bentley/presentation-components
-
-Return value of [usePresentationTreeNodeLoader]($presentation-components) hook was changed from
-
-```ts
-PagedTreeNodeLoader<IPresentationTreeDataProvider>
-```
-
-to
-
-```ts
-{
-  nodeLoader: PagedTreeNodeLoader<IPresentationTreeDataProvider>;
-  onItemsRendered: (items: RenderedItemsRange) => void;
-}
-```
-
-Callback `onItemsRendered` returned from [usePresentationTreeNodeLoader]($presentation-components) hook should be passed to [ControlledTree]($ui-components) when property `enableHierarchyAutoUpdate` on [PresentationTreeNodeLoaderProps]($presentation-components) is set to true. If hierarchy auto update is not enabled replace:
-
-```ts
-const nodeLoader = usePresentationTreeNodeLoader(props);
-```
-
-With:
-
-```ts
-const { nodeLoader } = usePresentationTreeNodeLoader(props);
-```
-
-If hierarchy auto update is enabled replace:
-
-```ts
-const nodeLoader = usePresentationTreeNodeLoader(props);
-```
-
-With:
-
-```tsx
-const { nodeLoader, onItemsRendered } = usePresentationTreeNodeLoader(props);
-return <ControlledTree
-  onItemsRendered={onItemsRendered}
-/>;
-```
+Properties getter in @beta [ECClass]($ecschema-metadata) has been changed to return an iterator of properties instead of an array of properties.
+Array indexing and properties like .length will no longer work with the returned iterator, so you may need to create an array from the iterator or use its .next() method. Iterating with for...of loop works the same with iterator as before with an array.\
+This change is made because internally properties are now stored in a map instead of an array, and it is more efficient to return an iterator for the properties to be generated on demand than to create them on the getter.

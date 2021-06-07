@@ -1,0 +1,8 @@
+{
+  "name": "rush-lintstaged",
+  "version": "1.0.0",
+  "private": true,
+  "dependencies": {
+    "lint-staged": "^10.2.11"
+  }
+}

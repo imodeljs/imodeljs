@@ -2,6 +2,63 @@
   "name": "@bentley/presentation-components",
   "entries": [
     {
+      "version": "2.16.2",
+      "tag": "@bentley/presentation-components_v2.16.2",
+      "date": "Thu, 03 Jun 2021 18:08:11 GMT",
+      "comments": {}
+    },
+    {
+      "version": "2.16.1",
+      "tag": "@bentley/presentation-components_v2.16.1",
+      "date": "Thu, 27 May 2021 20:04:22 GMT",
+      "comments": {}
+    },
+    {
+      "version": "2.16.0",
+      "tag": "@bentley/presentation-components_v2.16.0",
+      "date": "Mon, 24 May 2021 15:58:39 GMT",
+      "comments": {
+        "none": [
+          {
+            "comment": "Added ability to get diagnostics data when using presentation data providers (tree, property grid, table)."
+          },
+          {
+            "comment": "Fix wrong colors being assigned to objects created using presentation rules"
+          },
+          {
+            "comment": "Fix `PresentationPropertyDataProvider` not working after Presentation re-initialization"
+          },
+          {
+            "comment": "Drop lodash dependency"
+          },
+          {
+            "comment": "Fix nested fields' enum info not being carried to PropertyRecords"
+          },
+          {
+            "comment": "Add `PresentationPropertyDataProvider.getPropertyRecordInstanceKeys` function to find keys of instance that is the source of given `PropertyRecord`."
+          },
+          {
+            "comment": "Sort categories and fields in table and property data providers based on priority and label rather than name."
+          },
+          {
+            "comment": "Release tags' review"
+          },
+          {
+            "comment": "Set renderer and editor for deeply nested `PropertyRecord` instances."
+          },
+          {
+            "comment": "Add support for custom property category renderers."
+          }
+        ]
+      }
+    },
+    {
+      "version": "2.15.6",
+      "tag": "@bentley/presentation-components_v2.15.6",
+      "date": "Wed, 26 May 2021 15:55:19 GMT",
+      "comments": {}
+    },
+    {
       "version": "2.15.5",
       "tag": "@bentley/presentation-components_v2.15.5",
       "date": "Thu, 20 May 2021 15:06:26 GMT",

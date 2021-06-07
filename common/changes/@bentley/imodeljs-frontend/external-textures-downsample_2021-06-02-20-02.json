@@ -1,0 +1,11 @@
+{
+  "changes": [
+    {
+      "packageName": "@bentley/imodeljs-frontend",
+      "comment": "External textures enabled by default for TileAdmin. External textures will downsample to maxTextureSize of client.",
+      "type": "none"
+    }
+  ],
+  "packageName": "@bentley/imodeljs-frontend",
+  "email": "47000437+markschlosseratbentley@users.noreply.github.com"
+}

@@ -1,0 +1,11 @@
+{
+  "changes": [
+    {
+      "packageName": "@bentley/ui-components",
+      "comment": "Update scss to remove use of slash for division to avoid SASS deprecation warnings.",
+      "type": "none"
+    }
+  ],
+  "packageName": "@bentley/ui-components",
+  "email": "65047615+bsteinbk@users.noreply.github.com"
+}

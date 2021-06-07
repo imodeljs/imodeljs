@@ -70,8 +70,8 @@ beta;BackstageStageLauncher
 deprecated;BackstageStageLauncher 
 beta;BackstageToggledArgs
 public;BaseItemState
-beta;BasicNavigationWidget(props: BasicNavigationWidgetProps): JSX.Element
-beta;BasicNavigationWidgetProps
+public;BasicNavigationWidget(props: BasicNavigationWidgetProps): JSX.Element
+public;BasicNavigationWidgetProps
 beta;BasicToolWidget(props: BasicToolWidgetProps): JSX.Element
 beta;BasicToolWidgetProps
 public;BooleanListenerProps
@@ -124,7 +124,7 @@ public;ConfigurableUiElement
 public;ConfigurableUiManager
 public;ConfigurableUiReducer(state: ConfigurableUiState | undefined, action: ConfigurableUiActionsUnion): ConfigurableUiState
 public;ConfigurableUiState
-beta;connectIModelConnection: (mapStateToProps?: any, mapDispatchToProps?: any) => import("react-redux").InferableComponentEnhancerWithProps
+public;connectIModelConnection: (mapStateToProps?: any, mapDispatchToProps?: any) => import("react-redux").InferableComponentEnhancerWithProps
 beta;connectIModelConnectionAndViewState: (mapStateToProps?: any, mapDispatchToProps?: any) => import("react-redux").InferableComponentEnhancerWithProps
 public;ContentCallback = (content: ContentProps) => void
 public;ContentControl 
@@ -203,7 +203,7 @@ beta;DrawingNavigationAidControl
 public;ElementTooltip 
 public;ElementTooltipChangedEvent 
 public;ElementTooltipChangedEventArgs
-alpha;EmphasizeElementsChangedArgs
+public;EmphasizeElementsChangedArgs
 beta;ExpandableSection 
 beta;ExpandableSectionProps 
 internal;expandWidget: (base:
@@ -278,9 +278,9 @@ internal;GroupedItems = ReadonlyArray
 internal;GroupItem 
 public;GroupItemDef 
 public;GroupItemProps 
-alpha;HideIsolateEmphasizeAction
-alpha;class HideIsolateEmphasizeActionHandler
-alpha;HideIsolateEmphasizeManager 
+public;HideIsolateEmphasizeAction
+public;class HideIsolateEmphasizeActionHandler
+public;HideIsolateEmphasizeManager 
 alpha;HTMLElementPopup 
 alpha;HTMLElementPopupProps 
 beta;IModelAppUiSettings 
@@ -423,7 +423,7 @@ internal;packNineZoneState(state: NineZoneState): SavedNineZoneState
 internal;PanelSizeChangedEvent 
 internal;PanelSizeChangedEventArgs
 beta;PanelStateChangedEvent 
-beta;PanelStateChangedEventArgs
+public;PanelStateChangedEventArgs
 internal;panelStateToIsCollapsed: (panelState: StagePanelState) => boolean
 public;PointerMessage 
 public;PointerMessageChangedEvent 
@@ -477,17 +477,17 @@ internal;RULESET_MODELS: Ruleset
 internal;RULESET_MODELS_GROUPED_BY_CLASS: Ruleset
 internal;RULESET_SPATIAL_BREAKDOWN: Ruleset
 internal;RULESET_SPATIAL_BREAKDOWN_GROUPED_BY_CLASS: Ruleset
-alpha;SafeAreaContext: React.Context
+public;SafeAreaContext: React.Context
 public;SavedView
 public;SavedViewLayout
 public;SavedViewLayoutProps
 public;SavedViewProps 
 internal;saveFrontstagePopoutWidgetSizeAndPosition(state: NineZoneState, stageId: string, stageVersion: number, childWindowId: string, childWindow: Window): Promise
-alpha;ScheduleAnimationTimelineDataProvider 
+public;ScheduleAnimationTimelineDataProvider 
 beta;SectionsStatusField(props: SectionsStatusFieldProps): JSX.Element
 beta;SectionsStatusFieldProps 
 beta;selectionContextStateFunc(state: Readonly
-beta;SelectionContextToolDefinitions
+public;SelectionContextToolDefinitions
 public;SelectionInfoField: import("react-redux").ConnectedComponent
 public;SelectionScopeField: import("react-redux").ConnectedComponent
 public;SeparatorBackstageItem 
@@ -655,9 +655,9 @@ public;UiVisibilityChangedEvent
 public;UiVisibilityEventArgs
 internal;useActiveFrontstageDef(): FrontstageDef | undefined
 beta;useActiveFrontstageId: () => string
-beta;useActiveIModelConnection(): IModelConnection | undefined
+public;useActiveIModelConnection(): IModelConnection | undefined
 internal;useActiveModalFrontstageInfo(): ModalFrontstageInfo | undefined
-beta;useActiveViewport(): ScreenViewport | undefined
+public;useActiveViewport(): ScreenViewport | undefined
 internal;useAvailableUiItemsProviders(): readonly string[]
 beta;useBackstageManager: () => BackstageManager
 internal;useDefaultBackstageItems: (manager: BackstageItemsManager) => readonly BackstageItem[]
@@ -756,7 +756,7 @@ internal;WidgetTab
 internal;WidgetTabs =
 public;WidgetType
 public;withMessageCenterFieldProps: 
-alpha;withSafeArea: 
+public;withSafeArea: 
 public;withStatusFieldProps: 
 public;Workflow 
 public;WorkflowActivatedEvent 

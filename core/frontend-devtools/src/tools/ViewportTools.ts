@@ -7,8 +7,11 @@
  * @module Tools
  */
 
+import { BeDuration } from "@bentley/bentleyjs-core";
 import { Camera, ColorDef, Hilite } from "@bentley/imodeljs-common";
-import { DrawingViewState, IModelApp, TileBoundingBoxes, Tool, Viewport } from "@bentley/imodeljs-frontend";
+import {
+  DrawingViewState, FlashMode, FlashSettings, FlashSettingsOptions, IModelApp, TileBoundingBoxes, Tool, Viewport,
+} from "@bentley/imodeljs-frontend";
 import { parseArgs } from "./parseArgs";
 import { parseToggle } from "./parseToggle";
 
@@ -234,6 +237,59 @@ export class ChangeEmphasisSettingsTool extends ChangeHiliteTool {
   }
 }
 
+/** Changes the [FlashSettings]($frontend) for the selected [Viewport]($frontend).
+ * @beta
+ */
+export class ChangeFlashSettingsTool extends Tool {
+  public static toolId = "ChangeFlashSettings";
+  public static get minArgs() { return 0; }
+  public static get maxArgs() { return 3; }
+
+  public run(settings?: FlashSettings): boolean {
+    const vp = IModelApp.viewManager.selectedView;
+    if (vp)
+      vp.flashSettings = settings ?? new FlashSettings();
+
+    return true;
+  }
+
+  public parseAndRun(...inputArgs: string[]): boolean {
+    const vp = IModelApp.viewManager.selectedView;
+    if (!vp)
+      return true;
+
+    if (1 === inputArgs.length && "default" === inputArgs[0].toLowerCase())
+      return this.run();
+
+    const options: FlashSettingsOptions = { };
+    const args = parseArgs(inputArgs);
+
+    const intensity = args.getFloat("i");
+    if (undefined !== intensity)
+      options.maxIntensity = intensity;
+
+    const mode = args.get("m");
+    if (mode) {
+      switch (mode[0].toLowerCase()) {
+        case "b":
+          options.litMode = FlashMode.Brighten;
+          break;
+        case "h":
+          options.litMode = FlashMode.Hilite;
+          break;
+        default:
+          return false;
+      }
+    }
+
+    const duration = args.getFloat("d");
+    if (undefined !== duration)
+      options.duration = BeDuration.fromSeconds(duration);
+
+    return this.run(vp.flashSettings.clone(options));
+  }
+}
+
 /** Enables or disables fade-out transparency mode for the selected viewport.
  * @beta
  */
@@ -315,7 +371,7 @@ export class ViewportAddRealityModel extends Tool {
   public run(url: string): boolean {
     const vp = IModelApp.viewManager.selectedView;
     if (undefined !== vp)
-      vp.attachRealityModel({ tilesetUrl: url });
+      vp.displayStyle.attachRealityModel({ tilesetUrl: url });
 
     return true;
   }

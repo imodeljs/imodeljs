@@ -7,7 +7,7 @@ import * as React from "react";
 import { BeEvent } from "@bentley/bentleyjs-core";
 import { ChangeSetPostPushEvent, ChangeSetQuery } from "@bentley/imodelhub-client";
 import {
-  AuthorizedFrontendRequestContext, BriefcaseConnection, IModelApp, NotifyMessageDetails, OutputMessageAlert,
+  AuthorizedFrontendRequestContext, BriefcaseConnection, IModelApp, IModelHubFrontend, NotifyMessageDetails, OutputMessageAlert,
   OutputMessagePriority, OutputMessageType,
 } from "@bentley/imodeljs-frontend";
 import { Icon, Spinner, SpinnerSize } from "@bentley/ui-core";
@@ -49,16 +49,16 @@ class SyncManager {
       // Bootstrap the process by finding out if there are newer changesets on the server already.
       this.state.parentChangesetId = this.briefcaseConnection.changeSetId!;
 
-      if (!!this.state.parentChangesetId) {  // avoid error is imodel has no changesets.
-        const allOnServer = await IModelApp.iModelClient.changeSets.get(requestContext, iModelId, new ChangeSetQuery().fromId(this.state.parentChangesetId));
+      if (!!this.state.parentChangesetId) {  // avoid error if imodel has no changesets.
+        const allOnServer = await IModelHubFrontend.iModelClient.changeSets.get(requestContext, iModelId, new ChangeSetQuery().fromId(this.state.parentChangesetId));
         this.state.changesOnServer = allOnServer.map((changeset) => changeset.id!);
 
         this.onStateChange.raiseEvent();
 
         // Once the initial state of the briefcase is known, register for events announcing new changesets
-        const changeSetSubscription = await IModelApp.iModelClient.events.subscriptions.create(requestContext, iModelId, ["ChangeSetPostPushEvent"]); // eslint-disable-line deprecation/deprecation
+        const changeSetSubscription = await IModelHubFrontend.iModelClient.events.subscriptions.create(requestContext, iModelId, ["ChangeSetPostPushEvent"]); // eslint-disable-line deprecation/deprecation
 
-        IModelApp.iModelClient.events.createListener(requestContext, async () => requestContext.accessToken, changeSetSubscription.wsgId, iModelId, async (receivedEvent: ChangeSetPostPushEvent) => {
+        IModelHubFrontend.iModelClient.events.createListener(requestContext, async () => requestContext.accessToken, changeSetSubscription.wsgId, iModelId, async (receivedEvent: ChangeSetPostPushEvent) => {
           if (receivedEvent.changeSetId !== this.state.parentChangesetId) {
             this.state.changesOnServer.push(receivedEvent.changeSetId);
             this.onStateChange.raiseEvent();

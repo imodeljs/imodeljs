@@ -6,7 +6,7 @@
  * @module RbacClient
  */
 
-import { assert, Config, GuidString } from "@bentley/bentleyjs-core";
+import { assert, Config } from "@bentley/bentleyjs-core";
 import { AuthorizedClientRequestContext, ECJsonTypeMap, request, Response, WsgClient, WsgInstance } from "@bentley/itwin-client";
 
 /** RBAC permission
@@ -25,22 +25,6 @@ export class Permission extends WsgInstance {
 
   @ECJsonTypeMap.propertyToJson("wsg", "properties.CategoryId")
   public categoryId?: number;
-}
-
-/** iModelHub Permission
- * @internal
- * @deprecated IModelHub permissions checking logic moved to @bentley/imodelhub-client package, PermissionHandler class
- */
-export enum IModelHubPermission {
-  None = 0,
-  Create = 1 << 0,
-  Read = 1 << 1,
-  Modify = 1 << 2,
-  Delete = 1 << 3,
-  ManageResources = 1 << 4,
-  ManageVersions = 1 << 5,
-  View = 1 << 6,
-  ConfigureIModelAccess = 1 << 7,
 }
 
 /** Client API to access the iTwin services.
@@ -202,56 +186,6 @@ export class RbacClient extends WsgClient {
       if (typedInstance)
         permissions.push(typedInstance);
     }
-
-    return permissions;
-  }
-
-  /**
-   * Get the permissions relevant to iModelHub for a specified project
-   * @param requestContext The client request context.
-   * @param projectId Id of the specified project.
-   * @deprecated This method does not accommodate new permissions per iModel logic. Use [[IModelHubClient.permissions]] methods to get context or iModel permissions.
-   */
-  // eslint-disable-next-line deprecation/deprecation
-  public async getIModelHubPermissions(requestContext: AuthorizedClientRequestContext, projectId: GuidString): Promise<IModelHubPermission> {
-    requestContext.enter();
-
-    const iModelHubServiceGPRId = 2485;
-    const permissionInstances: Permission[] = await this.getPermissions(requestContext, projectId, iModelHubServiceGPRId);
-    requestContext.enter();
-
-    /* eslint-disable deprecation/deprecation */
-    let permissions: IModelHubPermission = IModelHubPermission.None;
-    for (const permissionInstance of permissionInstances) {
-      switch (permissionInstance.instanceId) {
-        case "IMHS_Create_iModel":
-          permissions = permissions | IModelHubPermission.Create | IModelHubPermission.View | IModelHubPermission.Read | IModelHubPermission.Modify;
-          break;
-        case "IMHS_Read_iModel":
-          permissions = permissions | IModelHubPermission.Read | IModelHubPermission.View;
-          break;
-        case "IMHS_Modify_iModel":
-          permissions = permissions | IModelHubPermission.Modify | IModelHubPermission.View | IModelHubPermission.Read;
-          break;
-        case "IMHS_Delete_iModel":
-          permissions = permissions | IModelHubPermission.Delete | IModelHubPermission.View | IModelHubPermission.Read;
-          break;
-        case "IMHS_ManageResources":
-          permissions = permissions | IModelHubPermission.ManageResources | IModelHubPermission.View | IModelHubPermission.Read | IModelHubPermission.Modify;
-          break;
-        case "IMHS_Manage_Versions":
-          permissions = permissions | IModelHubPermission.ManageVersions | IModelHubPermission.View | IModelHubPermission.Read | IModelHubPermission.Modify;
-          break;
-        case "IMHS_Web_View":
-          permissions = permissions | IModelHubPermission.View;
-          break;
-        case "IMHS_iModel_Perm":
-          permissions = permissions | IModelHubPermission.ConfigureIModelAccess;
-          break;
-        default:
-      }
-    }
-    /* eslint-enable deprecation/deprecation */
 
     return permissions;
   }

@@ -52,6 +52,7 @@ import { DisplayStyle3dSettingsProps } from '@bentley/imodeljs-common';
 import { DisplayStyleProps } from '@bentley/imodeljs-common';
 import { DisplayStyleSettings } from '@bentley/imodeljs-common';
 import { EcefLocation } from '@bentley/imodeljs-common';
+import * as ECSchemaMetaData from '@bentley/ecschema-metadata';
 import { ECSqlValueType } from '@bentley/imodeljs-common';
 import { EditingScopeNotifications } from '@bentley/imodeljs-common';
 import { ElementAlignedBox3d } from '@bentley/imodeljs-common';
@@ -162,6 +163,7 @@ import { RenderTimelineProps } from '@bentley/imodeljs-common';
 import { RepositoryLinkProps } from '@bentley/imodeljs-common';
 import { RequestNewBriefcaseProps } from '@bentley/imodeljs-common';
 import { Schema as Schema_2 } from '@bentley/ecschema-metadata';
+import { SchemaKey as SchemaKey_2 } from '@bentley/ecschema-metadata';
 import { SchemaState } from '@bentley/imodeljs-common';
 import { SectionDrawingLocationProps } from '@bentley/imodeljs-common';
 import { SectionDrawingProps } from '@bentley/imodeljs-common';
@@ -232,7 +234,7 @@ export class AnnotationElement2d extends GraphicalElement2d {
     static get className(): string;
 }
 
-// @beta
+// @beta @deprecated
 export interface AppActivityMonitor {
     isIdle: boolean;
 }
@@ -243,7 +245,7 @@ export class AuthorizedBackendRequestContext extends AuthorizedClientRequestCont
     static create(activityId?: string): Promise<AuthorizedBackendRequestContext>;
 }
 
-// @beta
+// @beta @deprecated
 export class AutoPush {
     constructor(iModel: BriefcaseDb, params: AutoPushParams, activityMonitor?: AppActivityMonitor);
     get autoSchedule(): boolean;
@@ -263,10 +265,10 @@ export class AutoPush {
     static validateAutoPushParams(params: any): void;
 }
 
-// @beta
+// @beta @deprecated
 export type AutoPushEventHandler = (etype: AutoPushEventType, autoPush: AutoPush) => void;
 
-// @beta
+// @beta @deprecated
 export enum AutoPushEventType {
     // (undocumented)
     PushCancelled = 3,
@@ -278,14 +280,14 @@ export enum AutoPushEventType {
     PushStarted = 0
 }
 
-// @beta
+// @beta @deprecated
 export interface AutoPushParams {
     autoSchedule: boolean;
     pushIntervalSecondsMax: number;
     pushIntervalSecondsMin: number;
 }
 
-// @beta
+// @beta @deprecated
 export enum AutoPushState {
     // (undocumented)
     NotRunning = 0,
@@ -354,13 +356,55 @@ export class AzureBlobStorage extends CloudStorageService {
     upload(container: string, name: string, data: Uint8Array, options?: CloudStorageUploadOptions, metadata?: object): Promise<string>;
 }
 
-// @beta
+// @beta @deprecated
 export class BackendActivityMonitor implements AppActivityMonitor {
     constructor(idleIntervalSeconds?: number);
     // (undocumented)
     idleIntervalSeconds: number;
     // (undocumented)
     get isIdle(): boolean;
+}
+
+// @internal
+export interface BackendHubAccess {
+    acquireLocks: (arg: BriefcaseDbArg & {
+        locks: LockProps[];
+    }) => Promise<void>;
+    acquireNewBriefcaseId: (arg: IModelIdArg) => Promise<number>;
+    acquireSchemaLock: (arg: BriefcaseDbArg) => Promise<void>;
+    createIModel: (arg: IModelNameArg & {
+        description?: string;
+        revision0?: LocalFileName;
+    }) => Promise<GuidString>;
+    deleteIModel: (arg: IModelIdArg & {
+        contextId: GuidString;
+    }) => Promise<void>;
+    downloadChangeset: (arg: ChangesetIdArg) => Promise<ChangesetFileProps>;
+    downloadChangesets: (arg: ChangesetRangeArg) => Promise<ChangesetFileProps[]>;
+    downloadV1Checkpoint: (arg: CheckPointArg) => Promise<ChangesetId>;
+    downloadV2Checkpoint: (arg: CheckPointArg) => Promise<ChangesetId>;
+    getChangesetIdFromNamedVersion: (arg: IModelIdArg & {
+        versionName: string;
+    }) => Promise<ChangesetId>;
+    getChangesetIdFromVersion: (arg: IModelIdArg & {
+        version: IModelVersion;
+    }) => Promise<ChangesetId>;
+    getChangesetIndexFromId: (arg: ChangesetIdArg) => Promise<ChangesetIndex>;
+    getLatestChangesetId: (arg: IModelIdArg) => Promise<ChangesetId>;
+    getMyBriefcaseIds: (arg: IModelIdArg) => Promise<number[]>;
+    pushChangeset: (arg: IModelIdArg & {
+        changesetProps: ChangesetFileProps;
+        releaseLocks: boolean;
+    }) => Promise<void>;
+    queryAllCodes: (arg: BriefcaseDbArg) => Promise<CodeProps[]>;
+    queryAllLocks: (arg: BriefcaseDbArg) => Promise<LockProps[]>;
+    queryChangeset: (arg: ChangesetIdArg) => Promise<ChangesetProps>;
+    queryChangesets: (arg: ChangesetRangeArg) => Promise<ChangesetProps[]>;
+    queryIModelByName: (arg: IModelNameArg) => Promise<GuidString | undefined>;
+    querySchemaLock: (arg: BriefcaseDbArg) => Promise<boolean>;
+    releaseAllCodes: (arg: BriefcaseIdArg) => Promise<void>;
+    releaseAllLocks: (arg: BriefcaseIdArg) => Promise<void>;
+    releaseBriefcase: (arg: BriefcaseIdArg) => Promise<void>;
 }
 
 // @public
@@ -442,11 +486,29 @@ export class BriefcaseDb extends IModelDb {
     // (undocumented)
     static tryFindByKey(key: string): BriefcaseDb | undefined;
     readonly txns: TxnManager;
-    static upgradeSchemas(requestContext: AuthorizedClientRequestContext, briefcaseProps: LocalBriefcaseProps & OpenBriefcaseProps): Promise<void>;
+    static upgradeSchemas(requestContext: AuthorizedClientRequestContext, briefcase: LocalBriefcaseProps & OpenBriefcaseProps): Promise<void>;
+}
+
+// @internal
+export interface BriefcaseDbArg {
+    // (undocumented)
+    briefcase: {
+        briefcaseId: number;
+        iModelId: GuidString;
+        changeSetId: ChangesetId;
+    };
+    // (undocumented)
+    requestContext?: AuthorizedClientRequestContext;
 }
 
 // @public
 export type BriefcaseId = number;
+
+// @internal
+export interface BriefcaseIdArg extends IModelIdArg {
+    // (undocumented)
+    briefcaseId: number;
+}
 
 // @public @deprecated (undocumented)
 export enum BriefcaseIdValue {
@@ -463,21 +525,17 @@ export enum BriefcaseIdValue {
 export class BriefcaseManager {
     static acquireNewBriefcaseId(requestContext: AuthorizedClientRequestContext, iModelId: GuidString): Promise<number>;
     static get cacheDir(): string;
+    // @internal (undocumented)
+    static changesetFromVersion(requestContext: AuthorizedClientRequestContext, version: IModelVersion, iModelId: string): Promise<{
+        changesetId: ChangesetId;
+        changesetIndex: ChangesetIndex;
+    }>;
     // @beta
     static create(requestContext: AuthorizedClientRequestContext, contextId: GuidString, iModelName: GuidString, args: CreateIModelProps): Promise<GuidString>;
-    // @internal (undocumented)
-    static deleteAllBriefcases(requestContext: AuthorizedClientRequestContext, iModelId: GuidString): Promise<void[] | undefined>;
     static deleteBriefcaseFiles(filePath: string, requestContext?: AuthorizedClientRequestContext): Promise<void>;
     // @internal
     static deleteChangeSetsFromLocalDisk(iModelId: string): void;
     static downloadBriefcase(requestContext: AuthorizedClientRequestContext, request: RequestNewBriefcaseArg): Promise<LocalBriefcaseProps>;
-    // @internal
-    static downloadChangeSets(requestContext: AuthorizedClientRequestContext, iModelId: GuidString, fromChangeSetId: string, toChangeSetId: string): Promise<ChangeSet[]>;
-    // @internal (undocumented)
-    static evaluateVersion(requestContext: AuthorizedClientRequestContext, version: IModelVersion, iModelId: string): Promise<{
-        changeSetId: string;
-        changeSetIndex: number;
-    }>;
     // @internal (undocumented)
     static getBriefcaseBasePath(iModelId: GuidString): string;
     static getCachedBriefcases(iModelId?: GuidString): LocalBriefcaseProps[];
@@ -500,7 +558,7 @@ export class BriefcaseManager {
     // @internal (undocumented)
     static logUsage(requestContext: ClientRequestContext, token: IModelRpcOpenProps): void;
     // @internal
-    static processChangeSets(requestContext: AuthorizedClientRequestContext, db: IModelDb, targetChangeSetId: string, targetChangeSetIndex?: number): Promise<void>;
+    static processChangesets(requestContext: AuthorizedClientRequestContext, db: IModelDb, targetChangeSetId: string, targetChangeSetIndex?: number): Promise<void>;
     // @internal
     static pullAndMergeChanges(requestContext: AuthorizedClientRequestContext, db: BriefcaseDb, mergeToVersion?: IModelVersion): Promise<void>;
     // @internal
@@ -579,6 +637,52 @@ export class ChangedElementsDb implements IDisposable {
     processChangesetsAndRoll(requestContext: AuthorizedClientRequestContext, briefcase: IModelDb, options: ProcessChangesetOptions): Promise<DbResult>;
 }
 
+// @internal
+export interface ChangesetFileProps extends ChangesetProps {
+    pathname: LocalFileName;
+}
+
+// @internal
+export type ChangesetId = string;
+
+// @internal
+export interface ChangesetIdArg extends IModelIdArg {
+    // (undocumented)
+    changesetId: ChangesetId;
+}
+
+// @internal (undocumented)
+export type ChangesetIndex = number;
+
+// @internal
+export interface ChangesetProps {
+    briefcaseId: number;
+    changesType: ChangesType;
+    description: string;
+    id: ChangesetId;
+    index?: ChangesetIndex;
+    parentId: ChangesetId;
+    pushDate: string;
+    size?: number;
+    userCreated: string;
+}
+
+// @internal
+export type ChangesetRange = {
+    first: ChangesetId;
+    after?: never;
+    end?: ChangesetId;
+} | {
+    after: ChangesetId;
+    first?: never;
+    end?: ChangesetId;
+};
+
+// @internal
+export interface ChangesetRangeArg extends IModelIdArg {
+    range?: ChangesetRange;
+}
+
 // @beta
 export interface ChangeSummary {
     // (undocumented)
@@ -621,8 +725,8 @@ export class ChangeSummaryManager {
     }, changedValueState: ChangedValueState, changedPropertyNames?: string[]): string;
     // @deprecated
     static detachChangeCache(iModel: IModelDb): void;
-    // (undocumented)
-    static downloadChangeSets(requestContext: AuthorizedClientRequestContext, ctx: ChangeSummaryExtractContext, startChangeSetId: GuidString, endChangeSetId: GuidString): Promise<ChangeSet[]>;
+    // @internal (undocumented)
+    static downloadChangesets(requestContext: AuthorizedClientRequestContext, ctx: ChangeSummaryExtractContext, first: ChangesetId, end: ChangesetId): Promise<ChangesetFileProps[]>;
     static extractChangeSummaries(requestContext: AuthorizedClientRequestContext, iModel: BriefcaseDb, options?: ChangeSummaryExtractOptions): Promise<Id64String[]>;
     static getChangedPropertyValueNames(iModel: IModelDb, instanceChangeId: Id64String): string[];
     static isChangeCacheAttached(iModel: IModelDb): boolean;
@@ -643,13 +747,20 @@ export class ChannelRootAspect extends ElementUniqueAspect {
 }
 
 // @internal (undocumented)
+export type CheckPointArg = DownloadRequest;
+
+// @internal (undocumented)
 export class CheckpointManager {
     static downloadCheckpoint(request: DownloadRequest): Promise<void>;
     // (undocumented)
     static getKey(checkpoint: CheckpointProps): string;
     // (undocumented)
-    static readonly onDownload: BeEvent<(job: DownloadJob) => void>;
+    static readonly onDownloadV1: BeEvent<(job: DownloadJob) => void>;
+    // (undocumented)
+    static readonly onDownloadV2: BeEvent<(job: DownloadJob) => void>;
     static tryOpenLocalFile(request: DownloadRequest): SnapshotDb | undefined;
+    // (undocumented)
+    static updateToRequestedVersion(request: DownloadRequest): Promise<void>;
     static validateCheckpointGuids(checkpoint: CheckpointProps, nativeDb: IModelJsNative.DgnDb): void;
     // (undocumented)
     static verifyCheckpoint(checkpoint: CheckpointProps, fileName: string): boolean;
@@ -768,8 +879,6 @@ export class ConcurrencyControl {
     areCodesAvailable(requestContext: AuthorizedClientRequestContext, req?: ConcurrencyControl.Request): Promise<boolean>;
     // @internal (undocumented)
     areCodesAvailable0(requestContext: AuthorizedClientRequestContext, req?: ConcurrencyControl.Request): Promise<boolean>;
-    // @internal @deprecated (undocumented)
-    areCodesAvailable2(requestContext: AuthorizedClientRequestContext, codes: CodeProps[]): Promise<boolean>;
     areLocksAvailable(requestContext: AuthorizedClientRequestContext, req?: ConcurrencyControl.Request): Promise<boolean>;
     buildConcurrencyControlRequestForDb(): void;
     // @internal
@@ -784,41 +893,23 @@ export class ConcurrencyControl {
     get channel(): ConcurrencyControl.Channel;
     get codes(): ConcurrencyControl.CodesManager;
     endBulkMode(rqctx: AuthorizedClientRequestContext): Promise<void>;
-    // @internal @deprecated (undocumented)
-    getHeldElementLock(elementId: Id64String): LockLevel;
-    // @internal @deprecated (undocumented)
-    getHeldLock(type: LockType, objectId: Id64String): LockLevel;
     // @internal (undocumented)
     getHeldLock0(type: LockType, objectId: Id64String): LockLevel;
-    // @internal @deprecated (undocumented)
-    getHeldModelLock(modelId: Id64String): LockLevel;
     // @internal (undocumented)
     getPolicy(): ConcurrencyControl.PessimisticPolicy | ConcurrencyControl.OptimisticPolicy;
-    // @internal @deprecated (undocumented)
-    get hasCodeSpecsLock(): boolean;
     get hasPendingRequests(): boolean;
-    // @internal @deprecated (undocumented)
-    hasReservedCode(code: CodeProps): boolean;
-    // (undocumented)
-    hasReservedCode0(code: CodeProps): boolean;
-    // @internal @deprecated (undocumented)
-    get hasSchemaLock(): boolean;
-    // @internal @deprecated (undocumented)
-    holdsLock(lock: ConcurrencyControl.LockProps): boolean;
     // @internal (undocumented)
-    holdsLock0(lock: ConcurrencyControl.LockProps): boolean;
+    hasReservedCode0(code: CodeProps): boolean;
+    // @internal (undocumented)
+    holdsLock0(lock: LockProps): boolean;
     // @internal (undocumented)
     get iModel(): BriefcaseDb;
     get isBulkMode(): boolean;
-    // @internal @deprecated (undocumented)
-    lockCodeSpecs(requestContext: AuthorizedClientRequestContext): Promise<Lock[]>;
     // @internal (undocumented)
-    lockCodeSpecs0(requestContext: AuthorizedClientRequestContext): Promise<Lock[]>;
+    lockCodeSpecs0(requestContext: AuthorizedClientRequestContext): Promise<void>;
     get locks(): ConcurrencyControl.LocksManager;
-    // @internal @deprecated (undocumented)
-    lockSchema(requestContext: AuthorizedClientRequestContext): Promise<Lock[]>;
     // @internal (undocumented)
-    lockSchema0(requestContext: AuthorizedClientRequestContext): Promise<Lock[]>;
+    lockSchema0(requestContext: AuthorizedClientRequestContext): Promise<void>;
     // @internal (undocumented)
     get needLocks(): boolean;
     // @internal (undocumented)
@@ -845,8 +936,6 @@ export class ConcurrencyControl {
     onSaveChanges(): void;
     // @internal (undocumented)
     get pendingRequest(): ConcurrencyControl.Request;
-    // @internal @deprecated (undocumented)
-    queryCodeStates(requestContext: AuthorizedClientRequestContext, specId: Id64String, scopeId: string, value?: string): Promise<HubCode[]>;
     request(requestContext: AuthorizedClientRequestContext, req?: ConcurrencyControl.Request): Promise<void>;
     requestResources(ctx: AuthorizedClientRequestContext, elements: ConcurrencyControl.ElementAndOpcode[], models?: ConcurrencyControl.ModelAndOpcode[], relationships?: ConcurrencyControl.RelationshipAndOpcode[]): Promise<void>;
     requestResourcesForDelete(ctx: AuthorizedClientRequestContext, elements: ElementProps[], models?: ModelProps[], relationships?: RelationshipProps[]): Promise<void>;
@@ -854,12 +943,10 @@ export class ConcurrencyControl {
     // @internal (undocumented)
     requestResourcesForOpcode(ctx: AuthorizedClientRequestContext, opcode: DbOpcode, elements: ElementProps[], models?: ModelProps[], relationships?: RelationshipProps[]): Promise<void>;
     requestResourcesForUpdate(ctx: AuthorizedClientRequestContext, elements: ElementProps[], models?: ModelProps[], relationships?: RelationshipProps[]): Promise<void>;
-    // @internal @deprecated (undocumented)
-    reserveCodes(requestContext: AuthorizedClientRequestContext, codes: CodeProps[]): Promise<HubCode[]>;
     setPolicy(policy: ConcurrencyControl.PessimisticPolicy | ConcurrencyControl.OptimisticPolicy): void;
     startBulkMode(): void;
     syncCache(requestContext: AuthorizedClientRequestContext): Promise<void>;
-}
+    }
 
 // @beta (undocumented)
 export namespace ConcurrencyControl {
@@ -918,14 +1005,6 @@ export namespace ConcurrencyControl {
         // (undocumented)
         opcode: DbOpcode;
     }
-    export interface LockProps {
-        // (undocumented)
-        level: LockLevel;
-        // (undocumented)
-        objectId: string;
-        // (undocumented)
-        type: LockType;
-    }
     export class LocksManager {
         // @internal
         constructor(_iModel: BriefcaseDb);
@@ -937,10 +1016,10 @@ export namespace ConcurrencyControl {
         getHeldModelLock(modelId: Id64String): LockLevel;
         get hasCodeSpecsLock(): boolean;
         get hasSchemaLock(): boolean;
-        holdsLock(lock: ConcurrencyControl.LockProps): boolean;
-        lockCodeSpecs(requestContext: AuthorizedClientRequestContext): Promise<Lock[]>;
+        holdsLock(lock: LockProps): boolean;
+        lockCodeSpecs(requestContext: AuthorizedClientRequestContext): Promise<void>;
         lockModels(requestContext: AuthorizedClientRequestContext, models: ModelProps[]): Promise<void>;
-        lockSchema(requestContext: AuthorizedClientRequestContext): Promise<Lock[]>;
+        lockSchema(requestContext: AuthorizedClientRequestContext): Promise<void>;
     }
     // (undocumented)
     export interface ModelAndOpcode {
@@ -1000,7 +1079,7 @@ export namespace ConcurrencyControl {
         // (undocumented)
         get isEmpty(): boolean;
         // (undocumented)
-        get locks(): ConcurrencyControl.LockProps[];
+        get locks(): LockProps[];
         // (undocumented)
         removeCodes(filter: (c: CodeProps) => boolean, context: any): void;
         // (undocumented)
@@ -2711,13 +2790,13 @@ export abstract class IModelExportHandler {
     protected onExportFont(_font: FontProps, _isUpdate: boolean | undefined): void;
     protected onExportModel(_model: Model, _isUpdate: boolean | undefined): void;
     protected onExportRelationship(_relationship: Relationship, _isUpdate: boolean | undefined): void;
-    protected onExportSchema(_schema: Schema_2): void;
+    protected onExportSchema(_schema: Schema_2): Promise<void>;
     protected onProgress(): Promise<void>;
     protected shouldExportCodeSpec(_codeSpec: CodeSpec): boolean;
     protected shouldExportElement(_element: Element): boolean;
     protected shouldExportElementAspect(_aspect: ElementAspect): boolean;
     protected shouldExportRelationship(_relationship: Relationship): boolean;
-    protected shouldExportSchema(_schema: Schema_2): boolean;
+    protected shouldExportSchema(_schemaKey: SchemaKey_2): boolean;
 }
 
 // @public
@@ -2743,11 +2822,13 @@ export class IModelHost {
     static getAuthorizedContext(): Promise<AuthorizedClientRequestContext>;
     // @alpha
     static getCrashReportProperties(): CrashReportingConfigNameValuePair[];
-    // (undocumented)
+    // @internal
+    static get hubAccess(): BackendHubAccess;
+    // @deprecated (undocumented)
     static get iModelClient(): IModelClient;
     // @alpha (undocumented)
     static get introspectionClient(): IntrospectionClient | undefined;
-    // (undocumented)
+    // @deprecated (undocumented)
     static get isUsingIModelBankClient(): boolean;
     static get isValid(): boolean;
     // @internal (undocumented)
@@ -2768,6 +2849,8 @@ export class IModelHost {
     static set sessionId(id: GuidString);
     // @alpha
     static setCrashReportProperty(name: string, value: string): void;
+    // @internal (undocumented)
+    static setHubAccess(hubAccess: BackendHubAccess): void;
     static shutdown(): Promise<void>;
     static snapshotFileNameResolver?: FileNameResolver;
     static startup(configuration?: IModelHostConfiguration): Promise<void>;
@@ -2819,6 +2902,115 @@ export class IModelHostConfiguration {
     tileContentRequestTimeout: number;
     // @internal
     tileTreeRequestTimeout: number;
+}
+
+// @internal (undocumented)
+export class IModelHubBackend {
+    // (undocumented)
+    static acquireLocks(arg: BriefcaseDbArg & {
+        locks: LockProps[];
+    }): Promise<void>;
+    // (undocumented)
+    static acquireNewBriefcaseId(arg: {
+        requestContext?: AuthorizedClientRequestContext;
+        iModelId: GuidString;
+    }): Promise<number>;
+    // (undocumented)
+    static acquireSchemaLock(arg: BriefcaseDbArg): Promise<void>;
+    // (undocumented)
+    static createIModel(arg: {
+        requestContext?: AuthorizedClientRequestContext;
+        contextId: GuidString;
+        iModelName: string;
+        description?: string;
+        revision0?: string;
+    }): Promise<GuidString>;
+    // (undocumented)
+    static deleteIModel(arg: IModelIdArg & {
+        contextId: GuidString;
+    }): Promise<void>;
+    // (undocumented)
+    static downloadChangeset(arg: ChangesetIdArg): Promise<ChangesetFileProps>;
+    static downloadChangesets(arg: IModelIdArg & {
+        range?: ChangesetRange;
+    }): Promise<ChangesetFileProps[]>;
+    // (undocumented)
+    static downloadV1Checkpoint(arg: CheckPointArg): Promise<ChangesetId>;
+    // (undocumented)
+    static downloadV2Checkpoint(arg: CheckPointArg): Promise<ChangesetId>;
+    // (undocumented)
+    static getChangesetIdFromNamedVersion(arg: IModelIdArg & {
+        versionName: string;
+    }): Promise<string>;
+    // (undocumented)
+    static getChangesetIdFromVersion(arg: IModelIdArg & {
+        version: IModelVersion;
+    }): Promise<string>;
+    // (undocumented)
+    static getChangesetIndexFromId(arg: IModelIdArg & {
+        changesetId: ChangesetId;
+    }): Promise<number>;
+    // (undocumented)
+    static getLatestChangesetId(arg: IModelIdArg): Promise<string>;
+    // (undocumented)
+    static getMyBriefcaseIds(arg: IModelIdArg): Promise<number[]>;
+    // (undocumented)
+    static getRequestContext(arg: {
+        requestContext?: AuthorizedClientRequestContext;
+    }): Promise<AuthorizedBackendRequestContext | AuthorizedClientRequestContext>;
+    // (undocumented)
+    static get iModelClient(): IModelClient;
+    // (undocumented)
+    static get isUsingIModelBankClient(): boolean;
+    // (undocumented)
+    static pushChangeset(arg: IModelIdArg & {
+        changesetProps: ChangesetFileProps;
+        releaseLocks: boolean;
+    }): Promise<void>;
+    // (undocumented)
+    static queryAllCodes(arg: BriefcaseDbArg): Promise<CodeProps[]>;
+    // (undocumented)
+    static queryAllLocks(arg: BriefcaseDbArg): Promise<LockProps[]>;
+    // (undocumented)
+    static queryChangeset(arg: ChangesetIdArg): Promise<ChangesetProps>;
+    // (undocumented)
+    static queryChangeSetProps(arg: IModelIdArg & {
+        changesetId: ChangesetId;
+    }): Promise<ChangesetProps>;
+    static queryChangesets(arg: IModelIdArg & {
+        range?: ChangesetRange;
+    }): Promise<ChangesetProps[]>;
+    // (undocumented)
+    static queryIModelByName(arg: {
+        requestContext?: AuthorizedClientRequestContext;
+        contextId: GuidString;
+        iModelName: string;
+    }): Promise<GuidString | undefined>;
+    // (undocumented)
+    static querySchemaLock(arg: BriefcaseDbArg): Promise<boolean>;
+    // (undocumented)
+    static releaseAllCodes(arg: BriefcaseIdArg): Promise<void>;
+    // (undocumented)
+    static releaseAllLocks(arg: BriefcaseIdArg): Promise<void>;
+    static releaseBriefcase(arg: BriefcaseIdArg): Promise<void>;
+    // (undocumented)
+    static setIModelClient(client?: IModelClient): void;
+    // (undocumented)
+    static toChangeSetProps(cs: ChangeSet): ChangesetProps;
+    // (undocumented)
+    static toHubLock(arg: BriefcaseDbArg, reqLock: LockProps): Lock;
+    // (undocumented)
+    static toHubLocks(arg: BriefcaseDbArg & {
+        locks: LockProps[];
+    }): Lock[];
+}
+
+// @internal
+export interface IModelIdArg {
+    // (undocumented)
+    iModelId: GuidString;
+    // (undocumented)
+    requestContext?: AuthorizedClientRequestContext;
 }
 
 // @beta
@@ -2906,6 +3098,16 @@ export class IModelJsFsStats {
 
 export { IModelJsNative }
 
+// @internal
+export interface IModelNameArg {
+    // (undocumented)
+    contextId: GuidString;
+    // (undocumented)
+    iModelName: string;
+    // (undocumented)
+    requestContext?: AuthorizedClientRequestContext;
+}
+
 // @alpha
 export class IModelSchemaLoader {
     // @internal
@@ -2936,6 +3138,7 @@ export class IModelTransformer extends IModelExportHandler {
     protected onExportFont(font: FontProps, _isUpdate: boolean | undefined): void;
     protected onExportModel(sourceModel: Model): void;
     protected onExportRelationship(sourceRelationship: Relationship): void;
+    protected onExportSchema(schema: ECSchemaMetaData.Schema): Promise<void>;
     protected onTransformElement(sourceElement: Element): ElementProps;
     protected onTransformElementAspect(sourceElementAspect: ElementAspect, _targetElementId: Id64String): ElementAspectProps;
     protected onTransformModel(sourceModel: Model, targetModeledElementId: Id64String): ModelProps;
@@ -2954,10 +3157,12 @@ export class IModelTransformer extends IModelExportHandler {
     processSchemas(requestContext: ClientRequestContext | AuthorizedClientRequestContext): Promise<void>;
     processSubject(sourceSubjectId: Id64String, targetSubjectId: Id64String): Promise<void>;
     get provenanceDb(): IModelDb;
+    protected _schemaExportDir: string;
     protected shouldExportCodeSpec(_sourceCodeSpec: CodeSpec): boolean;
     protected shouldExportElement(_sourceElement: Element): boolean;
     protected shouldExportElementAspect(_sourceAspect: ElementAspect): boolean;
     protected shouldExportRelationship(_sourceRelationship: Relationship): boolean;
+    protected shouldExportSchema(schemaKey: ECSchemaMetaData.SchemaKey): boolean;
     protected skipElement(sourceElement: Element): void;
     readonly sourceDb: IModelDb;
     readonly targetDb: IModelDb;
@@ -3003,8 +3208,9 @@ export abstract class InformationPartitionElement extends InformationContentElem
     // @internal (undocumented)
     static get className(): string;
     static createCode(iModel: IModelDb, parentSubjectId: CodeScopeProps, codeValue: string): Code;
-    // (undocumented)
     description?: string;
+    // @internal (undocumented)
+    toJSON(): InformationPartitionElementProps;
 }
 
 // @public
@@ -3053,13 +3259,13 @@ export interface InstanceChange {
     summaryId: Id64String;
 }
 
-// @beta
+// @public
 export abstract class IpcHandler {
     abstract get channelName(): string;
     static register(): RemoveFunction;
 }
 
-// @beta
+// @public
 export class IpcHost {
     static addListener(channel: string, listener: IpcListener): RemoveFunction;
     static handle(channel: string, handler: (...args: any[]) => Promise<any>): RemoveFunction;
@@ -3078,7 +3284,7 @@ export class IpcHost {
     static startup(opt?: IpcHostOpts): Promise<void>;
 }
 
-// @beta
+// @public
 export interface IpcHostOpts {
     // (undocumented)
     iModelHost?: IModelHostConfiguration;
@@ -3290,6 +3496,12 @@ export class LinkPartition extends InformationPartitionElement {
 }
 
 // @internal (undocumented)
+export type LocalDirName = string;
+
+// @internal (undocumented)
+export type LocalFileName = string;
+
+// @internal (undocumented)
 export class LocalhostIpcHost {
     // (undocumented)
     static startup(opts?: {
@@ -3298,6 +3510,13 @@ export class LocalhostIpcHost {
         };
         iModelHost?: IModelHostConfiguration;
     }): Promise<void>;
+}
+
+// @beta
+export interface LockProps {
+    level: LockLevel;
+    objectId: Id64String;
+    type: LockType;
 }
 
 // @internal
@@ -3414,7 +3633,7 @@ export abstract class NativeAppAuthorizationBackend extends ImsAuthorizationClie
     abstract signOut(): Promise<void>;
 }
 
-// @beta
+// @public
 export class NativeAppStorage {
     close(deleteFile?: boolean): void;
     // @internal
@@ -3436,7 +3655,7 @@ export class NativeAppStorage {
     setData(key: string, value: StorageValue): void;
     }
 
-// @beta
+// @public
 export class NativeHost {
     // (undocumented)
     static get applicationName(): string;
@@ -3446,19 +3665,17 @@ export class NativeHost {
     static checkInternetConnectivity(): InternetConnectivityStatus;
     // (undocumented)
     static get isValid(): boolean;
-    // (undocumented)
     static notifyNativeFrontend<T extends keyof NativeAppNotifications>(methodName: T, ...args: Parameters<NativeAppNotifications[T]>): void;
-    // (undocumented)
     static readonly onInternetConnectivityChanged: BeEvent<(status: InternetConnectivityStatus) => void>;
     static readonly onUserStateChanged: BeEvent<(token?: AccessToken | undefined) => void>;
+    // @internal
     static overrideInternetConnectivity(_overridenBy: OverriddenBy, status: InternetConnectivityStatus): void;
-    // (undocumented)
     static get settingsStore(): NativeAppStorage;
     static shutdown(): Promise<void>;
     static startup(opt?: NativeHostOpts): Promise<void>;
 }
 
-// @beta (undocumented)
+// @public
 export interface NativeHostOpts extends IpcHostOpts {
     // (undocumented)
     nativeHost?: {
@@ -4485,7 +4702,7 @@ export interface UsageLoggingUtilitiesOptions {
 
 // @internal
 export class V1CheckpointManager {
-    static downloadCheckpoint(request: DownloadRequest): Promise<void>;
+    static downloadCheckpoint(request: DownloadRequest): Promise<ChangesetId>;
     // (undocumented)
     static getCheckpointDb(request: DownloadRequest): Promise<SnapshotDb>;
     // @deprecated
@@ -4500,7 +4717,7 @@ export class V1CheckpointManager {
 export class V2CheckpointManager {
     // (undocumented)
     static attach(checkpoint: CheckpointProps): Promise<string>;
-    static downloadCheckpoint(request: DownloadRequest): Promise<void>;
+    static downloadCheckpoint(request: DownloadRequest): Promise<ChangesetId>;
     }
 
 // @public

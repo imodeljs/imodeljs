@@ -25,12 +25,11 @@ class AttachMapLayerBaseTool extends Tool {
 
     source.validateSource().then((validation) => {
       if (validation.status === MapLayerSourceStatus.Valid || validation.status === MapLayerSourceStatus.RequireAuth) {
-        source.subLayers = validation.subLayers;
 
         if (this._isBase) {
-          vp.displayStyle.changeBaseMapProps(source);
+          vp.displayStyle.changeBaseMapProps({...source, subLayers: validation.subLayers});
         } else {
-          const layerSettings = source.toLayerSettings();
+          const layerSettings = source.toLayerSettings(validation.subLayers);
           if (layerSettings) {
             vp.displayStyle.attachMapLayerSettings(layerSettings, !this._isBackground);
           }

@@ -11,8 +11,9 @@ import * as React from "react";
 import { HighlightedText } from "../common/HighlightedText";
 
 /**
- * Active match info for highlightable [[Tree]]
- * @beta
+ * Properties for identifying an active highlight on a node in a tree.
+ * @see [[HighlightableTreeProps.activeMatch]]
+ * @public
  */
 export interface ActiveMatchInfo {
   nodeId: string;
@@ -20,8 +21,9 @@ export interface ActiveMatchInfo {
 }
 
 /**
- * Properties for the [[HighlightingEngine]]
- * @beta
+ * Properties for highlighting nodes in a tree.
+ * @see [[ControlledTreeProps.nodeHighlightingProps]]
+ * @public
  */
 export interface HighlightableTreeProps {
   searchText: string;
@@ -30,7 +32,7 @@ export interface HighlightableTreeProps {
 
 /**
  * Properties for a highlightable [[TreeNode]]
- * @beta
+ * @public
  */
 export interface HighlightableTreeNodeProps {
   searchText: string;

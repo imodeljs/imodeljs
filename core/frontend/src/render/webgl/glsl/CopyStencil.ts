@@ -6,7 +6,7 @@
  * @module WebGL
  */
 
-import { ColorDef, SpatialClassificationProps } from "@bentley/imodeljs-common";
+import { ColorDef, SpatialClassifierInsideDisplay, SpatialClassifierOutsideDisplay } from "@bentley/imodeljs-common";
 import { WebGLContext } from "@bentley/webgl-compatibility";
 import { AttributeMap } from "../AttributeMap";
 import { BoundaryType, ScreenPointsGeometry, SingleTexturedViewportQuadGeometry, VolumeClassifierGeometry } from "../CachedGeometry";
@@ -58,15 +58,15 @@ function addBoundaryTypeConstants(builder: ShaderBuilder): void {
 }
 
 /** @internal */
-function setScratchColor(display: SpatialClassificationProps.Display, hilite: FloatRgb, hAlpha: number): void {
+function setScratchColor(display: number, hilite: FloatRgb, hAlpha: number): void {
   switch (display) {
-    case SpatialClassificationProps.Display.Dimmed:
+    case SpatialClassifierOutsideDisplay.Dimmed:
       scratchColor.set(0.0, 0.0, 0.0, 0.3);
       break;
-    case SpatialClassificationProps.Display.Off:
+    case SpatialClassifierOutsideDisplay.Off:
       scratchColor.set(0.0, 0.0, 0.0, 0.8);
       break;
-    case SpatialClassificationProps.Display.On:
+    case SpatialClassifierOutsideDisplay.On:
       scratchColor.set(0.0, 0.0, 0.0, 0.0);
       break;
     default: // Hilite or ByElementColor (though ByElementColor should never use this shader)
@@ -198,7 +198,7 @@ export function createVolClassSetBlendProgram(context: WebGLContext): ShaderProg
           break;
         case BoundaryType.Selected:
           // setScratchColor(params.target.activeVolumeClassifierProps!.flags.selected, hiliteColor, hiliteAlpha);
-          setScratchColor(SpatialClassificationProps.Display.Hilite, hiliteColor, hiliteAlpha); // option for how to display selected classifiers has been removed, always just hilite
+          setScratchColor(SpatialClassifierInsideDisplay.Hilite, hiliteColor, hiliteAlpha); // option for how to display selected classifiers has been removed, always just hilite
           break;
       }
       scratchColor.bind(uniform);

@@ -80,7 +80,7 @@ describe("MapUrlDialog", () => {
     await (layerTypeSelect.props()as any).onChange({ preventDefault: () => {}, target: { value: "WMS"  }} as any);
 
     const allInputs = component.find("input");
-    expect(allInputs.length).to.equals(6);
+    expect(allInputs.length).to.equals(4);
     allInputs.at(0).simulate("change", {target: { value: sampleWmsLayerSettings?.name} });
     allInputs.at(1).simulate("change", {target: { value: sampleWmsLayerSettings?.url } });
     allInputs.at(2).simulate("change", {target: { value: sampleWmsLayerSettings?.userName } });
@@ -119,7 +119,7 @@ describe("MapUrlDialog", () => {
     await TestUtils.flushAsyncOperations();
 
     let allInputs = component.find("input");
-    expect(allInputs.length).to.equals(6);
+    expect(allInputs.length).to.equals(4);
     allInputs.at(0).simulate("change", {target: { value: sampleWmsLayerSettings?.name} });
     allInputs.at(1).simulate("change", {target: { value: sampleWmsLayerSettings?.url } });
 
@@ -140,7 +140,7 @@ describe("MapUrlDialog", () => {
 
     // Set username/password
     allInputs = component.find("input");
-    expect(allInputs.length).to.equals(6);
+    expect(allInputs.length).to.equals(4);
     allInputs.at(2).simulate("change", {target: { value: sampleWmsLayerSettings?.userName } });
     allInputs.at(3).simulate("change", {target: { value: sampleWmsLayerSettings?.password } });
 

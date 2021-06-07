@@ -154,7 +154,7 @@ $components-enumbuttongroup-editor-space-between-toolbar-items: 1px;
         position: absolute;
         background: $buic-foreground-primary;
         left: 3px;
-        top: ($components-enumbuttongroup-editor-item-height - $desktop-tool-stripe-height) / 2;
+        top: ($components-enumbuttongroup-editor-item-height - $desktop-tool-stripe-height) * .5;
         border-radius: 2px;
         width: $desktop-tool-stripe-width;
         height: $desktop-tool-stripe-height;

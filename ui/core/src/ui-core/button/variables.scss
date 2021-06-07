@@ -9,9 +9,11 @@
 
 $uicore-button-height: 28px;
 $uicore-button-line-height: $uicore-baseline * 1.5;
-$uicore-button-padding: ($uicore-button-height - $uicore-button-line-height) / 2;
+$uicore-button-padding: ($uicore-button-height - $uicore-button-line-height) *
+  0.5;
 $uicore-button-padding-bordered: $uicore-button-padding - 1px;
 $uicore-button-padding-bordered-large: $uicore-inputs-padding-large - 1px;
 $uicore-unbordered-padding: $uicore-baseline;
 $uicore-bordered-padding: $uicore-unbordered-padding - 1px;
-$uicore-button-focus-boxshadow: $buic-focus-boxshadow-gradient1 0px 1px 1px, $buic-focus-boxshadow-gradient2 0px 0px 0px 2px;
+$uicore-button-focus-boxshadow: $buic-focus-boxshadow-gradient1 0px 1px 1px,
+  $buic-focus-boxshadow-gradient2 0px 0px 0px 2px;

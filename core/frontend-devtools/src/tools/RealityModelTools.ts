@@ -34,7 +34,7 @@ export class AttachRealityModelTool extends Tool {
       IModelApp.notifications.outputMessage(new NotifyMessageDetails(OutputMessagePriority.Error, `Properties ${props} are not valid`));
     }
 
-    vp.attachRealityModel(props);
+    vp.displayStyle.attachRealityModel(props);
     IModelApp.notifications.outputMessage(new NotifyMessageDetails(OutputMessagePriority.Info, `Reality Model ${props.tilesetUrl} attached`));
 
     return true;
@@ -81,8 +81,12 @@ export class SaveRealityModelTool extends Tool {
 }
 
 function changeRealityModelAppearanceOverrides(vp: Viewport, overrides: FeatureAppearanceProps, index: number): boolean {
-  const existingOverrides = vp.getRealityModelAppearanceOverride(index);
-  return vp.overrideRealityModelAppearance(index, existingOverrides ? existingOverrides.clone(overrides) : FeatureAppearance.fromJSON(overrides));
+  const model = vp.displayStyle.settings.contextRealityModels.models[index];
+  if (!model)
+    return false;
+
+  model.appearanceOverrides = model.appearanceOverrides ? model.appearanceOverrides.clone(overrides) : FeatureAppearance.fromJSON(overrides);
+  return true;
 }
 
 /** Set reality model appearance override for transparency in display style.
@@ -178,7 +182,11 @@ export class DetachRealityModelTool extends Tool {
     if (vp === undefined)
       return false;
 
-    vp.detachRealityModelByIndex(index);
+    const model = vp.displayStyle.settings.contextRealityModels.models[index];
+    if (!model)
+      return false;
+
+    vp.displayStyle.settings.contextRealityModels.delete(model);
     return true;
   }
 
@@ -223,9 +231,14 @@ export class ClearRealityModelAppearanceOverrides extends Tool {
 
   public run(index: number): boolean {
     const vp = IModelApp.viewManager.selectedView;
-    if (vp)
-      vp.dropRealityModelAppearanceOverride(index);
+    if (!vp)
+      return false;
 
+    const model = vp.displayStyle.settings.contextRealityModels.models[index];
+    if (!model)
+      return false;
+
+    model.appearanceOverrides = undefined;
     return true;
   }
 
@@ -246,8 +259,9 @@ export class AttachCesiumAssetTool extends Tool {
     const vp = IModelApp.viewManager.selectedView;
     if (vp === undefined)
       return false;
+
     const props = { tilesetUrl: getCesiumAssetUrl(assetId, requestKey) };
-    vp.attachRealityModel(props);
+    vp.displayStyle.attachRealityModel(props);
     IModelApp.notifications.outputMessage(new NotifyMessageDetails(OutputMessagePriority.Info, `Cesium Asset #${assetId} attached`));
     return true;
   }
@@ -272,11 +286,11 @@ export class ToggleOSMBuildingDisplay extends Tool {
       return false;
 
     if (onOff === undefined)
-      onOff = vp.displayStyle.getOSMBuildingDisplayIndex() < 0;    // Toggle current state.
+      onOff = undefined === vp.displayStyle.getOSMBuildingRealityModel(); // Toggle current state.
 
     const appearanceOverrides = (transparency !== undefined && transparency > 0 && transparency < 1) ? FeatureAppearance.fromJSON({ transparency }) : undefined;
 
-    vp.setOSMBuildingDisplay({ onOff, appearanceOverrides });
+    vp.displayStyle.setOSMBuildingDisplay({ onOff, appearanceOverrides });
     return true;
   }
 

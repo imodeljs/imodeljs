@@ -53,7 +53,7 @@ beta;DiagnosticType
 beta;diagnosticTypeToString(type: DiagnosticType): "Schema" | "None" | "CustomAttributeContainer" | "Property" | "RelationshipConstraint" | "SchemaItem"
 beta;class ECClass 
 beta;ECClassModifier
-beta;ECName
+public;ECName
 internal;ECObjectsError 
 beta;ECObjectsStatus
 beta;ECRuleSet: IRuleSet
@@ -204,6 +204,7 @@ beta;SchemaItemType
 beta;schemaItemTypeToString(value: SchemaItemType): string
 internal;schemaItemTypeToXmlString(value: SchemaItemType): string
 beta;SchemaKey
+beta;SchemaKeyProps
 beta;SchemaMap 
 beta;SchemaMatchType
 beta;SchemaPartVisitorDelegate

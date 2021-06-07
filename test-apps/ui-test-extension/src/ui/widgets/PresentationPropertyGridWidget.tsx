@@ -178,8 +178,8 @@ export class PresentationPropertyGridWidget extends React.Component<Presentation
       </>;
       return (
         <FrameworkVersionSwitch
-          v1={<div style={{ height: "100%" }}>{element}</div>}
-          v2={<div style={{ height: "100%", width: "100%", position: "absolute" }}>{element}</div>}
+          v1={<div data-component-id="uifw-v1-container" style={{ height: "100%" }}>{element}</div>}
+          v2={<div data-component-id="uifw-v2-container" style={{ height: "100%", width: "100%", position: "absolute" }}>{element}</div>}
         />
       );
     }

@@ -6,49 +6,11 @@
  * @module Rendering
  */
 
-import { Id64, Id64Arg, Id64Array, Id64Set } from "@bentley/bentleyjs-core";
-import { ColorDef, ColorDefProps, FeatureAppearance, FeatureAppearanceProps, RgbColor } from "@bentley/imodeljs-common";
+import { Id64, Id64Arg, Id64Set } from "@bentley/bentleyjs-core";
+import { AppearanceOverrideProps, ColorDef, EmphasizeElementsProps, FeatureAppearance, FeatureOverrideType, RgbColor } from "@bentley/imodeljs-common";
 import { FeatureSymbology } from "./render/FeatureSymbology";
 import { FeatureOverrideProvider } from "./FeatureOverrideProvider";
 import { Viewport } from "./Viewport";
-
-/** Options for overriding element appearance.
- * @see [[EmphasizeElements]]
- * @see [[AppearanceOverrideProps]]
- * @public
- */
-export enum FeatureOverrideType {
-  /** Override color only. */
-  ColorOnly,
-  /** Override alpha only. */
-  AlphaOnly,
-  /** Override both color and alpha. */
-  ColorAndAlpha,
-}
-
-/** JSON representation of an appearance override in an [[EmphasizeElementsProps]].
- * @see [[EmphasizeElements]].
- * @public
- */
-export interface AppearanceOverrideProps {
-  overrideType?: FeatureOverrideType;
-  color?: ColorDefProps;
-  ids?: Id64Array;
-}
-
-/** JSON representation of an [[EmphasizeElements]].
- * @public
- */
-export interface EmphasizeElementsProps {
-  neverDrawn?: Id64Array;
-  alwaysDrawn?: Id64Array;
-  isAlwaysDrawnExclusive?: boolean;
-  alwaysDrawnExclusiveEmphasized?: Id64Array;
-  defaultAppearance?: FeatureAppearanceProps;
-  appearanceOverride?: AppearanceOverrideProps[];
-  wantEmphasis?: boolean;
-  unanimatedAppearance?: FeatureAppearanceProps;
-}
 
 /** An implementation of [[FeatureOverrideProvider]] for emphasizing selected elements through simple color/transparency appearance overrides.
  * @public

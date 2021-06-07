@@ -13,8 +13,8 @@
 
 // cspell:ignore themecolors unbordered
 
-$uicore-menu-padding:             $uicore-bordered-padding;
-$uicore-menu-top-bottom-padding:  $uicore-menu-padding * 2/3;
+$uicore-menu-padding: $uicore-bordered-padding;
+$uicore-menu-top-bottom-padding: $uicore-menu-padding * 0.6667;
 
 .core-context-menu-global {
   position: fixed;
@@ -220,7 +220,7 @@ $uicore-menu-top-bottom-padding:  $uicore-menu-padding * 2/3;
         margin-left: $uicore-unbordered-padding;
         width: $uicore-icons-small;
         height: $uicore-line-height;
-        font-size: $uicore-icons-small / 2;
+        font-size: $uicore-icons-small * 0.5;
         line-height: $uicore-line-height;
         text-align: center;
       }
@@ -233,6 +233,6 @@ $uicore-menu-top-bottom-padding:  $uicore-menu-padding * 2/3;
   }
 
   .core-context-submenu-popup {
-    transform: translateY(-5px);  // Compensate for the vertical padding
+    transform: translateY(-5px); // Compensate for the vertical padding
   }
 }

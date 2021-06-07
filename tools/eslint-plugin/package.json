@@ -1,6 +1,6 @@
 {
   "name": "@bentley/eslint-plugin",
-  "version": "2.17.0-dev.14",
+  "version": "2.17.0-dev.28",
   "description": "ESLint plugin with default configuration and custom rules for iModel.js projects",
   "license": "MIT",
   "keywords": [
@@ -13,6 +13,9 @@
   "repository": {
     "type": "git",
     "url": "https://github.com/imodeljs/imodeljs/tree/master/tools/eslint-plugin"
+  },
+  "bin": {
+    "no-internal-report": "dist/bin/no-internal-report.js"
   },
   "scripts": {
     "compile": "npm run build",

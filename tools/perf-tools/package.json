@@ -1,6 +1,6 @@
 {
   "name": "@bentley/perf-tools",
-  "version": "2.17.0-dev.14",
+  "version": "2.17.0-dev.28",
   "description": "Tools for collecting and reporting performance data",
   "license": "MIT",
   "repository": {
@@ -31,8 +31,8 @@
     "fs-extra": "^8.1.0"
   },
   "devDependencies": {
-    "@bentley/build-tools": "2.17.0-dev.14",
-    "@bentley/eslint-plugin": "2.17.0-dev.14",
+    "@bentley/build-tools": "workspace:*",
+    "@bentley/eslint-plugin": "workspace:*",
     "@types/fs-extra": "^4.0.7",
     "eslint": "^6.8.0",
     "rimraf": "^3.0.2",

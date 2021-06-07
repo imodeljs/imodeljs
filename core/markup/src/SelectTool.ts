@@ -22,7 +22,7 @@ import { UndoManager } from "./Undo";
 
 /** Classes added to HTMLElements so they can be customized in CSS by applications.
  * A "modify handle" is a visible position on the screen that provides UI to modify a MarkupElement.
- * @beta
+ * @public
  */
 export abstract class ModifyHandle {
   public vbToStartTrn!: Transform;
@@ -74,7 +74,7 @@ export abstract class ModifyHandle {
 }
 
 /** A ModifyHandle that changes the size of the element
- * @beta
+ * @public
  */
 class StretchHandle extends ModifyHandle {
   private readonly _circle: MarkupElement;
@@ -136,7 +136,7 @@ class StretchHandle extends ModifyHandle {
 }
 
 /** A ModifyHandle to rotate an element
- * @beta
+ * @public
  */
 class RotateHandle extends ModifyHandle {
   private readonly _line: Line;
@@ -170,7 +170,7 @@ class RotateHandle extends ModifyHandle {
 }
 
 /** A VertexHandle to move a point on a line
- * @beta
+ * @public
  */
 class VertexHandle extends ModifyHandle {
   private readonly _circle: MarkupElement;
@@ -203,7 +203,7 @@ class VertexHandle extends ModifyHandle {
 }
 
 /** A handle that moves (translates) an element.
- * @beta
+ * @public
  */
 class MoveHandle extends ModifyHandle {
   private readonly _shape: MarkupElement;
@@ -259,7 +259,7 @@ class MoveHandle extends ModifyHandle {
 }
 
 /** The set of ModifyHandles active. Only applies if there is a single element selected.
- * @beta
+ * @public
  */
 export class Handles {
   public readonly handles: ModifyHandle[] = [];
@@ -368,7 +368,7 @@ export class Handles {
 }
 
 /** The set of currently selected SVG elements. When elements are added to the set, they are hilited.
- * @beta
+ * @public
  */
 export class MarkupSelected {
   public readonly elements = new Set<MarkupElement>();
@@ -473,7 +473,7 @@ export class MarkupSelected {
 }
 
 /** Provides UI for selection, delete, move, copy, bring-to-front, send-to-back, etc. for Markup SVG elements
- * @beta
+ * @public
  */
 export class SelectTool extends MarkupTool {
   public static toolId = "Markup.Select";

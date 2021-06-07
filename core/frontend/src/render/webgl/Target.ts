@@ -8,7 +8,9 @@
 
 import { assert, dispose, Id64, Id64String, IDisposable } from "@bentley/bentleyjs-core";
 import { Point2d, Point3d, Range3d, Transform, XAndY, XYZ } from "@bentley/geometry-core";
-import { AmbientOcclusion, AnalysisStyle, Frustum, ImageBuffer, ImageBufferFormat, Npc, RenderMode, RenderTexture, SpatialClassificationProps, ThematicDisplayMode, ViewFlags } from "@bentley/imodeljs-common";
+import {
+  AmbientOcclusion, AnalysisStyle, Frustum, ImageBuffer, ImageBufferFormat, Npc, RenderMode, RenderTexture, SpatialClassifier, ThematicDisplayMode, ViewFlags,
+} from "@bentley/imodeljs-common";
 import { canvasToImageBuffer, canvasToResizedCanvasWithBars, imageBufferToCanvas } from "../../ImageUtil";
 import { HiliteSet } from "../../SelectionSet";
 import { SceneContext } from "../../ViewContext";
@@ -123,7 +125,7 @@ export abstract class Target extends RenderTarget implements RenderTargetDebugCo
   private _screenSpaceEffects: string[] = [];
   public isFadeOutActive = false;
   public activeVolumeClassifierTexture?: WebGLTexture;
-  public activeVolumeClassifierProps?: SpatialClassificationProps.Classifier;
+  public activeVolumeClassifierProps?: SpatialClassifier;
   public activeVolumeClassifierModelId?: Id64String;
 
   // RenderTargetDebugControl
@@ -200,7 +202,7 @@ export abstract class Target extends RenderTarget implements RenderTargetDebugCo
   public getPlanarClassifier(id: Id64String): RenderPlanarClassifier | undefined {
     return undefined !== this._planarClassifiers ? this._planarClassifiers.get(id) : undefined;
   }
-  public createPlanarClassifier(properties?: SpatialClassificationProps.Classifier): PlanarClassifier {
+  public createPlanarClassifier(properties?: SpatialClassifier): PlanarClassifier {
     return PlanarClassifier.create(properties, this);
   }
   public getTextureDrape(id: Id64String): RenderTextureDrape | undefined {

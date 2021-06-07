@@ -10,7 +10,7 @@ import { CheckBoxState } from "@bentley/ui-core";
 
 /**
  * Tree actions that can be performed on tree.
- * @beta
+ * @public
  */
 export interface TreeActions {
   onNodeCheckboxClicked: (nodeId: string, newState: CheckBoxState) => void;

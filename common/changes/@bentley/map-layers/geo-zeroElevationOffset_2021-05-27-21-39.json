@@ -1,0 +1,11 @@
+{
+  "changes": [
+    {
+      "packageName": "@bentley/map-layers",
+      "comment": "Fixed a bug where an elevation offset value of 0 could not be in the UI.",
+      "type": "none"
+    }
+  ],
+  "packageName": "@bentley/map-layers",
+  "email": "mdastous-bentley@users.noreply.github.com"
+}

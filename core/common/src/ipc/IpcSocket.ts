@@ -8,13 +8,13 @@
 
 /**
  * The prefix for all IpcSocket channels to disambiguate from system channels.
- * @beta
+ * @internal
  * */
 export const iTwinChannel = (channel: string) => `itwin.${channel}`;
 
 /**
  * A function to handle an Ipc message.
- * @beta
+ * @public
  */
 export type IpcListener = (evt: Event, ...args: any[]) => void;
 
@@ -35,7 +35,7 @@ export type IpcInvokeReturn = { result: any, error?: never } | { result?: never,
  * An inter-process socket connection between a single [IModelHost]($backend) on the backend (the node process), and an [IModelApp]($frontend) on
  * the frontend (the browser process.) Each side will implement this interface to form a two way connection. The frontend and backend
  * processes connected through an IpcSocket don't necessarily have to be on the same computer, but often are.
- * @beta
+ * @public
 */
 export interface IpcSocket {
   /**
@@ -63,7 +63,7 @@ export interface IpcSocket {
 
 /**
  * Interface for the frontend (browser) side of a socket connection. Frontends may invoke methods implemented on the backend.
- * @beta
+ * @public
  */
 export interface IpcSocketFrontend extends IpcSocket {
   /**
@@ -82,7 +82,7 @@ export interface IpcSocketFrontend extends IpcSocket {
 /**
  * Interface for the backend (Node.js) side of a socket connection. Backends provide the implementation
  * of methods that are invoked from the frontend.
- * @beta
+ * @public
  */
 export interface IpcSocketBackend extends IpcSocket {
   /**

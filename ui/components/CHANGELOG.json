@@ -2,6 +2,54 @@
   "name": "@bentley/ui-components",
   "entries": [
     {
+      "version": "2.16.2",
+      "tag": "@bentley/ui-components_v2.16.2",
+      "date": "Thu, 03 Jun 2021 18:08:11 GMT",
+      "comments": {}
+    },
+    {
+      "version": "2.16.1",
+      "tag": "@bentley/ui-components_v2.16.1",
+      "date": "Thu, 27 May 2021 20:04:22 GMT",
+      "comments": {}
+    },
+    {
+      "version": "2.16.0",
+      "tag": "@bentley/ui-components_v2.16.0",
+      "date": "Mon, 24 May 2021 15:58:39 GMT",
+      "comments": {
+        "none": [
+          {
+            "comment": "Add support for child popup windows."
+          },
+          {
+            "comment": "Add ability to not render array/struct property label in virtualized property grid"
+          },
+          {
+            "comment": "Add support for custom property category renderers."
+          },
+          {
+            "comment": "Improved Multi-Value column filtering in the Table component"
+          },
+          {
+            "comment": "Move `VirtualizedPropertyGrid` related types from @alpha to @beta."
+          },
+          {
+            "comment": "Fixed getting distinct values when Table rows are updated"
+          },
+          {
+            "comment": "Update to latest classnames package "
+          }
+        ]
+      }
+    },
+    {
+      "version": "2.15.6",
+      "tag": "@bentley/ui-components_v2.15.6",
+      "date": "Wed, 26 May 2021 15:55:19 GMT",
+      "comments": {}
+    },
+    {
       "version": "2.15.5",
       "tag": "@bentley/ui-components_v2.15.5",
       "date": "Thu, 20 May 2021 15:06:26 GMT",

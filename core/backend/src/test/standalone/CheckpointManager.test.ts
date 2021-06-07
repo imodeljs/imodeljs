@@ -8,9 +8,9 @@ import * as path from "path";
 import * as sinon from "sinon";
 import { ClientRequestContext, Guid } from "@bentley/bentleyjs-core";
 import { AccessToken, AuthorizedClientRequestContext } from "@bentley/itwin-client";
-import { CheckpointManager, V1CheckpointManager } from "../../CheckpointManager";
-import { IModelHost } from "../../imodeljs-backend";
+import { CheckpointManager, V1CheckpointManager, V2CheckpointManager } from "../../CheckpointManager";
 import { SnapshotDb } from "../../IModelDb";
+import { IModelHost } from "../../imodeljs-backend";
 import { IModelJsFs } from "../../IModelJsFs";
 import { IModelTestUtils } from "../IModelTestUtils";
 
@@ -71,31 +71,19 @@ describe("V1 Checkpoint Manager", () => {
     snapshot.saveChanges();
 
     assert.notEqual(iModelId, snapshot.nativeDb.getDbGuid()); // Ensure the Snapshot dbGuid and iModelId are different
-
     snapshot.close();
 
-    const mockCheckpoint = {
-      wsgId: "INVALID",
-      ecId: "INVALID",
-      changeSetId,
-      downloadUrl: `INVALID`,
-      mergedChangeSetId: changeSetId,
-    };
-
-    const checkpointsHandler = IModelHost.iModelClient.checkpoints;
-    sinon.stub(checkpointsHandler, "get").callsFake(async () => [mockCheckpoint]);
-    sinon.stub(IModelHost.iModelClient, "checkpoints").get(() => checkpointsHandler);
-
-    const fileHandler = IModelHost.iModelClient.fileHandler!;
-    sinon.stub(fileHandler, "downloadFile").callsFake(async (_requestContext: AuthorizedClientRequestContext, _downloadUrl: string, downloadPath: string) => {
-      IModelJsFs.copySync(dbPath, downloadPath);
+    sinon.stub(V2CheckpointManager, "downloadCheckpoint").callsFake(async (arg) => {
+      IModelJsFs.copySync(dbPath, arg.localFile);
+      return changeSetId;
     });
-    sinon.stub(IModelHost.iModelClient, "fileHandler").get(() => fileHandler);
 
     const ctx = ClientRequestContext.current as AuthorizedClientRequestContext;
-    const downloadedDbPath = IModelTestUtils.prepareOutputFile("IModel", "TestCheckpoint2.bim");
-    await V1CheckpointManager.downloadCheckpoint({ localFile: downloadedDbPath, checkpoint: { requestContext: ctx, contextId, iModelId, changeSetId } });
-    const db = SnapshotDb.openCheckpointV1(downloadedDbPath, { requestContext: ctx, contextId, iModelId, changeSetId });
+    const localFile = IModelTestUtils.prepareOutputFile("IModel", "TestCheckpoint2.bim");
+
+    const request = { localFile, checkpoint: { requestContext: ctx, contextId, iModelId, changeSetId } };
+    await CheckpointManager.downloadCheckpoint(request);
+    const db = SnapshotDb.openCheckpointV1(localFile, request.checkpoint);
     assert.equal(iModelId, db.nativeDb.getDbGuid(), "expected the V1 Checkpoint download to fix the improperly set dbGuid.");
   });
 });

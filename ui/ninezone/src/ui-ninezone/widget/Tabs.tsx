@@ -28,6 +28,11 @@ export const WidgetTabs = React.memo(function WidgetTabs() { // eslint-disable-l
   const children = React.useMemo<React.ReactNode>(() => {
     return widget.tabs.map((tabId, index, array) => {
       const firstInactive = activeTabIndex + 1 === index;
+      const tabState = tabs[tabId];
+      // istanbul ignore next
+      if (!tabState)
+        return null;
+
       return (
         <React.Fragment
           key={tabId}

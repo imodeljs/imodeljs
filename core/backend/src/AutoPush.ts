@@ -15,8 +15,11 @@ import { IModelHost } from "./IModelHost";
 
 const loggerCategory: string = BackendLoggerCategory.IModelDb;
 
+/* eslint-disable deprecation/deprecation */
+
 /** Monitors backend activity.
  * @beta
+ * @deprecated auto-push is no longer supported and will be removed in 3.0.
  */
 export interface AppActivityMonitor {
   /** Check if the app is idle, that is, not busy. */
@@ -25,6 +28,7 @@ export interface AppActivityMonitor {
 
 /** An implementation of AppActivityMonitor that should be suitable for most backends.
  * @beta
+ * @deprecated auto-push is no longer supported and will be removed in 3.0.
  */
 export class BackendActivityMonitor implements AppActivityMonitor {
   // intervalMillis - the length of time in seconds of inactivity that indicates that the backend is in a lull.
@@ -42,6 +46,7 @@ export class BackendActivityMonitor implements AppActivityMonitor {
 
 /** Configuration for AutoPush.
  * @beta
+ * @deprecated auto-push is no longer supported and will be removed in 3.0.
  */
 export interface AutoPushParams {
   /** Desired delay in seconds between pushes. */
@@ -54,6 +59,7 @@ export interface AutoPushParams {
 
 /** Identifies the current state of an AutoPush object.
  * @beta
+ * @deprecated auto-push is no longer supported and will be removed in 3.0.
  */
 export enum AutoPushState {
   NotRunning,
@@ -63,6 +69,7 @@ export enum AutoPushState {
 
 /** Identifies an AutoPush event.
  * @beta
+ * @deprecated auto-push is no longer supported and will be removed in 3.0.
  */
 export enum AutoPushEventType {
   PushStarted,
@@ -73,6 +80,7 @@ export enum AutoPushEventType {
 
 /** The signature of an AutoPush event handler.
  * @beta
+ * @deprecated auto-push is no longer supported and will be removed in 3.0.
  */
 export type AutoPushEventHandler = (etype: AutoPushEventType, autoPush: AutoPush) => void;
 
@@ -108,6 +116,7 @@ export type AutoPushEventHandler = (etype: AutoPushEventType, autoPush: AutoPush
  * [[include:Service.readConfig]]
  * ```
  * @beta
+ * @deprecated auto-push is no longer supported and will be removed in 3.0.
  */
 export class AutoPush {
   private _iModel: BriefcaseDb;

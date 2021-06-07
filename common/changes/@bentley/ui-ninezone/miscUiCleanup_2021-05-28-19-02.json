@@ -1,0 +1,11 @@
+{
+  "changes": [
+    {
+      "packageName": "@bentley/ui-ninezone",
+      "comment": "fix css deprecation warning about using 'fit-available'.",
+      "type": "none"
+    }
+  ],
+  "packageName": "@bentley/ui-ninezone",
+  "email": "65047615+bsteinbk@users.noreply.github.com"
+}

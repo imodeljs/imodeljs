@@ -2,6 +2,51 @@
   "name": "@bentley/presentation-backend",
   "entries": [
     {
+      "version": "2.16.2",
+      "tag": "@bentley/presentation-backend_v2.16.2",
+      "date": "Thu, 03 Jun 2021 18:08:11 GMT",
+      "comments": {}
+    },
+    {
+      "version": "2.16.1",
+      "tag": "@bentley/presentation-backend_v2.16.1",
+      "date": "Thu, 27 May 2021 20:04:22 GMT",
+      "comments": {}
+    },
+    {
+      "version": "2.16.0",
+      "tag": "@bentley/presentation-backend_v2.16.0",
+      "date": "Mon, 24 May 2021 15:58:39 GMT",
+      "comments": {
+        "none": [
+          {
+            "comment": "Expose `ExternalSource -> RepositoryLink` related properties when showing `Element` content"
+          },
+          {
+            "comment": "Fix invalid `ElementOwnsUniqueAspect` relationship name being specified in BisCore supplemental ruleset. This caused unique aspects not being loaded for physical and spatial location type definition elements."
+          },
+          {
+            "comment": "Add missing related properties specifications for core element types"
+          },
+          {
+            "comment": "Release tags' review"
+          },
+          {
+            "comment": "Add BisCore 1.0.2 requirement for `ExternalSourceAspect` rule"
+          },
+          {
+            "comment": "Start showing more `TypeDefinitionElement` properties"
+          }
+        ]
+      }
+    },
+    {
+      "version": "2.15.6",
+      "tag": "@bentley/presentation-backend_v2.15.6",
+      "date": "Wed, 26 May 2021 15:55:19 GMT",
+      "comments": {}
+    },
+    {
       "version": "2.15.5",
       "tag": "@bentley/presentation-backend_v2.15.5",
       "date": "Thu, 20 May 2021 15:06:26 GMT",

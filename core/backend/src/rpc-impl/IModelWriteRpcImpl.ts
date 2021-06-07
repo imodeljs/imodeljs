@@ -13,10 +13,13 @@ import {
   RelatedElement, RpcInterface, RpcManager, SubCategoryAppearance, SyncMode, ThumbnailProps,
 } from "@bentley/imodeljs-common";
 import { AuthorizedClientRequestContext } from "@bentley/itwin-client";
+import { AuthorizedBackendRequestContext } from "../BackendRequestContext";
+import { SpatialCategory } from "../Category";
+import { ConcurrencyControl } from "../ConcurrencyControl";
+import { PhysicalPartition } from "../Element";
 import { BriefcaseDb, IModelDb, StandaloneDb } from "../IModelDb";
-import {
-  AuthorizedBackendRequestContext, ConcurrencyControl, Element, PhysicalModel, PhysicalPartition, SpatialCategory, SubjectOwnsPartitionElements,
-} from "../imodeljs-backend";
+import { PhysicalModel } from "../Model";
+import { SubjectOwnsPartitionElements } from "../NavigationRelationship";
 import { RpcBriefcaseUtility } from "./RpcBriefcaseUtility";
 
 class EditingFunctions {
@@ -28,7 +31,7 @@ class EditingFunctions {
       model: IModel.repositoryModelId,
       code: newModelCode,
     };
-    const modeledElement: Element = iModelDb.elements.createElement(modeledElementProps);
+    const modeledElement = iModelDb.elements.createElement(modeledElementProps);
     if (iModelDb.isBriefcaseDb() && !iModelDb.concurrencyControl.isBulkMode) {
       await iModelDb.concurrencyControl.requestResources(rqctx, [{ element: modeledElement, opcode: DbOpcode.Insert }]);
       rqctx.enter();

@@ -9,6 +9,7 @@ public;AmbientLightProps
 public;AmbientOcclusion
 alpha;AnalysisStyle
 alpha;AnalysisStyleProps
+public;AppearanceOverrideProps
 public;AreaFillProps
 public;AreaPattern
 public;AuxCoordSystem2dProps 
@@ -95,7 +96,11 @@ internal;computeChildTileProps(parent: TileMetadata, idProvider: ContentIdProvid
 internal;computeTileChordTolerance(tile: TileMetadata, is3d: boolean): number
 alpha;ContentFlags
 internal;class ContentIdProvider
+public;ContextRealityModel
 public;ContextRealityModelProps
+public;ContextRealityModelProps
+public;ContextRealityModels
+public;ContextRealityModelsContainer
 public;CreateEmptySnapshotIModelProps = CreateIModelProps & CreateSnapshotIModelProps
 internal;CreateEmptyStandaloneIModelProps = CreateIModelProps & CreateStandaloneIModelProps
 public;CreateIModelProps 
@@ -118,11 +123,12 @@ public;DisplayStyle3dProps
 public;DisplayStyle3dSettings 
 public;DisplayStyle3dSettingsProps 
 public;DisplayStyleLoadProps
-beta;DisplayStyleModelAppearanceProps 
+public;DisplayStyleModelAppearanceProps 
 public;DisplayStyleOverridesOptions
+public;DisplayStylePlanarClipMaskProps 
 public;DisplayStyleProps 
-beta;DisplayStyleRealityModelPlanarClipMaskProps 
 public;DisplayStyleSettings
+public;DisplayStyleSettingsOptions
 public;DisplayStyleSettingsProps
 public;DisplayStyleSubCategoryProps 
 beta;DomainOptions
@@ -155,6 +161,7 @@ public;ElementIdsAndRangesProps
 public;ElementLoadOptions
 public;ElementLoadProps 
 public;ElementProps 
+public;EmphasizeElementsProps
 beta;EntityMetaData 
 beta;EntityMetaDataProps
 public;EntityProps
@@ -175,6 +182,7 @@ internal;FeatureGates
 internal;FeatureIndex
 internal;FeatureIndexType
 public;FeatureOverrides 
+public;FeatureOverrideType
 public;FeatureTable 
 internal;FeatureTableHeader
 public;FilePropertyProps
@@ -310,10 +318,10 @@ internal;IpcAppChannel
 internal;IpcAppFunctions
 internal;IpcAppNotifications
 internal;IpcInvokeReturn =
-beta;IpcListener = (evt: Event, ...args: any[]) => void
-beta;IpcSocket
-beta;IpcSocketBackend 
-beta;IpcSocketFrontend 
+public;IpcListener = (evt: Event, ...args: any[]) => void
+public;IpcSocket
+public;IpcSocketBackend 
+public;IpcSocketFrontend 
 internal;class IpcWebSocket 
 internal;IpcWebSocketBackend 
 internal;IpcWebSocketFrontend 
@@ -325,7 +333,7 @@ public;isPlacement2dProps(props: PlacementProps): props is Placement2dProps
 public;isPlacement3dProps(props: PlacementProps): props is Placement3dProps
 public;isPowerOfTwo(num: number): boolean
 internal;isValidImageSourceFormat(format: ImageSourceFormat): boolean
-beta;iTwinChannel: (channel: string) => string
+internal;iTwinChannel: (channel: string) => string
 public;JsonGeometryStream
 public;LatAndLong
 public;LatLongAndHeight 
@@ -414,10 +422,10 @@ public;Placement2dProps
 public;Placement3d 
 public;Placement3dProps
 public;PlacementProps = Placement2dProps | Placement3dProps
-beta;PlanarClipMaskMode
-beta;PlanarClipMaskPriority
-beta;PlanarClipMaskProps
-beta;PlanarClipMaskSettings
+public;PlanarClipMaskMode
+public;PlanarClipMaskPriority
+public;PlanarClipMaskProps
+public;PlanarClipMaskSettings
 public;PlanProjectionSettings
 public;PlanProjectionSettingsProps
 internal;PntsHeader 
@@ -562,7 +570,14 @@ public;SolarLightProps
 public;SolarShadowSettings
 public;SolarShadowSettingsProps
 public;SourceAndTarget
-beta;SpatialClassificationProps
+public;SpatialClassifier
+public;SpatialClassifierFlags
+public;SpatialClassifierFlagsProps
+public;SpatialClassifierInsideDisplay
+public;SpatialClassifierOutsideDisplay
+public;SpatialClassifierProps
+public;SpatialClassifiers 
+public;SpatialClassifiersContainer
 public;SpatialViewDefinitionProps 
 public;StandaloneOpenOptions = OpenDbKey
 beta;StorageValue = string | number | boolean | null | Uint8Array
@@ -582,7 +597,7 @@ internal;TestRpcManager
 public;TextString
 public;TextStringPrimitive
 public;TextStringProps
-alpha;TextureLoadProps
+public;TextureLoadProps
 public;TextureMapping
 public;TextureMapping
 public;TextureMapProps
@@ -599,8 +614,8 @@ public;ThematicGradientColorScheme
 public;ThematicGradientMode
 public;ThematicGradientSettings
 public;ThematicGradientSettingsProps
-alpha;ThumbnailFormatProps
-alpha;ThumbnailProps 
+public;ThumbnailFormatProps
+public;ThumbnailProps 
 internal;TileContentDescription 
 beta;TileContentIdentifier
 internal;TileContentMetadata
@@ -616,7 +631,7 @@ internal;TileReadStatus
 internal;TileTreeContentIds
 internal;TileTreeMetadata
 internal;TileTreeProps
-alpha;TileVersionInfo
+public;TileVersionInfo
 alpha;TreeFlags
 public;Tween
 public;TweenCallback = (obj: any) => void

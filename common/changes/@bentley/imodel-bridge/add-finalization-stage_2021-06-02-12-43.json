@@ -1,0 +1,11 @@
+{
+  "changes": [
+    {
+      "packageName": "@bentley/imodel-bridge",
+      "comment": "Added a finalization push stage that mocks the native iModelBridgeFwk.",
+      "type": "none"
+    }
+  ],
+  "packageName": "@bentley/imodel-bridge",
+  "email": "zachzhu2016@gmail.com"
+}

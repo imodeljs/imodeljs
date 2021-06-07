@@ -56,14 +56,15 @@ describe("MapSubLayerSettings", () => {
   });
 });
 
-const testMapLayer0 = { name: "TestName", url: "www.bentley.com", formatId: "WMS" };
-const testMapLayer1 = { name: "TestName", url: "www.bentley.com", formatId: "WMTS", transparency: .5, transparentBackground: false };
-const testMapLayer2 = { name: "TestName", url: "www.bentley.com", formatId: "WMS", subLayers: [testMapSubLayer0, testMapSubLayer1] };
-const testMapLayer3 = { name: "TestName", url: "www.bentley.com", formatId: "WMS", subLayers: [testMapSubLayer0, testMapSubLayer1] };
-const testMapLayer4 = { name: "TestName", url: "www.bentley.com", formatId: "WMS", subLayers: [testMapSubLayer0, testMapSubLayer1], isBase: true };
+const testMapLayer0 = { name: "TestName", url: "www.bentley.com", formatId: "WMS", visible: true };
+const testMapLayer1 = { name: "TestName", url: "www.bentley.com", formatId: "WMTS", transparency: .5, transparentBackground: false, visible: true };
+const testMapLayer2 = { name: "TestName", url: "www.bentley.com", formatId: "WMS", subLayers: [testMapSubLayer0, testMapSubLayer1], visible: true };
+const testMapLayer3 = { name: "TestName", url: "www.bentley.com", formatId: "WMS", subLayers: [testMapSubLayer0, testMapSubLayer1], visible: true };
+const testMapLayer4 = { name: "TestName", url: "www.bentley.com", formatId: "WMS", subLayers: [testMapSubLayer0, testMapSubLayer1], isBase: true, visible: false };
+const testMapLayer6 = { name: "TestName", url: "www.bentley.com", formatId: "WMS", visible: false };
 const legacyMapLayer = MapLayerSettings.fromMapSettings(BackgroundMapSettings.fromJSON({ providerName: "BingProvider", providerData: { mapType: BackgroundMapType.Hybrid } }));
 
-describe("MapLayerSettings", () => {
+describe.only("MapLayerSettings", () => {
   const expectMatches = (output: MapLayerProps, expected: MapLayerProps) => {
     expect(output.name).to.equal(expected.name);
     expect(output.visible).to.equal(expected.visible);
@@ -105,6 +106,7 @@ describe("MapLayerSettings", () => {
     roundTrip(testMapLayer2, "input");
     roundTrip(testMapLayer3, "input");
     roundTrip(testMapLayer4, "input");
+    roundTrip(testMapLayer6, "input");
     roundTrip(legacyMapLayer, "input");
   });
 
@@ -120,12 +122,15 @@ describe("MapLayerSettings", () => {
     };
 
     // Turn off visibility
-    clone(testMapLayer0, { visible: false }, { name: "TestName", url: "www.bentley.com", formatId: "WMS", visible: undefined });
-    clone(testMapLayer3, { visible: false }, { name: "TestName", url: "www.bentley.com", formatId: "WMS", subLayers: [testMapSubLayer0, testMapSubLayer1], visible: undefined });
+    clone(testMapLayer0, { visible: false }, { name: "TestName", url: "www.bentley.com", formatId: "WMS", visible: false });
+    clone(testMapLayer3, { visible: false }, { name: "TestName", url: "www.bentley.com", formatId: "WMS", subLayers: [testMapSubLayer0, testMapSubLayer1], visible: false });
+
+    // turn on visibility
+    clone(testMapLayer6, { visible: true }, { name: "TestName", url: "www.bentley.com", formatId: "WMS", visible: true });
 
     // Set transparency
-    clone(testMapLayer0, { transparency: .5 }, { name: "TestName", url: "www.bentley.com", formatId: "WMS", transparency: .5 });
-    clone(testMapLayer3, { transparency: .5 }, { name: "TestName", url: "www.bentley.com", formatId: "WMS", subLayers: [testMapSubLayer0, testMapSubLayer1], transparency: .5 });
+    clone(testMapLayer0, { transparency: .5 }, { name: "TestName", url: "www.bentley.com", formatId: "WMS", transparency: .5, visible: true });
+    clone(testMapLayer3, { transparency: .5 }, { name: "TestName", url: "www.bentley.com", formatId: "WMS", subLayers: [testMapSubLayer0, testMapSubLayer1], transparency: .5, visible: true });
 
     // Test settings not part of MapLayerProps
     const settings1 = MapLayerSettings.fromJSON(testMapLayer0)!;

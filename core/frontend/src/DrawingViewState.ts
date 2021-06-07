@@ -160,7 +160,7 @@ class SectionAttachment {
     this._toDrawing = toDrawing;
     this._fromDrawing = fromDrawing;
 
-    this.viewport = OffScreenViewport.create(view, this._viewRect, true, new SectionTarget(this));
+    this.viewport = OffScreenViewport.createViewport(view, new SectionTarget(this), true);
 
     this.symbologyOverrides = new FeatureSymbology.Overrides(view);
     let clipVolume;

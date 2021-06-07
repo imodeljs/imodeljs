@@ -11,6 +11,7 @@ import {
   AmbientOcclusion, AnalysisStyle, ClipStyle, ColorDef, Frustum, GlobeMode, Gradient, HiddenLine, Hilite, LightSettings, MonochromeMode, Npc, RenderTexture,
   ThematicDisplay, ViewFlags,
 } from "@bentley/imodeljs-common";
+import { FlashSettings } from "../FlashSettings";
 import { Viewport } from "../Viewport";
 
 const scratchPoint3a = new Point3d();
@@ -28,6 +29,7 @@ export interface RenderPlan {
   readonly monochromeMode: MonochromeMode;
   readonly hiliteSettings: Hilite.Settings;
   readonly emphasisSettings: Hilite.Settings;
+  readonly flashSettings: FlashSettings;
   readonly clip?: ClipVector;
   readonly clipStyle: ClipStyle;
   readonly hline?: HiddenLine.Settings;
@@ -55,6 +57,7 @@ export function createEmptyRenderPlan(): RenderPlan {
     monochromeMode: MonochromeMode.Scaled,
     hiliteSettings: new Hilite.Settings(),
     emphasisSettings: new Hilite.Settings(),
+    flashSettings: new FlashSettings(),
     clipStyle: ClipStyle.defaults,
     frustum: new Frustum(),
     fraction: 0,
@@ -85,6 +88,7 @@ export function createRenderPlanFromViewport(vp: Viewport): RenderPlan {
 
   const hiliteSettings = vp.hilite;
   const emphasisSettings = vp.emphasisSettings;
+  const flashSettings = vp.flashSettings;
   const lights = vp.lightSettings;
 
   const isFadeOutActive = vp.isFadeOutActive;
@@ -118,6 +122,7 @@ export function createRenderPlanFromViewport(vp: Viewport): RenderPlan {
     monochromeMode,
     hiliteSettings,
     emphasisSettings,
+    flashSettings,
     clip,
     clipStyle,
     hline,

@@ -1,6 +1,6 @@
 {
   "name": "@bentley/presentation-backend",
-  "version": "2.17.0-dev.14",
+  "version": "2.17.0-dev.28",
   "description": "Backend of iModel.js Presentation library",
   "license": "MIT",
   "repository": {
@@ -37,20 +37,20 @@
     "test:watch": "npm test -- --reporter min --watch-extensions ts --watch"
   },
   "peerDependencies": {
-    "@bentley/bentleyjs-core": "^2.17.0-dev.14",
-    "@bentley/imodeljs-backend": "^2.17.0-dev.14",
-    "@bentley/imodeljs-common": "^2.17.0-dev.14",
-    "@bentley/imodeljs-quantity": "^2.17.0-dev.14",
-    "@bentley/presentation-common": "^2.17.0-dev.14"
+    "@bentley/bentleyjs-core": "workspace:^2.17.0-dev.28",
+    "@bentley/imodeljs-backend": "workspace:^2.17.0-dev.28",
+    "@bentley/imodeljs-common": "workspace:^2.17.0-dev.28",
+    "@bentley/imodeljs-quantity": "workspace:^2.17.0-dev.28",
+    "@bentley/presentation-common": "workspace:^2.17.0-dev.28"
   },
   "devDependencies": {
-    "@bentley/bentleyjs-core": "2.17.0-dev.14",
-    "@bentley/build-tools": "2.17.0-dev.14",
-    "@bentley/eslint-plugin": "2.17.0-dev.14",
-    "@bentley/imodeljs-backend": "2.17.0-dev.14",
-    "@bentley/imodeljs-common": "2.17.0-dev.14",
-    "@bentley/imodeljs-quantity": "2.17.0-dev.14",
-    "@bentley/presentation-common": "2.17.0-dev.14",
+    "@bentley/bentleyjs-core": "workspace:*",
+    "@bentley/build-tools": "workspace:*",
+    "@bentley/eslint-plugin": "workspace:*",
+    "@bentley/imodeljs-backend": "workspace:*",
+    "@bentley/imodeljs-common": "workspace:*",
+    "@bentley/imodeljs-quantity": "workspace:*",
+    "@bentley/presentation-common": "workspace:*",
     "@types/chai": "^4.1.4",
     "@types/chai-as-promised": "^7",
     "@types/chai-jest-snapshot": "^1.3.0",
@@ -61,6 +61,7 @@
     "@types/mocha": "^8.2.2",
     "@types/node": "10.14.1",
     "@types/object-hash": "^1.3.0",
+    "@types/semver": "^5.5.0",
     "@types/sinon": "^9.0.0",
     "@types/sinon-chai": "^3.2.0",
     "chai": "^4.1.2",
@@ -82,7 +83,8 @@
     "typescript": "~4.1.0"
   },
   "dependencies": {
-    "object-hash": "^1.3.1"
+    "object-hash": "^1.3.1",
+    "semver": "^5.5.0"
   },
   "nyc": {
     "extends": "./node_modules/@bentley/build-tools/.nycrc",

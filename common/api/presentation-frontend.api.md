@@ -257,27 +257,27 @@ export class PresentationManager implements IDisposable {
     // (undocumented)
     dispose(): void;
     // @deprecated
-    getContent(requestOptions: Paged<ContentRequestOptions<IModelConnection>>, descriptorOrOverrides: Descriptor | DescriptorOverrides, keys: KeySet): Promise<Content | undefined>;
+    getContent(requestOptions: Paged<ContentRequestOptions<IModelConnection, RulesetVariable>>, descriptorOrOverrides: Descriptor | DescriptorOverrides, keys: KeySet): Promise<Content | undefined>;
     // (undocumented)
-    getContent(requestOptions: Paged<ExtendedContentRequestOptions<IModelConnection, Descriptor, KeySet>>): Promise<Content | undefined>;
+    getContent(requestOptions: Paged<ExtendedContentRequestOptions<IModelConnection, Descriptor, KeySet, RulesetVariable>>): Promise<Content | undefined>;
     // @deprecated
-    getContentAndSize(requestOptions: Paged<ContentRequestOptions<IModelConnection>>, descriptorOrOverrides: Descriptor | DescriptorOverrides, keys: KeySet): Promise<{
+    getContentAndSize(requestOptions: Paged<ContentRequestOptions<IModelConnection, RulesetVariable>>, descriptorOrOverrides: Descriptor | DescriptorOverrides, keys: KeySet): Promise<{
         content: Content;
         size: number;
     } | undefined>;
     // (undocumented)
-    getContentAndSize(requestOptions: Paged<ExtendedContentRequestOptions<IModelConnection, Descriptor, KeySet>>): Promise<{
+    getContentAndSize(requestOptions: Paged<ExtendedContentRequestOptions<IModelConnection, Descriptor, KeySet, RulesetVariable>>): Promise<{
         content: Content;
         size: number;
     } | undefined>;
     // @deprecated
-    getContentDescriptor(requestOptions: ContentRequestOptions<IModelConnection>, displayType: string, keys: KeySet, selection: SelectionInfo | undefined): Promise<Descriptor | undefined>;
+    getContentDescriptor(requestOptions: ContentRequestOptions<IModelConnection, RulesetVariable>, displayType: string, keys: KeySet, selection: SelectionInfo | undefined): Promise<Descriptor | undefined>;
     // (undocumented)
-    getContentDescriptor(requestOptions: ContentDescriptorRequestOptions<IModelConnection, KeySet>): Promise<Descriptor | undefined>;
+    getContentDescriptor(requestOptions: ContentDescriptorRequestOptions<IModelConnection, KeySet, RulesetVariable>): Promise<Descriptor | undefined>;
     // @deprecated
-    getContentSetSize(requestOptions: ContentRequestOptions<IModelConnection>, descriptorOrOverrides: Descriptor | DescriptorOverrides, keys: KeySet): Promise<number>;
+    getContentSetSize(requestOptions: ContentRequestOptions<IModelConnection, RulesetVariable>, descriptorOrOverrides: Descriptor | DescriptorOverrides, keys: KeySet): Promise<number>;
     // (undocumented)
-    getContentSetSize(requestOptions: ExtendedContentRequestOptions<IModelConnection, Descriptor, KeySet>): Promise<number>;
+    getContentSetSize(requestOptions: ExtendedContentRequestOptions<IModelConnection, Descriptor, KeySet, RulesetVariable>): Promise<number>;
     // @deprecated
     getDisplayLabelDefinition(requestOptions: LabelRequestOptions<IModelConnection>, key: InstanceKey): Promise<LabelDefinition>;
     // (undocumented)
@@ -287,25 +287,25 @@ export class PresentationManager implements IDisposable {
     // (undocumented)
     getDisplayLabelDefinitions(requestOptions: DisplayLabelsRequestOptions<IModelConnection, InstanceKey>): Promise<LabelDefinition[]>;
     // @deprecated
-    getDistinctValues(requestOptions: ContentRequestOptions<IModelConnection>, descriptorOrOverrides: Descriptor | DescriptorOverrides, keys: KeySet, fieldName: string, maximumValueCount?: number): Promise<string[]>;
-    getFilteredNodePaths(requestOptions: HierarchyRequestOptions<IModelConnection>, filterText: string): Promise<NodePathElement[]>;
-    getNodePaths(requestOptions: HierarchyRequestOptions<IModelConnection>, paths: InstanceKey[][], markedIndex: number): Promise<NodePathElement[]>;
+    getDistinctValues(requestOptions: ContentRequestOptions<IModelConnection, RulesetVariable>, descriptorOrOverrides: Descriptor | DescriptorOverrides, keys: KeySet, fieldName: string, maximumValueCount?: number): Promise<string[]>;
+    getFilteredNodePaths(requestOptions: ExtendedHierarchyRequestOptions<IModelConnection, never, RulesetVariable>, filterText: string): Promise<NodePathElement[]>;
+    getNodePaths(requestOptions: ExtendedHierarchyRequestOptions<IModelConnection, never, RulesetVariable>, paths: InstanceKey[][], markedIndex: number): Promise<NodePathElement[]>;
     // @deprecated
-    getNodes(requestOptions: Paged<HierarchyRequestOptions<IModelConnection>>, parentKey: NodeKey | undefined): Promise<Node[]>;
-    getNodes(requestOptions: Paged<ExtendedHierarchyRequestOptions<IModelConnection, NodeKey>>): Promise<Node[]>;
+    getNodes(requestOptions: Paged<HierarchyRequestOptions<IModelConnection, RulesetVariable>>, parentKey: NodeKey | undefined): Promise<Node[]>;
+    getNodes(requestOptions: Paged<ExtendedHierarchyRequestOptions<IModelConnection, NodeKey, RulesetVariable>>): Promise<Node[]>;
     // @deprecated
-    getNodesAndCount(requestOptions: Paged<HierarchyRequestOptions<IModelConnection>>, parentKey: NodeKey | undefined): Promise<{
+    getNodesAndCount(requestOptions: Paged<HierarchyRequestOptions<IModelConnection, RulesetVariable>>, parentKey: NodeKey | undefined): Promise<{
         count: number;
         nodes: Node[];
     }>;
-    getNodesAndCount(requestOptions: Paged<ExtendedHierarchyRequestOptions<IModelConnection, NodeKey>>): Promise<{
+    getNodesAndCount(requestOptions: Paged<ExtendedHierarchyRequestOptions<IModelConnection, NodeKey, RulesetVariable>>): Promise<{
         count: number;
         nodes: Node[];
     }>;
     // @deprecated
-    getNodesCount(requestOptions: HierarchyRequestOptions<IModelConnection>, parentKey: NodeKey | undefined): Promise<number>;
-    getNodesCount(requestOptions: ExtendedHierarchyRequestOptions<IModelConnection, NodeKey>): Promise<number>;
-    getPagedDistinctValues(requestOptions: DistinctValuesRequestOptions<IModelConnection, Descriptor, KeySet>): Promise<PagedResponse<DisplayValueGroup>>;
+    getNodesCount(requestOptions: HierarchyRequestOptions<IModelConnection, RulesetVariable>, parentKey: NodeKey | undefined): Promise<number>;
+    getNodesCount(requestOptions: ExtendedHierarchyRequestOptions<IModelConnection, NodeKey, RulesetVariable>): Promise<number>;
+    getPagedDistinctValues(requestOptions: DistinctValuesRequestOptions<IModelConnection, Descriptor, KeySet, RulesetVariable>): Promise<PagedResponse<DisplayValueGroup>>;
     // @internal (undocumented)
     get ipcRequestsHandler(): IpcRequestsHandler | undefined;
     // @alpha @deprecated
@@ -369,7 +369,7 @@ export class RulesetManagerImpl implements RulesetManager {
 // @public
 export interface RulesetVariablesManager {
     // @internal
-    getAllVariables(): Promise<RulesetVariable[]>;
+    getAllVariables(): RulesetVariable[];
     getBool(variableId: string): Promise<boolean>;
     getId64(variableId: string): Promise<Id64String>;
     getId64s(variableId: string): Promise<Id64String[]>;
@@ -389,7 +389,7 @@ export interface RulesetVariablesManager {
 export class RulesetVariablesManagerImpl implements RulesetVariablesManager {
     constructor(rulesetId: string, ipcHandler?: IpcRequestsHandler);
     // (undocumented)
-    getAllVariables(): Promise<RulesetVariable[]>;
+    getAllVariables(): RulesetVariable[];
     getBool(variableId: string): Promise<boolean>;
     getId64(variableId: string): Promise<Id64String>;
     getId64s(variableId: string): Promise<Id64String[]>;

@@ -1,0 +1,11 @@
+{
+  "changes": [
+    {
+      "packageName": "@bentley/imodeljs-common",
+      "comment": "Export EmphasizeElementProps from common, deprecate from frontend.",
+      "type": "none"
+    }
+  ],
+  "packageName": "@bentley/imodeljs-common",
+  "email": "65233531+bbastings@users.noreply.github.com"
+}

@@ -2,13 +2,13 @@
 * Copyright (c) Bentley Systems, Incorporated. All rights reserved.
 * See LICENSE.md in the project root for license terms and full copyright notice.
 *--------------------------------------------------------------------------------------------*/
-@import "~@bentley/ui-core/lib/ui-core/math";
+@use "sass:math";
 @import "../../../../target";
 @import "variables";
 
 .nz-toolbar-item-expandable-group-backArrow {
   $border: solid $back-arrow-thickness currentColor;
-  $size: sqrt($back-arrow-size-val * $back-arrow-size-val * 8) / 2 + px;
+  $size: math.sqrt($back-arrow-size-val * $back-arrow-size-val * 8) * 0.5 + px;
 
   width: 15px;
   height: 20px;
@@ -22,7 +22,7 @@
   }
 
   &:after {
-    content: '';
+    content: "";
     display: block;
     position: relative;
     left: 3px;

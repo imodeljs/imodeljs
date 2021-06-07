@@ -6,8 +6,8 @@
  * @module Core
  */
 
-import { Id64, Id64String } from "@bentley/bentleyjs-core";
-import { VariableValue, VariableValueJSON, VariableValueTypes } from "@bentley/presentation-common";
+import { Id64String } from "@bentley/bentleyjs-core";
+import { VariableValue, VariableValueTypes } from "@bentley/presentation-common";
 import { NativePlatformDefinition } from "./NativePlatform";
 
 /**
@@ -94,11 +94,11 @@ export class RulesetVariablesManagerImpl implements RulesetVariablesManager {
     this._rulesetId = rulesetId;
   }
 
-  public setValueJSON(variableId: string, type: VariableValueTypes, value: VariableValueJSON): void {
+  public setValueInternal(variableId: string, type: VariableValueTypes, value: VariableValue): void {
     this._getNativePlatform().setRulesetVariableValue(this._rulesetId, variableId, type, value);
   }
 
-  public getValueJSON(variableId: string, type: VariableValueTypes): VariableValueJSON {
+  public getValueInternal(variableId: string, type: VariableValueTypes): VariableValue {
     return this._getNativePlatform().getRulesetVariableValue(this._rulesetId, variableId, type).result;
   }
 
@@ -128,14 +128,14 @@ export class RulesetVariablesManagerImpl implements RulesetVariablesManager {
    * Returns empty string if variable does not exist or does not convert to string.
    */
   public getString(variableId: string): string {
-    return (this.getValueJSON(variableId, VariableValueTypes.String)) as string;
+    return (this.getValueInternal(variableId, VariableValueTypes.String)) as string;
   }
 
   /**
    * Sets `string` variable value
    */
   public setString(variableId: string, value: string): void {
-    this.setValueJSON(variableId, VariableValueTypes.String, value);
+    this.setValueInternal(variableId, VariableValueTypes.String, value);
   }
 
   /**
@@ -143,14 +143,14 @@ export class RulesetVariablesManagerImpl implements RulesetVariablesManager {
    * Returns `false` if variable does not exist or does not convert to boolean.
    */
   public getBool(variableId: string): boolean {
-    return (this.getValueJSON(variableId, VariableValueTypes.Bool)) as boolean;
+    return (this.getValueInternal(variableId, VariableValueTypes.Bool)) as boolean;
   }
 
   /**
    * Sets `boolean` variable value
    */
   public setBool(variableId: string, value: boolean): void {
-    this.setValueJSON(variableId, VariableValueTypes.Bool, value);
+    this.setValueInternal(variableId, VariableValueTypes.Bool, value);
   }
 
   /**
@@ -158,14 +158,14 @@ export class RulesetVariablesManagerImpl implements RulesetVariablesManager {
    * Returns `0` if variable does not exist or does not convert to integer.
    */
   public getInt(variableId: string): number {
-    return (this.getValueJSON(variableId, VariableValueTypes.Int)) as number;
+    return (this.getValueInternal(variableId, VariableValueTypes.Int)) as number;
   }
 
   /**
    * Sets `number` variable value
    */
   public setInt(variableId: string, value: number): void {
-    this.setValueJSON(variableId, VariableValueTypes.Int, value);
+    this.setValueInternal(variableId, VariableValueTypes.Int, value);
   }
 
   /**
@@ -173,14 +173,14 @@ export class RulesetVariablesManagerImpl implements RulesetVariablesManager {
    * Returns empty array if variable does not exist or does not convert to integer array.
    */
   public getInts(variableId: string): number[] {
-    return (this.getValueJSON(variableId, VariableValueTypes.IntArray)) as number[];
+    return (this.getValueInternal(variableId, VariableValueTypes.IntArray)) as number[];
   }
 
   /**
    * Sets `number[]` variable value
    */
   public setInts(variableId: string, value: number[]): void {
-    this.setValueJSON(variableId, VariableValueTypes.IntArray, value);
+    this.setValueInternal(variableId, VariableValueTypes.IntArray, value);
   }
 
   /**
@@ -188,14 +188,14 @@ export class RulesetVariablesManagerImpl implements RulesetVariablesManager {
    * Returns invalid Id64String if variable does not exist or does not convert to Id64String.
    */
   public getId64(variableId: string): Id64String {
-    return Id64.fromJSON((this.getValueJSON(variableId, VariableValueTypes.Id64)) as string);
+    return (this.getValueInternal(variableId, VariableValueTypes.Id64)) as Id64String;
   }
 
   /**
    * Sets `Id64String` variable value
    */
   public setId64(variableId: string, value: Id64String): void {
-    this.setValueJSON(variableId, VariableValueTypes.Id64, value);
+    this.setValueInternal(variableId, VariableValueTypes.Id64, value);
   }
 
   /**
@@ -203,14 +203,13 @@ export class RulesetVariablesManagerImpl implements RulesetVariablesManager {
    * Returns empty array if variable does not exist or does not convert to Id64String array.
    */
   public getId64s(variableId: string): Id64String[] {
-    const value = (this.getValueJSON(variableId, VariableValueTypes.Id64Array)) as string[];
-    return value.map((v) => Id64.fromJSON(v));
+    return (this.getValueInternal(variableId, VariableValueTypes.Id64Array)) as Id64String[];
   }
 
   /**
    * Sets `Id64String[]` variable value
    */
   public setId64s(variableId: string, value: Id64String[]): void {
-    this.setValueJSON(variableId, VariableValueTypes.Id64Array, value.map((v) => v));
+    this.setValueInternal(variableId, VariableValueTypes.Id64Array, value);
   }
 }

@@ -2,18 +2,18 @@
 * Copyright (c) Bentley Systems, Incorporated. All rights reserved.
 * See LICENSE.md in the project root for license terms and full copyright notice.
 *--------------------------------------------------------------------------------------------*/
+
 import { DbResult, GuidString, Id64, Id64String, Logger, LogLevel, PerfLogger } from "@bentley/bentleyjs-core";
 import {
   ChangedValueState, ChangeOpCode, ColorDef, IModel, IModelVersion, SubCategoryAppearance,
 } from "@bentley/imodeljs-common";
-import { TestUsers, TestUtility } from "@bentley/oidc-signin-tool";
 import { assert } from "chai";
 import * as path from "path";
 import {
   AuthorizedBackendRequestContext, BriefcaseDb, BriefcaseManager, ChangeSummary, ChangeSummaryManager, ConcurrencyControl, ECSqlStatement,
   ElementOwnsChildElements, IModelHost, IModelJsFs, SpatialCategory,
 } from "../../imodeljs-backend";
-import { IModelTestUtils } from "../IModelTestUtils";
+import { IModelTestUtils, TestUserType } from "../IModelTestUtils";
 import { KnownTestLocations } from "../KnownTestLocations";
 import { HubUtility } from "./HubUtility";
 import { TestChangeSetUtility } from "./TestChangeSetUtility";
@@ -77,7 +77,8 @@ describe("ChangeSummary (#integration)", () => {
     Logger.setLevel("DgnCore", LogLevel.Error);
     Logger.setLevel("BeSQLite", LogLevel.Error);
 
-    requestContext = await TestUtility.getAuthorizedClientRequestContext(TestUsers.regular);
+    HubUtility.allowHubBriefcases = true;
+    requestContext = await IModelTestUtils.getUserContext(TestUserType.Regular);
 
     testContextId = await HubUtility.getTestContextId(requestContext);
     requestContext.enter();
@@ -92,13 +93,15 @@ describe("ChangeSummary (#integration)", () => {
     requestContext.enter();
 
     // Purge briefcases that are close to reaching the acquire limit
-    const managerRequestContext = await TestUtility.getAuthorizedClientRequestContext(TestUsers.manager);
+    const managerRequestContext = await IModelTestUtils.getUserContext(TestUserType.Manager);
     managerRequestContext.enter();
     await HubUtility.purgeAcquiredBriefcasesById(managerRequestContext, readOnlyTestIModelId);
     managerRequestContext.enter();
     await HubUtility.purgeAcquiredBriefcasesById(managerRequestContext, readWriteTestIModelId);
     managerRequestContext.enter();
   });
+
+  after(() => HubUtility.allowHubBriefcases = false);
 
   it("Attach / Detach ChangeCache file to closed imodel", async () => {
     setupTest(readOnlyTestIModelId);
@@ -154,10 +157,10 @@ describe("ChangeSummary (#integration)", () => {
   it("Extract ChangeSummary for single changeset", async () => {
     setupTest(readOnlyTestIModelId);
 
-    const changeSets = await IModelHost.iModelClient.changeSets.get(requestContext, readOnlyTestIModelId);
+    const changeSets = await IModelHost.hubAccess.queryChangesets({ requestContext, iModelId: readOnlyTestIModelId });
     assert.isAtLeast(changeSets.length, 3);
     // extract summary for second changeset
-    const changesetId: string = changeSets[1].wsgId;
+    const changesetId: string = changeSets[1].id;
 
     const iModel = await IModelTestUtils.downloadAndOpenBriefcase({ requestContext, contextId: testContextId, iModelId: readOnlyTestIModelId });
     try {
@@ -193,10 +196,10 @@ describe("ChangeSummary (#integration)", () => {
   it("Extracting ChangeSummaries for a range of changesets", async () => {
     setupTest(readOnlyTestIModelId);
 
-    const changeSets = await IModelHost.iModelClient.changeSets.get(requestContext, readOnlyTestIModelId);
+    const changeSets = await IModelHost.hubAccess.queryChangesets({ requestContext, iModelId: readOnlyTestIModelId });
     assert.isAtLeast(changeSets.length, 3);
-    const startChangeSetId: string = changeSets[0].id!;
-    const endChangeSetId: string = changeSets[1].id!;
+    const startChangeSetId: string = changeSets[0].id;
+    const endChangeSetId: string = changeSets[1].id;
     const startVersion: IModelVersion = IModelVersion.asOfChangeSet(startChangeSetId);
     const endVersion: IModelVersion = IModelVersion.asOfChangeSet(endChangeSetId);
 
@@ -239,10 +242,10 @@ describe("ChangeSummary (#integration)", () => {
   it("Subsequent ChangeSummary extractions", async () => {
     setupTest(readOnlyTestIModelId);
 
-    const changeSets = await IModelHost.iModelClient.changeSets.get(requestContext, readOnlyTestIModelId);
+    const changeSets = await IModelHost.hubAccess.queryChangesets({ requestContext, iModelId: readOnlyTestIModelId });
     assert.isAtLeast(changeSets.length, 3);
     // first extraction: just first changeset
-    const firstChangesetId: string = changeSets[0].id!;
+    const firstChangesetId: string = changeSets[0].id;
 
     let iModel = await IModelTestUtils.downloadAndOpenBriefcase({ requestContext, contextId: testContextId, iModelId: readOnlyTestIModelId });
     try {
@@ -272,7 +275,7 @@ describe("ChangeSummary (#integration)", () => {
       });
 
       // now do second extraction for last changeset
-      const lastChangesetId: string = changeSets[changeSets.length - 1].id!;
+      const lastChangesetId: string = changeSets[changeSets.length - 1].id;
       await IModelTestUtils.closeAndDeleteBriefcaseDb(requestContext, iModel);
       iModel = await IModelTestUtils.downloadAndOpenBriefcase({ requestContext, contextId: testContextId, iModelId: readOnlyTestIModelId, asOf: IModelVersion.asOfChangeSet(lastChangesetId).toJSON() });
       // WIP not working yet until cache can be detached.
@@ -386,7 +389,7 @@ describe("ChangeSummary (#integration)", () => {
     const iModelName = HubUtility.generateUniqueName("ParentElementChangeTest");
 
     // Recreate iModel
-    const managerRequestContext = await TestUtility.getAuthorizedClientRequestContext(TestUsers.manager);
+    const managerRequestContext = await IModelTestUtils.getUserContext(TestUserType.Manager);
     const projectId = await HubUtility.getTestContextId(managerRequestContext);
     const iModelId = await HubUtility.recreateIModel(managerRequestContext, projectId, iModelName);
 
@@ -460,12 +463,12 @@ describe("ChangeSummary (#integration)", () => {
       await IModelTestUtils.closeAndDeleteBriefcaseDb(requestContext, iModel);
     }
 
-    await IModelHost.iModelClient.iModels.delete(requestContext, projectId, iModelId);
+    await IModelHost.hubAccess.deleteIModel({ requestContext, contextId: projectId, iModelId });
   });
 
   it.skip("should be able to extract the last change summary right after applying a change set", async () => {
-    const userContext1 = await TestUtility.getAuthorizedClientRequestContext(TestUsers.manager);
-    const userContext2 = await TestUtility.getAuthorizedClientRequestContext(TestUsers.superManager);
+    const userContext1 = await IModelTestUtils.getUserContext(TestUserType.Manager);
+    const userContext2 = await IModelTestUtils.getUserContext(TestUserType.SuperManager);
 
     // User1 creates an iModel (on the Hub)
     const testUtility = new TestChangeSetUtility(userContext1, "ChangeSummaryTest");

@@ -8,11 +8,12 @@
 
 import { Id64, Id64String, JsonUtils } from "@bentley/bentleyjs-core";
 import { Point2d, Range3d } from "@bentley/geometry-core";
-import { GeometricModel2dProps, GeometricModel3dProps, GeometricModelProps, ModelProps, RelatedElement } from "@bentley/imodeljs-common";
+import {
+  GeometricModel2dProps, GeometricModel3dProps, GeometricModelProps, ModelProps, RelatedElement, SpatialClassifiers,
+} from "@bentley/imodeljs-common";
 import { EntityState } from "./EntityState";
 import { HitDetail } from "./HitDetail";
 import { IModelConnection } from "./IModelConnection";
-import { SpatialClassifiers } from "./SpatialClassifiers";
 import { createPrimaryTileTreeReference, createRealityTileTreeReference, TileTreeReference } from "./tile/internal";
 import { ViewState } from "./ViewState";
 
@@ -212,9 +213,7 @@ export class SheetModelState extends GeometricModel2dState {
  * @public
  */
 export class SpatialModelState extends GeometricModel3dState {
-  /** If this is a reality model, provides access to a list of available spatial classifiers that can be applied to it.
-   * @beta
-   */
+  /** If this is a reality model, provides access to a list of available spatial classifiers that can be applied to it. */
   public readonly classifiers?: SpatialClassifiers;
 
   /** @internal */
@@ -227,9 +226,7 @@ export class SpatialModelState extends GeometricModel3dState {
     if (this.isRealityModel)
       this.classifiers = new SpatialClassifiers(this.jsonProperties);
   }
-  /** Return true if this is a reality model (represented by a 3d tile set)
-   * @beta
-   */
+  /** Return true if this is a reality model (represented by a 3d tile set). */
   public get isRealityModel(): boolean {
     return undefined !== this.jsonProperties.tilesetUrl;
   }

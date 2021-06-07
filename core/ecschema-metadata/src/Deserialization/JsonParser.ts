@@ -6,7 +6,7 @@
 import { ECObjectsError, ECObjectsStatus } from "../Exception";
 import { CustomAttribute } from "../Metadata/CustomAttribute";
 import { CustomAttributeClass } from "../Metadata/CustomAttributeClass";
-import { ECName } from "../SchemaKey";
+import { ECName } from "../ECName";
 import { AbstractParser, CAProviderTuple } from "./AbstractParser";
 import {
   ConstantProps, CustomAttributeClassProps, EntityClassProps, EnumerationProps, FormatProps, InvertedUnitProps, KindOfQuantityProps, MixinProps,

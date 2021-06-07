@@ -66,7 +66,7 @@
     &.core-dialog-center {
       top: 50%;
       left: 50%;
-      transform: translate(-50%,-50%);
+      transform: translate(-50%, -50%);
     }
 
     &.core-dialog-right {
@@ -141,7 +141,8 @@
           border: none;
           background-color: transparent;
 
-          &:hover, &:focus {
+          &:hover,
+          &:focus {
             color: $buic-foreground-activehover;
           }
           &:focus {
@@ -169,7 +170,8 @@
 
       > .core-dialog-footer {
         flex-shrink: 0;
-        padding: 0 $uicore-unbordered-padding $uicore-unbordered-padding $uicore-unbordered-padding;
+        padding: 0 $uicore-unbordered-padding $uicore-unbordered-padding
+          $uicore-unbordered-padding;
 
         > .core-dialog-buttons {
           display: flex;
@@ -192,7 +194,6 @@
         }
       }
       */
-
     }
 
     $dialog-resize-bar-width: 8px;
@@ -207,22 +208,22 @@
       }
 
       &.core-dialog-drag-right {
-        right: -$dialog-resize-bar-width / 2;
+        right: -$dialog-resize-bar-width * 0.5;
         width: $dialog-resize-bar-width;
         height: 100%;
         cursor: ew-resize;
       }
 
       &.core-dialog-drag-bottom-mid {
-        bottom: -$dialog-resize-bar-width / 2;
+        bottom: -$dialog-resize-bar-width * 0.5;
         height: $dialog-resize-bar-width;
         width: 100%;
         cursor: ns-resize;
       }
 
       &.core-dialog-drag-bottom-right {
-        right: -$dialog-resize-bar-width / 2;
-        bottom: -$dialog-resize-bar-width / 2;
+        right: -$dialog-resize-bar-width * 0.5;
+        bottom: -$dialog-resize-bar-width * 0.5;
         height: $dialog-resize-bar-width;
         width: $dialog-resize-bar-width;
         cursor: nwse-resize;

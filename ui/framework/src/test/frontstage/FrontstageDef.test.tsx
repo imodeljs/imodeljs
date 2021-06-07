@@ -257,7 +257,6 @@ describe("float and dock widget", () => {
 
     sinon.stub(UiFramework, "uiVersion").get(() => "2");
     sinon.stub(frontstageDef, "nineZoneState").get(() => state).set(nineZoneStateSetter);
-    // sinon.stub(frontstageDef, "nineZoneState").get(() => state);
     frontstageDef.floatWidget("t1", { x: 55, y: 105 });
     nineZoneStateSetter.calledOnce.should.true;
 
@@ -276,25 +275,33 @@ describe("float and dock widget", () => {
 
     const frontstageDef = new FrontstageDef();
     const nineZoneStateSetter = sinon.spy();
+    sinon.stub(frontstageDef, "nineZoneState").get(() => state).set(nineZoneStateSetter);
 
     const t1 = new WidgetDef({
+      id: "t1",
       defaultState: WidgetState.Open,
     });
 
-    sinon.stub(frontstageDef, "nineZoneState").get(() => state).set(nineZoneStateSetter);
-    sinon.stub(frontstageDef, "findWidgetDef").returns(t1);
+    const t2 = new WidgetDef({
+      id: "t2",
+      defaultState: WidgetState.Open,
+    });
+
+    const findWidgetDefGetter = sinon.stub(frontstageDef, "findWidgetDef");
+    findWidgetDefGetter
+      .onFirstCall().returns(t1);
+    findWidgetDefGetter.returns(t2);
 
     const openStub = sinon.stub();
     sinon.stub(window, "open").callsFake(openStub);
-    sinon.stub(UiFramework, "uiVersion").get(() => "2");
     frontstageDef.popoutWidget("t1", { x: 55, y: 105 }, { height: 300, width: 200 });
     nineZoneStateSetter.calledOnce.should.true;
-    await TestUtils.flushAsyncOperations();
+    await new Promise((r) => { setTimeout(r, 100); }); // wait for open processing
     openStub.calledOnce.should.be.true;
 
     openStub.resetHistory();
     frontstageDef.popoutWidget("t2");
-    await TestUtils.flushAsyncOperations();
+    await new Promise((r) => { setTimeout(r, 100); }); // wait for open processing
     openStub.calledOnce.should.true;
   });
 
@@ -336,13 +343,12 @@ describe("float and dock widget", () => {
     sinon.stub(window, "open").callsFake(openStub);
 
     frontstageDef.openPopoutWidgetContainer(state, "fw1");
-    await TestUtils.flushAsyncOperations();
+    await new Promise((r) => { setTimeout(r, 100); }); // wait for open processing
     openStub.calledOnce.should.be.true;
 
     openStub.resetHistory();
-
     frontstageDef.openPopoutWidgetContainer(state, "fw2");
-    await TestUtils.flushAsyncOperations();
+    await new Promise((r) => { setTimeout(r, 100); }); // wait for open processing
     openStub.calledOnce.should.be.true;
   });
 

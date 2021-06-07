@@ -25,6 +25,7 @@ import {
   ExtendedContentRequestOptions, ExtendedHierarchyRequestOptions, HierarchyCompareOptions, HierarchyRequestOptions, LabelRequestOptions, Paged,
   SelectionScopeRequestOptions,
 } from "./PresentationManagerOptions";
+import { RulesetVariableJSON } from "./RulesetVariables";
 import { SelectionScope } from "./selection/SelectionScope";
 import { HierarchyCompareInfoJSON, PartialHierarchyModificationJSON } from "./Update";
 import { Omit, PagedResponse } from "./Utils";
@@ -60,38 +61,38 @@ export type PresentationRpcResponse<TResult = undefined> = Promise<{
  * @public
  * @deprecated Use [[ExtendedHierarchyRpcRequestOptions]]
  */
-export type HierarchyRpcRequestOptions = PresentationRpcRequestOptions<HierarchyRequestOptions<never>>; // eslint-disable-line deprecation/deprecation
+export type HierarchyRpcRequestOptions = PresentationRpcRequestOptions<HierarchyRequestOptions<never, RulesetVariableJSON>>; // eslint-disable-line deprecation/deprecation
 
 /**
  * Data structure for hierarchy request options.
  * @public
  */
-export type ExtendedHierarchyRpcRequestOptions = PresentationRpcRequestOptions<ExtendedHierarchyRequestOptions<never, NodeKeyJSON>>;
+export type ExtendedHierarchyRpcRequestOptions = PresentationRpcRequestOptions<ExtendedHierarchyRequestOptions<never, NodeKeyJSON, RulesetVariableJSON>>;
 
 /**
  * Data structure for content request options.
  * @public
  * @deprecated Use [[ContentDescriptorRpcRequestOptions]] or [[ExtendedContentRpcRequestOptions]]
  */
-export type ContentRpcRequestOptions = PresentationRpcRequestOptions<ContentRequestOptions<never>>; // eslint-disable-line deprecation/deprecation
+export type ContentRpcRequestOptions = PresentationRpcRequestOptions<ContentRequestOptions<never, RulesetVariableJSON>>; // eslint-disable-line deprecation/deprecation
 
 /**
  * Data structure for content descriptor RPC request options.
  * @public
  */
-export type ContentDescriptorRpcRequestOptions = PresentationRpcRequestOptions<ContentDescriptorRequestOptions<never, KeySetJSON>>;
+export type ContentDescriptorRpcRequestOptions = PresentationRpcRequestOptions<ContentDescriptorRequestOptions<never, KeySetJSON, RulesetVariableJSON>>;
 
 /**
  * Data structure for content RPC request options.
  * @public
  */
-export type ExtendedContentRpcRequestOptions = PresentationRpcRequestOptions<ExtendedContentRequestOptions<never, DescriptorJSON, KeySetJSON>>;
+export type ExtendedContentRpcRequestOptions = PresentationRpcRequestOptions<ExtendedContentRequestOptions<never, DescriptorJSON, KeySetJSON, RulesetVariableJSON>>;
 
 /**
  * Data structure for distinct values' request options.
  * @public
  */
-export type DistinctValuesRpcRequestOptions = PresentationRpcRequestOptions<DistinctValuesRequestOptions<never, DescriptorJSON, KeySetJSON>>;
+export type DistinctValuesRpcRequestOptions = PresentationRpcRequestOptions<DistinctValuesRequestOptions<never, DescriptorJSON, KeySetJSON, RulesetVariableJSON>>;
 
 /**
  * Data structure for label request options.
@@ -122,7 +123,7 @@ export type SelectionScopeRpcRequestOptions = PresentationRpcRequestOptions<Sele
  * Data structure for comparing presentation data after ruleset or ruleset variable changes.
  * @public
  */
-export type HierarchyCompareRpcOptions = PresentationRpcRequestOptions<HierarchyCompareOptions<never, NodeKeyJSON>>;
+export type HierarchyCompareRpcOptions = PresentationRpcRequestOptions<HierarchyCompareOptions<never, NodeKeyJSON, RulesetVariableJSON>>;
 
 /**
  * Interface used for communication between Presentation backend and frontend.
@@ -133,7 +134,7 @@ export class PresentationRpcInterface extends RpcInterface {
   public static readonly interfaceName = "PresentationRpcInterface"; // eslint-disable-line @typescript-eslint/naming-convention
 
   /** The semantic version of the interface. */
-  public static interfaceVersion = "2.9.0";
+  public static interfaceVersion = "2.10.0";
 
   /*===========================================================================================
     NOTE: Any add/remove/change to the methods below requires an update of the interface version.

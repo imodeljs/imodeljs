@@ -294,7 +294,7 @@ interface ToolEvent {
   vp?: ScreenViewport; // Viewport is optional - keyboard events aren't associated with a Viewport.
 }
 
-/** Controls operation of Tools. Administers the current view, primitive, and idle tools. Forwards events to the appropriate tool.
+/** Controls the operation of [[Tool]]s, administering the current [[ViewTool]], [[PrimitiveTool]], and [[IdleTool]] and forwarding events to the appropriate tool.
  * @public
  */
 export class ToolAdmin {
@@ -322,18 +322,26 @@ export class ToolAdmin {
    */
   public readonly activeSettings = new ToolAdmin.ActiveSettings();
 
-  /** The name of the [[PrimitiveTool]] to use as the default tool. Defaults to "Select".
-   * @see [[startDefaultTool]]
-   * @internal
+  /** The name of the [[PrimitiveTool]] to use as the default tool. Defaults to "Select", referring to [[SelectionTool]].
+   * @see [[startDefaultTool]] to activate the default tool.
+   * @see [[defaultToolArgs]] to supply arguments when starting the tool.
    */
-  public get defaultToolId(): string { return this._defaultToolId; }
-  public set defaultToolId(toolId: string) { this._defaultToolId = toolId; }
-  /** Return the default arguments to pass in when starting the default tool, if any.
-   * @see [[startDefaultTool]]
-   * @internal
+  public get defaultToolId(): string {
+    return this._defaultToolId;
+  }
+  public set defaultToolId(toolId: string) {
+    this._defaultToolId = toolId;
+  }
+
+  /** The arguments supplied to the default [[Tool]]'s [[Tool.run]] method from [[startDefaultTool]].
+   * @see [[defaultToolId]] to configure the default tool.
    */
-  public get defaultToolArgs(): any[] | undefined { return this._defaultToolArgs; }
-  public set defaultToolArgs(args: any[] | undefined) { this._defaultToolArgs = args; }
+  public get defaultToolArgs(): any[] | undefined {
+    return this._defaultToolArgs;
+  }
+  public set defaultToolArgs(args: any[] | undefined) {
+    this._defaultToolArgs = args;
+  }
 
   /** Apply operations such as transform, copy or delete to all members of an assembly. */
   public assemblyLock = false;
@@ -848,7 +856,7 @@ export class ToolAdmin {
 
   /** @internal */
   public updateDynamics(ev?: BeButtonEvent, useLastData?: boolean, adjustPoint?: boolean): void {
-    if (!IModelApp.viewManager.inDynamicsMode || undefined === this.activeTool)
+    if (undefined === this.activeTool)
       return;
 
     if (undefined === ev) {
@@ -866,9 +874,28 @@ export class ToolAdmin {
     if (undefined === ev.viewport)
       return;
 
-    const context = new DynamicsContext(ev.viewport);
-    this.activeTool.onDynamicFrame(ev, context);
-    context.changeDynamics();
+    // Support tools requesting async information in onMouseMotion for use in decorate or onDynamicFrame...
+    const toolPromise = this._toolMotionPromise = this.activeTool.onMouseMotion(ev);
+    const tool = this.activeTool;
+    const vp = ev.viewport;
+    const motion = ev;
+
+    // eslint-disable-next-line @typescript-eslint/no-floating-promises
+    toolPromise.then(() => {
+      if (toolPromise !== this._toolMotionPromise)
+        return;
+
+      // Update decorations when dynamics are inactive...
+      if (!IModelApp.viewManager.inDynamicsMode) {
+        vp.invalidateDecorations();
+        return;
+      }
+
+      // Update dynamics and decorations only after motion...
+      const context = new DynamicsContext(vp);
+      tool.onDynamicFrame(motion, context);
+      context.changeDynamics();
+    });
   }
 
   public async sendEndDragEvent(ev: BeButtonEvent): Promise<any> {
@@ -985,18 +1012,7 @@ export class ToolAdmin {
         return this.onStartDrag(ev, isValidLocation ? tool : undefined);
       }
 
-      if (tool) {
-        const toolPromise = this._toolMotionPromise = tool.onMouseMotion(ev);
-
-        // eslint-disable-next-line @typescript-eslint/no-floating-promises
-        toolPromise.then(() => {
-          if (toolPromise !== this._toolMotionPromise)
-            return;
-          // Update dynamics only after motion...
-          this.updateDynamics(ev);
-        });
-      }
-
+      this.updateDynamics(ev);
       return;
     });
 
@@ -1569,10 +1585,11 @@ export class ToolAdmin {
   }
 
   /**
-   * Starts the default tool, if any. Generally invoked automatically when other tools exit, so shouldn't be called directly.
+   * Starts the default [[Tool]], if any. Generally invoked automatically when other tools exit, so shouldn't be called directly.
    * @note The default tool is expected to be a subclass of [[PrimitiveTool]]. A call to startDefaultTool is required to terminate
    * an active [[ViewTool]] or [[InputCollector]] and replace or clear the current [[PrimitiveTool]].
-   * @internal
+   * The tool's [[Tool.run]] method is invoked with arguments specified by [[defaultToolArgs]].
+   * @see [[defaultToolId]] to configure the default tool.
    */
   public startDefaultTool() {
     if (!IModelApp.tools.run(this.defaultToolId, this.defaultToolArgs))
@@ -1703,8 +1720,8 @@ export class ToolAdmin {
   /** Performs default handling of mouse wheel event (zoom in/out) */
   public async processWheelEvent(ev: BeWheelEvent, doUpdate: boolean): Promise<EventHandled> {
     await WheelEventProcessor.process(ev, doUpdate);
-    this.updateDynamics(ev);
     IModelApp.viewManager.invalidateDecorationsAllViews();
+    this.updateDynamics(ev);
     return EventHandled.Yes;
   }
 

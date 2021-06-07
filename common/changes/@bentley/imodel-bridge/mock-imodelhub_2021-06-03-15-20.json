@@ -1,0 +1,11 @@
+{
+  "changes": [
+    {
+      "packageName": "@bentley/imodel-bridge",
+      "comment": "use IModelHost.hubAccess api",
+      "type": "none"
+    }
+  ],
+  "packageName": "@bentley/imodel-bridge",
+  "email": "33296803+kabentley@users.noreply.github.com"
+}

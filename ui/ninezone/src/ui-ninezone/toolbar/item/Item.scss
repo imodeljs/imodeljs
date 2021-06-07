@@ -13,7 +13,8 @@
   cursor: pointer;
   transition: background-color 500ms ease;
   position: relative;
-  background: $buic-background-window linear-gradient(to bottom, $buic-button-gradient1, $buic-button-gradient2);
+  background: $buic-background-window
+    linear-gradient(to bottom, $buic-button-gradient1, $buic-button-gradient2);
 
   height: $nz-desktop-item-height;
   width: $nz-desktop-item-width;
@@ -87,12 +88,12 @@
       }
 
       &:after {
-        content: '';
+        content: "";
         display: block;
         position: absolute;
         background: $buic-foreground-primary;
         left: 3px;
-        top: ($nz-desktop-item-height - $desktop-tool-stripe-height) / 2;
+        top: ($nz-desktop-item-height - $desktop-tool-stripe-height) * 0.5;
         border-radius: 2px;
         width: $desktop-tool-stripe-width;
         height: $desktop-tool-stripe-height;

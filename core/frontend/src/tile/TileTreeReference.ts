@@ -213,7 +213,7 @@ export abstract class TileTreeReference /* implements RenderMemory.Consumer */ {
    * BIM models have highest prioirty and are never clipped.
    * @alpha
    */
-  public get planarclipMaskPriority(): number { return PlanarClipMaskPriority.BIM; }
+  public get planarclipMaskPriority(): number { return PlanarClipMaskPriority.DesignModel; }
 
   /** Add attribution logo cards for the tile tree source logo cards to the viewport's logo div. */
   public addLogoCards(_cards: HTMLTableElement, _vp: ScreenViewport): void { }

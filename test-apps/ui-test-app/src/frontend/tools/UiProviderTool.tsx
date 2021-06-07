@@ -17,7 +17,7 @@ import {
 } from "@bentley/ui-abstract";
 import { FillCentered } from "@bentley/ui-core";
 import {
-  ActionCreatorsObject, ActionsUnion, ChildWindowLocationProps, createAction, ModelSelectorWidget,
+  ActionCreatorsObject, ActionsUnion, ChildWindowLocationProps, createAction,
   ReducerRegistryInstance, StateManager, StatusBarItemUtilities, UiFramework, withStatusFieldProps,
 } from "@bentley/ui-framework";
 import { ShadowField } from "../appui/statusfields/ShadowField";
@@ -27,6 +27,8 @@ import tool2IconSvg from "@bentley/icons-generic/icons/window-maximize.svg?sprit
 import tool3IconSvg from "@bentley/icons-generic/icons/3d-render.svg?sprite";
 import { PopupTestPanel } from "./PopupTestPanel";
 import { PopupTestView } from "./PopupTestView";
+import { ComponentExamplesPage } from "../appui/frontstages/component-examples/ComponentExamples";
+import { ComponentExamplesProvider } from "../appui/frontstages/component-examples/ComponentExamplesProvider";
 
 // Simulate redux state being added via a extension
 interface SampleExtensionState {
@@ -200,8 +202,8 @@ export class UiProviderTool extends Tool {
   }
 }
 
-export class OpenWidgetPopoutTool extends Tool {
-  public static toolId = "openChildWindow";
+export class OpenComponentExamplesPopoutTool extends Tool {
+  public static toolId = "openComponentExamplesChildWindow";
   public static iconSpec = IconSpecUtilities.createSvgIconSpec(toolIconSvg);
 
   public static get minArgs() { return 0; }
@@ -215,35 +217,35 @@ export class OpenWidgetPopoutTool extends Tool {
 
   private async _run(): Promise<void> {
     const location: ChildWindowLocationProps = {
-      width: 300,
+      width: 800,
       height: 600,
       left: 0,
       top: 0,
     };
     const connection = UiFramework.getIModelConnection();
     if (connection)
-      UiFramework.childWindowManager.openChildWindow("VisibilityTreeWidget", "VisibilityTreeWidget", <ModelSelectorWidget iModelConnection={connection} />, location, UiFramework.useDefaultPopoutUrl);
+      UiFramework.childWindowManager.openChildWindow("ComponentExamples", "Component Examples", <ComponentExamplesPage categories={ComponentExamplesProvider.categories} hideThemeOption />, location, UiFramework.useDefaultPopoutUrl);
   }
 
   public static get flyover(): string {
-    return "open widget popout";
+    return "open examples popout";
   }
 
   // if supporting localized key-ins return a localized string
   public static get keyin(): string {
-    return "open popout";
+    return "open examples popout";
   }
 
   public static get englishKeyin(): string {
-    return "open popout";
+    return "open examples popout";
   }
 
   public static getActionButtonDef(itemPriority: number, groupPriority?: number) {
     const overrides = {
       groupPriority,
     };
-    return ToolbarItemUtilities.createActionButton(OpenWidgetPopoutTool.toolId, itemPriority, OpenWidgetPopoutTool.iconSpec, OpenWidgetPopoutTool.flyover,
-      () => { IModelApp.tools.run(OpenWidgetPopoutTool.toolId); }, overrides);
+    return ToolbarItemUtilities.createActionButton(OpenComponentExamplesPopoutTool.toolId, itemPriority, OpenComponentExamplesPopoutTool.iconSpec, OpenComponentExamplesPopoutTool.flyover,
+      () => { IModelApp.tools.run(OpenComponentExamplesPopoutTool.toolId); }, overrides);
   }
 }
 export class OpenCustomPopoutTool extends Tool {
@@ -266,7 +268,7 @@ export class OpenCustomPopoutTool extends Tool {
       left: 0,
       top: 0,
     };
-    UiFramework.childWindowManager.openChildWindow("CustomPopout", "Custom Popout", <PopupTestPanel />, location);
+    UiFramework.childWindowManager.openChildWindow("CustomPopout", "Custom Popout", <PopupTestPanel />, location /* , UiFramework.useDefaultPopoutUrl*/);
   }
 
   public static get flyover(): string {

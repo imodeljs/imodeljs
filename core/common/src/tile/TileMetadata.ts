@@ -70,7 +70,7 @@ export const defaultTileOptions: TileOptions = Object.freeze({
   enableInstancing: true,
   enableImprovedElision: true,
   ignoreAreaPatterns: false,
-  enableExternalTextures: false,
+  enableExternalTextures: true,
   useProjectExtents: true,
   disableMagnification: false,
   alwaysSubdivideIncompleteTiles: false,

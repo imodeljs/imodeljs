@@ -16,7 +16,7 @@ import { SaturationConfig, SaturationEffect } from "./effects/Saturation";
 import { SnowEffect } from "./effects/Snow";
 import { VignetteConfig, VignetteEffect } from "./effects/Vignette";
 import {
-  ChangeEmphasisSettingsTool, ChangeHiliteSettingsTool, DefaultTileSizeModifierTool, FadeOutTool, FreezeSceneTool, MaskBackgroundMapByElementTool,
+  ChangeEmphasisSettingsTool, ChangeFlashSettingsTool, ChangeHiliteSettingsTool, DefaultTileSizeModifierTool, FadeOutTool, FreezeSceneTool, MaskBackgroundMapByElementTool,
   MaskBackgroundMapByExcludedElementTool, MaskBackgroundMapByModelTool, MaskBackgroundMapBySubCategoryTool, MaskRealityModelByElementTool,
   MaskRealityModelByExcludedElementTool, MaskRealityModelByModelTool, MaskRealityModelBySubCategoryTool, SetAspectRatioSkewTool,
   SetHigherPriorityRealityModelMasking, SetMapHigherPriorityMasking, ShowTileVolumesTool, Toggle3dManipulationsTool, ToggleDrawingGraphicsTool,
@@ -99,6 +99,7 @@ export class FrontendDevTools {
       ApplyViewTool,
       ChangeCameraTool,
       ChangeEmphasisSettingsTool,
+      ChangeFlashSettingsTool,
       ChangeHiliteSettingsTool,
       ChangePlanProjectionSettingsTool,
       ChangeUnitsTool,

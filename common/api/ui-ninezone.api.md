@@ -693,13 +693,13 @@ export interface FooterProps extends CommonProps {
     safeAreaInsets?: SafeAreaInsets;
 }
 
-// @beta
+// @public
 export class FooterSeparator extends React.PureComponent<FooterSeparatorProps> {
     // (undocumented)
     render(): JSX.Element;
 }
 
-// @beta
+// @public
 export interface FooterSeparatorProps extends CommonProps, NoChildrenProps {
 }
 

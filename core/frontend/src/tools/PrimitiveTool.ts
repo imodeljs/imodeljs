@@ -19,14 +19,17 @@ import { BeButton, BeButtonEvent, CoordinateLockOverrides, CoreTools, Interactiv
  * @public
  */
 export abstract class PrimitiveTool extends InteractiveTool {
+  /** The viewport within which the tool operates.
+   * @note This property is only initialized if [[run]] returns `true`, causing the tool to be installed.
+   */
   public targetView?: Viewport;
   private _targetModelId?: string;
   public get targetModelId() { return this._targetModelId; }
   public set targetModelId(v: string | undefined) { this._targetModelId = v; }
   public targetIsLocked: boolean = false; // If target model is known, set this to true in constructor and override getTargetModel.
 
-  /** Get the iModel for this tool.
-   * @internal
+  /** Get the iModel on which this tool operates.
+   * @note The iModel is obtained from [[targetView]], so should only be invoked if the tool installed successfully.
    */
   public get iModel(): IModelConnection {
     assert(undefined !== this.targetView);
@@ -36,6 +39,7 @@ export abstract class PrimitiveTool extends InteractiveTool {
   /**
    * Establish this tool as the active PrimitiveTool.
    * @return true if this tool was installed (though it may have exited too)
+   * @note If you override this method you **must** call `super.run` and return false if it returns false.
    */
   public run(..._args: any[]): boolean {
     const { toolAdmin, viewManager } = IModelApp;
@@ -47,8 +51,7 @@ export abstract class PrimitiveTool extends InteractiveTool {
     return true;
   }
 
-  /**
-   * Determine whether the supplied Viewport is compatible with this tool.
+  /** Determine whether the supplied Viewport is compatible with this tool.
    * @param vp the Viewport to check
    */
   public isCompatibleViewport(vp: Viewport | undefined, isSelectedViewChange: boolean): boolean {

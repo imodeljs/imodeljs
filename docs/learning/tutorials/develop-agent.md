@@ -3,12 +3,14 @@
 ## Setup
 
 - [Install necessary prerequisites]($docs/getting-started/development-prerequisites)
-- [Register an Agent Application](../../../getting-started/registration-dashboard/?tab=0&create=AGENT_APP)
-  - Accept all defaults
+- [Register an Agent Application](https://developer.bentley.com/register/)
+- Give your agent application a name.
+- Choose "Service" application type.
+  - Select necessary API associations
   - Be sure to save the secret somewhere safe - it is only shown once
 - [Clone agent-starter repo](https://github.com/imodeljs/agent-starter)
 - If you do not have access to an iModel, follow one of our tutorials to [create an iModel]($docs/learning/tutorials/index.md)
-- Add `{client_id}@apps.imsoidc.bentley.com` as a project participant of your test iModel using the [iModel Registration Dashboard](../../../getting-started/registration-dashboard/?tab=1)
+- Add `{client_id}@apps.imsoidc.bentley.com` as a project participant of your test iModel using the "[My sample iModels](https://developer.bentley.com/my-imodels/)" page.
 
 > Allow some time after registering the agent application. The identity profile of the agent is being created in the background and can take between 5 and 10 minutes
 
@@ -29,12 +31,12 @@
     IMODEL_ID=
 
     # OIDC configuration
-    # Don't forget to add <CLIENT_ID>@apps.imsoidc.bentley.com to your CONNECT project. This can be done in the iModel Registration Dashboard.
+    # Don't forget to add <CLIENT_ID>@apps.imsoidc.bentley.com to your CONNECT project. This can be done in the "My sample iModels" page.
     CLIENT_ID=
     CLIENT_SECRET=
     ```
 
-    > The values for `CONTEXT_ID` and `IMODEL_ID` can be obtained from the IDs column of the [iModel registration dashboard](../../../getting-started/registration-dashboard/?tab=1)
+    > The values for `CONTEXT_ID` and `IMODEL_ID` can be obtained from the IDs column of the "[My sample iModels](https://developer.bentley.com/my-imodels/)" page.
     > The values for `CLIENT_ID` and `CLIENT_SECRET` come from the Agent Application you registered during the Setup step
 
 - `npm run build`

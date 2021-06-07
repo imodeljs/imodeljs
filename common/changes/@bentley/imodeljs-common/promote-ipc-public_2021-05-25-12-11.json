@@ -1,0 +1,11 @@
+{
+  "changes": [
+    {
+      "packageName": "@bentley/imodeljs-common",
+      "comment": "Make Ipc interfaces @public. Promote BriefcaseManager to public",
+      "type": "none"
+    }
+  ],
+  "packageName": "@bentley/imodeljs-common",
+  "email": "33296803+kabentley@users.noreply.github.com"
+}

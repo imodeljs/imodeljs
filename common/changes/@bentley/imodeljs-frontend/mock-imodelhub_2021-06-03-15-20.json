@@ -1,0 +1,11 @@
+{
+  "changes": [
+    {
+      "packageName": "@bentley/imodeljs-frontend",
+      "comment": "added IModelApp.hubAccess and deprecated IModelApp.iModelClient",
+      "type": "none"
+    }
+  ],
+  "packageName": "@bentley/imodeljs-frontend",
+  "email": "33296803+kabentley@users.noreply.github.com"
+}

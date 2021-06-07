@@ -1,0 +1,11 @@
+{
+  "changes": [
+    {
+      "packageName": "@bentley/ui-components",
+      "comment": "Publis in-use APIs",
+      "type": "none"
+    }
+  ],
+  "packageName": "@bentley/ui-components",
+  "email": "45079789+NancyMcCallB@users.noreply.github.com"
+}

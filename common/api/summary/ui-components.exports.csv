@@ -1,17 +1,17 @@
 sep=;
 Release Tag;API Item
-beta;class AbstractTreeNodeLoader 
-beta;class AbstractTreeNodeLoaderWithProvider
+public;class AbstractTreeNodeLoader 
+public;class AbstractTreeNodeLoaderWithProvider
 beta;ActionButtonList 
 beta;ActionButtonListProps
 beta;ActionButtonRenderer = (props: ActionButtonRendererProps) => React.ReactNode
 beta;ActionButtonRendererProps
 internal;ActionItem({ item, addGroupSeparator }:
-beta;ActiveMatchInfo
+public;ActiveMatchInfo
 alpha;adjustDateToTimezone(inDateTime: Date, utcOffset: number): Date
 beta;AlphaSlider 
 beta;AlphaSliderProps 
-alpha;AnimationFractionChangeHandler = (animationFraction: number) => void
+public;AnimationFractionChangeHandler = (animationFraction: number) => void
 public;ArrayPropertyValueRenderer 
 beta;AsyncErrorMessage
 beta;AsyncValueProcessingResult
@@ -80,8 +80,8 @@ beta;CellEditingEngine
 deprecated;CellEditingEngine
 public;CellItem
 public;CellProps
-beta;CheckBoxInfo
-beta;CheckboxStateChange
+public;CheckBoxInfo
+public;CheckboxStateChange
 beta;ColorEditor 
 beta;ColorPickerButton: (props: ColorPickerProps) => JSX.Element | null
 beta;ColorPickerDialog({ dialogTitle, color, onOkResult, onCancelResult, colorPresets }: ColorPickerDialogProps): JSX.Element
@@ -108,13 +108,16 @@ internal;ContextMenuItem
 internal;ContextMenuProps 
 beta;ControlledSelectableContent(props: ControlledSelectableContentProps): JSX.Element
 beta;ControlledSelectableContentProps
-beta;ControlledTree(props: ControlledTreeProps): JSX.Element
-beta;ControlledTreeProps 
+public;ControlledTree(props: ControlledTreeProps): JSX.Element
+public;ControlledTreeProps 
 public;ConvertedPrimitives
 internal;convertPrimitiveRecordToString(record: PropertyRecord): string | Promise
 internal;CubeHover
-beta;CubeNavigationAid 
-beta;CubeNavigationAidProps 
+public;CubeNavigationAid 
+public;CubeNavigationAidProps 
+public;CubeNavigationHitBoxX
+public;CubeNavigationHitBoxY
+public;CubeNavigationHitBoxZ
 public;CubeRotationChangeEvent 
 public;CubeRotationChangeEventArgs
 internal;CustomItem({ item, addGroupSeparator }:
@@ -235,12 +238,15 @@ public;hasFlag: (selectionMode: SelectionMode, flag: SelectionModeFlags) => bool
 deprecated;hasFlag: (selectionMode: SelectionMode, flag: SelectionModeFlags) => boolean
 public;hasSelectionModeFlag: (selectionMode: SelectionMode, flag: SelectionModeFlags) => boolean
 public;HexadecimalTypeConverter 
-beta;HighlightableTreeNodeProps
-beta;HighlightableTreeProps
+public;HighlightableTreeNodeProps
+public;HighlightableTreeProps
 beta;HighlightingEngine
 internal;HitBoxX
+deprecated;HitBoxX
 internal;HitBoxY
+deprecated;HitBoxY
 internal;HitBoxZ
+deprecated;HitBoxZ
 beta;HueSlider({ isHorizontal, onHueChange, hsv, className, style }: HueSliderProps): JSX.Element
 beta;HueSliderProps 
 alpha;IconEditor 
@@ -276,30 +282,31 @@ public;isTreeDataProviderInterface: (provider: TreeDataProvider) => provider is 
 public;isTreeDataProviderMethod: (provider: TreeDataProvider) => provider is TreeDataProviderMethod
 public;isTreeDataProviderPromise: (provider: TreeDataProvider) => provider is TreeDataProviderPromise
 public;isTreeDataProviderRaw: (provider: TreeDataProvider) => provider is TreeDataProviderRaw
-beta;isTreeModelNode(obj: TreeModelNodeType | undefined): obj is TreeModelNode
-beta;isTreeModelNodePlaceholder(obj: TreeModelNodeType | undefined): obj is TreeModelNodePlaceholder
-beta;isTreeModelRootNode(obj: TreeModelNodeType | undefined): obj is TreeModelRootNode
+public;isTreeModelNode(obj: TreeModelNodeType | undefined): obj is TreeModelNode
+public;isTreeModelNodePlaceholder(obj: TreeModelNodeType | undefined): obj is TreeModelNodePlaceholder
+public;isTreeModelRootNode(obj: TreeModelNodeType | undefined): obj is TreeModelRootNode
 public;ItemColorOverrides
 public;ItemStyle
 public;ItemStyleProvider:
 public;ITreeDataProvider
 public;ITreeImageLoader 
-beta;ITreeNodeLoader
-beta;ITreeNodeLoaderWithProvider
+public;ITreeNodeLoader
+public;ITreeNodeLoaderWithProvider
 beta;LabelPropertyDataFilterer 
 public;LessGreaterOperatorProcessor
 beta;LineWeightSwatch 
 beta;LineWeightSwatchProps 
 public;LoadedBinaryImage 
 public;LoadedImage
-beta;LoadedNodeHierarchy
-beta;LoadedNodeHierarchyItem
+public;LoadedNodeHierarchy
+public;LoadedNodeHierarchyItem
 internal;MapMode
 public;MapPayloadToInspireNodeCallback
 deprecated;MapPayloadToInspireNodeCallback
 internal;MenuItem
-alpha;Milestone
-alpha;MilestoneRange
+internal;Milestone
+deprecated;Milestone
+public;MilestoneRange
 alpha;MiscFormatOptions(props: MiscFormatOptionsProps): JSX.Element
 alpha;MiscFormatOptionsProps 
 internal;MultiSelectionHandler
@@ -307,15 +314,15 @@ beta;MutableCategorizedArrayProperty
 beta;MutableCategorizedPrimitiveProperty 
 beta;class MutableCategorizedProperty 
 beta;MutableCategorizedStructProperty 
-beta;MutableCheckBoxInfo 
+public;MutableCheckBoxInfo 
 beta;class MutableFlatPropertyGridItem 
 beta;MutableGridCategory 
 beta;MutableGridItemFactory 
 beta;MutablePropertyGridModel 
-beta;MutableTableDataProvider 
+public;MutableTableDataProvider 
 beta;MutableTreeDataProvider 
-beta;MutableTreeModel 
-beta;MutableTreeModelNode 
+public;MutableTreeModel 
+public;MutableTreeModelNode 
 internal;NavCubeFace 
 internal;NavCubeFaceProps 
 public;NavigationPropertyTypeConverter 
@@ -349,12 +356,12 @@ public;OperatorValueFilterDescriptor
 public;OperatorValueFilterDescriptorCollection 
 alpha;OrthogonalDirection
 internal;OrthogonalDirectionHelpers
-beta;PagedTreeNodeLoader
+public;PagedTreeNodeLoader
 public;PageOptions
 beta;ParsedInput: (props: ParsedInputProps) => JSX.Element | null
 beta;ParsedInputProps 
-alpha;PlaybackSettings
-alpha;PlaybackSettingsChangeHandler = (settingsChange: PlaybackSettings) => void
+public;PlaybackSettings
+public;PlaybackSettingsChangeHandler = (settingsChange: PlaybackSettings) => void
 internal;PlayButton 
 internal;PlayerButton 
 internal;PlayerButtonProps 
@@ -452,7 +459,7 @@ public;ShowHideMenuProps
 public;SignIn 
 public;SignInProps 
 public;SimplePropertyDataProvider 
-beta;SimpleTableDataProvider 
+public;SimpleTableDataProvider 
 public;SimpleTreeDataProvider 
 public;SimpleTreeDataProviderHierarchy = Map
 internal;SingleSelectionHandler
@@ -509,13 +516,15 @@ beta;ThemedEnumEditor
 beta;ThemedEnumEditorProps 
 beta;ThemedEnumPropertyEditor 
 internal;Timeline 
-alpha;TimelineComponent 
-alpha;TimelineDataProvider
-alpha;TimelineDateDisplay
-beta;TimelinePausePlayAction
-beta;TimelinePausePlayArgs 
+deprecated;Timeline 
+public;TimelineComponent 
+public;TimelineDataProvider
+public;TimelineDateDisplay
+public;TimelinePausePlayAction
+public;TimelinePausePlayArgs 
 internal;TimelineProps 
-alpha;TimelineScale
+deprecated;TimelineProps 
+public;TimelineScale
 beta;ToggleEditor 
 beta;TogglePropertyEditor 
 internal;toNode: 
@@ -539,10 +548,10 @@ internal;ToolbarWithOverflowDirectionContext: React.Context
 beta;ToolbarWithOverflowProps 
 internal;toRxjsObservable
 internal;toToolbarPopupRelativePosition(expandsTo: Direction, alignment: ToolbarPanelAlignment): RelativePosition
-beta;TreeActions
+public;TreeActions
 beta;TreeCellUpdatedArgs
 deprecated;TreeCellUpdatedArgs
-beta;TreeCheckboxStateChangeEventArgs
+public;TreeCheckboxStateChangeEventArgs
 public;TreeDataChangesListener = (nodes: Array
 public;TreeDataProvider = TreeDataProviderRaw | TreeDataProviderPromise | TreeDataProviderMethod | ITreeDataProvider
 public;TreeDataProviderMethod = (node?: TreeNodeItem) => Promise
@@ -553,45 +562,45 @@ beta;TreeDragDropProps
 deprecated;TreeDragDropProps
 beta;TreeDragDropType = {} | TreeNodeItem | TreeDataProvider
 deprecated;TreeDragDropType = {} | TreeNodeItem | TreeDataProvider
-beta;TreeEditingParams
+public;TreeEditingParams
 internal;TreeEventDispatcher 
-beta;TreeEventHandler 
-beta;TreeEventHandlerParams
-beta;TreeEvents
+public;TreeEventHandler 
+public;TreeEventHandlerParams
+public;TreeEvents
 public;TreeImageLoader 
-beta;TreeModel
-beta;TreeModelChanges
-beta;TreeModelNode
-beta;TreeModelNodeEditingInfo
-beta;TreeModelNodeInput
-beta;TreeModelNodePlaceholder
-beta;TreeModelNodeType = TreeModelNode | TreeModelNodePlaceholder | TreeModelRootNode
-beta;TreeModelRootNode
-beta;TreeModelSource
+public;TreeModel
+public;TreeModelChanges
+public;TreeModelNode
+public;TreeModelNodeEditingInfo
+public;TreeModelNodeInput
+public;TreeModelNodePlaceholder
+public;TreeModelNodeType = TreeModelNode | TreeModelNodePlaceholder | TreeModelRootNode
+public;TreeModelRootNode
+public;TreeModelSource
 public;TreeNode 
 deprecated;TreeNode 
-beta;TreeNodeEventArgs
+public;TreeNodeEventArgs
 public;TreeNodeIcon(props: TreeNodeIconProps): JSX.Element | null
 deprecated;TreeNodeIcon(props: TreeNodeIconProps): JSX.Element | null
 public;TreeNodeIconProps 
 deprecated;TreeNodeIconProps 
 public;TreeNodeItem
-beta;TreeNodeItemData = ImmediatelyLoadedTreeNodeItem & DelayLoadedTreeNodeItem
-beta;TreeNodeLoader
-beta;TreeNodeLoadResult
+public;TreeNodeItemData = ImmediatelyLoadedTreeNodeItem & DelayLoadedTreeNodeItem
+public;TreeNodeLoader
+public;TreeNodeLoadResult
 public;TreeNodeProps 
 deprecated;TreeNodeProps 
 beta;TreeNodeRenderer: React.MemoExoticComponent
-beta;TreeNodeRendererProps 
+public;TreeNodeRendererProps 
 public;TreeProps 
 deprecated;TreeProps 
 beta;TreeRenderer 
-beta;TreeRendererAttributes
+public;TreeRendererAttributes
 beta;TreeRendererContext
-beta;TreeRendererProps
-beta;TreeSelectionChange
-beta;TreeSelectionModificationEventArgs
-beta;TreeSelectionReplacementEventArgs
+public;TreeRendererProps
+public;TreeSelectionChange
+public;TreeSelectionModificationEventArgs
+public;TreeSelectionReplacementEventArgs
 public;class TypeConverter 
 public;TypeConverterManager
 beta;TypeEditor
@@ -608,10 +617,10 @@ internal;useRenderedStringValue(record: PropertyRecord, stringValueCalculator: (
 internal;useToolbarPopupContext(): ToolbarPopupContextProps
 internal;useToolbarWithOverflowDirectionContext(): ToolbarOverflowContextProps
 internal;useToolItemEntryContext(): ToolbarItemContextArgs
-beta;useTreeEventsHandler
-beta;useTreeModelSource(dataProvider: TreeDataProvider): TreeModelSource
-beta;useTreeNodeLoader
-beta;useVisibleTreeNodes(modelSource: TreeModelSource): VisibleTreeNodes
+public;useTreeEventsHandler
+public;useTreeModelSource(dataProvider: TreeDataProvider): TreeModelSource
+public;useTreeNodeLoader
+public;useVisibleTreeNodes(modelSource: TreeModelSource): VisibleTreeNodes
 public;ViewClassFullNameChangedEvent 
 public;ViewClassFullNameChangedEventArgs
 public;ViewIdChangedEvent 
@@ -627,7 +636,7 @@ beta;VirtualizedPropertyGridContext
 beta;VirtualizedPropertyGridProps 
 beta;VirtualizedPropertyGridWithDataProvider(props: VirtualizedPropertyGridWithDataProviderProps): JSX.Element
 beta;VirtualizedPropertyGridWithDataProviderProps 
-beta;VisibleTreeNodes 
+public;VisibleTreeNodes 
 beta;WeightEditor 
 beta;WeightPickerButton 
 beta;WeightPickerProps 

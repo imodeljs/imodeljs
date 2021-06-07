@@ -40,7 +40,7 @@ export type OidcAgentClient = AgentAuthorizationClient;
 /**
  * Utility to generate OIDC/OAuth tokens for agent or agent applications
  * * The application must register a client using the
- * [self service registration page](https://itwinjs.org/getting-started/registration-dashboard/).
+ * [self service registration page](https://developer.bentley.com/register/).
  * * The client type must be "Agent"
  * * Use the Client Id/Client Secret/Scopes to create the agent configuration that's passed in.
  * * Ensure the application can access the iTwin Project/Asset - in production environments, this is done by

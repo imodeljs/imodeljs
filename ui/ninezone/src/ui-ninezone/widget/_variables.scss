@@ -32,10 +32,10 @@ $nz-widget-border-radius: 3px;
 $nz-widget-min-size: $nz-tab-height + 10px;
 
 @mixin nz-internal-grip-offset($property) {
-  #{$property}: -$nz-resize-grip-size / 2;
+  #{$property}: -$nz-resize-grip-size * 0.5;
 
   @include for-tablet-landscape-down {
-    #{$property}: -$nz-resize-grip-size-large / 2;
+    #{$property}: -$nz-resize-grip-size-large * 0.5;
   }
 }
 

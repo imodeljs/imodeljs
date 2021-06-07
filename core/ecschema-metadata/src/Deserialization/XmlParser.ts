@@ -11,7 +11,7 @@ import { CustomAttribute } from "../Metadata/CustomAttribute";
 import { CustomAttributeClass } from "../Metadata/CustomAttributeClass";
 import { Enumeration } from "../Metadata/Enumeration";
 import { PrimitiveProperty, Property, StructArrayProperty } from "../Metadata/Property";
-import { ECName } from "../SchemaKey";
+import { ECName } from "../ECName";
 import { AbstractParser, CAProviderTuple } from "./AbstractParser";
 import {
   ClassProps, ConstantProps, CustomAttributeClassProps, EntityClassProps, EnumerationProps, EnumeratorProps, FormatProps, InvertedUnitProps,

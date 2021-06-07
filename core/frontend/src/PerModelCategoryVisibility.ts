@@ -10,16 +10,16 @@ import { compareStrings, Id64, Id64Arg, Id64String, SortedArray } from "@bentley
 import { FeatureSymbology } from "./render/FeatureSymbology";
 import { Viewport } from "./Viewport";
 
-/** Allows the visibility of categories within a [[Viewport]] to be controlled on a per-[[ModelState]] basis.
+/** Per-model category visibility permits the visibility of categories within a [[Viewport]] displaying a [[SpatialViewState]] to be overridden in
+ * the context of individual [[GeometricModelState]]s.
  * If a category's visibility is overridden for a given model, then elements belonging to that category within that model will be displayed or hidden regardless of the category's inclusion in the Viewport's [[CategorySelectorState]].
  * The override affects geometry on all subcategories belonging to the overridden category. That is, if the category is overridden to be visible, then geometry on all subcategories of the category
  * will be visible, regardless of any [SubCategoryOverride]($common)s applied by the view's [[DisplayStyleState]].
- * @see [[Viewport.perModelCategoryVisibility]]
- * @beta
+ * @see [[Viewport.perModelCategoryVisibility]] to define the per-model category visibility for a viewport.
+ * @public
  */
 export namespace PerModelCategoryVisibility {
-  /** Describes whether and how a category's visibility is overridden.
-   */
+  /** Describes whether and how a category's visibility is overridden. */
   export enum Override {
     /** The category's visibility is not overridden; its visibility is wholly controlled by the [[Viewport]]'s [[CategorySelectorState]]. */
     None,
@@ -27,6 +27,16 @@ export namespace PerModelCategoryVisibility {
     Show,
     /** The category is overridden to be invisible. */
     Hide,
+  }
+
+  /** Describes one visibility override in a [[PerModelCategoryVisibility.Overrides]]. */
+  export interface OverrideEntry {
+    /** The Id of the [[GeometricModelState]] in which the override applies. */
+    readonly modelId: Id64String;
+    /** The Id of the [SpatialCategory]($backend) whose visibility is overridden. */
+    readonly categoryId: Id64String;
+    /** Whether the category is visible in the context of the model. */
+    readonly visible: boolean;
   }
 
   /** Describes a set of per-model category visibility overrides. Changes to these overrides invoke the [[Viewport.onViewedCategoriesPerModelChanged]] event.
@@ -39,11 +49,8 @@ export namespace PerModelCategoryVisibility {
     setOverride(modelIds: Id64Arg, categoryIds: Id64Arg, override: Override): void;
     /** Removes all overrides for the specified models, or for all models if `modelIds` is undefined. */
     clearOverrides(modelIds?: Id64Arg): void;
-    /** Iterates each override.
-     * @param func Accepts the model and category Ids and a boolean indicating if the category is visible. Returns `false` to terminate iteration or `true` to continue.
-     * @returns `true` if iteration completed; `false` if the callback requested early termination.
-     */
-    forEachOverride(func: (modelId: Id64String, categoryId: Id64String, visible: boolean) => boolean): boolean;
+    /** An iterator over all of the visibility overrides. */
+    [Symbol.iterator]: () => Iterator<OverrideEntry>;
     /** Populate the symbology overrides based on the per-model category visibility. */
     addOverrides(fs: FeatureSymbology.Overrides, ovrs: Id64.Uint32Map<Id64.Uint32Set>): void;
   }
@@ -76,10 +83,7 @@ function compareCategoryOverrides(lhs: PerModelCategoryVisibilityOverride, rhs: 
   return 0 === cmp ? compareStrings(lhs.categoryId, rhs.categoryId) : cmp;
 }
 
-/** The Viewport-specific implementation of PerModelCategoryVisibility.Overrides.
- * ###TODO: Evaluate performance.
- * @internal
- */
+/** The Viewport-specific implementation of PerModelCategoryVisibility.Overrides. */
 class PerModelCategoryVisibilityOverrides extends SortedArray<PerModelCategoryVisibilityOverride> implements PerModelCategoryVisibility.Overrides {
   private readonly _scratch = new PerModelCategoryVisibilityOverride("0", "0", false);
   private readonly _vp: Viewport;
@@ -195,13 +199,5 @@ class PerModelCategoryVisibilityOverrides extends SortedArray<PerModelCategoryVi
         }
       }
     }
-  }
-
-  public forEachOverride(func: (modelId: Id64String, categoryId: Id64String, visible: boolean) => boolean): boolean {
-    for (const entry of this)
-      if (!func(entry.modelId, entry.categoryId, entry.visible))
-        return false;
-
-    return true;
   }
 }

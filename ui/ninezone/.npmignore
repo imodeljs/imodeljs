@@ -5,4 +5,5 @@
 !lib/**/*.js
 !lib/**/*.js.map
 !lib/**/*.*css
+!lib/**/*.svg
 lib/test

@@ -14,7 +14,7 @@ import {
 
 /**
  * Information about an enumeration choice
- * @beta
+ * @public
  */
 export interface EnumerationChoice {
   label: string;
@@ -23,7 +23,7 @@ export interface EnumerationChoice {
 
 /**
  * Information about a set of enumeration choices
- * @beta
+ * @public
  */
 export interface EnumerationChoicesInfo {
   choices: Promise<EnumerationChoice[]> | EnumerationChoice[];
@@ -33,7 +33,7 @@ export interface EnumerationChoicesInfo {
 
 /**
  * Property renderer identification and customization attributes
- * @beta
+ * @public
  */
 export interface PropertyRendererInfo {
   name: string;
@@ -41,7 +41,7 @@ export interface PropertyRendererInfo {
 
 /**
  * Information about a Property Editor
- * @beta
+ * @public
  */
 export interface PropertyEditorInfo {
   /** Editor name used in addition to the typename to find the registered property editor */
@@ -52,7 +52,7 @@ export interface PropertyEditorInfo {
 
 /**
  * Information about a Property Converter
- * @beta
+ * @public
  */
 export interface PropertyConverterInfo {
   /** Converter name used in addition to the typename to find the registered property converter */
@@ -63,7 +63,7 @@ export interface PropertyConverterInfo {
 
 /**
  * [[PropertyDescription]] contains metadata about a Property
- * @beta
+ * @public
  */
 export interface PropertyDescription {
   /** Name of the property description */

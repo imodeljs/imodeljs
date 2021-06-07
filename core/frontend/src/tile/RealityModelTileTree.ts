@@ -11,8 +11,8 @@ import {
 } from "@bentley/bentleyjs-core";
 import { Constant, Ellipsoid, Matrix3d, Point3d, Range3d, Ray3d, Transform, TransformProps, Vector3d, XYZ } from "@bentley/geometry-core";
 import {
-  Cartographic, GeoCoordStatus, IModelError, PlanarClipMaskMode, PlanarClipMaskPriority, PlanarClipMaskProps, PlanarClipMaskSettings,
-  ViewFlagOverrides, ViewFlagPresence,
+  Cartographic, GeoCoordStatus, IModelError, PlanarClipMaskPriority, PlanarClipMaskSettings,
+  SpatialClassifiers, ViewFlagOverrides, ViewFlagPresence,
 } from "@bentley/imodeljs-common";
 import { AccessToken, request, RequestOptions } from "@bentley/itwin-client";
 import { RealityData, RealityDataClient } from "@bentley/reality-data-client";
@@ -24,7 +24,6 @@ import { IModelApp } from "../IModelApp";
 import { IModelConnection } from "../IModelConnection";
 import { PlanarClipMaskState } from "../PlanarClipMaskState";
 import { RenderMemory } from "../render/RenderMemory";
-import { SpatialClassifiers } from "../SpatialClassifiers";
 import { SceneContext } from "../ViewContext";
 import { ScreenViewport } from "../Viewport";
 import { ViewState } from "../ViewState";
@@ -107,7 +106,9 @@ class RealityTreeSupplier implements TileTreeSupplier {
 const realityTreeSupplier = new RealityTreeSupplier();
 
 /** @internal */
-export function createRealityTileTreeReference(props: RealityModelTileTree.ReferenceProps): RealityModelTileTree.Reference { return new RealityTreeReference(props); }
+export function createRealityTileTreeReference(props: RealityModelTileTree.ReferenceProps): RealityModelTileTree.Reference {
+  return new RealityTreeReference(props);
+}
 
 const zeroPoint = Point3d.createZero();
 const earthEllipsoid = Ellipsoid.createCenterMatrixRadii(zeroPoint, undefined, Constant.earthRadiusWGS84.equator, Constant.earthRadiusWGS84.equator, Constant.earthRadiusWGS84.polar);
@@ -453,7 +454,7 @@ export namespace RealityModelTileTree {
     tilesetToDbTransform?: TransformProps;
     name?: string;
     classifiers?: SpatialClassifiers;
-    planarMask?: PlanarClipMaskProps;
+    planarClipMask?: PlanarClipMaskSettings;
   }
   export interface ReferenceProps extends ReferenceBaseProps {
     url: string;
@@ -465,7 +466,6 @@ export namespace RealityModelTileTree {
 
     protected _transform?: Transform;
     protected _iModel: IModelConnection;
-    protected _maskModelIds?: string;
     private _modelId: Id64String;
     private _isGlobal?: boolean;
     protected _planarClipMask?: PlanarClipMaskState;
@@ -482,6 +482,10 @@ export namespace RealityModelTileTree {
       return this.isGlobal ? PlanarClipMaskPriority.GlobalRealityModel : PlanarClipMaskPriority.RealityModel;
     }
 
+    protected get maskModelIds(): string | undefined {
+      return this._planarClipMask?.settings.compressedModelIds;
+    }
+
     public constructor(props: RealityModelTileTree.ReferenceBaseProps) {
       super();
       this._name = undefined !== props.name ? props.name : "";
@@ -494,9 +498,10 @@ export namespace RealityModelTileTree {
 
         this._transform = transform;
       }
+
       this._iModel = props.iModel;
-      this._planarClipMask = (props.planarMask && props.planarMask.mode !== PlanarClipMaskMode.None) ? PlanarClipMaskState.create(PlanarClipMaskSettings.fromJSON(props.planarMask)) : undefined;
-      this._maskModelIds = props.planarMask?.modelIds;
+      if (props.planarClipMask)
+        this._planarClipMask = PlanarClipMaskState.create(props.planarClipMask);
 
       if (undefined !== props.classifiers)
         this._classifier = createClassifierTileTreeReference(props.classifiers, this, props.iModel, props.source);
@@ -529,7 +534,7 @@ export namespace RealityModelTileTree {
     protected addPlanarClassifierOrMaskToScene(context: SceneContext) {
       // A planarClassifier is required if there is a classification tree OR planar masking is required.
       const classifierTree = this.planarClassifierTreeRef;
-      const planarClipMask = this._planarClipMask ? this._planarClipMask : context.viewport.displayStyle.getRealityModelPlanarClipMask(this.modelId);
+      const planarClipMask = this._planarClipMask ?? context.viewport.displayStyle.getPlanarClipMaskState(this.modelId);
       if (!classifierTree && !planarClipMask)
         return;
 
@@ -647,7 +652,7 @@ class RealityTreeReference extends RealityModelTileTree.Reference {
     this._url = props.url;
   }
   public get treeOwner(): TileTreeOwner {
-    const treeId = { url: this._url, transform: this._transform, modelId: this.modelId, maskModelIds: this._maskModelIds };
+    const treeId: RealityTreeId = { url: this._url, transform: this._transform, modelId: this.modelId, maskModelIds: this.maskModelIds };
     return realityTreeSupplier.getOwner(treeId, this._iModel);
   }
 

@@ -11,7 +11,7 @@ import {
 } from "@bentley/bentleyjs-core";
 import {
   CloudStorageTileCache, defaultTileOptions, ElementGraphicsRequestProps, getMaximumMajorTileFormatVersion, IModelTileRpcInterface,
-  IModelTileTreeProps, RpcOperation, RpcResponseCacheControl, ServerTimeoutError,
+  IModelTileTreeProps, RpcOperation, RpcResponseCacheControl, ServerTimeoutError, TileVersionInfo,
 } from "@bentley/imodeljs-common";
 import { IModelApp } from "../IModelApp";
 import { IpcApp } from "../IpcApp";
@@ -101,6 +101,7 @@ export interface GpuMemoryLimits {
  * @public
  */
 export class TileAdmin {
+  private _versionInfo?: TileVersionInfo;
   public readonly channels: TileRequestChannels;
   private readonly _viewports = new Set<Viewport>();
   private readonly _requestsPerViewport = new Map<Viewport, Set<Tile>>();
@@ -610,6 +611,16 @@ export class TileAdmin {
     return intfc.requestElementGraphics(iModel.getRpcProps(), requestProps);
   }
 
+  /** Obtain information about the version/format of the tiles supplied by the backend. */
+  public async queryVersionInfo(): Promise<Readonly<TileVersionInfo>> {
+    if (!this._versionInfo) {
+      this.initializeRpc();
+      this._versionInfo = await IModelTileRpcInterface.getClient().queryVersionInfo();
+    }
+
+    return this._versionInfo;
+  }
+
   /** @internal */
   public onTilesElided(numElided: number) {
     this._totalElided += numElided;
@@ -899,9 +910,9 @@ export namespace TileAdmin { // eslint-disable-line no-redeclare
      */
     ignoreAreaPatterns?: boolean;
 
-    /** If true, during tile generation the backend will not embed all texture image data in the tile content. If texture image data is considered large enough by the backend, it will not be embedded in the tile content and the frontend will request that element texture data separately from the backend. This can help reduce the amount of memory consumed by the frontend and the amount of data sent to the frontend.
+    /** If true, during tile generation the backend will not embed all texture image data in the tile content. If texture image data is considered large enough by the backend, it will not be embedded in the tile content and the frontend will request that element texture data separately from the backend. This can help reduce the amount of memory consumed by the frontend and the amount of data sent to the frontend. Also, if this is enabled, requested textures that exceed the maximum texture size supported by the client will be downsampled.
      *
-     * Default value: false
+     * Default value: true
      */
     enableExternalTextures?: boolean;
 

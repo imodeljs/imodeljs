@@ -2,13 +2,11 @@
 * Copyright (c) Bentley Systems, Incorporated. All rights reserved.
 * See LICENSE.md in the project root for license terms and full copyright notice.
 *--------------------------------------------------------------------------------------------*/
-
-// https://en.wikipedia.org/wiki/Newton%27s_method#Square_root_of_a_number
 @function sqrt($x, $iterations: 10) {
   $sqr: 1;
 
   @for $i from 1 through $iterations {
-    $sqr: $sqr - ($sqr * $sqr - $x) / (2 * $sqr);
+    $sqr: ($sqr - ($sqr * $sqr - $x) / (2 * $sqr));
   }
 
   @return $sqr;

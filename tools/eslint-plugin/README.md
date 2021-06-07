@@ -50,7 +50,7 @@ As a side effect, any additional plugins added in consumer packages won't be loa
 
 ## Rules not in recommended configs
 
-- `no-internal` - prevents use of internal/alpha APIs. Example configurations:
+### `no-internal` - prevents use of internal/alpha APIs. Example configurations:
 
 ```json
 // custom config
@@ -70,3 +70,24 @@ As a side effect, any additional plugins added in consumer packages won't be loa
 
 The rule will report an error whenever you use anything marked with one of the tags configured in the `tag` option.
 Allowed tags: `internal`, `alpha`, `beta`, `public`.
+
+## Helper commands
+### `no-internal-report` - Runs eslint with the `@bentley/no-internal` rule turned on ("error") using a custom formatter that summarizes the output.
+
+This can be run using `npx` or from the scripts section of `package.json`:
+
+```json
+  "scripts": {
+    "no-internal-report": "no-internal-report src/**/*.ts*"
+  },
+
+```
+
+This command forwards all arguments to eslint, so it can be further customized as needed. For example, to specify the tags for the `no-internal` rule:
+
+```json
+  "scripts": {
+    "no-internal-report": "no-internal-report -rule '@bentley/no-internal: ['error', { 'tag': [ 'internal', 'alpha', 'beta' ]}]' src/**/*.ts*"
+  },
+
+```

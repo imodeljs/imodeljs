@@ -1,0 +1,11 @@
+{
+  "changes": [
+    {
+      "packageName": "@bentley/imodeljs-backend",
+      "comment": "Fixed removal of schema locks if upgrading schemas is a no-op.",
+      "type": "none"
+    }
+  ],
+  "packageName": "@bentley/imodeljs-backend",
+  "email": "32458710+ramanujam-raman@users.noreply.github.com"
+}

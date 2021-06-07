@@ -1,0 +1,11 @@
+{
+  "changes": [
+    {
+      "packageName": "@bentley/imodeljs-editor-backend",
+      "comment": "Added tools for changing project extents and geolocation.",
+      "type": "none"
+    }
+  ],
+  "packageName": "@bentley/imodeljs-editor-backend",
+  "email": "65233531+bbastings@users.noreply.github.com"
+}

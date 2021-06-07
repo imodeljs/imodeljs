@@ -7,7 +7,8 @@
  */
 
 import * as path from "path";
-import { ClientRequestContext, DbResult, Id64, Id64String } from "@bentley/bentleyjs-core";
+import { gt as versionGt, gte as versionGte, lt as versionLt } from "semver";
+import { assert, ClientRequestContext, DbResult, Id64String } from "@bentley/bentleyjs-core";
 import {
   DefinitionElement, DefinitionModel, DefinitionPartition, ECSqlStatement, IModelDb, KnownLocations, Model, Subject,
 } from "@bentley/imodeljs-backend";
@@ -17,14 +18,46 @@ import {
 import { Ruleset } from "@bentley/presentation-common";
 import { PresentationRules } from "./domain/PresentationRulesDomain";
 import * as RulesetElements from "./domain/RulesetElements";
+import { isEnum, normalizeVersion } from "./Utils";
 
 /**
- * Available strategies for handling duplicate rulesets.
+ * Strategies for handling duplicate rulesets.
  * @beta
+ * @deprecated Use [[RulesetInsertOptions]]
  */
 export enum DuplicateRulesetHandlingStrategy {
+  /** Do not insert the ruleset if another ruleset with the same ID already exists. */
   Skip,
+
+  /** Replace already existing ruleset if one exists with the same ID and version. */
   Replace,
+}
+
+/**
+ * Options for [[RulesetEmbedder.insertRuleset]] operation.
+ * @beta
+ */
+export interface RulesetInsertOptions {
+  /**
+   * When should insertion be skipped:
+   * - `same-id` - if iModel already contains a ruleset with the same id and **any** version
+   * - `same-id-and-version-eq` - if iModel already contains a ruleset with same id and version
+   * - `same-id-and-version-gte` - if iModel already contains a ruleset with same id and
+   * version greater or equal to version of the inserted ruleset.
+   *
+   * Defaults to `same-id-and-version-eq`.
+   */
+  skip?: "never" | "same-id" | "same-id-and-version-eq" | "same-id-and-version-gte";
+
+  /**
+   * Which existing versions of rulesets with same id should be replaced when we insert a new one:
+   * - `all` - replace all rulesets with same id.
+   * - `all-lower` - replace rulesets with same id and version lower than the version of inserted ruleset.
+   * - `exact` - replace only the ruleset whose id and version matches the inserted ruleset.
+   *
+   * Defaults to `exact`.
+   */
+  replaceVersions?: "all" | "all-lower" | "exact";
 }
 
 /**
@@ -57,33 +90,96 @@ export class RulesetEmbedder {
 
   /**
    * Inserts a ruleset into iModel.
-   * @param ruleset Ruleset to insert
-   * @param duplicateHandlingStrategy Strategy for handling duplicate rulesets. Defaults to
-   * @returns ID of inserted ruleset element
+   * @param ruleset Ruleset to insert.
+   * @param duplicateHandlingStrategy Strategy for handling duplicate rulesets. Defaults to [[DuplicateRulesetHandlingStrategy.Skip]].
+   * @returns ID of inserted ruleset element.
+   * @deprecated Use an overload with [[RulesetInsertOptions]]
    */
-  public async insertRuleset(ruleset: Ruleset, duplicateHandlingStrategy = DuplicateRulesetHandlingStrategy.Skip): Promise<Id64String> {
+  public async insertRuleset(ruleset: Ruleset, duplicateHandlingStrategy: DuplicateRulesetHandlingStrategy): Promise<Id64String>; // eslint-disable-line deprecation/deprecation
+  /**
+   * Inserts a ruleset into iModel.
+   * @param ruleset Ruleset to insert.
+   * @param options Options for inserting a ruleset.
+   * @returns ID of inserted ruleset element or, if insertion was skipped, ID of existing ruleset with the same ID and highest version.
+   */
+  public async insertRuleset(ruleset: Ruleset, options?: RulesetInsertOptions): Promise<Id64String>;
+  public async insertRuleset(ruleset: Ruleset, options?: RulesetInsertOptions | DuplicateRulesetHandlingStrategy): Promise<Id64String> { // eslint-disable-line deprecation/deprecation
+    const normalizedOptions = normalizeRulesetInsertOptions(options);
+    const rulesetVersion = normalizeVersion(ruleset.version);
+
+    // ensure imodel has PresentationRules schema and required CodeSpecs
     await this.handleElementOperationPrerequisites();
 
-    const model = this.getOrCreateRulesetModel();
-    const rulesetCode = RulesetElements.Ruleset.createRulesetCode(model.id, ruleset.id, this._imodel);
-    const rulesetId = this._imodel.elements.queryElementIdByCode(rulesetCode);
-    if (rulesetId !== undefined)
-      return this.handleDuplicateRuleset(ruleset, duplicateHandlingStrategy, rulesetId);
+    // find all rulesets with the same ID
+    const rulesetsWithSameId: Array<{
+      ruleset: Ruleset;
+      id: Id64String;
+      normalizedVersion: string;
+    }> = [];
+    const query = `
+      SELECT ECInstanceId, JsonProperties
+      FROM ${RulesetElements.Ruleset.schema.name}.${RulesetElements.Ruleset.className}
+      WHERE json_extract(JsonProperties, '$.jsonProperties.id') = :rulesetId`;
+    for await (const row of this._imodel.query(query, { rulesetId: ruleset.id })) {
+      const existingRulesetElementId: Id64String = row.id;
+      const existingRuleset: Ruleset = JSON.parse(row.jsonProperties).jsonProperties;
+      rulesetsWithSameId.push({
+        id: existingRulesetElementId,
+        ruleset: existingRuleset,
+        normalizedVersion: normalizeVersion(existingRuleset.version),
+      });
+    }
 
+    // check if we need to do anything at all
+    const shouldSkip = normalizedOptions.skip === "same-id" && rulesetsWithSameId.length > 0
+      || normalizedOptions.skip === "same-id-and-version-eq" && rulesetsWithSameId.some((entry) => entry.normalizedVersion === rulesetVersion)
+      || normalizedOptions.skip === "same-id-and-version-gte" && rulesetsWithSameId.some((entry) => versionGte(entry.normalizedVersion, rulesetVersion));
+    if (shouldSkip) {
+      // we're not inserting anything - return ID of the ruleset element with the highest version
+      const rulesetEntryWithHighestVersion = rulesetsWithSameId.reduce((highest, curr) => {
+        if (!highest.ruleset.version || curr.ruleset.version && versionGt(curr.ruleset.version, highest.ruleset.version))
+          return curr;
+        return highest;
+      }, rulesetsWithSameId[0]);
+      return rulesetEntryWithHighestVersion.id;
+    }
+
+    // if requested, delete existing rulesets
+    const rulesetsToRemove: Id64String[] = [];
+    const shouldRemove = (_: Ruleset, normalizedVersion: string): boolean => {
+      switch (normalizedOptions.replaceVersions) {
+        case "all":
+          return normalizedVersion !== rulesetVersion;
+        case "all-lower":
+          return normalizedVersion !== rulesetVersion && versionLt(normalizedVersion, rulesetVersion);
+      }
+      return false;
+    };
+    rulesetsWithSameId.forEach((entry) => {
+      if (shouldRemove(entry.ruleset, entry.normalizedVersion))
+        rulesetsToRemove.push(entry.id);
+    });
+    this._imodel.elements.deleteElement(rulesetsToRemove);
+
+    // attempt to update ruleset with same ID and version
+    const exactMatch = rulesetsWithSameId.find((curr) => curr.normalizedVersion === rulesetVersion);
+    if (exactMatch !== undefined) {
+      return this.updateRuleset(exactMatch.id, ruleset);
+    }
+
+    // no exact match found - insert a new ruleset element
+    const model = this.getOrCreateRulesetModel();
+    const rulesetCode = RulesetElements.Ruleset.createRulesetCode(this._imodel, model.id, ruleset);
     return this.insertNewRuleset(ruleset, model, rulesetCode);
   }
 
-  private handleDuplicateRuleset(ruleset: Ruleset, duplicateHandlingStrategy: DuplicateRulesetHandlingStrategy, rulesetId: Id64String): Id64String {
-    if (DuplicateRulesetHandlingStrategy.Skip === duplicateHandlingStrategy)
-      return rulesetId;
-
-    const rulesetElement = this._imodel.elements.tryGetElement<DefinitionElement>(rulesetId);
-    if (!rulesetElement)
-      return Id64.invalid;
-
-    rulesetElement.jsonProperties.jsonProperties = ruleset;
-    rulesetElement.update();
-    return rulesetId;
+  private updateRuleset(elementId: Id64String, ruleset: Ruleset) {
+    const existingRulesetElement = this._imodel.elements.tryGetElement<DefinitionElement>(elementId);
+    assert(existingRulesetElement !== undefined);
+    existingRulesetElement.jsonProperties.jsonProperties = ruleset;
+    existingRulesetElement.update();
+    this._imodel.saveChanges();
+    return existingRulesetElement.id;
   }
 
   private insertNewRuleset(ruleset: Ruleset, model: Model, rulesetCode: Code): Id64String {
@@ -93,7 +189,9 @@ export class RulesetEmbedder {
       classFullName: RulesetElements.Ruleset.classFullName,
       jsonProperties: { jsonProperties: ruleset },
     };
-    return this._imodel.elements.insertElement(props);
+    const id = this._imodel.elements.insertElement(props);
+    this._imodel.saveChanges();
+    return id;
   }
 
   /**
@@ -122,7 +220,6 @@ export class RulesetEmbedder {
 
     const rulesetSubject: Subject = this.insertSubject();
     const definitionPartition: DefinitionPartition = this.insertDefinitionPartition(rulesetSubject);
-
     return this.insertDefinitionModel(definitionPartition);
   }
 
@@ -159,6 +256,7 @@ export class RulesetEmbedder {
       modeledElement: definitionPartition,
       name: this._rulesetModelName,
       classFullName: DefinitionModel.classFullName,
+      isPrivate: true,
     };
 
     const model = this._imodel.models.createModel(modelProps);
@@ -202,21 +300,34 @@ export class RulesetEmbedder {
     return this._imodel.elements.getElement(id);
   }
 
-  private insertCodeSpecs(): void {
-    this.insertCodeSpec(PresentationRules.CodeSpec.Ruleset, CodeScopeSpec.Type.Model);
-  }
-
-  private insertCodeSpec(name: string, scopeType: CodeScopeSpec.Type): Id64String {
-    const codeSpec = CodeSpec.create(this._imodel, name, scopeType);
-    return this._imodel.codeSpecs.insert(codeSpec);
-  }
-
   private async handleElementOperationPrerequisites(): Promise<void> {
     if (this._imodel.containsClass(RulesetElements.Ruleset.classFullName))
       return;
 
+    // import PresentationRules ECSchema
     await this._imodel.importSchemas(ClientRequestContext.current, [this._schemaPath]);
-    this.insertCodeSpecs();
+
+    // insert CodeSpec for ruleset elements
+    this._imodel.codeSpecs.insert(CodeSpec.create(this._imodel, PresentationRules.CodeSpec.Ruleset, CodeScopeSpec.Type.Model));
+
     this._imodel.saveChanges();
   }
 }
+
+/* eslint-disable deprecation/deprecation */
+function normalizeRulesetInsertOptions(options?: RulesetInsertOptions | DuplicateRulesetHandlingStrategy): Required<RulesetInsertOptions> {
+  if (options === undefined)
+    return { skip: "same-id-and-version-eq", replaceVersions: "exact" };
+
+  if (isEnum(DuplicateRulesetHandlingStrategy, options)) {
+    if (options === DuplicateRulesetHandlingStrategy.Replace)
+      return { skip: "never", replaceVersions: "exact" };
+    return { skip: "same-id", replaceVersions: "exact" };
+  }
+
+  return {
+    skip: options.skip ?? "same-id-and-version-eq",
+    replaceVersions: options.replaceVersions ?? "exact",
+  };
+}
+/* eslint-enable deprecation/deprecation */

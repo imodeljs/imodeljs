@@ -1,0 +1,11 @@
+{
+  "changes": [
+    {
+      "packageName": "@bentley/ui-components",
+      "comment": "`VirtualizedPropertyGrid`: Remove top and bottom padding.",
+      "type": "none"
+    }
+  ],
+  "packageName": "@bentley/ui-components",
+  "email": "70327485+roluk@users.noreply.github.com"
+}

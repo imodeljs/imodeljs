@@ -19,7 +19,7 @@ import { cancelTileContentRequests } from "./rpc-impl/IModelTileRpcImpl";
 
 /**
   * Options for [[IpcHost.startup]]
-  * @beta
+  * @public
   */
 export interface IpcHostOpts {
   iModelHost?: IModelHostConfiguration;
@@ -37,7 +37,7 @@ export interface IpcHostOpts {
 /**
  * Used by applications that have a dedicated backend. IpcHosts may send messages to their corresponding IpcApp.
  * @note if either end terminates, the other must too.
- * @beta
+ * @public
  */
 export class IpcHost {
   public static noStack = false;
@@ -137,7 +137,7 @@ export class IpcHost {
  * to ensure all methods and signatures are correct.
  *
  * Then, call `MyClass.register` at startup to connect your class to your channel.
- * @beta
+ * @public
  */
 export abstract class IpcHandler {
   /** All subclasses must implement this method to specify their channel name. */

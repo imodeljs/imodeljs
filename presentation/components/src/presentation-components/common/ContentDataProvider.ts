@@ -11,7 +11,7 @@ import { Logger } from "@bentley/bentleyjs-core";
 import { IModelConnection } from "@bentley/imodeljs-frontend";
 import {
   Content, DEFAULT_KEYS_BATCH_SIZE, Descriptor, DescriptorOverrides, DiagnosticsOptionsWithHandler, Field, KeySet, PageOptions, RegisteredRuleset,
-  RequestOptionsWithRuleset, Ruleset, SelectionInfo,
+  RequestOptionsWithRuleset, Ruleset, RulesetVariable, SelectionInfo,
 } from "@bentley/presentation-common";
 import { IModelContentChangeEventArgs, Presentation } from "@bentley/presentation-frontend";
 import { PropertyRecord } from "@bentley/ui-abstract";
@@ -246,7 +246,7 @@ export class ContentDataProvider implements IContentDataProvider {
     }
   }
 
-  private createRequestOptions(): RequestOptionsWithRuleset<IModelConnection> {
+  private createRequestOptions(): RequestOptionsWithRuleset<IModelConnection, RulesetVariable> {
     return {
       imodel: this._imodel,
       rulesetOrId: this._rulesetRegistration.rulesetId,

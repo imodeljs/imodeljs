@@ -1,6 +1,32 @@
 # Change Log - @bentley/ui-core
 
-This log was last generated on Thu, 20 May 2021 15:06:26 GMT and should not be manually modified.
+This log was last generated on Thu, 03 Jun 2021 18:08:11 GMT and should not be manually modified.
+
+## 2.16.2
+Thu, 03 Jun 2021 18:08:11 GMT
+
+_Version update only_
+
+## 2.16.1
+Thu, 27 May 2021 20:04:22 GMT
+
+_Version update only_
+
+## 2.16.0
+Mon, 24 May 2021 15:58:39 GMT
+
+### Updates
+
+- Wrap resizeObserver in a windows animation frame to prevent loop limit exceeded error.
+- Add support for child popup windows. 
+- Improved Multi-Value column filtering in the Table component
+- Update to latest classnames package 
+- Fix GlobalContextMenu layout issue in presentation-test-app by setting display:none on anchoring div.
+
+## 2.15.6
+Wed, 26 May 2021 15:55:19 GMT
+
+_Version update only_
 
 ## 2.15.5
 Thu, 20 May 2021 15:06:26 GMT

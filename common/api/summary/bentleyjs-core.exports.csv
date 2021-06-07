@@ -16,7 +16,7 @@ public;BentleyError
 public;BentleyLoggerCategory
 public;BentleyStatus
 public;BeTimePoint
-beta;BeUiEvent
+public;BeUiEvent
 beta;BriefcaseStatus
 public;ByteStream
 public;ChangeSetApplyOption
@@ -82,6 +82,7 @@ public;lowerBound
 public;LRUCache
 public;LRUDictionary
 public;LRUMap
+public;Mutable
 public;MutableCompressedId64Set 
 public;ObservableSet
 beta;OneAtATimeAction

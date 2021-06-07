@@ -23,7 +23,7 @@ import { RenderedItemsRange, TreeRenderer, TreeRendererProps } from "./TreeRende
 
 /**
  * Properties for [[ControlledTree]]
- * @beta
+ * @public
  */
 export interface ControlledTreeProps extends CommonProps {
   /** Flat list of nodes to be rendered in tree. */
@@ -64,7 +64,7 @@ export interface ControlledTreeProps extends CommonProps {
 
 /**
  * React tree component which rendering is fully controlled from outside.
- * @beta
+ * @public
  */
 export function ControlledTree(props: ControlledTreeProps) {
   const nodeHeight = useNodeHeight(!!props.descriptionsEnabled);

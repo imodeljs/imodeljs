@@ -8,7 +8,7 @@
 
 /* istanbul ignore next */
 /** Get CSS variable
- * @internal
+ * @public
  */
 export function getCssVariable(variableName: string, htmlElement?: HTMLElement): string {
   const element = htmlElement ?? document.documentElement;
@@ -19,7 +19,7 @@ export function getCssVariable(variableName: string, htmlElement?: HTMLElement):
 
 /* istanbul ignore next */
 /** Get CSS variable as number
- * @internal
+ * @public
  */
 export function getCssVariableAsNumber(variableName: string, htmlElement?: HTMLElement): number {
   let cssValNum: number = NaN;

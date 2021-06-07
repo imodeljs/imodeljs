@@ -1,0 +1,11 @@
+{
+  "changes": [
+    {
+      "packageName": "@bentley/ui-framework",
+      "comment": "Refactor SolarTimeline and ScheduleAnimationProvider to use new TimelineComponent iteration.",
+      "type": "none"
+    }
+  ],
+  "packageName": "@bentley/ui-framework",
+  "email": "45079789+NancyMcCallB@users.noreply.github.com"
+}

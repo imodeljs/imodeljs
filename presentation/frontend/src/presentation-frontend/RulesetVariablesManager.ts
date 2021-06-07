@@ -6,7 +6,7 @@
  * @module Core
  */
 
-import { BeEvent, Id64, Id64String } from "@bentley/bentleyjs-core";
+import { BeEvent, Id64, Id64String, OrderedId64Iterable } from "@bentley/bentleyjs-core";
 import { RulesetVariable, VariableValue, VariableValueTypes } from "@bentley/presentation-common";
 import { IpcRequestsHandler } from "./IpcRequestsHandler";
 
@@ -84,13 +84,13 @@ export interface RulesetVariablesManager {
   /** Retrieves all variables.
    * @internal
    */
-  getAllVariables(): Promise<RulesetVariable[]>;
+  getAllVariables(): RulesetVariable[];
 }
 
 /** @internal */
 export class RulesetVariablesManagerImpl implements RulesetVariablesManager {
 
-  private _clientValues = new Map<string, [VariableValueTypes, VariableValue]>();
+  private _clientValues = new Map<string, RulesetVariable>();
   private _rulesetId: string;
   private _ipcHandler?: IpcRequestsHandler;
   public onVariableChanged = new BeEvent<(variableId: string, prevValue: VariableValue | undefined, currValue: VariableValue) => void>();
@@ -100,66 +100,72 @@ export class RulesetVariablesManagerImpl implements RulesetVariablesManager {
     this._ipcHandler = ipcHandler;
   }
 
-  public async getAllVariables(): Promise<RulesetVariable[]> {
+  public getAllVariables(): RulesetVariable[] {
     const variables: RulesetVariable[] = [];
     for (const entry of this._clientValues)
-      variables.push({ id: entry[0], type: entry[1][0], value: entry[1][1] });
-
+      variables.push(entry[1]);
     return variables;
   }
 
-  private changeValueType(actualValue: VariableValue, fromType: VariableValueTypes, toType: VariableValueTypes): VariableValue | undefined {
+  private changeValueType(variable: RulesetVariable, toType: VariableValueTypes): VariableValue | undefined {
     switch (toType) {
       case VariableValueTypes.Bool:
-        switch (fromType) {
-          case VariableValueTypes.Int: return (0 !== actualValue);
-          case VariableValueTypes.Id64: return Id64.isValidId64(actualValue as string);
+        switch (variable.type) {
+          case VariableValueTypes.Int: return (0 !== variable.value);
+          case VariableValueTypes.Id64: return Id64.isValidId64(variable.value);
           default: return undefined;
         }
       case VariableValueTypes.Int:
-        switch (fromType) {
-          case VariableValueTypes.Bool: return actualValue ? 1 : 0;
-          case VariableValueTypes.Id64: return Id64.getUpperUint32(actualValue as string);
+        switch (variable.type) {
+          case VariableValueTypes.Bool: return variable.value ? 1 : 0;
+          case VariableValueTypes.Id64: return Id64.getUpperUint32(variable.value);
           default: return undefined;
         }
       case VariableValueTypes.IntArray:
-        switch (fromType) {
-          case VariableValueTypes.Id64Array: return (actualValue as string[]).map((id) => Id64.getUpperUint32(id));
+        switch (variable.type) {
+          case VariableValueTypes.Id64Array: return variable.value.map((id) => Id64.getUpperUint32(id));
           default: return undefined;
         }
       case VariableValueTypes.Id64:
-        switch (fromType) {
-          case VariableValueTypes.Bool: return Id64.fromLocalAndBriefcaseIds(actualValue ? 1 : 0, 0);
-          case VariableValueTypes.Int: return Id64.fromLocalAndBriefcaseIds(actualValue as number, 0);
+        switch (variable.type) {
+          case VariableValueTypes.Bool: return Id64.fromLocalAndBriefcaseIds(variable.value ? 1 : 0, 0);
+          case VariableValueTypes.Int: return Id64.fromLocalAndBriefcaseIds(variable.value, 0);
           default: return undefined;
         }
       case VariableValueTypes.Id64Array:
-        switch (fromType) {
-          case VariableValueTypes.IntArray: return (actualValue as number[]).map((int) => Id64.fromLocalAndBriefcaseIds(int, 0));
+        switch (variable.type) {
+          case VariableValueTypes.IntArray: return variable.value.map((int) => Id64.fromLocalAndBriefcaseIds(int, 0));
           default: return undefined;
+        }
+      case VariableValueTypes.String:
+        switch (variable.type) {
+          case VariableValueTypes.IntArray:
+          case VariableValueTypes.Id64Array:
+            return undefined;
+          default: variable.value.toString();
         }
     }
     return undefined;
   }
 
   private async getValue(id: string, type: VariableValueTypes): Promise<VariableValue | undefined> {
-    const value = this._clientValues.get(id);
-    if (!value)
+    const variable = this._clientValues.get(id);
+    if (!variable)
       return undefined;
-
-    if (value[0] !== type)
-      return this.changeValueType(value[1], value[0], type);
-
-    return value[1];
+    if (variable.type !== type)
+      return this.changeValueType(variable, type);
+    return variable.value;
   }
+
   private async setValue(id: string, type: VariableValueTypes, value: VariableValue): Promise<void> {
     const oldValue = this._clientValues.get(id);
-    this._clientValues.set(id, [type, value]);
+    const variable = { id, type, value } as RulesetVariable;
+    this._clientValues.set(id, variable);
     if (this._ipcHandler) {
-      await this._ipcHandler.setRulesetVariable({ rulesetId: this._rulesetId, variable: { id, type, value } });
+      await this._ipcHandler.setRulesetVariable({ rulesetId: this._rulesetId, variable });
     }
 
-    this.onVariableChanged.raiseEvent(id, oldValue?.[1], value);
+    this.onVariableChanged.raiseEvent(id, oldValue?.value, value);
   }
 
   /**
@@ -249,6 +255,6 @@ export class RulesetVariablesManagerImpl implements RulesetVariablesManager {
    * Sets `Id64String[]` variable value
    */
   public async setId64s(variableId: string, value: Id64String[]): Promise<void> {
-    await this.setValue(variableId, VariableValueTypes.Id64Array, value);
+    await this.setValue(variableId, VariableValueTypes.Id64Array, OrderedId64Iterable.sortArray(value));
   }
 }

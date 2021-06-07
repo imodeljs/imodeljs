@@ -2,6 +2,81 @@
   "name": "@bentley/imodeljs-backend",
   "entries": [
     {
+      "version": "2.16.2",
+      "tag": "@bentley/imodeljs-backend_v2.16.2",
+      "date": "Thu, 03 Jun 2021 18:08:11 GMT",
+      "comments": {
+        "none": [
+          {
+            "comment": "Upgrade to @bentley/imodeljs-native@2.16.2"
+          }
+        ]
+      }
+    },
+    {
+      "version": "2.16.1",
+      "tag": "@bentley/imodeljs-backend_v2.16.1",
+      "date": "Thu, 27 May 2021 20:04:22 GMT",
+      "comments": {}
+    },
+    {
+      "version": "2.16.0",
+      "tag": "@bentley/imodeljs-backend_v2.16.0",
+      "date": "Mon, 24 May 2021 15:58:39 GMT",
+      "comments": {
+        "none": [
+          {
+            "comment": "Dispatch events when changes are pulled or pushed."
+          },
+          {
+            "comment": "added IModelDb.withStatement for executing ECSQL without statement caching"
+          },
+          {
+            "comment": "Allow RenderGraphic to be created from flatbuffers format geometry as well as json."
+          },
+          {
+            "comment": "Improve exclusion handling in IModelTransformer"
+          },
+          {
+            "comment": "Fix `IModelDb.queryEntityIds` when used with `orderBy` and `limit` params."
+          },
+          {
+            "comment": "IModelExportHandler.onProgress is now async"
+          },
+          {
+            "comment": "Add includeSourceProvenance option to IModelTransformer"
+          },
+          {
+            "comment": "Fixes to desktop/mobile authorization"
+          },
+          {
+            "comment": "return changesetId from pullAndMergeChanges"
+          },
+          {
+            "comment": "Add RenderTimeline element."
+          },
+          {
+            "comment": "Invoke dependency callbacks only when inputs change"
+          },
+          {
+            "comment": "only add listener for shutdown once for IModelDb"
+          },
+          {
+            "comment": "change arguments to protected static methods of Element, Model, ElementAspect. Only affects schema writers."
+          },
+          {
+            "comment": "Update version compare classes for property path support and briefcase rolling"
+          }
+        ]
+      }
+    },
+    {
+      "version": "2.15.6",
+      "tag": "@bentley/imodeljs-backend_v2.15.6",
+      "date": "Wed, 26 May 2021 15:55:19 GMT",
+      "comments": {}
+    },
+    {
       "version": "2.15.5",
       "tag": "@bentley/imodeljs-backend_v2.15.5",
       "date": "Thu, 20 May 2021 15:06:26 GMT",

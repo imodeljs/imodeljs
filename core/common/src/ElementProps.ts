@@ -298,7 +298,7 @@ export interface PhysicalTypeProps extends TypeDefinitionElementProps {
 /** Properties of a [InformationPartitionElement]($backend)
  * @public
  */
-export interface InformationPartitionElementProps extends DefinitionElementProps {
+export interface InformationPartitionElementProps extends ElementProps {
   description?: string;
 }
 

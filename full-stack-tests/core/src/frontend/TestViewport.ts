@@ -226,7 +226,7 @@ class OffScreenTestViewport extends OffScreenViewport implements TestableViewpor
   public static async createTestViewport(viewId: Id64String, imodel: IModelConnection, width: number, height: number): Promise<OffScreenTestViewport> {
     const view = await imodel.views.load(viewId);
     const rect = new ViewRect(0, 0, width, height);
-    const vp = this.create(view, rect) as OffScreenTestViewport;
+    const vp = this.create({ view, viewRect: rect}) as OffScreenTestViewport;
     expect(vp).instanceof(OffScreenTestViewport);
     return vp;
   }

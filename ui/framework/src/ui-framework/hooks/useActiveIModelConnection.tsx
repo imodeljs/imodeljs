@@ -15,7 +15,7 @@ import { UiFramework } from "../UiFramework";
 /** React hook that maintains the active IModelConnection. For this hook to work properly the
  * IModelConnection must be set using UiFramework.setIModelConnection method. This also requires
  * that the host app includes the UiFramework reducer into its Redux store.
- * @beta
+ * @public
  */
 export function useActiveIModelConnection(): IModelConnection | undefined {
   const [activeConnection, setActiveConnection] = useState(UiFramework.getIModelConnection());

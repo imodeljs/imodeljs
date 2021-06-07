@@ -339,9 +339,6 @@ export abstract class ElementSetTool extends PrimitiveTool {
    */
   protected get isSelectByPoints(): boolean { return undefined !== this.dragStartPoint; }
 
-  /** Convenience method to check whether control key is currently down w/o having a button event. */
-  protected get isControlDown(): boolean { return IModelApp.toolAdmin.currentInputState.isControlDown; }
-
   /** Whether to continue selection of additional elements by holding the ctrl key down.
    * @return true to continue the element identification phase beyond [[ElementSetTool.requiredElementCount]] by holding down the ctrl key.
    */

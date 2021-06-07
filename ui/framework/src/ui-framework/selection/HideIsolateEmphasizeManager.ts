@@ -14,7 +14,7 @@ import { SyncUiEventDispatcher } from "../syncui/SyncUiEventDispatcher";
 import { UiFramework } from "../UiFramework";
 
 /** Supported Hide, Isolate, and Emphasize Actions. These also serve as FeatureTracking Ids.
- * @alpha
+ * @public
  */
 export enum HideIsolateEmphasizeAction {
   EmphasizeSelectedElements = "EmphasizeSelectedElements",
@@ -43,7 +43,7 @@ const featureIdMap = new Map<HideIsolateEmphasizeAction, GuidString>([
 ]);
 
 /** Selection Context Action Event Argument
- * @alpha
+ * @public
  */
 export interface EmphasizeElementsChangedArgs {
   /** viewport where action was performed */
@@ -53,7 +53,7 @@ export interface EmphasizeElementsChangedArgs {
 }
 
 /** Overrides given models to provide emphasize functionality
- * @alpha
+ * @public
  */
 // istanbul ignore next
 class ModelOverrideProvider implements FeatureOverrideProvider {
@@ -70,7 +70,7 @@ class ModelOverrideProvider implements FeatureOverrideProvider {
 }
 
 /** Overrides given categories to provide emphasize functionality
- *  @alpha
+ *  @public
  */
 // istanbul ignore next
 class SubCategoryOverrideProvider implements FeatureOverrideProvider {
@@ -153,7 +153,7 @@ class SubjectModelIdsCache {
 
 /**
  * Interface for class that handles Hide, Isolate, and Emphasize Actions
- * @alpha
+ * @public
  */
 export abstract class HideIsolateEmphasizeActionHandler {
   public static emphasizeElementsChanged = new BeEvent<(args: EmphasizeElementsChangedArgs) => void>();
@@ -220,7 +220,7 @@ export abstract class HideIsolateEmphasizeActionHandler {
 }
 
 /** Provides helper functions for doing commands on logical selection like categories and subjects.
- * @alpha
+ * @public
  */
 // istanbul ignore next
 export class HideIsolateEmphasizeManager extends HideIsolateEmphasizeActionHandler {

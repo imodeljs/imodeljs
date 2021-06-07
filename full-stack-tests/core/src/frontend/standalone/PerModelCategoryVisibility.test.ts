@@ -230,24 +230,21 @@ describe("Per-model category visibility overrides", () => {
     pmcv.setOverride("0x1d", ["0x2f", "0x2e"], hide);
 
     let nIterations = 0;
-    let completed = pmcv.forEachOverride((_modelId, _categoryId, _visible) => ++nIterations < 3);
-    expect(completed).to.be.false;
-    expect(nIterations).to.equal(3);
-
-    nIterations = 0;
     const cats1c = [new Set<string>(), new Set<string>()];
     const cats1d = [new Set<string>(), new Set<string>()];
 
-    completed = pmcv.forEachOverride((modelId, catId, vis) => {
+    for (const entry of pmcv) {
+      const modelId = entry.modelId;
+      const catId = entry.categoryId;
+      const vis = entry.visible;
+
       expect(modelId === "0x1c" || modelId === "0x1d").to.be.true;
       const arr = modelId === "0x1c" ? cats1c : cats1d;
       const set = vis ? arr[0] : arr[1];
       set.add(catId);
       ++nIterations;
-      return true;
-    });
+    }
 
-    expect(completed).to.be.true;
     expect(nIterations).to.equal(6);
 
     expect(cats1c[0].size).to.equal(2);

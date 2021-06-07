@@ -9,7 +9,8 @@ import * as moq from "typemoq";
 import { BeEvent, IDisposable } from "@bentley/bentleyjs-core";
 import { IModelConnection } from "@bentley/imodeljs-frontend";
 import {
-  LabelDefinition, LabelGroupingNodeKey, Node, PartialHierarchyModification, RegisteredRuleset, StandardNodeTypes, VariableValueTypes,
+  LabelDefinition, LabelGroupingNodeKey, Node, PartialHierarchyModification, RegisteredRuleset, RulesetVariable, StandardNodeTypes,
+  VariableValueTypes,
 } from "@bentley/presentation-common";
 import { Presentation, PresentationManager, RulesetManager, RulesetVariablesManager } from "@bentley/presentation-frontend";
 import { PrimitiveValue, PropertyRecord } from "@bentley/ui-abstract";
@@ -80,7 +81,7 @@ describe("usePresentationNodeLoader", () => {
     expect(result.current.nodeLoader).to.not.eq(oldNodeLoader);
   });
 
-  it("creates new nodeLoader when rulesetId changes", () => {
+  it("creates new nodeLoader when ruleset changes", () => {
     const { result, rerender } = renderHook(
       (props: PresentationTreeNodeLoaderProps) => usePresentationTreeNodeLoader(props),
       { initialProps },
@@ -211,14 +212,22 @@ describe("usePresentationNodeLoader", () => {
       );
       const oldNodeLoader = result.current.nodeLoader;
 
-      const variables = [{ id: "var-id", type: VariableValueTypes.String, value: "curr" }, { id: "other-var", type: VariableValueTypes.Int, value: 123 }];
+      const variables: RulesetVariable[] = [{
+        id: "var-id",
+        type: VariableValueTypes.String,
+        value: "curr",
+      }, {
+        id: "other-var",
+        type: VariableValueTypes.Int,
+        value: 123,
+      }];
 
       presentationManagerMock
         .setup(async (x) => x.compareHierarchies({
           imodel: imodelMock.object,
           prev: {
             rulesetVariables: [
-              { ...variables[0], value: "prev" },
+              { ...variables[0], value: "prev" } as RulesetVariable,
               variables[1],
             ],
           },
@@ -227,7 +236,7 @@ describe("usePresentationNodeLoader", () => {
         }))
         .returns(async () => [hierarchyChange])
         .verifiable();
-      rulesetVariablesManagerMock.setup(async (x) => x.getAllVariables()).returns(async () => variables);
+      rulesetVariablesManagerMock.setup((x) => x.getAllVariables()).returns(() => variables);
 
       // eslint-disable-next-line @typescript-eslint/no-floating-promises
       act(() => { onRulesetVariableChanged.raiseEvent("var-id", "prev", "curr"); });
@@ -272,6 +281,30 @@ describe("usePresentationNodeLoader", () => {
       onIModelHierarchyChanged.raiseEvent({ rulesetId, updateInfo: [], imodelKey });
 
       expect(result.current.nodeLoader).to.eq(oldNodeLoader);
+    });
+
+    it("creates a fresh `TreeModelSource` when nodeLoader changes", async () => {
+      const { result, rerender, waitForNextUpdate } = renderHook(
+        (props: PresentationTreeNodeLoaderProps) => usePresentationTreeNodeLoader(props),
+        { initialProps: { ...initialProps, ruleset: "initial" } },
+      );
+      const initialModelSource = result.current.nodeLoader.modelSource;
+      expectTree(initialModelSource.getModel(), []);
+      initialModelSource.modifyModel((treeModel) => treeModel.insertChild(undefined, createNodeInput("test"), 0));
+
+      // Update tree so that `info.treeModel` is not undefined
+      presentationManagerMock
+        .setup(async (x) => x.compareHierarchies(moq.It.isAny()))
+        .returns(async () => [{ type: "Update", target: createNode("test").key, changes: createNode("test_updated") }]);
+      onRulesetModified.raiseEvent(
+        new RegisteredRuleset({ id: "initial", rules: [] }, "", () => { }),
+        { id: "initial", rules: [] },
+      );
+      await waitForNextUpdate();
+
+      rerender({ ...initialProps, ruleset: "updated" });
+      const newModelSource = result.current.nodeLoader.modelSource;
+      expectTree(newModelSource.getModel(), []);
     });
 
     it("sends visible expanded nodes when comparing hierarchies due to ruleset modification", async () => {

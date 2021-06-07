@@ -6,8 +6,8 @@ import { expect } from "chai";
 import { CompressedId64Set } from "@bentley/bentleyjs-core";
 import { Vector3d } from "@bentley/geometry-core";
 import {
-  BackgroundMapType, ColorByName, DisplayStyle3dProps, DisplayStyle3dSettingsProps, FeatureAppearance, PlanarClipMaskMode, PlanarClipMaskSettings,
-  SpatialClassificationProps, ThematicDisplayMode,
+  BackgroundMapType, ColorByName, DisplayStyle3dProps, DisplayStyle3dSettingsProps, PlanarClipMaskMode, PlanarClipMaskSettings,
+  SpatialClassifierInsideDisplay, SpatialClassifierOutsideDisplay, ThematicDisplayMode,
 } from "@bentley/imodeljs-common";
 import { ContextRealityModelState, DisplayStyle3dState, IModelConnection, MockRender, SnapshotConnection } from "@bentley/imodeljs-frontend";
 
@@ -67,48 +67,6 @@ describe("DisplayStyle", () => {
     expect(style.sunDirection.z).to.equal(sunDir.z);
   });
 
-  it("Should override model appearance correctly", () => {
-    const style = new DisplayStyle3dState(styleProps, imodel);
-    const appearanceOverride = FeatureAppearance.fromJSON({
-      rgb: { r: 0, g: 255, b: 0 },
-      transparency: 0.5,
-      nonLocatable: true,
-      emphasized: true,
-    });
-
-    let index = 0;
-    style.forEachRealityModel((_realityModel) => {
-      style.overrideRealityModelAppearance(index, appearanceOverride);
-
-      expect(appearanceOverride).to.deep.equal(style.getRealityModelAppearanceOverride(index));
-      index++;
-    });
-
-    const modelId = "0x001f";
-    style.overrideModelAppearance(modelId, appearanceOverride);
-    expect(appearanceOverride).to.deep.equal(style.getModelAppearanceOverride(modelId));
-  });
-
-  it("Should override reality model planar clip masks correctly", () => {
-    const style = new DisplayStyle3dState(styleProps, imodel);
-    const compressedModelIds = CompressedId64Set.compressArray([ "0x001", "0x002", "0x003"]);
-    const compressedElementIds =  CompressedId64Set.compressArray([ "0x004", "0x004", "0x006"]);
-    const planarClipMask = PlanarClipMaskSettings.fromJSON({
-      mode: PlanarClipMaskMode.IncludeElements,
-      modelIds: compressedModelIds,
-      subCategoryOrElementIds: compressedElementIds,
-      priority: 0,
-    });
-
-    let index = 0;
-    style.forEachRealityModel((_realityModel) => {
-      style.overrideRealityModelPlanarClipMask(index, planarClipMask);
-
-      expect(planarClipMask).to.deep.equal(style.getRealityModelPlanarClipMask(index));
-      index++;
-    });
-  });
-
   it("should use iModel extents for thematic height range if unspecified", () => {
     const style = new DisplayStyle3dState(styleProps, imodel);
     style.settings.applyOverrides({ thematic: { displayMode: ThematicDisplayMode.Height, range: [1, 100] } });
@@ -146,7 +104,7 @@ describe("DisplayStyle", () => {
         compareScheduleScripts(style, expected);
     };
 
-    function compareRealityModels(style3d: DisplayStyle3dState, expected: any): void {
+    function compareRealityModels(style3d: DisplayStyle3dState, expected: DisplayStyle3dSettingsProps): void {
       const models: ContextRealityModelState[] = [];
       style3d.forEachRealityModel((model) => models.push(model));
       if (undefined !== expected.contextRealityModels) {
@@ -163,28 +121,31 @@ describe("DisplayStyle", () => {
 
           expect(undefined === a.classifiers).to.equal(undefined === e.classifiers);
           if (undefined !== a.classifiers && undefined !== e.classifiers)
-            expect(a.classifiers.length).to.equal(e.classifiers.length);
+            expect(a.classifiers.size).to.equal(e.classifiers.length);
 
-          expect(undefined === a.planarClipMask).to.equal(undefined === e.planarClipMask);
-          if (undefined !== a.planarClipMask && undefined !== e.planarClipMask)
-            expect(a.planarClipMask.settings.equals(PlanarClipMaskSettings.fromJSON(e.planarClipMask)));
+          expect(undefined === a.planarClipMaskSettings).to.equal(undefined === e.planarClipMask);
+          if (undefined !== a.planarClipMaskSettings && undefined !== e.planarClipMask)
+            expect(a.planarClipMaskSettings.equals(PlanarClipMaskSettings.fromJSON(e.planarClipMask)));
 
-          const foundIndex = style3d.findRealityModelIndex((accept) => { return accept.url === a.url; });
-          expect(i === foundIndex);
+          const foundIndex = style3d.settings.contextRealityModels.models.findIndex((x) => x.url === a.url);
+          expect(foundIndex).to.equal(i);
         }
         // Detach all.
-        style3d.detachRealityModelByIndex(-1);
+        style3d.settings.contextRealityModels.clear();
         style3d.forEachRealityModel((_model) => expect(false));
       } else {
         expect(models.length).to.equal(0);
       }
     }
 
-    function compareScheduleScripts(style3d: DisplayStyle3dState, expected: any): void {
-      if (undefined !== style3d.scheduleScript)
+    function compareScheduleScripts(style3d: DisplayStyle3dState, expected: DisplayStyle3dSettingsProps): void {
+      if (undefined !== style3d.scheduleScript) {
+        // eslint-disable-next-line deprecation/deprecation
         expect(JSON.stringify(style3d.scheduleScript.toJSON())).to.equal(JSON.stringify(expected.scheduleScript));
-      else
+      } else {
+        // eslint-disable-next-line deprecation/deprecation
         expect(expected.scheduleScript).to.be.undefined;
+      }
     }
 
     // Note that each test adds some new settings to our display style. This allows us to test that settings not specified in overrides retain their previous values.
@@ -210,10 +171,9 @@ describe("DisplayStyle", () => {
           modelId: "0x321",
           expand: 1.5,
           flags: {
-            inside: SpatialClassificationProps.Display.Dimmed,
-            outside: SpatialClassificationProps.Display.On,
+            inside: SpatialClassifierInsideDisplay.Dimmed,
+            outside: SpatialClassifierOutsideDisplay.On,
             isVolumeClassifier: false,
-            type: 0,
           },
           name: "bing",
           isActive: true,
@@ -228,10 +188,9 @@ describe("DisplayStyle", () => {
           modelId: "0x321",
           expand: 1.5,
           flags: {
-            inside: SpatialClassificationProps.Display.Dimmed,
-            outside: SpatialClassificationProps.Display.On,
+            inside: SpatialClassifierInsideDisplay.Dimmed,
+            outside: SpatialClassifierOutsideDisplay.On,
             isVolumeClassifier: false,
-            type: 0,
           },
           name: "google",
           isActive: true,
@@ -289,10 +248,9 @@ describe("DisplayStyle", () => {
           modelId: "0x123",
           expand: 0.5,
           flags: {
-            inside: SpatialClassificationProps.Display.Off,
-            outside: SpatialClassificationProps.Display.Dimmed,
+            inside: SpatialClassifierInsideDisplay.Off,
+            outside: SpatialClassifierOutsideDisplay.Dimmed,
             isVolumeClassifier: true,
-            type: 0,
           },
           name: "google",
           isActive: false,

@@ -1,0 +1,11 @@
+{
+  "changes": [
+    {
+      "packageName": "@bentley/telemetry-client",
+      "comment": "",
+      "type": "none"
+    }
+  ],
+  "packageName": "@bentley/telemetry-client",
+  "email": "38971167+saemjeon@users.noreply.github.com"
+}

@@ -32,7 +32,8 @@ internal;AnimatedTreeReference
 internal;AnimationBranchState
 internal;AnimationBranchStates = Map
 public;Animator
-public;AppearanceOverrideProps
+public;AppearanceOverrideProps = AppearanceOverrideProps_2
+deprecated;AppearanceOverrideProps = AppearanceOverrideProps_2
 internal;ArcGisErrorCode
 internal;ArcGisGenerateTokenOptions
 internal;ArcGISMapLayerImageryProvider 
@@ -85,6 +86,7 @@ public;canvasToResizedCanvasWithBars(canvasIn: HTMLCanvasElement, targetSize: Po
 public;CategorySelectorState 
 internal;ChangeFlag
 public;ChangeFlags
+internal;ChangeSetId = string
 public;ChangeViewedModel2dOptions
 beta;CheckboxFormatPropEditorSpec 
 public;CheckpointConnection 
@@ -92,7 +94,7 @@ public;ClipEventType
 public;Cluster
 internal;CompassMode
 internal;ContextMode
-beta;ContextRealityModelState
+public;ContextRealityModelState 
 public;ContextRotationId
 public;CoordinateLockOverrides
 public;CoordSource
@@ -127,8 +129,8 @@ public;DisplayStyle2dState
 public;DisplayStyle3dState 
 public;class DisplayStyleState 
 internal;disposeTileTreesForGeometricModels(modelIds: Set
-beta;DownloadBriefcaseId =
-beta;DownloadBriefcaseOptions = DownloadBriefcaseId &
+public;DownloadBriefcaseId =
+public;DownloadBriefcaseOptions = DownloadBriefcaseId &
 internal;DrawClipOptions
 public;DrawingModelState 
 public;DrawingViewState 
@@ -138,7 +140,7 @@ alpha;EditingFunctions
 deprecated;EditingFunctions
 alpha;EditingFunctions
 deprecated;EditingFunctions
-internal;EditManipulator
+public;EditManipulator
 internal;ELEMENT_MARKED_FOR_REMOVAL: unique symbol
 alpha;ElementAgenda
 public;ElementLocateManager
@@ -147,7 +149,8 @@ alpha;class ElementSetTool
 public;ElementState 
 internal;EllipsoidTerrainProvider 
 public;EmphasizeElements 
-public;EmphasizeElementsProps
+public;EmphasizeElementsProps = EmphasizeElementsProps_2
+deprecated;EmphasizeElementsProps = EmphasizeElementsProps_2
 beta;EngineeringLengthDescription 
 public;EntityState 
 public;Environment
@@ -167,7 +170,6 @@ internal;eyeToCartographicOnGlobeFromGcs(viewport: ScreenViewport, preserveHeigh
 alpha;FeatureLogBatchClient
 alpha;FeatureLogBatchOptions
 public;FeatureOverrideProvider
-public;FeatureOverrideType
 public;FeatureSymbology
 alpha;FeatureTrackingManager
 alpha;FeatureTrackingProps
@@ -177,6 +179,9 @@ internal;findAvailableUnattachedRealityModels(contextId: GuidString, iModel?: IM
 deprecated;findAvailableUnattachedRealityModels(contextId: GuidString, iModel?: IModelConnection, modelCartographicRange?: CartographicRange | undefined): Promise
 public;FitViewTool 
 internal;Flags
+public;FlashMode
+public;FlashSettings
+public;FlashSettingsOptions = Mutable
 public;FlyViewTool 
 beta;class FormattedQuantityDescription 
 beta;FormatterParserSpecsProvider
@@ -187,6 +192,7 @@ internal;FrameCameraViewData
 internal;FrameRenderData
 alpha;FrameStats
 internal;FrameStatsCollector
+internal;FrontendHubAccess
 public;FrontendLoggerCategory
 public;FrontendRequestContext 
 public;FrontendSecurityOptions
@@ -247,7 +253,7 @@ public;GraphicShape2d
 public;GraphicType
 alpha;GroupMark
 internal;Hilites
-beta;HiliteSet
+public;HiliteSet
 public;HitDetail
 public;HitDetailType
 public;HitGeomType
@@ -276,6 +282,8 @@ public;IModelAppOptions
 public;class IModelConnection 
 public;IModelConnection
 internal;IModelFrameLifecycle
+internal;IModelHubFrontend
+internal;IModelIdArg
 public;IModelRoutingContext
 internal;IModelTile 
 internal;IModelTileContent 
@@ -291,8 +299,8 @@ internal;InstancedGraphicParams
 public;class InteractiveTool 
 internal;internalMapLayerImageryFormats: (typeof WmsMapLayerFormat)[]
 public;IntersectDetail 
-beta;IpcApp
-beta;IpcAppOptions
+public;IpcApp
+public;IpcAppOptions
 beta;isCheckboxFormatPropEditorSpec: (item: CustomFormatPropEditorSpec) => item is CheckboxFormatPropEditorSpec
 beta;isCustomQuantityTypeDefinition(item: QuantityTypeDefinition): item is CustomQuantityTypeDefinition
 beta;isTextInputFormatPropEditorSpec: (item: CustomFormatPropEditorSpec) => item is TextInputFormatPropEditorSpec
@@ -328,6 +336,7 @@ beta;MapLayerOptions
 internal;MapLayerSetting
 internal;MapLayerSettingsService
 internal;MapLayerSource 
+internal;MapLayerSourceChangeType
 internal;MapLayerSources
 internal;MapLayerSourceStatus
 internal;MapLayerSourceValidation
@@ -364,10 +373,10 @@ public;ModelSelectorState
 public;ModelState 
 alpha;ModifyElementSource
 internal;MutableChangeFlags 
-beta;NativeApp
-beta;NativeAppAuthorization
+public;NativeApp
+public;NativeAppAuthorization
 internal;NativeAppLogger
-beta;NativeAppOpts 
+public;NativeAppOpts 
 internal;NoRenderApp
 public;class NotificationHandler
 public;NotificationManager
@@ -375,7 +384,8 @@ public;NotifyMessageDetails
 internal;NullRenderSystem 
 internal;NullTarget 
 internal;OffScreenTarget 
-internal;OffScreenViewport 
+public;OffScreenViewport 
+public;OffScreenViewportOptions
 beta;OidcBrowserClient 
 deprecated;OidcBrowserClient 
 alpha;OnFrameStatsReadyEvent = BeEvent
@@ -401,7 +411,7 @@ public;ParticleCollectionBuilderParams
 public;ParticleProps 
 beta;PendingExtension
 internal;PerformanceMetrics
-beta;PerModelCategoryVisibility
+public;PerModelCategoryVisibility
 public;PhysicalModelState 
 public;PickableGraphicOptions 
 internal;PingTestResult
@@ -509,8 +519,6 @@ public;SnapHeat
 public;SnapMode
 public;SnapshotConnection 
 public;SnapStatus
-beta;SpatialClassifiers
-internal;SpatialClassifiersContainer
 internal;class SpatialClassifierTileTreeReference 
 public;SpatialLocationModelState 
 public;SpatialModelState 
@@ -523,7 +531,7 @@ public;StandardView
 public;StandardViewId
 public;StandardViewTool 
 public;StartOrResume
-beta;Storage
+public;Storage
 internal;SubCategoriesCache
 internal;SubCategoriesCache
 internal;SubCategoriesRequest

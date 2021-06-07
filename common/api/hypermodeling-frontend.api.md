@@ -74,7 +74,6 @@ export class HyperModelingDecorator implements Decorator {
     // @internal (undocumented)
     dispose(): void;
     static getForViewport(vp: ScreenViewport): HyperModelingDecorator | undefined;
-    // @internal (undocumented)
     readonly markers: SectionMarkerSet;
     openSection(marker: SectionMarker): Promise<boolean>;
     openSheet(marker: SectionMarker): Promise<boolean>;

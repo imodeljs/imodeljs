@@ -6,12 +6,11 @@
  * @module Tiles
  */
 import { compareStrings, compareStringsOrUndefined, Id64, Id64String } from "@bentley/bentleyjs-core";
-import { BatchType, ClassifierTileTreeId, compareIModelTileTreeIds, iModelTileTreeIdToString, SpatialClassificationProps } from "@bentley/imodeljs-common";
+import { BatchType, ClassifierTileTreeId, compareIModelTileTreeIds, iModelTileTreeIdToString, SpatialClassifier, SpatialClassifiers } from "@bentley/imodeljs-common";
 import { DisplayStyleState } from "../DisplayStyleState";
 import { IModelApp } from "../IModelApp";
 import { IModelConnection } from "../IModelConnection";
 import { GeometricModelState } from "../ModelState";
-import { SpatialClassifiers } from "../SpatialClassifiers";
 import { SceneContext } from "../ViewContext";
 import { ViewState } from "../ViewState";
 import {
@@ -74,7 +73,7 @@ const classifierTreeSupplier = new ClassifierTreeSupplier();
 export abstract class SpatialClassifierTileTreeReference extends TileTreeReference {
   public abstract get classifiers(): SpatialClassifiers;
   public abstract get isPlanar(): boolean;
-  public abstract get activeClassifier(): SpatialClassificationProps.Classifier | undefined;
+  public abstract get activeClassifier(): SpatialClassifier | undefined;
 }
 
 /** @internal */
@@ -97,7 +96,7 @@ class ClassifierTreeReference extends SpatialClassifierTileTreeReference {
   }
 
   public get classifiers(): SpatialClassifiers { return this._classifiers; }
-  public get activeClassifier(): SpatialClassificationProps.Classifier | undefined { return this.classifiers.active; }
+  public get activeClassifier(): SpatialClassifier | undefined { return this.classifiers.active; }
 
   public get castsShadows() {
     return false;

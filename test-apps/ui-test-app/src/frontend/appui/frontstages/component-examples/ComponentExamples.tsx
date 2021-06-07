@@ -26,26 +26,29 @@ export class ComponentExamplesModalFrontstage implements ModalFrontstageInfo {
 
 interface ComponentExamplesPageProps {
   categories: ComponentExampleCategory[];
+  hideThemeOption?: boolean;
 }
 
 /** ComponentExamplesPage displaying the component examples.
  */
-const ComponentExamplesPage: React.FC<ComponentExamplesPageProps> = (props: ComponentExamplesPageProps) => {
+export const ComponentExamplesPage: React.FC<ComponentExamplesPageProps> = (props: ComponentExamplesPageProps) => {
   const themeTitle: string = UiFramework.i18n.translate("SampleApp:componentExamplesStage.themeTitle");
   const themeDescription: string = UiFramework.i18n.translate("SampleApp:componentExamplesStage.themeDescription");
-
+  const showThemeOption = !(!!props.hideThemeOption);
   const [activeIndex, setActiveIndex] = React.useState(0);
+  const [colorTheme, setColorTheme] = React.useState(() => UiFramework.getColorTheme());
 
   const onThemeChange = () => {
     const theme = isLightTheme() ? ColorTheme.Dark : ColorTheme.Light;
     UiFramework.setColorTheme(theme);
+    setColorTheme(theme);
   };
 
   const isLightTheme = (): boolean => {
-    return (UiFramework.getColorTheme() === ColorTheme.Light);
+    return (colorTheme === ColorTheme.Light);
   };
 
-  const isOn = isLightTheme();
+  const isChecked = isLightTheme();
   const darkLabel = UiFramework.i18n.translate("SampleApp:settingsStage.dark");
   const lightLabel = UiFramework.i18n.translate("SampleApp:settingsStage.light");
 
@@ -61,18 +64,21 @@ const ComponentExamplesPage: React.FC<ComponentExamplesPageProps> = (props: Comp
           activeIndex={activeIndex} onActivateTab={handleActivateTab} />
       </div>
       <div className="component-examples-items">
-        <ComponentExample title={themeTitle} description={themeDescription}
-          content={
-            <>
-              {darkLabel}
+        {showThemeOption && <>
+          <ComponentExample title={themeTitle} description={themeDescription}
+            content={
+              <>
+                {darkLabel}
               &nbsp;
-              <Toggle isOn={isOn} showCheckmark={false} onChange={onThemeChange} />
+                <Toggle isOn={isChecked} showCheckmark={false} onChange={onThemeChange} />
               &nbsp;
-              {lightLabel}
-            </>
-          }
-        />
-        <hr className="component-examples-items-separator" />
+                {lightLabel}
+              </>
+            }
+          />
+          <hr className="component-examples-items-separator" />
+        </>
+        }
         {props.categories[activeIndex].examples.map((exampleProps: ComponentExampleProps, index: number) => {
           const { title, description, content, ...otherProps } = exampleProps;
           return (

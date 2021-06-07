@@ -1190,13 +1190,13 @@ describe("VirtualizedPropertyGridWithDataProvider", () => {
           highlight={highlightValue}
         />
       );
-      await waitForElement(() => container.querySelector('[class="components-property-grid"]'));
+      await waitForElement(() => container.querySelector('[class="components-virtualized-property-grid"]'));
 
       rerender(<VirtualizedPropertyGridWithDataProvider
         orientation={Orientation.Horizontal}
         dataProvider={providerMock.object}
       />);
-      await waitForElement(() => container.querySelector('[class="components-property-grid"]'));
+      await waitForElement(() => container.querySelector('[class="components-virtualized-property-grid"]'));
 
       expect(scrollToItemFake).to.not.have.been.called;
     });

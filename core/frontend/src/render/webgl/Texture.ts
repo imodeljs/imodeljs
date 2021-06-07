@@ -552,7 +552,8 @@ export class ExternalTextureLoader { /* currently exported for tests only */
 
     try {
       if (!req.imodel.isClosed) {
-        const texBytes = await req.imodel.getTextureImage({ name: req.name });
+        const maxTextureSize = System.instance.capabilities.maxTextureSize;
+        const texBytes = await req.imodel.getTextureImage({ name: req.name, maxTextureSize });
         if (undefined !== texBytes) {
           const imageSource = new ImageSource(texBytes, req.format);
           const image = await imageElementFromImageSource(imageSource);

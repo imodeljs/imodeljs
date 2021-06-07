@@ -43,7 +43,7 @@ export interface TileDrawArgParams {
   viewFlagOverrides: ViewFlagOverrides;
   /** Clip volume used to clip the tiles. */
   clipVolume?: RenderClipVolume;
-  /** @internal */
+  /** True if a tile and its child tiles should not be drawn simultaneously. */
   parentsAndChildrenExclusive: boolean;
   /** Symbology overrides to apply to the tiles. */
   symbologyOverrides: FeatureSymbology.Overrides | undefined;
@@ -83,7 +83,7 @@ export class TileDrawArgs {
   public drape?: RenderTextureDrape;
   /** Optional clip volume applied to all tiles in the view. */
   public readonly viewClip?: ClipVector;
-  /** @internal */
+  /** True if a tile and its child tiles should not be drawn simultaneously. */
   public parentsAndChildrenExclusive: boolean;
   /** @internal */
   private _appearanceProvider?: FeatureAppearanceProvider;

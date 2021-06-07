@@ -15,10 +15,10 @@ import {
   ArrayTypeDescription, ContentDescriptorRequestOptions, ContentFlags, ContentJSON, ContentRequestOptions, DefaultContentDisplayTypes, Descriptor,
   DescriptorJSON, DiagnosticsOptions, DiagnosticsScopeLogs, DisplayLabelRequestOptions, DisplayLabelsRequestOptions, DistinctValuesRequestOptions,
   ExtendedContentRequestOptions, ExtendedHierarchyRequestOptions, FieldDescriptor, FieldDescriptorType, FieldJSON, getLocalesDirectory,
-  HierarchyCompareInfo, HierarchyCompareInfoJSON, HierarchyCompareOptions, HierarchyRequestOptions, InstanceKey, ItemJSON, KeySet, KindOfQuantityInfo,
-  LabelDefinition, LabelRequestOptions, NestedContentFieldJSON, NodeJSON, NodeKey, Paged, PageOptions, PresentationError, PresentationUnitSystem,
-  PrimitiveTypeDescription, PropertiesFieldJSON, PropertyInfoJSON, PropertyJSON, RegisteredRuleset, RequestPriority, Ruleset, SelectClassInfoJSON,
-  SelectionInfo, SelectionScope, StandardNodeTypes, StructTypeDescription, VariableValueTypes,
+  HierarchyCompareInfo, HierarchyCompareInfoJSON, HierarchyCompareOptions, HierarchyRequestOptions, InstanceKey, IntRulesetVariable, ItemJSON, KeySet,
+  KindOfQuantityInfo, LabelDefinition, LabelRequestOptions, NestedContentFieldJSON, NodeJSON, NodeKey, Paged, PageOptions, PresentationError,
+  PresentationUnitSystem, PrimitiveTypeDescription, PropertiesFieldJSON, PropertyInfoJSON, PropertyJSON, RegisteredRuleset, RequestPriority, Ruleset,
+  SelectClassInfoJSON, SelectionInfo, SelectionScope, StandardNodeTypes, StructTypeDescription, VariableValueTypes,
 } from "@bentley/presentation-common";
 import {
   createRandomCategory, createRandomDescriptor, createRandomDescriptorJSON, createRandomECClassInfoJSON, createRandomECInstanceKey,
@@ -1154,8 +1154,8 @@ describe("PresentationManager", () => {
     describe("compareHierarchies", () => {
 
       it("[deprecated] addon to compare hierarchies after ruleset change", async () => {
-        const var1 = { id: "var", type: VariableValueTypes.Id64, value: 123 };
-        const var2 = { id: "var", type: VariableValueTypes.Id64, value: 465 };
+        const var1: IntRulesetVariable = { id: "var", type: VariableValueTypes.Int, value: 123 };
+        const var2: IntRulesetVariable = { id: "var", type: VariableValueTypes.Int, value: 465 };
         const nodeKey = createRandomECInstancesNodeKey();
 
         // what the addon receives
@@ -1196,8 +1196,8 @@ describe("PresentationManager", () => {
       });
 
       it("requests addon to compare hierarchies based on ruleset and variables' changes", async () => {
-        const var1 = { id: "var", type: VariableValueTypes.Id64, value: 123 };
-        const var2 = { id: "var", type: VariableValueTypes.Id64, value: 465 };
+        const var1: IntRulesetVariable = { id: "var", type: VariableValueTypes.Int, value: 123 };
+        const var2: IntRulesetVariable = { id: "var", type: VariableValueTypes.Int, value: 465 };
         const nodeKey = createRandomECInstancesNodeKey();
 
         // what the addon receives
@@ -1274,8 +1274,8 @@ describe("PresentationManager", () => {
       });
 
       it("requests addon to compare hierarchies based on ruleset variables' changes", async () => {
-        const var1 = { id: "var", type: VariableValueTypes.Id64, value: 123 };
-        const var2 = { id: "var", type: VariableValueTypes.Id64, value: 465 };
+        const var1: IntRulesetVariable = { id: "var", type: VariableValueTypes.Int, value: 123 };
+        const var2: IntRulesetVariable = { id: "var", type: VariableValueTypes.Int, value: 465 };
 
         // what the addon receives
         const expectedParams = {

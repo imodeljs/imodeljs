@@ -149,14 +149,14 @@ describe("ViewState", () => {
       vs0DisplayStyle3d.changeBackgroundMapProps(BackgroundMapSettings.fromJSON({
         providerName: oldBackgroundMap.providerName === "BingProvider" ? "MapBoxProvider" : "BingProvider",
         providerData: { mapType: mt },
-      }));
+      }).toJSON());
     } else {
       vs0DisplayStyle3d.changeBackgroundMapProps(BackgroundMapSettings.fromJSON({
         providerName: "BingProvider",
         providerData: {
           mapType: BackgroundMapType.Aerial,
         },
-      }));
+      }).toJSON());
     }
     const vs0BackgroundMap = vs0DisplayStyle3d.settings.backgroundMap;
 

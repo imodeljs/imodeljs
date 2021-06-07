@@ -1,6 +1,6 @@
 {
   "name": "@bentley/build-tools",
-  "version": "2.17.0-dev.14",
+  "version": "2.17.0-dev.28",
   "description": "Bentley build tools",
   "license": "MIT",
   "repository": {
@@ -57,7 +57,7 @@
     "yargs": "^16.0.0"
   },
   "devDependencies": {
-    "@bentley/eslint-plugin": "2.17.0-dev.14",
+    "@bentley/eslint-plugin": "workspace:*",
     "@types/node": "10.14.1",
     "eslint": "^6.8.0"
   },

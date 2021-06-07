@@ -1,0 +1,11 @@
+{
+  "changes": [
+    {
+      "packageName": "@bentley/presentation-common",
+      "comment": "Send `Id64[]` ruleset variables as `CompressedId64Set`",
+      "type": "none"
+    }
+  ],
+  "packageName": "@bentley/presentation-common",
+  "email": "35135765+grigasp@users.noreply.github.com"
+}

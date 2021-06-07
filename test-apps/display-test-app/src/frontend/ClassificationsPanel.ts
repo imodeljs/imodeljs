@@ -5,9 +5,12 @@
 
 import { assert, compareStringsOrUndefined } from "@bentley/bentleyjs-core";
 import { ComboBox, ComboBoxEntry, createCheckBox, createComboBox, createNestedMenu, createNumericInput, NestedMenu } from "@bentley/frontend-devtools";
-import { CartographicRange, ContextRealityModelProps, ModelProps, SpatialClassificationProps } from "@bentley/imodeljs-common";
 import {
-  ContextRealityModelState, DisplayStyle3dState, IModelApp, queryRealityData, SpatialClassifiers, SpatialModelState, SpatialViewState, Viewport,
+  CartographicRange, ContextRealityModelProps, ModelProps, SpatialClassifier, SpatialClassifierFlagsProps, SpatialClassifierInsideDisplay,
+  SpatialClassifierOutsideDisplay, SpatialClassifiers,
+} from "@bentley/imodeljs-common";
+import {
+  ContextRealityModelState, DisplayStyle3dState, IModelApp, queryRealityData, SpatialModelState, SpatialViewState, Viewport,
 } from "@bentley/imodeljs-frontend";
 import { ToolBarDropDown } from "./ToolBar";
 
@@ -30,7 +33,7 @@ export class ClassificationsPanel extends ToolBarDropDown {
   private _modelComboBox?: ComboBox;
   private _models: { [modelId: string]: ModelProps } = {};
 
-  private get _selectedClassifier(): SpatialClassificationProps.Classifier | undefined {
+  private get _selectedClassifier(): SpatialClassifier | undefined {
     if (undefined === this._selectedSpatialClassifiers)
       return undefined;
     const classifiers = this._selectedSpatialClassifiers;
@@ -43,30 +46,16 @@ export class ClassificationsPanel extends ToolBarDropDown {
     if (undefined === this._selectedSpatialClassifiers)
       return;
 
-    let classifier: SpatialClassificationProps.Classifier | undefined;
+    let classifier: SpatialClassifier | undefined;
     if (undefined !== modelProps) {
-
-      // Find existing classifier
+      // Find existing classifier, or create if one doesn't exist for modelId.
       const modelId = modelProps.id!;
-      for (const existingClassifier of this._selectedSpatialClassifiers) {
-        if (existingClassifier.modelId === modelId) {
-          classifier = existingClassifier;
-          break;
-        }
-      }
-
-      if (undefined === classifier) {
-        // If one does not exist, create a new classifier using model id
-        classifier = {
-          modelId,
-          expand: 0,
-          name: modelProps.name!,
-          flags: new SpatialClassificationProps.Flags(),
-        };
-        this._selectedSpatialClassifiers.push(classifier);
-      }
+      classifier = this._selectedSpatialClassifiers.find((x) => x.modelId === modelId);
+      if (!classifier)
+        classifier = this._selectedSpatialClassifiers.add(new SpatialClassifier(modelId, modelProps.name!));
     }
-    this._selectedSpatialClassifiers.active = classifier;
+
+    this._selectedSpatialClassifiers.setActive(classifier);
     this.populateClassifierProperties();
   }
 
@@ -261,16 +250,23 @@ export class ClassificationsPanel extends ToolBarDropDown {
       return;
 
     const outsideEntries: ComboBoxEntry[] = [
-      { name: "Off", value: SpatialClassificationProps.Display.Off },
-      { name: "On", value: SpatialClassificationProps.Display.On },
-      { name: "Dimmed", value: SpatialClassificationProps.Display.Dimmed },
+      { name: "Off", value: SpatialClassifierOutsideDisplay.Off },
+      { name: "On", value: SpatialClassifierOutsideDisplay.On },
+      { name: "Dimmed", value: SpatialClassifierOutsideDisplay.Dimmed },
     ];
 
     const insideEntries: ComboBoxEntry[] = [
-      ...outsideEntries,
-      { name: "Hilite", value: SpatialClassificationProps.Display.Hilite },
-      { name: "Element Color", value: SpatialClassificationProps.Display.ElementColor },
+      { name: "Off", value: SpatialClassifierInsideDisplay.Off },
+      { name: "On", value: SpatialClassifierInsideDisplay.On },
+      { name: "Dimmed", value: SpatialClassifierInsideDisplay.Dimmed },
+      { name: "Hilite", value: SpatialClassifierInsideDisplay.Hilite },
+      { name: "Element Color", value: SpatialClassifierInsideDisplay.ElementColor },
     ];
+
+    const updateFlags = (newFlags: Partial<SpatialClassifierFlagsProps>) => {
+      const c = this._selectedClassifier!;
+      this._selectedSpatialClassifiers!.replace(c, c.clone({ flags: c.flags.clone(newFlags) }));
+    };
 
     createComboBox({
       name: "Inside: ",
@@ -278,8 +274,8 @@ export class ClassificationsPanel extends ToolBarDropDown {
       parent,
       entries: insideEntries,
       handler: (select) => {
-        const newValue = Number.parseInt(select.value, 10) as SpatialClassificationProps.Display;
-        this._selectedClassifier!.flags.inside = newValue;
+        const newValue = Number.parseInt(select.value, 10) as SpatialClassifierInsideDisplay;
+        updateFlags({ inside: newValue });
         this._vp.invalidateScene();
       },
       value: classifier.flags.inside,
@@ -291,8 +287,8 @@ export class ClassificationsPanel extends ToolBarDropDown {
       parent,
       entries: outsideEntries,
       handler: (select) => {
-        const newValue = Number.parseInt(select.value, 10) as SpatialClassificationProps.Display;
-        this._selectedClassifier!.flags.outside = newValue;
+        const newValue = Number.parseInt(select.value, 10) as SpatialClassifierOutsideDisplay;
+        updateFlags({ outside: newValue });
         this._vp.invalidateScene();
       },
       value: classifier.flags.outside,
@@ -306,7 +302,8 @@ export class ClassificationsPanel extends ToolBarDropDown {
       display: "inline",
       value: classifier.expand,
       handler: (value) => {
-        this._selectedClassifier!.expand = value;
+        const c = this._selectedClassifier!;
+        this._selectedSpatialClassifiers!.replace(c, c.clone({ expand: value }));
         this._vp.invalidateScene();
       },
     });
@@ -317,7 +314,7 @@ export class ClassificationsPanel extends ToolBarDropDown {
       parent,
       isChecked: classifier.flags.isVolumeClassifier,
       handler: (cb) => {
-        this._selectedClassifier!.flags.isVolumeClassifier = cb.checked;
+        updateFlags({ isVolumeClassifier: cb.checked });
         this._vp.invalidateScene();
       },
     });

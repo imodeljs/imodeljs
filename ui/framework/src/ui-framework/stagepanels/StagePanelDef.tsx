@@ -28,7 +28,7 @@ export enum StagePanelState {
 }
 
 /** Panel State Changed Event Args interface.
- * @beta
+ * @public
  */
 export interface PanelStateChangedEventArgs {
   panelDef: StagePanelDef;

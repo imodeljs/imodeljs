@@ -70,7 +70,7 @@ export interface PresentationTreeDataProviderProps extends DiagnosticsProps {
 export interface PresentationTreeDataProviderDataSourceEntryPoints {
   getNodesCount: (requestOptions: ExtendedHierarchyRequestOptions<IModelConnection, NodeKey>) => Promise<number>;
   getNodesAndCount: (requestOptions: Paged<ExtendedHierarchyRequestOptions<IModelConnection, NodeKey>>) => Promise<{ nodes: Node[], count: number }>;
-  getFilteredNodePaths: (requestOptions: ExtendedHierarchyRequestOptions<IModelConnection, NodeKey>, filterText: string) => Promise<NodePathElement[]>;
+  getFilteredNodePaths: (requestOptions: ExtendedHierarchyRequestOptions<IModelConnection, never>, filterText: string) => Promise<NodePathElement[]>;
 }
 
 /**
@@ -95,7 +95,7 @@ export class PresentationTreeDataProvider implements IPresentationTreeDataProvid
     this._dataSource = {
       getNodesCount: async (requestOptions: ExtendedHierarchyRequestOptions<IModelConnection, NodeKey>) => Presentation.presentation.getNodesCount(requestOptions),
       getNodesAndCount: async (requestOptions: Paged<ExtendedHierarchyRequestOptions<IModelConnection, NodeKey>>) => Presentation.presentation.getNodesAndCount(requestOptions),
-      getFilteredNodePaths: async (requestOptions: ExtendedHierarchyRequestOptions<IModelConnection, NodeKey>, filterText: string) => Presentation.presentation.getFilteredNodePaths(requestOptions, filterText),
+      getFilteredNodePaths: async (requestOptions: ExtendedHierarchyRequestOptions<IModelConnection, never>, filterText: string) => Presentation.presentation.getFilteredNodePaths(requestOptions, filterText),
       ...props.dataSourceOverrides,
     };
     this._disposeVariablesChangeListener = Presentation.presentation.vars(this._rulesetRegistration.rulesetId).onVariableChanged.addListener(() => {
@@ -125,7 +125,7 @@ export class PresentationTreeDataProvider implements IPresentationTreeDataProvid
   public set pagingSize(value: number | undefined) { this._pagingSize = value; }
 
   /** Called to get extended options for node requests */
-  private createRequestOptions(parentKey: NodeKey | undefined): ExtendedHierarchyRequestOptions<IModelConnection, NodeKey> {
+  private createRequestOptions<TNodeKey = NodeKey>(parentKey: TNodeKey | undefined): ExtendedHierarchyRequestOptions<IModelConnection, TNodeKey> {
     return {
       imodel: this._imodel,
       rulesetOrId: this._rulesetRegistration.rulesetId,
@@ -183,7 +183,7 @@ export class PresentationTreeDataProvider implements IPresentationTreeDataProvid
    * @param filter Filter.
    */
   public getFilteredNodePaths = async (filter: string): Promise<NodePathElement[]> => {
-    return this._dataSource.getFilteredNodePaths(this.createRequestOptions(undefined), filter);
+    return this._dataSource.getFilteredNodePaths(this.createRequestOptions<never>(undefined), filter);
   };
 
   /**
@@ -191,7 +191,7 @@ export class PresentationTreeDataProvider implements IPresentationTreeDataProvid
    * @alpha @deprecated Will be removed on 3.0
    */
   // istanbul ignore next
-  public async loadHierarchy() {}
+  public async loadHierarchy() { }
 }
 
 class MemoizationHelpers {

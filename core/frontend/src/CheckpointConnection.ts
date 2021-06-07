@@ -57,7 +57,7 @@ export class CheckpointConnection extends IModelConnection {
     const requestContext = await AuthorizedFrontendRequestContext.create();
     requestContext.enter();
 
-    const changeSetId: string = await version.evaluateChangeSet(requestContext, iModelId, IModelApp.iModelClient);
+    const changeSetId = await IModelApp.hubAccess.getChangesetIdFromVersion({ requestContext, iModelId, version });
     requestContext.enter();
 
     const iModelRpcProps: IModelRpcOpenProps = { contextId, iModelId, changeSetId, openMode };

@@ -280,18 +280,18 @@ describe("FeatureSymbology.Overrides", () => {
     const modelOverride2 = FeatureAppearance.fromJSON({ ...modelOverride1, transparency: 200 / 255 });
 
     const displayStyle = viewState.displayStyle;
-    displayStyle.overrideModelAppearance(modelId1, modelOverride1);
-    assert(displayStyle.hasModelAppearanceOverride);
-    assert(displayStyle.getModelAppearanceOverride(modelId1)!.equals(modelOverride1));
+    displayStyle.settings.overrideModelAppearance(modelId1, modelOverride1);
+    assert(displayStyle.settings.hasModelAppearanceOverride);
+    assert(displayStyle.settings.getModelAppearanceOverride(modelId1)!.equals(modelOverride1));
 
-    displayStyle.dropModelAppearanceOverride(modelId1);
-    assert(!displayStyle.hasModelAppearanceOverride);
+    displayStyle.settings.dropModelAppearanceOverride(modelId1);
+    assert(!displayStyle.settings.hasModelAppearanceOverride);
 
-    displayStyle.overrideModelAppearance(modelId1, modelOverride1);
-    displayStyle.overrideModelAppearance(modelId2, modelOverride2);
-    assert(displayStyle.getModelAppearanceOverride(modelId1)!.equals(modelOverride1));
-    assert(displayStyle.getModelAppearanceOverride(modelId2)!.equals(modelOverride2));
-    expect(displayStyle.getModelAppearanceOverride(modelId3)).to.be.undefined;
+    displayStyle.settings.overrideModelAppearance(modelId1, modelOverride1);
+    displayStyle.settings.overrideModelAppearance(modelId2, modelOverride2);
+    assert(displayStyle.settings.getModelAppearanceOverride(modelId1)!.equals(modelOverride1));
+    assert(displayStyle.settings.getModelAppearanceOverride(modelId2)!.equals(modelOverride2));
+    expect(displayStyle.settings.getModelAppearanceOverride(modelId3)).to.be.undefined;
 
     const overrides = new Overrides(viewState);
     overrides.setAlwaysDrawn(elementId);

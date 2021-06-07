@@ -30,7 +30,7 @@ export type PromiseReturnType<T extends AsyncFunction> = T extends (...args: any
 
 /**
  * Options for [[IpcApp.startup]]
- * @beta
+ * @public
  */
 export interface IpcAppOptions {
   iModelApp?: IModelAppOptions;
@@ -38,7 +38,7 @@ export interface IpcAppOptions {
 
 /**
  * The frontend of apps with a dedicated backend that can use [Ipc]($docs/learning/IpcInterface.md).
- * @beta
+ * @public
  */
 export class IpcApp {
   private static _ipc: IpcSocketFrontend | undefined;
@@ -120,12 +120,15 @@ export class IpcApp {
     return this.callIpcChannel(IpcAppChannel.Functions, methodName, ...args) as PromiseReturnType<IpcAppFunctions[T]>;
   }
 
+  /** start an IpcApp.
+   * @note this should not be called directly. It is called by NativeApp.startup */
   public static async startup(ipc: IpcSocketFrontend, opts?: IpcAppOptions) {
     this._ipc = ipc;
     IpcAppNotifyHandler.register(); // receives notifications from backend
     await IModelApp.startup(opts?.iModelApp);
   }
 
+  /** @internal */
   public static async shutdown() {
     this._ipc = undefined;
     await IModelApp.shutdown();

@@ -1,6 +1,68 @@
 # Change Log - @bentley/imodeljs-frontend
 
-This log was last generated on Thu, 20 May 2021 15:06:26 GMT and should not be manually modified.
+This log was last generated on Thu, 03 Jun 2021 18:08:11 GMT and should not be manually modified.
+
+## 2.16.2
+Thu, 03 Jun 2021 18:08:11 GMT
+
+_Version update only_
+
+## 2.16.1
+Thu, 27 May 2021 20:04:22 GMT
+
+### Updates
+
+- add method to return ecef transform for tile tree
+
+## 2.16.0
+Mon, 24 May 2021 15:58:39 GMT
+
+### Updates
+
+- Make AccuDrawHintBuilder public and include everything needed by an InteractiveTool.
+- Fix acs rotation and remove unneeded clones.
+- (geomlibs) fix swap logic in Matrix3d.inverse alias case
+- motion event changes.
+- Add BatchOptions to customize how features can be resymbolized.
+- Synchronize viewports when changes are made to geometry outside of a graphical editing scope.
+- wip: CreateElementTool. Fix not being able to pick decorations after changing files.
+- BatchOptions can specify that the contents of the batch should only be drawn for readPixels.
+- Simplify GraphicBuilder creation using GraphicBuilderOptions.
+- IModelConnection.View.load throws if the input is not a valid Id.
+- Fix ViewState.hasSameCoordinates returning true if a 2d model was mistakenly included in a spatial view's model selector.
+- Produce rounded joints when tesselating polylines.
+- Return empty symbology overrides for maps to avoid inheriting from view
+- Add hiliter for reality meshes
+- Fix hiliting of reality meshes.
+- Fix shader header typo
+- Ensure materials are ignored unless smooth render mode is enabled.
+- Add FrameStats API.
+- In FrameStats, break down scene time.
+- Enable querying geometry and other properties via IModelConnection.Elements.loadProps.
+- The idleTool can now be set.
+- improved silhouettes for non-perspective views
+- Mobile fixes
+- Fixes to desktop/mobile authorization
+- set authorizationClient to undefined in IModelApp.shutdown
+- Fix errors when masking background map with a plan projection model.
+- Support planar masks for OrbitGT, fix infinite recursion collecting classifiers graphics.
+- Add shader based grid display.
+- set changesetId on BriefcaseConnection in pullAndMergeChanges
+- Add Viewport.queryVisibleFeatures to determine the set of features currently visible in a viewport.
+- Display styles support schedule scripts hosted by RenderTimeline elements.
+- Move map tile trees to Viewport to handle synching correctly
+- Only draw the TouchCursor in the viewport that initiated the touch.
+- Add iterator to ViewManager and deprecate forEachViewport.
+- Transform tool dynamics.
+- add placement to GeomtricElementProps
+- Revert to using older GPU timer extension in webgl2 if the newer extension isn't supported
+- ViewCreator APIs tagged as public
+- View Creator API - comments updated.
+
+## 2.15.6
+Wed, 26 May 2021 15:55:19 GMT
+
+_Version update only_
 
 ## 2.15.5
 Thu, 20 May 2021 15:06:26 GMT

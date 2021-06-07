@@ -9,11 +9,11 @@
 import * as React from "react";
 import { hasPointerEventsSupport, Timer } from "../../../ui-core";
 
-/** @internal */
+/** @public */
 export type OutsideClickEvent = PointerEvent | MouseEvent | TouchEvent;
 
 /** Invokes onOutsideClick handler when user clicks outside of referenced element.
- * @internal
+ * @public
  */
 export function useOnOutsideClick<T extends Element>(
   onOutsideClick?: () => void,

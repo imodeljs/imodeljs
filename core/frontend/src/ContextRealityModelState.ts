@@ -8,16 +8,17 @@
 
 import { GuidString, Id64String } from "@bentley/bentleyjs-core";
 import { Angle } from "@bentley/geometry-core";
-import { CartographicRange, ContextRealityModelProps, FeatureAppearance, OrbitGtBlobProps } from "@bentley/imodeljs-common";
+import {
+  CartographicRange, ContextRealityModel, ContextRealityModelProps, FeatureAppearance, OrbitGtBlobProps,
+} from "@bentley/imodeljs-common";
 import { AccessToken } from "@bentley/itwin-client";
 import { RealityData, RealityDataClient } from "@bentley/reality-data-client";
 import { DisplayStyleState } from "./DisplayStyleState";
 import { AuthorizedFrontendRequestContext } from "./FrontendRequestContext";
 import { IModelApp } from "./IModelApp";
 import { IModelConnection } from "./IModelConnection";
-import { PlanarClipMaskState } from "./imodeljs-frontend";
+import { PlanarClipMaskState } from "./PlanarClipMaskState";
 import { SpatialModelState } from "./ModelState";
-import { SpatialClassifiers } from "./SpatialClassifiers";
 import {
   createOrbitGtTileTreeReference, createRealityTileTreeReference, RealityModelTileTree, TileTreeReference,
 } from "./tile/internal";
@@ -33,76 +34,56 @@ async function getAccessToken(): Promise<AccessToken | undefined> {
   }
 }
 
-/** A reference to a [[TileTree]] obtained from a reality data service and associated to a [[ViewState]] by way of its [[DisplayStyleState]].
- * Contrast with a persistent [[GeometricModelState]] which may contain a URL pointing to a [[TileTree]] hosted on a reality data service.
- * @beta
+/** A [ContextRealityModel]($common) attached to a [[DisplayStyleState]] supplying a [[TileTreeReference]] used to draw the
+ * reality model in a [[Viewport]].
+ * @see [DisplayStyleSettings.contextRealityModels]($common).
+ * @see [[DisplayStyleState.contextRealityModelStates]].
+ * @see [[DisplayStyleState.attachRealityModel]].
+ * @public
  */
-export class ContextRealityModelState {
+export class ContextRealityModelState extends ContextRealityModel {
   private readonly _treeRef: RealityModelTileTree.Reference;
-  public readonly name: string;
-  public readonly url: string;
-  public readonly orbitGtBlob?: OrbitGtBlobProps;
-  /** Not required to be present to display the model. It is use to elide the call to getRealityDataIdFromUrl in the widget if present. */
-  public readonly realityDataId?: string;
-  public readonly description: string;
+  /** The iModel with which the reality model is associated. */
   public readonly iModel: IModelConnection;
-  private _appearanceOverrides?: FeatureAppearance;
-  private _isGlobal?: boolean;
 
+  /** @internal */
   public constructor(props: ContextRealityModelProps, iModel: IModelConnection, displayStyle: DisplayStyleState) {
-    this.url = props.tilesetUrl;
-    this.orbitGtBlob = props.orbitGtBlob;
-    this.realityDataId = props.realityDataId;
-    this.name = undefined !== props.name ? props.name : "";
-    this.description = undefined !== props.description ? props.description : "";
+    super(props);
     this.iModel = iModel;
     this._appearanceOverrides = props.appearanceOverrides ? FeatureAppearance.fromJSON(props.appearanceOverrides) : undefined;
-    const classifiers = new SpatialClassifiers(props);
     this._treeRef = (undefined === props.orbitGtBlob) ?
       createRealityTileTreeReference({
         iModel,
         source: displayStyle,
         url: props.tilesetUrl,
         name: props.name,
-        classifiers,
-        planarMask: props.planarClipMask,
+        classifiers: this.classifiers,
+        planarClipMask: this.planarClipMaskSettings,
       }) :
       createOrbitGtTileTreeReference({
         iModel,
         orbitGtBlob: props.orbitGtBlob,
         name: props.name,
-        classifiers,
+        classifiers: this.classifiers,
         source: displayStyle,
       });
+
+    this.onPlanarClipMaskChanged.addListener((newSettings) => {
+      this._treeRef.planarClipMask = newSettings ? PlanarClipMaskState.create(newSettings) : undefined;
+    });
   }
 
+  /** The tile tree reference responsible for drawing the reality model into a [[Viewport]]. */
   public get treeRef(): TileTreeReference { return this._treeRef; }
-  public get classifiers(): SpatialClassifiers | undefined { return this._treeRef.classifiers; }
-  public get appearanceOverrides(): FeatureAppearance | undefined { return this._appearanceOverrides; }
-  public set appearanceOverrides(overrides: FeatureAppearance | undefined) { this._appearanceOverrides = overrides; }
-  public get modelId(): Id64String | undefined { return (this._treeRef instanceof RealityModelTileTree.Reference) ? this._treeRef.modelId : undefined; }
-  /** Return true if the model spans the entire globe ellipsoid in 3D */
-  public get isGlobal(): boolean { return this.treeRef.isGlobal; }
-  public get planarClipMask(): PlanarClipMaskState | undefined { return this._treeRef.planarClipMask; }
-  public set planarClipMask(planarClipMask: PlanarClipMaskState | undefined) { this._treeRef.planarClipMask = planarClipMask; }
 
-  public toJSON(): ContextRealityModelProps {
-    return {
-      tilesetUrl: this.url,
-      orbitGtBlob: this.orbitGtBlob,
-      realityDataId: this.realityDataId,
-      name: 0 > this.name.length ? this.name : undefined,
-      description: 0 > this.description.length ? this.description : undefined,
-      appearanceOverrides: this.appearanceOverrides,
-    };
+  /** The transient Id assigned to this reality model at run-time. */
+  public get modelId(): Id64String | undefined {
+    return (this._treeRef instanceof RealityModelTileTree.Reference) ? this._treeRef.modelId : undefined;
   }
 
-  public matches(other: ContextRealityModelState): boolean {
-    return this.matchesNameAndUrl(other.name, other.url);
-  }
-
-  public matchesNameAndUrl(name: string, url: string): boolean {
-    return this.name === name && this.url === url;
+  /** Whether the reality model spans the entire globe ellipsoid. */
+  public get isGlobal(): boolean {
+    return this.treeRef.isGlobal;
   }
 }
 

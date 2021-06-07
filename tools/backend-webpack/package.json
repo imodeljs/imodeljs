@@ -1,6 +1,6 @@
 {
   "name": "@bentley/backend-webpack-tools",
-  "version": "2.17.0-dev.14",
+  "version": "2.17.0-dev.28",
   "description": "Configuration and scripts for iModel.js agents and backends.",
   "license": "MIT",
   "repository": {
@@ -24,7 +24,7 @@
     "backend-webpack-tools": "./bin/backend-webpack-tools.js"
   },
   "dependencies": {
-    "@bentley/webpack-tools-core": "2.17.0-dev.14",
+    "@bentley/webpack-tools-core": "workspace:*",
     "case-sensitive-paths-webpack-plugin": "^2.1.2",
     "chalk": "^3.0.0",
     "concurrently": "^3.6.1",

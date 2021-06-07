@@ -31,6 +31,25 @@
         "Center": "Center"
       }
     },
+    "CreateArc": {
+      "keyin": "editor create arc",
+      "flyover": "Create Arc",
+      "Label": {
+        "Method": "Method",
+        "Radius": "Radius",
+        "Sweep": "Sweep"
+      },
+      "Method": {
+        "CenterStart": "Center, Start",
+        "StartCenter": "Start, Center",
+        "StartMidEnd": "Start, Mid, End",
+        "StartEndMid": "Start, End, Mid"
+      },
+      "Prompts": {
+        "CenterPoint": "Define arc center",
+        "MidPoint": "Define arc midpoint"
+      }
+    },
     "CreateLineString": {
       "keyin": "editor create linestring",
       "flyover": "Create Linestring"
@@ -46,6 +65,68 @@
     "Redo": {
       "keyin": "editor redo",
       "flyover": "Redo Elements"
+    },
+    "ProjectLocation": {
+      "Show": {
+        "keyin": "editor project location show",
+        "flyover": "Show Project Location"
+      },
+      "Hide": {
+        "keyin": "editor project location hide",
+        "flyover": "Hide Project Location"
+      },
+      "Cancel": {
+        "keyin": "editor project location cancel",
+        "flyover": "Abandon Project Location Changes"
+      },
+      "Save": {
+        "keyin": "editor project location save",
+        "flyover": "Save Project Location Changes"
+      },
+      "Geolocation": {
+        "Move": {
+          "keyin": "editor project geolocation move",
+          "flyover": "Move Project Geolocation"
+        },
+        "Point": {
+          "keyin": "editor project geolocation point",
+          "flyover": "Define Project Geolocation"
+        },
+        "North": {
+          "keyin": "editor project geolocation north",
+          "flyover": "Define Project North"
+        }
+      },
+      "Prompts": {
+        "IdentifyRefPoint": "Identify reference point",
+        "DefineAngle": "Enter point to define angle",
+        "DefineOffset": "Enter point to define offset",
+        "IdentifyKnownLocation": "Identify location of known latitude and longitude",
+        "ConfirmCoordinates": "Confirm latitude and longitude",
+        "SpecifyCoordinates": "Specify latitude and longitude then accept"
+      },
+      "Inputs": {
+        "AcceptHandle": "Accept project extents or handle"
+      },
+      "Message": {
+        "NotActive": "Enable geolocation tools with 'editor project location show' first",
+        "NotAllowed": "A valid geographic coordinate reference system already exists",
+        "NotGeolocated": "Not geolocated",
+        "NoChanges": "No changes to project extents or geolocation to save",
+        "ProjectExtents": "Project Extents",
+        "LargeProjectExtents": "Project Extents Too Large",
+        "ModifyProjectExtents": "Modify Project Extents",
+        "ModifyGeolocation": "Modify/Add Geolocation",
+        "ModifyNorthDirection": "Modify North Direction",
+        "MaxExtent": "Recommended Maximum",
+        "Length": "Length",
+        "Width": "Width",
+        "Height": "Height",
+        "Latitude": "Latitude",
+        "Longitude": "Longitude",
+        "Angle": "Angle",
+        "North": "North Angle"
+      }
     }
   }
 }

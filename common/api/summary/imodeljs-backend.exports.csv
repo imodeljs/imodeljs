@@ -3,23 +3,33 @@ Release Tag;API Item
 beta;AliCloudStorageService 
 public;AnnotationElement2d 
 beta;AppActivityMonitor
+deprecated;AppActivityMonitor
 public;AuthorizedBackendRequestContext 
 beta;AutoPush
+deprecated;AutoPush
 beta;AutoPushEventHandler = (etype: AutoPushEventType, autoPush: AutoPush) => void
+deprecated;AutoPushEventHandler = (etype: AutoPushEventType, autoPush: AutoPush) => void
 beta;AutoPushEventType
+deprecated;AutoPushEventType
 beta;AutoPushParams
+deprecated;AutoPushParams
 beta;AutoPushState
+deprecated;AutoPushState
 public;class AuxCoordSystem 
 public;AuxCoordSystem2d 
 public;AuxCoordSystem3d 
 public;AuxCoordSystemSpatial 
 beta;AzureBlobStorage 
 beta;BackendActivityMonitor 
+deprecated;BackendActivityMonitor 
+internal;BackendHubAccess
 public;BackendLoggerCategory
 public;BackendRequestContext 
 public;BisCoreSchema 
 public;BriefcaseDb 
+internal;BriefcaseDbArg
 public;BriefcaseId = number
+internal;BriefcaseIdArg 
 public;BriefcaseIdValue
 deprecated;BriefcaseIdValue
 public;BriefcaseManager
@@ -28,11 +38,19 @@ public;Category
 public;CategoryOwnsSubCategories 
 public;CategorySelector 
 internal;ChangedElementsDb 
+internal;ChangesetFileProps 
+internal;ChangesetId = string
+internal;ChangesetIdArg 
+internal;ChangesetIndex = number
+internal;ChangesetProps
+internal;ChangesetRange =
+internal;ChangesetRangeArg 
 beta;ChangeSummary
 beta;ChangeSummaryExtractContext
 beta;ChangeSummaryExtractOptions
 beta;ChangeSummaryManager
 public;ChannelRootAspect 
+internal;CheckPointArg = DownloadRequest
 internal;CheckpointManager
 public;CheckpointProps
 public;ClassRegistry
@@ -193,10 +211,13 @@ beta;IModelExporter
 beta;class IModelExportHandler
 public;IModelHost
 public;IModelHostConfiguration
+internal;IModelHubBackend
+internal;IModelIdArg
 beta;IModelImporter
 beta;IModelImportOptions
 public;IModelJsFs
 public;IModelJsFsStats
+internal;IModelNameArg
 alpha;IModelSchemaLoader
 beta;IModelTransformer 
 beta;IModelTransformOptions
@@ -210,9 +231,9 @@ public;InformationRecordModel
 public;InformationRecordPartition 
 public;class InformationReferenceElement 
 beta;InstanceChange
-beta;class IpcHandler
-beta;IpcHost
-beta;IpcHostOpts
+public;class IpcHandler
+public;IpcHost
+public;IpcHostOpts
 public;KnownLocations
 internal;LightLocation 
 public;LineStyle 
@@ -220,14 +241,17 @@ public;LineStyleDefinition
 public;class LinkElement 
 public;LinkModel 
 public;LinkPartition 
+internal;LocalDirName = string
+internal;LocalFileName = string
 internal;LocalhostIpcHost
+beta;LockProps
 internal;MetaDataRegistry
 public;Model 
 public;ModelSelector 
 internal;class NativeAppAuthorizationBackend 
-beta;NativeAppStorage
-beta;NativeHost
-beta;NativeHostOpts 
+public;NativeAppStorage
+public;NativeHost
+public;NativeHostOpts 
 beta;OnAspectArg
 beta;OnAspectIdArg 
 beta;OnAspectPropsArg 

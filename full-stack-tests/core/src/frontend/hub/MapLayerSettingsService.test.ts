@@ -43,7 +43,6 @@ describe("MapLayerSettingsService (#integration)", () => {
       url: "test12345",
       name: testName,
       formatId: "test12345",
-      maxZoom: 1,
       transparentBackground: true,
     });
     chai.assert.isDefined(layer);
@@ -65,7 +64,6 @@ describe("MapLayerSettingsService (#integration)", () => {
       url: "test12345",
       name: testName,
       formatId: "test12345",
-      maxZoom: 1,
       transparentBackground: true,
     });
     let success = await MapLayerSettingsService.storeSourceInSettingsService(layer!, false, contextId, iModelId);
@@ -75,12 +73,12 @@ describe("MapLayerSettingsService (#integration)", () => {
     const settingsResult: SettingsResult = await IModelApp.settings.deleteSharedSetting(requestContext, MapLayerSettingsService.SourceNamespace, testName, true, contextId);
     chai.expect(settingsResult.status).to.be.equal(SettingsStatus.Success);
   });
+
   it("should be able to store project setting if same setting exists as project setting", async () => {
     const layer = MapLayerSource.fromJSON({
       url: "test12345",
       name: testName,
       formatId: "test12345",
-      maxZoom: 1,
       transparentBackground: true,
     });
     let success = await MapLayerSettingsService.storeSourceInSettingsService(layer!, true, contextId, iModelId);
@@ -91,21 +89,20 @@ describe("MapLayerSettingsService (#integration)", () => {
     chai.expect(settingsResult.status).to.be.equal(SettingsStatus.Success);
   });
 
-  it("should be able to delete setting by name for setting stored on project and imodel level", async () => {
+  it("should be able to delete a mapSource stored on project and imodel level", async () => {
     const layer = MapLayerSource.fromJSON({
       url: "test12345",
       name: testName,
       formatId: "test12345",
-      maxZoom: 1,
       transparentBackground: true,
     });
     let success = await MapLayerSettingsService.storeSourceInSettingsService(layer!, true, contextId, iModelId);
     chai.assert.isTrue(success);
-    success = await MapLayerSettingsService.deleteSharedSettingsByName(testName, contextId, iModelId);
+    success = await MapLayerSettingsService.deleteSharedSettings(layer!, contextId, iModelId);
     chai.assert.isTrue(success);
     success = await MapLayerSettingsService.storeSourceInSettingsService(layer!, false, contextId, iModelId);
     chai.assert.isTrue(success);
-    success = await MapLayerSettingsService.deleteSharedSettingsByName(testName, contextId, iModelId);
+    success = await MapLayerSettingsService.deleteSharedSettings(layer!, contextId, iModelId);
     chai.assert.isTrue(success);
   });
 });

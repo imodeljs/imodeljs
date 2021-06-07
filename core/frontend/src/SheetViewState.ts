@@ -549,7 +549,7 @@ class OrthographicAttachment {
   public constructor(view: ViewState, props: ViewAttachmentProps, sheetView: SheetViewState) {
     this.symbologyOverrides = new FeatureSymbology.Overrides(view);
     const target = new AttachmentTarget(this);
-    this._viewport = OffScreenViewport.create(view, this._viewRect, true, target);
+    this._viewport = OffScreenViewport.createViewport(view, target, true);
 
     this._props = props;
     this._sheetModelId = sheetView.baseModelId;

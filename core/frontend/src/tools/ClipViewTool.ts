@@ -8,13 +8,14 @@
 
 import { BeEvent, Id64, Id64Arg } from "@bentley/bentleyjs-core";
 import {
-  AxisOrder, ClipMaskXYZRangePlanes, ClipPlane, ClipPrimitive, ClipShape, ClipUtilities, ClipVector, ConvexClipPlaneSet, Geometry, GeometryQuery,
+  AxisOrder, ClipMaskXYZRangePlanes, ClipPlane, ClipPrimitive, ClipShape, ClipUtilities, ClipVector, ConvexClipPlaneSet, FrameBuilder, Geometry, GeometryQuery,
   GrowableXYZArray, LineString3d, Loop, Matrix3d, Path, Plane3dByOriginAndUnitNormal, Point3d, PolygonOps, PolylineOps, Range1d, Range3d, Ray3d,
   Transform, Vector3d,
 } from "@bentley/geometry-core";
 import { ClipStyle, ColorDef, LinePixels, Placement2d, Placement2dProps, Placement3d } from "@bentley/imodeljs-common";
 import { DialogItem, DialogItemValue, DialogPropertySyncItem, PropertyDescription } from "@bentley/ui-abstract";
 import { AccuDrawHintBuilder, ContextRotationId } from "../AccuDraw";
+import { CoordSystem } from "../CoordSystem";
 import { LocateResponse } from "../ElementLocateManager";
 import { HitDetail } from "../HitDetail";
 import { IModelApp } from "../IModelApp";
@@ -279,7 +280,7 @@ export class ViewClipTool extends PrimitiveTool {
   }
 
   private static isFlashed(vp: Viewport, id?: string): boolean {
-    return (undefined !== id ? vp.lastFlashedElem === id : false);
+    return (undefined !== id ? vp.lastFlashedElementId === id : false);
   }
 
   public static drawClipShape(context: DecorateContext, shape: ClipShape, extents: Range1d, color: ColorDef, weight: number, id?: string): void {
@@ -1048,11 +1049,13 @@ export abstract class ViewClipModifyTool extends EditManipulator.HandleTool {
     }
   }
 
+  protected get wantAccuSnap(): boolean { return false; }
+
   protected init(): void {
-    this.receivedDownEvent = true;
-    this.initLocateElements(false, false, undefined, CoordinateLockOverrides.All); // Disable locate/snap/locks for control modification; overrides state inherited from suspended primitive...
+    super.init();
     AccuDrawHintBuilder.deactivate();
   }
+
   protected abstract updateViewClip(ev: BeButtonEvent, isAccept: boolean): boolean;
   protected abstract drawViewClip(context: DecorateContext): void;
 
@@ -1543,13 +1546,111 @@ export class ViewClipDecoration extends EditManipulator.HandleProvider {
     return true;
   }
 
+  private getClipShapeFaceLoops(): GeometryQuery[] | undefined {
+    if (undefined === this._clipShape || undefined === this._clipShapeExtents)
+      return undefined;
+
+    const shapePtsLo = ViewClipTool.getClipShapePoints(this._clipShape, this._clipShapeExtents.low);
+    const shapePtsHi = ViewClipTool.getClipShapePoints(this._clipShape, this._clipShapeExtents.high);
+
+    if (undefined !== this._clipShape.transformFromClip) {
+      this._clipShape.transformFromClip.multiplyPoint3dArrayInPlace(shapePtsLo);
+      this._clipShape.transformFromClip.multiplyPoint3dArrayInPlace(shapePtsHi);
+    }
+
+    const cap0 = Loop.createPolygon(shapePtsLo);
+    const cap1 = Loop.createPolygon(shapePtsHi);
+    const faces: GeometryQuery[] = [];
+
+    faces.push(cap0);
+    faces.push(cap1);
+
+    for (let i: number = 0; i < shapePtsLo.length; i++) {
+      const next = (i === shapePtsLo.length-1 ? 0 : i+1);
+      const side = Loop.createPolygon([shapePtsLo[i].clone(), shapePtsLo[next].clone(), shapePtsHi[next].clone(), shapePtsHi[i].clone()]);
+      faces.push(side);
+    }
+
+    return faces;
+  }
+
+  private getMatchingLoop(loops: GeometryQuery[], ray: Ray3d): GeometryQuery | undefined {
+    for (const geom of loops) {
+      const loopArea = this.getLoopCentroidAreaNormal(geom);
+      if (undefined === loopArea)
+        continue;
+
+      if (!loopArea.direction.isParallelTo(ray.direction, true)) // don't assume outward normal for clip plane loops...
+        continue;
+
+      const plane = Plane3dByOriginAndUnitNormal.create(loopArea.origin, loopArea.direction);
+      if (undefined === plane || !plane.isPointInPlane(ray.origin))
+        continue;
+
+      return geom;
+    }
+    return undefined;
+  }
+
+  private getLoopPreferredX(loop: GeometryQuery, outwardNormal: Vector3d): Vector3d | undefined {
+    const localToWorld = FrameBuilder.createRightHandedFrame(undefined, loop);
+    if (undefined === localToWorld)
+      return undefined;
+
+    let vectorX;
+    const dirX = localToWorld.matrix.getColumn(0);
+    const dirY = localToWorld.matrix.getColumn(1);
+    const dirZ = localToWorld.matrix.getColumn(2);
+    const unitX = Vector3d.unitX();
+    const unitZ = Vector3d.unitZ();
+
+    if (dirZ.isParallelTo(unitZ, true)) {
+      // For clip in xy plane, choose direction closest to world x...
+      vectorX = Math.abs(dirX.dotProduct(unitX)) > Math.abs(dirY.dotProduct(unitX)) ? dirX : dirY;
+
+      if (vectorX.dotProduct(unitX) < 0.0)
+        vectorX.negate(vectorX); // prefer positive x...
+    } else {
+      // For clip in arbitrary plane, choose direction closest to being in xy plane...
+      let vectorY;
+      const crossX = outwardNormal.unitCrossProduct(dirY);
+      const crossY = outwardNormal.unitCrossProduct(dirX);
+
+      if (crossX && crossY) {
+        if (Math.abs(crossY.dotProduct(unitZ)) > Math.abs(crossX.dotProduct(unitZ))) {
+          vectorX = dirX;
+          vectorY = crossY;
+        } else {
+          vectorX = dirY;
+          vectorY = crossX;
+        }
+      } else {
+        vectorX = crossX ? dirY : dirX;
+      }
+
+      if (vectorY && vectorY.dotProduct(unitZ) < 0.0)
+        vectorX.negate(vectorX); // prefer positive z...
+    }
+
+    return vectorX;
+  }
+
   public doClipPlaneOrientView(index: number): boolean {
     if (index < 0 || index >= this._controlIds.length)
       return false;
 
     const vp = this._clipView;
     const anchorRay = ViewClipTool.getClipRayTransformed(this._controls[index].origin, this._controls[index].direction, undefined !== this._clipShape ? this._clipShape.transformFromClip : undefined);
-    const matrix = Matrix3d.createRigidHeadsUp(anchorRay.direction);
+
+    // Try to align x direction with clip plane loop...
+    const loops = (undefined !== this._clipPlanesLoops ? this._clipPlanesLoops : this.getClipShapeFaceLoops());
+    const loop = (loops ? (1 === loops.length ? loops[0] : this.getMatchingLoop(loops, anchorRay)) : undefined);
+    const vectorX = (loop ? this.getLoopPreferredX(loop, anchorRay.direction) : undefined);
+
+    const matrix = Matrix3d.createIdentity();
+    if (undefined === vectorX || undefined === Matrix3d.createRigidFromColumns(anchorRay.direction, vectorX, AxisOrder.ZXY, matrix))
+      Matrix3d.createRigidHeadsUp(anchorRay.direction, AxisOrder.ZXY, matrix);
+
     const targetMatrix = matrix.multiplyMatrixMatrix(vp.rotation);
     const rotateTransform = Transform.createFixedPointAndMatrix(anchorRay.origin, targetMatrix);
     const newFrustum = vp.getFrustum();
@@ -1693,7 +1794,7 @@ export class ViewClipDecoration extends EditManipulator.HandleProvider {
 
       // For single plane clip, choose location for handle that's visible in the current view...
       if (1 === this._controls.length && undefined !== this._clipPlanes && undefined !== this._clipPlanesLoops && this._clipPlanesLoops.length > 0) {
-        if (!EditManipulator.HandleUtils.isPointVisible(this._controls[iFace].origin, vp, 0.05)) {
+        if (!vp.isPointVisibleXY(this._controls[iFace].origin, CoordSystem.World, 0.05)) {
           const geom = this._clipPlanesLoops[0];
           if (geom instanceof Loop && geom.children.length > 0) {
             const child = geom.getChild(0);
@@ -1713,7 +1814,7 @@ export class ViewClipDecoration extends EditManipulator.HandleProvider {
               }
             }
           }
-        } else if (undefined !== this._controls[iFace].floatingOrigin && EditManipulator.HandleUtils.isPointVisible(this._controls[iFace].floatingOrigin!, vp, 0.1)) {
+        } else if (undefined !== this._controls[iFace].floatingOrigin && vp.isPointVisibleXY(this._controls[iFace].floatingOrigin!, CoordSystem.World, 0.1)) {
           this._controls[iFace].origin.setFrom(this._controls[iFace].floatingOrigin);
           this._controls[iFace].floatingOrigin = undefined;
         }

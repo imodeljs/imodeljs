@@ -16,7 +16,7 @@ import { NativeHost } from "./NativeHost";
 
 /**
  * A local file stored in the [[NativeHost.appSettingsCacheDir]] for storing key/value pairs.
- * @beta
+ * @public
  */
 export class NativeAppStorage {
   private static readonly _ext = ".settings-db";

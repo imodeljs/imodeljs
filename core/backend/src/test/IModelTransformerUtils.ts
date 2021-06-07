@@ -1650,9 +1650,9 @@ export class IModelToTextFileExporter extends IModelExportHandler {
     const element: Element = this.exporter.sourceDb.elements.getElement(aspect.element.id);
     return 1 + this.getIndentLevelForElement(element);
   }
-  protected onExportSchema(schema: Schema): void {
+  protected async onExportSchema(schema: Schema): Promise<void> {
     this.writeLine(`[Schema] ${schema.name}`);
-    super.onExportSchema(schema);
+    return super.onExportSchema(schema);
   }
   protected onExportCodeSpec(codeSpec: CodeSpec, isUpdate: boolean | undefined): void {
     this.writeLine(`[CodeSpec] ${codeSpec.id}, ${codeSpec.name}${this.formatOperationName(isUpdate)}`);

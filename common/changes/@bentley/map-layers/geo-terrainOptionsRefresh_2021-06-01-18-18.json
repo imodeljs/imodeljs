@@ -1,0 +1,11 @@
+{
+  "changes": [
+    {
+      "packageName": "@bentley/map-layers",
+      "comment": "MapManagerSettings UI Refresh. Added tests.",
+      "type": "none"
+    }
+  ],
+  "packageName": "@bentley/map-layers",
+  "email": "mdastous-bentley@users.noreply.github.com"
+}

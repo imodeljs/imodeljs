@@ -16,7 +16,7 @@ import { I18N } from "@bentley/imodeljs-i18n";
 import { ExtensionFrontstage } from "./Frontstage";
 import { IModelApp } from "@bentley/imodeljs-frontend";
 import { UiFramework } from "@bentley/ui-framework";
-import { PresentationPropertyGridWidget } from "./widgets/PresentationPropertyGridWidget";
+import { PresentationPropertyGridWidget, PresentationPropertyGridWidgetControl } from "./widgets/PresentationPropertyGridWidget";
 export class ExtensionUiItemsProvider implements UiItemsProvider {
   public readonly id = "ExtensionUiItemsProvider";
   public static i18n: I18N;
@@ -73,10 +73,11 @@ export class ExtensionUiItemsProvider implements UiItemsProvider {
     const widgets: AbstractWidgetProps[] = [];
     if (stageUsage === StageUsage.General && location === StagePanelLocation.Right && section === StagePanelSection.End) {
       widgets.push({
-        id: "uiTestExtension:PresentationPropertyGridWidget",
-        icon: "icon-info",
-        label: ExtensionUiItemsProvider.i18n.translate("uiTestExtension:PropertyGrid.Label"),
+        id: "PresentationPropertyGridWidget",
+        /* icon: "icon-info", */
+        label: PresentationPropertyGridWidgetControl.label,
         getWidgetContent: () => <PresentationPropertyGridWidget iModelConnection={UiFramework.getIModelConnection} />, // eslint-disable-line react/display-name
+        canPopout: true,
       });
     }
     return widgets;

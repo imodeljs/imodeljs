@@ -16,7 +16,8 @@ import { parsePrimitiveType, PrimitiveType, primitiveTypeToString, StrengthDirec
 import { ECObjectsError, ECObjectsStatus } from "../Exception";
 import { AnyClass, LazyLoadedEnumeration, LazyLoadedKindOfQuantity, LazyLoadedPropertyCategory, LazyLoadedRelationshipClass } from "../Interfaces";
 import { PropertyType, propertyTypeToString, PropertyTypeUtils } from "../PropertyTypes";
-import { ECName, SchemaItemKey } from "../SchemaKey";
+import { SchemaItemKey } from "../SchemaKey";
+import { ECName } from "../ECName";
 import { ECClass, StructClass } from "./Class";
 import { CustomAttribute, CustomAttributeContainerProps, CustomAttributeSet, serializeCustomAttributes } from "./CustomAttribute";
 import { Enumeration } from "./Enumeration";

@@ -23,9 +23,9 @@
 
 - Open the cloned repo in VS Code
 - Edit [./src/backend/main.ts](https://github.com/imodeljs/desktop-starter/blob/master/src/backend/main.ts#L55)
-- Replace `process.env.ELECTRON_CLIENT_ID` with your Client ID
+- Replace `REPLACE_WITH_CLIENT_ID` with your Client ID
   - Ex: `const clientId = "native-XXXXXXXXXXXXXXXXXXX";`
-  - *Or set environment variable `ELECTRON_CLIENT_ID` to your Client ID in your shell*
+- Remove the `assert` on the next line that verifies the Client ID is set
 - `npm install`
 - `npm run build`
 

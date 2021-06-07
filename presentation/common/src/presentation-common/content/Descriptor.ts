@@ -79,6 +79,14 @@ export enum ContentFlags {
 
   /** Doesn't create property or calculated fields. Can be used in conjunction with [[ShowLabels]]. */
   NoFields = 1 << 5,
+
+  /**
+   * Set related input keys on [[Item]] objects when creating content. This helps identify which [[Item]] is associated to which
+   * given input key at the cost of performance creating those items.
+   *
+   * @beta
+   */
+  IncludeInputKeys = 1 << 8,
 }
 
 /**

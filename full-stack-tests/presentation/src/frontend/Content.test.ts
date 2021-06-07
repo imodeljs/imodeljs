@@ -6,7 +6,7 @@ import { expect } from "chai";
 import { Guid, Id64, Id64String } from "@bentley/bentleyjs-core";
 import { IModelConnection, SnapshotConnection } from "@bentley/imodeljs-frontend";
 import {
-  ContentSpecificationTypes, DefaultContentDisplayTypes, Descriptor, DisplayValueGroup, Field, FieldDescriptor, InstanceKey, KeySet,
+  ContentFlags, ContentSpecificationTypes, DefaultContentDisplayTypes, Descriptor, DisplayValueGroup, Field, FieldDescriptor, InstanceKey, KeySet,
   NestedContentField, PresentationError, PresentationStatus, RelationshipDirection, Ruleset, RuleTypes,
 } from "@bentley/presentation-common";
 import { Presentation } from "@bentley/presentation-frontend";
@@ -39,6 +39,62 @@ describe("Content", () => {
   after(async () => {
     await imodel.close();
     await terminate();
+  });
+
+  describe("Input Keys", () => {
+
+    it("associates content items with given input keys", async () => {
+      const ruleset: Ruleset = {
+        id: Guid.createValue(),
+        rules: [{
+          ruleType: RuleTypes.Content,
+          specifications: [{
+            specType: ContentSpecificationTypes.ContentRelatedInstances,
+            relationshipPaths: [{
+              relationship: { schemaName: "BisCore", className: "ElementOwnsChildElements" },
+              direction: RelationshipDirection.Forward,
+              count: "*",
+            }],
+          }],
+        }],
+      };
+      const content = await Presentation.presentation.getContent({
+        imodel,
+        rulesetOrId: ruleset,
+        descriptor: {
+          contentFlags: ContentFlags.IncludeInputKeys,
+        },
+
+        keys: new KeySet([{
+          className: "BisCore:Element",
+          id: "0x1",
+        }, {
+          className: "BisCore:Element",
+          id: "0x12",
+        }]),
+      });
+      expect(content?.contentSet.length).to.eq(9);
+      expect(content!.contentSet.map((item) => ({ itemId: item.primaryKeys[0].id, inputIds: item.inputKeys!.map((ik) => ik.id) }))).to.containSubset([{
+        itemId: "0xe", inputIds: ["0x1"],
+      }, {
+        itemId: "0x10", inputIds: ["0x1"],
+      }, {
+        itemId: "0x12", inputIds: ["0x1"],
+      }, {
+        itemId: "0x13", inputIds: ["0x1", "0x12"],
+      }, {
+        itemId: "0x14", inputIds: ["0x1", "0x12"],
+      }, {
+        itemId: "0x15", inputIds: ["0x1", "0x12"],
+      }, {
+        itemId: "0x16", inputIds: ["0x1", "0x12"],
+      }, {
+        itemId: "0x1b", inputIds: ["0x1", "0x12"],
+      }, {
+        itemId: "0x1c", inputIds: ["0x1", "0x12"],
+      }]);
+    });
+
   });
 
   describe("Distinct Values", () => {

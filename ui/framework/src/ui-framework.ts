@@ -344,6 +344,11 @@ export * from "./ui-framework/zones/ZoneDef";
  * @docs-group-description OIDC
  * Classes for working with the OpenID Connect (OIDC) protocol
  */
+
+/**
+ * @docs-group-description ChildWindow
+ * Classes for working with child windows.
+ */
 /**
  * @docs-group-description ChildWindowManager
  * Classes for working with child windows.
@@ -404,3 +409,8 @@ export * from "./ui-framework/zones/ZoneDef";
  * @docs-group-description Zone
  * Classes for working with a Zone
  */
+/**
+ * @docs-group-description Timeline
+ * Classes for working with a TimelineComponent
+ */
+

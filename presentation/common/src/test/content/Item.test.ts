@@ -4,8 +4,10 @@
 *--------------------------------------------------------------------------------------------*/
 import { expect } from "chai";
 import * as faker from "faker";
+import { InstanceKey } from "../../presentation-common";
 import { Item, ItemJSON } from "../../presentation-common/content/Item";
 import { NestedContentValueJSON } from "../../presentation-common/content/Value";
+import { createTestECInstanceKey } from "../_helpers/EC";
 import {
   createRandomECClassInfoJSON, createRandomECInstanceKeyJSON, createRandomLabelDefinition, createRandomLabelDefinitionJSON,
 } from "../_helpers/random";
@@ -24,6 +26,18 @@ describe("Item", () => {
       const item = new Item([], createRandomLabelDefinition(), faker.random.uuid(),
         undefined, { key: faker.random.word() }, { key: faker.random.word() }, []);
       expect(item).to.matchSnapshot();
+    });
+
+  });
+
+  describe("toJSON", () => {
+
+    it("serializes inputKeys", () => {
+      const inputKey = createTestECInstanceKey();
+      const item = new Item([], "", "", undefined, {}, {}, []);
+      item.inputKeys = [inputKey];
+      const json = item.toJSON();
+      expect(json?.inputKeys).to.deep.eq([InstanceKey.toJSON(inputKey)]);
     });
 
   });
@@ -59,9 +73,18 @@ describe("Item", () => {
       expect(item).to.matchSnapshot();
     });
 
-    it("creates valid Item from valid JSON without classInfo", () => {
-      const item = Item.fromJSON({ ...testItemJSON, classInfo: undefined });
-      expect(item).to.matchSnapshot();
+    it("creates valid Item from JSON with inputKeys", () => {
+      const inputKey = createTestECInstanceKey();
+      const item = Item.fromJSON({
+        primaryKeys: [],
+        inputKeys: [InstanceKey.toJSON(inputKey)],
+        labelDefinition: createRandomLabelDefinitionJSON(),
+        imageId: "",
+        values: {},
+        displayValues: {},
+        mergedFieldNames: [],
+      });
+      expect(item?.inputKeys).to.deep.eq([inputKey]);
     });
 
     it("creates valid Item with null values", () => {

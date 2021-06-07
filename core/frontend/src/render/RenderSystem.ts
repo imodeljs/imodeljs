@@ -383,7 +383,7 @@ export abstract class RenderSystem implements IDisposable {
     return this.createGraphicBranch(branch, transform);
   }
 
-  /** @internal */
+  /** Create a graphic from a [[GraphicBranch]]. */
   public abstract createGraphicBranch(branch: GraphicBranch, transform: Transform, options?: GraphicBranchOptions): RenderGraphic;
 
   /** Create a RenderGraphic consisting of batched [[Feature]]s.

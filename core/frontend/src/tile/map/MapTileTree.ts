@@ -373,7 +373,7 @@ interface MapTreeId {
   globeMode: GlobeMode;
   useDepthBuffer: boolean;
   isOverlay: boolean;
-  baseColor: ColorDef;
+  baseColor?: ColorDef;
   baseTransparent: boolean;
   mapTransparent: boolean;
   maskModelIds?: string;
@@ -627,7 +627,7 @@ export class MapTileTreeReference extends TileTreeReference {
   }
 
   public get treeOwner(): TileTreeOwner {
-    const id = {
+    const id: MapTreeId = {
       viewportId: this._viewportId,
       applyTerrain: this.settings.applyTerrain && !this.isOverlay && !this._isDrape,
       terrainProviderName: this.settings.terrainSettings.providerName,
@@ -638,14 +638,12 @@ export class MapTileTreeReference extends TileTreeReference {
       wantSkirts: (this.settings.applyTerrain || this.useDepthBuffer) && !this.settings.transparency && !this._baseTransparent,
       wantNormals: false, // Can set to this.settings.terrainSettings.applyLighting if we want to ever apply lighting to terrain again so that normals are retrieved when lighting is on.
       globeMode: this._isDrape ? GlobeMode.Plane : this.settings.globeMode,
-      imageryProviderName: this.settings.providerName,
-      imageryMapType: this.settings.mapType,
       isOverlay: this.isOverlay,
       useDepthBuffer: this.useDepthBuffer,
       baseColor: this._baseColor,
       baseTransparent: this._baseTransparent,
       mapTransparent: this.settings.transparency > 0,
-      maskModelIds: this._planarClipMask?.settings.modelIds,
+      maskModelIds: this._planarClipMask?.settings.compressedModelIds,
     };
 
     if (undefined !== this._overrideTerrainDisplay) {

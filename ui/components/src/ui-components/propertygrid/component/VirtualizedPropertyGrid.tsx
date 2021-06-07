@@ -359,8 +359,8 @@ export class VirtualizedPropertyGrid extends React.Component<VirtualizedProperty
                 };
 
                 return (
-                  <PropertyGridInternalContextProvider value={renderContext} >
-                    <div className="components-property-grid">
+                  <PropertyGridInternalContextProvider value={renderContext}>
+                    <div className="components-virtualized-property-grid">
                       <VariableSizeList
                         className={classnames("components-property-grid-wrapper", "ReactWindow__VariableSizeList", this.props.className)}
                         width={width}

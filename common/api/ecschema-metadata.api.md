@@ -850,13 +850,13 @@ export enum ECClassModifier {
     Sealed = 2
 }
 
-// @beta
+// @public
 export class ECName {
     constructor(name: string);
-    // (undocumented)
+    decode(): string;
+    static encode(input: string): ECName;
     get name(): string;
-    // (undocumented)
-    static validate(newName: string): boolean;
+    static validate(name: string): boolean;
 }
 
 // @internal (undocumented)
@@ -2767,6 +2767,8 @@ export class Schema implements CustomAttributeContainerProps {
     protected setContext(context: SchemaContext): void;
     toJSON(): SchemaProps;
     toXml(schemaXml: Document): Promise<Document>;
+    // @alpha
+    toXmlString(): Promise<string>;
     // (undocumented)
     get writeVersion(): number;
 }

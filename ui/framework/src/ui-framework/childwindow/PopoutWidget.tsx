@@ -6,6 +6,7 @@
  * @module ChildWindowManager
  */
 
+import "./PopoutWidget.scss";
 import * as React from "react";
 import { WidgetDef } from "../widgets/WidgetDef";
 
@@ -19,7 +20,7 @@ interface PopoutWidgetProps {
  */
 export function PopoutWidget({ widgetContainerId, widgetDef }: PopoutWidgetProps) {
   return (
-    <div data-widget-id={widgetContainerId}>
+    <div className="uifw-popout-widget-filled-container" data-widget-id={widgetContainerId}>
       {widgetDef.reactNode}
     </div>
   );

@@ -29,7 +29,8 @@
     transition-timing-function: ease-in;
   }
 
-  &.nz-left, &.nz-right {
+  &.nz-left,
+  &.nz-right {
     max-width: 100%;
     min-height: 0;
 
@@ -41,7 +42,7 @@
 
     > .nz-grip-container {
       top: 0;
-      min-width: $nz-grip-width / 2;
+      min-width: $nz-grip-width * 0.5;
 
       > .nz-grip {
         top: 50%;
@@ -94,7 +95,7 @@
           > .nz-content {
             position: absolute;
             width: unset;
-            right: -$nz-grip-width / 2;
+            right: -$nz-grip-width * 0.5;
           }
         }
       }
@@ -123,14 +124,15 @@
           > .nz-content {
             position: absolute;
             width: unset;
-            left: -$nz-grip-width / 2;
+            left: -$nz-grip-width * 0.5;
           }
         }
       }
     }
   }
 
-  &.nz-top, &.nz-bottom {
+  &.nz-top,
+  &.nz-bottom {
     max-height: 100%;
     min-width: 0;
 
@@ -140,7 +142,7 @@
 
     > .nz-grip-container {
       left: 0;
-      min-height: $nz-grip-width / 2;
+      min-height: $nz-grip-width * 0.5;
 
       > .nz-grip {
         left: 50%;
@@ -187,7 +189,7 @@
           > .nz-content {
             position: absolute;
             height: unset;
-            bottom: -$nz-grip-width / 2;
+            bottom: -$nz-grip-width * 0.5;
           }
         }
       }
@@ -220,7 +222,7 @@
           > .nz-content {
             position: absolute;
             height: unset;
-            top: -$nz-grip-width / 2;
+            top: -$nz-grip-width * 0.5;
           }
         }
       }

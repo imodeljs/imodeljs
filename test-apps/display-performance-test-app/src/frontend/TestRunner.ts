@@ -12,7 +12,7 @@ import {
   DisplayStyle3dState, DisplayStyleState, EntityState, FeatureSymbology, GLTimerResult, GLTimerResultCallback, IModelApp, IModelConnection,
   PerformanceMetrics, Pixel, RenderSystem, ScreenViewport, SnapshotConnection, Target, TileAdmin, ViewRect, ViewState,
 } from "@bentley/imodeljs-frontend";
-import { System } from "@bentley/imodeljs-frontend/lib/webgl";
+import { ExternalTextureLoader, System } from "@bentley/imodeljs-frontend/lib/webgl";
 import { HyperModeling } from "@bentley/hypermodeling-frontend";
 import DisplayPerfRpcInterface from "../common/DisplayPerfRpcInterface";
 import {
@@ -344,7 +344,6 @@ export class TestRunner {
     // Workaround for shifting map geometry when location needs to be asynchronously initialized.
     const imodel = context.iModel;
     await imodel.backgroundMapLocation.initialize(imodel);
-
     // Open the view.
     const view = await this.loadView(context);
     if (!view)
@@ -417,7 +416,7 @@ export class TestRunner {
     }
 
     if (config.backgroundMap)
-      viewport.changeBackgroundMapProps(viewport.displayStyle.settings.backgroundMap.clone(config.backgroundMap));
+      viewport.changeBackgroundMapProps(viewport.displayStyle.settings.backgroundMap.clone(config.backgroundMap).toJSON());
 
     // Apply symbology overrides
     if (view.elementOverrides)
@@ -470,6 +469,11 @@ export class TestRunner {
       if (haveNewTiles)
         IModelApp.tileAdmin.process();
 
+      await BeDuration.wait(100);
+    }
+
+    const extTexLoader = ExternalTextureLoader.instance;
+    while (extTexLoader.numActiveRequests > 0 || extTexLoader.numPendingRequests > 0) {
       await BeDuration.wait(100);
     }
 

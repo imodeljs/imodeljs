@@ -10,7 +10,7 @@ import { AbstractActionItemProps, CommonItemProps } from "./AbstractItemProps";
 import { ConditionalStringValue } from "./ConditionalStringValue";
 
 /** Properties for a Menu item
- * @beta
+ * @public
  */
 export interface AbstractMenuItemProps extends CommonItemProps {
   /** The id for the menu item. */

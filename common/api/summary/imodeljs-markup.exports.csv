@@ -1,29 +1,29 @@
 sep=;
 Release Tag;API Item
-beta;ArrowTool 
-beta;CircleTool 
-beta;CloudTool 
-beta;DistanceTool 
-beta;EditTextTool 
-beta;EllipseTool 
-beta;Handles
+public;ArrowTool 
+public;CircleTool 
+public;CloudTool 
+public;DistanceTool 
+public;EditTextTool 
+public;EllipseTool 
+public;Handles
 internal;initSvgExt(): void
-beta;LineTool 
-beta;Markup
-beta;MarkupApp
-beta;MarkupColor
-beta;MarkupData 
-beta;MarkupSelected
-beta;MarkupSvgData
-beta;class MarkupTool 
-beta;class ModifyHandle
-beta;PlaceTextTool 
-beta;PolygonTool 
-beta;RectangleTool 
-beta;class RedlineTool 
-beta;SelectTool 
-beta;SketchTool 
-beta;SymbolTool 
+public;LineTool 
+public;Markup
+public;MarkupApp
+public;MarkupColor
+public;MarkupData 
+public;MarkupSelected
+public;MarkupSvgData
+public;class MarkupTool 
+public;class ModifyHandle
+public;PlaceTextTool 
+public;PolygonTool 
+public;RectangleTool 
+public;class RedlineTool 
+public;SelectTool 
+public;SketchTool 
+public;SymbolTool 
 internal;Title 
-beta;UndoManager
-beta;WidthAndHeight
+public;UndoManager
+public;WidthAndHeight

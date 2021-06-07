@@ -660,7 +660,7 @@ describe("mirukuru TileTree", () => {
 
     // Test current version of tile tree by asking model to load it
     const modelTree = await getTileTree(imodel, "0x1c");
-    await test(modelTree, CurrentImdlVersion.Combined, "-3-0-0-0-0-1");
+    await test(modelTree, CurrentImdlVersion.Combined, "-b-0-0-0-0-1");
 
     // Test directly loading a tile tree of version 3.0
     const v3Props = await IModelApp.tileAdmin.requestTileTreeProps(imodel, "0x1c");

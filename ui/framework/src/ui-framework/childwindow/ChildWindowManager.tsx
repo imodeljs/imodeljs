@@ -18,8 +18,32 @@ import { UiSettingsProvider } from "../uisettings/useUiSettings";
 import { PopupRenderer } from "../popup/PopupManager";
 import { ModelessDialogRenderer } from "../dialog/ModelessDialogManager";
 import { ModalDialogRenderer } from "../dialog/ModalDialogManager";
-import { CursorPopupMenu } from "../../ui-framework";
+import { CursorPopupMenu, FrameworkVersion } from "../../ui-framework";
 import { FrontstageManager } from "../frontstage/FrontstageManager";
+const childHtml = `<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8" />
+  <style>
+    html,
+    body {
+      height: 100%;
+      width: 100%;
+      margin: 0;
+      overflow: hidden;
+    }
+
+    #root {
+      height: 100%;
+    }
+  </style>
+</head>
+<body>
+  <noscript>You need to enable JavaScript to run this app.</noscript>
+  <div id="root"></div>
+</body>
+</html>`;
 
 /** @beta */
 export interface OpenChildWindowInfo {
@@ -73,25 +97,29 @@ export class ChildWindowManager {
         parentWindow: window,
       });
 
-      setTimeout(() => copyStyles(childWindow.document));
-      childWindow.document.documentElement.setAttribute("data-theme", UiFramework.getColorTheme());
-      setImmediate(() => {
-        ReactDOM.render(
-          <Provider store={StateManager.store} >
-            <UiSettingsProvider settingsStorage={UiFramework.getUiSettingsStorage()}>
-              <div className="uifw-child-window-container-host">
-                <PopupRenderer />
-                <ModalDialogRenderer />
-                <ModelessDialogRenderer />
-                <CursorPopupMenu />
-                <div className="uifw-child-window-container nz-widget-widget">
-                  {content}
-                </div>
-              </div>
-            </UiSettingsProvider>
-          </Provider>,
-          reactConnectionDiv
-        );
+      setTimeout(() => {
+        copyStyles(childWindow.document);
+        childWindow.document.documentElement.setAttribute("data-theme", UiFramework.getColorTheme());
+        setImmediate(() => {
+          ReactDOM.render(
+            <Provider store={StateManager.store} >
+              <UiSettingsProvider settingsStorage={UiFramework.getUiSettingsStorage()}>
+                <FrameworkVersion version="2">
+                  <div className="uifw-child-window-container-host">
+                    <PopupRenderer />
+                    <ModalDialogRenderer />
+                    <ModelessDialogRenderer />
+                    <CursorPopupMenu />
+                    <div className="uifw-child-window-container nz-widget-widget">
+                      {content}
+                    </div>
+                  </div>
+                </FrameworkVersion>
+              </UiSettingsProvider>
+            </Provider>,
+            reactConnectionDiv
+          );
+        });
       });
 
       childWindow.onbeforeunload = () => {
@@ -163,15 +191,7 @@ export class ChildWindowManager {
     if (!childWindow)
       return false;
     if (0 === url.length) {
-      const rootDiv = childWindow.document.createElement("div");
-      rootDiv.id = "root";
-      rootDiv.style.height = "100%";
-      childWindow.document.body.style.height = "100%";
-      childWindow.document.body.style.width = "100%";
-      childWindow.document.body.style.margin = "0";
-      childWindow.document.body.style.overflow = "hidden";
-      childWindow.document.body.appendChild(rootDiv);
-      childWindow.document.title = title;
+      childWindow.document.write(childHtml);
       this.renderChildWindowContents(childWindow, childWindowId, content);
     } else {
       childWindow.addEventListener("load", () => {

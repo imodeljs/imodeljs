@@ -7,9 +7,9 @@
  */
 
 import { CompressedId64Set, DbResult, Id64String, IModelStatus } from "@bentley/bentleyjs-core";
-import { Matrix3d, Matrix3dProps, Point3d, PointString3d, Transform, TransformProps } from "@bentley/geometry-core";
+import { Matrix3d, Matrix3dProps, Point3d, PointString3d, Range3d, Range3dProps, Transform, TransformProps } from "@bentley/geometry-core";
 import { GeometricElement, IModelDb } from "@bentley/imodeljs-backend";
-import { BRepEntity, ElementGeometry, ElementGeometryFunction, ElementGeometryInfo, ElementGeometryRequest, ElementGeometryUpdate, GeometricElementProps, GeometryPartProps, GeometryStreamBuilder, IModelError } from "@bentley/imodeljs-common";
+import { BRepEntity, EcefLocation, EcefLocationProps, ElementGeometry, ElementGeometryFunction, ElementGeometryInfo, ElementGeometryRequest, ElementGeometryUpdate, FilePropertyProps, GeometricElementProps, GeometryPartProps, GeometryStreamBuilder, IModelError } from "@bentley/imodeljs-common";
 import { BasicManipulationCommandIpc, editorBuiltInCmdIds, FlatBufferGeometricElementData, FlatBufferGeometryFilter, FlatBufferGeometryPartData } from "@bentley/imodeljs-editor-common";
 import { EditCommand } from "./EditCommand";
 
@@ -211,5 +211,37 @@ export class BasicManipulationCommand extends EditCommand implements BasicManipu
       return undefined;
 
     return accepted;
+  }
+
+  public async updateProjectExtents(extents: Range3dProps): Promise<void> {
+    const newExtents = new Range3d();
+    newExtents.setFromJSON(extents);
+
+    if (newExtents.isNull)
+      throw new IModelError(DbResult.BE_SQLITE_ERROR, "Invalid project extents");
+
+    this.iModel.updateProjectExtents(newExtents);
+
+    // Set source from calculated to user so connectors preserve the change.
+    const unitsProps: FilePropertyProps = { name: "Units", namespace: "dgn_Db" };
+    const unitsStr = this.iModel.queryFilePropertyString(unitsProps);
+
+    if (undefined !== unitsStr) {
+      const unitsVal = JSON.parse(unitsStr);
+      const calculated = 1;
+
+      if (calculated !== unitsVal.extentsSource) {
+        unitsVal.extentsSource = calculated;
+        this.iModel.saveFileProperty(unitsProps, JSON.stringify(unitsVal));
+      }
+    }
+  }
+
+  public async updateEcefLocation(ecefLocation: EcefLocationProps): Promise<void> {
+    // Clear GCS that caller already determined was invalid...
+    this.iModel.deleteFileProperty({ name: "DgnGCS", namespace: "dgn_Db" });
+
+    const newEcefLocation = new EcefLocation(ecefLocation);
+    this.iModel.updateEcefLocation(newEcefLocation);
   }
 }

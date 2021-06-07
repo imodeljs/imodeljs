@@ -22,7 +22,7 @@ import { Observable, Subscription } from "./Observable";
  * emit loaded node items. When all selected node items are emitted observable completes and calls
  * 'complete' callback if supplied.
  *
- * @beta
+ * @public
  */
 export interface TreeEvents {
   /** Called when tree node is expanded. */
@@ -55,7 +55,7 @@ export interface TreeEvents {
 
 /**
  * Data structure that describes tree node event payload.
- * @beta
+ * @public
  */
 export interface TreeNodeEventArgs {
   /** Id of node that is affected by event. */
@@ -64,7 +64,7 @@ export interface TreeNodeEventArgs {
 
 /**
  * Data structure that describes tree selection modification event payload.
- * @beta
+ * @public
  */
 export interface TreeSelectionModificationEventArgs {
   /**
@@ -76,7 +76,7 @@ export interface TreeSelectionModificationEventArgs {
 
 /**
  * Data structure that describes tree selection change.
- * @beta
+ * @public
  */
 export interface TreeSelectionChange {
   /** Tree node items that where selected. */
@@ -87,7 +87,7 @@ export interface TreeSelectionChange {
 
 /**
  * Data structure that describes tree selection replacement event payload.
- * @beta
+ * @public
  */
 export interface TreeSelectionReplacementEventArgs {
   /**
@@ -99,7 +99,7 @@ export interface TreeSelectionReplacementEventArgs {
 
 /**
  * Data structure that describes tree checkbox state change event payload.
- * @beta
+ * @public
  */
 export interface TreeCheckboxStateChangeEventArgs {
   /**
@@ -111,7 +111,7 @@ export interface TreeCheckboxStateChangeEventArgs {
 
 /**
  * Data structure that describes checkbox state change.
- * @beta
+ * @public
  */
 export interface CheckboxStateChange {
   /** Tree node item that was affected by checkbox state change. */

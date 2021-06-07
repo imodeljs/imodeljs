@@ -87,7 +87,7 @@ public;IModelHubError
 public;class IModelHubEvent 
 public;IModelHubEventType
 internal;class IModelHubGlobalEvent 
-internal;IModelHubPermission
+internal;IModelPermissions 
 public;IModelQuery 
 public;IModelsHandler
 public;IModelType

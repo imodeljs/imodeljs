@@ -7,6 +7,7 @@
  */
 import * as path from "path";
 import { ClientRequestContext, DbResult, Guid, Id64, Id64Set, Id64String, IModelStatus, Logger, LogLevel } from "@bentley/bentleyjs-core";
+import * as ECSchemaMetaData from "@bentley/ecschema-metadata";
 import { Point3d, Transform } from "@bentley/geometry-core";
 import {
   Code, CodeSpec, ElementAspectProps, ElementProps, ExternalSourceAspectProps, FontProps, GeometricElement2dProps, GeometricElement3dProps, IModel,
@@ -28,6 +29,7 @@ import { DefinitionModel, Model } from "./Model";
 import { ElementOwnsExternalSourceAspects } from "./NavigationRelationship";
 import { ElementRefersToElements, Relationship, RelationshipProps } from "./Relationship";
 import * as Semver from "semver";
+import { BackendRequestContext } from "./BackendRequestContext";
 import { Schema } from "./Schema";
 
 const loggerCategory: string = BackendLoggerCategory.IModelTransformer;
@@ -746,46 +748,45 @@ export class IModelTransformer extends IModelExportHandler {
     return targetElementAspectProps;
   }
 
+  /** The directory where schemas will be exported, a random temporary directory */
+  protected _schemaExportDir: string = path.join(KnownLocations.tmpdir, Guid.createValue());
+
+  /** Override of [IModelExportHandler.shouldExportSchema]($backend) that is called to determine if a schema should be exported
+   * @note the default behavior doesn't import schemas older than those already in the target
+   */
+  protected shouldExportSchema(schemaKey: ECSchemaMetaData.SchemaKey): boolean {
+    const versionInTarget = this.targetDb.querySchemaVersion(schemaKey.name);
+    if (versionInTarget === undefined)
+      return true;
+    return Semver.gt(`${schemaKey.version.read}.${schemaKey.version.write}.${schemaKey.version.minor}`, Schema.toSemverString(versionInTarget));
+  }
+
+  /** Override of [IModelExportHandler.onExportSchema]($backend) that serializes a schema to disk for [[processSchemas]] to import into
+   * the target iModel when it is exported from the source iModel. */
+  protected async onExportSchema(schema: ECSchemaMetaData.Schema): Promise<void> {
+    const schemaPath = path.join(this._schemaExportDir, `${schema.fullName}.ecschema.xml`);
+    IModelJsFs.writeFileSync(schemaPath, await schema.toXmlString());
+    await this.targetDb.importSchemas(new BackendRequestContext(), [schemaPath]);
+  }
+
   /** Cause all schemas to be exported from the source iModel and imported into the target iModel.
    * @note For performance reasons, it is recommended that [IModelDb.saveChanges]($backend) be called after `processSchemas` is complete.
    * It is more efficient to process *data* changes after the schema changes have been saved.
    */
   public async processSchemas(requestContext: ClientRequestContext | AuthorizedClientRequestContext): Promise<void> {
-    requestContext.enter();
-    const schemasDir: string = path.join(KnownLocations.tmpdir, Guid.createValue());
-    IModelJsFs.mkdirSync(schemasDir);
     try {
-      this.sourceDb.nativeDb.exportSchemas(schemasDir);
-      const schemaFiles: string[] = IModelJsFs.readdirSync(schemasDir);
-      // some schemas are guaranteed to exist and importing them will be a duplicate schema error, so we filter them out
-      const importSchemasFullPaths = schemaFiles.map((schema) => path.join(schemasDir, schema));
-      const filteredSchemaPaths = importSchemasFullPaths.filter((schemaPath) => {
-        let schemaSource: string;
-        try {
-          schemaSource = IModelJsFs.readFileSync(schemaPath).toString("utf8");
-        } catch (err) {
-          Logger.logError(loggerCategory, `error reading xml schema file ${schemaPath}`);
-          return true;
-        }
-        const schemaVersionMatch = /<ECSchema .*?version="([0-9.]+)"/.exec(schemaSource);
-        const schemaNameMatch = /<ECSchema .*?schemaName="([^"]+)"/.exec(schemaSource);
-        if (schemaVersionMatch == null || schemaNameMatch == null) {
-          Logger.logError(loggerCategory, `failed to parse schema name or version, first 200 chars: '${schemaSource.slice(0, 200)}'`);
-          return true;
-        }
-        const [_fullVersionMatch, versionString] = schemaVersionMatch;
-        const [_fullNameMatch, schemaName] = schemaNameMatch;
-        const versionInTarget = this.targetDb.querySchemaVersion(schemaName);
-        const versionToImport = Schema.toSemverString(versionString);
-        if (versionInTarget && Semver.lte(versionToImport, versionInTarget))
-          return false;
-        return true;
-      });
-      if (filteredSchemaPaths.length > 0)
-        await this.targetDb.importSchemas(requestContext, filteredSchemaPaths);
+      requestContext.enter();
+      IModelJsFs.mkdirSync(this._schemaExportDir);
+      await this.exporter.exportSchemas();
+      requestContext.enter();
+      const exportedSchemaFiles = IModelJsFs.readdirSync(this._schemaExportDir);
+      if (exportedSchemaFiles.length === 0)
+        return;
+      const schemaFullPaths = exportedSchemaFiles.map((s) => path.join(this._schemaExportDir, s));
+      return this.targetDb.importSchemas(requestContext, schemaFullPaths);
     } finally {
       requestContext.enter();
-      IModelJsFs.removeSync(schemasDir);
+      IModelJsFs.removeSync(this._schemaExportDir);
     }
   }
 

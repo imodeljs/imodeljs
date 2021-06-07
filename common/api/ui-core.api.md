@@ -890,10 +890,10 @@ export function getBestBWContrastColor(hexColor: string): "black" | "white";
 // @internal (undocumented)
 export function getButtonTypeClassName(buttonType?: ButtonType): string;
 
-// @internal
+// @public
 export function getCssVariable(variableName: string, htmlElement?: HTMLElement): string;
 
-// @internal
+// @public
 export function getCssVariableAsNumber(variableName: string, htmlElement?: HTMLElement): number;
 
 // @internal
@@ -1469,7 +1469,7 @@ export enum Orientation {
     Vertical = 1
 }
 
-// @internal (undocumented)
+// @public (undocumented)
 export type OutsideClickEvent = PointerEvent | MouseEvent | TouchEvent;
 
 // @internal
@@ -2599,7 +2599,7 @@ export function useEffectSkipFirst(callback: () => (void | (() => void | undefin
 // @internal
 export function useLayoutResizeObserver(ref: React.RefObject<HTMLElement>, onResize?: (width?: number, height?: number) => void): (number | undefined)[];
 
-// @internal
+// @public
 export function useOnOutsideClick<T extends Element>(onOutsideClick?: () => void,
 outsideEventPredicate?: (e: OutsideClickEvent) => boolean): React.RefObject<T>;
 

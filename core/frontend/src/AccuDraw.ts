@@ -8,7 +8,7 @@
  */
 import { BentleyStatus } from "@bentley/bentleyjs-core";
 import {
-  Arc3d, AxisOrder, CurveCurve, CurvePrimitive, Geometry, IModelJson as GeomJson, LineSegment3d, LineString3d, Matrix3d, Point2d, Point3d,
+  Arc3d, AxisOrder, CurveCurve, CurvePrimitive, Geometry, IModelJson as GeomJson, LineSegment3d, LineString3d, Matrix3d, Plane3dByOriginAndUnitNormal, Point2d, Point3d,
   PointString3d, Ray3d, Transform, Vector3d,
 } from "@bentley/geometry-core";
 import { ColorByName, ColorDef, GeometryStreamProps, LinePixels } from "@bentley/imodeljs-common";
@@ -26,7 +26,6 @@ import { ScreenViewport, Viewport } from "./Viewport";
 import { ViewState } from "./ViewState";
 import { QuantityType } from "./quantity-formatting/QuantityFormatter";
 import { ParseError, Parser, QuantityParseResult } from "@bentley/imodeljs-quantity";
-import { EditManipulator } from "./tools/EditManipulator";
 
 // cspell:ignore dont primitivetools
 
@@ -3204,21 +3203,55 @@ export class AccuDrawHintBuilder {
 
   /** Create a [[Ray3d]] whose origin is the supplied space point and direction is into the view */
   public static getBoresite(spacePt: Point3d, vp: Viewport, checkAccuDraw: boolean = false, checkACS: boolean = false): Ray3d {
-    return EditManipulator.HandleUtils.getBoresite(spacePt, vp, checkAccuDraw, checkACS);
+    if (checkAccuDraw && IModelApp.accuDraw.isActive)
+      return Ray3d.create(spacePt, IModelApp.accuDraw.getRotation().getRow(2).negate());
+
+    if (checkACS && vp.isContextRotationRequired)
+      return Ray3d.create(spacePt, vp.getAuxCoordRotation().getRow(2).negate());
+
+    const eyePoint = vp.worldToViewMap.transform1.columnZ();
+    const direction = Vector3d.createFrom(eyePoint);
+    const aa = Geometry.conditionalDivideFraction(1, eyePoint.w);
+    if (aa !== undefined) {
+      const xyzEye = direction.scale(aa);
+      direction.setFrom(spacePt.vectorTo(xyzEye));
+    }
+    direction.scaleToLength(-1.0, direction);
+    return Ray3d.create(spacePt, direction);
   }
 
   /** Return ray intersection with a plane defined by a point and normal
    * @see [[getBoresite]]
    */
   public static projectPointToPlaneInView(spacePt: Point3d, planePt: Point3d, planeNormal: Vector3d, vp: Viewport, checkAccuDraw: boolean = false, checkACS: boolean = false): Point3d | undefined {
-    return EditManipulator.HandleUtils.projectPointToPlaneInView(spacePt, planePt, planeNormal, vp, checkAccuDraw, checkACS);
+    const plane = Plane3dByOriginAndUnitNormal.create(planePt, planeNormal);
+    if (undefined === plane)
+      return undefined;
+    const rayToEye = AccuDrawHintBuilder.getBoresite(spacePt, vp, checkAccuDraw, checkACS);
+    const projectedPt = Point3d.createZero();
+    if (undefined === rayToEye.intersectionWithPlane(plane, projectedPt))
+      return undefined;
+    return projectedPt;
   }
 
   /** Return ray intersection with a line defined by a point and direction
    * @see [[getBoresite]]
    */
   public static projectPointToLineInView(spacePt: Point3d, linePt: Point3d, lineDirection: Vector3d, vp: Viewport, checkAccuDraw: boolean = false, checkACS: boolean = false): Point3d | undefined {
-    return EditManipulator.HandleUtils.projectPointToLineInView(spacePt, linePt, lineDirection, vp, checkAccuDraw, checkACS);
+    const lineRay = Ray3d.create(linePt, lineDirection);
+    const rayToEye = AccuDrawHintBuilder.getBoresite(spacePt, vp, checkAccuDraw, checkACS);
+    if (rayToEye.direction.isParallelTo(lineRay.direction, true))
+      return lineRay.projectPointToRay(spacePt);
+    const matrix = Matrix3d.createRigidFromColumns(lineRay.direction, rayToEye.direction, AxisOrder.XZY);
+    if (undefined === matrix)
+      return undefined;
+    const plane = Plane3dByOriginAndUnitNormal.create(linePt, matrix.columnZ());
+    if (undefined === plane)
+      return undefined;
+    const projectedPt = Point3d.createZero();
+    if (undefined === rayToEye.intersectionWithPlane(plane, projectedPt))
+      return undefined;
+    return lineRay.projectPointToRay(projectedPt);
   }
 
   /** Return a [[Matrix3d]] representing the current working plane specified by AccuDraw, [[Viewport.auxCoordSystem]], or [[Viewport.rotation]]. */

@@ -9,6 +9,14 @@ import { MapLayerSource } from "../../../tile/map/MapLayerSources";
 
 describe("MapLayerSources", () => {
 
+  it("should create MapLayerSource with defaults", async () => {
+    const sampleSource = MapLayerSource.fromJSON({name: "testSource", url: "https://testserver/wms" });
+    expect(sampleSource).to.not.undefined;
+    expect(sampleSource!.formatId).to.equals("WMS");
+    expect(sampleSource!.transparentBackground).to.equals(true);
+    expect(sampleSource!.baseMap).to.equals(false);
+  });
+
   it("should create MapLayerSource with baseMap flag", async () => {
     const sampleSourceJson = {
       formatId: "WMS",
@@ -17,7 +25,6 @@ describe("MapLayerSources", () => {
       userName: "testUser",
       password: "testPassword",
       transparentBackground: false,
-      maxZoom: 10,
       baseMap: true,
     };
 
@@ -28,7 +35,6 @@ describe("MapLayerSources", () => {
     expect(sampleSource!.url).to.equals(sampleSourceJson.url);
     expect(sampleSource!.userName).to.equals(sampleSourceJson.userName);
     expect(sampleSource!.password).to.equals(sampleSourceJson.password);
-    expect(sampleSource!.maxZoom).to.equals(sampleSourceJson.maxZoom);
     expect(sampleSource!.transparentBackground).to.equals(sampleSourceJson.transparentBackground);
     expect(sampleSource!.baseMap).to.equals(sampleSourceJson.baseMap);
 
@@ -63,9 +69,8 @@ describe("MapLayerSources", () => {
     if (!sampleSubLayerSettings)
       return;
 
-    sampleSource.subLayers = [sampleSubLayerSettings];
-
-    const settings = sampleSource?.toLayerSettings();
+    const subLayers = [sampleSubLayerSettings];
+    const settings = sampleSource?.toLayerSettings(subLayers);
     expect(settings).to.not.undefined;
     if (!settings)
       return;
@@ -75,9 +80,8 @@ describe("MapLayerSources", () => {
     expect(sampleSource.url).to.equals(settings.url);
     expect(sampleSource.userName).to.equals(settings.userName);
     expect(sampleSource.password).to.equals(settings.password);
-    expect(sampleSource.subLayers).to.not.undefined;
     expect(settings.subLayers).to.not.undefined;
-    expect(sampleSource.subLayers.length).to.equals(settings.subLayers.length);
-    expect(sampleSource.subLayers[0].name).to.equals(settings.subLayers[0].name);
+    expect(settings.subLayers.length).to.equals(subLayers.length);
+    expect(settings.subLayers[0].name).to.equals(subLayers[0].name);
   });
 });

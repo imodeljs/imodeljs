@@ -106,7 +106,7 @@ export function selectionContextStateFunc(state: Readonly<BaseItemState>): BaseI
 }
 
 /** Utility Class that provides definitions for tools dependent on current selection. These definitions can be used to populate toolbars.
- * @beta
+ * @public
  */
 // istanbul ignore next
 export class SelectionContextToolDefinitions {

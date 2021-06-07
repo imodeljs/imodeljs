@@ -513,7 +513,7 @@ export class PresentationTreeDataProvider implements IPresentationTreeDataProvid
 // @beta
 export interface PresentationTreeDataProviderDataSourceEntryPoints {
     // (undocumented)
-    getFilteredNodePaths: (requestOptions: ExtendedHierarchyRequestOptions<IModelConnection, NodeKey>, filterText: string) => Promise<NodePathElement[]>;
+    getFilteredNodePaths: (requestOptions: ExtendedHierarchyRequestOptions<IModelConnection, never>, filterText: string) => Promise<NodePathElement[]>;
     // (undocumented)
     getNodesAndCount: (requestOptions: Paged<ExtendedHierarchyRequestOptions<IModelConnection, NodeKey>>) => Promise<{
         nodes: Node[];
@@ -704,9 +704,13 @@ export function usePresentationTreeNodeLoader(props: PresentationTreeNodeLoaderP
 };
 
 // @public
-export function usePropertyDataProviderWithUnifiedSelection(props: PropertyDataProviderWithUnifiedSelectionProps): {
+export function usePropertyDataProviderWithUnifiedSelection(props: PropertyDataProviderWithUnifiedSelectionProps): UsePropertyDataProviderWithUnifiedSelectionResult;
+
+// @public
+export interface UsePropertyDataProviderWithUnifiedSelectionResult {
     isOverLimit: boolean;
-};
+    numSelectedElements: number;
+}
 
 // @public
 export function useRulesetRegistration(ruleset: Ruleset): void;

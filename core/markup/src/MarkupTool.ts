@@ -12,7 +12,7 @@ import { G, LinkedHTMLElement, Element as MarkupElement, Text as MarkupText } fr
 import { Markup, MarkupApp } from "./Markup";
 
 /** Base class for all tools that operate on Markup elements.
- * @beta
+ * @public
  */
 export abstract class MarkupTool extends PrimitiveTool {
   public markup!: Markup;

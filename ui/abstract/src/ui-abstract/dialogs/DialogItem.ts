@@ -9,14 +9,14 @@
 import { PropertyDescription } from "../properties/Description";
 
 /** [[DialogItemValue]] Interface of PrimitiveValue types that have type editor support for use in dialogs
- * @beta
+ * @public
  */
 export interface DialogItemValue {
   value?: number | string | boolean | Date;
   displayValue?: string;
 }
 /** [[EditorPosition]] Interface used to identify the location of the item a DialogItem property value.
- * @beta
+ * @public
  */
 export interface EditorPosition {
   /** Determine the order the row is shown in UI */
@@ -30,7 +30,7 @@ export interface EditorPosition {
 }
 
 /** [[BaseDialogItem]] contains only the members necessary to create a PropertyRecord.
- * @beta
+ * @public
  */
 export interface BaseDialogItem {
   readonly value: DialogItemValue;
@@ -38,7 +38,7 @@ export interface BaseDialogItem {
   readonly isDisabled?: boolean;
 }
 /** [[DialogItem]] is the specification that the display engine turns into a UI item
- * @beta
+ * @public
  */
 export interface DialogItem extends BaseDialogItem {
   readonly editorPosition: EditorPosition;
@@ -46,7 +46,7 @@ export interface DialogItem extends BaseDialogItem {
 }
 
 /** [[DialogPropertyItem]] us the specification to use if you are defining the components directly, e.g., in React
- * @beta
+ * @public
  */
 export interface DialogPropertyItem {
   readonly value: DialogItemValue;
@@ -54,7 +54,7 @@ export interface DialogPropertyItem {
 }
 
 /** [[DialogPropertySyncItem]] is used to pass sync messages for DialogPropertyItems
- * @beta
+ * @public
  */
 export interface DialogPropertySyncItem extends DialogPropertyItem {
   readonly isDisabled?: boolean;
@@ -62,7 +62,7 @@ export interface DialogPropertySyncItem extends DialogPropertyItem {
 }
 
 /** [[DialogProperty]] is a generic helper class that assists working with properties used by UiLayoutDataProvider implementations (i.e. Tool Settings and Dynamic Dialogs).
- * @beta
+ * @public
  */
 export class DialogProperty<T> {
   constructor(public description: PropertyDescription, private _value: T, private _displayValue?: string, private _isDisabled?: boolean) { }

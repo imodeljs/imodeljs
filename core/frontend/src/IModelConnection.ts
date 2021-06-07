@@ -61,9 +61,7 @@ export abstract class IModelConnection extends IModel {
   public readonly codeSpecs: IModelConnection.CodeSpecs;
   /** The [[ViewState]]s in this IModelConnection. */
   public readonly views: IModelConnection.Views;
-  /** The set of currently hilited elements for this IModelConnection.
-   * @beta
-   */
+  /** The set of currently hilited elements for this IModelConnection. */
   public readonly hilited: HiliteSet;
   /** The set of currently selected elements for this IModelConnection. */
   public readonly selectionSet: SelectionSet;
@@ -89,8 +87,9 @@ export abstract class IModelConnection extends IModel {
   public get noGcsDefined(): boolean { return this._gcsDisabled || undefined === this.geographicCoordinateSystem; }
   /** @internal */
   public disableGCS(disable: boolean): void { this._gcsDisabled = disable; }
-  /** @internal The displayed extents. Union of the the project extents and all displayed reality models.
-   * Don't modify this directly - use [[expandDisplayedExtents]].
+  /** The displayed extents of this iModel, initialized to [IModel.projectExtents]($common). The displayed extents can be made larger via
+   * [[expandDisplayedExtents]], but never smaller, to accomodate data sources like reality models that may exceed the project extents.
+   * @note Do not modify these extents directly - use [[expandDisplayedExtents]] only.
    */
   public readonly displayedExtents: AxisAlignedBox3d;
   private readonly _extentsExpansion = Range3d.createNull();
@@ -452,9 +451,9 @@ export abstract class IModelConnection extends IModel {
   }
 
   /** Request a named texture image from the backend.
-   * @param textureLoadProps The texture load properties which must contain a name property (a valid 64-bit integer identifier)
+   * @param textureLoadProps The texture load properties which must contain a name property (a valid 64-bit integer identifier). It optionally can contain the maximum texture size supported by the client.
    * @see [[Id64]]
-   * @alpha
+   * @public
    */
   public async getTextureImage(textureLoadProps: TextureLoadProps): Promise<Uint8Array | undefined> {
     if (this.isOpen) {
@@ -544,8 +543,9 @@ export abstract class IModelConnection extends IModel {
     return (this.noGcsDefined ? this.cartographicToSpatialFromEcef(cartographic, result) : this.cartographicToSpatialFromGcs(cartographic, result));
   }
 
-  /** Expand this iModel's [[displayedExtents]] with the specified range.
-   * @internal
+  /** Expand this iModel's [[displayedExtents]] to include the specified range.
+   * This is done automatically when reality models are added to a spatial view. In some cases a [[TiledGraphicsProvider]] may wish to expand
+   * the extents explicitly to include its geometry.
    */
   public expandDisplayedExtents(range: Range3d): void {
     this._extentsExpansion.extendRange(range);

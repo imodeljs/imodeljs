@@ -37,27 +37,35 @@ export interface PropertyDataProviderWithUnifiedSelectionProps {
 }
 
 /**
+ * [[usePropertyDataProviderWithUnifiedSelection]] return type.
+ * @public
+ */
+export interface UsePropertyDataProviderWithUnifiedSelectionResult {
+  /** Whether selected element count is exceeding the limit. */
+  isOverLimit: boolean;
+  /** Selected element count. */
+  numSelectedElements: number;
+}
+
+/**
  * A React hook that adds unified selection functionality to the provided data provider.
  * @public
  */
-export function usePropertyDataProviderWithUnifiedSelection(props: PropertyDataProviderWithUnifiedSelectionProps) {
+export function usePropertyDataProviderWithUnifiedSelection(
+  props: PropertyDataProviderWithUnifiedSelectionProps,
+): UsePropertyDataProviderWithUnifiedSelectionResult {
   const { dataProvider } = props;
   const { imodel, rulesetId } = dataProvider;
   const name = `PropertyGrid`;
   const requestedContentInstancesLimit = props.requestedContentInstancesLimit ?? DEFAULT_REQUESTED_CONTENT_INSTANCES_LIMIT;
 
-  const [isOverLimit, setIsOverLimit] = React.useState(false);
+  const [numSelectedElements, setNumSelectedElements] = React.useState(0);
 
   const updateDataProviderSelection = React.useCallback((handler: SelectionHandler, selectionLevel?: number) => {
     const selection = getSelectedKeys(handler, selectionLevel);
     if (selection) {
-      if (selection.size > requestedContentInstancesLimit) {
-        setIsOverLimit(true);
-        dataProvider.keys = new KeySet();
-      } else {
-        setIsOverLimit(false);
-        dataProvider.keys = selection;
-      }
+      setNumSelectedElements(selection.size);
+      dataProvider.keys = isOverLimit(selection.size, requestedContentInstancesLimit) ? new KeySet() : selection;
     }
   }, [requestedContentInstancesLimit, dataProvider]);
 
@@ -71,10 +79,9 @@ export function usePropertyDataProviderWithUnifiedSelection(props: PropertyDataP
     return handler;
   }, [imodel, rulesetId, name, updateDataProviderSelection, props.selectionHandler]));
 
-  React.useEffect(() => updateDataProviderSelection(selectionHandler),
-    [updateDataProviderSelection, selectionHandler]);
+  React.useEffect(() => updateDataProviderSelection(selectionHandler), [updateDataProviderSelection, selectionHandler]);
 
-  return { isOverLimit };
+  return { isOverLimit: isOverLimit(numSelectedElements, requestedContentInstancesLimit), numSelectedElements };
 }
 
 function getSelectedKeys(selectionHandler: SelectionHandler, selectionLevel?: number): KeySet | undefined {
@@ -91,4 +98,8 @@ function getSelectedKeys(selectionHandler: SelectionHandler, selectionLevel?: nu
       return new KeySet(selection);
   }
   return new KeySet();
+}
+
+function isOverLimit(numSelectedElements: number, limit: number): boolean {
+  return numSelectedElements > limit;
 }

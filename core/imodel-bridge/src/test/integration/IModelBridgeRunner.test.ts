@@ -50,7 +50,7 @@ describe("IModelBridgeFwk (#integration)", () => {
   after(async () => {
     // Clean up the iModel
     try {
-      await IModelHost.iModelClient.iModels.delete(requestContext, testProjectId, readWriteTestIModel.id);
+      await IModelHost.hubAccess.deleteIModel({ requestContext, contextId: testProjectId, iModelId: readWriteTestIModel.id });
     } catch (err) {
     }
 

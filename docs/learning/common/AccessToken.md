@@ -10,7 +10,7 @@ The API supports common OAuth 2.0 scenarios of Web Frontend Applications, Agent 
 
 ### 1. Register the application to obtain OAuth 2.0 credentials
 
-Use the [developer registration page](../../../getting-started/registration-dashboard/?tab=0) to register your applications and get the credentials. In the case of Frontend, Desktop and Mobile Applications, the credentials will include just a Client Id. In the case of Agent or Service Applications it will include a client Id, client secret, a service user name and a service user password.
+Use the [developer registration page](https://developer.bentley.com/register/) to register your applications and get the credentials. In the case of Frontend, Desktop and Mobile Applications, the credentials will include just a Client Id. In the case of Agent or Service Applications it will include a client Id, client secret, a service user name and a service user password.
 
 ### 2. Obtain an access token from the Bentley Authorization Server
 

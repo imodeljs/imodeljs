@@ -2,7 +2,7 @@
   "changes": [
     {
       "packageName": "@bentley/imodeljs-common",
-      "comment": "Add events for changes to IModel properties.",
+      "comment": "Add events for changes to IModel properties. Add RenderSchedule.ScriptBuilder for assembling a new schedule script.",
       "type": "none"
     }
   ],

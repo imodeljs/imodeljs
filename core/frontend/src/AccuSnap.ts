@@ -57,7 +57,10 @@ export class TouchCursor implements CanvasDecoration {
 
     this.position.setFrom(viewLocation);
     this._offsetPosition.setFrom(offsetLocation);
-    this.viewport = vp;
+    if (vp !== this.viewport) {
+      this.viewport.invalidateDecorations();
+      this.viewport = vp;
+    }
     vp.invalidateDecorations();
     return true;
   }
@@ -511,7 +514,7 @@ export class AccuSnap implements Decorator {
   private unFlashViews() {
     this.needFlash.clear();
     this.areFlashed.forEach((vp) => {
-      vp.setFlashed(undefined, 0.0);
+      vp.setFlashed(undefined);
     });
     this.areFlashed.clear();
   }

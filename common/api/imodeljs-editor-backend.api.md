@@ -6,6 +6,7 @@
 
 import { BasicManipulationCommandIpc } from '@bentley/imodeljs-editor-common';
 import { CompressedId64Set } from '@bentley/bentleyjs-core';
+import { EcefLocationProps } from '@bentley/imodeljs-common';
 import { EditCommandIpc } from '@bentley/imodeljs-editor-common';
 import { ElementGeometryInfo } from '@bentley/imodeljs-common';
 import { FlatBufferGeometricElementData } from '@bentley/imodeljs-editor-common';
@@ -17,6 +18,7 @@ import { Id64String } from '@bentley/bentleyjs-core';
 import { IModelDb } from '@bentley/imodeljs-backend';
 import { IModelStatus } from '@bentley/bentleyjs-core';
 import { Matrix3dProps } from '@bentley/geometry-core';
+import { Range3dProps } from '@bentley/geometry-core';
 import { TransformProps } from '@bentley/geometry-core';
 
 // @alpha (undocumented)
@@ -39,7 +41,11 @@ export class BasicManipulationCommand extends EditCommand implements BasicManipu
     // (undocumented)
     transformPlacement(ids: CompressedId64Set, transProps: TransformProps): Promise<IModelStatus>;
     // (undocumented)
+    updateEcefLocation(ecefLocation: EcefLocationProps): Promise<void>;
+    // (undocumented)
     updateGeometricElement(propsOrId: GeometricElementProps | Id64String, data?: FlatBufferGeometricElementData): Promise<void>;
+    // (undocumented)
+    updateProjectExtents(extents: Range3dProps): Promise<void>;
 }
 
 // @alpha

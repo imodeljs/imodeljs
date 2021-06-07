@@ -11,7 +11,7 @@ import {
   Matrix3d, Point2d,
   Point3d, Range1d, Transform, XAndY,
 } from "@bentley/geometry-core";
-import { Frustum, FrustumPlanes, SpatialClassificationProps, ViewFlags } from "@bentley/imodeljs-common";
+import { Frustum, FrustumPlanes, SpatialClassifier, ViewFlags } from "@bentley/imodeljs-common";
 import { CachedDecoration, DecorationsCache } from "./DecorationsCache";
 import { IModelApp } from "./IModelApp";
 import { PlanarClipMaskState } from "./PlanarClipMaskState";
@@ -73,7 +73,7 @@ export class RenderContext {
     return this._createGraphicBuilder({ type: GraphicType.Scene, placement: transform });
   }
 
-  /** @internal */
+  /** Create a graphic from a [[GraphicBranch]]. */
   public createGraphicBranch(branch: GraphicBranch, location: Transform, opts?: GraphicBranchOptions): RenderGraphic {
     return this.target.renderSystem.createGraphicBranch(branch, location, opts);
   }
@@ -359,7 +359,7 @@ export class SceneContext extends RenderContext {
   /** @internal */
   public get graphicType() { return this._graphicType; }
 
-  /** @internal */
+  /** Add the specified graphic to the scene. */
   public outputGraphic(graphic: RenderGraphic): void {
     switch (this._graphicType) {
       case TileGraphicType.BackgroundMap:
@@ -459,7 +459,7 @@ export class SceneContext extends RenderContext {
   public get textureDrapes() { return this.scene.textureDrapes; }
 
   /** @internal */
-  public setVolumeClassifier(classifier: SpatialClassificationProps.Classifier, modelId: Id64String): void {
+  public setVolumeClassifier(classifier: SpatialClassifier, modelId: Id64String): void {
     this.scene.volumeClassifier = { classifier, modelId };
   }
 }

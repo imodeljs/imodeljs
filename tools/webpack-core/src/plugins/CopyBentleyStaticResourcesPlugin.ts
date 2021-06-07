@@ -6,6 +6,9 @@ import * as fs from "fs-extra";
 import * as path from "path";
 import { Compiler } from "webpack";
 import { paths, resolveApp } from "../utils/paths";
+/* eslint-disable @typescript-eslint/no-var-requires, @typescript-eslint/naming-convention */
+const CopyPlugin = require("copy-webpack-plugin");
+/* eslint-enable @typescript-eslint/no-var-requires, @typescript-eslint/naming-convention */
 
 abstract class AbstractAsyncStartupPlugin {
   private _name: string;
@@ -50,6 +53,10 @@ async function tryCopyDirectoryContents(source: string, target: string) {
   }
 }
 
+/** Prefer use of CopyStaticAssetsPlugin instead.
+ * @note Will be removed in 3.0
+ * @deprecated
+ */
 export class CopyBentleyStaticResourcesPlugin extends AbstractAsyncStartupPlugin {
   private _directoryNames: string[];
   private _useDirectoryName: boolean;
@@ -86,5 +93,42 @@ export class CopyAppAssetsPlugin extends AbstractAsyncStartupPlugin {
   public async runAsync(compiler: Compiler) {
     const outAssetsDir = path.resolve(compiler.outputPath, "assets");
     await tryCopyDirectoryContents(resolveApp(this._assetsDir), outAssetsDir);
+  }
+}
+
+export class CopyStaticAssetsPlugin {
+  private _scopes: string[];
+  private _fromTo: string;
+
+  constructor({ scopes = ["@bentley", "@itwin"], fromTo = "public" }) {
+    this._scopes = scopes;
+    this._fromTo = fromTo;
+  }
+
+  private _getPatterns() {
+    if (!this._scopes || !this._fromTo) {
+      return [];
+    }
+
+    const patterns = [];
+    const fromTo = this._fromTo;
+
+    for (const scope of this._scopes) {
+      patterns.push({
+        from: `**/${fromTo}/**/*`,
+        context: `node_modules/${scope}`,
+        noErrorOnMissing: true,
+        to({ absoluteFilename }: { absoluteFilename: string }) {
+          const regex = new RegExp(`(${fromTo}(?:\\\\|\/))(.*)`);
+          return regex.exec(absoluteFilename)![2];
+        },
+      });
+    }
+    return patterns;
+  }
+
+  public apply(compiler: Compiler) {
+    const patterns = this._getPatterns();
+    new CopyPlugin({ patterns }).apply(compiler);
   }
 }

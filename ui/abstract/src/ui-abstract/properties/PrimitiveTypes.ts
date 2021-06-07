@@ -9,7 +9,7 @@
 import { Id64String } from "@bentley/bentleyjs-core";
 
 /** Primitive Property Value Types.
- * @beta
+ * @public
  */
 export namespace Primitives {
   /** Text type */

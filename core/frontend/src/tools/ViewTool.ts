@@ -11,11 +11,11 @@ import {
   Angle, AngleSweep, Arc3d, AxisOrder, ClipUtilities, Constant, CurveLocationDetail, Geometry, LineString3d, Matrix3d, Plane3dByOriginAndUnitNormal,
   Point2d, Point3d, Range2d, Range3d, Ray3d, Transform, Vector2d, Vector3d, XAndY, YawPitchRollAngles,
 } from "@bentley/geometry-core";
-import { Cartographic, ColorDef, Frustum, LinePixels, Npc, NpcCenter } from "@bentley/imodeljs-common";
+import { Cartographic, ColorDef, Frustum, LinePixels, NpcCenter } from "@bentley/imodeljs-common";
 import {
   DialogItem, DialogItemValue, DialogPropertySyncItem, PropertyDescription, PropertyEditorParamTypes, SuppressLabelEditorParams,
 } from "@bentley/ui-abstract";
-import { AccuDraw } from "../AccuDraw";
+import { AccuDraw, AccuDrawHintBuilder } from "../AccuDraw";
 import { TentativeOrAccuSnap } from "../AccuSnap";
 import { BingLocationProvider } from "../BingLocation";
 import { CoordSystem } from "../CoordSystem";
@@ -377,7 +377,7 @@ export abstract class ViewManip extends ViewTool {
   /** @internal */
   public pickDepthPoint(ev: BeButtonEvent, isPreview: boolean = false): Point3d | undefined {
     if (!isPreview && ev.viewport && undefined !== this.getDepthPointGeometryId())
-      ev.viewport.setFlashed(undefined, 0.0);
+      ev.viewport.setFlashed(undefined);
 
     this.clearDepthPoint();
     if (isPreview && this.inDynamicUpdate)
@@ -521,7 +521,7 @@ export abstract class ViewManip extends ViewTool {
     if (ev.viewport && (showDepthChanged || prevSourceId)) {
       const currSourceId = this.getDepthPointGeometryId();
       if (currSourceId !== prevSourceId)
-        ev.viewport.setFlashed(currSourceId, 0.25);
+        ev.viewport.setFlashed(currSourceId);
       ev.viewport.invalidateDecorations();
     }
   }
@@ -768,15 +768,8 @@ export abstract class ViewManip extends ViewTool {
     const vp = this.viewport;
     if (!vp)
       return false;
-    const testPtView = vp.worldToView(testPt);
-    const frustum = vp.getFrustum(CoordSystem.View);
 
-    const screenRange = Point3d.create(
-      frustum.points[Npc._000].distance(frustum.points[Npc._100]),
-      frustum.points[Npc._000].distance(frustum.points[Npc._010]),
-      frustum.points[Npc._000].distance(frustum.points[Npc._001]));
-
-    return (!((testPtView.x < 0 || testPtView.x > screenRange.x) || (testPtView.y < 0 || testPtView.y > screenRange.y)));
+    return vp.isPointVisibleXY(testPt);
   }
 
   /** @internal */
@@ -4427,7 +4420,7 @@ export class SetupWalkCameraTool extends PrimitiveTool {
   }
 
   private static getFigureTransform(vp: Viewport, base: Point3d, direction: Vector3d, scale: number): Transform | undefined {
-    const boresite = EditManipulator.HandleUtils.getBoresite(base, vp);
+    const boresite = AccuDrawHintBuilder.getBoresite(base, vp);
     if (Math.abs(direction.dotProduct(boresite.direction)) >= 0.9999)
       return undefined;
 

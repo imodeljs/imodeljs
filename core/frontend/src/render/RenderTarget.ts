@@ -8,7 +8,7 @@
 
 import { Id64String, IDisposable } from "@bentley/bentleyjs-core";
 import { Point2d, XAndY } from "@bentley/geometry-core";
-import { Frustum, ImageBuffer, SpatialClassificationProps } from "@bentley/imodeljs-common";
+import { Frustum, ImageBuffer, SpatialClassifier } from "@bentley/imodeljs-common";
 import { HiliteSet } from "../SelectionSet";
 import { SceneContext } from "../ViewContext";
 import { Viewport } from "../Viewport";
@@ -104,7 +104,7 @@ export abstract class RenderTarget implements IDisposable, RenderMemory.Consumer
   /** Update the solar shadow map. If a SceneContext is supplied, shadows are enabled; otherwise, shadows are disabled. */
   public updateSolarShadows(_context: SceneContext | undefined): void { }
   public getPlanarClassifier(_id: Id64String): RenderPlanarClassifier | undefined { return undefined; }
-  public createPlanarClassifier(_properties?: SpatialClassificationProps.Classifier): RenderPlanarClassifier | undefined { return undefined; }
+  public createPlanarClassifier(_properties?: SpatialClassifier): RenderPlanarClassifier | undefined { return undefined; }
   public getTextureDrape(_id: Id64String): RenderTextureDrape | undefined { return undefined; }
 
   public createGraphicBuilder(options: GraphicBuilderOptions) {

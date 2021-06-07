@@ -2,6 +2,156 @@
   "name": "@bentley/imodeljs-frontend",
   "entries": [
     {
+      "version": "2.16.2",
+      "tag": "@bentley/imodeljs-frontend_v2.16.2",
+      "date": "Thu, 03 Jun 2021 18:08:11 GMT",
+      "comments": {}
+    },
+    {
+      "version": "2.16.1",
+      "tag": "@bentley/imodeljs-frontend_v2.16.1",
+      "date": "Thu, 27 May 2021 20:04:22 GMT",
+      "comments": {
+        "none": [
+          {
+            "comment": "add method to return ecef transform for tile tree"
+          }
+        ]
+      }
+    },
+    {
+      "version": "2.16.0",
+      "tag": "@bentley/imodeljs-frontend_v2.16.0",
+      "date": "Mon, 24 May 2021 15:58:39 GMT",
+      "comments": {
+        "none": [
+          {
+            "comment": "Make AccuDrawHintBuilder public and include everything needed by an InteractiveTool."
+          },
+          {
+            "comment": "Fix acs rotation and remove unneeded clones."
+          },
+          {
+            "comment": "(geomlibs) fix swap logic in Matrix3d.inverse alias case"
+          },
+          {
+            "comment": "motion event changes."
+          },
+          {
+            "comment": "Add BatchOptions to customize how features can be resymbolized."
+          },
+          {
+            "comment": "Synchronize viewports when changes are made to geometry outside of a graphical editing scope."
+          },
+          {
+            "comment": "wip: CreateElementTool. Fix not being able to pick decorations after changing files."
+          },
+          {
+            "comment": "BatchOptions can specify that the contents of the batch should only be drawn for readPixels."
+          },
+          {
+            "comment": "Simplify GraphicBuilder creation using GraphicBuilderOptions."
+          },
+          {
+            "comment": "IModelConnection.View.load throws if the input is not a valid Id."
+          },
+          {
+            "comment": "Fix ViewState.hasSameCoordinates returning true if a 2d model was mistakenly included in a spatial view's model selector."
+          },
+          {
+            "comment": "Produce rounded joints when tesselating polylines."
+          },
+          {
+            "comment": "Return empty symbology overrides for maps to avoid inheriting from view"
+          },
+          {
+            "comment": "Add hiliter for reality meshes"
+          },
+          {
+            "comment": "Fix hiliting of reality meshes."
+          },
+          {
+            "comment": "Fix shader header typo"
+          },
+          {
+            "comment": "Ensure materials are ignored unless smooth render mode is enabled."
+          },
+          {
+            "comment": "Add FrameStats API."
+          },
+          {
+            "comment": "In FrameStats, break down scene time."
+          },
+          {
+            "comment": "Enable querying geometry and other properties via IModelConnection.Elements.loadProps."
+          },
+          {
+            "comment": "The idleTool can now be set."
+          },
+          {
+            "comment": "improved silhouettes for non-perspective views"
+          },
+          {
+            "comment": "Mobile fixes"
+          },
+          {
+            "comment": "Fixes to desktop/mobile authorization"
+          },
+          {
+            "comment": "set authorizationClient to undefined in IModelApp.shutdown"
+          },
+          {
+            "comment": "Fix errors when masking background map with a plan projection model."
+          },
+          {
+            "comment": "Support planar masks for OrbitGT, fix infinite recursion collecting classifiers graphics."
+          },
+          {
+            "comment": "Add shader based grid display."
+          },
+          {
+            "comment": "set changesetId on BriefcaseConnection in pullAndMergeChanges"
+          },
+          {
+            "comment": "Add Viewport.queryVisibleFeatures to determine the set of features currently visible in a viewport."
+          },
+          {
+            "comment": "Display styles support schedule scripts hosted by RenderTimeline elements."
+          },
+          {
+            "comment": "Move map tile trees to Viewport to handle synching correctly"
+          },
+          {
+            "comment": "Only draw the TouchCursor in the viewport that initiated the touch."
+          },
+          {
+            "comment": "Add iterator to ViewManager and deprecate forEachViewport."
+          },
+          {
+            "comment": "Transform tool dynamics."
+          },
+          {
+            "comment": "add placement to GeomtricElementProps"
+          },
+          {
+            "comment": "Revert to using older GPU timer extension in webgl2 if the newer extension isn't supported"
+          },
+          {
+            "comment": "ViewCreator APIs tagged as public"
+          },
+          {
+            "comment": "View Creator API - comments updated."
+          }
+        ]
+      }
+    },
+    {
+      "version": "2.15.6",
+      "tag": "@bentley/imodeljs-frontend_v2.15.6",
+      "date": "Wed, 26 May 2021 15:55:19 GMT",
+      "comments": {}
+    },
+    {
       "version": "2.15.5",
       "tag": "@bentley/imodeljs-frontend_v2.15.5",
       "date": "Thu, 20 May 2021 15:06:26 GMT",

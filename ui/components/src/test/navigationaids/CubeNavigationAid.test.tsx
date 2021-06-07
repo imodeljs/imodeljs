@@ -10,7 +10,7 @@ import { AxisIndex, Matrix3d, Transform, Vector3d } from "@bentley/geometry-core
 import { DrawingViewState, IModelConnection, ScreenViewport } from "@bentley/imodeljs-frontend";
 import { Face } from "@bentley/ui-core";
 import { cleanup, fireEvent, render, wait } from "@testing-library/react";
-import { CubeHover, CubeNavigationAid, FaceCell, HitBoxX, HitBoxY, HitBoxZ, NavCubeFace } from "../../ui-components/navigationaids/CubeNavigationAid";
+import { CubeHover, CubeNavigationAid, CubeNavigationHitBoxX, CubeNavigationHitBoxY, CubeNavigationHitBoxZ, FaceCell, NavCubeFace } from "../../ui-components/navigationaids/CubeNavigationAid";
 import { ViewportComponentEvents } from "../../ui-components/viewport/ViewportComponentEvents";
 import TestUtils from "../TestUtils";
 
@@ -323,9 +323,9 @@ describe("CubeNavigationAid", () => {
         });
         it("should return correct Point3d", () => {
           const pos = NavCubeFace.faceCellToPos(Face.Back, -1, 1);
-          pos.x.should.equal(HitBoxX.Right);
-          pos.y.should.equal(HitBoxY.Back);
-          pos.z.should.equal(HitBoxZ.Bottom);
+          pos.x.should.equal(CubeNavigationHitBoxX.Right);
+          pos.y.should.equal(CubeNavigationHitBoxY.Back);
+          pos.z.should.equal(CubeNavigationHitBoxZ.Bottom);
         });
       });
     });

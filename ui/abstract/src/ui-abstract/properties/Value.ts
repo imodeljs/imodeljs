@@ -11,7 +11,7 @@ import { PropertyRecord } from "./Record";
 
 /**
  * Enumeration for Format of the property value.
- * @beta
+ * @public
  */
 export enum PropertyValueFormat {
   Primitive,
@@ -20,14 +20,14 @@ export enum PropertyValueFormat {
 }
 
 /** Base interface for a property value
- * @beta
+ * @public
  */
 export interface BasePropertyValue {
   valueFormat: PropertyValueFormat;
 }
 
 /** Primitive property value
- * @beta
+ * @public
  */
 export interface PrimitiveValue extends BasePropertyValue {
   valueFormat: PropertyValueFormat.Primitive;
@@ -36,7 +36,7 @@ export interface PrimitiveValue extends BasePropertyValue {
 }
 
 /** Struct property value
- * @beta
+ * @public
  */
 export interface StructValue extends BasePropertyValue {
   valueFormat: PropertyValueFormat.Struct;
@@ -44,7 +44,7 @@ export interface StructValue extends BasePropertyValue {
 }
 
 /** Array property value
- * @beta
+ * @public
  */
 export interface ArrayValue extends BasePropertyValue {
   valueFormat: PropertyValueFormat.Array;
@@ -53,6 +53,6 @@ export interface ArrayValue extends BasePropertyValue {
 }
 
 /** Type for all property values
- * @beta
+ * @public
  */
 export type PropertyValue = PrimitiveValue | StructValue | ArrayValue;

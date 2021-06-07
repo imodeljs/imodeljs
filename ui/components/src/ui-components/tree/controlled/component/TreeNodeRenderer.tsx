@@ -20,7 +20,7 @@ import { TreeNodeEditorRenderer } from "./TreeNodeEditor";
 
 /**
  * Properties for [[TreeNodeRenderer]].
- * @beta
+ * @public
  */
 export interface TreeNodeRendererProps extends CommonProps {
   node: TreeModelNode;

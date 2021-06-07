@@ -20,7 +20,7 @@ import { ITreeNodeLoader } from "./TreeNodeLoader";
 
 /**
  * Params used for tree node editing.
- * @beta
+ * @public
  */
 export interface TreeEditingParams {
   /** Callback that is called when node is updated. */
@@ -29,7 +29,7 @@ export interface TreeEditingParams {
 
 /**
  * Data structure that describes tree event handler params.
- * @beta
+ * @public
  */
 export interface TreeEventHandlerParams {
   /** Model source used to modify tree model while handling events. */
@@ -44,7 +44,7 @@ export interface TreeEventHandlerParams {
 
 /**
  * Default tree event handler.
- * @beta
+ * @public
  */
 export class TreeEventHandler implements TreeEvents, IDisposable {
   private _modelMutator: TreeModelMutator;

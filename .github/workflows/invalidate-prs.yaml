@@ -1,0 +1,32 @@
+# This workflow invalidates the builds of pull requests that more than 3 hours old.
+#
+
+name: Invalidate PRs after 3 hours
+
+on:
+  workflow_dispatch:
+    inputs:
+      debug:
+        description: "Enable debug logging"
+        required: false
+  schedule:
+    # * is a special character in YAML so you have to quote this string
+    # It runs every 15 minutes
+    - cron:  '*/15 * * * *'
+  push:
+    paths:
+    - '.github/workflows/**'
+
+env:
+  token: ${{ secrets.GITHUBTOKEN }}
+  debug: ${{ github.event.inputs.debug  }}
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 1
+      - name: Run Invalidate PR Script
+        run: .github/workflows/invalidatePRs.sh

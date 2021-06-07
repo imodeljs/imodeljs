@@ -1,0 +1,11 @@
+{
+  "changes": [
+    {
+      "packageName": "@bentley/ui-ninezone",
+      "comment": "Add ability to maintain tab state even if UiItemsProvider that added the tab is not loaded. This allow preference size to be maintained.",
+      "type": "none"
+    }
+  ],
+  "packageName": "@bentley/ui-ninezone",
+  "email": "65047615+bsteinbk@users.noreply.github.com"
+}

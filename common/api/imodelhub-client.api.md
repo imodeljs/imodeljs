@@ -22,7 +22,6 @@ import { IModelHubStatus } from '@bentley/bentleyjs-core';
 import { LogFunction } from '@bentley/bentleyjs-core';
 import { ProgressCallback } from '@bentley/itwin-client';
 import { Project } from '@bentley/context-registry-client';
-import { RbacClient } from '@bentley/rbac-client';
 import { RequestOptions } from '@bentley/itwin-client';
 import { RequestQueryOptions } from '@bentley/itwin-client';
 import { Response } from '@bentley/itwin-client';
@@ -891,25 +890,11 @@ export abstract class IModelHubGlobalEvent extends IModelHubBaseEvent {
 }
 
 // @internal
-export enum IModelHubPermission {
-    // (undocumented)
-    ConfigureIModelAccess = 128,
-    // (undocumented)
-    Create = 1,
-    // (undocumented)
-    Delete = 8,
-    // (undocumented)
-    ManageResources = 16,
-    // (undocumented)
-    ManageVersions = 32,
-    // (undocumented)
-    Modify = 4,
-    // (undocumented)
-    None = 0,
-    // (undocumented)
-    Read = 2,
-    // (undocumented)
-    View = 64
+export class IModelPermissions extends WsgInstance {
+    manage?: string;
+    read?: string;
+    webView?: string;
+    write?: string;
 }
 
 // @public
@@ -1067,9 +1052,8 @@ export function ParseGlobalEvent(response: Response, handler?: IModelBaseHandler
 
 // @internal
 export class PermissionHandler {
-    constructor(imodelsHandler: IModelsHandler, rbacClient: RbacClient);
-    getContextPermissions(requestContext: AuthorizedClientRequestContext, contextId: GuidString): Promise<IModelHubPermission>;
-    getiModelPermissions(requestContext: AuthorizedClientRequestContext, contextId: GuidString, iModelId: GuidString): Promise<IModelHubPermission>;
+    constructor(handler: IModelBaseHandler);
+    getiModelPermissions(requestContext: AuthorizedClientRequestContext, imodelId: GuidString): Promise<IModelPermissions>;
     }
 
 // @internal

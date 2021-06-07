@@ -9,7 +9,7 @@
 import { EnumerationProps, EnumeratorProps } from "../Deserialization/JsonProps";
 import { PrimitiveType, primitiveTypeToString, SchemaItemType } from "../ECObjects";
 import { ECObjectsError, ECObjectsStatus } from "../Exception";
-import { ECName } from "../SchemaKey";
+import { ECName } from "../ECName";
 import { Schema } from "./Schema";
 import { SchemaItem } from "./SchemaItem";
 

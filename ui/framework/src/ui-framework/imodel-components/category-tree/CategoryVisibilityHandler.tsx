@@ -189,12 +189,11 @@ export class CategoryVisibilityHandler implements IVisibilityHandler {
 
         // remove category overrides per model
         const modelsContainingOverrides: string[] = [];
-        vp.perModelCategoryVisibility.forEachOverride((modelId: string, categoryId: string) => {
+        for (const ovr of vp.perModelCategoryVisibility) {
           // istanbul ignore else
-          if (ids.findIndex((id) => id === categoryId) !== -1)
-            modelsContainingOverrides.push(modelId);
-          return true;
-        });
+          if (ids.findIndex((id) => id === ovr.categoryId) !== -1)
+            modelsContainingOverrides.push(ovr.modelId);
+        }
         vp.perModelCategoryVisibility.setOverride(modelsContainingOverrides, ids, PerModelCategoryVisibility.Override.None);
 
         // changeCategoryDisplay only enables subcategories, it does not disabled them. So we must do that ourselves.

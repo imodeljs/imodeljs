@@ -9,7 +9,7 @@
 
 import { assert } from "@bentley/bentleyjs-core";
 import { Matrix4d } from "@bentley/geometry-core";
-import { SpatialClassificationProps } from "@bentley/imodeljs-common";
+import { SpatialClassifierInsideDisplay } from "@bentley/imodeljs-common";
 import { Matrix4 } from "../Matrix";
 import { PlanarClassifierContent } from "../PlanarClassifier";
 import { TextureUnit } from "../RenderFlags";
@@ -217,12 +217,12 @@ function addPlanarClassifierCommon(builder: ProgramBuilder) {
 }
 
 function addPlanarClassifierConstants(builder: ShaderBuilder) {
-  builder.addDefine("kClassifierDisplay_Off", SpatialClassificationProps.Display.Off.toFixed(1));
-  builder.addDefine("kClassifierDisplay_On", SpatialClassificationProps.Display.On.toFixed(1));
-  builder.addDefine("kClassifierDisplay_Dimmed", SpatialClassificationProps.Display.Dimmed.toFixed(1));
-  builder.addDefine("kClassifierDisplay_Hilite", SpatialClassificationProps.Display.Hilite.toFixed(1));
-  builder.addDefine("kClassifierDisplay_Element", SpatialClassificationProps.Display.ElementColor.toFixed(1));
-  const td = SpatialClassificationProps.Display.ElementColor + 1;
+  builder.addDefine("kClassifierDisplay_Off", SpatialClassifierInsideDisplay.Off.toFixed(1));
+  builder.addDefine("kClassifierDisplay_On", SpatialClassifierInsideDisplay.On.toFixed(1));
+  builder.addDefine("kClassifierDisplay_Dimmed", SpatialClassifierInsideDisplay.Dimmed.toFixed(1));
+  builder.addDefine("kClassifierDisplay_Hilite", SpatialClassifierInsideDisplay.Hilite.toFixed(1));
+  builder.addDefine("kClassifierDisplay_Element", SpatialClassifierInsideDisplay.ElementColor.toFixed(1));
+  const td = SpatialClassifierInsideDisplay.ElementColor + 1;
   builder.addDefine("kTextureDrape", td.toFixed(1));
   builder.addDefine("kTextureContentClassifierOnly", PlanarClassifierContent.ClassifierOnly.toFixed(1));
   builder.addDefine("kTextureContentMaskOnly", PlanarClassifierContent.MaskOnly.toFixed(1));

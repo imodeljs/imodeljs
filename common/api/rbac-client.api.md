@@ -5,31 +5,8 @@
 ```ts
 
 import { AuthorizedClientRequestContext } from '@bentley/itwin-client';
-import { GuidString } from '@bentley/bentleyjs-core';
 import { WsgClient } from '@bentley/itwin-client';
 import { WsgInstance } from '@bentley/itwin-client';
-
-// @internal @deprecated
-export enum IModelHubPermission {
-    // (undocumented)
-    ConfigureIModelAccess = 128,
-    // (undocumented)
-    Create = 1,
-    // (undocumented)
-    Delete = 8,
-    // (undocumented)
-    ManageResources = 16,
-    // (undocumented)
-    ManageVersions = 32,
-    // (undocumented)
-    Modify = 4,
-    // (undocumented)
-    None = 0,
-    // (undocumented)
-    Read = 2,
-    // (undocumented)
-    View = 64
-}
 
 // @internal
 export class Permission extends WsgInstance {
@@ -48,8 +25,6 @@ export class RbacClient extends WsgClient {
     constructor();
     // (undocumented)
     static readonly configRelyingPartyUri = "imjs_rbac_relying_party_uri";
-    // @deprecated
-    getIModelHubPermissions(requestContext: AuthorizedClientRequestContext, projectId: GuidString): Promise<IModelHubPermission>;
     getObjectPermissions(requestContext: AuthorizedClientRequestContext, objectId: string, objectTypeId: string): Promise<Permission[]>;
     getObjectTypeId(requestContext: AuthorizedClientRequestContext, objectTypeName: string, serviceGPRId: number): Promise<string>;
     getPermissions(requestContext: AuthorizedClientRequestContext, projectId: string, serviceGPRId: number): Promise<Permission[]>;

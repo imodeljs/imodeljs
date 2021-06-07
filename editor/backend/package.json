@@ -1,6 +1,6 @@
 {
   "name": "@bentley/imodeljs-editor-backend",
-  "version": "2.17.0-dev.14",
+  "version": "2.17.0-dev.28",
   "description": "iModel.js editor backend",
   "main": "lib/imodeljs-editor-backend.js",
   "typings": "lib/imodeljs-editor-backend",
@@ -34,22 +34,22 @@
     "url": "http://www.bentley.com"
   },
   "peerDependencies": {
-    "@bentley/bentleyjs-core": "^2.17.0-dev.14",
-    "@bentley/geometry-core": "^2.17.0-dev.14",
-    "@bentley/imodeljs-backend": "2.17.0-dev.14",
-    "@bentley/imodeljs-common": "^2.17.0-dev.14"
+    "@bentley/bentleyjs-core": "workspace:^2.17.0-dev.28",
+    "@bentley/geometry-core": "workspace:^2.17.0-dev.28",
+    "@bentley/imodeljs-backend": "workspace:^2.17.0-dev.28",
+    "@bentley/imodeljs-common": "workspace:^2.17.0-dev.28"
   },
   "//devDependencies": [
     "NOTE: All peerDependencies should also be listed as devDependencies since peerDependencies are not considered by npm install",
     "NOTE: All tools used by scripts in this package must be listed as devDependencies"
   ],
   "devDependencies": {
-    "@bentley/bentleyjs-core": "2.17.0-dev.14",
-    "@bentley/build-tools": "2.17.0-dev.14",
-    "@bentley/eslint-plugin": "2.17.0-dev.14",
-    "@bentley/geometry-core": "2.17.0-dev.14",
-    "@bentley/imodeljs-backend": "2.17.0-dev.14",
-    "@bentley/imodeljs-common": "2.17.0-dev.14",
+    "@bentley/bentleyjs-core": "workspace:*",
+    "@bentley/build-tools": "workspace:*",
+    "@bentley/eslint-plugin": "workspace:*",
+    "@bentley/geometry-core": "workspace:*",
+    "@bentley/imodeljs-backend": "workspace:*",
+    "@bentley/imodeljs-common": "workspace:*",
     "@types/chai": "^4.1.4",
     "@types/chai-as-promised": "^7",
     "@types/deep-assign": "^0.1.0",
@@ -59,8 +59,8 @@
     "chai": "^4.1.2",
     "chai-as-promised": "^7",
     "cpx": "^1.5.0",
-    "eslint": "^6.8.0",
     "electron": "^11.1.0",
+    "eslint": "^6.8.0",
     "mocha": "^8.3.2",
     "rimraf": "^3.0.2",
     "sinon": "^9.0.2",
@@ -69,7 +69,7 @@
     "typescript": "~4.1.0"
   },
   "dependencies": {
-    "@bentley/imodeljs-editor-common": "2.17.0-dev.14"
+    "@bentley/imodeljs-editor-common": "workspace:*"
   },
   "eslintConfig": {
     "plugins": [

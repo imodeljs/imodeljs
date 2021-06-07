@@ -7,7 +7,7 @@ import { expect } from "chai";
 import { ContextRegistryClient, ContextRegistryRequestQueryOptions, Project } from "@bentley/context-registry-client";
 import { AuthorizedClientRequestContext } from "@bentley/itwin-client";
 import { TestUsers } from "@bentley/oidc-signin-tool/lib/frontend";
-import { IModelHubPermission, Permission, RbacClient } from "../../RbacClient";
+import { Permission, RbacClient } from "../../RbacClient";
 import { TestConfig } from "../TestConfig";
 
 //  These tests require that the client_id requests the following scopes:
@@ -38,27 +38,6 @@ describe("RbacClient (#integration)", () => {
     const iModelHubServiceGPRId = 2485;
     const permissions: Permission[] = await rbacClient.getPermissions(requestContext, project.wsgId, iModelHubServiceGPRId);
     expect(permissions.length).equals(9);
-  });
-
-  it("should get the permissions relevant to iModelHub for the specified project (#integration)", async () => {
-    // Get test project
-    const queryOptions: ContextRegistryRequestQueryOptions = {
-      $select: "*",
-      $filter: `Name+eq+'${TestConfig.projectName}'`,
-    };
-
-    const project: Project = await contextRegistry.getProject(requestContext, queryOptions);
-    expect(!!project);
-    /* eslint-disable deprecation/deprecation */
-    const permissions: IModelHubPermission = await rbacClient.getIModelHubPermissions(requestContext, project.wsgId);
-
-    expect(permissions & IModelHubPermission.Create);
-    expect(permissions & IModelHubPermission.Read);
-    expect(permissions & IModelHubPermission.Modify);
-    expect(permissions & IModelHubPermission.Delete);
-    expect(permissions & IModelHubPermission.ManageResources);
-    expect(permissions & IModelHubPermission.ManageVersions);
-    /* eslint-enable deprecation/deprecation */
   });
 
   it("should get the object type relevant to iModelHub for the specified project (#integration)", async () => {

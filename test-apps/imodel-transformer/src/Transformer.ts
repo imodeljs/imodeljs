@@ -6,12 +6,13 @@
 import { assert, ClientRequestContext, DbResult, Id64, Id64Array, Id64Set, Id64String, Logger } from "@bentley/bentleyjs-core";
 import {
   Category, CategorySelector, DisplayStyle, DisplayStyle3d, ECSqlStatement, Element, ElementRefersToElements, GeometricModel3d, GeometryPart,
-  IModelDb, IModelTransformer, IModelTransformOptions, InformationPartitionElement, ModelSelector, PhysicalModel, PhysicalPartition, Relationship,
-  SpatialCategory, SpatialViewDefinition, SubCategory, ViewDefinition,
+  IModelDb, IModelTransformer, IModelTransformOptions, InformationPartitionElement, ModelSelector, PhysicalModel, PhysicalPartition,
+  Relationship, SpatialCategory, SpatialViewDefinition, SubCategory, ViewDefinition,
 } from "@bentley/imodeljs-backend";
 import { ElementProps, IModel } from "@bentley/imodeljs-common";
 import { AuthorizedClientRequestContext } from "@bentley/itwin-client";
 
+export const loggerCategory = "imodel-transformer-Transformer";
 export const progressLoggerCategory = "Progress";
 
 export interface TransformerOptions extends IModelTransformOptions {
@@ -32,6 +33,8 @@ export class Transformer extends IModelTransformer {
   private _targetPhysicalModelId = Id64.invalid; // will be valid when PhysicalModels are being combined
 
   public static async transformAll(requestContext: AuthorizedClientRequestContext | ClientRequestContext, sourceDb: IModelDb, targetDb: IModelDb, options?: TransformerOptions): Promise<void> {
+    requestContext.enter();
+    // might need to inject RequestContext for schemaExport.
     const transformer = new Transformer(sourceDb, targetDb, options);
     transformer.initialize(options);
     await transformer.processSchemas(requestContext);
@@ -219,7 +222,7 @@ export class Transformer extends IModelTransformer {
 
   /** This override of IModelTransformer.onTransformElement exists for debugging purposes */
   protected onTransformElement(sourceElement: Element): ElementProps {
-    // if (sourceElement.getDisplayLabel() === "xxx") { // use logging to find something unique about the problem element
+    // if (sourceElement.id === "0x0" || sourceElement.getDisplayLabel() === "xxx") { // use logging to find something unique about the problem element
     //   Logger.logInfo(progressLoggerCategory, "Found problem element"); // set breakpoint here
     // }
     return super.onTransformElement(sourceElement);

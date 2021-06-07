@@ -7,8 +7,10 @@ import * as path from "path";
 import * as Yargs from "yargs";
 import { assert, Guid, GuidString, Id64String, Logger, LogLevel } from "@bentley/bentleyjs-core";
 import { ContextRegistryClient } from "@bentley/context-registry-client";
-import { ChangeSet, Version } from "@bentley/imodelhub-client";
-import { BackendLoggerCategory, BackendRequestContext, IModelDb, IModelHost, IModelJsFs, SnapshotDb } from "@bentley/imodeljs-backend";
+import { Version } from "@bentley/imodelhub-client";
+import {
+  BackendLoggerCategory, BackendRequestContext, ChangesetProps, IModelDb, IModelHost, IModelJsFs, SnapshotDb,
+} from "@bentley/imodeljs-backend";
 import { BriefcaseIdValue, IModelVersion } from "@bentley/imodeljs-common";
 import { AuthorizedClientRequestContext } from "@bentley/itwin-client";
 import { ElementUtils } from "./ElementUtils";
@@ -140,8 +142,8 @@ void (async () => {
       }
 
       if (args.logChangeSets) {
-        await IModelHubUtils.forEachChangeSet(requestContext, sourceIModelId, (changeSet: ChangeSet) => {
-          Logger.logInfo(loggerCategory, `sourceChangeSet: id="${changeSet.id}", description="${changeSet.description}", fileSize=${changeSet.fileSizeNumber}`);
+        await IModelHubUtils.forEachChangeSet(requestContext, sourceIModelId, (changeSet: ChangesetProps) => {
+          Logger.logInfo(loggerCategory, `sourceChangeSet: id="${changeSet.id}", description="${changeSet.description}"}`);
         });
       }
 
@@ -182,13 +184,12 @@ void (async () => {
         assert(undefined === targetIModelId, "should not specify targetIModelId if targetIModelName is specified");
         targetIModelId = await IModelHubUtils.queryIModelId(requestContext, targetContextId, args.targetIModelName);
         if ((args.clean) && (undefined !== targetIModelId)) {
-          await IModelHost.iModelClient.iModels.delete(requestContext, targetContextId, targetIModelId);
+          await IModelHost.hubAccess.deleteIModel({ requestContext, contextId: targetContextId, iModelId: targetIModelId });
           targetIModelId = undefined;
         }
         if (undefined === targetIModelId) {
           // create target iModel if it doesn't yet exist or was just cleaned/deleted above
-          const targetHubIModel = await IModelHost.iModelClient.iModels.create(requestContext, targetContextId, args.targetIModelName);
-          targetIModelId = targetHubIModel.id;
+          targetIModelId = await IModelHost.hubAccess.createIModel({ requestContext, contextId: targetContextId, iModelName: args.targetIModelName });
         }
       }
       assert(undefined !== targetIModelId);
@@ -196,8 +197,8 @@ void (async () => {
       Logger.logInfo(loggerCategory, `targetIModelId=${targetIModelId}`);
 
       if (args.logChangeSets) {
-        await IModelHubUtils.forEachChangeSet(requestContext, targetIModelId, (changeSet: ChangeSet) => {
-          Logger.logInfo(loggerCategory, `targetChangeSet: id="${changeSet.id}", description="${changeSet.description}", fileSize=${changeSet.fileSizeNumber}`);
+        await IModelHubUtils.forEachChangeSet(requestContext, targetIModelId, (changeSet: ChangesetProps) => {
+          Logger.logInfo(loggerCategory, `targetChangeSet: id="${changeSet.id}", description="${changeSet.description}"`);
         });
       }
 
@@ -240,18 +241,10 @@ void (async () => {
       }
     }
 
-    const excludeSubCategories = args.excludeSubCategories?.split(",");
-    const excludeCategories = args.excludeCategories?.split(",");
-
     const transformerOptions: TransformerOptions = {
-      simplifyElementGeometry: args.simplifyElementGeometry,
-      combinePhysicalModels: args.combinePhysicalModels,
-      exportViewDefinition: args.exportViewDefinition,
-      deleteUnusedGeometryParts: args.deleteUnusedGeometryParts,
-      excludeSubCategories,
-      excludeCategories,
-      noProvenance: args.noProvenance,
-      includeSourceProvenance: args.includeSourceProvenance,
+      ...args,
+      excludeSubCategories: args.excludeSubCategories?.split(","),
+      excludeCategories: args.excludeCategories?.split(","),
     };
 
     if (processChanges) {

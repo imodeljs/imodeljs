@@ -6,7 +6,7 @@
  * @module Rendering
  */
 
-import { Id64, Id64Set, Id64String } from "@bentley/bentleyjs-core";
+import { Id64, Id64String } from "@bentley/bentleyjs-core";
 import { BatchType, Feature } from "./FeatureTable";
 import { ColorDef } from "./ColorDef";
 import { GeometryClass } from "./GeometryParams";
@@ -14,9 +14,11 @@ import { LinePixels } from "./LinePixels";
 import { RgbColor, RgbColorProps } from "./RgbColor";
 import { SubCategoryOverride } from "./SubCategoryOverride";
 
-function copyIdSetToUint32Set(dst: Id64.Uint32Set, src?: Set<string>): void {
+function copyIdSetToUint32Set(dst: Id64.Uint32Set, src: Iterable<string>): void {
   dst.clear();
-  if (undefined !== src) {
+  if (typeof src === "string") {
+    dst.addId(src);
+  } else {
     for (const id of src)
       dst.addId(id);
   }
@@ -386,9 +388,9 @@ export class FeatureOverrides implements FeatureAppearanceSource {
   /** Specify the Id of a animation node that should never be drawn. */
   public setAnimationNodeNeverDrawn(id: number): void { this.neverDrawnAnimationNodes.add(id); }
   /** Specify the Ids of elements that should never be drawn. */
-  public setNeverDrawnSet(ids: Id64Set) { copyIdSetToUint32Set(this._neverDrawn, ids); }
+  public setNeverDrawnSet(ids: Iterable<Id64String>) { copyIdSetToUint32Set(this._neverDrawn, ids); }
   /** Specify the Ids of elements that should always be drawn. */
-  public setAlwaysDrawnSet(ids: Id64Set, exclusive: boolean, ignoreSubCategory = true) {
+  public setAlwaysDrawnSet(ids: Iterable<Id64String>, exclusive: boolean, ignoreSubCategory = true) {
     copyIdSetToUint32Set(this._alwaysDrawn, ids);
     this.isAlwaysDrawnExclusive = exclusive;
     this.alwaysDrawnIgnoresSubCategory = ignoreSubCategory;

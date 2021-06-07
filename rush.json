@@ -1,11 +1,14 @@
 {
   "$schema": "https://developer.microsoft.com/json-schemas/rush/v5/rush.schema.json",
-  "rushVersion": "5.34.2",
-  "pnpmVersion": "4.12.5",
-  "nodeSupportedVersionRange": ">=10.17.0 <15.0.0",
+  "rushVersion": "5.47.0",
+  "pnpmVersion": "6.4.0",
+  "nodeSupportedVersionRange": ">=12.17.0 <15.0.0",
   "projectFolderMinDepth": 2,
   "projectFolderMaxDepth": 3,
   "ensureConsistentVersions": true,
+  "pnpmOptions": {
+    "useWorkspaces": true
+  },
   "approvedPackagesPolicy": {
     "reviewCategories": [
       "frontend",

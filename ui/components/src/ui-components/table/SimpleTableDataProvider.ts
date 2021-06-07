@@ -17,7 +17,7 @@ import { ColumnDescription, MutableTableDataProvider, RowItem, TableDataChangeEv
 
 /**
  * A Table Data Provider using an array of items.
- * @beta
+ * @public
  */
 export class SimpleTableDataProvider implements MutableTableDataProvider {
   private _items: RowItem[];

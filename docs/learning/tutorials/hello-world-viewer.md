@@ -6,7 +6,7 @@
 
 This tutorial assumes that you already have:
 
-- Your own local source for the iTwin Web Viewer based on the template @bentley/itwin-viewer
+- Your own local source for the iTwin Web Viewer based on the template @itwin/web-viewer
   - Instructions for that can be found [here]($docs/learning/tutorials/develop-web-viewer/)
 - Configured your local source to open the "House Model" sample iModel.
   - Instructions to use this sample iModel can be found [here]($docs/learning/tutorials/create-test-imodel-sample/).

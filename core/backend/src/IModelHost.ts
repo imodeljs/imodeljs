@@ -10,13 +10,12 @@ import * as os from "os";
 import * as path from "path";
 import * as semver from "semver";
 import {
-  AzureFileHandler, BackendFeatureUsageTelemetryClient, ClientAuthIntrospectionManager, HttpRequestHost, ImsClientAuthIntrospectionManager,
-  IntrospectionClient,
+  BackendFeatureUsageTelemetryClient, ClientAuthIntrospectionManager, HttpRequestHost, ImsClientAuthIntrospectionManager, IntrospectionClient,
 } from "@bentley/backend-itwin-client";
 import {
   assert, BeEvent, ClientRequestContext, Config, Guid, GuidString, IModelStatus, Logger, LogLevel, ProcessDetector, SessionProps,
 } from "@bentley/bentleyjs-core";
-import { IModelBankClient, IModelClient, IModelHubClient } from "@bentley/imodelhub-client";
+import { IModelBankClient, IModelClient } from "@bentley/imodelhub-client";
 import { BentleyStatus, IModelError, RpcConfiguration, SerializedRpcRequest } from "@bentley/imodeljs-common";
 import { IModelJsNative, NativeLibrary } from "@bentley/imodeljs-native";
 import { AccessToken, AuthorizationClient, AuthorizedClientRequestContext, UrlDiscoveryClient, UserInfo } from "@bentley/itwin-client";
@@ -30,6 +29,8 @@ import { AzureBlobStorage, CloudStorageService, CloudStorageServiceCredentials, 
 import { Config as ConcurrentQueryConfig } from "./ConcurrentQuery";
 import { FunctionalSchema } from "./domains/FunctionalSchema";
 import { GenericSchema } from "./domains/GenericSchema";
+import { BackendHubAccess } from "./BackendHubAccess";
+import { IModelHubBackend } from "./IModelHubBackend";
 import { IModelJsFs } from "./IModelJsFs";
 import { DevToolsRpcImpl } from "./rpc-impl/DevToolsRpcImpl";
 import { IModelReadRpcImpl } from "./rpc-impl/IModelReadRpcImpl";
@@ -202,8 +203,6 @@ export class IModelHost {
   private constructor() { }
   public static authorizationClient?: AuthorizationClient;
 
-  private static _imodelClient?: IModelClient;
-
   private static _clientAuthIntrospectionManager?: ClientAuthIntrospectionManager;
   /** @alpha */
   public static get clientAuthIntrospectionManager(): ClientAuthIntrospectionManager | undefined { return this._clientAuthIntrospectionManager; }
@@ -331,14 +330,27 @@ export class IModelHost {
   /** @internal */
   public static tileUploader: CloudStorageTileUploader;
 
-  public static get iModelClient(): IModelClient {
-    if (!IModelHost._imodelClient)
-      IModelHost._imodelClient = new IModelHubClient(new AzureFileHandler());
+  private static _hubAccess: BackendHubAccess;
+  /** @internal */
+  public static setHubAccess(hubAccess: BackendHubAccess) { this._hubAccess = hubAccess; }
 
-    return IModelHost._imodelClient;
+  /** Provides access to the IModelHub implementation for this IModelHost
+   * @internal
+   */
+  public static get hubAccess(): BackendHubAccess { return this._hubAccess; }
+
+  /**
+   *  @deprecated access to IModelHub should generally be through other higher level apis.
+   * For internal methods, use [[hubAccess]]] api.
+   * If you really need to call the IModelClient api directly, use [[IModelHubBackend.iModelClient]]
+   */
+  public static get iModelClient(): IModelClient {
+    return IModelHubBackend.iModelClient;
   }
+
+  /** @deprecated use [[hubAccess]] api */
   public static get isUsingIModelBankClient(): boolean {
-    return IModelHost.iModelClient instanceof IModelBankClient;
+    return IModelHubBackend.isUsingIModelBankClient;
   }
 
   private static _isValid = false;
@@ -403,7 +415,7 @@ export class IModelHost {
     }
 
     this.setupCacheDirs(configuration);
-    this._imodelClient = configuration.imodelClient;
+    IModelHubBackend.setIModelClient(configuration.imodelClient);
     BriefcaseManager.initialize(this._briefcaseCacheDir, path.join(this._cacheDir, "bc", "v4_0"));
 
     IModelHost.setupRpcRequestContext();
@@ -423,6 +435,7 @@ export class IModelHost {
       FunctionalSchema,
     ].forEach((schema) => schema.registerSchema()); // register all of the schemas
 
+    IModelHost._hubAccess = IModelHubBackend;
     IModelHost.configuration = configuration;
     IModelHost.setupTileCache();
 
@@ -435,7 +448,7 @@ export class IModelHost {
       this._clientAuthIntrospectionManager = new ImsClientAuthIntrospectionManager(introspectionClient);
     }
 
-    if (!IModelHost.isUsingIModelBankClient && configuration.applicationType !== IModelJsNative.ApplicationType.WebAgent) { // ULAS does not support usage without a user (i.e. agent clients)
+    if (!IModelHubBackend.isUsingIModelBankClient && configuration.applicationType !== IModelJsNative.ApplicationType.WebAgent) { // ULAS does not support usage without a user (i.e. agent clients)
       const usageLoggingClient = new BackendFeatureUsageTelemetryClient({ backendApplicationId: this.applicationId, backendApplicationVersion: this.applicationVersion, backendMachineName: os.hostname(), clientAuthManager: this._clientAuthIntrospectionManager });
       this.telemetry.addClient(usageLoggingClient);
     }

@@ -6,13 +6,13 @@
 import { expect } from "chai";
 import * as faker from "faker";
 import sinon from "sinon";
-import * as moq from "@bentley/presentation-common/lib/test/_helpers/Mocks";
 import { Id64 } from "@bentley/bentleyjs-core";
 import { IpcApp } from "@bentley/imodeljs-frontend";
 import { RulesetVariable, VariableValueTypes } from "@bentley/presentation-common";
+import * as moq from "@bentley/presentation-common/lib/test/_helpers/Mocks";
 import { createRandomId } from "@bentley/presentation-common/lib/test/_helpers/random";
-import { RulesetVariablesManagerImpl } from "../presentation-frontend/RulesetVariablesManager";
 import { IpcRequestsHandler } from "../presentation-frontend/IpcRequestsHandler";
+import { RulesetVariablesManagerImpl } from "../presentation-frontend/RulesetVariablesManager";
 
 describe("RulesetVariablesManager", () => {
 
@@ -39,7 +39,7 @@ describe("RulesetVariablesManager", () => {
       };
       ipcHandlerMock.setup(async (x) => x.setRulesetVariable(moq.It.isObjectWith({ rulesetId, variable: testVariable }))).verifiable(moq.Times.once());
 
-      await vars.setString(testVariable.id, testVariable.value as string);
+      await vars.setString(testVariable.id, testVariable.value);
       ipcHandlerMock.verifyAll();
     });
 
@@ -48,13 +48,13 @@ describe("RulesetVariablesManager", () => {
   describe("getAllVariables", () => {
 
     it("return empty array if there's no variables", async () => {
-      expect(await vars.getAllVariables()).to.deep.eq([]);
+      expect(vars.getAllVariables()).to.deep.eq([]);
     });
 
     it("returns variables", async () => {
       const variables = [{ id: variableId, type: VariableValueTypes.String, value: faker.random.word() }];
       await vars.setString(variables[0].id, variables[0].value);
-      const allVariables = await vars.getAllVariables();
+      const allVariables = vars.getAllVariables();
       expect(allVariables).to.deep.eq(variables);
     });
   });

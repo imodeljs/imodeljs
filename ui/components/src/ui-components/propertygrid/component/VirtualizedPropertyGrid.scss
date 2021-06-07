@@ -5,20 +5,15 @@
 @import "~@bentley/ui-core/lib/ui-core/expandable/list";
 @import "~@bentley/ui-core/lib/ui-core/scrollbar";
 
-.components-property-grid-loader {
-  position: relative;
-  display: block;
-  left: calc(50% - 24px);
-  top: calc(50% - 24px);
+.components-virtualized-property-grid-loader {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-.components-property-grid {
-  @include uicore-expandable-blocks-list;
-
-  padding-top: 6px;
-  padding-bottom: 6px;
-  display: grid;
-  grid-row-gap: 6px;
+.components-virtualized-property-grid {
+  padding: 0;
   user-select: none;
   color: $buic-foreground-body;
 

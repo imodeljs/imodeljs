@@ -18,8 +18,9 @@ import { IModelApp } from "./imodeljs-frontend";
 import { AsyncMethodsOf, IpcApp, IpcAppOptions, NotificationHandler, PromiseReturnType } from "./IpcApp";
 import { NativeAppLogger } from "./NativeAppLogger";
 
-/** Properties for specifying the BriefcaseId for downloading
- * @beta
+/** Properties for specifying the BriefcaseId for downloading. May either specify a BriefcaseId directly (preferable) or, for
+ * backwards compatibility, a [SyncMode]($common). If [SyncMode.PullAndPush]($common) is supplied, a new briefcaseId will be acquired.
+ * @public
  */
 export type DownloadBriefcaseId =
   { syncMode?: SyncMode, briefcaseId?: never } |
@@ -27,9 +28,14 @@ export type DownloadBriefcaseId =
 
 /**
 * Options to download a briefcase
-* @beta
+* @public
 */
-export type DownloadBriefcaseOptions = DownloadBriefcaseId & { fileName?: string, progressInterval?: number };
+export type DownloadBriefcaseOptions = DownloadBriefcaseId & {
+  /** the full path for the briefcase file */
+  fileName?: string;
+  /** interval for calling progress function, in milliseconds */
+  progressInterval?: number;
+};
 
 /** NativeApp notifications from backend */
 class NativeAppNotifyHandler extends NotificationHandler implements NativeAppNotifications {
@@ -49,7 +55,7 @@ class NativeAppNotifyHandler extends NotificationHandler implements NativeAppNot
  * and then listens for the `onUserStateChanged` event to cache the accessToken. The token is cached
  * here on the frontend because it is used for every RPC operation, even when we're running as a NativeApp.
  * We must therefore check for expiration and request refreshes as/when necessary.
- * @beta
+ * @public
  */
 export class NativeAppAuthorization {
   private _config?: NativeAppAuthorizationConfiguration;
@@ -110,7 +116,7 @@ export class NativeAppAuthorization {
 
 /**
  * Options for [[NativeApp.startup]]
- * @beta
+ * @public
  */
 export interface NativeAppOpts extends IpcAppOptions {
   nativeApp?: {
@@ -128,7 +134,7 @@ export interface NativeAppOpts extends IpcAppOptions {
 /**
  * The frontend of a native application
  * @see [Native Applications]($docs/learning/NativeApps.md)
- * @beta
+ * @public
  */
 export class NativeApp {
   public static async callNativeHost<T extends AsyncMethodsOf<NativeAppFunctions>>(methodName: T, ...args: Parameters<NativeAppFunctions[T]>) {
@@ -158,11 +164,14 @@ export class NativeApp {
       window.removeEventListener("offline", this._onOffline);
     }
   }
+  /** event called when internet connectivity changes, if known */
   public static onInternetConnectivityChanged = new BeEvent<(status: InternetConnectivityStatus) => void>();
 
+  /** determine whether the app currently has internet connectivity, if known */
   public static async checkInternetConnectivity(): Promise<InternetConnectivityStatus> {
     return this.callNativeHost("checkInternetConnectivity");
   }
+  /** @internal */
   public static async overrideInternetConnectivity(status: InternetConnectivityStatus): Promise<void> {
     return this.callNativeHost("overrideInternetConnectivity", OverriddenBy.User, status);
   }
@@ -198,6 +207,7 @@ export class NativeApp {
     }
   }
 
+  /** @internal */
   public static async shutdown() {
     NativeApp.unhookBrowserConnectivityEvents();
     await NativeAppLogger.flush();
@@ -239,6 +249,7 @@ export class NativeApp {
     return { briefcaseId, fileName, downloadPromise: doDownload(), requestCancel };
   }
 
+  /** Get the full path filename for a briefcase within the briefcase cache */
   public static async getBriefcaseFileName(props: BriefcaseProps): Promise<string> {
     return this.callNativeHost("getBriefcaseFileName", props);
   }
@@ -291,7 +302,7 @@ export class NativeApp {
 /**
  *  A local disk-based cache for key value pairs for NativeApps.
  * @note This should be used only for local caching, since its not guaranteed to exist permanently.
- * @beta
+ * @public
  */
 export class Storage {
   constructor(public readonly id: string) { }

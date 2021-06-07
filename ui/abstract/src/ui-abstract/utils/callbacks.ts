@@ -9,21 +9,21 @@
 import { Primitives } from "../properties/PrimitiveTypes";
 
 /** Signature for number onCommit function.
- * @beta
+ * @public
  */
 export type OnNumberCommitFunc = (value: number) => void;
 
 /** Signature for value onCommit function.
- * @beta
+ * @public
  */
 export type OnValueCommitFunc = (value: Primitives.Value) => void;
 
 /** Signature for onCancel function.
- * @beta
+ * @public
  */
 export type OnCancelFunc = () => void;
 
 /** Signature for onItemExecuted function.
- * @beta
+ * @public
  */
 export type OnItemExecutedFunc = (item: any) => void;

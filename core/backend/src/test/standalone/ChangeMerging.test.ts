@@ -77,9 +77,9 @@ describe("ChangeMerging", () => {
 
     const csHistory: IModelJsNative.ChangeSetProps[] = [];
 
-    let firstParent: number = -1;
-    let secondParent: number = -1; // eslint-disable-line @typescript-eslint/no-unused-vars
-    let neutralParent: number = -1; // eslint-disable-line @typescript-eslint/no-unused-vars
+    let firstParent = -1;
+    let secondParent = -1;
+    let neutralParent = -1;
 
     let modelId: Id64String;
     let spatialCategoryId: Id64String;

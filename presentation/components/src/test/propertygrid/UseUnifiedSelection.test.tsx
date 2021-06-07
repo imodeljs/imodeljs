@@ -30,6 +30,7 @@ describe("usePropertyDataProviderWithUnifiedSelection", () => {
     );
     expect(result.current).to.not.be.undefined;
     expect(result.current.isOverLimit).to.be.false;
+    expect(result.current.numSelectedElements).to.be.equal(0);
 
     dataProviderMock.verify((x) => x.keys = moq.It.isAny(), moq.Times.never());
   });
@@ -43,6 +44,7 @@ describe("usePropertyDataProviderWithUnifiedSelection", () => {
     );
     expect(result.current).to.not.be.undefined;
     expect(result.current.isOverLimit).to.be.false;
+    expect(result.current.numSelectedElements).to.be.equal(0);
 
     dataProviderMock.verify((x) => x.keys = moq.It.is((keys) => keys.isEmpty), moq.Times.exactly(1));
   });
@@ -57,6 +59,7 @@ describe("usePropertyDataProviderWithUnifiedSelection", () => {
     );
     expect(result.current).to.not.be.undefined;
     expect(result.current.isOverLimit).to.be.false;
+    expect(result.current.numSelectedElements).to.be.equal(2);
 
     dataProviderMock.verify((x) => x.keys = isKeySet(setKeys), moq.Times.once());
   });
@@ -74,6 +77,7 @@ describe("usePropertyDataProviderWithUnifiedSelection", () => {
 
     expect(result.current).to.not.be.undefined;
     expect(result.current.isOverLimit).to.be.true;
+    expect(result.current.numSelectedElements).to.be.equal(2);
     dataProviderMock.verify((x) => x.keys = moq.It.is((keys) => keys.isEmpty), moq.Times.exactly(1));
   });
 
@@ -104,6 +108,7 @@ describe("usePropertyDataProviderWithUnifiedSelection", () => {
     expect(selectionHandlerMock.target.onSelect).to.not.be.undefined;
     expect(result.current).to.not.be.undefined;
     expect(result.current.isOverLimit).to.be.false;
+    expect(result.current.numSelectedElements).to.be.equal(2);
 
     selectionHandlerMock.target.onSelect!(selectionEvent, selectionProviderMock.object);
     dataProviderMock.verify((x) => x.keys = isKeySet(keys2), moq.Times.once());
@@ -113,6 +118,9 @@ describe("usePropertyDataProviderWithUnifiedSelection", () => {
     const setKeys = new KeySet([createRandomECInstanceKey(), createRandomECInstanceKey()]);
     selectionHandlerMock.setup((x) => x.getSelectionLevels()).returns(() => [0]);
     selectionHandlerMock.setup((x) => x.getSelection(0)).returns(() => setKeys);
+    const mockIModel = moq.Mock.ofType<IModelConnection>();
+    dataProviderMock.setup((x) => x.imodel).returns(() => mockIModel.object);
+    dataProviderMock.setup((x) => x.rulesetId).returns(() => "ruleset");
 
     const { unmount } = renderHook(
       usePropertyDataProviderWithUnifiedSelection,

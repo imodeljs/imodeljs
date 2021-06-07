@@ -275,10 +275,16 @@ export function appendWidgets(state: NineZoneState, widgetDefs: ReadonlyArray<Wi
   const tabs = new Array<string>();
   for (const widgetDef of widgetDefs) {
     const label = getWidgetLabel(widgetDef.label);
+    const saveTab = state.tabs[widgetDef.id];
+    const preferredPanelWidgetSize = saveTab ? saveTab.preferredPanelWidgetSize : widgetDef.preferredPanelSize;
+    const preferredFloatingWidgetSize = saveTab ? saveTab.preferredFloatingWidgetSize : undefined;
+    const preferredPopoutWidgetSize = saveTab ? saveTab.preferredPopoutWidgetSize : undefined;
     state = addTab(state, widgetDef.id, {
       label,
-      preferredPanelWidgetSize: widgetDef.preferredPanelSize,
       canPopout: widgetDef.canPopout,
+      preferredPanelWidgetSize,
+      preferredFloatingWidgetSize,
+      preferredPopoutWidgetSize,
     });
     tabs.push(widgetDef.id);
   }
@@ -628,17 +634,17 @@ export function restoreNineZoneState(frontstageDef: FrontstageDef, saved: SavedN
     for (const [, tab] of Object.entries(saved.tabs)) {
       const widgetDef = frontstageDef.findWidgetDef(tab.id);
       if (!widgetDef) {
-        Logger.logError(UiFramework.loggerCategory(restoreNineZoneState), "WidgetDef is not found for saved tab.", () => ({
+        Logger.logInfo(UiFramework.loggerCategory(restoreNineZoneState), "WidgetDef is not found for saved tab.", () => ({
           frontstageId: frontstageDef.id,
           tabId: tab.id,
         }));
         removeTab(draft, tab.id);
-        continue;
+        // let fall through so we preserve preferred sizes of widgets load via UiItemsProvider
       }
       draft.tabs[tab.id] = {
         ...tab,
-        label: getWidgetLabel(widgetDef.label),
-        canPopout: widgetDef.canPopout,
+        label: getWidgetLabel(widgetDef?.label ?? "undefined"),
+        canPopout: widgetDef?.canPopout,
       };
     }
     return;
@@ -1010,9 +1016,20 @@ export function useItemsManager(frontstageDef: FrontstageDef) {
   }, [frontstageDef]);
 }
 
+function tabShownInCurrentWidget(def: WidgetDef, state: NineZoneState) {
+  for (const [, widget] of Object.entries(state.widgets)) {
+    const foundTab = widget.tabs.find((tabId) => tabId === def.id);
+    // istanbul ignore else
+    if (foundTab)
+      return true;
+  }
+  return false;
+}
+
 // istanbul ignore next
 function determineNewWidgets(defs: readonly WidgetDef[] | undefined, state: NineZoneState) {
-  return (defs || []).filter((def) => !(def.id in state.tabs));
+  // if tab for widget.id is not found or the label does not match widget label (label is set to "undefined" when widgetDef is not initially available)
+  return (defs || []).filter((def) => !(def.id in state.tabs) || !tabShownInCurrentWidget(def, state));
 }
 
 /** @internal */
@@ -1034,6 +1051,22 @@ export function useSyncDefinitions(frontstageDef: FrontstageDef) {
       }
       for (const widgetId of panel.widgets) {
         const widget = nineZone.widgets[widgetId];
+        // istanbul ignore else
+        if (widget) {
+          for (const tabId of widget.tabs) {
+            const widgetDef = frontstageDef.findWidgetDef(tabId);
+            let widgetState = WidgetState.Open;
+            if (widget.minimized || tabId !== widget.activeTabId)
+              widgetState = WidgetState.Closed;
+            widgetDef && widgetDef.setWidgetState(widgetState);
+          }
+        }
+      }
+    }
+    for (const widgetId of nineZone.floatingWidgets.allIds) {
+      const widget = nineZone.widgets[widgetId];
+      // istanbul ignore else
+      if (widget) {
         for (const tabId of widget.tabs) {
           const widgetDef = frontstageDef.findWidgetDef(tabId);
           let widgetState = WidgetState.Open;
@@ -1041,16 +1074,6 @@ export function useSyncDefinitions(frontstageDef: FrontstageDef) {
             widgetState = WidgetState.Closed;
           widgetDef && widgetDef.setWidgetState(widgetState);
         }
-      }
-    }
-    for (const widgetId of nineZone.floatingWidgets.allIds) {
-      const widget = nineZone.widgets[widgetId];
-      for (const tabId of widget.tabs) {
-        const widgetDef = frontstageDef.findWidgetDef(tabId);
-        let widgetState = WidgetState.Open;
-        if (widget.minimized || tabId !== widget.activeTabId)
-          widgetState = WidgetState.Closed;
-        widgetDef && widgetDef.setWidgetState(widgetState);
       }
     }
   }, [nineZone, frontstageDef]);

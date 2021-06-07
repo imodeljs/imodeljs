@@ -2,13 +2,13 @@
 * Copyright (c) Bentley Systems, Incorporated. All rights reserved.
 * See LICENSE.md in the project root for license terms and full copyright notice.
 *--------------------------------------------------------------------------------------------*/
-@import "~@bentley/ui-core/lib/ui-core/math";
+@use "sass:math";
 @import "variables";
 
 .components-toolbar-item-expandable-group-tool-expander {
   > .components-expansion-indicator {
     $border: solid $expander-arrow-thickness currentColor;
-    $size: sqrt($expander-arrow-size-val * $expander-arrow-size-val * 8) / 2 + px;
+    $size: math.sqrt($expander-arrow-size-val * $expander-arrow-size-val * 8) * 0.5 + px;
 
     width: $size;
     height: $size;

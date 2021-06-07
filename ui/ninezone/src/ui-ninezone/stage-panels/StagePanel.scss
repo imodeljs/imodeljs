@@ -20,33 +20,34 @@
 
   &.nz-panel-bottom {
     > .nz-resize-grip {
-      top: -$nz-resize-grip-size / 2;
+      top: -$nz-resize-grip-size * 0.5;
       left: 0;
     }
   }
 
   &.nz-panel-left {
     > .nz-resize-grip {
-      right: -$nz-resize-grip-size / 2;
+      right: -$nz-resize-grip-size * 0.5;
       top: 0;
     }
   }
 
   &.nz-panel-right {
     > .nz-resize-grip {
-      left: -$nz-resize-grip-size / 2;
+      left: -$nz-resize-grip-size * 0.5;
       top: 0;
     }
   }
 
   &.nz-panel-top {
     > .nz-resize-grip {
-      bottom: -$nz-resize-grip-size / 2;
+      bottom: -$nz-resize-grip-size * 0.5;
       left: 0;
     }
   }
 
-  &.nz-panel-bottom, &.nz-panel-top {
+  &.nz-panel-bottom,
+  &.nz-panel-top {
     min-height: $min-size;
 
     @include for-tablet-landscape-down {
@@ -54,7 +55,8 @@
     }
   }
 
-  &.nz-panel-left, &.nz-panel-right {
+  &.nz-panel-left,
+  &.nz-panel-right {
     min-width: $min-size;
 
     @include for-tablet-landscape-down {

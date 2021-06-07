@@ -3455,6 +3455,11 @@
         "$ref": "#/definitions/VariablesGroup"
       },
       "type": "array"
+    },
+    "version": {
+      "description": "Version of the presentation ruleset in SemVer format: `{major}.{minor}.{patch}`.\n\nSetting the version is optional, but might be useful when ruleset is persisted\nsomewhere and evolves over time. Having a version helps choose persisting\nstrategy (keep all versions or only latest) and find the latest ruleset from a list\nof ruleset with the same id.\n\nDefaults to `0.0.0`.",
+      "pattern": "^[\\d]+\\.[\\d]+\\.[\\d]+$",
+      "type": "string"
     }
   },
   "required": [

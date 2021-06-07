@@ -3,21 +3,17 @@
 * See LICENSE.md in the project root for license terms and full copyright notice.
 *--------------------------------------------------------------------------------------------*/
 
-import { BriefcaseStatus, Config, GuidString, IModelStatus, OpenMode, StopWatch } from "@bentley/bentleyjs-core";
-import { ChangeSetQuery, ChangesType } from "@bentley/imodelhub-client";
-import { BriefcaseIdValue, IModelError, IModelVersion } from "@bentley/imodeljs-common";
-import { AuthorizedClientRequestContext, ProgressCallback, UserCancelledError } from "@bentley/itwin-client";
-import { TestUsers, TestUtility } from "@bentley/oidc-signin-tool";
 import { assert, expect } from "chai";
 import * as os from "os";
 import * as path from "path";
 import * as readline from "readline";
-import { CheckpointManager, V1CheckpointManager } from "../../CheckpointManager";
-import {
-  AuthorizedBackendRequestContext, BriefcaseDb, BriefcaseManager, Element, IModelDb, IModelHost,
-  IModelJsFs,
-} from "../../imodeljs-backend";
-import { IModelTestUtils } from "../IModelTestUtils";
+import { BriefcaseStatus, GuidString, IModelStatus, OpenMode, StopWatch } from "@bentley/bentleyjs-core";
+import { BriefcaseIdValue, IModelError, IModelVersion } from "@bentley/imodeljs-common";
+import { UserCancelledError } from "@bentley/itwin-client";
+import { V1CheckpointManager } from "../../CheckpointManager";
+import { AuthorizedBackendRequestContext, BriefcaseDb, BriefcaseManager, Element, IModelHost, IModelJsFs } from "../../imodeljs-backend";
+import { HubMock } from "../HubMock";
+import { IModelTestUtils, TestUserType } from "../IModelTestUtils";
 import { HubUtility } from "./HubUtility";
 import { TestChangeSetUtility } from "./TestChangeSetUtility";
 
@@ -43,51 +39,17 @@ describe("BriefcaseManager (#integration)", () => {
   const readOnlyTestVersions = ["FirstVersion", "SecondVersion", "ThirdVersion"];
   const readOnlyTestElementCounts = [27, 28, 29];
 
-  let readWriteTestIModelId: GuidString;
   let noVersionsTestIModelId: GuidString;
-
   let requestContext: AuthorizedBackendRequestContext;
   let managerRequestContext: AuthorizedBackendRequestContext;
-
-  const getElementCount = (iModel: IModelDb): number => {
-    const rows = IModelTestUtils.executeQuery(iModel, "SELECT COUNT(*) AS cnt FROM bis.Element");
-    const count = +(rows[0].cnt);
-    return count;
-  };
 
   before(async () => {
     // IModelTestUtils.setupDebugLogLevels();
 
-    requestContext = await TestUtility.getAuthorizedClientRequestContext(TestUsers.regular);
-    requestContext.enter();
-
+    requestContext = await IModelTestUtils.getUserContext(TestUserType.Regular);
     testContextId = await HubUtility.getTestContextId(requestContext);
-    requestContext.enter();
     readOnlyTestIModelId = await HubUtility.getTestIModelId(requestContext, HubUtility.testIModelNames.readOnly);
-    requestContext.enter();
-
-    readWriteTestIModelId = await HubUtility.getTestIModelId(requestContext, HubUtility.testIModelNames.noVersions);
-    requestContext.enter();
     noVersionsTestIModelId = await HubUtility.getTestIModelId(requestContext, HubUtility.testIModelNames.readWrite);
-    requestContext.enter();
-
-    // Purge briefcases that are close to reaching the acquire limit
-    await HubUtility.purgeAcquiredBriefcasesById(requestContext, readOnlyTestIModelId);
-    requestContext.enter();
-    await HubUtility.purgeAcquiredBriefcasesById(requestContext, noVersionsTestIModelId);
-    requestContext.enter();
-    await HubUtility.purgeAcquiredBriefcasesById(requestContext, readWriteTestIModelId);
-    requestContext.enter();
-    await HubUtility.purgeAcquiredBriefcasesById(requestContext, await HubUtility.getTestIModelId(requestContext, HubUtility.testIModelNames.stadium));
-    requestContext.enter();
-
-    managerRequestContext = await TestUtility.getAuthorizedClientRequestContext(TestUsers.manager);
-    await HubUtility.purgeAcquiredBriefcasesById(managerRequestContext, readOnlyTestIModelId);
-    requestContext.enter();
-    await HubUtility.purgeAcquiredBriefcasesById(managerRequestContext, noVersionsTestIModelId);
-    requestContext.enter();
-    await HubUtility.purgeAcquiredBriefcasesById(managerRequestContext, readWriteTestIModelId);
-    managerRequestContext.enter();
   });
 
   it("should open and close an iModel from the Hub", async () => {
@@ -97,9 +59,9 @@ describe("BriefcaseManager (#integration)", () => {
     // Validate that the IModelDb is readonly
     assert(iModel.isReadonly, "iModel not set to Readonly mode");
 
-    const expectedChangeSetId = await IModelVersion.first().evaluateChangeSet(requestContext, readOnlyTestIModelId, IModelHost.iModelClient);
-    assert.strictEqual<string>(iModel.changeSetId!, expectedChangeSetId);
-    assert.strictEqual<string>(iModel.changeSetId!, expectedChangeSetId);
+    const expectedChangeSetId = await IModelHost.hubAccess.getChangesetIdFromVersion({ version: IModelVersion.first(), requestContext, iModelId: readOnlyTestIModelId });
+    assert.strictEqual(iModel.changeSetId!, expectedChangeSetId);
+    assert.strictEqual(iModel.changeSetId!, expectedChangeSetId);
 
     const pathname = iModel.pathName;
     assert.isTrue(IModelJsFs.existsSync(pathname));
@@ -146,21 +108,24 @@ describe("BriefcaseManager (#integration)", () => {
   it("should open iModels of specific versions from the Hub", async () => {
     const iModelFirstVersion = await IModelTestUtils.openCheckpointUsingRpc({ requestContext, contextId: testContextId, iModelId: readOnlyTestIModelId, asOf: IModelVersion.first().toJSON() });
     assert.exists(iModelFirstVersion);
-    assert.strictEqual<string>(iModelFirstVersion.changeSetId!, "");
+    assert.strictEqual(iModelFirstVersion.changeSetId!, "");
 
-    const changeSets = await IModelHost.iModelClient.changeSets.get(requestContext, readOnlyTestIModelId);
+    const changeSets = await IModelHost.hubAccess.queryChangesets({ requestContext, iModelId: readOnlyTestIModelId });
 
     for (const [arrayIndex, versionName] of readOnlyTestVersions.entries()) {
-      const iModelFromVersion = await IModelTestUtils.openCheckpointUsingRpc({ requestContext, contextId: testContextId, iModelId: readOnlyTestIModelId, asOf: IModelVersion.asOfChangeSet(changeSets[arrayIndex + 1].wsgId).toJSON() });
+      const iModelFromVersion = await IModelTestUtils.openCheckpointUsingRpc({ requestContext, contextId: testContextId, iModelId: readOnlyTestIModelId, asOf: IModelVersion.asOfChangeSet(changeSets[arrayIndex + 1].id).toJSON() });
       assert.exists(iModelFromVersion);
-      assert.strictEqual<string>(iModelFromVersion.changeSetId!, changeSets[arrayIndex + 1].wsgId);
+      assert.strictEqual(iModelFromVersion.changeSetId!, changeSets[arrayIndex + 1].id);
 
       const iModelFromChangeSet = await IModelTestUtils.openCheckpointUsingRpc({ requestContext, contextId: testContextId, iModelId: readOnlyTestIModelId, asOf: IModelVersion.named(versionName).toJSON() });
       assert.exists(iModelFromChangeSet);
       assert.strictEqual(iModelFromChangeSet, iModelFromVersion);
-      assert.strictEqual<string>(iModelFromChangeSet.changeSetId!, changeSets[arrayIndex + 1].wsgId);
+      assert.strictEqual(iModelFromChangeSet.changeSetId!, changeSets[arrayIndex + 1].id);
 
-      const elementCount = getElementCount(iModelFromVersion);
+      const elementCount = iModelFromVersion.withStatement("SELECT COUNT(*) FROM bis.Element", (stmt) => {
+        stmt.step();
+        return stmt.getValue(0).getInteger();
+      });
       assert.equal(elementCount, readOnlyTestElementCounts[arrayIndex], `Count isn't what's expected for ${iModelFromVersion.pathName}, version ${versionName}`);
 
       iModelFromVersion.close();
@@ -170,7 +135,7 @@ describe("BriefcaseManager (#integration)", () => {
     const iModelLatestVersion = await IModelTestUtils.openCheckpointUsingRpc({ requestContext, contextId: testContextId, iModelId: readOnlyTestIModelId });
     assert.isDefined(iModelLatestVersion);
     assert.isUndefined(iModelLatestVersion.nativeDb.getReversedChangeSetId());
-    assert.strictEqual<string>(iModelLatestVersion.nativeDb.getParentChangeSetId(), changeSets[3].wsgId);
+    assert.strictEqual(iModelLatestVersion.nativeDb.getParentChangeSetId(), changeSets[3].id);
 
     await IModelTestUtils.closeAndDeleteBriefcaseDb(requestContext, iModelFirstVersion);
     await IModelTestUtils.closeAndDeleteBriefcaseDb(requestContext, iModelLatestVersion);
@@ -180,43 +145,6 @@ describe("BriefcaseManager (#integration)", () => {
     const iModelNoVer = await IModelTestUtils.openCheckpointUsingRpc({ requestContext, contextId: testContextId, iModelId: noVersionsTestIModelId });
     assert.exists(iModelNoVer);
     assert(iModelNoVer.iModelId === noVersionsTestIModelId, "Correct iModel not found");
-  });
-
-  it("should be able to edit only if it's allowed", async () => {
-    const iModelFixed = await IModelTestUtils.openCheckpointUsingRpc({ requestContext, contextId: testContextId, iModelId: readWriteTestIModelId });
-    assert.exists(iModelFixed);
-
-    let rootEl: Element = iModelFixed.elements.getRootSubject();
-    rootEl.userLabel = `${rootEl.userLabel}changed`;
-    assert.throws(() => iModelFixed.elements.updateElement(rootEl));
-
-    const iModelPullAndPush = await IModelTestUtils.openBriefcaseUsingRpc({ requestContext, contextId: testContextId, iModelId: readWriteTestIModelId });
-    assert.exists(iModelPullAndPush);
-    assert.isTrue(!iModelPullAndPush.isReadonly);
-    assert.equal(iModelPullAndPush.openMode, OpenMode.ReadWrite);
-
-    rootEl = iModelPullAndPush.elements.getRootSubject();
-    rootEl.userLabel = `${rootEl.userLabel}changed`;
-    await iModelPullAndPush.concurrencyControl.requestResourcesForUpdate(requestContext, [rootEl]);
-    iModelPullAndPush.elements.updateElement(rootEl);
-
-    await iModelPullAndPush.concurrencyControl.request(requestContext);
-    iModelPullAndPush.saveChanges(); // Push is tested out in a separate test
-
-    await IModelTestUtils.closeAndDeleteBriefcaseDb(requestContext, iModelFixed);
-
-    const fileName = iModelPullAndPush.pathName;
-    iModelPullAndPush.close();
-    assert.isFalse(iModelPullAndPush.isOpen);
-
-    // Reopen the briefcase as readonly to validate
-    const iModelPullAndPush2 = await BriefcaseDb.open(requestContext, { fileName, readonly: true });
-    assert.exists(iModelPullAndPush2);
-    assert.isTrue(iModelPullAndPush2.isReadonly);
-    assert.isTrue(iModelPullAndPush2.isOpen);
-    assert.equal(iModelPullAndPush2.openMode, OpenMode.Readonly);
-
-    await IModelTestUtils.closeAndDeleteBriefcaseDb(requestContext, iModelPullAndPush2);
   });
 
   it("should find checkpoints from previous versions", async () => {
@@ -245,7 +173,10 @@ describe("BriefcaseManager (#integration)", () => {
   });
 
   it("should find briefcases from previous versions", async () => {
-    const arg = { requestContext, contextId: testContextId, iModelId: readOnlyTestIModelId };
+    HubMock.startup("previous version");
+    const iModelId = await HubUtility.createIModel(managerRequestContext, testContextId, "prevIModel");
+
+    const arg = { requestContext, contextId: testContextId, iModelId };
     let briefcase = await IModelTestUtils.openBriefcaseUsingRpc(arg);
     // eslint-disable-next-line deprecation/deprecation
     const compatName = BriefcaseManager.getCompatibilityFileName({ ...arg, briefcaseId: briefcase.briefcaseId });
@@ -270,105 +201,11 @@ describe("BriefcaseManager (#integration)", () => {
     briefcaseName = briefcase.pathName;
     briefcase.close();
     assert.notEqual(briefcaseName, compatName, "briefcase should be found in new location");
-  });
-
-  it("should be able to reuse existing briefcases from a previous session", async () => {
-    let checkpoint = await IModelTestUtils.openCheckpointUsingRpc({ requestContext, contextId: testContextId, iModelId: readOnlyTestIModelId });
-    let numDownloads = 0;
-
-    CheckpointManager.onDownload.addListener((_job) => numDownloads++);
-    assert.exists(checkpoint);
-    assert.equal(checkpoint.openMode, OpenMode.Readonly);
-    const checkpointName = checkpoint.pathName;
-
-    let iModelPullAndPush = await IModelTestUtils.openBriefcaseUsingRpc({ requestContext, contextId: testContextId, iModelId: readOnlyTestIModelId });
-    assert.exists(iModelPullAndPush);
-    assert.equal(iModelPullAndPush.openMode, OpenMode.ReadWrite);
-    const pullAndPushPathname = iModelPullAndPush.pathName;
-
-    let iModelPullOnly = await IModelTestUtils.openBriefcaseUsingRpc({ requestContext, contextId: testContextId, iModelId: readOnlyTestIModelId, briefcaseId: 0 });
-    assert.exists(iModelPullOnly);
-    assert.equal(iModelPullOnly.openMode, OpenMode.ReadWrite); // Note: PullOnly briefcases must be set to ReadWrite to accept change sets
-    const pullOnlyPathname = iModelPullOnly.pathName;
-
-    checkpoint.close();
-    iModelPullAndPush.close();
-    iModelPullOnly.close();
-
-    // note: we can't tell what files were local before we ran this test. All we can test is that now that we know they're local that it does not cause a download.
-    const wasNumDownloads = numDownloads;
-    assert.isTrue(IModelJsFs.existsSync(checkpointName));
-    assert.isTrue(IModelJsFs.existsSync(pullAndPushPathname));
-    assert.isTrue(IModelJsFs.existsSync(pullOnlyPathname));
-
-    checkpoint = await IModelTestUtils.openCheckpointUsingRpc({ requestContext, contextId: testContextId, iModelId: readOnlyTestIModelId });
-    assert.exists(checkpoint);
-    assert.equal(checkpoint.pathName, checkpointName);
-    assert.equal(numDownloads, wasNumDownloads, "should not need download");
-
-    iModelPullAndPush = await IModelTestUtils.openBriefcaseUsingRpc({ requestContext, contextId: testContextId, iModelId: readOnlyTestIModelId });
-    assert.exists(iModelPullAndPush);
-    assert.equal(iModelPullAndPush.pathName, pullAndPushPathname);
-    assert.equal(numDownloads, wasNumDownloads, "should not need download");
-
-    iModelPullOnly = await IModelTestUtils.openBriefcaseUsingRpc({ requestContext, contextId: testContextId, iModelId: readOnlyTestIModelId, briefcaseId: 0 });
-    assert.exists(iModelPullOnly);
-    assert.equal(iModelPullOnly.pathName, pullOnlyPathname);
-    assert.equal(numDownloads, wasNumDownloads, "should not need download");
-
-    await IModelTestUtils.closeAndDeleteBriefcaseDb(requestContext, checkpoint);
-    await IModelTestUtils.closeAndDeleteBriefcaseDb(requestContext, iModelPullAndPush);
-    await IModelTestUtils.closeAndDeleteBriefcaseDb(requestContext, iModelPullOnly);
-
-    assert.isFalse(IModelJsFs.existsSync(checkpointName));
-    assert.isFalse(IModelJsFs.existsSync(pullAndPushPathname));
-    assert.isFalse(IModelJsFs.existsSync(pullOnlyPathname));
-
-    // now we know that the checkpoint doesn't exist, download it again to test the "onDownload" listener works.
-    numDownloads = 0;
-    checkpoint = await IModelTestUtils.openCheckpointUsingRpc({ requestContext, contextId: testContextId, iModelId: readOnlyTestIModelId });
-    assert.equal(numDownloads, 1, "should need download");
-    await IModelTestUtils.closeAndDeleteBriefcaseDb(requestContext, checkpoint);
-  });
-
-  it("should be able to reverse and reinstate changes", async () => {
-    const args = { requestContext, contextId: testContextId, iModelId: readOnlyTestIModelId };
-    const iModelPullAndPush = await IModelTestUtils.openBriefcaseUsingRpc(args);
-    const iModelPullOnly = await IModelTestUtils.openBriefcaseUsingRpc({ ...args, briefcaseId: 0 });
-
-    let revIndex: number;
-    for (revIndex = readOnlyTestVersions.length - 1; revIndex >= 0; revIndex--) {
-      // Stop at a schema change
-      const changeSetId = await IModelVersion.named(readOnlyTestVersions[revIndex]).evaluateChangeSet(requestContext, readOnlyTestIModelId, IModelHost.iModelClient);
-      const changeSets = await IModelHost.iModelClient.changeSets.get(requestContext, readOnlyTestIModelId, new ChangeSetQuery().byId(changeSetId));
-      assert.equal(changeSets.length, 1);
-      if (changeSets[0].changesType === ChangesType.Schema)
-        break;
-
-      await iModelPullAndPush.reverseChanges(requestContext, IModelVersion.named(readOnlyTestVersions[revIndex]));// eslint-disable-line deprecation/deprecation
-      assert.equal(readOnlyTestElementCounts[revIndex], getElementCount(iModelPullAndPush));
-
-      await iModelPullOnly.reverseChanges(requestContext, IModelVersion.named(readOnlyTestVersions[revIndex]));// eslint-disable-line deprecation/deprecation
-      assert.equal(readOnlyTestElementCounts[revIndex], getElementCount(iModelPullOnly));
-    }
-
-    for (let fwdIndex = 0; fwdIndex < revIndex; fwdIndex++) {
-      await iModelPullAndPush.reinstateChanges(requestContext, IModelVersion.named(readOnlyTestVersions[fwdIndex]));// eslint-disable-line deprecation/deprecation
-      assert.equal(readOnlyTestElementCounts[fwdIndex], getElementCount(iModelPullAndPush));
-
-      await iModelPullOnly.reinstateChanges(requestContext, IModelVersion.named(readOnlyTestVersions[fwdIndex]));// eslint-disable-line deprecation/deprecation
-      assert.equal(readOnlyTestElementCounts[fwdIndex], getElementCount(iModelPullOnly));
-    }
-
-    const file1 = iModelPullAndPush.pathName;
-    const file2 = iModelPullOnly.pathName;
-    iModelPullAndPush.close();
-    iModelPullOnly.close();
-    IModelJsFs.unlinkSync(file1);
-    IModelJsFs.unlinkSync(file2);
+    HubMock.shutdown();
   });
 
   it("Open iModels with various names causing potential issues on Windows/Unix", async () => {
+    HubMock.startup("bad names");
     let iModelName = "iModel Name With Spaces";
     let iModelId = await HubUtility.createIModel(managerRequestContext, testContextId, iModelName);
     const args = { requestContext, contextId: testContextId, iModelId };
@@ -392,10 +229,14 @@ describe("BriefcaseManager (#integration)", () => {
     assert.isDefined(iModelId);
     iModel = await IModelTestUtils.openCheckpointUsingRpc(args);
     assert.isDefined(iModel);
+    iModel.close();
+    HubMock.shutdown();
   });
 
   it("should set appropriate briefcase ids for FixedVersion, PullOnly and PullAndPush workflows", async () => {
-    const args = { requestContext, contextId: testContextId, iModelId: readOnlyTestIModelId, deleteFirst: true };
+    HubMock.startup("briefcaseids");
+    const iModelId = await HubUtility.createIModel(requestContext, testContextId, "imodel1");
+    const args = { requestContext, contextId: testContextId, iModelId, deleteFirst: true };
     const iModel1 = await IModelTestUtils.openCheckpointUsingRpc(args);
     assert.equal(BriefcaseIdValue.Unassigned, iModel1.nativeDb.getBriefcaseId(), "checkpoint should be 0");
 
@@ -408,24 +249,30 @@ describe("BriefcaseManager (#integration)", () => {
     await IModelTestUtils.closeAndDeleteBriefcaseDb(requestContext, iModel1);
     await IModelTestUtils.closeAndDeleteBriefcaseDb(requestContext, iModel2);
     await IModelTestUtils.closeAndDeleteBriefcaseDb(requestContext, iModel3);
+    HubMock.shutdown();
   });
 
   it("should reuse a briefcaseId when re-opening iModels for pullAndPush workflows", async () => {
-    const args = { requestContext, contextId: testContextId, iModelId: readOnlyTestIModelId, deleteFirst: true };
+    HubMock.startup("briefcaseIdsReopen");
+    const iModelId = await HubUtility.createIModel(requestContext, testContextId, "imodel1");
+
+    const args = { requestContext, contextId: testContextId, iModelId, deleteFirst: true };
     const iModel1 = await IModelTestUtils.openBriefcaseUsingRpc(args);
-    const briefcaseId1: number = iModel1.briefcaseId;
+    const briefcaseId1 = iModel1.briefcaseId;
     iModel1.close(); // Keeps the briefcase by default
 
     const iModel3 = await IModelTestUtils.openBriefcaseUsingRpc(args);
-    const briefcaseId3: number = iModel3.briefcaseId;
+    const briefcaseId3 = iModel3.briefcaseId;
     assert.strictEqual(briefcaseId3, briefcaseId1);
 
     await IModelTestUtils.closeAndDeleteBriefcaseDb(requestContext, iModel3);
+    HubMock.shutdown();
   });
 
   it("should reuse a briefcaseId when re-opening iModels of different versions for pullAndPush and pullOnly workflows", async () => {
-    const userContext1 = await TestUtility.getAuthorizedClientRequestContext(TestUsers.manager);
-    const userContext2 = await TestUtility.getAuthorizedClientRequestContext(TestUsers.superManager);
+    HubMock.startup("workflow");
+    const userContext1 = await IModelTestUtils.getUserContext(TestUserType.Manager);
+    const userContext2 = await IModelTestUtils.getUserContext(TestUserType.SuperManager);
 
     // User1 creates an iModel on the Hub
     const testUtility = new TestChangeSetUtility(userContext1, HubUtility.generateUniqueName("BriefcaseReuseTest"));
@@ -463,11 +310,13 @@ describe("BriefcaseManager (#integration)", () => {
 
     // Delete iModel from the Hub and disk
     await testUtility.deleteTestIModel();
+    HubMock.shutdown();
   });
 
   it("should not be able to edit PullOnly briefcases", async () => {
-    const userContext1 = await TestUtility.getAuthorizedClientRequestContext(TestUsers.manager); // User1 is just used to create and update the iModel
-    const userContext2 = await TestUtility.getAuthorizedClientRequestContext(TestUsers.superManager); // User2 is used for the test
+    HubMock.startup("pullOnly");
+    const userContext1 = await IModelTestUtils.getUserContext(TestUserType.Manager); // User1 is just used to create and update the iModel
+    const userContext2 = await IModelTestUtils.getUserContext(TestUserType.SuperManager); // User2 is used for the test
 
     // User1 creates an iModel on the Hub
     const testUtility = new TestChangeSetUtility(userContext1, "PullOnlyTest");
@@ -530,11 +379,13 @@ describe("BriefcaseManager (#integration)", () => {
     // Delete iModel from the Hub and disk
     await IModelTestUtils.closeAndDeleteBriefcaseDb(userContext2, iModelPullOnly);
     await testUtility.deleteTestIModel();
+    HubMock.shutdown();
   });
 
   it("should be able to edit a PullAndPush briefcase, reopen it as of a new version, and then push changes", async () => {
-    const userContext1 = await TestUtility.getAuthorizedClientRequestContext(TestUsers.manager); // User1 is just used to create and update the iModel
-    const userContext2 = await TestUtility.getAuthorizedClientRequestContext(TestUsers.superManager); // User2 is used for the test
+    HubMock.startup("pullPush");
+    const userContext1 = await IModelTestUtils.getUserContext(TestUserType.Manager); // User1 is just used to create and update the iModel
+    const userContext2 = await IModelTestUtils.getUserContext(TestUserType.SuperManager); // User2 is used for the test
 
     // User1 creates an iModel on the Hub
     const testUtility = new TestChangeSetUtility(userContext1, "PullAndPushTest");
@@ -596,6 +447,7 @@ describe("BriefcaseManager (#integration)", () => {
     // Delete iModel from the Hub and disk
     await IModelTestUtils.closeAndDeleteBriefcaseDb(userContext2, iModelPullAndPush);
     await testUtility.deleteTestIModel();
+    HubMock.shutdown();
   });
 
   it("should be able to show progress when downloading a briefcase (#integration)", async () => {
@@ -634,6 +486,7 @@ describe("BriefcaseManager (#integration)", () => {
     // eslint-disable-next-line no-console
     console.log(`download took ${watch.elapsedSeconds} seconds`);
     const iModel = await BriefcaseDb.open(requestContext, { fileName: props.fileName });
+
     await IModelTestUtils.closeAndDeleteBriefcaseDb(requestContext, iModel);
     assert.isAbove(numProgressCalls, 0, "download progress called");
     assert.isAbove(done, 0, "done set");
@@ -656,77 +509,4 @@ describe("BriefcaseManager (#integration)", () => {
     await expect(downloadPromise).to.be.rejectedWith(UserCancelledError).to.eventually.have.property("errorNumber", BriefcaseStatus.DownloadCancelled);
   });
 
-  it("Should be able to recover after changeSet deletion (#integration)", async () => {
-    const testUser = {
-      email: Config.App.getString("imjs_test_imodelhub_user_name"),
-      password: Config.App.getString("imjs_test_imodelhub_user_password"),
-    };
-    const userContext = await TestUtility.getAuthorizedClientRequestContext(testUser);
-    const testIModelName = "Delete changeSet test";
-    const testUtility = new TestChangeSetUtility(userContext, testIModelName);
-
-    // Acquire briefcase and push 1 changeSet
-    const iModel = await testUtility.createTestIModel();
-
-    // Push 2 valid changeSets
-    await testUtility.pushTestChangeSet();
-    await testUtility.pushTestChangeSet();
-
-    // Push an invalid changeSet
-    const fileHandler = IModelHost.iModelClient.fileHandler!;
-    const oldUploadFunc = fileHandler.uploadFile.bind(fileHandler);
-    try {
-      const newUploadFunc =
-        async (requestCtx: AuthorizedClientRequestContext, uploadUrl: string, filePath: string, progress?: ProgressCallback): Promise<void> => {
-          // Replace changeSet file contents with a string and upload the now invalid file
-          const changeSetFileContentsLength = IModelJsFs.readFileSync(filePath).length;
-          const invalidChangeSetFileContents = "x".repeat(changeSetFileContentsLength);
-          IModelJsFs.writeFileSync(filePath, invalidChangeSetFileContents);
-
-          return oldUploadFunc(requestCtx, uploadUrl, filePath, progress);
-        };
-      fileHandler.uploadFile = newUploadFunc;
-      await testUtility.pushTestChangeSet();
-    } finally {
-      fileHandler.uploadFile = oldUploadFunc;
-    }
-
-    // Push 2 more valid changeSets
-    await testUtility.pushTestChangeSet();
-    await testUtility.pushTestChangeSet();
-
-    // Ensure that DoNotScheduleRenderThumbnailJob option is disabled
-    assert.isFalse(IModelHost.iModelClient.requestOptions.isSet);
-    // Create version to trigger checkpoint generation
-    const lastChangeSetId = iModel.nativeDb.getParentChangeSetId();
-    await IModelHost.iModelClient.versions.create(userContext, iModel.iModelId, lastChangeSetId, "Version 1");
-
-    // Wait until the scheduled checkpoint job fails
-    await HubUtility.waitforCheckpointGenerationFailure(userContext, iModel.iModelId, lastChangeSetId);
-
-    // Delete changeSet
-    const deleteChangeSetActionId = (await HubUtility.deleteChangeSet(userContext, iModel.iModelId, 4)).id!;
-    await HubUtility.waitForChangeSetDeletion(userContext, iModel.iModelId, deleteChangeSetActionId);
-
-    // Assert that changeSet push fails
-    let error: IModelError;
-    try {
-      await testUtility.pushTestChangeSet();
-    } catch (err) {
-      error = err;
-    }
-    assert.equal(BriefcaseStatus.ContainsDeletedChangeSets, error!.errorNumber);
-
-    // Redownload briefcase
-    await testUtility.redownloadBriefcase();
-
-    // Push a new changeSet to ensure that the new briefcase is valid
-    await testUtility.pushTestChangeSet();
-
-    // Assert the final number of changeSets
-    assert.equal(4, (await IModelHost.iModelClient.changeSets.get(userContext, iModel.iModelId)).length);
-
-    // Delete the test iModel
-    await testUtility.deleteTestIModel();
-  });
 });

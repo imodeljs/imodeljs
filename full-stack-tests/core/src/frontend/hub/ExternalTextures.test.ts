@@ -3,8 +3,8 @@
 * See LICENSE.md in the project root for license terms and full copyright notice.
 *--------------------------------------------------------------------------------------------*/
 import { expect } from "chai";
-import { ImageSourceFormat, RenderTexture } from "@bentley/imodeljs-common";
-import { CheckpointConnection, IModelApp, IModelConnection } from "@bentley/imodeljs-frontend";
+import { ImageSource, ImageSourceFormat, RenderTexture } from "@bentley/imodeljs-common";
+import { CheckpointConnection, imageElementFromImageSource, IModelApp, IModelConnection } from "@bentley/imodeljs-frontend";
 import { ExternalTextureLoader, ExternalTextureRequest, GL, Texture2DHandle } from "@bentley/imodeljs-frontend/lib/webgl";
 import { TestUsers } from "@bentley/oidc-signin-tool/lib/frontend";
 import { TestUtility } from "./TestUtility";
@@ -21,6 +21,13 @@ describe("external texture requests (#integration)", () => {
     "0x82", "0x85", "0x8a", "0x8c", "0x8f", "0x91",
     "0x94", "0x97", "0x99", "0x9b", "0x9d", "0x9f",
     "0x03", // bad request
+    "0xa1", "0xa3", "0xa5"];
+  const goodTexNames = [
+    "0x48", "0x4b", "0x52", "0x54", "0x56", "0x59",
+    "0x5e", "0x60", "0x64", "0x66", "0x69", "0x6d",
+    "0x6f", "0x71", "0x73", "0x75", "0x7c", "0x7f",
+    "0x82", "0x85", "0x8a", "0x8c", "0x8f", "0x91",
+    "0x94", "0x97", "0x99", "0x9b", "0x9d", "0x9f",
     "0xa1", "0xa3", "0xa5"];
   const numExpectedBadRequests = 3;
   const finishedTexRequests: Array<ExternalTextureRequest> = [];
@@ -100,8 +107,34 @@ describe("external texture requests (#integration)", () => {
     });
   }
 
+  async function testDownsamplingTextures() {
+    const maxTextureSize = 8;
+    for (const name of goodTexNames) {
+      // check that requested textures are downsampled to maxTexturesize when requested.
+      let texBytes = await imodel.getTextureImage({ name, maxTextureSize });
+      expect(texBytes).to.not.be.undefined;
+      let imageSource = new ImageSource(texBytes!, ImageSourceFormat.Jpeg);
+      let image = await imageElementFromImageSource(imageSource);
+      expect(image.width).to.be.lessThanOrEqual(maxTextureSize);
+      expect(image.height).to.be.lessThanOrEqual(maxTextureSize);
+      expect(image.width === maxTextureSize || image.height === maxTextureSize).to.be.true;
+
+      // check that requests textures are not downsampled when not requested.
+      texBytes = await imodel.getTextureImage({ name });
+      expect(texBytes).to.not.be.undefined;
+      imageSource = new ImageSource(texBytes!, ImageSourceFormat.Jpeg);
+      image = await imageElementFromImageSource(imageSource);
+      expect(image.width).to.be.greaterThan(maxTextureSize);
+      expect(image.height).to.be.greaterThan(maxTextureSize);
+    }
+  }
+
   it("should process all external texture requests", async () => {
     await testExternalTextures();
+  });
+
+  it("should downsample external textures as needed", async () => {
+    await testDownsamplingTextures();
   });
 });
 

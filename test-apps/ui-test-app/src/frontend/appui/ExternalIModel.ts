@@ -6,7 +6,7 @@
 import { Id64String, Logger, OpenMode } from "@bentley/bentleyjs-core";
 import { ContextRegistryClient, Project } from "@bentley/context-registry-client";
 import { IModelQuery } from "@bentley/imodelhub-client";
-import { AuthorizedFrontendRequestContext, IModelApp, IModelConnection, RemoteBriefcaseConnection } from "@bentley/imodeljs-frontend";
+import { AuthorizedFrontendRequestContext, IModelConnection, IModelHubFrontend, RemoteBriefcaseConnection } from "@bentley/imodeljs-frontend";
 import { SampleAppIModelApp } from "..";
 
 /* eslint-disable deprecation/deprecation */
@@ -50,7 +50,7 @@ export class ExternalIModel {
 
     const imodelQuery = new IModelQuery();
     imodelQuery.byName(imodelName);
-    const imodels = await IModelApp.iModelClient.iModels.get(requestContext, project.wsgId, imodelQuery);
+    const imodels = await IModelHubFrontend.iModelClient.iModels.get(requestContext, project.wsgId, imodelQuery);
     if (imodels.length === 0) {
       throw new Error(`iModel with name "${imodelName}" does not exist in project "${projectName}"`);
     }

@@ -5,7 +5,7 @@
 This tutorial assumes that you already have:
 
 - Explored the [sample showcase](https://www.itwinjs.org/sample-showcase).
-- Created a local [iTwin Web Viewer](https://github.com/imodeljs/itwin-viewer) based on the template @bentley/itwin-viewer
+- Created a local [iTwin Web Viewer](https://github.com/iTwin/viewer) based on the template @itwin/web-viewer
 - Configured your local source to open the "House Model" sample iModel.
   - Instructions to use this sample iModel can be found [here]($docs/learning/tutorials/create-test-imodel-sample/).
 - Understand the concept of a [UI Provider]($docs/learning/ui/abstract/uiitemsprovider) and adding [widgets]($docs/reference/ui-abstract/uiitemsprovider/uiitemsprovider/).

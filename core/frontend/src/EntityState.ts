@@ -102,11 +102,14 @@ export class ElementState extends EntityState implements ElementProps {
       this.userLabel = props.userLabel;
   }
 
-  /** @internal */
+  /** Obtain this element's JSON representation. Subclasses of ElementState typically override this method with a more
+   * specific return type.
+   */
   public toJSON(): ElementProps {
     const val = super.toJSON() as ElementProps;
     if (Id64.isValid(this.code.spec))
       val.code = this.code;
+
     val.model = this.model;
     val.parent = this.parent;
     val.federationGuid = this.federationGuid;

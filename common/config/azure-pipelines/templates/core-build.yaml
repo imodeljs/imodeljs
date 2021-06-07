@@ -56,6 +56,7 @@ steps:
   - script: node common/scripts/install-run-rush.js audit
     displayName: rush audit
     workingDirectory: ${{ parameters.workingDir }}
+    condition: and(succeeded(), ne(variables['Agent.OS'], 'Darwin'))
   - script: node common/scripts/install-run-rush.js build -v -p max
     displayName: rush build
     workingDirectory: ${{ parameters.workingDir }}

@@ -10,6 +10,7 @@ import { assert, dispose } from "@bentley/bentleyjs-core";
 import { Angle, Point2d, Point3d, Range3d, Vector2d, Vector3d } from "@bentley/geometry-core";
 import { Npc, QParams2d, QParams3d, QPoint2dList, QPoint3dList, RenderMode, RenderTexture } from "@bentley/imodeljs-common";
 import { SkyBox } from "../../DisplayStyleState";
+import { FlashMode } from "../../FlashSettings";
 import { TesselatedPolyline } from "../primitives/VertexTable";
 import { RenderMemory } from "../RenderMemory";
 import { AttributeMap } from "./AttributeMap";
@@ -24,7 +25,7 @@ import { InstancedGeometry } from "./InstancedGeometry";
 import { MaterialInfo } from "./Material";
 import { EdgeGeometry, MeshGeometry, SilhouetteEdgeGeometry, SurfaceGeometry } from "./Mesh";
 import { PointCloudGeometry } from "./PointCloud";
-import { CompositeFlags, FlashMode, RenderOrder, RenderPass } from "./RenderFlags";
+import { CompositeFlags, RenderOrder, RenderPass } from "./RenderFlags";
 import { System } from "./System";
 import { Target } from "./Target";
 import { computeCompositeTechniqueId, TechniqueId } from "./TechniqueId";
@@ -142,13 +143,13 @@ export abstract class CachedGeometry implements WebGLDisposable, RenderMemory.Co
     // By default only surfaces rendered with lighting get brightened. Overridden for reality meshes since they have lighting baked-in.
     // NB: If the reality model is classified, the classifiers are drawn without lighting, therefore we mix the hilite color.
     if (this.hasBakedLighting)
-      return FlashMode.MixHiliteColor;
+      return FlashMode.Hilite;
 
     const vf = params.target.currentViewFlags;
     if (!this.isLitSurface || RenderMode.SmoothShade !== vf.renderMode)
-      return FlashMode.MixHiliteColor;
+      return FlashMode.Hilite;
 
-    return vf.lighting ? FlashMode.Brighten : FlashMode.MixHiliteColor;
+    return vf.lighting ? params.target.plan.flashSettings.litMode : FlashMode.Hilite;
   }
 
   public wantMixMonochromeColor(_target: Target): boolean { return false; }

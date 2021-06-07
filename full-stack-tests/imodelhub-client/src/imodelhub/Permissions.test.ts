@@ -4,75 +4,28 @@
 *--------------------------------------------------------------------------------------------*/
 import * as chai from "chai";
 import * as fs from "fs";
-import { Guid, GuidString } from "@bentley/bentleyjs-core";
-import { HubIModel, IModelClient, IModelHubPermission } from "@bentley/imodelhub-client";
-import { AccessToken, AuthorizedClientRequestContext, ECJsonTypeMap, WsgInstance } from "@bentley/itwin-client";
+import { GuidString } from "@bentley/bentleyjs-core";
+import { IModelClient, IModelPermissions } from "@bentley/imodelhub-client";
+import { AccessToken, AuthorizedClientRequestContext } from "@bentley/itwin-client";
 import { TestUsers } from "@bentley/oidc-signin-tool";
 import { TestConfig } from "../TestConfig";
 import * as utils from "./TestUtils";
-import { RequestType, ResponseBuilder, ScopeType } from "../ResponseBuilder";
+import { RequestType, ResponseBuilder } from "../ResponseBuilder";
 import { workDir } from "./TestConstants";
 
-@ECJsonTypeMap.classToJson("wsg", "RBAC.PermissionContainer", { schemaPropertyName: "schemaName", classPropertyName: "className" })
-export class RbacPermissionContainer extends WsgInstance {
-  @ECJsonTypeMap.propertyToJson("wsg", "relationshipInstances[RolePermission].relatedInstance[Permission].instanceId")
-  public permissionId?: string;
-}
-
-@ECJsonTypeMap.classToJson("wsg", "RBAC.ObjectType", { schemaPropertyName: "schemaName", classPropertyName: "className" })
-export class RbacObjectType extends WsgInstance { }
-
-function mockGetContextPermissions(contextId: string, userId: string, permissionId: string) {
-  if (!TestConfig.enableMocks)
+function mockGetiModelPermissions(imodelId: string, webView: boolean, read: boolean, write: boolean, manage: boolean) {
+  if (!TestConfig.enableMocks) {
     return;
+  }
 
-  contextId = contextId || Guid.createValue();
-  const requestPath = `/v2.4/Repositories/BentleyCONNECT--Main/RBAC/User/${userId}/Context?$select=Permission.*&$filter=$id+eq+%27${contextId}%27+and+Permission.ServiceGPRId+eq+2485`;
-  const requestResponse = ResponseBuilder.generateGetResponse<RbacPermissionContainer>(ResponseBuilder.generateObject<RbacPermissionContainer>(RbacPermissionContainer,
+  const requestPath: string = `/sv1.1/Repositories/iModel--${imodelId}/iModelScope/Permission`;
+  const requestResponse = ResponseBuilder.generateGetResponse<IModelPermissions>(ResponseBuilder.generateObject<IModelPermissions>(IModelPermissions,
     new Map<string, any>([
-      ["permissionId", permissionId],
+      ["webView", webView],
+      ["read", read],
+      ["write", write],
+      ["manage", manage],
     ])));
-  ResponseBuilder.mockResponse(utils.RbacUrlMock.getUrl(), RequestType.Get, requestPath, requestResponse);
-}
-
-function mockGetiModelPermissions(userId: string, imodelId: string, objectTypeId: string, permissionId: string) {
-  if (!TestConfig.enableMocks)
-    return;
-
-  const requestPath = `/v2.4/Repositories/BentleyCONNECT--Main/RBAC/User/${userId}/Object?$select=Permission.*&$filter=$id+eq+%27${imodelId}%27+and+typeid+eq+%27${objectTypeId}%27`;
-  const requestResponse = ResponseBuilder.generateGetResponse<RbacPermissionContainer>(ResponseBuilder.generateObject<RbacPermissionContainer>(RbacPermissionContainer,
-    new Map<string, any>([
-      ["permissionId", permissionId],
-    ])));
-  ResponseBuilder.mockResponse(utils.RbacUrlMock.getUrl(), RequestType.Get, requestPath, requestResponse);
-}
-
-function mockGetObjectTypeId(objectId: string) {
-  if (!TestConfig.enableMocks)
-    return;
-
-  const requestPath = `/v2.4/Repositories/BentleyCONNECT--Main/RBAC/ObjectType?$filter=Name+eq+%27IMHS_ObjectType_iModel%27+and+ServiceGPRId+eq+2485`;
-  const requestResponse = ResponseBuilder.generateGetResponse<RbacObjectType>(ResponseBuilder.generateObject<RbacObjectType>(RbacObjectType,
-    new Map<string, any>([
-      ["wsgId", objectId],
-    ])));
-  ResponseBuilder.mockResponse(utils.RbacUrlMock.getUrl(), RequestType.Get, requestPath, requestResponse);
-}
-
-function mockGetIModel(contextId: string, imodelId: GuidString, secured: boolean) {
-  if (!TestConfig.enableMocks)
-    return;
-
-  imodelId = imodelId || Guid.createValue();
-
-  const requestPath = utils.createRequestUrl(ScopeType.Context, contextId, "iModel", imodelId);
-  const responseProperties = new Map<string, any>([
-    ["wsgId", imodelId.toString()],
-    ["id", imodelId],
-    ["secured", secured],
-  ]);
-  const requestResponse = ResponseBuilder.generateGetResponse<HubIModel>(
-    ResponseBuilder.generateObject<HubIModel>(HubIModel, responseProperties), 1);
   ResponseBuilder.mockResponse(utils.IModelHubUrlMock.getUrl(), RequestType.Get, requestPath, requestResponse);
 }
 
@@ -109,32 +62,11 @@ describe("iModelHub PermissionsManager", () => {
     }
   });
 
-  it("should get Context permissions (#unit)", async () => {
-    const permissionsHandler = imodelClient.permissions!;
-    mockGetContextPermissions(projectId, requestContext.accessToken.getUserInfo()!.id, "IMHS_Read_iModel");
+  it("should get iModel permissions (#unit)", async () => {
+    mockGetiModelPermissions(imodelId, true, true, false, false);
 
-    const contextPermissions = await permissionsHandler.getContextPermissions(requestContext, projectId);
-    chai.expect(contextPermissions).to.eq(IModelHubPermission.View | IModelHubPermission.Read);
-  });
-
-  it("should get not secured iModel permissions (#unit)", async () => {
-    mockGetContextPermissions(projectId, requestContext.accessToken.getUserInfo()!.id, "IMHS_Modify_iModel");
-    mockGetIModel(projectId, imodelId, false);
-
-    const permissionsHandler = imodelClient.permissions!;
-    const imodelPermissions = await permissionsHandler.getiModelPermissions(requestContext, projectId, imodelId);
-    chai.expect(imodelPermissions).to.eq(IModelHubPermission.View | IModelHubPermission.Read | IModelHubPermission.Modify);
-  });
-
-  it("should get secured iModel permissions (#unit)", async () => {
-    const objectTypeId = "objectTypeId";
-    mockGetContextPermissions(projectId, requestContext.accessToken.getUserInfo()!.id, "IMHS_Read_iModel");
-    mockGetIModel(projectId, imodelId, true);
-    mockGetObjectTypeId(objectTypeId);
-    mockGetiModelPermissions(requestContext.accessToken.getUserInfo()!.id, imodelId, objectTypeId, "IMHS_Manage_Versions");
-
-    const permissionsHandler = imodelClient.permissions!;
-    const imodelPermissions = await permissionsHandler.getiModelPermissions(requestContext, projectId, imodelId);
-    chai.expect(imodelPermissions).to.eq(IModelHubPermission.ManageVersions | IModelHubPermission.View | IModelHubPermission.Read | IModelHubPermission.Modify);
+    const imodelPermissions: IModelPermissions = await imodelClient.permissions!.getiModelPermissions(requestContext, imodelId);
+    chai.assert.isTrue(imodelPermissions.webView && imodelPermissions.read);
+    chai.assert.isFalse(imodelPermissions.write || imodelPermissions.manage);
   });
 });

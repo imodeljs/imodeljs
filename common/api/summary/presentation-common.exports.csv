@@ -5,6 +5,8 @@ internal;AsyncTasksTracker
 public;BaseFieldJSON
 public;BaseNodeKey
 public;BaseTypeDescription
+public;BooleanRulesetVariable 
+public;BooleanRulesetVariableJSON 
 public;CalculatedPropertiesSpecification
 public;CategoryDescription
 public;CategoryDescription
@@ -137,6 +139,10 @@ alpha;HierarchyUpdateInfoJSON = typeof UPDATE_FULL | HierarchyUpdateRecordJSON[]
 alpha;HierarchyUpdateRecord
 alpha;HierarchyUpdateRecord
 alpha;HierarchyUpdateRecordJSON
+public;Id64RulesetVariable 
+public;Id64RulesetVariableJSON 
+public;Id64sRulesetVariable 
+public;Id64sRulesetVariableJSON 
 public;ImageIdOverride 
 public;InstanceId = Id64String
 public;InstanceKey
@@ -155,6 +161,10 @@ public;InstanceLabelOverrideValueSpecification = InstanceLabelOverrideCompositeV
 public;InstanceLabelOverrideValueSpecificationBase
 public;InstanceLabelOverrideValueSpecificationType
 public;InstanceNodesOfSpecificClassesSpecification 
+public;IntRulesetVariable 
+public;IntRulesetVariableJSON 
+public;IntsRulesetVariable 
+public;IntsRulesetVariableJSON 
 internal;isContentDescriptorRequestOptions: 
 internal;isDisplayLabelRequestOptions: 
 internal;isDisplayLabelsRequestOptions: 
@@ -311,8 +321,11 @@ public;Rule = CustomizationRule | NavigationRule | ContentRule | ContentModifier
 public;RuleBase
 public;Ruleset
 public;RulesetsFactory
+public;RulesetVariable = BooleanRulesetVariable | StringRulesetVariable | IntRulesetVariable | IntsRulesetVariable | Id64RulesetVariable | Id64sRulesetVariable
 public;RulesetVariable
-public;RulesetVariableJSON
+public;RulesetVariableBase
+public;RulesetVariableBaseJSON
+public;RulesetVariableJSON = BooleanRulesetVariableJSON | StringRulesetVariableJSON | IntRulesetVariableJSON | IntsRulesetVariableJSON | Id64RulesetVariableJSON | Id64sRulesetVariableJSON
 public;RuleTypes
 public;SameLabelInstanceGroup 
 public;SameLabelInstanceGroupApplicationStage
@@ -332,6 +345,8 @@ public;SortingRule = PropertySortingRule | DisabledSortingRule
 public;SortingRuleBase 
 public;StandardNodeTypes
 public;StringQuerySpecification 
+public;StringRulesetVariable 
+public;StringRulesetVariableJSON 
 public;StrippedRelatedClassInfo
 public;StrippedRelationshipPath = StrippedRelatedClassInfo[]
 public;StructFieldMemberDescription
@@ -356,7 +371,7 @@ public;ValuesMap
 public;ValuesMapJSON 
 public;Variable
 public;VariablesGroup
-public;VariableValue = boolean | string | number | number[] | Id64String[]
-public;VariableValueJSON = boolean | string | string[] | number | number[]
+public;VariableValue = boolean | string | number | number[] | Id64String | Id64String[]
+public;VariableValueJSON = boolean | string | number | number[] | Id64String | Id64String[] | CompressedId64Set
 public;VariableValueType
 public;VariableValueTypes

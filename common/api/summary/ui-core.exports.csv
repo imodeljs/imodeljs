@@ -95,8 +95,8 @@ beta;FormProps
 beta;GetAutoSuggestDataFunc = (value: string) => AutoSuggestData[]
 internal;getBestBWContrastColor(hexColor: string): "black" | "white"
 internal;getButtonTypeClassName(buttonType?: ButtonType): string
-internal;getCssVariable(variableName: string, htmlElement?: HTMLElement): string
-internal;getCssVariableAsNumber(variableName: string, htmlElement?: HTMLElement): number
+public;getCssVariable(variableName: string, htmlElement?: HTMLElement): string
+public;getCssVariableAsNumber(variableName: string, htmlElement?: HTMLElement): number
 internal;getDisplayName: (component: React.ComponentType
 internal;getToolbarBackdropFilter: (filterBlur: number) => string
 internal;getToolbarBackgroundColor: (opacity: number) => string
@@ -193,7 +193,7 @@ public;OmitChildrenProp
 beta;OptionsType = Array
 beta;OptionType
 public;Orientation
-internal;OutsideClickEvent = PointerEvent | MouseEvent | TouchEvent
+public;OutsideClickEvent = PointerEvent | MouseEvent | TouchEvent
 internal;percentInRange(percent: number): number
 internal;placementToPosition(placement: TooltipPlacement | undefined): RelativePosition
 internal;Point 

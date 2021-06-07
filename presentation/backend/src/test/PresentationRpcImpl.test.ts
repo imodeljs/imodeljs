@@ -15,8 +15,8 @@ import {
   DisplayLabelsRpcRequestOptions, DistinctValuesRequestOptions, ExtendedContentRequestOptions, ExtendedContentRpcRequestOptions,
   ExtendedHierarchyRequestOptions, ExtendedHierarchyRpcRequestOptions, FieldDescriptor, FieldDescriptorType, HierarchyCompareInfo,
   HierarchyCompareOptions, HierarchyCompareRpcOptions, HierarchyRequestOptions, HierarchyRpcRequestOptions, InstanceKey, Item, KeySet, KeySetJSON,
-  Node, NodeKey, NodePathElement, Paged, PageOptions, PresentationError, PresentationRpcRequestOptions, PresentationStatus,
-  SelectionScopeRequestOptions, VariableValueTypes,
+  Node, NodeKey, NodePathElement, Paged, PageOptions, PresentationError, PresentationRpcRequestOptions, PresentationStatus, RulesetVariable,
+  RulesetVariableJSON, SelectionScopeRequestOptions, VariableValueTypes,
 } from "@bentley/presentation-common";
 import * as moq from "@bentley/presentation-common/lib/test/_helpers/Mocks";
 import { ResolvablePromise } from "@bentley/presentation-common/lib/test/_helpers/Promises";
@@ -160,6 +160,26 @@ describe("PresentationRpcImpl", () => {
 
         const actualResult = await actualResultPromise;
         expect(actualResult.result).to.eq(999);
+      });
+
+      it("should forward ruleset variables to manager", async () => {
+        const rpcOptions: ExtendedHierarchyRpcRequestOptions = {
+          ...defaultRpcParams,
+          rulesetOrId: testData.rulesetOrId,
+          rulesetVariables: [{ id: "test", type: VariableValueTypes.Int, value: 123 }],
+        };
+        const managerOptions: WithClientRequestContext<ExtendedHierarchyRequestOptions<IModelDb, NodeKey>> = {
+          requestContext: ClientRequestContext.current,
+          imodel: testData.imodelMock.object,
+          rulesetOrId: testData.rulesetOrId,
+          parentKey: undefined,
+          rulesetVariables: rpcOptions.rulesetVariables as RulesetVariable[],
+        };
+        presentationManagerMock.setup((x) => x.getNodesCount(managerOptions))
+          .returns(async () => 999)
+          .verifiable();
+        await impl.getNodesCount(testData.imodelToken, rpcOptions);
+        presentationManagerMock.verifyAll();
       });
 
       it("should forward diagnostics options to manager and return diagnostics with results", async () => {
@@ -585,7 +605,7 @@ describe("PresentationRpcImpl", () => {
 
       it("calls manager", async () => {
         const result = [createRandomNodePathElement(0), createRandomNodePathElement(0)];
-        const rpcOptions: PresentationRpcRequestOptions<HierarchyRequestOptions<never>> = {
+        const rpcOptions: PresentationRpcRequestOptions<HierarchyRequestOptions<never, RulesetVariableJSON>> = {
           ...defaultRpcParams,
           rulesetOrId: testData.rulesetOrId,
         };
@@ -610,7 +630,7 @@ describe("PresentationRpcImpl", () => {
       it("calls manager", async () => {
         const result = [createRandomNodePathElement(0), createRandomNodePathElement(0)];
         const keyArray: InstanceKey[][] = [[createRandomECInstanceKey(), createRandomECInstanceKey()]];
-        const rpcOptions: PresentationRpcRequestOptions<HierarchyRequestOptions<never>> = {
+        const rpcOptions: PresentationRpcRequestOptions<HierarchyRequestOptions<never, RulesetVariableJSON>> = {
           ...defaultRpcParams,
           rulesetOrId: testData.rulesetOrId,
         };
@@ -634,7 +654,7 @@ describe("PresentationRpcImpl", () => {
     describe("loadHierarchy", () => {
 
       it("returns success status", async () => {
-        const rpcOptions: PresentationRpcRequestOptions<HierarchyRequestOptions<never>> = {
+        const rpcOptions: PresentationRpcRequestOptions<HierarchyRequestOptions<never, RulesetVariableJSON>> = {
           ...defaultRpcParams,
           rulesetOrId: testData.rulesetOrId,
         };
@@ -1261,7 +1281,7 @@ describe("PresentationRpcImpl", () => {
         const descriptor = createRandomDescriptor();
         const fieldName = faker.random.word();
         const maximumValueCount = faker.random.number();
-        const rpcOptions: PresentationRpcRequestOptions<ContentRequestOptions<never>> = {
+        const rpcOptions: PresentationRpcRequestOptions<ContentRequestOptions<never, RulesetVariableJSON>> = {
           ...defaultRpcParams,
           rulesetOrId: testData.rulesetOrId,
         };
@@ -1305,7 +1325,7 @@ describe("PresentationRpcImpl", () => {
           keys,
           paging: testData.pageOptions,
         };
-        const rpcOptions: PresentationRpcRequestOptions<DistinctValuesRequestOptions<never, DescriptorJSON, KeySetJSON>> = {
+        const rpcOptions: PresentationRpcRequestOptions<DistinctValuesRequestOptions<never, DescriptorJSON, KeySetJSON, RulesetVariableJSON>> = {
           ...defaultRpcParams,
           rulesetOrId: managerOptions.rulesetOrId,
           descriptor: descriptor.toJSON(),
@@ -1344,7 +1364,7 @@ describe("PresentationRpcImpl", () => {
           keys,
           paging: { start: 0, size: MAX_ALLOWED_PAGE_SIZE },
         };
-        const rpcOptions: PresentationRpcRequestOptions<DistinctValuesRequestOptions<never, DescriptorJSON, KeySetJSON>> = {
+        const rpcOptions: PresentationRpcRequestOptions<DistinctValuesRequestOptions<never, DescriptorJSON, KeySetJSON, RulesetVariableJSON>> = {
           ...defaultRpcParams,
           rulesetOrId: managerOptions.rulesetOrId,
           descriptor: descriptor.toJSON(),
@@ -1383,7 +1403,7 @@ describe("PresentationRpcImpl", () => {
           keys,
           paging: { start: 5, size: MAX_ALLOWED_PAGE_SIZE },
         };
-        const rpcOptions: PresentationRpcRequestOptions<DistinctValuesRequestOptions<never, DescriptorJSON, KeySetJSON>> = {
+        const rpcOptions: PresentationRpcRequestOptions<DistinctValuesRequestOptions<never, DescriptorJSON, KeySetJSON, RulesetVariableJSON>> = {
           ...defaultRpcParams,
           rulesetOrId: managerOptions.rulesetOrId,
           descriptor: descriptor.toJSON(),
@@ -1422,7 +1442,7 @@ describe("PresentationRpcImpl", () => {
           keys,
           paging: { size: MAX_ALLOWED_PAGE_SIZE },
         };
-        const rpcOptions: PresentationRpcRequestOptions<DistinctValuesRequestOptions<never, DescriptorJSON, KeySetJSON>> = {
+        const rpcOptions: PresentationRpcRequestOptions<DistinctValuesRequestOptions<never, DescriptorJSON, KeySetJSON, RulesetVariableJSON>> = {
           ...defaultRpcParams,
           rulesetOrId: managerOptions.rulesetOrId,
           descriptor: descriptor.toJSON(),
@@ -1601,7 +1621,9 @@ describe("PresentationRpcImpl", () => {
         const managerOptions: WithClientRequestContext<HierarchyCompareOptions<IModelDb, NodeKey>> = {
           requestContext: ClientRequestContext.current,
           imodel: testData.imodelMock.object,
-          prev: rpcOptions.prev,
+          prev: {
+            rulesetOrId: rpcOptions.prev.rulesetOrId,
+          },
           rulesetOrId: rpcOptions.rulesetOrId,
         };
         presentationManagerMock.setup((x) => x.compareHierarchies(managerOptions))
@@ -1630,7 +1652,10 @@ describe("PresentationRpcImpl", () => {
         const managerOptions: WithClientRequestContext<HierarchyCompareOptions<IModelDb, NodeKey>> = {
           requestContext: ClientRequestContext.current,
           imodel: testData.imodelMock.object,
-          prev: rpcOptions.prev,
+          prev: {
+            ...rpcOptions.prev,
+            rulesetVariables: rpcOptions.prev.rulesetVariables?.map(RulesetVariable.fromJSON),
+          },
           rulesetOrId: rpcOptions.rulesetOrId,
           expandedNodeKeys: rpcOptions.expandedNodeKeys!.map(NodeKey.fromJSON),
         };
@@ -1664,7 +1689,9 @@ describe("PresentationRpcImpl", () => {
         const managerOptions: WithClientRequestContext<HierarchyCompareOptions<IModelDb, NodeKey>> = {
           requestContext: ClientRequestContext.current,
           imodel: testData.imodelMock.object,
-          prev: rpcOptions.prev,
+          prev: {
+            rulesetOrId: rpcOptions.prev.rulesetOrId,
+          },
           rulesetOrId: rpcOptions.rulesetOrId,
           resultSetSize: 10,
         };
@@ -1695,7 +1722,10 @@ describe("PresentationRpcImpl", () => {
         const managerOptions: WithClientRequestContext<HierarchyCompareOptions<IModelDb, NodeKey>> = {
           requestContext: ClientRequestContext.current,
           imodel: testData.imodelMock.object,
-          prev: rpcOptions.prev,
+          prev: {
+            ...rpcOptions.prev,
+            rulesetVariables: rpcOptions.prev.rulesetVariables?.map(RulesetVariable.fromJSON),
+          },
           rulesetOrId: rpcOptions.rulesetOrId,
           expandedNodeKeys: rpcOptions.expandedNodeKeys!.map(NodeKey.fromJSON),
           resultSetSize: 10,
@@ -1726,7 +1756,10 @@ describe("PresentationRpcImpl", () => {
         const managerOptions: WithClientRequestContext<HierarchyCompareOptions<IModelDb, NodeKey>> = {
           requestContext: ClientRequestContext.current,
           imodel: testData.imodelMock.object,
-          prev: rpcOptions.prev,
+          prev: {
+            ...rpcOptions.prev,
+            rulesetVariables: rpcOptions.prev.rulesetVariables?.map(RulesetVariable.fromJSON),
+          },
           rulesetOrId: rpcOptions.rulesetOrId,
           expandedNodeKeys: rpcOptions.expandedNodeKeys!.map(NodeKey.fromJSON),
           resultSetSize: MAX_ALLOWED_PAGE_SIZE,

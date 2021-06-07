@@ -5,7 +5,7 @@
 import { IModelApp } from "@bentley/imodeljs-frontend";
 import { ToolItemDef } from "@bentley/ui-framework";
 import { PlaceBlockTool } from "./PlaceBlockTool";
-import { CreateLineStringTool, DeleteElementsTool, MoveElementsTool, RotateElementsTool } from "@bentley/imodeljs-editor-frontend";
+import { CreateArcTool, CreateLineStringTool, DeleteElementsTool, MoveElementsTool, RotateElementsTool } from "@bentley/imodeljs-editor-frontend";
 
 export class EditTools {
   public static get deleteElementTool() {
@@ -67,4 +67,17 @@ export class EditTools {
       },
     });
   }
+
+  public static get placeArcTool() {
+    return new ToolItemDef({
+      toolId: CreateArcTool.toolId,
+      iconSpec: CreateArcTool.iconSpec,
+      label: CreateArcTool.flyover,
+      tooltip: CreateArcTool.description,
+      execute: async () => {
+        IModelApp.tools.run(CreateArcTool.toolId);
+      },
+    });
+  }
+
 }

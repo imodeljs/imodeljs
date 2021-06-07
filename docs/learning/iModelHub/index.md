@@ -1,6 +1,6 @@
 # iModelHub - The Backbone for iTwin.js Applications
 
-[iModelHub](http://www.iModelHub.com) is the control center for iModels. It is responsible for coordinating concurrent access to [iModels](./iModels/index.md) as well as changes made to them in a form of [ChangeSets](../Glossary.md#changeset).
+iModelHub is the control center for iModels. It is responsible for coordinating concurrent access to [iModels](./iModels/index.md) as well as changes made to them in a form of [ChangeSets](../Glossary.md#changeset).
 
 ![iModelHub](./iModelHub.png)
 

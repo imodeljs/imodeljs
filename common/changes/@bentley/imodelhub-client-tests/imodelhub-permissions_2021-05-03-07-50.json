@@ -1,0 +1,11 @@
+{
+  "changes": [
+    {
+      "packageName": "@bentley/imodelhub-client-tests",
+      "comment": "Use new iModelHub permissions API",
+      "type": "none"
+    }
+  ],
+  "packageName": "@bentley/imodelhub-client-tests",
+  "email": "69573450+azonys@users.noreply.github.com"
+}

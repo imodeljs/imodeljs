@@ -229,6 +229,11 @@ export abstract class CreateElementTool extends PrimitiveTool {
     return this.processDataButton(ev);
   }
 
+  public async onResetButtonUp(_ev: BeButtonEvent): Promise<EventHandled> {
+    this.onReinitialize();
+    return EventHandled.No;
+  }
+
   /** Setup initial tool state, prompts, etc. */
   public onPostInstall() {
     super.onPostInstall();

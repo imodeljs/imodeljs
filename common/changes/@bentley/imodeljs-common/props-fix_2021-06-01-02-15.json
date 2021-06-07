@@ -1,0 +1,11 @@
+{
+  "changes": [
+    {
+      "packageName": "@bentley/imodeljs-common",
+      "comment": "TextureLoadProps takes a maxTextureSize.",
+      "type": "none"
+    }
+  ],
+  "packageName": "@bentley/imodeljs-common",
+  "email": "47000437+markschlosseratbentley@users.noreply.github.com"
+}

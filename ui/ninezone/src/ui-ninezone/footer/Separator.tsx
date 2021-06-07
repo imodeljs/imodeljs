@@ -12,13 +12,13 @@ import * as React from "react";
 import { CommonProps, NoChildrenProps } from "@bentley/ui-core";
 
 /** Properties of [[FooterSeparator]] component.
- * @beta
+ * @public
  */
 export interface FooterSeparatorProps extends CommonProps, NoChildrenProps {
 }
 
 /** Footer indicator separator used in [[Footer]] component.
- * @beta
+ * @public
  */
 export class FooterSeparator extends React.PureComponent<FooterSeparatorProps> {
   public render() {

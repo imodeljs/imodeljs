@@ -39,6 +39,9 @@ export class GraphicBranch implements IDisposable /* , RenderMemory.Consumer */ 
   public readonly entries: RenderGraphic[] = [];
   /** If true, when the branch is disposed of, the RenderGraphics in its entries array will also be disposed */
   public readonly ownsEntries: boolean;
+  /** Selectively overrides the view's [ViewFlags]($common) while drawing graphics within this branch. The default overrides nothing.
+   * @see [[setViewFlagOverrides]].
+   */
   public viewFlagOverrides = new ViewFlagOverrides();
   /** Optional symbology overrides to be applied to all graphics in this branch */
   public symbologyOverrides?: FeatureSymbology.Overrides;
@@ -50,21 +53,45 @@ export class GraphicBranch implements IDisposable /* , RenderMemory.Consumer */ 
   /** Constructor
    * @param ownsEntries If true, when this branch is [[dispose]]d, all of the [[RenderGraphic]]s it contains will also be disposed.
    */
-  public constructor(ownsEntries: boolean = false) { this.ownsEntries = ownsEntries; }
+  public constructor(ownsEntries: boolean = false) {
+    this.ownsEntries = ownsEntries;
+  }
 
   /** Add a graphic to this branch. */
-  public add(graphic: RenderGraphic): void { this.entries.push(graphic); }
-  /** @internal */
-  public getViewFlags(flags: ViewFlags, out?: ViewFlags): ViewFlags { return this.viewFlagOverrides.apply(flags.clone(out)); }
-  /** @internal */
-  public setViewFlags(flags: ViewFlags): void { this.viewFlagOverrides.overrideAll(flags); }
-  /** @internal */
-  public setViewFlagOverrides(ovr: ViewFlagOverrides): void { this.viewFlagOverrides.copyFrom(ovr); }
+  public add(graphic: RenderGraphic): void {
+    this.entries.push(graphic);
+  }
 
-  public dispose() { this.clear(); }
-  public get isEmpty(): boolean { return 0 === this.entries.length; }
+  /** Compute the view flags that result from applying this branch's [[viewFlagOverrides]] to the input flags.
+   * @param flags The input view flags, e.g., from the view's [[DisplayStyleState]].
+   * @param out If supplied, these flags will be modified and returned as the result; otherwise, a new ViewFlags will be allocated and returned.
+   * @returns The result of applying [[viewFlagOverrides]] to `flags`.
+   */
+  public getViewFlags(flags: ViewFlags, out?: ViewFlags): ViewFlags {
+    return this.viewFlagOverrides.apply(flags.clone(out));
+  }
 
-  /** Empties the list of [[RenderGraphic]]s contained in this branch, and if the [[GraphicBranch.ownsEntries]] flag is set, also disposes of them. */
+  /** Set [[viewFlagOverrides]] to override **all** ViewFlags as specified by `flags`. */
+  public setViewFlags(flags: ViewFlags): void {
+    this.viewFlagOverrides.overrideAll(flags);
+  }
+
+  /** Change [[viewFlagOverrides]]. */
+  public setViewFlagOverrides(ovr: ViewFlagOverrides): void {
+    this.viewFlagOverrides.copyFrom(ovr);
+  }
+
+  /** Disposes of all graphics in this branch, if and only if [[ownsEntries]] is true. */
+  public dispose() {
+    this.clear();
+  }
+
+  /** Returns true if this branch contains no graphics. */
+  public get isEmpty(): boolean {
+    return 0 === this.entries.length;
+  }
+
+  /** Empties the list of [[RenderGraphic]]s contained in this branch, and if the [[ownsEntries]] flag is set, also disposes of them. */
   public clear(): void {
     if (this.ownsEntries)
       disposeArray(this.entries);

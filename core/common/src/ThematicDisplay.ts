@@ -325,7 +325,6 @@ export enum ThematicDisplayMode {
   Height = 0,
   /** The color gradient will be mapped to surface geometry and point clouds using inverse distance weighting based on world positions and corresponding values from a list of sensors.
    * @note Performance will decrease as more sensors are added.
-   * @public
    */
   InverseDistanceWeightedSensors = 1,
   /** The color gradient will be mapped to surface geometry based on the slope of the surface. The slope value is calculated based on the angle between the surface and the axis specified in the associated [[ThematicDisplay]] object.

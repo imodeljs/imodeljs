@@ -7,10 +7,10 @@
  */
 
 import { ScreenViewport, ViewState } from "@bentley/imodeljs-frontend";
-import { BaseTimelineDataProvider, Milestone, PlaybackSettings } from "@bentley/ui-components";
+import { BaseTimelineDataProvider, PlaybackSettings } from "@bentley/ui-components";
 
 /** ScheduleAnimation Timeline Data Provider - handles View that define 'scheduleScript' data.
- * @alpha
+ * @public
  */
 // No access to scheduleScript to even mock in test
 // istanbul ignore next
@@ -38,12 +38,6 @@ export class ScheduleAnimationTimelineDataProvider extends BaseTimelineDataProvi
       const timeRange = script.duration;
       this.start = new Date(timeRange.low * 1000);
       this.end = new Date(timeRange.high * 1000);
-
-      const quarter = (this.end.getTime() - this.start.getTime()) / 4;
-      const milestones: Milestone[] = [];
-      milestones.push({ id: "1", label: "1st Floor Concrete", date: new Date(this.start.getTime() + quarter), readonly: true });
-      milestones.push({ id: "2", label: "2nd Floor Concrete", date: new Date(this.end.getTime() - quarter), readonly: true });
-      this._milestones = milestones;
 
       if (this._viewport) {
         if (this._viewport.timePoint)

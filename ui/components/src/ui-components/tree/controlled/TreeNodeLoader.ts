@@ -30,7 +30,7 @@ import { TreeModelSource } from "./TreeModelSource";
 
 /**
  * Data structure that describes node load result
- * @beta
+ * @public
  */
 export interface TreeNodeLoadResult {
   loadedNodes: TreeNodeItem[];
@@ -38,7 +38,7 @@ export interface TreeNodeLoadResult {
 
 /**
  * Tree node loader which is used to load tree nodes.
- * @beta
+ * @public
  */
 export interface ITreeNodeLoader {
   /**
@@ -51,7 +51,7 @@ export interface ITreeNodeLoader {
 
 /**
  * Tree node loader which uses `TreeDataProvider` to load nodes.
- * @beta
+ * @public
  */
 export interface ITreeNodeLoaderWithProvider<TDataProvider extends TreeDataProvider> extends ITreeNodeLoader {
   /** Returns `TreeDataProvider` used to load nodes. */
@@ -60,7 +60,7 @@ export interface ITreeNodeLoaderWithProvider<TDataProvider extends TreeDataProvi
 
 /**
  * Abstract node loader implementation which loads nodes into provided model source.
- * @beta
+ * @public
  */
 export abstract class AbstractTreeNodeLoader implements ITreeNodeLoader {
   private _treeModelSource: TreeModelSource;
@@ -99,7 +99,7 @@ export abstract class AbstractTreeNodeLoader implements ITreeNodeLoader {
 
 /**
  * Abstract node loader with tree data provider which loads nodes into provided model source.
- * @beta
+ * @public
  */
 export abstract class AbstractTreeNodeLoaderWithProvider<TDataProvider extends TreeDataProvider> extends AbstractTreeNodeLoader implements ITreeNodeLoaderWithProvider<TDataProvider> {
   private _dataProvider: TDataProvider;
@@ -114,7 +114,7 @@ export abstract class AbstractTreeNodeLoaderWithProvider<TDataProvider extends T
 
 /**
  * Default tree node loader with `TreeDataProvider` implementation.
- * @beta
+ * @public
  */
 export class TreeNodeLoader<TDataProvider extends TreeDataProvider> extends AbstractTreeNodeLoaderWithProvider<TDataProvider> implements IDisposable {
   private _treeDataSource: TreeDataSource;
@@ -155,7 +155,7 @@ export class TreeNodeLoader<TDataProvider extends TreeDataProvider> extends Abst
 
 /**
  * Default paged tree node loader with `TreeDataProvider` implementation.
- * @beta
+ * @public
  */
 export class PagedTreeNodeLoader<TDataProvider extends TreeDataProvider> extends AbstractTreeNodeLoaderWithProvider<TDataProvider> implements IDisposable {
   private _pageLoader: PageLoader;
@@ -185,7 +185,7 @@ export class PagedTreeNodeLoader<TDataProvider extends TreeDataProvider> extends
 
 /**
  * Data structure that describes hierarchy loaded for parent node.
- * @beta
+ * @public
  */
 export interface LoadedNodeHierarchy {
   /** Node id of the parent node for loaded hierarchy. */
@@ -200,7 +200,7 @@ export interface LoadedNodeHierarchy {
 
 /**
  * Data structure that describes one loaded hierarchy item.
- * @beta
+ * @public
  */
 export interface LoadedNodeHierarchyItem {
   /** Loaded tree node item. */

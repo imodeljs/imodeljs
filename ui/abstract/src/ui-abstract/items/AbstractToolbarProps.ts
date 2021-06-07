@@ -9,7 +9,7 @@
 import { CommonToolbarItem } from "../toolbars/ToolbarItem";
 
 /** Definition for a Toolbar.
- * @beta
+ * @public
  */
 export interface AbstractToolbarProps {
   /** Id of Toolbar */

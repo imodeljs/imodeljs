@@ -64,7 +64,7 @@ class MarkerToolbarProvider implements PopupToolbarProvider {
  * @public
  */
 export class HyperModelingDecorator implements Decorator {
-  /** @internal */
+  /** The set of [[SectionMarker]]s controlled by this decorator. */
   public readonly markers: SectionMarkerSet;
   private _config: SectionMarkerConfig;
   private readonly _removeEventListeners = new Array<() => void>();

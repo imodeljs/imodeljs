@@ -1,0 +1,11 @@
+{
+  "changes": [
+    {
+      "packageName": "@bentley/map-layers",
+      "comment": " Allow saved map-layer definition to be edited.",
+      "type": "none"
+    }
+  ],
+  "packageName": "@bentley/map-layers",
+  "email": "mdastous-bentley@users.noreply.github.com"
+}

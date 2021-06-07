@@ -41,36 +41,38 @@
 
   position: absolute;
 
-  &.nz-left, &.nz-right {
+  &.nz-left,
+  &.nz-right {
     height: 100%;
     width: $size;
     cursor: ew-resize;
   }
 
-  &.nz-top, &.nz-bottom {
+  &.nz-top,
+  &.nz-bottom {
     width: 100%;
     height: $size;
     cursor: ns-resize;
   }
 
   &.nz-left {
-    left: -$size / 2;
+    left: -$size * 0.5;
     top: 0;
   }
 
   &.nz-right {
-    right: -$size / 2;
+    right: -$size * 0.5;
     top: 0;
   }
 
   &.nz-top {
     left: 0;
-    top: -$size / 2;
+    top: -$size * 0.5;
   }
 
   &.nz-bottom {
     left: 0;
-    bottom: -$size / 2;
+    bottom: -$size * 0.5;
   }
 
   &.nz-topLeft,
@@ -82,26 +84,26 @@
   }
 
   &.nz-topLeft {
-    left: -$cornerSize / 3;
-    top: -$cornerSize / 3;
+    left: -$cornerSize * 0.3333;
+    top: -$cornerSize * 0.3333;
     cursor: nwse-resize;
   }
 
   &.nz-topRight {
-    right: -$cornerSize / 3;
-    top: -$cornerSize / 3;
+    right: -$cornerSize * 0.3333;
+    top: -$cornerSize * 0.3333;
     cursor: nesw-resize;
   }
 
   &.nz-bottomLeft {
-    left: -$cornerSize / 3;
-    bottom: -$cornerSize / 3;
+    left: -$cornerSize * 0.3333;
+    bottom: -$cornerSize * 0.3333;
     cursor: nesw-resize;
   }
 
   &.nz-bottomRight {
-    right: -$cornerSize / 3;
-    bottom: -$cornerSize / 3;
+    right: -$cornerSize * 0.3333;
+    bottom: -$cornerSize * 0.3333;
     cursor: nwse-resize;
   }
 }

@@ -8,18 +8,16 @@
 
 import * as path from "path";
 import { assert, DbResult, GuidString, Id64String, IModelStatus, Logger, PerfLogger, using } from "@bentley/bentleyjs-core";
-import { ChangeSet, ChangeSetQuery } from "@bentley/imodelhub-client";
 import { ChangedValueState, ChangeOpCode, IModelError, IModelVersion } from "@bentley/imodeljs-common";
-import { IModelJsNative } from "@bentley/imodeljs-native";
 import { AuthorizedClientRequestContext } from "@bentley/itwin-client";
+import { ChangesetFileProps, ChangesetId } from "./BackendHubAccess";
 import { BackendLoggerCategory } from "./BackendLoggerCategory";
 import { BriefcaseManager } from "./BriefcaseManager";
 import { ECDb, ECDbOpenMode } from "./ECDb";
 import { ECSqlStatement } from "./ECSqlStatement";
 import { BriefcaseDb, IModelDb } from "./IModelDb";
-import { KnownLocations } from "./IModelHost";
+import { IModelHost, KnownLocations } from "./IModelHost";
 import { IModelJsFs } from "./IModelJsFs";
-import { IModelHost } from "./imodeljs-backend";
 
 const loggerCategory: string = BackendLoggerCategory.ECDb;
 
@@ -157,7 +155,7 @@ export class ChangeSummaryManager {
     let startChangeSetId = "";
     if (options) {
       if (options.startVersion) {
-        startChangeSetId = await options.startVersion.evaluateChangeSet(requestContext, ctx.iModelId, IModelHost.iModelClient);
+        startChangeSetId = await IModelHost.hubAccess.getChangesetIdFromVersion({ version: options.startVersion, requestContext, iModelId: ctx.iModelId });
         requestContext.enter();
       } else if (options.currentVersionOnly) {
         startChangeSetId = endChangeSetId;
@@ -165,11 +163,11 @@ export class ChangeSummaryManager {
     }
 
     Logger.logInfo(loggerCategory, "Started Change Summary extraction...", () => ({ iModelId: ctx.iModelId, startChangeSetId, endChangeSetId }));
-    const totalPerf = new PerfLogger(`ChangeSummaryManager.extractChangeSummaries [Changesets: ${startChangeSetId} through ${endChangeSetId}, iModel: ${ctx.iModelId}]`);
+    const totalPerf = new PerfLogger(`ChangeSummaryManager.extractChangeSummaries [ChangeSets: ${startChangeSetId} through ${endChangeSetId}, iModel: ${ctx.iModelId}]`);
 
     // download necessary changesets if they were not downloaded before and retrieve infos about those changesets
     let perfLogger = new PerfLogger("ChangeSummaryManager.extractChangeSummaries>Retrieve ChangeSetInfos and download ChangeSets from Hub");
-    const changeSetInfos = await ChangeSummaryManager.downloadChangeSets(requestContext, ctx, startChangeSetId, endChangeSetId);
+    const changeSetInfos = await ChangeSummaryManager.downloadChangesets(requestContext, ctx, startChangeSetId, endChangeSetId);
     requestContext.enter();
     perfLogger.dispose();
     Logger.logTrace(loggerCategory, "Retrieved changesets to extract from from cache or from hub.", () => ({ iModelId: ctx.iModelId, startChangeSetId, endChangeSetId, changeSets: changeSetInfos }));
@@ -191,15 +189,13 @@ export class ChangeSummaryManager {
     }
 
     try {
-      const changeSetsFolder: string = BriefcaseManager.getChangeSetsPath(ctx.iModelId);
-
       // extract summaries from end changeset through start changeset, so that we only have to go back in history
       const changeSetCount: number = changeSetInfos.length;
       const endChangeSetIx: number = changeSetCount - 1;
       const summaries: Id64String[] = [];
       for (let i = endChangeSetIx; i >= 0; i--) {
-        const currentChangeSetInfo: ChangeSet = changeSetInfos[i];
-        const currentChangeSetId: string = currentChangeSetInfo.wsgId;
+        const currentChangeSetInfo = changeSetInfos[i];
+        const currentChangeSetId = currentChangeSetInfo.id;
         Logger.logInfo(loggerCategory, `Started Change Summary extraction for changeset #${i + 1}...`, () => ({ iModelId: ctx.iModelId, changeSetId: currentChangeSetId }));
 
         const existingSummaryId: Id64String | undefined = ChangeSummaryManager.isSummaryAlreadyExtracted(changesFile, currentChangeSetId);
@@ -218,12 +214,12 @@ export class ChangeSummaryManager {
           Logger.logTrace(loggerCategory, `Moved iModel to changeset #${i + 1} to extract summary from.`, () => ({ iModelId: ctx.iModelId, changeSetId: currentChangeSetId }));
         }
 
-        const changeSetFilePath: string = path.join(changeSetsFolder, currentChangeSetInfo.fileName!);
+        const changeSetFilePath = currentChangeSetInfo.pathname;
         if (!IModelJsFs.existsSync(changeSetFilePath))
-          throw new IModelError(IModelStatus.FileNotFound, `Failed to extract change summary: Changeset file "${changeSetFilePath}" does not exist.`);
+          throw new IModelError(IModelStatus.FileNotFound, `Failed to extract change summary: ChangeSet file "${changeSetFilePath}" does not exist.`);
 
         perfLogger = new PerfLogger("ChangeSummaryManager.extractChangeSummaries>Extract ChangeSummary");
-        const stat: IModelJsNative.ErrorStatusOrResult<DbResult, string> = iModel.nativeDb.extractChangeSummary(changesFile.nativeDb, changeSetFilePath);
+        const stat = iModel.nativeDb.extractChangeSummary(changesFile.nativeDb, changeSetFilePath);
         perfLogger.dispose();
         if (stat.error && stat.error.status !== DbResult.BE_SQLITE_OK)
           throw new IModelError(stat.error.status, stat.error.message);
@@ -231,7 +227,7 @@ export class ChangeSummaryManager {
         Logger.logTrace(loggerCategory, `Actual Change summary extraction done for changeset #${i + 1}.`, () => ({ iModelId: ctx.iModelId, changeSetId: currentChangeSetId }));
 
         perfLogger = new PerfLogger("ChangeSummaryManager.extractChangeSummaries>Add ChangeSet info to ChangeSummary");
-        const changeSummaryId: Id64String = stat.result!;
+        const changeSummaryId = stat.result!;
         summaries.push(changeSummaryId);
         ChangeSummaryManager.addExtendedInfos(changesFile, changeSummaryId, currentChangeSetId, currentChangeSetInfo.parentId, currentChangeSetInfo.description, currentChangeSetInfo.pushDate, currentChangeSetInfo.userCreated);
         perfLogger.dispose();
@@ -261,30 +257,14 @@ export class ChangeSummaryManager {
     }
   }
 
-  public static async downloadChangeSets(requestContext: AuthorizedClientRequestContext, ctx: ChangeSummaryExtractContext, startChangeSetId: GuidString, endChangeSetId: GuidString): Promise<ChangeSet[]> {
+  /** @internal */
+  public static async downloadChangesets(requestContext: AuthorizedClientRequestContext, ctx: ChangeSummaryExtractContext, first: ChangesetId, end: ChangesetId): Promise<ChangesetFileProps[]> {
     requestContext.enter();
-    // Get the change set before the startChangeSet so that startChangeSet is included in the download and processing
-    let beforeStartChangeSetId: string;
-    if (startChangeSetId.length === 0)
-      beforeStartChangeSetId = "";
-    else {
-      const query = new ChangeSetQuery();
-      query.byId(startChangeSetId);
 
-      const changeSets = await IModelHost.iModelClient.changeSets.get(requestContext, ctx.iModelId, query);
-      requestContext.enter();
-      if (changeSets.length === 0)
-        throw new Error(`Unable to find change set ${startChangeSetId} for iModel ${ctx.iModelId}`);
-
-      const changeSetInfo: ChangeSet = changeSets[0];
-
-      beforeStartChangeSetId = !changeSetInfo.parentId ? "" : changeSetInfo.parentId;
-    }
-
-    const changeSetInfos = await BriefcaseManager.downloadChangeSets(requestContext, ctx.iModelId, beforeStartChangeSetId, endChangeSetId);
+    const changeSetInfos = await IModelHost.hubAccess.downloadChangesets({ requestContext, iModelId: ctx.iModelId, range: { first, end } });
     requestContext.enter();
-    assert(startChangeSetId.length === 0 || startChangeSetId === changeSetInfos[0].wsgId);
-    assert(endChangeSetId === changeSetInfos[changeSetInfos.length - 1].wsgId);
+    assert(first === "" || first === changeSetInfos[0].id);
+    assert(end === changeSetInfos[changeSetInfos.length - 1].id);
     return changeSetInfos;
   }
 
@@ -293,7 +273,7 @@ export class ChangeSummaryManager {
       throw new IModelError(IModelStatus.BadArg, "Invalid iModel handle. iModel must be open.");
 
     const changesFile = new ECDb();
-    const changeCacheFilePath: string = BriefcaseManager.getChangeCachePathName(iModel.iModelId);
+    const changeCacheFilePath = BriefcaseManager.getChangeCachePathName(iModel.iModelId);
     if (IModelJsFs.existsSync(changeCacheFilePath)) {
       ChangeSummaryManager.openChangeCacheFile(changesFile, changeCacheFilePath);
       return changesFile;

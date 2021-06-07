@@ -13,7 +13,7 @@ import {
   IModelStatus, JsonUtils, Logger, OpenMode,
 } from "@bentley/bentleyjs-core";
 import { Range3d } from "@bentley/geometry-core";
-import { ChangesType, Lock, LockLevel, LockType } from "@bentley/imodelhub-client";
+import { ChangesType } from "@bentley/imodelhub-client";
 import {
   AxisAlignedBox3d, Base64EncodedString, BRepGeometryCreate, BriefcaseIdValue, CategorySelectorProps, Code, CodeSpec, CreateEmptySnapshotIModelProps,
   CreateEmptyStandaloneIModelProps, CreateSnapshotIModelProps, DisplayStyleProps, DomainOptions, EcefLocation, ElementAspectProps,
@@ -886,7 +886,7 @@ export abstract class IModelDb extends IModel {
   public static validateSchemas(filePath: string, forReadWrite: boolean): SchemaState {
     const openMode = forReadWrite ? OpenMode.ReadWrite : OpenMode.Readonly;
     const file = { path: filePath };
-    let result: DbResult = DbResult.BE_SQLITE_OK;
+    let result = DbResult.BE_SQLITE_OK;
     try {
       const upgradeOptions: UpgradeOptions = {
         domain: DomainOptions.CheckRecommendedUpgrades,
@@ -1319,7 +1319,7 @@ export namespace IModelDb { // eslint-disable-line no-redeclare
      */
     public queryLastModifiedTime(modelId: Id64String): string {
       const sql = `SELECT LastMod FROM ${Model.classFullName} WHERE ECInstanceId=:modelId`;
-      return this._iModel.withPreparedStatement<string>(sql, (statement) => {
+      return this._iModel.withPreparedStatement(sql, (statement) => {
         statement.bindId("modelId", modelId);
         if (DbResult.BE_SQLITE_ROW === statement.step()) {
           return statement.getValue(0).getDateTime();
@@ -1380,7 +1380,6 @@ export namespace IModelDb { // eslint-disable-line no-redeclare
     /** Read the properties for a Model as a json string.
      * @param modelIdArg a json string with the identity of the model to load. Must have either "id" or "code".
      * @returns a json string with the properties of the model or `undefined` if the model is not found.
-     * @throws [[IModelError]] if the model exists, but cannot be loaded.
      * @see getModelJson
      */
     private tryGetModelJson<T extends ModelProps>(modelIdArg: ModelLoadProps): T | undefined {
@@ -2197,69 +2196,43 @@ export class BriefcaseDb extends IModelDb {
     super.saveChanges(description);
   }
 
-  private static async lockSchema(requestContext: AuthorizedClientRequestContext, iModelId: GuidString, changeSetId: string, briefcaseId: number): Promise<void> {
-    requestContext.enter();
-    const lock = new Lock();
-    lock.briefcaseId = briefcaseId;
-    lock.lockLevel = LockLevel.Exclusive;
-    lock.lockType = LockType.Schemas;
-    lock.objectId = "0x1";
-    lock.releasedWithChangeSet = changeSetId;
-    lock.seedFileId = iModelId;
-
-    Logger.logTrace(loggerCategory, `lockSchema`);
-    const res = await IModelHost.iModelClient.locks.update(requestContext, iModelId, [lock]);
-    if (res.length !== 1 || res[0].lockLevel !== LockLevel.Exclusive)
-      throw new IModelError(IModelStatus.UpgradeFailed, `Could not acquire schema lock: ${iModelId}, ${changeSetId}, ${briefcaseId}`);
-  }
-
   /**
    * Upgrades the profile or domain schemas and returns the new change set id
    */
-  private static async upgradeProfileOrDomainSchemas(requestContext: AuthorizedClientRequestContext, briefcaseProps: LocalBriefcaseProps & OpenBriefcaseProps, upgradeOptions: UpgradeOptions, changeSetDescription: string): Promise<GuidString> {
-    requestContext.enter();
-
+  private static async upgradeProfileOrDomainSchemas(arg: { requestContext: AuthorizedClientRequestContext, briefcase: LocalBriefcaseProps & OpenBriefcaseProps, upgradeOptions: UpgradeOptions, description: string }): Promise<void> {
+    const lockArg = { ...arg, ...arg.briefcase };
+    const requestContext = arg.requestContext;
     // Lock schemas
-    await this.lockSchema(requestContext, briefcaseProps.iModelId, briefcaseProps.changeSetId, briefcaseProps.briefcaseId);
-    requestContext.enter();
+    await IModelHost.hubAccess.acquireSchemaLock(lockArg);
 
     // Upgrade and validate
     try {
       // openDgnDb performs the upgrade
-      const nativeDb = this.openDgnDb({ path: briefcaseProps.fileName, key: briefcaseProps.key }, OpenMode.ReadWrite, upgradeOptions);
+      const nativeDb = this.openDgnDb({ path: arg.briefcase.fileName, key: arg.briefcase.key }, OpenMode.ReadWrite, arg.upgradeOptions);
 
-      // Validate
       try {
-        assert(!nativeDb.hasUnsavedChanges(), "Expected schema upgrade to have saved any changes made");
-        assert(nativeDb.getReversedChangeSetId() === undefined, "Expected schema upgrade to have failed if there were reversed changes in the briefcase");
-        const localBriefcaseProps = {
-          iModelId: nativeDb.getDbGuid(),
-          contextId: nativeDb.queryProjectGuid(),
-          changeSetId: nativeDb.getParentChangeSetId(),
-        };
-        if (localBriefcaseProps.iModelId !== briefcaseProps.iModelId || localBriefcaseProps.contextId !== briefcaseProps.contextId || localBriefcaseProps.changeSetId !== briefcaseProps.changeSetId)
-          throw new IModelError(BentleyStatus.ERROR, "Local briefcase does not match the briefcase properties passed in to upgrade");
-        if (!nativeDb.hasPendingTxns())
-          return briefcaseProps.changeSetId; // No changes made due to the upgrade
+        if (!nativeDb.hasPendingTxns()) {
+          await IModelHost.hubAccess.releaseAllLocks(lockArg);
+          return; // No changes made due to the upgrade
+        }
       } finally {
         nativeDb.closeIModel();
       }
     } catch (err) {
-      await IModelHost.iModelClient.locks.deleteAll(requestContext, briefcaseProps.iModelId, briefcaseProps.briefcaseId);
+      await IModelHost.hubAccess.releaseAllLocks(lockArg);
       throw err;
     }
 
     // Push changes
-    const briefcaseDb = await BriefcaseDb.open(requestContext, { ...briefcaseProps, readonly: false });
+    const briefcaseDb = await BriefcaseDb.open(requestContext, { ...arg.briefcase, readonly: false });
     try {
       // Sync the concurrencyControl cache so that it includes the schema lock we requested before the open
       await briefcaseDb.concurrencyControl.syncCache(requestContext);
-
-      await briefcaseDb.pushChanges(requestContext, changeSetDescription, ChangesType.Schema);
-      requestContext.enter();
-      return briefcaseDb.changeSetId;
+      await briefcaseDb.pushChanges(requestContext, arg.description, ChangesType.Schema);
+      arg.briefcase.changeSetId = briefcaseDb.changeSetId;
     } finally {
       briefcaseDb.close();
+      requestContext.enter();
     }
   }
 
@@ -2275,17 +2248,12 @@ export class BriefcaseDb extends IModelDb {
    * @see [[BriefcaseDb.validateSchemas]]
    * @see ($docs/learning/backend/IModelDb.md#upgrading-schemas-in-an-imodel)
   */
-  public static async upgradeSchemas(requestContext: AuthorizedClientRequestContext, briefcaseProps: LocalBriefcaseProps & OpenBriefcaseProps): Promise<void> {
-    requestContext.enter();
-
+  public static async upgradeSchemas(requestContext: AuthorizedClientRequestContext, briefcase: LocalBriefcaseProps & OpenBriefcaseProps): Promise<void> {
     // Note: For admins we do not care about translations and keep description consistent, but we do need to enhance this to
     // include more information on versions
-    const profileUpgradeDescription: string = "Upgraded profile";
-    const changeSetId = await this.upgradeProfileOrDomainSchemas(requestContext, briefcaseProps, { profile: ProfileOptions.Upgrade }, profileUpgradeDescription);
-    requestContext.enter();
-
-    const domainSchemaUpgradeDescription = "Upgraded domain schemas";
-    await this.upgradeProfileOrDomainSchemas(requestContext, { ...briefcaseProps, changeSetId }, { domain: DomainOptions.Upgrade }, domainSchemaUpgradeDescription);
+    const upgradeArg = { requestContext, briefcase };
+    await this.upgradeProfileOrDomainSchemas({ ...upgradeArg, upgradeOptions: { profile: ProfileOptions.Upgrade }, description: "Upgraded profile" });
+    await this.upgradeProfileOrDomainSchemas({ ...upgradeArg, upgradeOptions: { domain: DomainOptions.Upgrade }, description: "Upgraded domain schemas" });
     requestContext.enter();
   }
 

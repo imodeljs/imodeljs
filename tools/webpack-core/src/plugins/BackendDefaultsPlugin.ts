@@ -40,7 +40,7 @@ export class BackendDefaultsPlugin {
     // Add default plugins
     const plugins = [
       new CopyAppAssetsPlugin("assets"),
-      new CopyBentleyStaticResourcesPlugin(["assets"]),
+      new CopyBentleyStaticResourcesPlugin(["assets"]), // eslint-disable-line deprecation/deprecation
       new CopyExternalsPlugin(),
       new DefinePlugin({
         "global.GENTLY": false,

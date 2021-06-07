@@ -33,6 +33,7 @@ import { SampleImageCheckBox } from "./SampleImageCheckBox";
 import { SamplePopupContextMenu } from "./SamplePopupContextMenu";
 import { FormatPopupButton } from "./FormatPopupButton";
 import { AccudrawSettingsPageComponent } from "../Settings";
+import { TableExampleContent } from "../../contentviews/TableExampleContent";
 
 function MySettingsPage() {
   const tabs: SettingsTabEntry[] = [
@@ -616,7 +617,7 @@ export class ComponentExamplesProvider {
     };
   }
 
-  private static get mergedCellsSamples(): ComponentExampleCategory {
+  private static get tableSamples(): ComponentExampleCategory {
     const testRecord = (valueString: string): PropertyRecord => {
       const value: PropertyValue = {
         value: valueString,
@@ -631,14 +632,31 @@ export class ComponentExamplesProvider {
       return new PropertyRecord(value, description);
     };
 
-    const rowData = [{
-      key: "row1",
-      cells: [
-        { key: "1", record: testRecord("Cell 1 text") },
-        { key: "2", record: testRecord("Text in the merged cells (2, 3)"), mergedCellsCount: 2, alignment: HorizontalAlignment.Center },
-        { key: "3", record: testRecord("") },
-        { key: "4", record: testRecord("Cell 4 text") }],
-    },
+    const rowData = [
+      {
+        key: "row1",
+        cells: [
+          { key: "1", record: testRecord("Cell 1-1 text") },
+          { key: "2", record: testRecord("Cell 1-2 text") },
+          { key: "3", record: testRecord("Cell 1-3 text") },
+          { key: "4", record: testRecord("Cell 1-4 text") }],
+      },
+      {
+        key: "row2",
+        cells: [
+          { key: "1", record: testRecord("Cell 2-1 text") },
+          { key: "2", record: testRecord("Text in the merged cells (2-2, 2-3)"), mergedCellsCount: 2, alignment: HorizontalAlignment.Center },
+          { key: "3", record: testRecord("") },
+          { key: "4", record: testRecord("Cell 2-4 text") }],
+      },
+      {
+        key: "row3",
+        cells: [
+          { key: "1", record: testRecord("Cell 3-1 text") },
+          { key: "2", record: testRecord("Cell 3-2 text") },
+          { key: "3", record: testRecord("Cell 3-3 text") },
+          { key: "4", record: testRecord("Cell 3-4 text") }],
+      },
     ];
     const onColumnsChanged = new TableDataChangeEvent();
     const onRowsChanged = new TableDataChangeEvent();
@@ -656,12 +674,12 @@ export class ComponentExamplesProvider {
     };
 
     return {
-      title: "Merged Table Cells",
+      title: "Tables",
       examples: [
-        createComponentExample("Table", "Table with merged cells",
-          <Table
-            dataProvider={dataProvider}
-          />),
+        createComponentExample("Basic Table", "Table with merged cells",
+          <div style={{ height: "115px", width: "100%" }}> <Table dataProvider={dataProvider} /></div>),
+        createComponentExample("Table w/options", "Table with filters and edit cells",
+          <div style={{ height: "360px", width: "100%" }}><TableExampleContent /></div>),
       ],
     };
   }
@@ -1212,6 +1230,7 @@ export class ComponentExamplesProvider {
       ComponentExamplesProvider.selectSamples,
       ComponentExamplesProvider.sliderSamples,
       ComponentExamplesProvider.splitButtonSamples,
+      ComponentExamplesProvider.tableSamples,
       ComponentExamplesProvider.tabsSamples,
       ComponentExamplesProvider.textSamples,
       ComponentExamplesProvider.tileSamples,
@@ -1220,7 +1239,6 @@ export class ComponentExamplesProvider {
       ComponentExamplesProvider.quantityFormatting,
       ComponentExamplesProvider.settingPage,
       ComponentExamplesProvider.deprecatedComponentSamples,
-      ComponentExamplesProvider.mergedCellsSamples,
     ];
   }
 }

@@ -474,24 +474,26 @@ button.map-manager-item-visibility {
     height: 250px;
     min-height: 60px;
 
-    button.map-source-delete-button {
-      padding: 0 4px 0 0;
-      margin: 0;
-      background-color: transparent;
-      border: none;
-      color: $buic-foreground-body;
 
-
-      &:hover {
-        color: $hovered-icon-color;
-      }
-      &:focus {
-        outline: none;
-        box-shadow: $uicore-button-focus-boxshadow;
-      }
-    }
 
     .map-source-list-entry {
+
+      button.map-source-list-entry-button {
+        padding: 0 4px 0 4px;
+        margin: 0;
+        background-color: transparent;
+        border: none;
+        color: $buic-foreground-body;
+
+
+        &:hover {
+          color: $hovered-icon-color;
+        }
+        &:focus {
+          outline: none;
+          box-shadow: $uicore-button-focus-boxshadow;
+        }
+      }
       .map-source-list-entry-name {
         flex: 1 1 auto;
         text-overflow: ellipsis;

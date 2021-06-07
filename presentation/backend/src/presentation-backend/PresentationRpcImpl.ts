@@ -17,7 +17,7 @@ import {
   isDisplayLabelRequestOptions, isExtendedContentRequestOptions, isExtendedHierarchyRequestOptions, ItemJSON, KeySet, KeySetJSON, LabelDefinition,
   LabelDefinitionJSON, LabelRpcRequestOptions, Node, NodeJSON, NodeKey, NodeKeyJSON, NodePathElement, NodePathElementJSON, Paged, PagedResponse,
   PageOptions, PartialHierarchyModification, PartialHierarchyModificationJSON, PresentationError, PresentationRpcInterface, PresentationRpcResponse,
-  PresentationStatus, Ruleset, SelectionInfo, SelectionScope, SelectionScopeRpcRequestOptions,
+  PresentationStatus, Ruleset, RulesetVariable, RulesetVariableJSON, SelectionInfo, SelectionScope, SelectionScopeRpcRequestOptions,
 } from "@bentley/presentation-common";
 import { PresentationBackendLoggerCategory } from "./BackendLoggerCategory";
 import { Presentation } from "./Presentation";
@@ -87,7 +87,7 @@ export class PresentationRpcImpl extends PresentationRpcInterface {
     return imodel;
   }
 
-  private async makeRequest<TRpcOptions extends { rulesetOrId?: Ruleset | string, clientId?: string, diagnostics?: DiagnosticsOptions }, TResult>(token: IModelRpcProps, requestId: string, requestOptions: TRpcOptions, request: ContentGetter<Promise<TResult>>): PresentationRpcResponse<TResult> {
+  private async makeRequest<TRpcOptions extends { rulesetOrId?: Ruleset | string, clientId?: string, diagnostics?: DiagnosticsOptions, rulesetVariables?: RulesetVariableJSON[] }, TResult>(token: IModelRpcProps, requestId: string, requestOptions: TRpcOptions, request: ContentGetter<Promise<TResult>>): PresentationRpcResponse<TResult> {
     Logger.logInfo(PresentationBackendLoggerCategory.Rpc, `Received '${requestId}' request. Params: ${JSON.stringify(requestOptions)}`);
     const requestContext = ClientRequestContext.current;
     let imodel: IModelDb;
@@ -97,12 +97,16 @@ export class PresentationRpcImpl extends PresentationRpcInterface {
       return this.errorResponse((e as PresentationError).errorNumber, (e as PresentationError).message);
     }
 
-    const { clientId, diagnostics: diagnosticsOptions, ...options } = requestOptions; // eslint-disable-line @typescript-eslint/no-unused-vars
+    const { clientId, diagnostics: diagnosticsOptions, rulesetVariables, ...options } = requestOptions; // eslint-disable-line @typescript-eslint/no-unused-vars
     const managerRequestOptions: any = {
       ...options,
       requestContext,
       imodel,
     };
+
+    // set up ruleset variables
+    if (rulesetVariables)
+      managerRequestOptions.rulesetVariables = rulesetVariables.map(RulesetVariable.fromJSON);
 
     // set up diagnostics listener
     let diagnosticLogs: DiagnosticsScopeLogs[] | undefined;
@@ -162,7 +166,7 @@ export class PresentationRpcImpl extends PresentationRpcInterface {
   // eslint-disable-next-line deprecation/deprecation
   public async getNodesCount(token: IModelRpcProps, requestOptions: HierarchyRpcRequestOptions | ExtendedHierarchyRpcRequestOptions, parentKey?: NodeKeyJSON): PresentationRpcResponse<number> {
     return this.makeRequest(token, "getNodesCount", requestOptions, async (options) =>
-      this.getManager(requestOptions.clientId).getNodesCount({ ...options, parentKey: nodeKeyFromJson(isExtendedHierarchyRequestOptions<never, NodeKeyJSON>(options) ? options.parentKey : parentKey) }),
+      this.getManager(requestOptions.clientId).getNodesCount({ ...options, parentKey: nodeKeyFromJson(isExtendedHierarchyRequestOptions<never, NodeKeyJSON, RulesetVariableJSON>(options) ? options.parentKey : parentKey) }),
     );
   }
 
@@ -203,7 +207,7 @@ export class PresentationRpcImpl extends PresentationRpcInterface {
   // eslint-disable-next-line deprecation/deprecation
   public async getContentDescriptor(token: IModelRpcProps, requestOptions: ContentRpcRequestOptions | ContentDescriptorRpcRequestOptions, displayType?: string, keys?: KeySetJSON, selection?: SelectionInfo): PresentationRpcResponse<DescriptorJSON | undefined> {
     return this.makeRequest(token, "getContentDescriptor", requestOptions, async (options) => {
-      if (isContentDescriptorRequestOptions<never, KeySetJSON>(options)) {
+      if (isContentDescriptorRequestOptions<never, KeySetJSON, RulesetVariableJSON>(options)) {
         options = { ...options, keys: KeySet.fromJSON(options.keys) };
       } else {
         options = {
@@ -223,7 +227,7 @@ export class PresentationRpcImpl extends PresentationRpcInterface {
   // eslint-disable-next-line deprecation/deprecation
   public async getContentSetSize(token: IModelRpcProps, requestOptions: ContentRpcRequestOptions | ExtendedContentRpcRequestOptions, descriptorOrOverrides?: DescriptorJSON | DescriptorOverrides, keys?: KeySetJSON): PresentationRpcResponse<number> {
     return this.makeRequest(token, "getContentSetSize", requestOptions, async (options) => {
-      if (isExtendedContentRequestOptions<never, DescriptorJSON, KeySetJSON>(options)) {
+      if (isExtendedContentRequestOptions<never, DescriptorJSON, KeySetJSON, RulesetVariableJSON>(options)) {
         options = {
           ...options,
           descriptor: descriptorFromJson(options.descriptor),

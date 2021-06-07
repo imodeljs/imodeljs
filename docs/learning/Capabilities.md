@@ -361,5 +361,5 @@ Desktop and Mobile device Web browsers.
 - Sample Apps: can be used as a starting point for your app.
   - [simple-viewer-app](https://github.com/imodeljs/imodeljs-samples/tree/master/interactive-app/simple-viewer-app): An example of an interactive application which can display graphical data, browse iModel catalog and view element properties.
   - [imodel-query-agent](https://github.com/imodeljs/imodel-query-agent): An example of an agent application which can listen to changes made to an iModel in iModelHub and construct a 'Change Summary' of useful information.
-- [Sample Data](https://www.itwinjs.org/getting-started/registration-dashboard/?tab=1): to use with the above samples and jump start iTwin.js development.
-- [iModel Console](https://imdevsrvcdeveusfsa01.blob.core.windows.net/prod-imodel-console/index.html): handy tool for running ECSql queries against an iModel. Can be used for writing queries for the application or for better understanding the project data.
+- [Sample Data](https://developer.bentley.com/my-imodels/): to use with the above samples and jump start iTwin.js development.
+- [iModel Console](https://imodelconsole.bentley.com): handy tool for running ECSql queries against an iModel. Can be used for writing queries for the application or for better understanding the project data.

@@ -214,7 +214,6 @@ export abstract class ViewState extends ElementState {
 
   /** The [RenderSchedule.Script]($common) that animates the contents of the view, if any.
    * @see [[DisplayStyleState.scheduleScript]].
-   * @beta
    */
   public get scheduleScript(): RenderSchedule.Script | undefined {
     return this.displayStyle.scheduleScript;
@@ -309,7 +308,7 @@ export abstract class ViewState extends ElementState {
    * @return The symbology overrides applied to the model, or undefined if no such overrides exist.
    */
   public getModelAppearanceOverride(id: Id64String): FeatureAppearance | undefined {
-    return this.displayStyle.getModelAppearanceOverride(id);
+    return this.displayStyle.settings.getModelAppearanceOverride(id);
   }
 
   /** @internal */

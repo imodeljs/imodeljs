@@ -39,7 +39,7 @@ export interface RenderedItemsRange {
 
 /**
  * Properties for [[TreeRenderer]] component.
- * @beta
+ * @public
  */
 export interface TreeRendererProps {
   treeActions: TreeActions;
@@ -72,7 +72,7 @@ export interface TreeRendererProps {
 
 /**
  * Attributes found on TreeRenderer component
- * @beta
+ * @public
  */
 export interface TreeRendererAttributes {
   /**

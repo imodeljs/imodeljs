@@ -16,10 +16,9 @@ iModel agents and services are apps that have no interactive user interface.
 
 An interactive application obtains information from an iModel and presents that information in a user interface. The app runs in Electron on the user's desktop.
 
-**[Register apps here]($docs/registration-dashboard.md)**
+**[Register apps here](https://developer.bentley.com/register/)**
 
-1. Go to the [registration dashboard]($docs/getting-started/registration-dashboard/)
-1. Click the "+ New App" button
+1. Go to the "[Register your application](https://developer.bentley.com/register/)" page.
 1. Select the type of app you would like to register
 1. Give your app a human readable name
 1. Select the scopes your app will need

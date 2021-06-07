@@ -9,7 +9,7 @@ import { Handles, Rail, Slider, SliderItem, Ticks } from "react-compound-slider"
 import { CommonProps } from "@bentley/ui-core";
 import { Milestone } from "./interfaces";
 
-// istanbul ignore next - WIP
+// istanbul ignore next
 const formatDate = (value: number) => {
   let date = new Date();
   if (value)
@@ -18,14 +18,22 @@ const formatDate = (value: number) => {
 };
 
 // *******************************************************
-// NEEDLE
+// NEEDLE -- deprecated
 // *******************************************************
+/** @internal
+ * @deprecated
+ */
 interface NeedleProps {
   startDate: Date;
   endDate: Date;
   selectedDate: Date;
 }
 
+/** @internal
+ * @deprecated
+ */
+// istanbul ignore next
+// eslint-disable-next-line deprecation/deprecation
 function Needle({ startDate, endDate, selectedDate }: NeedleProps) {
   const percent = (selectedDate.getTime() - startDate.getTime()) / (endDate.getTime() - startDate.getTime()) * 100;
   return (
@@ -34,8 +42,12 @@ function Needle({ startDate, endDate, selectedDate }: NeedleProps) {
 }
 
 // *******************************************************
-// TOOLTIP RAIL
+// TOOLTIP RAIL -- deprecated
 // *******************************************************
+/** @internal
+ * @deprecated
+ */
+// istanbul ignore next
 interface TooltipRailProps {
   activeHandleID: string;
   getRailProps: (props: object) => object;
@@ -47,12 +59,18 @@ interface TooltipRailState {
   percent: number | null;
 }
 
+/** @internal
+ * @deprecated
+ */
+// istanbul ignore next
+// eslint-disable-next-line deprecation/deprecation
 class TooltipRail extends React.Component<TooltipRailProps, TooltipRailState> {
 
   public static defaultProps = {
     disabled: false,
   };
 
+  // eslint-disable-next-line deprecation/deprecation
   constructor(props: TooltipRailProps) {
     super(props);
 
@@ -111,25 +129,40 @@ class TooltipRail extends React.Component<TooltipRailProps, TooltipRailState> {
 // *******************************************************
 // HANDLE COMPONENT
 // *******************************************************
+/** @internal
+ * @deprecated
+ */
+// istanbul ignore next
 interface HandleProps {
   key: string;
   handle: SliderItem;
   isActive: boolean;
   disabled?: boolean;
   domain: number[];
+  // eslint-disable-next-line deprecation/deprecation
   milestone: Milestone;
   getHandleProps: (id: string, config: object) => object;
 }
 
+/** @internal
+ * @deprecated
+ */
+// istanbul ignore next
 interface HandleState {
   mouseOver: boolean;
 }
 
+/** @internal
+ * @deprecated
+ */
+// istanbul ignore next
+// eslint-disable-next-line deprecation/deprecation
 class Handle extends React.Component<HandleProps, HandleState> {
   public static defaultProps = {
     disabled: false,
   };
 
+  // eslint-disable-next-line deprecation/deprecation
   constructor(props: HandleProps) {
     super(props);
 
@@ -187,12 +220,18 @@ class Handle extends React.Component<HandleProps, HandleState> {
 // *******************************************************
 // TICK COMPONENT
 // *******************************************************
+/** @internal
+ * @deprecated
+ */
+// istanbul ignore next
 interface TickProps {
   tick: SliderItem;
   count: number;
   index: number;
 }
 
+// istanbul ignore next
+// eslint-disable-next-line deprecation/deprecation
 function Tick({ tick, count, index }: TickProps) {
   if (index === 0) {
     return (
@@ -216,11 +255,14 @@ function Tick({ tick, count, index }: TickProps) {
 
 /** Properties used to show milestone timeline in timeline player control
  * @internal
+ * @deprecated
  */
+// istanbul ignore next
 export interface TimelineProps extends CommonProps {
   startDate: Date;
   endDate: Date;
   selectedDate: Date;
+  // eslint-disable-next-line deprecation/deprecation
   milestones?: Milestone[];
   isPlaying: boolean;
   onChange?: (values: ReadonlyArray<number>) => void;
@@ -228,15 +270,20 @@ export interface TimelineProps extends CommonProps {
   onSlideStart?: () => void;
 }
 
+// istanbul ignore next
 interface TimelineState {
   ticks: number[];
 }
 
 /** Component used to show milestone timeline in timeline player control
  * @internal
+ * @deprecated
  */
+// istanbul ignore next
+// eslint-disable-next-line deprecation/deprecation
 export class Timeline extends React.Component<TimelineProps, TimelineState> {
 
+  // eslint-disable-next-line deprecation/deprecation
   constructor(props: TimelineProps) {
     super(props);
 
@@ -263,6 +310,7 @@ export class Timeline extends React.Component<TimelineProps, TimelineState> {
 
     // istanbul ignore else
     if (milestones) {
+      // eslint-disable-next-line deprecation/deprecation
       milestones.forEach((milestone: Milestone) => handles.push(milestone.date.getTime()));
     }
 

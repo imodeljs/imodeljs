@@ -113,7 +113,7 @@ export class BeTimePoint {
     plus(duration: BeDuration): BeTimePoint;
 }
 
-// @beta
+// @public
 export class BeUiEvent<TEventArgs> extends BeEvent<(args: TEventArgs) => void> {
     emit(args: TEventArgs): void;
 }
@@ -273,6 +273,7 @@ export namespace CompressedId64Set {
     export function decompressSet(compressedIds: CompressedId64Set, out?: Id64Set): Id64Set;
     export function iterable(ids: CompressedId64Set): OrderedId64Iterable;
     export function iterator(ids: CompressedId64Set): Iterator<Id64String>;
+    export function sortAndCompress(ids: Iterable<Id64String>): CompressedId64Set;
 }
 
 // @public (undocumented)
@@ -1141,6 +1142,11 @@ export class LRUDictionary<K, V> extends LRUCache<K, V> {
 export class LRUMap<K, V> extends LRUCache<K, V> {
     constructor(limit: number);
 }
+
+// @public
+export type Mutable<T> = {
+    -readonly [K in keyof T]: T[K];
+};
 
 // @public
 export class MutableCompressedId64Set implements OrderedId64Iterable {

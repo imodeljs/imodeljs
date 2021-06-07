@@ -9,7 +9,7 @@
 import * as immer from "immer";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import {
-  HierarchyUpdateRecord, PageOptions, PartialHierarchyModification, RegisteredRuleset, Ruleset, UPDATE_FULL, VariableValue,
+  HierarchyUpdateRecord, PageOptions, PartialHierarchyModification, RegisteredRuleset, Ruleset, RulesetVariable, UPDATE_FULL, VariableValue,
 } from "@bentley/presentation-common";
 import { IModelHierarchyChangeEventArgs, Presentation } from "@bentley/presentation-frontend";
 import {
@@ -68,13 +68,15 @@ export function usePresentationTreeNodeLoader(props: PresentationTreeNodeLoaderP
   }
 
   const [info, setInfo] = useState<Info>({ treeModel: undefined });
-  const dataProvider = useDisposable(useCallback(
-    () => createDataProvider(props),
-    [info, ...Object.values(props)], /* eslint-disable-line react-hooks/exhaustive-deps */ /* re-create the data-provider whenever any prop changes */
-  ));
-
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  const modelSource = useMemo(() => new TreeModelSource(info.treeModel), [dataProvider, info]);
+  const dataProvider = useDisposable(useCallback(() => createDataProvider(props), [info, ...Object.values(props)]));
+
+  let treeModelSeed = props.enableHierarchyAutoUpdate ? info.treeModel : undefined;
+  // Set treeModelSeed to undefined if props have changed
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  useMemo(() => treeModelSeed = undefined, Object.values(props));
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const modelSource = useMemo(() => new TreeModelSource(treeModelSeed), [dataProvider]);
 
   const rerenderWithTreeModel = useCallback((treeModel?: MutableTreeModel) => setInfo({ treeModel }), []);
   const modelSourceUpdateProps: ModelSourceUpdateProps = {
@@ -183,8 +185,8 @@ function useModelSourceUpdateOnRulesetModification(props: ModelSourceUpdateProps
 function useModelSourceUpdateOnRulesetVariablesChange(props: ModelSourceUpdateProps) {
   const onRulesetVariableChanged = useCallback(async (variableId: string, prevValue: VariableValue) => {
     // note: we should probably debounce these events while accumulating changed variables in case multiple vars are changed
-    const prevVariables = (await Presentation.presentation.vars(props.dataProvider.rulesetId).getAllVariables())
-      .map((v) => (v.id === variableId) ? { ...v, value: prevValue } : v);
+    const prevVariables = Presentation.presentation.vars(props.dataProvider.rulesetId).getAllVariables()
+      .map((v): RulesetVariable => (v.id === variableId) ? { ...v, value: prevValue } as RulesetVariable : v);
     const compareResult = await Presentation.presentation.compareHierarchies({
       imodel: props.dataProvider.imodel,
       prev: {

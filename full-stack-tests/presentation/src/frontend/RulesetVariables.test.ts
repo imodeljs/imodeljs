@@ -4,9 +4,9 @@
 *--------------------------------------------------------------------------------------------*/
 import { expect } from "chai";
 import * as faker from "faker";
-import { Id64 } from "@bentley/bentleyjs-core";
+import { Guid, Id64 } from "@bentley/bentleyjs-core";
 import { IModelConnection, SnapshotConnection } from "@bentley/imodeljs-frontend";
-import { ChildNodeSpecificationTypes, Ruleset, RuleTypes } from "@bentley/presentation-common";
+import { ChildNodeSpecificationTypes, ContentSpecificationTypes, KeySet, Ruleset, RuleTypes } from "@bentley/presentation-common";
 import { createRandomId } from "@bentley/presentation-common/lib/test/_helpers/random";
 import { Presentation, PresentationManager, RulesetVariablesManager } from "@bentley/presentation-frontend";
 import { initialize, resetBackend, terminate } from "../IntegrationTests";
@@ -31,16 +31,13 @@ describe("Ruleset Variables", async () => {
 
   let variables: RulesetVariablesManager;
 
-  before(async () => {
+  beforeEach(async () => {
     await initialize();
-  });
-
-  after(async () => {
-    await terminate();
-  });
-
-  beforeEach(() => {
     variables = Presentation.presentation.vars(RULESET.id);
+  });
+
+  afterEach(async () => {
+    await terminate();
   });
 
   it("adds and modifies string variable", async () => {
@@ -320,6 +317,48 @@ describe("Ruleset Variables", async () => {
 
       expect(await vars.getString(var1[0])).to.eq(var1[1]);
       expect(await vars.getInt(var2[0])).to.eq(var2[1]);
+    });
+
+  });
+
+  describe("Using variables in rules", () => {
+
+    let imodel: IModelConnection;
+
+    beforeEach(async () => {
+      imodel = await SnapshotConnection.openFile("assets/datasets/Properties_60InstancesWithUrl2.ibim");
+    });
+
+    afterEach(async () => {
+      await imodel.close();
+    });
+
+    it("can specify lots of ids with Id64[] overload", async () => {
+      const ruleset: Ruleset = {
+        id: Guid.createValue(),
+        rules: [{
+          ruleType: RuleTypes.Content,
+          specifications: [{
+            specType: ContentSpecificationTypes.ContentInstancesOfSpecificClasses,
+            classes: { schemaName: "PCJ_TestSchema", classNames: ["TestClass"] },
+            instanceFilter: `GetVariableIntValues("ids").AnyMatch(id => id = this.ECInstanceId)`,
+          }],
+        }],
+      };
+
+      let content = await Presentation.presentation.getContent({ imodel, rulesetOrId: ruleset, keys: new KeySet(), descriptor: {} });
+      expect(content!.contentSet.length).to.eq(0);
+
+      // https://www.sqlite.org/limits.html#max_variable_number
+      const maxNumberOfSupportedBindParams = 32766;
+      const largestECInstanceIdInTestDataset = 117;
+      const ids = [...Array(maxNumberOfSupportedBindParams).keys()].map((key) => Id64.fromUint32Pair(key + largestECInstanceIdInTestDataset + 1, 0));
+      ids.push("0x61");
+
+      await Presentation.presentation.vars(ruleset.id).setId64s("ids", ids);
+      content = await Presentation.presentation.getContent({ imodel, rulesetOrId: ruleset, keys: new KeySet(), descriptor: {} });
+      expect(content!.contentSet.length).to.eq(1);
+      expect(content!.contentSet[0].primaryKeys[0]).to.deep.eq({ className: "PCJ_TestSchema:TestClass", id: "0x61" });
     });
 
   });

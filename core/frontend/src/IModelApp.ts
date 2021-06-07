@@ -12,14 +12,13 @@ import {
   BeDuration, BentleyStatus, ClientRequestContext, DbResult, dispose, Guid, GuidString, Logger, SerializedClientRequestContext,
 } from "@bentley/bentleyjs-core";
 import { FrontendAuthorizationClient } from "@bentley/frontend-authorization-client";
-import { addCsrfHeader, IModelClient, IModelHubClient } from "@bentley/imodelhub-client";
+import { IModelClient } from "@bentley/imodelhub-client";
 import { IModelStatus, RpcConfiguration, RpcInterfaceDefinition, RpcRequest } from "@bentley/imodeljs-common";
 import { I18N, I18NOptions } from "@bentley/imodeljs-i18n";
 import { IncludePrefix } from "@bentley/itwin-client";
 import { ConnectSettingsClient, SettingsAdmin } from "@bentley/product-settings-client";
 import { TelemetryManager } from "@bentley/telemetry-client";
 import { UiAdmin } from "@bentley/ui-abstract";
-import { FrontendFeatureUsageTelemetryClient } from "@bentley/usage-logging-client";
 import { queryRenderCompatibility, WebGLRenderCompatibilityInfo } from "@bentley/webgl-compatibility";
 import { AccuDraw } from "./AccuDraw";
 import { AccuSnap } from "./AccuSnap";
@@ -30,6 +29,7 @@ import * as drawingViewState from "./DrawingViewState";
 import { ElementLocateManager } from "./ElementLocateManager";
 import { EntityState } from "./EntityState";
 import { ExtensionAdmin } from "./extension/ExtensionAdmin";
+import { FrontendHubAccess, IModelHubFrontend } from "./FrontendHubAccess";
 import { FrontendLoggerCategory } from "./FrontendLoggerCategory";
 import { FrontendRequestContext } from "./FrontendRequestContext";
 import * as modelselector from "./ModelSelectorState";
@@ -176,7 +176,6 @@ export class IModelApp {
   private static _applicationId: string;
   private static _applicationVersion: string;
   private static _i18n: I18N;
-  private static _imodelClient: IModelClient;
   private static _locateManager: ElementLocateManager;
   private static _notifications: NotificationManager;
   private static _extensionAdmin: ExtensionAdmin;
@@ -194,6 +193,7 @@ export class IModelApp {
   private static _animationIntervalId?: number;
   private static _securityOptions: FrontendSecurityOptions;
   private static _mapLayerFormatRegistry: MapLayerFormatRegistry;
+  private static _hubAccess: FrontendHubAccess;
 
   // No instances of IModelApp may be created. All members are static and must be on the singleton object IModelApp.
   protected constructor() { }
@@ -243,8 +243,19 @@ export class IModelApp {
   public static get applicationVersion(): string { return this._applicationVersion; }
   /** @internal */
   public static get initialized() { return this._initialized; }
-  /** The [[IModelClient]] for this session. */
-  public static get iModelClient(): IModelClient { return this._imodelClient; }
+
+  /**
+   * @deprecated access to IModelHub should generally be through the higher level apis.
+   * For internal methods, use [[hubAccess]].
+   * If you really need to call the IModelClient api directly, use [[IModelHubFrontend.iModelClient]]
+   */
+  public static get iModelClient(): IModelClient { return IModelHubFrontend.iModelClient; }
+
+  /** Provides access to the IModelHub implementation for this IModelApp.
+   * @internal
+   */
+  public static get hubAccess(): FrontendHubAccess { return this._hubAccess; }
+
   /** @internal */
   public static get hasRenderSystem() { return this._renderSystem !== undefined && this._renderSystem.isValid; }
   /** The [[ExtensionAdmin]] for this session.
@@ -333,19 +344,8 @@ export class IModelApp {
     this._applicationVersion = (opts.applicationVersion !== undefined) ? opts.applicationVersion : "1.0.0";
     this.authorizationClient = opts.authorizationClient;
 
-    this._imodelClient = (opts.imodelClient !== undefined) ? opts.imodelClient : new IModelHubClient();
-    if (this._securityOptions.csrfProtection?.enabled) {
-      this._imodelClient.use(
-        addCsrfHeader(
-          this._securityOptions.csrfProtection.headerName,
-          this._securityOptions.csrfProtection.cookieName,
-        ));
-    }
-
-    if (this._imodelClient instanceof IModelHubClient) {
-      const featureUsageClient = new FrontendFeatureUsageTelemetryClient();
-      this.telemetry.addClient(featureUsageClient);
-    }
+    this._hubAccess = IModelHubFrontend;
+    IModelHubFrontend.setIModelClient(opts.imodelClient);
 
     this._setupRpcRequestContext();
 

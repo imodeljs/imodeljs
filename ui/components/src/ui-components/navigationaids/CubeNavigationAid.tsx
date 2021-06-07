@@ -15,21 +15,42 @@ import { CommonProps, Cube, Face } from "@bentley/ui-core";
 import { UiComponents } from "../UiComponents";
 import { ViewportComponentEvents, ViewRotationChangeEventArgs } from "../viewport/ViewportComponentEvents";
 
-/** @internal */
+/** @public */
+export enum CubeNavigationHitBoxX {
+  None = 0,
+  Right = 1,
+  Left = -1,
+}
+/** @internal
+ * @deprecated Use [[CubeNavigationHitBoxX]] */
 export enum HitBoxX {
   None = 0,
   Right = 1,
   Left = -1,
 }
+/** @public */
+export enum CubeNavigationHitBoxY {
+  None = 0,
+  Back = 1,
+  Front = -1,
+}
 
-/** @internal */
+/** @internal
+ * @deprecated Use [[CubeNavigationHitBoxY]] */
 export enum HitBoxY {
   None = 0,
   Back = 1,
   Front = -1,
 }
 
-/** @internal */
+/** @public */
+export enum CubeNavigationHitBoxZ {
+  None = 0,
+  Top = 1,
+  Bottom = -1,
+}
+/** @internal
+ * @deprecated [[CubeNavigationHitBoxZ]] */
 export enum HitBoxZ {
   None = 0,
   Top = 1,
@@ -44,12 +65,12 @@ interface CubeNavigationRotationMap {
 }
 
 const cubeNavigationFaceLocs: { [key: string]: Vector3d } = {
-  [Face.Left]: Vector3d.create(HitBoxX.Left, HitBoxY.None, HitBoxZ.None),
-  [Face.Right]: Vector3d.create(HitBoxX.Right, HitBoxY.None, HitBoxZ.None),
-  [Face.Back]: Vector3d.create(HitBoxX.None, HitBoxY.Back, HitBoxZ.None),
-  [Face.Front]: Vector3d.create(HitBoxX.None, HitBoxY.Front, HitBoxZ.None),
-  [Face.Bottom]: Vector3d.create(HitBoxX.None, HitBoxY.None, HitBoxZ.Bottom),
-  [Face.Top]: Vector3d.create(HitBoxX.None, HitBoxY.None, HitBoxZ.Top),
+  [Face.Left]: Vector3d.create(CubeNavigationHitBoxX.Left, CubeNavigationHitBoxY.None, CubeNavigationHitBoxZ.None),
+  [Face.Right]: Vector3d.create(CubeNavigationHitBoxX.Right, CubeNavigationHitBoxY.None, CubeNavigationHitBoxZ.None),
+  [Face.Back]: Vector3d.create(CubeNavigationHitBoxX.None, CubeNavigationHitBoxY.Back, CubeNavigationHitBoxZ.None),
+  [Face.Front]: Vector3d.create(CubeNavigationHitBoxX.None, CubeNavigationHitBoxY.Front, CubeNavigationHitBoxZ.None),
+  [Face.Bottom]: Vector3d.create(CubeNavigationHitBoxX.None, CubeNavigationHitBoxY.None, CubeNavigationHitBoxZ.Bottom),
+  [Face.Top]: Vector3d.create(CubeNavigationHitBoxX.None, CubeNavigationHitBoxY.None, CubeNavigationHitBoxZ.Top),
 };
 
 const cubeNavigationFaceRotations: { [key: string]: Matrix3d } = {
@@ -82,7 +103,7 @@ export enum CubeHover {
 }
 
 /** Properties for the [[CubeNavigationAid]] component
- * @beta
+ * @public
  */
 export interface CubeNavigationAidProps extends CommonProps {
   iModelConnection: IModelConnection;
@@ -96,7 +117,7 @@ export interface CubeNavigationAidProps extends CommonProps {
   animationTime?: number;
 }
 
-/** @internal */
+/** @public */
 interface CubeNavigationAidState {
   dragging: boolean;
   startRotMatrix: Matrix3d;
@@ -107,7 +128,7 @@ interface CubeNavigationAidState {
 }
 
 /** Cube Navigation Aid Component
- * @beta
+ * @public
  */
 export class CubeNavigationAid extends React.Component<CubeNavigationAidProps, CubeNavigationAidState> {
   private _start: Vector2d = Vector2d.createZero();

@@ -1,0 +1,11 @@
+{
+  "changes": [
+    {
+      "packageName": "@bentley/imodeljs-frontend",
+      "comment": "Added arc by 3 points tool. Ensure tools always get motion event before decorate or onDynamicFrame.",
+      "type": "none"
+    }
+  ],
+  "packageName": "@bentley/imodeljs-frontend",
+  "email": "65233531+bbastings@users.noreply.github.com"
+}

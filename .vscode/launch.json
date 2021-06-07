@@ -33,7 +33,7 @@
       ]
     },
     {
-      "name": "Backend Tests (Offline)",
+      "name": "Backend Tests (Standalone)",
       "presentation": {
         "group": "0_CoreTests",
         "order": 1

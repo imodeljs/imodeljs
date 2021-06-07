@@ -6,9 +6,9 @@
  * @module ContentView
  */
 
-import { ViewStateProps } from "@bentley/imodeljs-common";
+import { EmphasizeElementsProps, ViewStateProps } from "@bentley/imodeljs-common";
 import {
-  DrawingViewState, EmphasizeElements, EmphasizeElementsProps, IModelConnection, ScreenViewport, SheetViewState, SpatialViewState, ViewState,
+  DrawingViewState, EmphasizeElements, IModelConnection, ScreenViewport, SheetViewState, SpatialViewState, ViewState,
 } from "@bentley/imodeljs-frontend";
 import { ViewUtilities } from "../utils/ViewUtilities";
 

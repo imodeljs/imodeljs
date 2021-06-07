@@ -1,0 +1,11 @@
+{
+  "changes": [
+    {
+      "packageName": "@bentley/mobile-manager",
+      "comment": "set issuerurl correctly before calling authInit()",
+      "type": "none"
+    }
+  ],
+  "packageName": "@bentley/mobile-manager",
+  "email": "khanaffan@users.noreply.github.com"
+}

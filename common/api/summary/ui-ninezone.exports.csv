@@ -118,8 +118,8 @@ beta;FooterPopupContentType
 beta;FooterPopupDefaultProps = Pick
 beta;FooterPopupProps 
 beta;FooterProps 
-beta;FooterSeparator 
-beta;FooterSeparatorProps 
+public;FooterSeparator 
+public;FooterSeparatorProps 
 internal;getChildKey(child: React.ReactNode, index: number): string
 internal;getClosedWidgetTabIndex: (tabIndex: number) => number
 internal;getColumnZones: (id: WidgetZoneId) => WidgetZoneId[]

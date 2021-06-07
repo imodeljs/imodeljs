@@ -8,7 +8,7 @@
     display: grid;
     align-items: baseline;
     padding: 4px;
-    grid-template-columns: 2fr 3fr;
+    grid-template-columns: 150px 1fr;
     column-gap: 8px;
     row-gap: 8px;
     overflow: hidden;
@@ -16,4 +16,8 @@
 
   .map-manager-settings-label {
     text-align: right;
+  }
+
+  .map-manager-settings-terrain-container {
+    margin-top: 1rem;
   }

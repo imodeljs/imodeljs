@@ -7,26 +7,33 @@
  */
 
 import { GuidString, Logger } from "@bentley/bentleyjs-core";
-import { AuthorizedClientRequestContext } from "@bentley/itwin-client";
-import { Permission, RbacClient } from "@bentley/rbac-client";
+import { AuthorizedClientRequestContext, ECJsonTypeMap, WsgInstance } from "@bentley/itwin-client";
 import { IModelHubClientLoggerCategory } from "../IModelHubClientLoggerCategories";
-import { IModelQuery, IModelsHandler } from "./iModels";
+import { IModelBaseHandler } from "./BaseHandler";
 
 const loggerCategory: string = IModelHubClientLoggerCategory.IModelHub;
 
-/** iModelHub Permission
+/**
+ * iModelHub iModel Permissions
  * @internal
  */
-export enum IModelHubPermission {
-  None = 0,
-  Create = 1 << 0,
-  Read = 1 << 1,
-  Modify = 1 << 2,
-  Delete = 1 << 3,
-  ManageResources = 1 << 4,
-  ManageVersions = 1 << 5,
-  View = 1 << 6,
-  ConfigureIModelAccess = 1 << 7,
+@ECJsonTypeMap.classToJson("wsg", "iModelScope.Permission", { schemaPropertyName: "schemaName", classPropertyName: "className" })
+export class IModelPermissions extends WsgInstance {
+  /** Allows to view iModel in web browser, but does not allow to get its local copy. */
+  @ECJsonTypeMap.propertyToJson("wsg", "properties.WebView")
+  public webView?: string;
+
+  /** Allows to open and view an iModel only in read-only state. */
+  @ECJsonTypeMap.propertyToJson("wsg", "properties.Read")
+  public read?: string;
+
+  /** Allows to make changes to an iModel and create/modify named versions. */
+  @ECJsonTypeMap.propertyToJson("wsg", "properties.Write")
+  public write?: string;
+
+  /** Allows to manage locks, codes or local copies for the entire iModel. */
+  @ECJsonTypeMap.propertyToJson("wsg", "properties.Manage")
+  public manage?: string;
 }
 
 /**
@@ -34,105 +41,28 @@ export enum IModelHubPermission {
  * @internal
  */
 export class PermissionHandler {
-  private _imodelsHandler: IModelsHandler;
-  private _rbacClient: RbacClient;
-  private static _objectTypeId?: string;
-  private static readonly _objectTypeName: string = "IMHS_ObjectType_iModel";
-  private static readonly _serviceGPRId = 2485;
+  private _handler: IModelBaseHandler;
 
   /**
    * Constructor for PermissionHandler.
-   * @param imodelsHandler The handler for [[HubIModel]]s.
+   * @param handler Handler for WSG requests.
    * @internal
    */
-  constructor(imodelsHandler: IModelsHandler, rbacClient: RbacClient) {
-    this._imodelsHandler = imodelsHandler;
-    this._rbacClient = rbacClient;
+  constructor(handler: IModelBaseHandler) {
+    this._handler = handler;
   }
 
   /**
-   * Get user permissions of a specified CONNECT context. Use it only to check CONNECT context level permissions (Create iModel, Delete iModel, Configure iModel access). Use [[PermissionHandler.getiModelPermissions]] to check iModel level permissions.
+   * Get user permissions of an specified iModel.
+   * Use [[PermissionHandler.getContextPermissions]] to check CONNECT context level permissions.
    * @param requestContext The client request context.
-   * @param contextId Id of the specified CONNECT context.
+   * @param imodelId Id of the specified iModel.
    */
-  public async getContextPermissions(requestContext: AuthorizedClientRequestContext, contextId: GuidString): Promise<IModelHubPermission> {
+  public async getiModelPermissions(requestContext: AuthorizedClientRequestContext, imodelId: GuidString): Promise<IModelPermissions> {
     requestContext.enter();
-    Logger.logInfo(loggerCategory, "Querying permissions for Context", () => ({ contextId }));
+    Logger.logInfo(loggerCategory, "Querying permissions for iModel", () => ({ iModelId: imodelId }));
 
-    const permissionInstances: Permission[] = await this._rbacClient.getPermissions(requestContext, contextId, PermissionHandler._serviceGPRId);
-    requestContext.enter();
-    return PermissionHandler.parseIModelHubPermissions(permissionInstances);
-  }
-
-  /**
-   * Get user permissions of an specified iModel. Use it only to check iModel level permissions (View, Read, Modify, Modify resources, Modify versions). Use [[PermissionHandler.getContextPermissions]] to check CONNECT context level permissions.
-   * @param requestContext The client request context.
-   * @param contextId Id of the specified CONNECT context.
-   * @param iModelId Id of the specified iModel.
-   */
-  public async getiModelPermissions(requestContext: AuthorizedClientRequestContext, contextId: GuidString, iModelId: GuidString): Promise<IModelHubPermission> {
-    requestContext.enter();
-    Logger.logInfo(loggerCategory, "Querying permissions for iModel", () => ({ iModelId }));
-
-    const contextPermissions = await this.getContextPermissions(requestContext, contextId);
-    requestContext.enter();
-    if (contextPermissions === IModelHubPermission.None)
-      return contextPermissions;
-
-    const imodels = await this._imodelsHandler.get(requestContext, contextId, new IModelQuery().byId(iModelId));
-    requestContext.enter();
-
-    const imodel = imodels[0];
-    if (!imodel.secured)
-      return contextPermissions;
-
-    if (!PermissionHandler._objectTypeId) {
-      PermissionHandler._objectTypeId = await this._rbacClient.getObjectTypeId(requestContext, PermissionHandler._objectTypeName, PermissionHandler._serviceGPRId);
-      requestContext.enter();
-    }
-
-    const imodelPermissions = await this._rbacClient.getObjectPermissions(requestContext, iModelId, PermissionHandler._objectTypeId);
-    requestContext.enter();
-
-    return PermissionHandler.parseIModelHubPermissions(imodelPermissions);
-  }
-
-  /**
-   * Parse iModelHub permissions.
-   * @param permissionInstances Permissions instances.
-   */
-  private static parseIModelHubPermissions(permissionInstances: Permission[]): IModelHubPermission {
-    let permissions: IModelHubPermission = IModelHubPermission.None;
-    for (const permissionInstance of permissionInstances) {
-      switch (permissionInstance.wsgId) {
-        case "IMHS_Create_iModel":
-          permissions = permissions | IModelHubPermission.Create | IModelHubPermission.View | IModelHubPermission.Read | IModelHubPermission.Modify;
-          break;
-        case "IMHS_Read_iModel":
-          permissions = permissions | IModelHubPermission.Read | IModelHubPermission.View;
-          break;
-        case "IMHS_Modify_iModel":
-          permissions = permissions | IModelHubPermission.Modify | IModelHubPermission.View | IModelHubPermission.Read;
-          break;
-        case "IMHS_Delete_iModel":
-          permissions = permissions | IModelHubPermission.Delete | IModelHubPermission.View | IModelHubPermission.Read;
-          break;
-        case "IMHS_ManageResources":
-          permissions = permissions | IModelHubPermission.ManageResources | IModelHubPermission.View | IModelHubPermission.Read | IModelHubPermission.Modify;
-          break;
-        case "IMHS_Manage_Versions":
-          permissions = permissions | IModelHubPermission.ManageVersions | IModelHubPermission.View | IModelHubPermission.Read | IModelHubPermission.Modify;
-          break;
-        case "IMHS_Web_View":
-          permissions = permissions | IModelHubPermission.View;
-          break;
-        case "IMHS_iModel_Perm":
-          permissions = permissions | IModelHubPermission.ConfigureIModelAccess;
-          break;
-        default:
-      }
-    }
-
-    return permissions;
+    const permissions: IModelPermissions[] = await this._handler.getInstances<IModelPermissions>(requestContext, IModelPermissions, `/Repositories/iModel--${imodelId}/iModelScope/Permission`);
+    return permissions[0];
   }
 }

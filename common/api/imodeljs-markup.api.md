@@ -25,7 +25,7 @@ import { Transform } from '@bentley/geometry-core';
 import { Viewport } from '@bentley/imodeljs-frontend';
 import { XAndY } from '@bentley/geometry-core';
 
-// @beta
+// @public
 export class ArrowTool extends RedlineTool {
     constructor(_arrowPos?: string | undefined);
     // (undocumented)
@@ -42,7 +42,7 @@ export class ArrowTool extends RedlineTool {
     static toolId: string;
 }
 
-// @beta
+// @public
 export class CircleTool extends RedlineTool {
     // (undocumented)
     protected createMarkup(svgMarkup: G, ev: BeButtonEvent, isDynamics: boolean): void;
@@ -54,7 +54,7 @@ export class CircleTool extends RedlineTool {
     static toolId: string;
 }
 
-// @beta
+// @public
 export class CloudTool extends RedlineTool {
     // (undocumented)
     protected clearDynamicsMarkup(isDynamics: boolean): void;
@@ -70,7 +70,7 @@ export class CloudTool extends RedlineTool {
     static toolId: string;
 }
 
-// @beta
+// @public
 export class DistanceTool extends ArrowTool {
     // (undocumented)
     protected createMarkup(svgMarkup: G, ev: BeButtonEvent, isDynamics: boolean): void;
@@ -90,7 +90,7 @@ export class DistanceTool extends ArrowTool {
     static toolId: string;
 }
 
-// @beta
+// @public
 export class EditTextTool extends MarkupTool {
     constructor(text?: G | Text | undefined, _fromPlaceTool?: boolean);
     // (undocumented)
@@ -119,7 +119,7 @@ export class EditTextTool extends MarkupTool {
     static toolId: string;
 }
 
-// @beta
+// @public
 export class EllipseTool extends RedlineTool {
     // (undocumented)
     protected createMarkup(svgMarkup: G, ev: BeButtonEvent, isDynamics: boolean): void;
@@ -131,7 +131,7 @@ export class EllipseTool extends RedlineTool {
     static toolId: string;
 }
 
-// @beta
+// @public
 export class Handles {
     constructor(ss: MarkupSelected, el: Element);
     // (undocumented)
@@ -173,7 +173,7 @@ export class Handles {
 // @internal
 export function initSvgExt(): void;
 
-// @beta
+// @public
 export class LineTool extends RedlineTool {
     // (undocumented)
     protected createMarkup(svgMarkup: G, ev: BeButtonEvent, isDynamics: boolean): void;
@@ -185,7 +185,7 @@ export class LineTool extends RedlineTool {
     static toolId: string;
 }
 
-// @beta
+// @public
 export class Markup {
     constructor(vp: ScreenViewport, markupData?: MarkupSvgData);
     bringToFront(): void;
@@ -194,34 +194,34 @@ export class Markup {
     disablePick(): void;
     enablePick(): void;
     groupSelected(): void;
-    // (undocumented)
+    // @internal (undocumented)
     readonly markupDiv: HTMLDivElement;
-    // (undocumented)
+    // @internal (undocumented)
     readonly selected: MarkupSelected;
     sendToBack(): void;
     setCursor(cursor: string): void;
-    // (undocumented)
+    // @internal (undocumented)
     readonly svgContainer?: Svg;
-    // (undocumented)
+    // @internal (undocumented)
     readonly svgDecorations?: G;
-    // (undocumented)
+    // @internal (undocumented)
     readonly svgDynamics?: G;
-    // (undocumented)
+    // @internal (undocumented)
     readonly svgMarkup?: G;
-    // (undocumented)
+    // @internal (undocumented)
     readonly undo: UndoManager;
     ungroupSelected(): void;
     // (undocumented)
     vp: ScreenViewport;
 }
 
-// @beta
+// @public
 export class MarkupApp {
     // @internal (undocumented)
     static get boxedTextClass(): string;
     // @internal (undocumented)
     static get containerClass(): string;
-    // (undocumented)
+    // @internal (undocumented)
     static convertVpToVb(pt: XAndY): Point3d;
     // @internal (undocumented)
     static get cornerId(): string;
@@ -233,11 +233,11 @@ export class MarkupApp {
     static get dropShadowId(): string;
     // @internal (undocumented)
     static get dynamicsClass(): string;
-    // (undocumented)
+    // @internal (undocumented)
     static getActionName(action: string): string;
-    // (undocumented)
+    // @internal (undocumented)
     static getVpToScreenMtx(): Matrix;
-    // (undocumented)
+    // @internal (undocumented)
     static getVpToVbMtx(): Matrix;
     static initialize(): Promise<void>;
     static get isActive(): boolean;
@@ -375,7 +375,7 @@ export class MarkupApp {
     static get rotateHandleClass(): string;
     // @internal (undocumented)
     static get rotateLineClass(): string;
-    // (undocumented)
+    // @internal (undocumented)
     static screenToVbMtx(): Matrix;
     static start(view: ScreenViewport, markupData?: MarkupSvgData): Promise<void>;
     static stop(): Promise<MarkupData>;
@@ -391,7 +391,7 @@ export class MarkupApp {
     static get vertexHandleClass(): string;
 }
 
-// @beta (undocumented)
+// @public (undocumented)
 export interface MarkupColor {
     // (undocumented)
     fill: any;
@@ -399,12 +399,12 @@ export interface MarkupColor {
     stroke: any;
 }
 
-// @beta
+// @public
 export interface MarkupData extends MarkupSvgData {
     image?: string;
 }
 
-// @beta
+// @public
 export class MarkupSelected {
     constructor(svg: G);
     add(el: Element): void;
@@ -440,13 +440,13 @@ export class MarkupSelected {
     ungroupAll(undo: UndoManager): void;
 }
 
-// @beta
+// @public
 export interface MarkupSvgData {
     rect: WidthAndHeight;
     svg?: string;
 }
 
-// @beta
+// @public
 export abstract class MarkupTool extends PrimitiveTool {
     // @internal (undocumented)
     createBoxedText(g: G, text: Text): G;
@@ -491,7 +491,7 @@ export abstract class MarkupTool extends PrimitiveTool {
     undoPreviousStep(): Promise<boolean>;
 }
 
-// @beta
+// @public
 export abstract class ModifyHandle {
     constructor(handles: Handles);
     // (undocumented)
@@ -511,7 +511,7 @@ export abstract class ModifyHandle {
     vbToStartTrn: Transform;
 }
 
-// @beta
+// @public
 export class PlaceTextTool extends RedlineTool {
     // (undocumented)
     protected createMarkup(svg: G, ev: BeButtonEvent, isDynamics: boolean): void;
@@ -535,7 +535,7 @@ export class PlaceTextTool extends RedlineTool {
     protected _value: string;
 }
 
-// @beta
+// @public
 export class PolygonTool extends RedlineTool {
     constructor(_numSides?: number | undefined);
     // (undocumented)
@@ -552,7 +552,7 @@ export class PolygonTool extends RedlineTool {
     static toolId: string;
 }
 
-// @beta
+// @public
 export class RectangleTool extends RedlineTool {
     constructor(_cornerRadius?: number | undefined);
     // (undocumented)
@@ -567,7 +567,7 @@ export class RectangleTool extends RedlineTool {
     static toolId: string;
 }
 
-// @beta
+// @public
 export abstract class RedlineTool extends MarkupTool {
     // (undocumented)
     protected clearDynamicsMarkup(_isDynamics: boolean): void;
@@ -603,7 +603,7 @@ export abstract class RedlineTool extends MarkupTool {
     protected setupAndPromptForNextAction(): void;
 }
 
-// @beta
+// @public
 export class SelectTool extends MarkupTool {
     // (undocumented)
     protected boxSelect(ev: BeButtonEvent, isDynamics: boolean): boolean;
@@ -640,7 +640,7 @@ export class SelectTool extends MarkupTool {
     protected unflashSelected(): void;
 }
 
-// @beta
+// @public
 export class SketchTool extends RedlineTool {
     // (undocumented)
     protected createMarkup(svgMarkup: G, ev: BeButtonEvent, isDynamics: boolean): void;
@@ -656,7 +656,7 @@ export class SketchTool extends RedlineTool {
     static toolId: string;
 }
 
-// @beta
+// @public
 export class SymbolTool extends RedlineTool {
     constructor(_symbolData?: string | undefined, _applyCurrentStyle?: boolean | undefined);
     // (undocumented)
@@ -700,7 +700,7 @@ export class Title extends Element {
     size(): this;
 }
 
-// @beta
+// @public
 export class UndoManager {
     doRedo(): void;
     doUndo(): void;
@@ -711,13 +711,13 @@ export class UndoManager {
     performOperation(cmdName: string, fn: VoidFunction): void;
     get redoPossible(): boolean;
     get redoString(): string | undefined;
-    // (undocumented)
+    // @internal (undocumented)
     get size(): number;
     get undoPossible(): boolean;
     get undoString(): string | undefined;
 }
 
-// @beta (undocumented)
+// @public
 export interface WidthAndHeight {
     // (undocumented)
     height: number;

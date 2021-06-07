@@ -4,7 +4,10 @@
 *--------------------------------------------------------------------------------------------*/
 
 import { AsyncMethodsOf, IpcApp, PromiseReturnType } from "@bentley/imodeljs-frontend";
-import { NodeKey, PRESENTATION_IPC_CHANNEL_NAME, PresentationIpcInterface, RulesetVariable, SetRulesetVariableParams, UpdateHierarchyStateParams } from "@bentley/presentation-common";
+import {
+  NodeKey, NodeKeyJSON, PRESENTATION_IPC_CHANNEL_NAME, PresentationIpcInterface, RulesetVariable, RulesetVariableJSON, SetRulesetVariableParams,
+  UpdateHierarchyStateParams,
+} from "@bentley/presentation-common";
 
 /** @internal */
 export class IpcRequestsHandler {
@@ -14,20 +17,25 @@ export class IpcRequestsHandler {
     this.clientId = clientId;
   }
 
-  private injectClientId<T>(params: T) {
-    return { ...params, clientId: this.clientId };
-  }
-
   private async call<T extends AsyncMethodsOf<PresentationIpcInterface>>(methodName: T, ...args: Parameters<PresentationIpcInterface[T]>): Promise<PromiseReturnType<PresentationIpcInterface[T]>> {
     return IpcApp.callIpcChannel(PRESENTATION_IPC_CHANNEL_NAME, methodName, ...args);
   }
 
   public async setRulesetVariable(params: Omit<SetRulesetVariableParams<RulesetVariable>, "clientId">) {
-    return this.call("setRulesetVariable", this.injectClientId(params));
+    const jsonParams: SetRulesetVariableParams<RulesetVariableJSON> = {
+      ...params,
+      clientId: this.clientId,
+      variable: RulesetVariable.toJSON(params.variable),
+    };
+    return this.call("setRulesetVariable", jsonParams);
   }
 
   public async updateHierarchyState(params: Omit<UpdateHierarchyStateParams<NodeKey>, "clientId">) {
-    return this.call("updateHierarchyState", this.injectClientId({ ...params, nodeKeys: params.nodeKeys.map(NodeKey.toJSON) }));
+    const jsonParams: UpdateHierarchyStateParams<NodeKeyJSON> = {
+      ...params,
+      clientId: this.clientId,
+      nodeKeys: params.nodeKeys.map(NodeKey.toJSON),
+    };
+    return this.call("updateHierarchyState", jsonParams);
   }
 }
-

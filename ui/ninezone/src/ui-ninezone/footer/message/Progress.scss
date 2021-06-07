@@ -8,7 +8,7 @@
   $progress-tip-height: 7px;
   $progress-tip-width: 2px;
   $progress-height: 5px;
-  $progress-margin: ($progress-tip-height - $progress-height) / 2;
+  $progress-margin: ($progress-tip-height - $progress-height) * 0.5;
 
   height: $progress-tip-height;
   overflow: hidden;

@@ -1,0 +1,11 @@
+{
+  "changes": [
+    {
+      "packageName": "@bentley/ui-components",
+      "comment": "Refactor TimelineComponent to remove experimental milestones feature.",
+      "type": "none"
+    }
+  ],
+  "packageName": "@bentley/ui-components",
+  "email": "45079789+NancyMcCallB@users.noreply.github.com"
+}

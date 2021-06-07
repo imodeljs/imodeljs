@@ -42,7 +42,7 @@ export function VirtualizedPropertyGridWithDataProvider(props: VirtualizedProper
 
   if (!model) {
     return (
-      <div className="components-property-grid-loader">
+      <div className="components-virtualized-property-grid-loader">
         <DelayedSpinner size={SpinnerSize.Large} />
       </div>
     );

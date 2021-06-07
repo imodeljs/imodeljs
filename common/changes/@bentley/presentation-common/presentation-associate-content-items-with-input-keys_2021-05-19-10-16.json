@@ -1,0 +1,11 @@
+{
+  "changes": [
+    {
+      "packageName": "@bentley/presentation-common",
+      "comment": "Added ability to associate content items with given input keys.",
+      "type": "none"
+    }
+  ],
+  "packageName": "@bentley/presentation-common",
+  "email": "35135765+grigasp@users.noreply.github.com"
+}

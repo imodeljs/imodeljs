@@ -18,7 +18,7 @@ import { PagedTreeNodeLoader, TreeNodeLoader } from "./TreeNodeLoader";
  * Custom hook which returns a flat list of visible nodes from given `TreeModelSource` and subscribes
  * to onModelChanged event to update the list when model changes.
  *
- * @beta
+ * @public
  */
 export function useVisibleTreeNodes(modelSource: TreeModelSource): VisibleTreeNodes {
   const [visibleNodes, setVisibleNodes] = useState(modelSource.getVisibleNodes());
@@ -39,7 +39,7 @@ export function useVisibleTreeNodes(modelSource: TreeModelSource): VisibleTreeNo
  * Custom hook which creates a nodes' loader using the supplied data provider and model source. The
  * loader pulls nodes from the data provider and puts them into the model source.
  *
- * @beta
+ * @public
  */
 export function useTreeNodeLoader<TDataProvider extends TreeDataProvider>(dataProvider: TDataProvider, modelSource: TreeModelSource) {
   const createLoader = useCallback(() => new TreeNodeLoader(dataProvider, modelSource), [dataProvider, modelSource]);
@@ -63,7 +63,7 @@ export function usePagedTreeNodeLoader<TDataProvider extends TreeDataProvider>(d
  * @note The model source has no direct dependency on the data provider, but we want a fresh model
  * source whenever the data provider changes - that's the reason the hook takes a data provider.
  *
- * @beta
+ * @public
  */
 export function useTreeModelSource(dataProvider: TreeDataProvider) {
   // need to create new model source every time data provider changes although it does not need data provider to be created.
@@ -77,7 +77,7 @@ export function useTreeModelSource(dataProvider: TreeDataProvider) {
  * @note Caller must ensure `factoryOrParams` changes only when a new handler needs to be created. `useCallback` or `useMemo` can
  * be used for that purpose based on whether the input is a factory function or params object.
  *
- * @beta
+ * @public
  */
 export function useTreeEventsHandler<TEventsHandler extends TreeEventHandler>(factoryOrParams: (() => TEventsHandler) | TreeEventHandlerParams) {
   const factory = useCallback((): TreeEventHandler => {

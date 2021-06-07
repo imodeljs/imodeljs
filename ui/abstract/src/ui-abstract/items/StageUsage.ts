@@ -8,7 +8,7 @@
 
 /** Standard stage uses. Allows extension to target ui item to include on a stage without
  *  knowing the stage name defined in the host application.
- * @beta
+ * @public
  */
 export enum StageUsage {
   Private = "Private",

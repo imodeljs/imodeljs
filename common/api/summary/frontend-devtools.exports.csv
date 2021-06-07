@@ -19,6 +19,7 @@ alpha;ButtonHandler = (button: HTMLInputElement) => void
 alpha;ButtonProps
 beta;ChangeCameraTool 
 beta;ChangeEmphasisSettingsTool 
+beta;ChangeFlashSettingsTool 
 beta;ChangeHiliteSettingsTool 
 beta;class ChangeHiliteTool 
 beta;class ChangePlanProjectionSettingsTool 

@@ -8,7 +8,9 @@
 
 import { assert, dispose } from "@bentley/bentleyjs-core";
 import { Transform, Vector2d, Vector3d } from "@bentley/geometry-core";
-import { Feature, PackedFeatureTable, RenderMode, SpatialClassificationProps, ViewFlags } from "@bentley/imodeljs-common";
+import {
+  Feature, PackedFeatureTable, RenderMode, SpatialClassifierInsideDisplay, SpatialClassifierOutsideDisplay, ViewFlags,
+} from "@bentley/imodeljs-common";
 import { DepthType, RenderType } from "@bentley/webgl-compatibility";
 import { IModelConnection } from "../../IModelConnection";
 import { SceneContext } from "../../ViewContext";
@@ -1366,10 +1368,10 @@ abstract class Compositor extends SceneCompositor {
     let insideFlags = this.target.activeVolumeClassifierProps.flags.inside;
 
     if (this.target.wantThematicDisplay) {
-      if (outsideFlags !== SpatialClassificationProps.Display.Off)
-        outsideFlags = SpatialClassificationProps.Display.On;
-      if (insideFlags !== SpatialClassificationProps.Display.Off)
-        insideFlags = SpatialClassificationProps.Display.On;
+      if (outsideFlags !== SpatialClassifierOutsideDisplay.Off)
+        outsideFlags = SpatialClassifierOutsideDisplay.On;
+      if (insideFlags !== SpatialClassifierInsideDisplay.Off)
+        insideFlags = SpatialClassifierInsideDisplay.On;
     }
 
     // Render the geometry which we are going to classify.
@@ -1415,9 +1417,9 @@ abstract class Compositor extends SceneCompositor {
       return;
     }
 
-    const needOutsideDraw = SpatialClassificationProps.Display.On !== outsideFlags;
-    const needInsideDraw = SpatialClassificationProps.Display.On !== insideFlags;
-    const doColorByElement = SpatialClassificationProps.Display.ElementColor === insideFlags || renderForReadPixels;
+    const needOutsideDraw = SpatialClassifierOutsideDisplay.On !== outsideFlags;
+    const needInsideDraw = SpatialClassifierInsideDisplay.On !== insideFlags;
+    const doColorByElement = SpatialClassifierInsideDisplay.ElementColor === insideFlags || renderForReadPixels;
     const doColorByElementForIntersectingVolumes = this.target.vcSupportIntersectingVolumes;
     const needAltZ = (doColorByElement && !doColorByElementForIntersectingVolumes) || needOutsideDraw;
     let zOnlyFbo = this._frameBuffers.stencilSet;
@@ -1612,7 +1614,7 @@ abstract class Compositor extends SceneCompositor {
     const cmdsSelected = extractHilitedVolumeClassifierCommands(this.target.hilites, commands.getCommands(RenderPass.HiliteClassification));
     commands.replaceCommands(RenderPass.HiliteClassification, cmdsSelected); // replace the hilite command list for use in hilite pass as well.
     // if (cmdsSelected.length > 0 && insideFlags !== this.target.activeVolumeClassifierProps!.flags.selected) {
-    if (!doColorByElement && cmdsSelected.length > 0 && insideFlags !== SpatialClassificationProps.Display.Hilite) { // assume selected ones are always hilited
+    if (!doColorByElement && cmdsSelected.length > 0 && insideFlags !== SpatialClassifierInsideDisplay.Hilite) { // assume selected ones are always hilited
       // Set the stencil using just the hilited volume classifiers.
       fbStack.execute(this._frameBuffers.stencilSet, false, this.useMsBuffers, () => {
         this.target.pushState(this._vcBranchState!);

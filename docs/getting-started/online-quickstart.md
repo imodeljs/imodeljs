@@ -10,7 +10,7 @@ Writing an iTwin.js application requires the following software:
 
 ## 2. Get a sample iModel
 
-[Click here and use the registration dashboard to create a new iModel](/getting-started/registration-dashboard?tab=1&create=bentleyExample)
+[Click here to create a sample iModel](https://developer.bentley.com/create-imodel/)
 
 ## 3. Get, build, and develop code
 

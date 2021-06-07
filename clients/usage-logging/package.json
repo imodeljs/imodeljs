@@ -1,6 +1,6 @@
 {
   "name": "@bentley/usage-logging-client",
-  "version": "2.17.0-dev.14",
+  "version": "2.17.0-dev.28",
   "description": "iModel.js Usage Logging Client",
   "main": "lib/usage-logging-client.js",
   "typings": "lib/usage-logging-client",
@@ -36,26 +36,26 @@
     "url": "http://www.bentley.com"
   },
   "dependencies": {
-    "@bentley/bentleyjs-core": "2.17.0-dev.14"
+    "@bentley/bentleyjs-core": "workspace:*"
   },
   "peerDependencies": {
-    "@bentley/itwin-client": "^2.17.0-dev.14",
-    "@bentley/telemetry-client": "^2.17.0-dev.14"
+    "@bentley/itwin-client": "workspace:^2.17.0-dev.28",
+    "@bentley/telemetry-client": "workspace:^2.17.0-dev.28"
   },
   "devDependencies": {
-    "@bentley/build-tools": "2.17.0-dev.14",
-    "@bentley/certa": "2.17.0-dev.14",
-    "@bentley/config-loader": "2.17.0-dev.14",
-    "@bentley/eslint-plugin": "2.17.0-dev.14",
-    "@bentley/itwin-client": "2.17.0-dev.14",
-    "@bentley/oidc-signin-tool": "2.17.0-dev.14",
-    "@bentley/telemetry-client": "2.17.0-dev.14",
+    "@bentley/build-tools": "workspace:*",
+    "@bentley/certa": "workspace:*",
+    "@bentley/config-loader": "workspace:*",
+    "@bentley/eslint-plugin": "workspace:*",
+    "@bentley/itwin-client": "workspace:*",
+    "@bentley/oidc-signin-tool": "workspace:*",
+    "@bentley/telemetry-client": "workspace:*",
     "@types/chai": "^4.1.4",
     "@types/mocha": "^8.2.2",
     "@types/node": "10.14.1",
     "chai": "^4.1.2",
     "eslint": "^6.8.0",
-    "internal-tools": "0.0.0",
+    "internal-tools": "workspace:*",
     "mocha": "^8.3.2",
     "rimraf": "^3.0.2",
     "source-map-loader": "^1.0.0",

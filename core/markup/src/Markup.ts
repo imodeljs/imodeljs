@@ -19,14 +19,15 @@ import { UndoManager } from "./Undo";
 
 // cspell:ignore blanchedalmond, lmultiply, svgs
 
-/** @beta */
+/** The width and height of a Markup image, in pixels.
+ * @public */
 export interface WidthAndHeight {
   width: number;
   height: number;
 }
 
 /** The size and SVG string for a Markup
- * @beta
+ * @public
  */
 export interface MarkupSvgData {
   /** The size of the image, in pixels. This also indicates the aspect ratio of the SVG data. */
@@ -36,7 +37,7 @@ export interface MarkupSvgData {
 }
 
 /** Markup data returned by [[MarkupApp.stop]]
- * @beta
+ * @public
  */
 export interface MarkupData extends MarkupSvgData {
   /** a base64 encoded string with the image of the view that was marked up. See [[MarkupApp.props.result]] for options. */
@@ -48,7 +49,7 @@ export interface MarkupData extends MarkupSvgData {
  * It has only static members and methods. Applications may customize and control the behavior of the Markup by
  * setting members of [[MarkupApp.props]]. When [[MarkupApp.start]] is first called, it registers a set of "Markup.xxx"
  * tools that may be invoked from UI controls.
- * @beta
+ * @public
  */
 export class MarkupApp {
   /** the current Markup being created */
@@ -163,12 +164,16 @@ export class MarkupApp {
   };
 
   private static _saveDefaultToolId = "";
+  /** @internal */
   public static screenToVbMtx(): Matrix {
     const matrix = this.markup?.svgMarkup?.screenCTM().inverse();
     return (undefined !== matrix ? matrix : new Matrix());
   }
+  /** @internal */
   public static getVpToScreenMtx(): Matrix { const rect = this.markup!.markupDiv.getBoundingClientRect(); return (new Matrix()).translateO(rect.left, rect.top); }
+  /** @internal */
   public static getVpToVbMtx(): Matrix { return this.getVpToScreenMtx().lmultiplyO(this.screenToVbMtx()); }
+  /** @internal */
   public static convertVpToVb(pt: XAndY): Point3d {
     const pt0 = new Point(pt.x, pt.y);
     pt0.transformO(this.getVpToVbMtx());
@@ -198,6 +203,7 @@ export class MarkupApp {
     style.height = `${height}px`;
   }
 
+  /** @internal */
   public static getActionName(action: string) { return IModelApp.i18n.translate(`${this.namespace.name}:actions.${action}`); }
 
   /** Start a markup session */
@@ -365,15 +371,22 @@ const newSvgElement = (name: string) => adopt(create(name));
 /**
  * The current markup being created/edited. Holds the SVG elements, plus the active [[MarkupTool]].
  * When starting a Markup, a new Div is added as a child of the ScreenViewport's vpDiv.
- * @beta
+ * @public
  */
 export class Markup {
+  /** @internal */
   public readonly markupDiv: HTMLDivElement;
+  /** @internal */
   public readonly undo = new UndoManager();
+  /** @internal */
   public readonly selected!: MarkupSelected;
+  /** @internal */
   public readonly svgContainer?: Svg;
+  /** @internal */
   public readonly svgMarkup?: G;
+  /** @internal */
   public readonly svgDynamics?: G;
+  /** @internal */
   public readonly svgDecorations?: G;
 
   /** create the drop-shadow filter in the Defs section of the supplied svg element */

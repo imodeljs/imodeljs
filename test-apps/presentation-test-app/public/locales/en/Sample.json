@@ -44,6 +44,7 @@
     }
   },
   "property-grid": {
+    "no-elements-selected": "Select element(s) to view properties",
     "too-many-elements-selected": "Too many elements selected"
   }
 }

@@ -1,0 +1,11 @@
+{
+  "changes": [
+    {
+      "packageName": "@bentley/imodeljs-frontend",
+      "comment": "DR request for doClipPlaneOrientView to choose \"better\" view x direction.",
+      "type": "none"
+    }
+  ],
+  "packageName": "@bentley/imodeljs-frontend",
+  "email": "65233531+bbastings@users.noreply.github.com"
+}

@@ -9,10 +9,11 @@
 
 import { MapImagerySettings, MapSubLayerProps, MapSubLayerSettings } from "@bentley/imodeljs-common";
 import {
-  ImageryMapTileTree, IModelApp, MapLayerImageryProvider, MapLayerSettingsService, MapLayerSource,
+  ImageryMapTileTree, IModelApp, MapLayerImageryProvider, MapLayerSettingsService, MapLayerSource, MapLayerSourceChangeType,
   MapLayerSources, NotifyMessageDetails, OutputMessagePriority, ScreenViewport, TileTreeOwner, Viewport,
 } from "@bentley/imodeljs-frontend";
 import { Toggle } from "@bentley/ui-core";
+import { assert } from "@bentley/bentleyjs-core";
 import * as React from "react";
 import { DragDropContext, DropResult } from "react-beautiful-dnd";
 import { MapLayerOptions, MapTypesOptions, StyleMapLayerSettings } from "../Interfaces";
@@ -186,7 +187,7 @@ export function MapLayerManager(props: MapLayerManagerProps) {
         return;
       }
 
-      // This is where the list of layers first gets populated.. I need to update it
+      // This is where the list of layers first gets populated... I need to update it
       // MapUrlDialog gets around knowing MapLayerManager exists and vice versa by affecting the viewports displayStyle which MapLayerManager is listening for
       // We know when displayStyle changes we've added a layer, this layer may not be a custom layer
       sourceLayers?.layers.forEach((source: MapLayerSource) => {sources.push(source);});
@@ -208,41 +209,49 @@ export function MapLayerManager(props: MapLayerManagerProps) {
     });
   }, [setMapSources, fetchPublicMapLayerSources, hideExternalMapLayersSection]);
 
-  React.useEffect(() => {
-    const handleNewCustomLayer = async (source: MapLayerSource) => {
-      const sources = await MapLayerSources.addSourceToMapLayerSources(source);
-      if (!sources) {
-        return;
-      }
-      const newSources: MapLayerSource[] = [];
-      sources.layers.forEach((sourceLayer: MapLayerSource) => {
-        newSources.push(sourceLayer);
-      });
-      setMapSources(newSources);
-    };
-    MapLayerSettingsService.onNewCustomLayerSource.addListener(handleNewCustomLayer);
-    return (() => {
-      MapLayerSettingsService.onNewCustomLayerSource.removeListener(handleNewCustomLayer);
-    });
+  const updateMapSources = React.useCallback(() => {
+    const newSources: MapLayerSource[] = [];
+    MapLayerSources.getInstance()?.layers?.forEach((sourceLayer: MapLayerSource) => {newSources.push(sourceLayer);});
+    setMapSources(newSources);
   }, [setMapSources]);
 
+  /*
+  * Handle change events in the MapLayerSettingsService
+  */
   React.useEffect(() => {
-    const handleCustomLayerRemoved = (name: string) => {
-      const succeeded = MapLayerSources.removeLayerByName(name);
-      if (!succeeded) {
-        return;
+    const handleLayerSourceChange = async (changeType: MapLayerSourceChangeType, oldSource?: MapLayerSource, newSource?: MapLayerSource) => {
+      const removeSourceOnly = (changeType === MapLayerSourceChangeType.Removed);
+      const removeSource = (changeType === MapLayerSourceChangeType.Replaced || changeType === MapLayerSourceChangeType.Removed);
+      const addSource = (changeType === MapLayerSourceChangeType.Replaced || changeType === MapLayerSourceChangeType.Added);
+
+      if (removeSource ) {
+        if (oldSource) {
+          const succeeded = MapLayerSources.removeLayerByName(oldSource.name);
+          assert(succeeded);
+          if (!succeeded) {
+            return;
+          }
+
+          if (removeSourceOnly) {
+            updateMapSources();
+            return;
+          }
+        }
       }
-      const newSources: MapLayerSource[] = [];
-      MapLayerSources.getInstance()?.layers?.forEach((sourceLayer: MapLayerSource) => {
-        newSources.push(sourceLayer);
-      });
-      setMapSources(newSources);
+
+      if (addSource) {
+        const sources = await MapLayerSources.addSourceToMapLayerSources(newSource);
+        assert(sources !== undefined);
+        if (sources) {
+          updateMapSources();
+        }
+      }
     };
-    MapLayerSettingsService.onCustomLayerNameRemoved.addListener(handleCustomLayerRemoved);
+    MapLayerSettingsService.onLayerSourceChanged.addListener(handleLayerSourceChange);
     return (() => {
-      MapLayerSettingsService.onCustomLayerNameRemoved.removeListener(handleCustomLayerRemoved);
+      MapLayerSettingsService.onLayerSourceChanged.removeListener(handleLayerSourceChange);
     });
-  }, [setMapSources]);
+  }, [updateMapSources]);
 
   // update when a different display style is loaded.
   React.useEffect(() => {

@@ -1,0 +1,11 @@
+{
+  "changes": [
+    {
+      "packageName": "@bentley/imodeljs-common",
+      "comment": "Persist 'visible' property of map-layers.  Removed unused 'maxZoom' property on MapLayerProps.",
+      "type": "none"
+    }
+  ],
+  "packageName": "@bentley/imodeljs-common",
+  "email": "mdastous-bentley@users.noreply.github.com"
+}

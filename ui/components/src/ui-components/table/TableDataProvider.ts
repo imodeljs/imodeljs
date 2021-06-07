@@ -171,7 +171,7 @@ export interface TableDataProvider {
 /**
  * MutableTableDataProvider provides mutation methods for data in the Table.
  * Useful for Drag & Drop processing.
- * @beta
+ * @public
  */
 export interface MutableTableDataProvider extends TableDataProvider {
   /** Adds a row to the end */
