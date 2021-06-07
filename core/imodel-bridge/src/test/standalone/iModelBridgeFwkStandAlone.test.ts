@@ -13,7 +13,7 @@ import { KnownTestLocations } from "../KnownTestLocations";
 import { BridgeJobDefArgs, BridgeRunner } from "../../BridgeRunner";
 
 import * as path from "path";
-import { BADGERSIssueReporter } from "../../BADGERSIssueReporter";
+import { BADGERSIssueReporter } from "../../BADGERSIssueReporter_old";
 
 describe("IModelBridgeFwkStandAlone", () => {
 
