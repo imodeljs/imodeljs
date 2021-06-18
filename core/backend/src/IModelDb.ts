@@ -27,6 +27,7 @@ import {
 } from "@bentley/imodeljs-common";
 import { IModelJsNative } from "@bentley/imodeljs-native";
 import { AuthorizedClientRequestContext } from "@bentley/itwin-client";
+import { ChangesetId } from "./BackendHubAccess";
 import { BackendLoggerCategory } from "./BackendLoggerCategory";
 import { BriefcaseId, BriefcaseManager } from "./BriefcaseManager";
 import { CheckpointManager, CheckpointProps, V2CheckpointManager } from "./CheckpointManager";
@@ -114,7 +115,7 @@ export abstract class IModelDb extends IModel {
   public readonly onChangesetApplied = new BeEvent<() => void>();
   /** @internal */
   public notifyChangesetApplied() {
-    this._changeSetId = this.nativeDb.getReversedChangeSetId() ?? this.nativeDb.getParentChangeSetId();
+    this._changeset = this.nativeDb.getParentChangeset();
     this.onChangesetApplied.raiseEvent();
   }
 
@@ -2172,9 +2173,13 @@ export class BriefcaseDb extends IModelDb {
 
   /** Id of the last ChangeSet that was applied to this iModel.
    * @note An empty string indicates the first version.
+   * @deprecated use changeset.id
    */
   public get changeSetId(): string { return super.changeSetId!; } // string | undefined for the superclass, but required for BriefcaseDb
-  public set changeSetId(csId: string) { this._changeSetId = csId; }
+  /** @deprecated  use changeset.id*/
+  public set changeSetId(csId: string) { this._changeset!.id = csId; }
+
+  public get changeset() { return this._changeset!; }
 
   /** Get the ConcurrencyControl for this iModel.
    * The concurrency control is used available *only* if the briefcase has been setup to synchronize changes with iModelHub (i.e., syncMode = SyncMode.PullAndPush),
@@ -2312,7 +2317,7 @@ export class BriefcaseDb extends IModelDb {
    * @throws [[IModelError]] If the pull and merge fails.
    * @returns the new changeSetId of this BriefcaseDb after pulling
    */
-  public async pullAndMergeChanges(requestContext: AuthorizedClientRequestContext, version: IModelVersion = IModelVersion.latest()): Promise<string> {
+  public async pullAndMergeChanges(requestContext: AuthorizedClientRequestContext, version: IModelVersion = IModelVersion.latest()): Promise<ChangesetId> {
     if (this.allowLocalChanges)
       this.concurrencyControl.onMergeChanges();
 
@@ -2325,11 +2330,11 @@ export class BriefcaseDb extends IModelDb {
         this.closeAndReopen(OpenMode.Readonly);
     }
 
-    IpcHost.notifyTxns(this, "notifyPulledChanges", this.changeSetId);
+    this._changeset = this.nativeDb.getParentChangeset();
+    IpcHost.notifyTxns(this, "notifyPulledChanges", this.changeset.id);
 
-    this.changeSetId = this.nativeDb.getParentChangeSetId();
     this.initializeIModelDb();
-    return this.changeSetId;
+    return this.changeset.id;
   }
 
   /** Push changes to iModelHub. Locks are released and codes are marked as used as part of a successful push.
@@ -2354,10 +2359,10 @@ export class BriefcaseDb extends IModelDb {
 
     await BriefcaseManager.pushChanges(requestContext, this, description, changeType as number);
     requestContext.enter();
-    this.changeSetId = this.nativeDb.getParentChangeSetId();
+    this._changeset = this.nativeDb.getParentChangeset();
     this.initializeIModelDb();
 
-    IpcHost.notifyTxns(this, "notifyPushedChanges", this.changeSetId);
+    IpcHost.notifyTxns(this, "notifyPushedChanges", this.changeset.id);
     return this.concurrencyControl.onPushedChanges(requestContext);
   }
 
@@ -2534,7 +2539,7 @@ export class SnapshotDb extends IModelDb {
    * @internal
    */
   public async reattachDaemon(requestContext: AuthorizedClientRequestContext): Promise<void> {
-    if (!this._changeSetId)
+    if (!this._changeset)
       throw new IModelError(IModelStatus.WrongIModel, `SnapshotDb is not a checkpoint`);
     await V2CheckpointManager.attach({ requestContext, contextId: this.contextId!, iModelId: this.iModelId, changeSetId: this._changeSetId });
   }

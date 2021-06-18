@@ -26,10 +26,14 @@ export interface IModelRpcOpenProps {
   readonly contextId?: GuidString;
   /** Guid of the iModel. */
   readonly iModelId?: GuidString;
+
   /** Id of the last ChangeSet that was applied to the iModel - must be defined for briefcases that are synchronized with iModelHub. An empty string indicates the first version.
    * @note ChangeSet Ids are string hash values based on the ChangeSet's content and parent.
    */
   changeSetId?: string;
+  /** The index of the last changeset */
+  changesetIndex?: number;
+
   /** Mode used to open the iModel */
   openMode?: OpenMode;
 }
@@ -299,7 +303,7 @@ export abstract class IModel implements IModelProps {
   public set name(name: string) {
     if (name !== this._name) {
       const old = this._name;
-      this._name =  name;
+      this._name = name;
       if (undefined !== old)
         this.onNameChanged.raiseEvent(old);
     }
@@ -436,11 +440,11 @@ export abstract class IModel implements IModelProps {
   public get iModelId(): GuidString | undefined { return this._iModelId; }
 
   /** @internal */
-  protected _changeSetId: string | undefined;
+  protected _changeset: { id: string, index: number } | undefined;
   /** The Id of the last changeset that was applied to this iModel.
    * @note An empty string indicates the first version while `undefined` mean no changeset information is available.
    */
-  public get changeSetId() { return this._changeSetId; }
+  public get changeSetId() { return this._changeset?.id; }
 
   /** The [[OpenMode]] used for this IModel. */
   public readonly openMode: OpenMode;

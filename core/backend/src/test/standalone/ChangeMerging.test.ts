@@ -5,8 +5,8 @@
 
 import { assert } from "chai";
 import * as path from "path";
-import { ChangeSetApplyOption, ChangeSetStatus, Id64String, OpenMode } from "@bentley/bentleyjs-core";
-import { IModel, IModelError, SubCategoryAppearance } from "@bentley/imodeljs-common";
+import { ChangeSetApplyOption, Id64String, OpenMode } from "@bentley/bentleyjs-core";
+import { IModel, SubCategoryAppearance } from "@bentley/imodeljs-common";
 import { IModelJsNative } from "@bentley/imodeljs-native";
 import { ConcurrencyControl, DictionaryModel, Element, IModelDb, IModelJsFs, SpatialCategory, StandaloneDb } from "../../imodeljs-backend";
 import { IModelTestUtils } from "../IModelTestUtils";
@@ -14,18 +14,15 @@ import { KnownTestLocations } from "../KnownTestLocations";
 
 // Combine all local Txns and generate a changeset file. Then delete all local Txns.
 function createChangeSet(imodel: IModelDb): IModelJsNative.ChangeSetProps {
-  const token = imodel.nativeDb.startCreateChangeSet();
+  const token = imodel.nativeDb.startCreateChangeset();
 
-  // finishCreateChangeSet deletes the file that startCreateChangeSet created.
+  // completeCreateChangeset deletes the file that startCreateChangeSet created.
   // We make a copy of it now, before he does that.
   const csFileName = path.join(KnownTestLocations.outputDir, `${token.id}.cs`);
   IModelJsFs.copySync(token.pathname, csFileName);
   token.pathname = csFileName;
 
-  const status: ChangeSetStatus = imodel.nativeDb.finishCreateChangeSet();
-  if (ChangeSetStatus.Success !== status)
-    throw new IModelError(status, "Error in finishCreateChangeSet");
-
+  imodel.nativeDb.completeCreateChangeset({ index: 0 });
   return token;
 }
 

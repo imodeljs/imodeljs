@@ -634,6 +634,7 @@ describe("ImodelChangesetPerformance own data", () => {
     nativeDb.saveChanges();
     nativeDb.closeIModel();
   }
+
   async function lastChangesetToken(modelId: string): Promise<IModelJsNative.ChangeSetProps> {
     requestContext = await TestUtility.getAuthorizedClientRequestContext(TestUsers.regular);
     const changeSets = await IModelHubBackend.iModelClient.changeSets.get(requestContext, modelId);
@@ -643,8 +644,9 @@ describe("ImodelChangesetPerformance own data", () => {
     const downloadDir = path.join(BriefcaseManager.cacheDir, modelId, "csets");
     await IModelHubBackend.iModelClient.changeSets.download(requestContext, modelId, query, downloadDir);
     const pathname = path.join(downloadDir, changeSet.fileName!);
-    return { id: changeSet.id!, parentId: changeSet.parentId!, pathname, changesType: changeSet.changesType };
+    return { id: changeSet.id!, parentId: changeSet.parentId!, pathname, changesType: changeSet.changesType, index: +changeSet.index! };
   }
+
   before(async () => {
     Logger.initializeToConsole();
     // Logger.setLevelDefault(LogLevel.Error);
