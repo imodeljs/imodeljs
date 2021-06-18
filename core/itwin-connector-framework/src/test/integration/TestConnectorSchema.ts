@@ -6,16 +6,16 @@
 import * as path from "path";
 import { ClassRegistry, Schema, Schemas } from "@bentley/imodeljs-backend";
 import { KnownTestLocations } from "../KnownTestLocations";
-import * as elementsModule from "./TestBridgeElements";
-import * as modelsModule from "./TestBridgeModels";
+import * as elementsModule from "./TestConnectorElements";
+import * as modelsModule from "./TestConnectorModels";
 
-/** Schema class for the TestBridge domain.
+/** Schema class for the TestConnector domain.
  * @beta
  */
-export class TestBridgeSchema extends Schema {
-  public static get schemaName(): string { return "TestBridge"; }
+export class TestConnectorSchema extends Schema {
+  public static get schemaName(): string { return "TestConnector"; }
   public static get schemaFilePath(): string {
-    return path.join(KnownTestLocations.assetsDir, "TestBridge.ecschema.xml");
+    return path.join(KnownTestLocations.assetsDir, "TestConnector.ecschema.xml");
   }
   public static registerSchema() {
     if (this !== Schemas.getRegisteredSchema(this.schemaName)) {

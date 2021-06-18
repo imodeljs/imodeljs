@@ -1,0 +1,11 @@
+{
+  "changes": [
+    {
+      "packageName": "@bentley/itwin-connector-framework",
+      "comment": "renamed imodel-bridge to itwin-connector-framework and changed \"bridge\" symbols to \"connector\".",
+      "type": "none"
+    }
+  ],
+  "packageName": "@bentley/itwin-connector-framework",
+  "email": "zachzhu2016@gmail.com"
+}

@@ -68,8 +68,8 @@ rush.json       @calebmshafer @pmconne @wgoehrig
 /common/**/geometry-core/                         @bbastings @EarlinLutz @mgooding @RBBentley
 /common/**/hypermodeling-frontend.*               @imodeljs/display @bbastings
 /common/**/hypermodeling-frontend/                @imodeljs/display @bbastings
-/common/**/imodel-bridge.*                        @imodeljs/connectors
-/common/**/imodel-bridge/                         @imodeljs/connectors
+/common/**/itwin-connector-framework.*            @imodeljs/connectors
+/common/**/itwin-connector-framework/             @imodeljs/connectors
 /common/**/imodeljs-backend.*                     @imodeljs/admins
 /common/**/imodeljs-backend/                      @imodeljs/admins
 /common/**/imodeljs-common.*                      @imodeljs/admins @imodeljs/display
@@ -125,7 +125,7 @@ rush.json       @calebmshafer @pmconne @wgoehrig
 /core/geometry                  @bbastings @EarlinLutz @mgooding @RBBentley
 /core/hypermodeling             @bbastings @imodeljs/display
 /core/i18n                      @wgoehrig @calebmshafer
-/core/imodel-bridge             @imodeljs/connectors
+/core/itwin-connector-framework @imodeljs/connectors
 /core/logger-config             @calebmshafer @swwilson-bsi @wgoehrig
 /core/markup                    @kabentley @pmconne @bbastings
 /core/orbitgt                   @imodeljs/display

@@ -1,33 +1,33 @@
 {
-  "name": "@bentley/imodel-bridge",
+  "name": "@bentley/itwin-connector-framework",
   "version": "2.18.0-dev.9",
-  "description": "iModel.js bridge components",
-  "main": "lib/imodel-bridge.js",
-  "typings": "lib/imodel-bridge",
+  "description": "iTwin Connector Framework",
+  "main": "lib/itwin-connector-framework.js",
+  "typings": "lib/itwin-connector-framework",
   "license": "MIT",
   "engines": {
     "node": ">=10.17.0 <15.0"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/imodeljs/imodeljs/tree/master/core/imodel-bridge"
+    "url": "https://github.com/imodeljs/imodeljs/tree/master/core/itwin-connector-framework"
   },
   "scripts": {
     "compile": "npm run build",
     "build": "tsc 1>&2 && npm run copy:assets && npm run copy:test-assets",
     "clean": "rimraf lib .rush/temp/package-deps*.json",
-    "docs": "betools docs --tsIndexFile=./imodel-bridge.ts --json=../../generated-docs/core/imodel-bridge/file.json --onlyJson",
+    "docs": "betools docs --tsIndexFile=./itwin-connector-framework.ts --json=../../generated-docs/core/itwin-connector-framework/file.json --onlyJson",
     "copy:assets": "cpx \"./src/assets/**/*\" ./lib/assets",
     "copy:config": "internal-tools copy-config",
     "copy:test-assets": "cpx \"./src/test/assets/**/*\" ./lib/test/assets",
     "cover": "nyc npm test",
     "cover:integration": "nyc npm run test:integration",
-    "extract-api": "betools extract-api --entry=imodel-bridge",
+    "extract-api": "betools extract-api --entry=itwin-connector-framework",
     "lint": "eslint -f visualstudio \"./src/**/*.ts\" 1>&2",
     "pretest": "cpx ./src/test/logging.config.json ./lib/test",
     "test": "betools test --offline=\"mock\" --grep=\"#integration|#WebGLPerformance\" --invert",
-    "test:all": "npm run pretest && betools test --grep=\"IModelBridgeFwk\"",
-    "test:standalone": "npm run pretest && betools test --offline=\"mock\" --grep=\"IModelBridgeFwkStandAlone\"",
+    "test:all": "npm run pretest && betools test --grep=\"ITwinConnectorFwk\"",
+    "test:standalone": "npm run pretest && betools test --offline=\"mock\" --grep=\"ITwinConnectorFwkStandAlone\"",
     "test:integration": "npm run pretest && betools test --testDir=\"./lib/test/integration\""
   },
   "keywords": [

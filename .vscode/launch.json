@@ -237,7 +237,7 @@
         "group": "0_CoreTests",
         "order": 5
       },
-      "cwd": "${workspaceFolder}/core/imodel-bridge",
+      "cwd": "${workspaceFolder}/core/itwin-connector-framework",
       "type": "pwa-node",
       "request": "launch",
       "runtimeExecutable": "npm",
@@ -255,7 +255,7 @@
         "group": "0_CoreTests",
         "order": 5
       },
-      "cwd": "${workspaceFolder}/core/imodel-bridge",
+      "cwd": "${workspaceFolder}/core/itwin-connector-framework",
       "type": "pwa-node",
       "request": "launch",
       "runtimeExecutable": "npm",
@@ -273,7 +273,7 @@
         "group": "0_CoreTests",
         "order": 6
       },
-      "cwd": "${workspaceFolder}/core/imodel-bridge",
+      "cwd": "${workspaceFolder}/core/itwin-connector-framework",
       "type": "pwa-node",
       "request": "launch",
       "runtimeExecutable": "npm",

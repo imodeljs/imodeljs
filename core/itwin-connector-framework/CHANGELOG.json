@@ -1,5 +1,5 @@
 {
-  "name": "@bentley/imodel-bridge",
+  "name": "@bentley/itwin-connector-framework",
   "entries": [
     {
       "version": "2.16.3",

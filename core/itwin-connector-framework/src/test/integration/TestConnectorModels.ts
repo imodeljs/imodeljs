@@ -8,7 +8,7 @@ import { GroupInformationModel } from "@bentley/imodeljs-backend";
 /** A container for persisting AnalyticalElement instances used to model a specialized analytical perspective.
  * @beta
  */
-export abstract class TestBridgeGroupModel extends GroupInformationModel {
+export abstract class TestConnectorGroupModel extends GroupInformationModel {
   /** @internal */
-  public static get className(): string { return "TestBridgeGroupModel"; }
+  public static get className(): string { return "TestConnectorGroupModel"; }
 }

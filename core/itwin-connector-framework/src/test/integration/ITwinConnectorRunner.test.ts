@@ -8,24 +8,22 @@ import { AccessToken, AuthorizedClientRequestContext } from "@bentley/itwin-clie
 import { TestUsers, TestUtility } from "@bentley/oidc-signin-tool";
 import { expect } from "chai";
 import * as path from "path";
-import { BridgeJobDefArgs, BridgeRunner } from "../../BridgeRunner";
+import { ConnectorJobDefArgs, ConnectorRunner } from "../../ConnectorRunner";
 import { ServerArgs } from "../../IModelHubUtils";
-import { BridgeTestUtils, TestIModelInfo } from "../BridgeTestUtils";
+import { ConnectorTestUtils, TestIModelInfo } from "../ConnectorTestUtils";
 import { KnownTestLocations } from "../KnownTestLocations";
 import { HubUtility } from "./HubUtility";
 
-describe("IModelBridgeFwk (#integration)", () => {
+describe("iTwin Connector Fwk (#integration)", () => {
   let testProjectId: string;
-
   let readWriteTestIModel: TestIModelInfo;
-
   let requestContext: AuthorizedClientRequestContext;
   let managerRequestContext: AuthorizedClientRequestContext;
 
   before(async () => {
-    BridgeTestUtils.setupLogging();
-    BridgeTestUtils.setupDebugLogLevels();
-    await BridgeTestUtils.startBackend();
+    ConnectorTestUtils.setupLogging();
+    ConnectorTestUtils.setupDebugLogLevels();
+    await ConnectorTestUtils.startBackend();
     if (!IModelJsFs.existsSync(KnownTestLocations.outputDir))
       IModelJsFs.mkdirSync(KnownTestLocations.outputDir);
 
@@ -37,10 +35,10 @@ describe("IModelBridgeFwk (#integration)", () => {
     }
 
     testProjectId = await HubUtility.queryProjectIdByName(requestContext, "iModelJsIntegrationTest");
-    const imodelName = `TestBridge_ReadWrite_${Guid.createValue()}`;
+    const imodelName = `TestConnector_ReadWrite_${Guid.createValue()}`;
     const targetIModelId = await HubUtility.recreateIModel(requestContext, testProjectId, imodelName);
     expect(undefined !== targetIModelId);
-    readWriteTestIModel = await BridgeTestUtils.getTestModelInfo(requestContext, testProjectId, imodelName);
+    readWriteTestIModel = await ConnectorTestUtils.getTestModelInfo(requestContext, testProjectId, imodelName);
 
     // Purge briefcases that are close to reaching the acquire limit
     managerRequestContext = await TestUtility.getAuthorizedClientRequestContext(TestUsers.manager);
@@ -54,11 +52,11 @@ describe("IModelBridgeFwk (#integration)", () => {
     } catch (err) {
     }
 
-    await BridgeTestUtils.shutdownBackend();
+    await ConnectorTestUtils.shutdownBackend();
   });
 
-  async function runBridge(bridgeJobDef: BridgeJobDefArgs, serverArgs: ServerArgs, isUpdate: boolean = false) {
-    const runner = new BridgeRunner(bridgeJobDef, serverArgs);
+  async function runConnector(connectorJobDef: ConnectorJobDefArgs, serverArgs: ServerArgs, isUpdate: boolean = false) {
+    const runner = new ConnectorRunner(connectorJobDef, serverArgs);
     const status = await runner.synchronize();
     expect(status === BentleyStatus.SUCCESS);
     const briefcases = BriefcaseManager.getCachedBriefcases(serverArgs.iModelId);
@@ -66,17 +64,17 @@ describe("IModelBridgeFwk (#integration)", () => {
     expect(briefcaseEntry !== undefined);
 
     const imodel = await BriefcaseDb.open(new ClientRequestContext(), { fileName: briefcases[0].fileName, readonly: true });
-    BridgeTestUtils.verifyIModel(imodel, bridgeJobDef, isUpdate);
+    ConnectorTestUtils.verifyIModel(imodel, connectorJobDef, isUpdate);
     imodel.close();
   }
 
   it("should download and perform updates", async () => {
-    const bridgeJobDef = new BridgeJobDefArgs();
-    const sourcePath = path.join(KnownTestLocations.assetsDir, "TestBridge.json");
-    const targetPath = path.join(KnownTestLocations.assetsDir, "TestBridge_.json");
+    const connectorJobDef = new ConnectorJobDefArgs();
+    const sourcePath = path.join(KnownTestLocations.assetsDir, "TestConnector.json");
+    const targetPath = path.join(KnownTestLocations.assetsDir, "TestConnector_.json");
     IModelJsFs.copySync(sourcePath, targetPath, { overwrite: true });
-    bridgeJobDef.sourcePath = targetPath;
-    bridgeJobDef.bridgeModule = "./test/integration/TestiModelBridge.js";
+    connectorJobDef.sourcePath = targetPath;
+    connectorJobDef.connectorModule = "./test/integration/TestiTwinConnector.js";
 
     const serverArgs = new ServerArgs();  // TODO have an iModelBank version of this test
     serverArgs.contextId = testProjectId;
@@ -85,14 +83,14 @@ describe("IModelBridgeFwk (#integration)", () => {
       return requestContext.accessToken;
     };
 
-    await runBridge(bridgeJobDef, serverArgs);
+    await runConnector(connectorJobDef, serverArgs);
 
     // verify that an unchanged source results in an unchanged imodel
-    await runBridge(bridgeJobDef, serverArgs, false);
+    await runConnector(connectorJobDef, serverArgs, false);
 
     // verify that a changed source changes the imodel
-    IModelJsFs.copySync(path.join(KnownTestLocations.assetsDir, "TestBridge_v2.json"), targetPath, { overwrite: true });
-    await runBridge(bridgeJobDef, serverArgs, true);
+    IModelJsFs.copySync(path.join(KnownTestLocations.assetsDir, "TestConnector_v2.json"), targetPath, { overwrite: true });
+    await runConnector(connectorJobDef, serverArgs, true);
 
     IModelJsFs.purgeDirSync(KnownTestLocations.outputDir);
   });

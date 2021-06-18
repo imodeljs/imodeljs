@@ -9,29 +9,26 @@ import {
   CategorySelector, DefinitionModel, DefinitionPartition, DisplayStyle3d, DisplayStyleCreationOptions, ElementGroupsMembers, GeometryPart, GroupInformationPartition, IModelDb, IModelJsFs,
   ModelSelector, OrthographicViewDefinition, PhysicalElement, PhysicalModel, PhysicalPartition, RelationshipProps, RenderMaterialElement, RepositoryLink, SpatialCategory, SubCategory, SubjectOwnsPartitionElements,
 } from "@bentley/imodeljs-backend";
-import {
-  CodeScopeSpec, CodeSpec, ColorByName, ColorDef, ColorDefProps, GeometryPartProps, GeometryStreamBuilder, IModel, IModelError, InformationPartitionElementProps,
-  RenderMode, SubCategoryAppearance, ViewFlags,
-} from "@bentley/imodeljs-common";
+import { CodeScopeSpec, CodeSpec, ColorByName, ColorDef, ColorDefProps, GeometryPartProps, GeometryStreamBuilder, IModel, IModelError, InformationPartitionElementProps, RenderMode, SubCategoryAppearance, ViewFlags } from "@bentley/imodeljs-common";
 import { Box, Cone, LinearSweep, Loop, Point3d, SolidPrimitive, StandardViewIndex, Vector3d } from "@bentley/geometry-core";
 
 import { ItemState, SourceItem, SynchronizationResults } from "../../Synchronizer";
-import { IModelBridge } from "../../IModelBridge";
-import { TestBridgeLoggerCategory } from "./TestBridgeLoggerCategory";
-import { TestBridgeSchema } from "./TestBridgeSchema";
-import { TestBridgeGroupModel } from "./TestBridgeModels";
+import { ITwinConnector } from "../../ITwinConnector";
+import { TestConnectorLoggerCategory } from "./TestConnectorLoggerCategory";
+import { TestConnectorSchema } from "./TestConnectorSchema";
+import { TestConnectorGroupModel } from "./TestConnectorModels";
 import {
   Categories, CodeSpecs, EquilateralTriangleTile, GeometryParts, IsoscelesTriangleTile, LargeSquareTile, Materials, RectangleTile, RightTriangleTile, SmallSquareTile,
-  TestBridgeGroup, TestBridgeGroupProps,
-} from "./TestBridgeElements";
-import { Casings, EquilateralTriangleCasing, IsoscelesTriangleCasing, LargeSquareCasing, QuadCasing, RectangleCasing, RectangularMagnetCasing, RightTriangleCasing, SmallSquareCasing, TriangleCasing } from "./TestBridgeGeometry";
+  TestConnectorGroup, TestConnectorGroupProps,
+} from "./TestConnectorElements";
+import { Casings, EquilateralTriangleCasing, IsoscelesTriangleCasing, LargeSquareCasing, QuadCasing, RectangleCasing, RectangularMagnetCasing, RightTriangleCasing, SmallSquareCasing, TriangleCasing } from "./TestConnectorGeometry";
 
 import * as hash from "object-hash";
 import * as fs from "fs";
 
-const loggerCategory: string = TestBridgeLoggerCategory.Bridge;
+const loggerCategory: string = TestConnectorLoggerCategory.Connector;
 
-class TestBridge extends IModelBridge {
+class TestConnector extends ITwinConnector {
   private _data: any;
   private _sourceDataState: ItemState = ItemState.New;
   private _sourceData?: string;
@@ -68,8 +65,8 @@ class TestBridge extends IModelBridge {
     if (this._sourceDataState === ItemState.Unchanged) {
       return;
     }
-    TestBridgeSchema.registerSchema();
-    const fileName = TestBridgeSchema.schemaFilePath;
+    TestConnectorSchema.registerSchema();
+    const fileName = TestConnectorSchema.schemaFilePath;
     await this.synchronizer.imodel.importSchemas(_requestContext, [fileName]);
   }
 
@@ -107,7 +104,7 @@ class TestBridge extends IModelBridge {
 
     this.convertGroupElements(groupModelId);
     this.convertPhysicalElements(physicalModelId, definitionModelId, groupModelId);
-    this.synchronizer.imodel.views.setDefaultViewId(this.createView(definitionModelId, physicalModelId, "TestBridgeView"));
+    this.synchronizer.imodel.views.setDefaultViewId(this.createView(definitionModelId, physicalModelId, "TestConnectorView"));
   }
 
   public getApplicationId(): string {
@@ -116,8 +113,8 @@ class TestBridge extends IModelBridge {
   public getApplicationVersion(): string {
     return "1.0.0.0";
   }
-  public getBridgeName(): string {
-    return "TestiModelBridge";
+  public getConnectorName(): string {
+    return "TestiTwinConnector";
   }
 
   private getDocumentStatus(): SynchronizationResults {
@@ -144,7 +141,7 @@ class TestBridge extends IModelBridge {
     if (undefined !== existingId) {
       return existingId;
     }
-    // Create an InformationPartitionElement for the TestBridgeGroupModel to model
+    // Create an InformationPartitionElement for the TestConnectorGroupModel to model
     const partitionProps: InformationPartitionElementProps = {
       classFullName: GroupInformationPartition.classFullName,
       model: IModel.repositoryModelId,
@@ -153,7 +150,7 @@ class TestBridge extends IModelBridge {
     };
     const partitionId = this.synchronizer.imodel.elements.insertElement(partitionProps);
 
-    return this.synchronizer.imodel.models.insertModel({ classFullName: TestBridgeGroupModel.classFullName, modeledElement: { id: partitionId } });
+    return this.synchronizer.imodel.models.insertModel({ classFullName: TestConnectorGroupModel.classFullName, modeledElement: { id: partitionId } });
   }
 
   private queryGroupModel(): Id64String | undefined {
@@ -188,7 +185,7 @@ class TestBridge extends IModelBridge {
       return existingId;
     }
 
-    // Create an InformationPartitionElement for the TestBridgeDefinitionModel to model
+    // Create an InformationPartitionElement for the TestConnectorDefinitionModel to model
     const partitionProps: InformationPartitionElementProps = {
       classFullName: DefinitionPartition.classFullName,
       model: IModel.repositoryModelId,
@@ -243,13 +240,13 @@ class TestBridge extends IModelBridge {
   }
 
   private getColoredPlasticParams(): RenderMaterialElement.Params {
-    const params = new RenderMaterialElement.Params(Palettes.TestBridge);
+    const params = new RenderMaterialElement.Params(Palettes.TestConnector);
     params.transmit = 0.5;
     return params;
   }
 
   private getMagnetizedFerriteParams(): RenderMaterialElement.Params {
-    const params = new RenderMaterialElement.Params(Palettes.TestBridge);
+    const params = new RenderMaterialElement.Params(Palettes.TestConnector);
     const darkGrey = this.toRgbFactor(ColorByName.darkGrey);
     params.specularColor = darkGrey;
     params.color = darkGrey;
@@ -360,12 +357,12 @@ class TestBridge extends IModelBridge {
         continue;
       }
       if (group.name === undefined) {
-        throw new IModelError(IModelStatus.BadArg, "Name undefined for TestBridge group", Logger.logError, loggerCategory);
+        throw new IModelError(IModelStatus.BadArg, "Name undefined for TestConnector group", Logger.logError, loggerCategory);
       }
 
-      const code = TestBridgeGroup.createCode(this.synchronizer.imodel, groupModelId, group.name);
-      const props: TestBridgeGroupProps = {
-        classFullName: TestBridgeGroup.classFullName,
+      const code = TestConnectorGroup.createCode(this.synchronizer.imodel, groupModelId, group.name);
+      const props: TestConnectorGroupProps = {
+        classFullName: TestConnectorGroup.classFullName,
         model: groupModelId,
         code,
         groupType: group.groupType,
@@ -404,7 +401,7 @@ class TestBridge extends IModelBridge {
       return;
     }
     if (tile.casingMaterial === undefined) {
-      throw new IModelError(IModelStatus.BadArg, `casingMaterial undefined for TestBridge Tile ${tile.guid}`, Logger.logError, loggerCategory);
+      throw new IModelError(IModelStatus.BadArg, `casingMaterial undefined for TestConnector Tile ${tile.guid}`, Logger.logError, loggerCategory);
     }
 
     let element: PhysicalElement;
@@ -441,7 +438,7 @@ class TestBridge extends IModelBridge {
     if (!tile.hasOwnProperty("Group")) {
       return;
     }
-    const groupCode = TestBridgeGroup.createCode(this.synchronizer.imodel, groupModelId, tile.Group);
+    const groupCode = TestConnectorGroup.createCode(this.synchronizer.imodel, groupModelId, tile.Group);
     const groupElement = this.synchronizer.imodel.elements.queryElementIdByCode(groupCode);
     assert(groupElement !== undefined);
     let doCreate = results.state === ItemState.New;
@@ -484,7 +481,7 @@ class TestBridge extends IModelBridge {
 
     const categoryId = SpatialCategory.queryCategoryIdByName(this.synchronizer.imodel, definitionModelId, Categories.Category);
     if (undefined === categoryId) {
-      throw new IModelError(IModelStatus.BadElement, "Unable to find TestBridge Category", Logger.logError, loggerCategory);
+      throw new IModelError(IModelStatus.BadElement, "Unable to find TestConnector Category", Logger.logError, loggerCategory);
     }
     return CategorySelector.insert(this.synchronizer.imodel, definitionModelId, "Default", [categoryId]);
   }
@@ -516,16 +513,16 @@ class TestBridge extends IModelBridge {
   }
 }
 
-export function getBridgeInstance() {
-  return new TestBridge();
+export function getConnectorInstance() {
+  return new TestConnector();
 }
 
 export enum ModelNames {
-  Physical = "TestBridge_Physical",
-  Definition = "TestBridge_Definitions",
-  Group = "TestBridge_Groups",
+  Physical = "TestConnector_Physical",
+  Definition = "TestConnector_Definitions",
+  Group = "TestConnector_Groups",
 }
 
 enum Palettes {
-  TestBridge = "TestBridge", // eslint-disable-line @typescript-eslint/no-shadow
+  TestConnector = "TestConnector", // eslint-disable-line @typescript-eslint/no-shadow
 }

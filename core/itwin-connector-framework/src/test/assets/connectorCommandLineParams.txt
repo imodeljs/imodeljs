@@ -1,7 +1,7 @@
 --fwk-logging-config-file=ReplaceMe
 --fwk-input=ReplaceMe
 --fwk-staging-dir=ReplaceMe
---fwk-bridge-library=%OutRoot%Winx64\Product\DgnV8Bridge\lib\x64\DgnV8BridgeB02.dll
+--fwk-connector-library=%OutRoot%Winx64\Product\DgnV8Bridge\lib\x64\DgnV8BridgeB02.dll
 --fwk-create-repository-if-necessary
 --fwk-skip-assignment-check
 --server-user=ReplaceMe

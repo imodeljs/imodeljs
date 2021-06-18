@@ -10,7 +10,7 @@
       "logLevel": "Error"
     },
     {
-      "category": "imodel-bridge.Framework",
+      "category": "itwin-connector.Framework",
       "logLevel": "Error"
     }
   ]

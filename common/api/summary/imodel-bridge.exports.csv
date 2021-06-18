@@ -3,5 +3,10 @@ Release Tag;API Item
 beta;BridgeJobDefArgs
 public;BridgeLoggerCategory
 beta;BridgeRunner
+beta;ChangeResults
+beta;DocumentProperties
 beta;class IModelBridge
-beta;loggerCategory: string
+beta;ItemState
+beta;SourceItem
+beta;SynchronizationResults
+beta;Synchronizer

@@ -7,14 +7,13 @@
  */
 
 /** Logger categories used by this package
- * @note All logger categories in this package start with the `imodel-bridge` prefix.
+ * @note All logger categories in this package start with the `itwin-connector-framework` prefix.
  * @see [Logger]($bentley)
  * @public
  */
-export enum TestBridgeLoggerCategory {
+export enum ConnectorLoggerCategory {
   /** The logger category used by the following classes:
-   * - [[BridgeSynchronizer]]
+   * - [[ConnectorSynchronizer]]
    */
-  Bridge = "TestBridge.Bridge",
-  Geometry = "TestBridge.Geometry",
+  Framework = "itwin-connector.Framework",
 }

@@ -2,6 +2,10 @@
 * Copyright (c) Bentley Systems, Incorporated. All rights reserved.
 * See LICENSE.md in the project root for license terms and full copyright notice.
 *--------------------------------------------------------------------------------------------*/
+/** @packageDocumentation
+ * @module Framework
+ */
+
 import * as fs from "fs";
 import * as os from "os";
 import * as path from "path";
@@ -16,29 +20,26 @@ import {
 } from "@bentley/imodeljs-backend";
 import { IModel, IModelError, LocalBriefcaseProps, OpenBriefcaseProps, SubjectProps } from "@bentley/imodeljs-common";
 import { AccessToken, AuthorizedClientRequestContext } from "@bentley/itwin-client";
-import { BridgeLoggerCategory } from "./BridgeLoggerCategory";
+import { ConnectorLoggerCategory } from "./ConnectorLoggerCategory";
 import { IModelBankArgs, IModelBankUtils } from "./IModelBankUtils";
-import { IModelBridge } from "./IModelBridge";
+import { ITwinConnector } from "./ITwinConnector";
 import { ServerArgs } from "./IModelHubUtils";
 import { Synchronizer } from "./Synchronizer";
 
-/** @beta */
-export const loggerCategory: string = BridgeLoggerCategory.Framework;
-
-/** Arguments that define how a bridge job should be run
+/** Arguments that define how a connector job should be run
  * @beta
  */
-export class BridgeJobDefArgs {
+export class ConnectorJobDefArgs {
   /** Comment to be used as the initial string for all changesets.  Can be null. */
   public revisionComments?: string;
-  /** Should be run after all documents have been synchronized.  Runs any actions (like project extent calculations) that need to run on the completed imodel */
+  /** Should be run after all documents have been synchronized.  Runs any actions (like project extent calculations) that need to run on the completed iModel */
   public allDocsProcessed: boolean = false;
-  /** Indicates whether the BridgeRunner should update the profile of the imodel's db. This would only need to be set to false if the imodel needs to be opened by legacy products */
+  /** Indicates whether the ConnectorRunner should update the profile of the iModel's db. This would only need to be set to false if the iModel needs to be opened by legacy products */
   public updateDbProfile: boolean = true;
-  /** Indicates whether the BridgeRunner should update any of the core domain schemas in the imodel */
+  /** Indicates whether the ConnectorRunner should update any of the core domain schemas in the iModel */
   public updateDomainSchemas: boolean = true;
-  /** The module containing the IModel Bridge implementation */
-  public bridgeModule?: string;
+  /** The module containing the iTwin Connector implementation */
+  public connectorModule?: string;
   /** Path to the source file */
   public sourcePath?: string;
   /** Path to the output directory - Only necessary when creating a snapshot */
@@ -50,9 +51,9 @@ export class BridgeJobDefArgs {
   public dmsAccessToken?: string;
   /** Additional arguments in JSON format. */
   public argsJson: any;
-  /** Synchronizes a snapshot imodel, outside of iModelHub */
+  /** Synchronizes a snapshot iModel, outside of iModelHub */
   public isSnapshot: boolean = false;
-  /** The synchronizer will automatically delete any element that wasn't visited. Some bridges do not visit each element on every run. Set this to false to disable automatic deletion */
+  /** The synchronizer will automatically delete any element that wasn't visited. Some connectors do not visit each element on every run. Set this to false to disable automatic deletion */
   public doDetectDeletedElements: boolean = true;
 }
 
@@ -63,22 +64,21 @@ class StaticTokenStore {
 /** The driver for synchronizing content to an iModel.
  * @beta
  */
-export class BridgeRunner {
-  private _bridge?: IModelBridge;
-  // private _ldClient: iModelBridgeLDClient;
+export class ConnectorRunner {
+  private _connector?: ITwinConnector;
 
-  private _bridgeArgs: BridgeJobDefArgs;
+  private _connectorArgs: ConnectorJobDefArgs;
   private _serverArgs?: ServerArgs | IModelBankArgs;
 
   public getCacheDirectory() {
-    if (this._bridgeArgs.isSnapshot) {
-      return this._bridgeArgs.outputDir;
+    if (this._connectorArgs.isSnapshot) {
+      return this._connectorArgs.outputDir;
     } else {
       return BriefcaseManager.cacheDir;
     }
   }
 
-  private static parseArguments(args: string[], bridgeJobDef: BridgeJobDefArgs, serverArgs: ServerArgs, bankArgs: IModelBankArgs) {
+  private static parseArguments(args: string[], connectorJobDef: ConnectorJobDefArgs, serverArgs: ServerArgs, bankArgs: IModelBankArgs) {
     for (const line of args) {
       if (!line)
         continue;
@@ -87,20 +87,20 @@ export class BridgeRunner {
         const argFile = keyVal[0].substr(1);
         if (!fs.existsSync(argFile))
           throw new Error("Error file {argFile} does not exist.");
-        BridgeRunner.parseArgumentFile(argFile, bridgeJobDef, serverArgs, bankArgs);
+        ConnectorRunner.parseArgumentFile(argFile, connectorJobDef, serverArgs, bankArgs);
         continue;
       }
       const argName = keyVal[0].trim();
       switch (argName) {
-        case "--fwk-input": bridgeJobDef.sourcePath = keyVal[1].trim(); break;
-        case "--fwk-output": bridgeJobDef.outputDir = keyVal[1].trim(); break;
-        case "--fwk-bridge-library": bridgeJobDef.bridgeModule = keyVal[1].trim(); break;
+        case "--fwk-input": connectorJobDef.sourcePath = keyVal[1].trim(); break;
+        case "--fwk-output": connectorJobDef.outputDir = keyVal[1].trim(); break;
+        case "--fwk-connector-library": connectorJobDef.connectorModule = keyVal[1].trim(); break;
         case "--fwk-create-repository-if-necessary": serverArgs.createiModel = true; break;
         case "--server-repository": serverArgs.iModelName = keyVal[1].trim(); break;
         case "--server-project": serverArgs.contextName = keyVal[1].trim(); break;
         case "--server-project-guid": serverArgs.contextId = keyVal[1].trim(); break;
         case "--server-environment": serverArgs.environment = keyVal[1].trim(); break;
-        case "--snapshot": bridgeJobDef.isSnapshot = true; break;
+        case "--snapshot": connectorJobDef.isSnapshot = true; break;
         case "--server-accessToken": {
           StaticTokenStore.tokenString = fs.readFileSync(keyVal[1]).toString();
           serverArgs.getToken = async (): Promise<AccessToken> => AccessToken.fromTokenString(StaticTokenStore.tokenString);
@@ -110,70 +110,70 @@ export class BridgeRunner {
         case "--imodel-bank-url": bankArgs.url = keyVal[1].trim(); break;
         // TODO: more iModelBank-specific args
 
-        case "--dms-inputFileUrn=": bridgeJobDef.dmsServerUrl = keyVal[1].trim(); break;
-        case "--dms-accessToken=": bridgeJobDef.dmsAccessToken = keyVal[1].trim(); break;
-        case "--dms-documentGuid=": bridgeJobDef.documentGuid = keyVal[1].trim(); break;
+        case "--dms-inputFileUrn=": connectorJobDef.dmsServerUrl = keyVal[1].trim(); break;
+        case "--dms-accessToken=": connectorJobDef.dmsAccessToken = keyVal[1].trim(); break;
+        case "--dms-documentGuid=": connectorJobDef.documentGuid = keyVal[1].trim(); break;
         default:
           /** Unsupported options
            * --fwk-skip-assignment-check
            * --server-user=abeesh.basheer@bentley.com
            * --server-password=ReplaceMe
            */
-          Logger.logError(loggerCategory, `${line} is not supported`);
+          Logger.logError(ConnectorLoggerCategory.Framework, `${line} is not supported`);
       }
     }
 
     // TODO: check that we have serverArgs or bankArgs, or neither, but not both
   }
 
-  private static parseArgumentFile(argFile: string, bridgeJobDef: BridgeJobDefArgs, serverArgs: ServerArgs, bankArgs: IModelBankArgs) {
+  private static parseArgumentFile(argFile: string, connectorJobDef: ConnectorJobDefArgs, serverArgs: ServerArgs, bankArgs: IModelBankArgs) {
     const fileContent = fs.readFileSync(argFile).toString().split("\n");
-    this.parseArguments(fileContent, bridgeJobDef, serverArgs, bankArgs);
+    this.parseArguments(fileContent, connectorJobDef, serverArgs, bankArgs);
   }
 
-  /** Create a new instance of BridgeRunner from command line arguments */
-  public static fromArgs(args: string[]): BridgeRunner {
-    const bridgeJobDef = new BridgeJobDefArgs();
+  /** Create a new instance of ConnectorRunner from command line arguments */
+  public static fromArgs(args: string[]): ConnectorRunner {
+    const connectorJobDef = new ConnectorJobDefArgs();
     const serverArgs = new ServerArgs();
     const bankArgs = new IModelBankArgs();
-    BridgeRunner.parseArguments(args, bridgeJobDef, serverArgs, bankArgs);
+    ConnectorRunner.parseArguments(args, connectorJobDef, serverArgs, bankArgs);
     const sargs = IModelBankUtils.isValidArgs(bankArgs) ? bankArgs : serverArgs;
-    return new BridgeRunner(bridgeJobDef, sargs);
+    return new ConnectorRunner(connectorJobDef, sargs);
   }
 
   /** Create a new instance with the given arguments. */
-  public constructor(jobDefArgs: BridgeJobDefArgs, serverArgs?: ServerArgs | IModelBankArgs) {
+  public constructor(jobDefArgs: ConnectorJobDefArgs, serverArgs?: ServerArgs | IModelBankArgs) {
     // this._ldClient = iModelBridgeLDClient.getInstance(env);
-    this._bridgeArgs = jobDefArgs;
+    this._connectorArgs = jobDefArgs;
     this._serverArgs = serverArgs;
-    if (this._bridgeArgs.isSnapshot && undefined === this._bridgeArgs.outputDir) {
+    if (this._connectorArgs.isSnapshot && undefined === this._connectorArgs.outputDir) {
       throw new Error("Output directory must be defined for snapshot.");
     }
   }
 
   /** Main driver. */
   public async synchronize(): Promise<BentleyStatus> {
-    // If we can't load the bridge, no point in trying anything else;
-    if (this._bridgeArgs.bridgeModule === undefined) {
-      throw new IModelError(IModelStatus.BadArg, "Bridge module undefined", Logger.logError, loggerCategory);
+    // If we can't load the connector, no point in trying anything else;
+    if (this._connectorArgs.connectorModule === undefined) {
+      throw new IModelError(IModelStatus.BadArg, "Connector module undefined", Logger.logError, ConnectorLoggerCategory.Framework);
     }
 
-    if (this._bridgeArgs.sourcePath === undefined) {
+    if (this._connectorArgs.sourcePath === undefined) {
       throw new Error("Source path is not defined");
     }
 
-    await this.loadBridge(this._bridgeArgs.bridgeModule);
-    if (this._bridge === undefined) {
-      throw new IModelError(IModelStatus.BadArg, "Failed to load bridge", Logger.logError, loggerCategory);
+    await this.loadConnector(this._connectorArgs.connectorModule);
+    if (this._connector === undefined) {
+      throw new IModelError(IModelStatus.BadArg, "Failed to load connector", Logger.logError, ConnectorLoggerCategory.Framework);
     }
-    await this._bridge.initialize(this._bridgeArgs);
+    await this._connector.initialize(this._connectorArgs);
 
     let iModelDbBuilder: IModelDbBuilder;
-    if (this._bridgeArgs.isSnapshot) {
-      iModelDbBuilder = new SnapshotDbBuilder(this._bridge, this._bridgeArgs);
+    if (this._connectorArgs.isSnapshot) {
+      iModelDbBuilder = new SnapshotDbBuilder(this._connector, this._connectorArgs);
     } else {
       assert(this._serverArgs !== undefined);
-      iModelDbBuilder = new BriefcaseDbBuilder(this._bridge, this._bridgeArgs, this._serverArgs);
+      iModelDbBuilder = new BriefcaseDbBuilder(this._connector, this._connectorArgs, this._serverArgs);
     }
 
     await iModelDbBuilder.initialize();
@@ -182,12 +182,12 @@ export class BridgeRunner {
 
     await iModelDbBuilder.acquire();
     if (undefined === iModelDbBuilder.imodel || !iModelDbBuilder.imodel.isOpen) {
-      throw new IModelError(IModelStatus.BadModel, "Failed to open imodel", Logger.logError, loggerCategory);
+      throw new IModelError(IModelStatus.BadModel, "Failed to open iModel", Logger.logError, ConnectorLoggerCategory.Framework);
     }
 
     try {
-      await this._bridge.openSourceData(this._bridgeArgs.sourcePath);
-      await this._bridge.onOpenIModel();
+      await this._connector.openSourceData(this._connectorArgs.sourcePath);
+      await this._connector.onOpenIModel();
       await iModelDbBuilder.updateExistingIModel();
     } finally {
       if (iModelDbBuilder.imodel.isBriefcaseDb() || iModelDbBuilder.imodel.isSnapshotDb()) {
@@ -198,11 +198,11 @@ export class BridgeRunner {
     return BentleyStatus.SUCCESS;
   }
 
-  private async loadBridge(bridgeModulePath: string): Promise<boolean> {
+  private async loadConnector(connectorModulePath: string): Promise<boolean> {
     // eslint-disable-next-line @typescript-eslint/no-var-requires
-    const bridgeModule = require(bridgeModulePath); // throws if not found
-    this._bridge = bridgeModule.getBridgeInstance();
-    return null !== this._bridge;
+    const connectorModule = require(connectorModulePath); // throws if not found
+    this._connector = connectorModule.getConnectorInstance();
+    return null !== this._connector;
   }
 
   private initProgressMeter() {
@@ -214,9 +214,9 @@ abstract class IModelDbBuilder {
   protected _jobSubjectName: string;
   protected _jobSubject?: Subject;
 
-  constructor(protected readonly _bridge: IModelBridge, protected readonly _bridgeArgs: BridgeJobDefArgs) {
-    // this._jobSubjectName = this._bridge.getBridgeName() + ":" + this._bridgeArgs.sourcePath!;
-    this._jobSubjectName = this._bridge.getJobSubjectName(this._bridgeArgs.sourcePath!);
+  constructor(protected readonly _connector: ITwinConnector, protected readonly _connectorArgs: ConnectorJobDefArgs) {
+    // this._jobSubjectName = this.connector.getConnectorName() + ":" + this._connectorArgs.sourcePath!;
+    this._jobSubjectName = this._connector.getJobSubjectName(this._connectorArgs.sourcePath!);
   }
 
   public abstract initialize(): Promise<void>;
@@ -229,8 +229,8 @@ abstract class IModelDbBuilder {
 
   protected getRevisionComment(pushComments: string): string {
     let comment = "";
-    if (this._bridgeArgs.revisionComments !== undefined)
-      comment = this._bridgeArgs.revisionComments.substring(0, 400);
+    if (this._connectorArgs.revisionComments !== undefined)
+      comment = this._connectorArgs.revisionComments.substring(0, 400);
     if (comment.length > 0)
       comment = `${comment} - `;
     return comment + pushComments;
@@ -248,13 +248,13 @@ abstract class IModelDbBuilder {
 
   protected insertJobSubject(): Subject {
     assert(this._imodel !== undefined);
-    const bridgeProps: any = {};
-    bridgeProps.BridgeVersion = this._bridge.getApplicationVersion();
-    /// bridgeProps.BridgeType = ???;
+    const connectorProps: any = {};
+    connectorProps.ConnectorVersion = this._connector.getApplicationVersion();
+    /// connectorProps.ConnectorType = ???;
 
     const jobProps: any = {};
-    jobProps.Properties = bridgeProps;
-    jobProps.Bridge = this._bridge.getBridgeName();
+    jobProps.Properties = connectorProps;
+    jobProps.Connector = this._connector.getConnectorName();
     // jobProps.Comments = ???;
 
     const subjProps: any = {};
@@ -284,8 +284,8 @@ abstract class IModelDbBuilder {
   protected abstract _enterChannel(channelRootId: Id64String, lockRoot?: boolean): Promise<void>;
 
   protected detectDeletedElements() {
-    if (this._bridgeArgs.doDetectDeletedElements) {
-      this._bridge.synchronizer.detectDeletedElements();
+    if (this._connectorArgs.doDetectDeletedElements) {
+      this._connector.synchronizer.detectDeletedElements();
     }
   }
 
@@ -300,7 +300,7 @@ abstract class IModelDbBuilder {
   }
 
   public async enterRepositoryChannel(lockRoot: boolean = true) { return this._enterChannel(IModelDb.repositoryModelId, lockRoot); }
-  public async enterBridgeChannel(lockRoot: boolean = true) {
+  public async enterConnectorChannel(lockRoot: boolean = true) {
     assert(this._jobSubject !== undefined);
     return this._enterChannel(this._jobSubject.id, lockRoot);
   }
@@ -323,8 +323,8 @@ class BriefcaseDbBuilder extends IModelDbBuilder {
   private _activityId: GuidString;
   private _serverArgs: ServerArgs | IModelBankArgs;
 
-  constructor(bridge: IModelBridge, bridgeArgs: BridgeJobDefArgs, serverArgs: ServerArgs | IModelBankArgs) {
-    super(bridge, bridgeArgs);
+  constructor(connector: ITwinConnector, connectorArgs: ConnectorJobDefArgs, serverArgs: ServerArgs | IModelBankArgs) {
+    super(connector, connectorArgs);
     this._serverArgs = serverArgs;
     this._activityId = Guid.createValue();
   }
@@ -346,11 +346,11 @@ class BriefcaseDbBuilder extends IModelDbBuilder {
     assert(this._imodel instanceof BriefcaseDb);
     assert(!this._imodel.concurrencyControl.hasPendingRequests);
     assert(this._imodel.concurrencyControl.isBulkMode);
-    assert(!this._imodel.concurrencyControl.locks.hasSchemaLock, "bridgeRunner must release all locks before switching channels");
-    assert(!this._imodel.concurrencyControl.locks.hasCodeSpecsLock, "bridgeRunner must release all locks before switching channels");
+    assert(!this._imodel.concurrencyControl.locks.hasSchemaLock, "ConnectorRunner must release all locks before switching channels");
+    assert(!this._imodel.concurrencyControl.locks.hasCodeSpecsLock, "ConnectorRunner must release all locks before switching channels");
     const currentRoot = this._imodel.concurrencyControl.channel.channelRoot;
     if (currentRoot !== undefined)
-      assert(!this._imodel.concurrencyControl.locks.holdsLock(ConcurrencyControl.Request.getElementLock(currentRoot, LockScope.Exclusive)), "bridgeRunner must release channel locks before switching channels");
+      assert(!this._imodel.concurrencyControl.locks.holdsLock(ConcurrencyControl.Request.getElementLock(currentRoot, LockScope.Exclusive)), "ConnectorRunner must release channel locks before switching channels");
   }
 
   protected async _enterChannel(channelRootId: Id64String, lockRoot: boolean = true) {
@@ -374,18 +374,18 @@ class BriefcaseDbBuilder extends IModelDbBuilder {
 
     this._jobSubject = this.findJob();
     if (undefined !== this._jobSubject) {
-      this._bridge.jobSubject = this._jobSubject;
+      this._connector.jobSubject = this._jobSubject;
     } else {
-      this._jobSubject = this.insertJobSubject();    // this is the first time that this bridge has tried to convert this input file into this iModel
+      this._jobSubject = this.insertJobSubject();    // this is the first time that this connector has tried to convert this input file into this iModel
 
-      await this._saveAndPushChanges("Inserted Bridge Job Subject", ChangesType.GlobalProperties);
+      await this._saveAndPushChanges("Inserted Connector Job Subject", ChangesType.GlobalProperties);
 
-      await this.enterBridgeChannel(); // (also locks the Job Subject)
+      await this.enterConnectorChannel(); // (also locks the Job Subject)
 
-      this._bridge.jobSubject = this._jobSubject;
-      await this._bridge.initializeJob();
+      this._connector.jobSubject = this._jobSubject;
+      await this._connector.initializeJob();
 
-      await this._saveAndPushChanges("Initialized Bridge Job Subject", ChangesType.Regular);
+      await this._saveAndPushChanges("Initialized Connector Job Subject", ChangesType.Regular);
 
       await this.enterRepositoryChannel();
     }
@@ -393,7 +393,7 @@ class BriefcaseDbBuilder extends IModelDbBuilder {
     assert(this._imodel.concurrencyControl.locks.hasSchemaLock);
     assert(briefcaseDb.concurrencyControl.isBulkMode);
 
-    await this._bridge.importDefinitions();
+    await this._connector.importDefinitions();
 
     return this._saveAndPushChanges("Definition changes", ChangesType.Definition);
   }
@@ -407,11 +407,11 @@ class BriefcaseDbBuilder extends IModelDbBuilder {
     await this._saveAndPushChanges("Initialization", ChangesType.Definition); // in case openSourceData or any other preliminary step wrote anything
 
     await this.enterRepositoryChannel();
-    await this._bridge.importDomainSchema(this._requestContext);
+    await this._connector.importDomainSchema(this._requestContext);
     await this._saveAndPushChanges("Schema changes", ChangesType.Schema);
 
     await this.enterRepositoryChannel();
-    await this._bridge.importDynamicSchema(this._requestContext);
+    await this._connector.importDynamicSchema(this._requestContext);
     await this._imodel.concurrencyControl.request(this._requestContext);
     this._imodel.saveChanges();
     return this._saveAndPushChanges("Dynamic schema changes", ChangesType.Schema);
@@ -423,15 +423,15 @@ class BriefcaseDbBuilder extends IModelDbBuilder {
     assert(!this._imodel.concurrencyControl.locks.hasSchemaLock);
     assert(this._imodel.concurrencyControl.isBulkMode);
 
-    await this.enterBridgeChannel();
+    await this.enterConnectorChannel();
     assert(this._imodel.concurrencyControl.channel.isChannelRootLocked);
 
     // WIP: need detectSpatialDataTransformChanged check?
-    await this._bridge.updateExistingData();
+    await this._connector.updateExistingData();
 
     let dataChangesDescription = "Data changes";
-    if (this._bridge.getDataChangesDescription)
-      dataChangesDescription = this._bridge.getDataChangesDescription();
+    if (this._connector.getDataChangesDescription)
+      dataChangesDescription = this._connector.getDataChangesDescription();
 
     return this._saveAndPushChanges(dataChangesDescription, ChangesType.Regular);
   }
@@ -442,15 +442,15 @@ class BriefcaseDbBuilder extends IModelDbBuilder {
     assert(!this._imodel.concurrencyControl.locks.hasSchemaLock);
     assert(this._imodel.concurrencyControl.isBulkMode);
 
-    await this.enterBridgeChannel();
+    await this.enterConnectorChannel();
     assert(this._imodel.concurrencyControl.channel.isChannelRootLocked);
 
     this.detectDeletedElements();
     this.updateProjectExtents();
 
     let dataChangesDescription = "Finalizing changes";
-    if (this._bridge.getDataChangesDescription)
-      dataChangesDescription = this._bridge.getDataChangesDescription();
+    if (this._connector.getDataChangesDescription)
+      dataChangesDescription = this._connector.getDataChangesDescription();
 
     return this._saveAndPushChanges(dataChangesDescription, ChangesType.Regular);
   }
@@ -472,18 +472,18 @@ class BriefcaseDbBuilder extends IModelDbBuilder {
 
   public async initialize() {
     if (undefined === this._serverArgs.getToken) {
-      throw new IModelError(IModelStatus.BadArg, "getToken() undefined", Logger.logError, loggerCategory);
+      throw new IModelError(IModelStatus.BadArg, "getToken() undefined", Logger.logError, ConnectorLoggerCategory.Framework);
     }
 
     const token = await this._serverArgs.getToken();
-    this._requestContext = new AuthorizedClientRequestContext(token, this._activityId, this._bridge.getApplicationId(), this._bridge.getApplicationVersion());
+    this._requestContext = new AuthorizedClientRequestContext(token, this._activityId, this._connector.getApplicationId(), this._connector.getApplicationVersion());
     if (this._requestContext === undefined) {
-      throw new IModelError(IModelStatus.BadRequest, "Failed to instantiate AuthorizedClientRequestContext", Logger.logError, loggerCategory);
+      throw new IModelError(IModelStatus.BadRequest, "Failed to instantiate AuthorizedClientRequestContext", Logger.logError, ConnectorLoggerCategory.Framework);
     }
     assert(this._serverArgs.contextId !== undefined);
     UsageLoggingUtilities.postUserUsage(this._requestContext, this._serverArgs.contextId, IModelJsNative.AuthType.OIDC, os.hostname(), IModelJsNative.UsageType.Trial)
       .catch((err) => {
-        Logger.logError(loggerCategory, `Could not log user usage for bridge`, () => ({ errorStatus: err.status, errorMessage: err.message }));
+        Logger.logError(ConnectorLoggerCategory.Framework, `Could not log user usage for connector`, () => ({ errorStatus: err.status, errorMessage: err.message }));
       });
   }
 
@@ -503,28 +503,28 @@ class BriefcaseDbBuilder extends IModelDbBuilder {
     if (this._serverArgs.iModelId === undefined)
       throw new Error("Must initialize IModelId before using");
     let props: LocalBriefcaseProps;
-    if (this._bridgeArgs.argsJson && this._bridgeArgs.argsJson.briefcaseId) {
-      props = await BriefcaseManager.downloadBriefcase(this._requestContext, { briefcaseId: this._bridgeArgs.argsJson.briefcaseId, contextId: this._serverArgs.contextId, iModelId: this._serverArgs.iModelId });
+    if (this._connectorArgs.argsJson && this._connectorArgs.argsJson.briefcaseId) {
+      props = await BriefcaseManager.downloadBriefcase(this._requestContext, { briefcaseId: this._connectorArgs.argsJson.briefcaseId, contextId: this._serverArgs.contextId, iModelId: this._serverArgs.iModelId });
     } else {
       props = await BriefcaseManager.downloadBriefcase(this._requestContext, { contextId: this._serverArgs.contextId, iModelId: this._serverArgs.iModelId });
-      if (this._bridgeArgs.argsJson) {
-        this._bridgeArgs.argsJson.briefcaseId = props.briefcaseId; // don't overwrite other arguments if anything is passed in
+      if (this._connectorArgs.argsJson) {
+        this._connectorArgs.argsJson.briefcaseId = props.briefcaseId; // don't overwrite other arguments if anything is passed in
       } else {
-        this._bridgeArgs.argsJson = { briefcaseId: props.briefcaseId };
+        this._connectorArgs.argsJson = { briefcaseId: props.briefcaseId };
       }
     }
     let briefcaseDb: BriefcaseDb | undefined;
     const openArgs: OpenBriefcaseProps = {
       fileName: props.fileName,
     };
-    if (this._bridgeArgs.updateDbProfile || this._bridgeArgs.updateDomainSchemas)
+    if (this._connectorArgs.updateDbProfile || this._connectorArgs.updateDomainSchemas)
       await BriefcaseDb.upgradeSchemas(this._requestContext, props);
     if (briefcaseDb === undefined || !briefcaseDb.isOpen)
       briefcaseDb = await BriefcaseDb.open(this._requestContext, openArgs);
 
     this._imodel = briefcaseDb;
-    const synchronizer = new Synchronizer(briefcaseDb, this._bridge.supportsMultipleFilesPerChannel(), this._requestContext);
-    this._bridge.synchronizer = synchronizer;
+    const synchronizer = new Synchronizer(briefcaseDb, this._connector.supportsMultipleFilesPerChannel(), this._requestContext);
+    this._connector.synchronizer = synchronizer;
 
     briefcaseDb.concurrencyControl.startBulkMode(); // We will run in bulk mode the whole time.
   }
@@ -535,18 +535,18 @@ class SnapshotDbBuilder extends IModelDbBuilder {
   }
 
   public async acquire(): Promise<void> {
-    const fileName = `${path.basename(this._bridgeArgs.sourcePath!, path.extname(this._bridgeArgs.sourcePath!))}.bim`;
-    const filePath = path.join(this._bridgeArgs.outputDir!, fileName);
+    const fileName = `${path.basename(this._connectorArgs.sourcePath!, path.extname(this._connectorArgs.sourcePath!))}.bim`;
+    const filePath = path.join(this._connectorArgs.outputDir!, fileName);
     if (IModelJsFs.existsSync(filePath)) {
       IModelJsFs.unlinkSync(filePath);
     }
-    this._imodel = SnapshotDb.createEmpty(filePath, { rootSubject: { name: this._bridge.getBridgeName() } });
+    this._imodel = SnapshotDb.createEmpty(filePath, { rootSubject: { name: this._connector.getConnectorName() } });
     if (undefined === this._imodel) {
-      throw new IModelError(IModelStatus.BadModel, `Unable to create empty SnapshotDb at ${filePath}`, Logger.logError, loggerCategory);
+      throw new IModelError(IModelStatus.BadModel, `Unable to create empty SnapshotDb at ${filePath}`, Logger.logError, ConnectorLoggerCategory.Framework);
     }
 
-    const synchronizer = new Synchronizer(this._imodel, this._bridge.supportsMultipleFilesPerChannel());
-    this._bridge.synchronizer = synchronizer;
+    const synchronizer = new Synchronizer(this._imodel, this._connector.supportsMultipleFilesPerChannel());
+    this._connector.synchronizer = synchronizer;
   }
 
   protected async _enterChannel(channelRootId: Id64String, _lockRoot?: boolean): Promise<void> {
@@ -557,27 +557,27 @@ class SnapshotDbBuilder extends IModelDbBuilder {
     assert(this._imodel !== undefined);
     this._jobSubject = this.findJob();
     if (undefined !== this._jobSubject) {
-      this._bridge.jobSubject = this._jobSubject;
+      this._connector.jobSubject = this._jobSubject;
     } else {
-      this._jobSubject = this.insertJobSubject();    // this is the first time that this bridge has tried to convert this input file into this iModel
-      this._bridge.jobSubject = this._jobSubject;
-      await this._bridge.initializeJob();
+      this._jobSubject = this.insertJobSubject();    // this is the first time that this connector has tried to convert this input file into this iModel
+      this._connector.jobSubject = this._jobSubject;
+      await this._connector.initializeJob();
     }
 
-    await this._bridge.importDefinitions();
+    await this._connector.importDefinitions();
     this._imodel.saveChanges();
   }
 
   protected async _initDomainSchema() {
     assert(this._imodel !== undefined);
-    await this._bridge.importDomainSchema(new BackendRequestContext());
-    await this._bridge.importDynamicSchema(new BackendRequestContext());
+    await this._connector.importDomainSchema(new BackendRequestContext());
+    await this._connector.importDynamicSchema(new BackendRequestContext());
     this._imodel.saveChanges();
   }
 
   protected async _updateExistingData() {
     assert(this._imodel !== undefined);
-    await this._bridge.updateExistingData();
+    await this._connector.updateExistingData();
     this._imodel.saveChanges();
   }
 

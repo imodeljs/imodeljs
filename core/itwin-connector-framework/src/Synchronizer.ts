@@ -7,12 +7,10 @@
  */
 import { BriefcaseDb, ECSqlStatement, Element, ElementOwnsChildElements, ExternalSourceAspect, IModelDb, RepositoryLink } from "@bentley/imodeljs-backend";
 import { AuthorizedClientRequestContext } from "@bentley/itwin-client";
-import { DbOpcode, DbResult, Guid, GuidString, Id64, Id64String, IModelStatus, Logger } from "@bentley/bentleyjs-core";
+import { assert, DbOpcode, DbResult, Guid, GuidString, Id64, Id64String, IModelStatus, Logger } from "@bentley/bentleyjs-core";
 import { Code, ExternalSourceAspectProps, IModel, IModelError, RelatedElement, RepositoryLinkProps } from "@bentley/imodeljs-common";
-import { BridgeLoggerCategory } from "./BridgeLoggerCategory";
-import { assert } from "console";
+import { ConnectorLoggerCategory } from "./ConnectorLoggerCategory";
 
-const loggerCategory: string = BridgeLoggerCategory.Framework;
 /** The state of the given SourceItem against the iModelDb
  * @beta
  */
@@ -25,12 +23,14 @@ export enum ItemState {
   Changed,
 }
 
+/** @beta */
 export interface ChangeResults {
-  /** Id of the item, if it currently exists in the imodel */
+  /** Id of the item, if it currently exists in the iModel */
   id?: Id64String;
   /** State of the item */
   state: ItemState;
 }
+
 /** Interface for presenting an item in the source repository
  * @beta
  */
@@ -48,7 +48,9 @@ export interface SourceItem {
   checksum?: string;
 }
 
-/** Properties that may be assigned to a document by its home document control system */
+/** Properties that may be assigned to a document by its home document control system
+ * @beta
+ */
 export interface DocumentProperties {
   /** The GUID assigned to the document */
   docGuid?: string;
@@ -64,6 +66,7 @@ export interface DocumentProperties {
   changeHistoryJson?: string;
 }
 
+/** @beta */
 export interface SynchronizationResults {
   /** The element being synchronized */
   element: Element;
@@ -72,6 +75,7 @@ export interface SynchronizationResults {
   /** The state of the element */
   itemState: ItemState;
 }
+
 /** Helper class for interacting with the iModelDb during synchronization.
  * @beta
  */
@@ -83,7 +87,7 @@ export class Synchronizer {
   public constructor(public readonly imodel: IModelDb, private _supportsMultipleFilesPerChannel: boolean, protected _requestContext?: AuthorizedClientRequestContext) {
     if (imodel.isBriefcaseDb() && undefined === _requestContext) {
 
-      throw new IModelError(IModelStatus.BadArg, "RequestContext must be set when working with a BriefcaseDb", Logger.logError, loggerCategory);
+      throw new IModelError(IModelStatus.BadArg, "RequestContext must be set when working with a BriefcaseDb", Logger.logError, ConnectorLoggerCategory.Framework);
     }
   }
 
@@ -111,7 +115,7 @@ export class Synchronizer {
     };
 
     if (undefined === results.element) {
-      throw new IModelError(IModelStatus.BadElement, `Failed to create repositoryLink for ${knownUrn}`, Logger.logError, loggerCategory);
+      throw new IModelError(IModelStatus.BadElement, `Failed to create repositoryLink for ${knownUrn}`, Logger.logError, ConnectorLoggerCategory.Framework);
     }
 
     const itemState = this.detectChanges(scope, kind, sourceItem).state;
@@ -119,7 +123,7 @@ export class Synchronizer {
       const error = `A RepositoryLink element with code=${repositoryLink.code} and id=${repositoryLink.id} already exists in the bim file.
       However, no ExternalSourceAspect with scope=${scope} and kind=${kind} was found for this element.
       Maybe RecordDocument was previously called on this file with a different scope or kind.`;
-      throw new IModelError(IModelStatus.NotFound, error, Logger.logError, loggerCategory);
+      throw new IModelError(IModelStatus.NotFound, error, Logger.logError, ConnectorLoggerCategory.Framework);
     }
 
     results.itemState = itemState;
@@ -311,7 +315,7 @@ export class Synchronizer {
   }
 
   private detectDeletedElementsInChannel() {
-    // This detection only is called for bridges that support a single source file per channel. If we skipped that file because it was unchanged, then we don't need to delete anything
+    // This detection only is called for connectors that support a single source file per channel. If we skipped that file because it was unchanged, then we don't need to delete anything
     if (this._unchangedSources.length !== 0) {
       return;
     }
@@ -367,7 +371,7 @@ export class Synchronizer {
     if (existing.classFullName !== results.element.classFullName) {
       const error = `Attempt to change element's class in an update operation. Do delete + add instead. ElementId ${results.element.id},
       old class=${existing.classFullName}, new class=${results.element.classFullName}`;
-      Logger.logError(loggerCategory, error);
+      Logger.logError(ConnectorLoggerCategory.Framework, error);
       return IModelStatus.WrongClass;
     }
 
@@ -383,7 +387,7 @@ export class Synchronizer {
     }
     if (!Id64.isValidId64(results.element.id)) {
       const error = `Parent element id is invalid.  Unable to update the children.`;
-      Logger.logError(loggerCategory, error);
+      Logger.logError(ConnectorLoggerCategory.Framework, error);
       return IModelStatus.BadArg;
     }
     results.childElements.forEach((child) => {
