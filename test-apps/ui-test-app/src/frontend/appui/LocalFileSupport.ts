@@ -49,7 +49,8 @@ export class LocalFileSupport {
         }
       }
     } else {
-      filePath = `${SampleAppIModelApp.testAppConfiguration?.snapshotPath}/${fileSpec}`;
+      const separator = SampleAppIModelApp.testAppConfiguration?.snapshotPath?.endsWith("/") ? "" : "/";
+      filePath = `${SampleAppIModelApp.testAppConfiguration?.snapshotPath}${separator}${fileSpec}`;
       Logger.logInfo(SampleAppIModelApp.loggerCategory(LocalFileSupport), `openLocalFile: Opening snapshot. path=${filePath}`);
       try {
         iModelConnection = await SnapshotConnection.openFile(filePath);
