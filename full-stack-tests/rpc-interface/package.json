@@ -58,7 +58,7 @@
     "dotenv-expand": "^5.1.0",
     "mocha": "^8.3.2",
     "openid-client": "^3.15.3",
-    "puppeteer": "chrome-86"
+    "puppeteer": "^9.0.0"
   },
   "devDependencies": {
     "@bentley/express-server": "workspace:*",
@@ -69,7 +69,6 @@
     "@types/dotenv": "^6.1.1",
     "@types/mocha": "^8.2.2",
     "@types/node": "10.14.1",
-    "@types/puppeteer": "2.0.1",
     "cpx": "^1.5.0",
     "eslint": "^6.8.0",
     "internal-tools": "workspace:*",

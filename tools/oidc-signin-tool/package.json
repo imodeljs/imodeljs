@@ -37,7 +37,7 @@
     "@bentley/frontend-authorization-client": "workspace:*",
     "@bentley/itwin-client": "workspace:*",
     "openid-client": "^3.15.3",
-    "puppeteer": "chrome-86"
+    "puppeteer": "^9.0.0"
   },
   "devDependencies": {
     "@bentley/build-tools": "workspace:*",
@@ -46,7 +46,6 @@
     "@types/chai-as-promised": "^7",
     "@types/mocha": "^8.2.2",
     "@types/node": "10.14.1",
-    "@types/puppeteer": "2.0.1",
     "chai": "^4.1.2",
     "chai-as-promised": "^7",
     "eslint": "^6.8.0",

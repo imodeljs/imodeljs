@@ -2448,7 +2448,6 @@ importers:
       '@types/dotenv': ^6.1.1
       '@types/mocha': ^8.2.2
       '@types/node': 10.14.1
-      '@types/puppeteer': 2.0.1
       chai: ^4.1.2
       chai-as-promised: ^7
       cpx: ^1.5.0
@@ -2459,7 +2458,7 @@ importers:
       npm-run-all: ^4.1.5
       null-loader: ^0.1.1
       openid-client: ^3.15.3
-      puppeteer: chrome-86
+      puppeteer: ^9.0.0
       rimraf: ^3.0.2
       source-map-loader: ^1.0.0
       typescript: ~4.1.0
@@ -2490,7 +2489,7 @@ importers:
       dotenv-expand: 5.1.0
       mocha: 8.4.0
       openid-client: 3.15.10
-      puppeteer: 5.3.1
+      puppeteer: 9.1.1
     devDependencies:
       '@bentley/eslint-plugin': link:../../tools/eslint-plugin
       '@bentley/express-server': link:../../core/express-server
@@ -2500,7 +2499,6 @@ importers:
       '@types/dotenv': 6.1.1
       '@types/mocha': 8.2.2
       '@types/node': 10.14.1
-      '@types/puppeteer': 2.0.1
       cpx: 1.5.0
       eslint: 6.8.0
       npm-run-all: 4.1.5
@@ -2871,7 +2869,6 @@ importers:
       '@types/dotenv': ^6.1.1
       '@types/mocha': ^8.2.2
       '@types/node': 10.14.1
-      '@types/puppeteer': 2.0.1
       chai: ^4.1.2
       chai-as-promised: ^7
       cpx: ^1.5.0
@@ -2883,7 +2880,7 @@ importers:
       npm-run-all: ^4.1.5
       null-loader: ^0.1.1
       openid-client: ^3.15.3
-      puppeteer: chrome-86
+      puppeteer: ^9.0.0
       rimraf: ^3.0.2
       source-map-loader: ^1.0.0
       typescript: ~4.1.0
@@ -2914,7 +2911,7 @@ importers:
       dotenv-expand: 5.1.0
       mocha: 8.4.0
       openid-client: 3.15.10
-      puppeteer: 5.3.1
+      puppeteer: 9.1.1
     devDependencies:
       '@bentley/express-server': link:../../core/express-server
       '@bentley/imodeljs-backend': link:../../core/backend
@@ -2924,7 +2921,6 @@ importers:
       '@types/dotenv': 6.1.1
       '@types/mocha': 8.2.2
       '@types/node': 10.14.1
-      '@types/puppeteer': 2.0.1
       cpx: 1.5.0
       eslint: 6.8.0
       internal-tools: link:../../tools/internal
@@ -4302,7 +4298,6 @@ importers:
       '@types/lodash': ^4.14.0
       '@types/mocha': ^8.2.2
       '@types/node': 10.14.1
-      '@types/puppeteer': 2.0.1
       '@types/uuid': ^7.0.2
       '@types/yargs': ^12.0.5
       detect-port: ~1.3.0
@@ -4313,7 +4308,7 @@ importers:
       lodash: ^4.17.10
       mocha: ^8.3.2
       nyc: ^15.1.0
-      puppeteer: chrome-86
+      puppeteer: ^9.0.0
       rimraf: ^3.0.2
       source-map-support: ^0.5.6
       typescript: ~4.1.0
@@ -4325,7 +4320,7 @@ importers:
       jsonc-parser: 2.0.3
       lodash: 4.17.21
       mocha: 8.4.0
-      puppeteer: 5.3.1
+      puppeteer: 9.1.1
       source-map-support: 0.5.19
       uuid: 7.0.3
       yargs: 16.2.0
@@ -4338,7 +4333,6 @@ importers:
       '@types/lodash': 4.14.170
       '@types/mocha': 8.2.2
       '@types/node': 10.14.1
-      '@types/puppeteer': 2.0.1
       '@types/uuid': 7.0.4
       '@types/yargs': 12.0.19
       electron: 11.4.9
@@ -4650,14 +4644,13 @@ importers:
       '@types/chai-as-promised': ^7
       '@types/mocha': ^8.2.2
       '@types/node': 10.14.1
-      '@types/puppeteer': 2.0.1
       chai: ^4.1.2
       chai-as-promised: ^7
       eslint: ^6.8.0
       internal-tools: workspace:*
       mocha: ^8.3.2
       openid-client: ^3.15.3
-      puppeteer: chrome-86
+      puppeteer: ^9.0.0
       rimraf: ^3.0.2
       typescript: ~4.1.0
     dependencies:
@@ -4667,7 +4660,7 @@ importers:
       '@bentley/frontend-authorization-client': link:../../clients/frontend-authorization
       '@bentley/itwin-client': link:../../clients/itwin
       openid-client: 3.15.10
-      puppeteer: 5.3.1
+      puppeteer: 9.1.1
     devDependencies:
       '@bentley/build-tools': link:../build
       '@bentley/eslint-plugin': link:../eslint-plugin
@@ -4675,7 +4668,6 @@ importers:
       '@types/chai-as-promised': 7.1.4
       '@types/mocha': 8.2.2
       '@types/node': 10.14.1
-      '@types/puppeteer': 2.0.1
       chai: 4.3.4
       chai-as-promised: 7.1.1_chai@4.3.4
       eslint: 6.8.0
@@ -8689,12 +8681,6 @@ packages:
       '@types/retry': 0.12.0
     dev: true
 
-  /@types/puppeteer/2.0.1:
-    resolution: {integrity: sha512-G8vEyU83Bios+dzs+DZGpAirDmMqRhfFBJCkFrg+A5+6n5EPPHxwBLImJto3qjh0mrBXbLBCyuahhhtTrAfR5g==}
-    dependencies:
-      '@types/node': 10.14.1
-    dev: true
-
   /@types/q/1.5.4:
     resolution: {integrity: sha512-1HcDas8SEj4z1Wc696tH56G8OlRaH/sqZOynNNB+HF0WOeXPaxTtbYzJY2oEfiUxjSKjhCKr+MvR7dCHcEelug==}
 
@@ -9457,11 +9443,6 @@ packages:
     dependencies:
       loader-utils: 2.0.0
       regex-parser: 2.2.11
-
-  /agent-base/5.1.1:
-    resolution: {integrity: sha512-TMeqbNl2fMW0nMjTEPOwe3J/PRFP4vqeoNuQMG0HlMrtm5QxKqdvAkZ1pRBQ/ulIyDD5Yq0nJ7YbdD8ey0TO3g==}
-    engines: {node: '>= 6.0.0'}
-    dev: false
 
   /agent-base/6.0.2:
     resolution: {integrity: sha512-RZNwNclF7+MS/8bDg70amg32dyeZGZxiDuQmZxKLAlQjr3jGyLx+4Kkk58UO7D2QdgFIQCovuSuZESne6RG6XQ==}
@@ -12107,8 +12088,8 @@ packages:
       debug: 2.6.9
     dev: false
 
-  /devtools-protocol/0.0.799653:
-    resolution: {integrity: sha512-t1CcaZbvm8pOlikqrsIM9GOa7Ipp07+4h/q9u0JXBWjPCjHdBl9KkddX87Vv9vBHoBGtwV79sYQNGnQM6iS5gg==}
+  /devtools-protocol/0.0.869402:
+    resolution: {integrity: sha512-VvlVYY+VDJe639yHs5PHISzdWTLL3Aw8rO4cvUtwvoxFd6FHbE4OpHHcde52M6096uYYazAmd4l0o5VuFRO2WA==}
     dev: false
 
   /diagnostic-channel-publishers/0.4.4_diagnostic-channel@0.3.1:
@@ -14505,16 +14486,6 @@ packages:
 
   /https-browserify/1.0.0:
     resolution: {integrity: sha1-7AbBDgo0wPL68Zn3/X/Hj//QPHM=}
-
-  /https-proxy-agent/4.0.0:
-    resolution: {integrity: sha512-zoDhWrkR3of1l9QAL8/scJZyLu8j/gBkcwcaQOZh7Gyh/+uJQzGVETdgT30akuwkpL8HTRfssqI3BZuV18teDg==}
-    engines: {node: '>= 6.0.0'}
-    dependencies:
-      agent-base: 5.1.1
-      debug: 4.3.1
-    transitivePeerDependencies:
-      - supports-color
-    dev: false
 
   /https-proxy-agent/5.0.0:
     resolution: {integrity: sha512-EkYm5BcKUGiduxzSt3Eppko+PiNWNEpa4ySk9vTC6wDsQJW9rHSa+UhGNJoRYp7bz6Ht1eaRIa6QaJqO5rCFbA==}
@@ -18926,15 +18897,16 @@ packages:
       escape-goat: 2.1.1
     dev: false
 
-  /puppeteer/5.3.1:
-    resolution: {integrity: sha512-YTM1RaBeYrj6n7IlRXRYLqJHF+GM7tasbvrNFx6w1S16G76NrPq7oYFKLDO+BQsXNtS8kW2GxWCXjIMPvfDyaQ==}
+  /puppeteer/9.1.1:
+    resolution: {integrity: sha512-W+nOulP2tYd/ZG99WuZC/I5ljjQQ7EUw/jQGcIb9eu8mDlZxNY2SgcJXTLG9h5gRvqA3uJOe4hZXYsd3EqioMw==}
     engines: {node: '>=10.18.1'}
     requiresBuild: true
     dependencies:
       debug: 4.3.1
-      devtools-protocol: 0.0.799653
+      devtools-protocol: 0.0.869402
       extract-zip: 2.0.1
-      https-proxy-agent: 4.0.0
+      https-proxy-agent: 5.0.0
+      node-fetch: 2.6.1
       pkg-dir: 4.2.0
       progress: 2.0.3
       proxy-from-env: 1.1.0

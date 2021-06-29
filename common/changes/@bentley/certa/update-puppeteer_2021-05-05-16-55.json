@@ -1,0 +1,11 @@
+{
+  "changes": [
+    {
+      "packageName": "@bentley/certa",
+      "comment": "Update puppeteer",
+      "type": "none"
+    }
+  ],
+  "packageName": "@bentley/certa",
+  "email": "31107829+calebmshafer@users.noreply.github.com"
+}

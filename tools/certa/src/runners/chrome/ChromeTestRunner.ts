@@ -86,7 +86,7 @@ async function runTestsInPuppeteer(config: CertaConfig, port: string) {
       // Expose some functions to the frontend that will execute _in the backend context_
       await page.exposeFunction("_CertaConsole", (type: ConsoleMethodName, args: any[]) => console[type](...args));
       await page.exposeFunction("_CertaSendToBackend", executeRegisteredCallback);
-      await page.exposeFunction("_CertaReportResults", (results) => {
+      await page.exposeFunction("_CertaReportResults", (results: any) => {
         setTimeout(async () => {
           await browser.close();
           resolve(results);

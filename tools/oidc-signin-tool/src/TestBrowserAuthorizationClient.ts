@@ -132,7 +132,7 @@ export class TestBrowserAuthorizationClient implements FrontendAuthorizationClie
     const authorizationUrl = this._client.authorizationUrl(authParams);
 
     // Launch puppeteer with no sandbox only on linux
-    let launchOptions: puppeteer.LaunchOptions = { dumpio: true }; // , headless: false, slowMo: 500 };
+    let launchOptions: puppeteer.BrowserLaunchArgumentOptions & puppeteer.LaunchOptions = { dumpio: true }; // , headless: false, slowMo: 500 };
     if (os.platform() === "linux") {
       launchOptions = {
         args: ["--no-sandbox"], // , "--disable-setuid-sandbox"],
@@ -140,7 +140,7 @@ export class TestBrowserAuthorizationClient implements FrontendAuthorizationClie
     }
 
     const proxyUrl = process.env.HTTPS_PROXY;
-    let proxyAuthOptions: puppeteer.AuthOptions | undefined;
+    let proxyAuthOptions: puppeteer.Credentials | undefined;
     if (proxyUrl) {
       const proxyUrlObj = new URL(proxyUrl);
       proxyAuthOptions = { username: proxyUrlObj.username, password: proxyUrlObj.password };

@@ -152,6 +152,46 @@
       ]
     },
     { /* PARTIAL */
+      "name": "[NODE] Certa Test Runner for WebGL Compatibility Tests",
+      "presentation": {
+        "hidden": true
+      },
+      "cwd": "${workspaceFolder}/core/webgl-compatibility/",
+      "type": "pwa-node",
+      "request": "launch",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": [
+        "run",
+        "test:debug"
+      ],
+      "outFiles": [
+        "${workspaceFolder}/{core,clients}/*/lib/**/*.js",
+        "${workspaceFolder}/ui/abstract/lib/**/*.js"
+      ],
+      "outputCapture": "std",
+      "attachSimplePort": 5858, // NB: This must match ports.debugging in core/webgl-compatibility/certa.json
+      "cascadeTerminateToConfigurations": [
+        "[BROWSER] WebGL Compatibility Tests"
+      ]
+    },
+    { /* PARTIAL */
+      "name": "[BROWSER] WebGL Compatibility Tests",
+      "presentation": {
+        "hidden": true
+      },
+      "type": "pwa-chrome",
+      "request": "attach",
+      "port": 9223, // NB: This must match ports.frontendDebugging in core/webgl-compatibility/certa.json
+      "timeout": 20000,
+      "outFiles": [
+        "${workspaceFolder}/{core,clients}/*/lib/**/*.js",
+        "${workspaceFolder}/ui/abstract/lib/**/*.js"
+      ],
+      "cascadeTerminateToConfigurations": [
+        "[NODE] Certa Test Runner for WebGL Compatibility Tests"
+      ]
+    },
+    { /* PARTIAL */
       "name": "[NODE] Certa Test Runner for Frontend Tests",
       "presentation": {
         "hidden": true
@@ -1669,6 +1709,17 @@
       "configurations": [
         "[BROWSER] Markup Tests",
         "[NODE] Certa Test Runner for Markup Tests"
+      ]
+    },
+    {
+      "name": "WebGL Compatibility Tests",
+      "presentation": {
+        "group": "0_CoreTests",
+        "order": 7
+      },
+      "configurations": [
+        "[BROWSER] WebGL Compatibility Tests",
+        "[NODE] Certa Test Runner for WebGL Compatibility Tests"
       ]
     },
     {

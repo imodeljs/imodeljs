@@ -36,7 +36,7 @@
     "jsonc-parser": "~2.0.3",
     "lodash": "^4.17.10",
     "mocha": "^8.3.2",
-    "puppeteer": "chrome-86",
+    "puppeteer": "^9.0.0",
     "source-map-support": "^0.5.6",
     "uuid": "^7.0.3",
     "yargs": "^16.0.0"
@@ -50,7 +50,6 @@
     "@types/lodash": "^4.14.0",
     "@types/mocha": "^8.2.2",
     "@types/node": "10.14.1",
-    "@types/puppeteer": "2.0.1",
     "@types/uuid": "^7.0.2",
     "@types/yargs": "^12.0.5",
     "electron": "^11.1.0",
