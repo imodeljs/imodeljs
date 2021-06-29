@@ -5336,6 +5336,7 @@ importers:
       '@types/mocha': ^8.2.2
       '@types/react': 16.9.43
       '@types/react-dom': ^16.8.0
+      '@types/react-transition-group': ^4.4.1
       '@types/sinon': ^9.0.0
       '@types/testing-library__react-hooks': ^3.1.0
       '@types/uuid': ^7.0.2
@@ -5358,6 +5359,7 @@ importers:
       raf: ^3.4.0
       react: ^16.8.0
       react-dom: ^16.8.0
+      react-transition-group: ^4.4.1
       rimraf: ^3.0.2
       sinon: ^9.0.2
       sinon-chai: ^3.2.0
@@ -5369,6 +5371,7 @@ importers:
     dependencies:
       classnames: 2.3.1
       immer: 9.0.3
+      react-transition-group: 4.4.2_react-dom@16.14.0+react@16.14.0
       svg-sprite-loader: 4.2.1
       uuid: 7.0.3
     devDependencies:
@@ -5388,6 +5391,7 @@ importers:
       '@types/mocha': 8.2.2
       '@types/react': 16.9.43
       '@types/react-dom': 16.9.13
+      '@types/react-transition-group': 4.4.1
       '@types/sinon': 9.0.11
       '@types/testing-library__react-hooks': 3.4.1
       '@types/uuid': 7.0.4

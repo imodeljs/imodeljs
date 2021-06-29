@@ -18,7 +18,6 @@ import { WidgetContentContainer } from "./ContentContainer";
 import { WidgetTabBar } from "./TabBar";
 import { Widget, WidgetProvider, WidgetStateContext } from "./Widget";
 import { PointerCaptorArgs, usePointerCaptor } from "../base/PointerCaptor";
-import { CssProperties } from "../utilities/Css";
 
 type FloatingWidgetEdgeHandle = "left" | "right" | "top" | "bottom";
 type FloatingWidgetCornerHandle = "topLeft" | "topRight" | "bottomLeft" | "bottomRight";
@@ -30,25 +29,18 @@ export type FloatingWidgetResizeHandle = FloatingWidgetEdgeHandle | FloatingWidg
 export interface FloatingWidgetProps {
   floatingWidget: FloatingWidgetState;
   widget: WidgetState;
+  defaultStyle?: React.CSSProperties;
+  transitionStyle?: React.CSSProperties;
 }
 
 /** @internal */
 export const FloatingWidget = React.memo<FloatingWidgetProps>(function FloatingWidget(props) { // eslint-disable-line @typescript-eslint/naming-convention, no-shadow
-  const { id, bounds } = props.floatingWidget;
+  const { id, animateTransition } = props.floatingWidget;
   const { minimized } = props.widget;
-  const style = React.useMemo(() => {
-    const boundsRect = Rectangle.create(bounds);
-    const { height, width } = boundsRect.getSize();
-    const position = boundsRect.topLeft();
-    return {
-      ...CssProperties.transformFromPosition(position),
-      height: minimized ? undefined : height,
-      width,
-    };
-  }, [bounds, minimized]);
   const className = React.useMemo(() => classnames(
     minimized && "nz-minimized",
   ), [minimized]);
+  const widgetStyle = animateTransition ? props.transitionStyle : props.defaultStyle;
   return (
     <FloatingWidgetIdContext.Provider value={id}>
       <FloatingWidgetContext.Provider value={props.floatingWidget}>
@@ -57,7 +49,7 @@ export const FloatingWidget = React.memo<FloatingWidgetProps>(function FloatingW
         >
           <FloatingWidgetComponent
             className={className}
-            style={style}
+            style={widgetStyle}
           />
         </WidgetProvider>
       </FloatingWidgetContext.Provider>

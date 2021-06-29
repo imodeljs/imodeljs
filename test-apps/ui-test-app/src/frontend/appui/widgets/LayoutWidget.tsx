@@ -7,7 +7,7 @@ import {
   FrontstageManager, StagePanelState, useActiveFrontstageDef,
 } from "@bentley/ui-framework";
 import { SpecialKey, StagePanelLocation, WidgetState } from "@bentley/ui-abstract";
-import { Button, ButtonType, Input, NumberInput, Select } from "@bentley/ui-core";
+import { Button, ButtonType, Checkbox, Input, NumberInput, Select } from "@bentley/ui-core";
 
 function usePanelDef(location: StagePanelLocation) {
   const frontstageDef = useActiveFrontstageDef();
@@ -207,17 +207,22 @@ function WidgetInfo({
     });
   }, [frontstageDef, id]);
 
-  const handleDockClick = React.useCallback(() => {
+  const [animate, setAnimate] = React.useState (false);
+
+  const handleAnimateChange = (e: React.ChangeEvent<HTMLInputElement>) =>{
+    setAnimate(e.target.checked);
+  };
+
+  const handleDockClick = React.useCallback(()=>{
     frontstageDef!.dockWidgetContainer(id);
   }, [frontstageDef, id]);
 
   const [xPos, setXPos] = React.useState(50);
   const [yPos, setYPos] = React.useState(100);
 
-  const handleFloatClick = React.useCallback(() => {
-    frontstageDef!.floatWidget(id, { x: xPos, y: yPos });
-  }, [frontstageDef, id, xPos, yPos]);
-
+  const handleFloatClick = React.useCallback(()=>{
+    frontstageDef!.floatWidget(id, {x:xPos, y:yPos}, undefined, animate );
+  }, [frontstageDef, id, xPos, yPos, animate]);
   const handlePopoutClick = React.useCallback(() => {
     frontstageDef!.popoutWidget(id, { x: xPos, y: yPos });
   }, [frontstageDef, id, xPos, yPos]);
@@ -246,6 +251,8 @@ function WidgetInfo({
           <NumberInput style={{ width: "60px" }} disabled={isFloating} value={yPos} step={5} onChange={handleYChanged} />
         </div>
         <Button buttonType={ButtonType.Hollow} disabled={isFloating} onClick={handleFloatClick} >Float</Button>
+        <span className={"uicore-label"}>Animate dock and undock</span>
+        <Checkbox onChange={handleAnimateChange} checked={animate}/>
         <Button buttonType={ButtonType.Hollow} disabled={isPopout || !widgetDef?.canPopout} onClick={handlePopoutClick} >Pop Out</Button>
       </div>
       <Button buttonType={ButtonType.Hollow} disabled={!(isFloating || isPopout)} onClick={handleDockClick} >Dock</Button>

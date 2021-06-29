@@ -29,7 +29,7 @@ describe("SendBack", () => {
     const button = container.getElementsByClassName("nz-widget-sendBack")[0];
     fireEvent.click(button);
 
-    dispatch.calledOnceWithExactly({
+    dispatch.calledWithExactly({
       type: "FLOATING_WIDGET_SEND_BACK",
       id: "w1",
     }).should.true;

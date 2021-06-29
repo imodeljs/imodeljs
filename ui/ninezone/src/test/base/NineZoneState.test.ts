@@ -747,6 +747,19 @@ describe("NineZoneStateReducer", () => {
     });
   });
 
+  describe("FLOATING_WIDGET_SET_ANIMATE_TRANSITION", () => {
+    it("should set floating widget animate state", () => {
+      let state = createNineZoneState();
+      state = addFloatingWidget(state, "fw1", ["t1"]);
+      const newState = NineZoneStateReducer(state, {
+        type: "FLOATING_WIDGET_SET_ANIMATE_TRANSITION",
+        id: "fw1",
+        animateTransition: true,
+      });
+      newState.floatingWidgets.byId.fw1!.animateTransition.should.be.true;
+    });
+  });
+
   describe("WIDGET_TAB_DRAG_START", () => {
     it("should set dragged tab", () => {
       let state = createNineZoneState();

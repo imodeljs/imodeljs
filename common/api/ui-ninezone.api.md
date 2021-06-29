@@ -589,7 +589,11 @@ export const FloatingWidgetIdContext: React.Context<string | undefined>;
 // @internal (undocumented)
 export interface FloatingWidgetProps {
     // (undocumented)
+    defaultStyle?: React.CSSProperties;
+    // (undocumented)
     floatingWidget: FloatingWidgetState;
+    // (undocumented)
+    transitionStyle?: React.CSSProperties;
     // (undocumented)
     widget: WidgetState;
 }
@@ -618,6 +622,19 @@ export interface FloatingWidgetSendBackAction {
     readonly type: "FLOATING_WIDGET_SEND_BACK";
 }
 
+// @internal (undocumented)
+export function floatingWidgetSetAnimateTransition(state: Draft<NineZoneState>, floatingWidgetId: FloatingWidgetState["id"], animate: boolean): void;
+
+// @internal
+export interface FloatingWidgetSetAnimationAction {
+    // (undocumented)
+    readonly animateTransition: boolean;
+    // (undocumented)
+    readonly id: FloatingWidgetState["id"];
+    // (undocumented)
+    readonly type: "FLOATING_WIDGET_SET_ANIMATE_TRANSITION";
+}
+
 // @internal
 export interface FloatingWidgetsState {
     // (undocumented)
@@ -634,6 +651,8 @@ export const FloatingWidgetsStateContext: React.Context<FloatingWidgetsState>;
 // @internal
 export interface FloatingWidgetState {
     // (undocumented)
+    readonly animateTransition: boolean;
+    // (undocumented)
     readonly bounds: RectangleProps;
     // (undocumented)
     readonly home: FloatingWidgetHomeState;
@@ -642,7 +661,7 @@ export interface FloatingWidgetState {
 }
 
 // @internal (undocumented)
-export function floatWidget(state: NineZoneState, widgetTabId: string, point?: PointProps, size?: SizeProps): NineZoneState | undefined;
+export function floatWidget(state: NineZoneState, widgetTabId: string, point?: PointProps, size?: SizeProps, animateTransition?: boolean): NineZoneState | undefined;
 
 // @beta
 export class Footer extends React.PureComponent<FooterProps> {
@@ -702,6 +721,12 @@ export class FooterSeparator extends React.PureComponent<FooterSeparatorProps> {
 // @public
 export interface FooterSeparatorProps extends CommonProps, NoChildrenProps {
 }
+
+// @internal (undocumented)
+export function getAnimateStartPoint(home: FloatingWidgetHomeState, nzBounds: Rectangle): {
+    x: number;
+    y: number;
+};
 
 // @internal
 export function getChildKey(child: React.ReactNode, index: number): string;
@@ -1219,7 +1244,7 @@ export interface NestedToolSettingsProps extends CommonProps {
 export function NineZone(props: NineZoneProps): JSX.Element;
 
 // @internal
-export type NineZoneActionTypes = ResizeAction | PanelToggleCollapsedAction | PanelSetCollapsedAction | PanelSetSizeAction | PanelToggleSpanAction | PanelTogglePinnedAction | PanelInitializeAction | FloatingWidgetResizeAction | FloatingWidgetBringToFrontAction | FloatingWidgetSendBackAction | PopoutWidgetSendBackAction | PanelWidgetDragStartAction | WidgetDragAction | WidgetDragEndAction | WidgetTabClickAction | WidgetTabDoubleClickAction | WidgetTabDragStartAction | WidgetTabDragAction | WidgetTabDragEndAction | WidgetTabPopoutAction | ToolSettingsDragStartAction | ToolSettingsDockAction;
+export type NineZoneActionTypes = ResizeAction | PanelToggleCollapsedAction | PanelSetCollapsedAction | PanelSetSizeAction | PanelToggleSpanAction | PanelTogglePinnedAction | PanelInitializeAction | FloatingWidgetResizeAction | FloatingWidgetBringToFrontAction | FloatingWidgetSendBackAction | FloatingWidgetSetAnimationAction | PopoutWidgetSendBackAction | PanelWidgetDragStartAction | WidgetDragAction | WidgetDragEndAction | WidgetTabClickAction | WidgetTabDoubleClickAction | WidgetTabDragStartAction | WidgetTabDragAction | WidgetTabDragEndAction | WidgetTabPopoutAction | ToolSettingsDragStartAction | ToolSettingsDockAction;
 
 // @internal (undocumented)
 export const NineZoneContext: React.Context<NineZoneState>;

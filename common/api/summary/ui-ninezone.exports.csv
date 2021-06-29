@@ -106,10 +106,12 @@ internal;FloatingWidgetResizeAction
 internal;FloatingWidgetResizeHandle = FloatingWidgetEdgeHandle | FloatingWidgetCornerHandle
 internal;FloatingWidgets: React.NamedExoticComponent
 internal;FloatingWidgetSendBackAction
+internal;floatingWidgetSetAnimateTransition(state: Draft
+internal;FloatingWidgetSetAnimationAction
 internal;FloatingWidgetsState
 internal;FloatingWidgetsStateContext: React.Context
 internal;FloatingWidgetState
-internal;floatWidget(state: NineZoneState, widgetTabId: string, point?: PointProps, size?: SizeProps): NineZoneState | undefined
+internal;floatWidget(state: NineZoneState, widgetTabId: string, point?: PointProps, size?: SizeProps, animateTransition?: boolean): NineZoneState | undefined
 beta;Footer 
 beta;FooterIndicator(props: FooterIndicatorProps): JSX.Element
 beta;FooterIndicatorProps 
@@ -120,6 +122,7 @@ beta;FooterPopupProps
 beta;FooterProps 
 public;FooterSeparator 
 public;FooterSeparatorProps 
+internal;getAnimateStartPoint(home: FloatingWidgetHomeState, nzBounds: Rectangle):
 internal;getChildKey(child: React.ReactNode, index: number): string
 internal;getClosedWidgetTabIndex: (tabIndex: number) => number
 internal;getColumnZones: (id: WidgetZoneId) => WidgetZoneId[]
@@ -211,7 +214,7 @@ beta;NestedStagePanelsManagerProps
 beta;NestedToolSettings 
 beta;NestedToolSettingsProps 
 internal;NineZone(props: NineZoneProps): JSX.Element
-internal;NineZoneActionTypes = ResizeAction | PanelToggleCollapsedAction | PanelSetCollapsedAction | PanelSetSizeAction | PanelToggleSpanAction | PanelTogglePinnedAction | PanelInitializeAction | FloatingWidgetResizeAction | FloatingWidgetBringToFrontAction | FloatingWidgetSendBackAction | PopoutWidgetSendBackAction | PanelWidgetDragStartAction | WidgetDragAction | WidgetDragEndAction | WidgetTabClickAction | WidgetTabDoubleClickAction | WidgetTabDragStartAction | WidgetTabDragAction | WidgetTabDragEndAction | WidgetTabPopoutAction | ToolSettingsDragStartAction | ToolSettingsDockAction
+internal;NineZoneActionTypes = ResizeAction | PanelToggleCollapsedAction | PanelSetCollapsedAction | PanelSetSizeAction | PanelToggleSpanAction | PanelTogglePinnedAction | PanelInitializeAction | FloatingWidgetResizeAction | FloatingWidgetBringToFrontAction | FloatingWidgetSendBackAction | FloatingWidgetSetAnimationAction | PopoutWidgetSendBackAction | PanelWidgetDragStartAction | WidgetDragAction | WidgetDragEndAction | WidgetTabClickAction | WidgetTabDoubleClickAction | WidgetTabDragStartAction | WidgetTabDragAction | WidgetTabDragEndAction | WidgetTabPopoutAction | ToolSettingsDragStartAction | ToolSettingsDockAction
 internal;NineZoneContext: React.Context
 internal;NineZoneDispatch = (action: NineZoneActionTypes) => void
 internal;NineZoneDispatchContext: React.Context

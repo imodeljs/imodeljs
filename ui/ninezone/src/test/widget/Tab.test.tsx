@@ -331,4 +331,31 @@ describe("WidgetTab", () => {
       id: "fw1",
     })).should.true;
   });
+  it("should dispatch FLOATING_WIDGET_SET_ANIMATE_TRANSITION", () => {
+    const dispatch = sinon.stub<NineZoneDispatch>();
+    let nineZone = createNineZoneState();
+    nineZone = addPanelWidget(nineZone, "left", "w1", ["t1"]);
+    nineZone = addTab(nineZone, "t1");
+    render(
+      <NineZoneProvider
+        state={nineZone}
+        dispatch={dispatch}
+      >
+        <FloatingWidgetIdContext.Provider value="fw1">
+          <WidgetStateContext.Provider value={nineZone.widgets.w1}>
+            <WidgetTabProvider tab={nineZone.tabs.t1} />
+          </WidgetStateContext.Provider>
+        </FloatingWidgetIdContext.Provider>
+      </NineZoneProvider>,
+    );
+    const tab = document.getElementsByClassName("nz-widget-tab")[0];
+    act(() => {
+      fireEvent.mouseDown(tab);
+    });
+    dispatch.calledOnceWithExactly(sinon.match({
+      type: "FLOATING_WIDGET_SET_ANIMATE_TRANSITION",
+      id: "fw1",
+      animateTransition: false,
+    })).should.true;
+  });
 });

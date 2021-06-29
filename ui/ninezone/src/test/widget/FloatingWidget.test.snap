@@ -3,7 +3,6 @@
 exports[`FloatingWidget should render 1`] = `
 <div
   class="nz-widget-widget nz-widget-floatingWidget"
-  style="transform: translate(0px, 0px); height: 0px; width: 0px;"
 >
   <div
     class="nz-widget-tabBar nz-separator"
@@ -85,7 +84,6 @@ exports[`FloatingWidget should render 1`] = `
 exports[`FloatingWidget should render dragged 1`] = `
 <div
   class="nz-widget-widget nz-widget-floatingWidget nz-dragged nz-minimized"
-  style="transform: translate(0px, 0px); width: 0px;"
 >
   <div
     class="nz-widget-tabBar"
@@ -167,7 +165,6 @@ exports[`FloatingWidget should render dragged 1`] = `
 exports[`FloatingWidget should render minimized 1`] = `
 <div
   class="nz-widget-widget nz-widget-floatingWidget nz-minimized"
-  style="transform: translate(0px, 0px); width: 0px;"
 >
   <div
     class="nz-widget-tabBar"

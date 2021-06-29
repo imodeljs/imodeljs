@@ -875,6 +875,10 @@
       "allowedCategories": [ "frontend", "internal" ]
     },
     {
+      "name": "react-transition-group",
+      "allowedCategories": [ "frontend", "internal" ]
+    },
+    {
       "name": "react-virtualized",
       "allowedCategories": [ "frontend" ]
     },

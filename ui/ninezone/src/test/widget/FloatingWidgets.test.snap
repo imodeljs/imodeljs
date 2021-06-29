@@ -1,9 +1,176 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`FloatingWidgets floatWidget should render minimized 1`] = `
+<div>
+  <div
+    class="nz-widget-widget nz-widget-floatingWidget nz-minimized"
+    style="transform: translate(0px, 0px); width: 0px;"
+  >
+    <div
+      class="nz-widget-tabBar"
+    >
+      <div
+        class="nz-handle"
+      />
+      <div
+        class="nz-widget-tabs"
+        role="tablist"
+      >
+        <div
+          class="nz-widget-tabTarget nz-hidden"
+        />
+        <div
+          class="nz-widget-tab nz-active nz-minimized nz-first nz-last"
+          role="tab"
+          title=""
+        >
+          <span />
+        </div>
+        <div
+          class="nz-widget-tabTarget nz-hidden"
+        />
+        <div
+          class="nz-widget-overflow nz-hidden"
+        >
+          <div
+            class="nz-button"
+            role="button"
+            tabindex="-1"
+          >
+            <div
+              class="nz-icon"
+            />
+          </div>
+        </div>
+      </div>
+      <div
+        class="nz-widget-tabBarButtons"
+      >
+        <button
+          class="nz-widget-sendBack nz-left"
+        >
+          <i />
+        </button>
+      </div>
+    </div>
+    <div
+      class="nz-widget-content-container nz-minimized"
+    />
+    <div
+      class="nz-widget-floatingWidget_handle nz-left"
+    />
+    <div
+      class="nz-widget-floatingWidget_handle nz-top"
+    />
+    <div
+      class="nz-widget-floatingWidget_handle nz-right"
+    />
+    <div
+      class="nz-widget-floatingWidget_handle nz-bottom"
+    />
+    <div
+      class="nz-widget-floatingWidget_handle nz-topLeft"
+    />
+    <div
+      class="nz-widget-floatingWidget_handle nz-topRight"
+    />
+    <div
+      class="nz-widget-floatingWidget_handle nz-bottomLeft"
+    />
+    <div
+      class="nz-widget-floatingWidget_handle nz-bottomRight"
+    />
+  </div>
+</div>
+`;
+
 exports[`FloatingWidgets should render 1`] = `
+<div>
+  <div
+    class="nz-widget-widget nz-widget-floatingWidget"
+    style="transform: translate(0px, 0px); height: 0px; width: 0px;"
+  >
+    <div
+      class="nz-widget-tabBar nz-separator"
+    >
+      <div
+        class="nz-handle"
+      />
+      <div
+        class="nz-widget-tabs"
+        role="tablist"
+      >
+        <div
+          class="nz-widget-tabTarget nz-hidden"
+        />
+        <div
+          class="nz-widget-tab nz-active nz-first nz-last"
+          role="tab"
+          title=""
+        >
+          <span />
+        </div>
+        <div
+          class="nz-widget-tabTarget nz-hidden"
+        />
+        <div
+          class="nz-widget-overflow nz-hidden"
+        >
+          <div
+            class="nz-button"
+            role="button"
+            tabindex="-1"
+          >
+            <div
+              class="nz-icon"
+            />
+          </div>
+        </div>
+      </div>
+      <div
+        class="nz-widget-tabBarButtons"
+      >
+        <button
+          class="nz-widget-sendBack nz-left"
+        >
+          <i />
+        </button>
+      </div>
+    </div>
+    <div
+      class="nz-widget-content-container"
+    />
+    <div
+      class="nz-widget-floatingWidget_handle nz-left"
+    />
+    <div
+      class="nz-widget-floatingWidget_handle nz-top"
+    />
+    <div
+      class="nz-widget-floatingWidget_handle nz-right"
+    />
+    <div
+      class="nz-widget-floatingWidget_handle nz-bottom"
+    />
+    <div
+      class="nz-widget-floatingWidget_handle nz-topLeft"
+    />
+    <div
+      class="nz-widget-floatingWidget_handle nz-topRight"
+    />
+    <div
+      class="nz-widget-floatingWidget_handle nz-bottomLeft"
+    />
+    <div
+      class="nz-widget-floatingWidget_handle nz-bottomRight"
+    />
+  </div>
+</div>
+`;
+
+exports[`PanelWidget should render 1`] = `
 <div
-  class="nz-widget-widget nz-widget-floatingWidget"
-  style="transform: translate(0px, 0px); height: 0px; width: 0px;"
+  class="nz-widget-widget nz-widget-panelWidget nz-fill nz-border-left nz-border-right"
 >
   <div
     class="nz-widget-tabBar nz-separator"
@@ -46,38 +213,187 @@ exports[`FloatingWidgets should render 1`] = `
       class="nz-widget-tabBarButtons"
     >
       <button
-        class="nz-widget-sendBack nz-left"
+        class="nz-widget-pinToggle"
       >
-        <i />
+        <i
+          class="icon icon-chevron-left"
+        />
       </button>
     </div>
   </div>
   <div
     class="nz-widget-content-container"
   />
+</div>
+`;
+
+exports[`PanelWidget should render horizontal with fit-content 1`] = `
+<div
+  class="nz-widget-widget nz-widget-panelWidget nz-horizontal nz-fit nz-border-bottom nz-border-left nz-border-right"
+  style="max-width: 50%;"
+>
   <div
-    class="nz-widget-floatingWidget_handle nz-left"
+    class="nz-widget-tabBar nz-separator"
+  >
+    <div
+      class="nz-handle"
+    />
+    <div
+      class="nz-widget-tabs"
+      role="tablist"
+    >
+      <div
+        class="nz-widget-tabTarget nz-hidden"
+      />
+      <div
+        class="nz-widget-tab nz-active nz-first nz-last"
+        role="tab"
+        title=""
+      >
+        <span />
+      </div>
+      <div
+        class="nz-widget-tabTarget nz-hidden"
+      />
+      <div
+        class="nz-widget-overflow nz-hidden"
+      >
+        <div
+          class="nz-button"
+          role="button"
+          tabindex="-1"
+        >
+          <div
+            class="nz-icon"
+          />
+        </div>
+      </div>
+    </div>
+    <div
+      class="nz-widget-tabBarButtons"
+    />
+  </div>
+  <div
+    class="nz-widget-content-container"
   />
+</div>
+`;
+
+exports[`PanelWidget should render minimized 1`] = `
+<div
+  class="nz-widget-widget nz-widget-panelWidget nz-minimized nz-border-left nz-border-right"
+>
   <div
-    class="nz-widget-floatingWidget_handle nz-top"
+    class="nz-widget-tabBar"
+  >
+    <div
+      class="nz-handle"
+    />
+    <div
+      class="nz-widget-tabs"
+      role="tablist"
+    >
+      <div
+        class="nz-widget-tabTarget nz-hidden"
+      />
+      <div
+        class="nz-widget-tab nz-active nz-minimized nz-first nz-last"
+        role="tab"
+        title=""
+      >
+        <span />
+      </div>
+      <div
+        class="nz-widget-tabTarget nz-hidden"
+      />
+      <div
+        class="nz-widget-overflow nz-hidden"
+      >
+        <div
+          class="nz-button"
+          role="button"
+          tabindex="-1"
+        >
+          <div
+            class="nz-icon"
+          />
+        </div>
+      </div>
+    </div>
+    <div
+      class="nz-widget-tabBarButtons"
+    >
+      <button
+        class="nz-widget-pinToggle"
+      >
+        <i
+          class="icon icon-chevron-left"
+        />
+      </button>
+    </div>
+  </div>
+  <div
+    class="nz-widget-content-container nz-minimized"
   />
+</div>
+`;
+
+exports[`PanelWidget should render with fit-content 1`] = `
+<div
+  class="nz-widget-widget nz-widget-panelWidget nz-fit nz-border-bottom nz-border-left nz-border-right"
+  style="max-height: 50%;"
+>
   <div
-    class="nz-widget-floatingWidget_handle nz-right"
-  />
+    class="nz-widget-tabBar nz-separator"
+  >
+    <div
+      class="nz-handle"
+    />
+    <div
+      class="nz-widget-tabs"
+      role="tablist"
+    >
+      <div
+        class="nz-widget-tabTarget nz-hidden"
+      />
+      <div
+        class="nz-widget-tab nz-active nz-first nz-last"
+        role="tab"
+        title=""
+      >
+        <span />
+      </div>
+      <div
+        class="nz-widget-tabTarget nz-hidden"
+      />
+      <div
+        class="nz-widget-overflow nz-hidden"
+      >
+        <div
+          class="nz-button"
+          role="button"
+          tabindex="-1"
+        >
+          <div
+            class="nz-icon"
+          />
+        </div>
+      </div>
+    </div>
+    <div
+      class="nz-widget-tabBarButtons"
+    >
+      <button
+        class="nz-widget-pinToggle"
+      >
+        <i
+          class="icon icon-chevron-left"
+        />
+      </button>
+    </div>
+  </div>
   <div
-    class="nz-widget-floatingWidget_handle nz-bottom"
-  />
-  <div
-    class="nz-widget-floatingWidget_handle nz-topLeft"
-  />
-  <div
-    class="nz-widget-floatingWidget_handle nz-topRight"
-  />
-  <div
-    class="nz-widget-floatingWidget_handle nz-bottomLeft"
-  />
-  <div
-    class="nz-widget-floatingWidget_handle nz-bottomRight"
+    class="nz-widget-content-container"
   />
 </div>
 `;

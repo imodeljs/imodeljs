@@ -257,7 +257,7 @@ describe("float and dock widget", () => {
 
     sinon.stub(UiFramework, "uiVersion").get(() => "2");
     sinon.stub(frontstageDef, "nineZoneState").get(() => state).set(nineZoneStateSetter);
-    frontstageDef.floatWidget("t1", { x: 55, y: 105 });
+    frontstageDef.floatWidget("t1", { x: 55, y: 105 }, undefined, true);
     nineZoneStateSetter.calledOnce.should.true;
 
     frontstageDef.floatWidget("ta");

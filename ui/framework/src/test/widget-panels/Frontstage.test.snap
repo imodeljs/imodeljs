@@ -208,6 +208,7 @@ Object {
     ],
     "byId": Object {
       "w1": Object {
+        "animateTransition": false,
         "bounds": Object {
           "bottom": 0,
           "left": 0,

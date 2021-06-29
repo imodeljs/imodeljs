@@ -10,6 +10,8 @@
   position: absolute;
   border: 1px solid $buic-background-5;
   border-radius: 3px;
+  top: 0;
+  left: 0;
   @include uicore-z-index(dragged-widget);
   @include nz-widget-opacity;
 

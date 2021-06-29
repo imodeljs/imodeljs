@@ -590,7 +590,7 @@ export class FrontstageDef {
    * the previous size is used, else {height:400, width:400} is used.
    * @beta
    */
-  public floatWidget(widgetId: string, point?: PointProps, size?: SizeProps) {
+  public floatWidget(widgetId: string, point?: PointProps, size?: SizeProps, animateTransition?: boolean) {
     // istanbul ignore else
     if (this.nineZoneState) {
       const location = findTab(this.nineZoneState, widgetId);
@@ -599,7 +599,7 @@ export class FrontstageDef {
         if (isPopoutLocation(location)) {
           popoutWidgetContainerId = location.popoutWidgetId;
         }
-        const state = floatWidget(this.nineZoneState, widgetId, point, size);
+        const state = floatWidget(this.nineZoneState, widgetId, point, size,(!!animateTransition ? animateTransition : false));
         // istanbul ignore else
         if (state) {
           this.nineZoneState = state;

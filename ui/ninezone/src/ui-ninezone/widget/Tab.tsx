@@ -120,6 +120,11 @@ export const WidgetTab = React.memo<WidgetTabProps>(function WidgetTab(props) { 
   const handlePointerDown = React.useCallback((args: PointerCaptorArgs, e: PointerCaptorEvent) => {
     initialPointerPosition.current = new Point(args.clientX, args.clientY);
     dragStartTimer.current.start();
+    e.type === "mousedown" && floatingWidgetId && dispatch({
+      type: "FLOATING_WIDGET_SET_ANIMATE_TRANSITION",
+      id: floatingWidgetId,
+      animateTransition: false,
+    });
     e.type === "touchstart" && floatingWidgetId && dispatch({
       type: "FLOATING_WIDGET_BRING_TO_FRONT",
       id: floatingWidgetId,

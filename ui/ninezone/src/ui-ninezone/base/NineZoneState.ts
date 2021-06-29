@@ -43,6 +43,7 @@ export interface FloatingWidgetState {
   readonly bounds: RectangleProps;
   readonly id: WidgetState["id"];
   readonly home: FloatingWidgetHomeState;
+  readonly animateTransition: boolean;
 }
 
 /** @internal future */
@@ -251,6 +252,12 @@ export interface FloatingWidgetSendBackAction {
   readonly type: "FLOATING_WIDGET_SEND_BACK";
   readonly id: FloatingWidgetState["id"];
 }
+/** @internal turn on enableAnimation flag for widget */
+export interface FloatingWidgetSetAnimationAction {
+  readonly type: "FLOATING_WIDGET_SET_ANIMATE_TRANSITION";
+  readonly id: FloatingWidgetState["id"];
+  readonly animateTransition: boolean;
+}
 
 /** @internal future */
 export interface PopoutWidgetSendBackAction {
@@ -350,6 +357,7 @@ export type NineZoneActionTypes =
   FloatingWidgetResizeAction |
   FloatingWidgetBringToFrontAction |
   FloatingWidgetSendBackAction |
+  FloatingWidgetSetAnimationAction |
   PopoutWidgetSendBackAction |
   PanelWidgetDragStartAction |
   WidgetDragAction |
@@ -428,6 +436,7 @@ export const NineZoneStateReducer: (state: NineZoneState, action: NineZoneAction
           widgetId: undefined,
           widgetIndex,
         },
+        animateTransition: false,
       };
       state.widgets[action.newFloatingWidgetId] = state.widgets[action.id];
       state.widgets[action.newFloatingWidgetId].id = action.newFloatingWidgetId;
@@ -447,6 +456,7 @@ export const NineZoneStateReducer: (state: NineZoneState, action: NineZoneAction
     case "WIDGET_DRAG": {
       const floatingWidget = state.floatingWidgets.byId[action.floatingWidgetId];
       assert(!!floatingWidget);
+      floatingWidget.animateTransition = false;
       const newBounds = Rectangle.create(floatingWidget.bounds).offset(action.dragBy);
       setRectangleProps(floatingWidget.bounds, newBounds);
       return;
@@ -513,6 +523,11 @@ export const NineZoneStateReducer: (state: NineZoneState, action: NineZoneAction
       floatingWidgetBringToFront(state, action.id);
       return;
     }
+    case "FLOATING_WIDGET_SET_ANIMATE_TRANSITION": {
+      floatingWidgetSetAnimateTransition(state, action.id, action.animateTransition);
+      return;
+    }
+
     case "FLOATING_WIDGET_SEND_BACK": {
       const floatingWidget = state.floatingWidgets.byId[action.id];
       const widget = state.widgets[action.id];
@@ -700,6 +715,7 @@ export const NineZoneStateReducer: (state: NineZoneState, action: NineZoneAction
           bounds: containedBounds.toProps(),
           id: target.newFloatingWidgetId,
           home: state.draggedTab.home,
+          animateTransition: false,
         };
         state.floatingWidgets.allIds.push(target.newFloatingWidgetId);
         state.widgets[target.newFloatingWidgetId] = {
@@ -733,6 +749,7 @@ export const NineZoneStateReducer: (state: NineZoneState, action: NineZoneAction
             widgetId: undefined,
             widgetIndex: 0,
           },
+          animateTransition: false,
         };
         state.floatingWidgets.allIds.push(action.newFloatingWidgetId);
       }
@@ -754,6 +771,11 @@ function isToolSettingsFloatingWidget(state: Draft<NineZoneState>, id: WidgetSta
     widget.tabs[0] === toolSettingsTabId &&
     id in state.floatingWidgets.byId
   );
+}
+/** @internal */
+export function floatingWidgetSetAnimateTransition(state: Draft<NineZoneState>, floatingWidgetId: FloatingWidgetState["id"], animate: boolean) {
+  const floatingWidget = state.floatingWidgets.byId[floatingWidgetId];
+  floatingWidget.animateTransition = animate;
 }
 
 /** @internal */
@@ -933,6 +955,7 @@ export function createFloatingWidgetState(id: FloatingWidgetState["id"], args?: 
       widgetId: undefined,
       widgetIndex: 0,
     },
+    animateTransition: false,
     ...args,
   };
 }
@@ -996,6 +1019,7 @@ export function addFloatingWidget(state: NineZoneState, id: FloatingWidgetState[
   });
 }
 
+/**  */
 /** @internal */
 export function addPopoutWidget(state: NineZoneState, id: PopoutWidgetState["id"], tabs: WidgetState["tabs"], popoutWidgetArgs?: Partial<PopoutWidgetState>,
   widgetArgs?: Partial<WidgetState>,
@@ -1241,7 +1265,7 @@ export function findWidget(state: NineZoneState, id: WidgetState["id"]): WidgetL
 }
 
 /** @internal */
-export function floatWidget(state: NineZoneState, widgetTabId: string, point?: PointProps, size?: SizeProps) {
+export function floatWidget(state: NineZoneState, widgetTabId: string, point?: PointProps, size?: SizeProps, animateTransition?: boolean) {
   const location = findTab(state, widgetTabId);
   if (location) {
     if (isFloatingLocation(location))
@@ -1272,6 +1296,7 @@ export function floatWidget(state: NineZoneState, widgetTabId: string, point?: P
             widgetId: location.widgetId,
             widgetIndex,
           },
+          animateTransition: (!!animateTransition ? animateTransition : false),
         };
         draft.floatingWidgets.allIds.push(floatingWidgetId);
         draft.widgets[floatingWidgetId] = {
@@ -1287,7 +1312,6 @@ export function floatWidget(state: NineZoneState, widgetTabId: string, point?: P
   }
   return undefined;
 }
-
 /** @internal */
 export function dockWidgetContainer(state: NineZoneState, widgetTabId: string, idIsContainerId?: boolean) {
   if (idIsContainerId) {
@@ -1364,12 +1388,13 @@ export function convertPopoutWidgetContainerToFloating(state: NineZoneState, wid
     const bounds = popoutWidget.bounds;
     const home = popoutWidget.home;
     const id = popoutWidget.id;
+    const animateTransition = false;
     // remove the floating entry
     delete draft.popoutWidgets.byId[widgetContainerId];
     const idIndex = draft.popoutWidgets.allIds.indexOf(widgetContainerId);
     draft.popoutWidgets.allIds.splice(idIndex, 1);
     // insert popout entry
-    draft.floatingWidgets.byId[widgetContainerId] = { bounds, id, home };
+    draft.floatingWidgets.byId[widgetContainerId] = { bounds, id, home, animateTransition };
     draft.floatingWidgets.allIds.push(widgetContainerId);
   });
 }
@@ -1386,12 +1411,13 @@ export function convertAllPopupWidgetContainersToFloating(state: NineZoneState):
       const bounds = popoutWidget.bounds;
       const home = popoutWidget.home;
       const id = popoutWidget.id;
+      const animateTransition = false;
       // remove the popout entry
       delete draft.popoutWidgets.byId[widgetContainerId];
       const idIndex = draft.popoutWidgets.allIds.indexOf(widgetContainerId);
       draft.popoutWidgets.allIds.splice(idIndex, 1);
       // insert floating entry
-      draft.floatingWidgets.byId[widgetContainerId] = { bounds, id, home };
+      draft.floatingWidgets.byId[widgetContainerId] = { bounds, id, home, animateTransition };
       draft.floatingWidgets.allIds.push(widgetContainerId);
     }
   });
