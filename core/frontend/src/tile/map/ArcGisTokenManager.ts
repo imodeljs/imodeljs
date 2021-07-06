@@ -6,12 +6,13 @@
  * @module Tiles
  */
 
-import { ArcGisGenerateTokenOptions, ArcGisToken, ArcGisTokenGenerator } from "../../imodeljs-frontend";
+import { ArcGisGenerateTokenOptions, ArcGisOAuth2Token, ArcGisToken, ArcGisTokenGenerator } from "../../imodeljs-frontend";
 
 /** @internal */
 export class ArcGisTokenManager {
   private static readonly tokenExpiryThreshold = 300000;  // 5 minutes in milliseconds
   private static _cache = new Map<string, ArcGisToken>();
+  private static _oauth2Cache = new Map<string, ArcGisOAuth2Token>();
   private static _generator: ArcGisTokenGenerator | undefined;
 
   public static async getToken(esriRestServiceUrl: string, userName: string, password: string, options: ArcGisGenerateTokenOptions): Promise<any> {
@@ -41,4 +42,14 @@ export class ArcGisTokenManager {
     const tokenCacheKey = `${userName}@${esriRestServiceUrl}`;
     return ArcGisTokenManager._cache.delete(tokenCacheKey);
   }
+
+  public static getOAuth2Token(key: string): ArcGisToken|undefined {
+    const cachedToken = ArcGisTokenManager._oauth2Cache.get(key);
+    return cachedToken;
+  }
+
+  public static setOAuth2Token(key: string, token: ArcGisOAuth2Token) {
+    ArcGisTokenManager._oauth2Cache.set(key, token);
+  }
+
 }

@@ -11,6 +11,14 @@ import { BackgroundMapSettings, BackgroundMapType } from "./BackgroundMapSetting
 /** @beta */
 export type SubLayerId = string | number;
 
+/** @beta */
+export enum MapLayerAuthType {
+  None = 1,
+  Basic = 2,
+  EsriToken = 3,
+  EsriOAuth2 = 4,
+}
+
 /** JSON representation of the settings associated with a map sublayer included within a [[MapLayerProps]].
  * A map sub layer represents a set of objects within the layer that can be controlled separately.  These
  * are produced only from map servers that produce images on demand and are not supported by tiled (cached) servers.

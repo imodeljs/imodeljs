@@ -3,7 +3,7 @@
 * See LICENSE.md in the project root for license terms and full copyright notice.
 *--------------------------------------------------------------------------------------------*/
 import { Angle } from "@bentley/geometry-core";
-import { MapSubLayerProps } from "@bentley/imodeljs-common";
+import { MapLayerAuthType, MapSubLayerProps } from "@bentley/imodeljs-common";
 import { getJson, request, RequestBasicCredentials, RequestOptions, Response } from "@bentley/itwin-client";
 import { FrontendRequestContext } from "../../imodeljs-frontend";
 import { MapLayerSourceValidation } from "../internal";
@@ -11,6 +11,7 @@ import { MapCartoRectangle } from "./MapCartoRectangle";
 import { MapLayerSource, MapLayerSourceStatus } from "./MapLayerSources";
 import { ArcGisTokenClientType } from "./ArcGisTokenGenerator";
 import { ArcGisTokenManager } from "./ArcGisTokenManager";
+import { EsriOAuth2, EsriOAuth2EndpointType } from "./EsriOAuth2";
 
 /** @packageDocumentation
  * @module Tiles
@@ -122,14 +123,26 @@ export class ArcGisUtilities {
   }
 
   public static async validateSource(url: string, credentials?: RequestBasicCredentials, ignoreCache?: boolean): Promise<MapLayerSourceValidation> {
+
+    let authMethod: MapLayerAuthType = MapLayerAuthType.None;
     const json = await this.getServiceJson(url, credentials, ignoreCache);
     if (json === undefined) {
       return { status: MapLayerSourceStatus.InvalidUrl };
     } else if (json.error !== undefined) {
       if (json.error.code === ArcGisErrorCode.TokenRequired) {
-        return { status: MapLayerSourceStatus.RequireAuth };
+        authMethod = MapLayerAuthType.EsriToken;
+        const oauth2Endpoint = EsriOAuth2.getOAuth2EndpointFromRestUrl(url, EsriOAuth2EndpointType.Authorize);
+        if (oauth2Endpoint) {
+          if (oauth2Endpoint.isArcgisOnline) {
+            authMethod = MapLayerAuthType.EsriOAuth2;
+          } else {
+            // This is not ArcGis online, we need to make sure OAuth2 is enabled on the enterprise server.
+            authMethod = await EsriOAuth2.validateOAuth2Endpoint(oauth2Endpoint.endpoint) ? MapLayerAuthType.EsriOAuth2 : authMethod = MapLayerAuthType.EsriToken;
+          }
+        }
+        return { status: MapLayerSourceStatus.RequireAuth, authMethod };
       } else if (json.error.code === ArcGisErrorCode.InvalidCredentials)
-        return { status: MapLayerSourceStatus.InvalidCredentials };
+        return { status: MapLayerSourceStatus.InvalidCredentials, authMethod: MapLayerAuthType.EsriToken};
     }
 
     let subLayers;
@@ -144,8 +157,8 @@ export class ArcGisUtilities {
       }
     }
     return { status: MapLayerSourceStatus.Valid, subLayers };
-
   }
+
   private static _serviceCache = new Map<string, any>();
   public static async getServiceJson(url: string, credentials?: RequestBasicCredentials, ignoreCache?: boolean): Promise<any> {
     if (!ignoreCache) {
@@ -160,8 +173,9 @@ export class ArcGisUtilities {
         responseType: "json",
       };
       let tokenParam = "";
-      if (credentials) {
-        const token = await ArcGisTokenManager.getToken(url, credentials.user, credentials.password, { client: ArcGisTokenClientType.referer });
+      const oauth2Token = ArcGisTokenManager.getOAuth2Token(url);
+      if (credentials || oauth2Token !== undefined) {
+        const token = (credentials ? await ArcGisTokenManager.getToken(url, credentials.user, credentials.password, { client: ArcGisTokenClientType.referer }) : oauth2Token);
         if (token?.token) {
           tokenParam = `&token=${token.token}`;
         } else if (token?.error)
@@ -191,8 +205,9 @@ export class ArcGisUtilities {
 
     try {
       let tokenParam = "";
-      if (credentials) {
-        const token = await ArcGisTokenManager.getToken(url, credentials.user, credentials.password, { client: ArcGisTokenClientType.referer });
+      const oauth2Token = ArcGisTokenManager.getOAuth2Token(url);
+      if (credentials || oauth2Token) {
+        const token = (credentials ? await ArcGisTokenManager.getToken(url, credentials.user, credentials.password, { client: ArcGisTokenClientType.referer }) : oauth2Token);
         if (token?.token)
           tokenParam = `&token=${token.token}`;
       }

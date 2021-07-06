@@ -164,6 +164,14 @@ export class ArcGISMapLayerImageryProvider extends MapLayerImageryProvider {
     if (json === undefined)
       throw new ServerError(IModelStatus.ValidationFailed, "");
 
+    if (json?.error?.code === ArcGisErrorCode.TokenRequired || json?.error?.code === ArcGisErrorCode.InvalidToken) {
+      // Check again layer status, it might have change during await.
+      if (this.status === MapLayerImageryProviderStatus.Valid) {
+        this.status = MapLayerImageryProviderStatus.RequireAuth;
+        this.onStatusChanged.raiseEvent(this);
+      }
+    }
+
     if (json !== undefined) {
       this.serviceJson = json;
       if (json.capabilities) {
@@ -271,18 +279,19 @@ export class ArcGISMapLayerImageryProvider extends MapLayerImageryProvider {
   // construct the Url from the desired Tile
   private async appendSecurityToken(url: string): Promise<string> {
     // Append security token if required
-    let tokenParam = "";
-    if (this._settings.userName && this._settings.password) {
+    const oauth2Token = ArcGisTokenManager.getOAuth2Token(this._settings.url);
+    const hasCredentials = (this._settings.userName && this._settings.password);
+    if (oauth2Token || hasCredentials) {
       try {
-        const token = await ArcGisTokenManager.getToken(this._settings.url, this._settings.userName, this._settings.password,
-          {
-            client: ArcGisTokenClientType.referer,
-          });
-        if (token?.token)
-          tokenParam = `&token=${token.token}`;
+        const token = (hasCredentials ? await ArcGisTokenManager.getToken(url, this._settings.userName!, this._settings.password!, { client: ArcGisTokenClientType.referer }) : oauth2Token);
+        if (token?.token) {
+          const urlObj = new URL(url);
+          urlObj.searchParams.append("token", token.token);
+          return urlObj.href;
+        }
       } catch {
       }
     }
-    return `${url}${tokenParam}`;
+    return url;
   }
 }

@@ -8,7 +8,7 @@ import * as ReactDOM from "react-dom";
 import { connect, Provider } from "react-redux";
 import { Store } from "redux"; // createStore,
 import reactAxe from "@axe-core/react";
-import { ClientRequestContext, Config, Id64String, Logger, LogLevel, OpenMode, ProcessDetector } from "@bentley/bentleyjs-core";
+import { assert, ClientRequestContext, Config, Id64String, Logger, LogLevel, OpenMode, ProcessDetector } from "@bentley/bentleyjs-core";
 import { ContextRegistryClient } from "@bentley/context-registry-client";
 import { ElectronApp } from "@bentley/electron-manager/lib/ElectronFrontend";
 import { FrontendApplicationInsightsClient } from "@bentley/frontend-application-insights-client";
@@ -19,7 +19,7 @@ import { IModelHubClient, IModelQuery } from "@bentley/imodelhub-client";
 import { BentleyCloudRpcParams, IModelVersion, RpcConfiguration, SyncMode } from "@bentley/imodeljs-common";
 import { EditTools } from "@bentley/imodeljs-editor-frontend";
 import {
-  AccuSnap, AuthorizedFrontendRequestContext, BriefcaseConnection, ExternalServerExtensionLoader, IModelApp, IModelConnection,
+  AccuSnap, AuthorizedFrontendRequestContext, BriefcaseConnection, EsriOAuth2, ExternalServerExtensionLoader, IModelApp, IModelConnection,
   LocalUnitFormatProvider, NativeApp, NativeAppLogger, NativeAppOpts, SelectionTool, SnapMode, ToolAdmin, ViewClipByPlaneTool, ViewState,
   WebViewerApp, WebViewerAppOpts,
 } from "@bentley/imodeljs-frontend";
@@ -27,7 +27,7 @@ import { I18NNamespace } from "@bentley/imodeljs-i18n";
 import { MarkupApp } from "@bentley/imodeljs-markup";
 import { AccessToken, ProgressInfo, UrlDiscoveryClient } from "@bentley/itwin-client";
 // To test map-layer extension comment out the following and ensure ui-test-app\build\imjs_extensions contains map-layers, if not see Readme.md in map-layers package.
-import { MapLayersUI } from "@bentley/map-layers";
+import { EsriOAuth2Callback, MapLayersUI } from "@bentley/map-layers";
 import { AndroidApp, IOSApp } from "@bentley/mobile-manager/lib/MobileFrontend";
 import { PresentationUnitSystem } from "@bentley/presentation-common";
 import { Presentation } from "@bentley/presentation-frontend";
@@ -63,6 +63,7 @@ import { Tool2 } from "./tools/Tool2";
 import { ToolWithDynamicSettings } from "./tools/ToolWithDynamicSettings";
 import { ToolWithSettings } from "./tools/ToolWithSettings";
 import { OpenComponentExamplesPopoutTool, OpenCustomPopoutTool, OpenViewPopoutTool, UiProviderTool } from "./tools/UiProviderTool";
+import { BrowserRouter, Route, Switch } from "react-router-dom";
 
 // Initialize my application gateway configuration for the frontend
 RpcConfiguration.developmentMode = true;
@@ -662,6 +663,22 @@ const baseOidcScopes = [
   "imodel-extension-service-api",
 ];
 
+export function CustomRouter() {
+  return (
+    <React.StrictMode>
+      <React.Suspense fallback="Loading...">
+        <BrowserRouter>
+          <Switch>
+            <Route exact path="/" component={SampleAppViewer} />
+            <Route exact path="/esri-oauth2-callback" component={EsriOAuth2Callback} />
+            {/* <Route exact path="/oauth-iframe" component={OAuthCallbackIframe} /> */}
+          </Switch>
+        </BrowserRouter>
+      </React.Suspense>
+    </React.StrictMode>
+  );
+}
+
 // main entry point.
 async function main() {
   // initialize logging
@@ -739,7 +756,7 @@ async function main() {
   // register new QuantityType
   await BearingQuantityType.registerQuantityType();
 
-  ReactDOM.render(<SampleAppViewer />, document.getElementById("root") as HTMLElement);
+  ReactDOM.render(<CustomRouter />, document.getElementById("root") as HTMLElement);
 }
 
 // Entry point - run the main function

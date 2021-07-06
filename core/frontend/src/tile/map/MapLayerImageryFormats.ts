@@ -6,7 +6,7 @@
  * @module Tiles
  */
 
-import { MapLayerSettings, MapSubLayerProps } from "@bentley/imodeljs-common";
+import { MapLayerAuthType, MapLayerSettings, MapSubLayerProps } from "@bentley/imodeljs-common";
 import { RequestBasicCredentials } from "@bentley/itwin-client";
 import { IModelConnection } from "../../IModelConnection";
 import {
@@ -92,10 +92,12 @@ class WmsMapLayerFormat extends ImageryMapLayerFormat {
       return { status: MapLayerSourceStatus.Valid, subLayers };
     } catch (err) {
       let status = MapLayerSourceStatus.InvalidUrl;
+      let authMethod: MapLayerAuthType|undefined;
       if (err?.status === 401) {
         status = (credentials ? MapLayerSourceStatus.InvalidCredentials : MapLayerSourceStatus.RequireAuth);
+        authMethod = MapLayerAuthType.Basic;
       }
-      return { status };
+      return { status, authMethod };
     }
   }
 }
