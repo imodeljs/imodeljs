@@ -455,7 +455,7 @@ export class IModelTransformer extends IModelExportHandler {
         }
       }
     }
-    if (undefined !== targetElementId) {
+    if (undefined !== targetElementId && Id64.isValidId64(targetElementId)) {
       // compare LastMod of sourceElement to ExternalSourceAspect of targetElement to see there are changes to import
       if (!this.hasElementChanged(sourceElement, targetElementId)) {
         return;
