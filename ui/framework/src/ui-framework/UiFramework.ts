@@ -10,7 +10,6 @@
 
 import { Store } from "redux";
 import { GuidString, Logger, ProcessDetector } from "@bentley/bentleyjs-core";
-import { isFrontendAuthorizationClient } from "@bentley/frontend-authorization-client";
 import { AuthorizedFrontendRequestContext, IModelApp, IModelConnection, SnapMode, ViewState } from "@bentley/imodeljs-frontend";
 import { I18N } from "@bentley/imodeljs-i18n";
 import { AccessToken, UserInfo } from "@bentley/itwin-client";
@@ -187,15 +186,13 @@ export class UiFramework {
 
     UiFramework.onFrameworkVersionChangedEvent.addListener(UiFramework._handleFrameworkVersionChangedEvent);
 
-    const oidcClient = IModelApp.authorizationClient;
     // istanbul ignore next
-    if (isFrontendAuthorizationClient(oidcClient)) {
-      const authorized = IModelApp.authorizationClient && IModelApp.authorizationClient.isAuthorized;
-      if (authorized) {
-        const accessToken = await oidcClient.getAccessToken();
+    if (IModelApp.authorizationClient !== undefined) {
+      if (IModelApp.authorizationClient.isAuthorized) {
+        const accessToken = await IModelApp.authorizationClient.getAccessToken();
         UiFramework.setUserInfo(accessToken !== undefined ? accessToken.getUserInfo() : undefined);
       }
-      oidcClient.onUserStateChanged.addListener(UiFramework._handleUserStateChanged);
+      IModelApp.authorizationClient.onUserStateChanged.addListener(UiFramework._handleUserStateChanged);
     }
 
     // Initialize ui-components, ui-core & ui-abstract

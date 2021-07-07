@@ -13,7 +13,8 @@ import { BrowserAuthorizationBase } from "./BrowserAuthorizationBase";
 import { BrowserAuthorizationClientRedirectState } from "./BrowserAuthorizationClientRedirectState";
 
 /**
- * @beta
+ * Configuration passed to [[BrowserAuthorizationCallbackHandler]]
+ * @public
  */
 export interface BrowserAuthorizationCallbackHandlerConfiguration {
   /**
@@ -26,21 +27,8 @@ export interface BrowserAuthorizationCallbackHandlerConfiguration {
 }
 
 /**
- * @beta
- */
-export enum OidcCallbackResponseMode {
-  Query = 1 << 0,
-  Fragment = 1 << 1,
-  /**
-   * To be used only when a specific response mode is not known beforehand.
-   * Results in attempting all other response modes one-by-one to determine the correct one.
-   */
-  Unknown = Query | Fragment,
-}
-
-/**
  * To be used in conjunction with [[BrowserAuthorizationClient]], which initiates the auth requests that can be handled by this class.
- * @beta
+ * @public
  */
 export class BrowserAuthorizationCallbackHandler extends BrowserAuthorizationBase<BrowserAuthorizationCallbackHandlerConfiguration> {
   private constructor(configuration: BrowserAuthorizationCallbackHandlerConfiguration = {}) {

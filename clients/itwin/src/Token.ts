@@ -14,7 +14,7 @@ const loggerCategory = ITwinClientLoggerCategory.Authorization;
  * Option to specify if the prefix identifying the token is included when serializing the access token.
  * * JWTs (Jason Web Tokens) are identified with a "Bearer" prefix.
  * * Typically the prefix is required for calls made across the wire.
- * @beta
+ * @public
  */
 export enum IncludePrefix {
   Yes = 0,
@@ -42,7 +42,7 @@ class TokenPrefixToTypeContainer {
 }
 
 /** Properties for transmitting AccessTokens between processes
- * @beta
+ * @public
  */
 export interface AccessTokenProps {
   tokenString: string;
@@ -51,8 +51,8 @@ export interface AccessTokenProps {
   userInfo?: UserInfoProps;
 }
 
-/** Token issued by DelegationSecureTokenService for API access
- * @beta
+/** Token used for authorization
+ * @public
  */
 @TokenPrefix("Bearer")
 export class AccessToken {
@@ -110,6 +110,7 @@ export class AccessToken {
     const jwt = this._tokenString;
     return (includePrefix === IncludePrefix.Yes) ? `${this._prefix} ${jwt}` : jwt;
   }
+
   /**
    * Initialize the jwt field of the current instance of the AccessToken
    * Users would typically override this method in a subclass of AccessToken
@@ -123,6 +124,7 @@ export class AccessToken {
     const jwt = tokenStr.substr(this._prefix.length + 1);
     this._tokenString = jwt;
   }
+
   /**
    * Create an AccessToken from a string that's typically passed across the wire
    * - The AccessToken will not include the user information or expiry information

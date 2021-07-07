@@ -89,4 +89,34 @@ describe("AgentAuthorizationClient (#integration)", () => {
     refreshJwt = await agentClient.getAccessToken(requestContext);
     chai.assert.notStrictEqual(refreshJwt.toTokenString(IncludePrefix.No), jwtExpiresAtLessThanMinFromNow.toTokenString(IncludePrefix.No));
   });
+
+  it("should allow customization of expiry", async () => {
+    const configuration = { ...agentConfiguration, expireSafety: 5 * 60 }; // 5 minutes before expiry
+    const agentClient = new AgentAuthorizationClient(configuration);
+
+    const jwt: AccessToken = await agentClient.getAccessToken(requestContext);
+
+    // Refresh after a second, and the token should remain the same
+    await BeDuration.wait(1000);
+    let refreshJwt: AccessToken = await agentClient.getAccessToken(requestContext);
+    chai.assert.strictEqual(refreshJwt, jwt);
+
+    // Set the expiry of the token to be 10 seconds after expireSafety, and the token should remain the same
+    const tenSecondsAfterExpiry = new Date(Date.now() + 60 * 60 + (configuration.expireSafety + 10) * 1000);
+    const jwtNotExpired = new AccessToken(jwt.toTokenString(IncludePrefix.No), jwt.getStartsAt(), tenSecondsAfterExpiry, jwt.getUserInfo());
+    (agentClient as any)._accessToken = jwtNotExpired;
+    refreshJwt = await agentClient.getAccessToken(requestContext);
+    chai.assert.strictEqual(refreshJwt, jwtNotExpired);
+
+    // Set the expiry of the token to be 10 seconds before expireSafety, and the token should be refreshed
+    const tenSecondsBeforeExpiry = new Date(Date.now() + 60 * 60 - (configuration.expireSafety + 10) * 1000);
+    const jwtExpired = new AccessToken(jwt.toTokenString(IncludePrefix.No), jwt.getStartsAt(), tenSecondsBeforeExpiry, jwt.getUserInfo());
+    (agentClient as any)._accessToken = jwtExpired;
+    refreshJwt = await agentClient.getAccessToken(requestContext);
+    chai.assert.notStrictEqual(refreshJwt.toTokenString(IncludePrefix.No), jwtExpired.toTokenString(IncludePrefix.No));
+
+    // Refresh should refresh right away irrespective of expiry state
+    const refreshJwt2 = await agentClient.refreshAccessToken(requestContext);
+    chai.assert.notStrictEqual(refreshJwt2.toTokenString(IncludePrefix.No), refreshJwt.toTokenString(IncludePrefix.No));
+  });
 });

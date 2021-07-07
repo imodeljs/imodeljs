@@ -1,0 +1,11 @@
+{
+  "changes": [
+    {
+      "packageName": "@bentley/ui-framework",
+      "comment": "react to removal of isFrontendAuthorizationClient",
+      "type": "none"
+    }
+  ],
+  "packageName": "@bentley/ui-framework",
+  "email": "54330647+evanpreslar-bentley@users.noreply.github.com"
+}

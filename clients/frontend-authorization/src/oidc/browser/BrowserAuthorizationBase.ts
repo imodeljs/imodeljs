@@ -10,6 +10,10 @@
 import { UserManager, UserManagerSettings } from "oidc-client";
 import { BrowserAuthorizationLogger } from "./BrowserAuthorizationLogger";
 
+/**
+ * Base class for [[BrowserAuthorizationClient]]
+ * @public
+ */
 export abstract class BrowserAuthorizationBase<TConfig> {
   protected _userManager?: UserManager;
 
@@ -22,11 +26,11 @@ export abstract class BrowserAuthorizationBase<TConfig> {
   }
 
   /**
-   * @internal
    * Allows for advanced options to be supplied to the underlying UserManager.
    * This function should be called directly after object construction.
    * Any settings supplied via this method will override the corresponding settings supplied via the constructor.
    * @throws if called after the internal UserManager has already been created.
+   * @internal
    */
   public setAdvancedSettings(settings: UserManagerSettings): void {
     if (this._userManager) {

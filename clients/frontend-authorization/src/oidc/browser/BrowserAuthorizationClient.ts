@@ -16,7 +16,8 @@ import { BrowserAuthorizationBase } from "./BrowserAuthorizationBase";
 import { BrowserAuthorizationClientRedirectState } from "./BrowserAuthorizationClientRedirectState";
 
 /**
- * @beta
+ * Configuration required to initialize [[BrowserAuthorizationClient]]
+ * @public
  */
 export interface BrowserAuthorizationClientConfiguration extends BrowserAuthorizationClientRequestOptions {
   /** The URL of the OIDC/OAuth2 provider. If left undefined, the Bentley auth authority will be used by default. */
@@ -52,7 +53,8 @@ export interface BrowserAuthorizationClientRequestOptions {
 }
 
 /**
- * @beta
+ * Utility used for authorization for Single Page Applications running in a browser
+ * @public
  */
 export class BrowserAuthorizationClient extends BrowserAuthorizationBase<BrowserAuthorizationClientConfiguration> implements FrontendAuthorizationClient, IDisposable {
   public readonly onUserStateChanged = new BeEvent<(token?: AccessToken) => void>();

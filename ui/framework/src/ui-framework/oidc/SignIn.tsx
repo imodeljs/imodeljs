@@ -8,7 +8,7 @@
 
 import * as React from "react";
 import { ClientRequestContext, ProcessDetector } from "@bentley/bentleyjs-core";
-import { FrontendAuthorizationClient, isFrontendAuthorizationClient } from "@bentley/frontend-authorization-client";
+import { FrontendAuthorizationClient } from "@bentley/frontend-authorization-client";
 import { IModelApp } from "@bentley/imodeljs-frontend";
 import { SignIn as SignInBase } from "@bentley/ui-components";
 import { CommonProps } from "@bentley/ui-core";
@@ -44,35 +44,26 @@ export class SignIn extends React.PureComponent<SignInProps> {
   }
 
   public componentDidMount() {
-    const oidcClient = IModelApp.authorizationClient;
-    // istanbul ignore if
-    if (isFrontendAuthorizationClient(oidcClient))
-      this._oidcClient = oidcClient;
+    this._oidcClient = IModelApp.authorizationClient;
 
-    // istanbul ignore next
-    const isAuthorized = this._oidcClient && this._oidcClient.isAuthorized;
     // istanbul ignore if
-    if (isAuthorized)
-      this._oidcClient!.onUserStateChanged.addListener(this._onUserStateChanged);
+    if (this._oidcClient?.isAuthorized)
+      this._oidcClient.onUserStateChanged.addListener(this._onUserStateChanged);
   }
 
   // istanbul ignore next
   private _onUserStateChanged() {
     // istanbul ignore next
-    if (this._oidcClient && this._oidcClient.isAuthorized && this.props.onSignedIn)
+    if (this._oidcClient?.isAuthorized && this.props.onSignedIn)
       this.props.onSignedIn();
   }
 
   public componentWillUnmount() {
-    // istanbul ignore next
-    if (this._oidcClient)
-      this._oidcClient.onUserStateChanged.removeListener(this._onUserStateChanged);
+    this._oidcClient?.onUserStateChanged.removeListener(this._onUserStateChanged);
   }
 
   private _onStartSignin = async () => {
-    // istanbul ignore next
-    if (this._oidcClient)
-      this._oidcClient.signIn(new ClientRequestContext()); // eslint-disable-line @typescript-eslint/no-floating-promises
+    this._oidcClient?.signIn(new ClientRequestContext()); // eslint-disable-line @typescript-eslint/no-floating-promises
 
     // istanbul ignore else
     if (this.props.onStartSignIn)

@@ -14,7 +14,7 @@ import { HttpStatus } from '@bentley/bentleyjs-core';
 import { LogFunction } from '@bentley/bentleyjs-core';
 import { SessionProps } from '@bentley/bentleyjs-core';
 
-// @beta
+// @public
 export class AccessToken {
     constructor(tokenString?: string, startsAt?: Date, expiresAt?: Date, userInfo?: UserInfo);
     static fromJson(jsonObj: AccessTokenProps): AccessToken;
@@ -42,7 +42,7 @@ export class AccessToken {
     toTokenString(includePrefix?: IncludePrefix): string;
     }
 
-// @beta
+// @public
 export interface AccessTokenProps {
     // (undocumented)
     expiresAt?: string;
@@ -205,7 +205,7 @@ export class ImsAuthorizationClient extends Client {
     static readonly searchKey: string;
 }
 
-// @beta
+// @public
 export enum IncludePrefix {
     // (undocumented)
     No = 1,
@@ -437,7 +437,7 @@ export class UserCancelledError extends BentleyError {
     constructor(errorNumber: number, message: string, log?: LogFunction, category?: string, getMetaData?: GetMetaDataFunction);
 }
 
-// @beta
+// @public
 export class UserInfo {
     constructor(
     id: string,
@@ -467,6 +467,7 @@ export class UserInfo {
         ultimateSite: string;
         usageCountryIso: string;
     } | undefined;
+    // @beta
     static fromJson(jsonObj: UserInfoProps): UserInfo;
     // @internal
     static fromTokenResponseJson(jsonObj: any): UserInfo;
@@ -483,7 +484,7 @@ export class UserInfo {
     } | undefined;
 }
 
-// @beta (undocumented)
+// @public (undocumented)
 export interface UserInfoProps {
     // (undocumented)
     email?: {

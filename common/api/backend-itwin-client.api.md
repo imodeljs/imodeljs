@@ -23,21 +23,20 @@ import { TelemetryEvent } from '@bentley/telemetry-client';
 import { Transform } from 'stream';
 import { TransformCallback } from 'stream';
 
-// @beta
+// @public
 export class AgentAuthorizationClient extends BackendAuthorizationClient implements AuthorizationClient {
     constructor(agentConfiguration: AgentAuthorizationClientConfiguration);
     getAccessToken(requestContext?: ClientRequestContext): Promise<AccessToken>;
-    // @deprecated
-    getToken(requestContext: ClientRequestContext): Promise<AccessToken>;
     get hasExpired(): boolean;
     get hasSignedIn(): boolean;
     get isAuthorized(): boolean;
-    // @deprecated
-    refreshToken(requestContext: ClientRequestContext, jwt: AccessToken): Promise<AccessToken>;
+    refreshAccessToken(requestContext: ClientRequestContext): Promise<AccessToken>;
 }
 
-// @beta
-export type AgentAuthorizationClientConfiguration = BackendAuthorizationClientConfiguration;
+// @public
+export interface AgentAuthorizationClientConfiguration extends BackendAuthorizationClientConfiguration {
+    readonly expireSafety?: number;
+}
 
 // @internal
 export class AzureFileHandler implements FileHandler {
@@ -55,7 +54,7 @@ export class AzureFileHandler implements FileHandler {
     uploadFile(requestContext: AuthorizedClientRequestContext, uploadUrlString: string, uploadFromPathname: string, progressCallback?: ProgressCallback): Promise<void>;
     }
 
-// @beta
+// @public
 export abstract class BackendAuthorizationClient extends ImsAuthorizationClient {
     constructor(configuration: BackendAuthorizationClientConfiguration);
     // (undocumented)
@@ -65,7 +64,7 @@ export abstract class BackendAuthorizationClient extends ImsAuthorizationClient 
     protected getClient(requestContext: ClientRequestContext): Promise<Client>;
     }
 
-// @beta
+// @public
 export interface BackendAuthorizationClientConfiguration {
     clientId: string;
     clientSecret: string;

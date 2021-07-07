@@ -1,10 +1,10 @@
 sep=;
 Release Tag;API Item
-beta;AgentAuthorizationClient 
-beta;AgentAuthorizationClientConfiguration = BackendAuthorizationClientConfiguration
+public;AgentAuthorizationClient 
+public;AgentAuthorizationClientConfiguration 
 internal;AzureFileHandler 
-beta;class BackendAuthorizationClient 
-beta;BackendAuthorizationClientConfiguration
+public;class BackendAuthorizationClient 
+public;BackendAuthorizationClientConfiguration
 internal;BackendFeatureUsageTelemetryClient 
 public;BackendITwinClientLoggerCategory
 alpha;class BackendTelemetryClient 

@@ -13,7 +13,7 @@ import { User } from 'oidc-client';
 import { UserManager } from 'oidc-client';
 import { UserManagerSettings } from 'oidc-client';
 
-// @beta
+// @public
 export class BrowserAuthorizationCallbackHandler extends BrowserAuthorizationBase<BrowserAuthorizationCallbackHandlerConfiguration> {
     // (undocumented)
     protected getUserManager(): Promise<UserManager>;
@@ -21,12 +21,12 @@ export class BrowserAuthorizationCallbackHandler extends BrowserAuthorizationBas
     static handleSigninCallback(redirectUrl: string): Promise<void>;
     }
 
-// @beta (undocumented)
+// @public
 export interface BrowserAuthorizationCallbackHandlerConfiguration {
     responseMode?: "query" | "fragment" | string;
 }
 
-// @beta (undocumented)
+// @public
 export class BrowserAuthorizationClient extends BrowserAuthorizationBase<BrowserAuthorizationClientConfiguration> implements FrontendAuthorizationClient, IDisposable {
     constructor(configuration: BrowserAuthorizationClientConfiguration);
     // (undocumented)
@@ -69,7 +69,7 @@ export class BrowserAuthorizationClient extends BrowserAuthorizationBase<Browser
     signOutRedirect(requestContext: ClientRequestContext): Promise<void>;
 }
 
-// @beta (undocumented)
+// @public
 export interface BrowserAuthorizationClientConfiguration extends BrowserAuthorizationClientRequestOptions {
     readonly authority?: string;
     readonly clientId: string;
@@ -85,24 +85,12 @@ export interface BrowserAuthorizationClientRequestOptions {
     prompt?: "none" | "login" | "consent" | "select_account" | string;
 }
 
-// @beta (undocumented)
+// @public
 export interface FrontendAuthorizationClient extends AuthorizationClient {
     readonly hasSignedIn: boolean;
     readonly onUserStateChanged: BeEvent<(token: AccessToken | undefined) => void>;
     signIn(requestContext?: ClientRequestContext): Promise<void>;
     signOut(requestContext?: ClientRequestContext): Promise<void>;
-}
-
-// @beta
-export const isFrontendAuthorizationClient: (client: AuthorizationClient | undefined) => client is FrontendAuthorizationClient;
-
-// @beta (undocumented)
-export enum OidcCallbackResponseMode {
-    // (undocumented)
-    Fragment = 2,
-    // (undocumented)
-    Query = 1,
-    Unknown = 3
 }
 
 

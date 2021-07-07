@@ -63,6 +63,7 @@ export class ElectronAuthorizationBackend extends NativeAppAuthorizationBackend 
     await this.loadAccessToken();
   }
 
+  /** Refresh the access token */
   public async refreshToken(): Promise<AccessToken> {
     if (this._tokenResponse === undefined || this._tokenResponse.refreshToken === undefined)
       throw new BentleyError(AuthStatus.Error, "Not signed In. First call signIn()", Logger.logError, loggerCategory);

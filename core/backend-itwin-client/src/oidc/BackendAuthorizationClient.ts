@@ -12,7 +12,7 @@ import { ClientMetadata, custom, Issuer, Client as OpenIdClient } from "openid-c
 
 /**
  * Client configuration to create OIDC/OAuth tokens for backend applications
- * @beta
+ * @public
  */
 export interface BackendAuthorizationClientConfiguration {
   /** Client application's identifier as registered with the Bentley IMS OIDC/OAuth2 provider. */
@@ -25,7 +25,7 @@ export interface BackendAuthorizationClientConfiguration {
 
 /**
  * Utility to generate OIDC/OAuth tokens for backend applications
- * @beta
+ * @public
  */
 export abstract class BackendAuthorizationClient extends ImsAuthorizationClient {
   protected _configuration: BackendAuthorizationClientConfiguration;

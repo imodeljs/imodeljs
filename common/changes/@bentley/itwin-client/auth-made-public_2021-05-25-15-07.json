@@ -1,0 +1,11 @@
+{
+  "changes": [
+    {
+      "packageName": "@bentley/itwin-client",
+      "comment": "Authorization utilities made public; Changes to authorization with agents",
+      "type": "none"
+    }
+  ],
+  "packageName": "@bentley/itwin-client",
+  "email": "32458710+ramanujam-raman@users.noreply.github.com"
+}

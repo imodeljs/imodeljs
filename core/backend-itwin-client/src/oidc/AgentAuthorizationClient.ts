@@ -18,9 +18,17 @@ const loggerCategory = BackendITwinClientLoggerCategory.Authorization;
 /**
  * Configuration of clients for agent or service applications.
  * @see [[AgentAuthorizationClient]] for notes on registering an application
- * @beta
+ * @public
  */
-export type AgentAuthorizationClientConfiguration = BackendAuthorizationClientConfiguration;
+export interface AgentAuthorizationClientConfiguration extends BackendAuthorizationClientConfiguration {
+  /**
+   * Time in seconds that's used as a buffer to check the token for validity/expiry.
+   * The checks for authorization, and refreshing access tokens all use this buffer - i.e., the token is considered expired if the current time is within the specified
+   * time of the actual expiry.
+   * @note If unspecified this defaults to 60 seconds
+   */
+  readonly expireSafety?: number;
+}
 
 /**
  * Configuration of clients for agent or service applications.
@@ -46,13 +54,16 @@ export type OidcAgentClient = AgentAuthorizationClient;
  * * Ensure the application can access the iTwin Project/Asset - in production environments, this is done by
  * using the iTwin project portal to add add the email **`{Client Id}@apps.imsoidc.bentley.com`** as an authorized user
  * with the appropriate role that includes the required access permissions.
- * @beta
+ * @public
  */
 export class AgentAuthorizationClient extends BackendAuthorizationClient implements AuthorizationClient {
   private _accessToken?: AccessToken;
+  private _expireSafety = 60;  // validate tokens 1 minute before expiry by default
 
   constructor(agentConfiguration: AgentAuthorizationClientConfiguration) {
     super(agentConfiguration);
+    if (agentConfiguration.expireSafety)
+      this._expireSafety = agentConfiguration.expireSafety;
   }
 
   private async generateAccessToken(requestContext: ClientRequestContext): Promise<AccessToken> {
@@ -81,27 +92,12 @@ export class AgentAuthorizationClient extends BackendAuthorizationClient impleme
   }
 
   /**
-   * Get the access token
-   * @deprecated Use [[AgentAuthorizationClient.getAccessToken]] instead.
+   * Refresh the access token irrespective of expiry state - returns a token that's valid for the maximum period possible
+   * - Use [[AgentAuthorizationClient.getAccessToken]] to get a token for the typical cases where the method checks if the
+   * token is valid before refreshing it.
    */
-  public async getToken(requestContext: ClientRequestContext): Promise<AccessToken> {
-    return this.generateAccessToken(requestContext);
-  }
-
-  /**
-   * Refresh the access token - simply checks if the token is still valid before re-fetching a new access token
-   * @deprecated Use [[AgentAuthorizationClient.getAccessToken]] instead to always get a valid token.
-   */
-  public async refreshToken(requestContext: ClientRequestContext, jwt: AccessToken): Promise<AccessToken> {
+  public async refreshAccessToken(requestContext: ClientRequestContext): Promise<AccessToken> {
     requestContext.enter();
-
-    // Refresh 1 minute before expiry
-    const expiresAt = jwt.getExpiresAt();
-    if (!expiresAt)
-      throw new BentleyError(AuthStatus.Error, "Invalid JWT passed to refresh");
-    if (expiresAt.getTime() - Date.now() > 1 * 60 * 1000)
-      return jwt;
-
     this._accessToken = await this.generateAccessToken(requestContext);
     return this._accessToken;
   }
@@ -123,7 +119,7 @@ export class AgentAuthorizationClient extends BackendAuthorizationClient impleme
     if (!expiresAt)
       throw new BentleyError(AuthStatus.Error, "Invalid JWT");
 
-    return expiresAt.getTime() - Date.now() <= 1 * 60 * 1000; // Consider 1 minute before expiry as expired
+    return expiresAt.getTime() - Date.now() <= this._expireSafety * 1000;
   }
 
   /** Set to true if signed in - the accessToken may be active or may have expired and require a refresh */

@@ -1,7 +1,7 @@
 sep=;
 Release Tag;API Item
-beta;AccessToken
-beta;AccessTokenProps
+public;AccessToken
+public;AccessTokenProps
 beta;AuthenticationError 
 beta;AuthorizationClient
 public;AuthorizedClientRequestContext 
@@ -24,7 +24,7 @@ internal;getArrayBuffer(requestContext: ClientRequestContext, url: string): Prom
 internal;getJson(requestContext: ClientRequestContext, url: string): Promise
 beta;HttpRequestOptions
 beta;ImsAuthorizationClient 
-beta;IncludePrefix
+public;IncludePrefix
 beta;isAuthorizedClientRequestContext: (requestContext: ClientRequestContext) => requestContext is AuthorizedClientRequestContext
 beta;ITwinClientLoggerCategory
 beta;ProgressCallback = (progress: ProgressInfo) => void
@@ -49,8 +49,8 @@ beta;SasUrlExpired
 internal;TokenPrefix(prefix: string): (constructor: any) => void
 internal;UrlDiscoveryClient 
 internal;UserCancelledError 
-beta;UserInfo
-beta;UserInfoProps
+public;UserInfo
+public;UserInfoProps
 beta;class WsgClient 
 beta;WsgError 
 beta;class WsgInstance 
