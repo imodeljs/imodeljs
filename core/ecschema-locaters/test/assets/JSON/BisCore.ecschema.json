@@ -1,0 +1,4328 @@
+{
+   "$schema" : "https://dev.bentley.com/json_schemas/ec/32/ecschema",
+   "alias" : "bis",
+   "customAttributes" : [
+      {
+         "className" : "ECDbSchemaPolicies.NoAdditionalRootEntityClasses"
+      },
+      {
+         "Exceptions" : [ "Functional:FunctionalElement.TypeDefinition" ],
+         "className" : "ECDbSchemaPolicies.NoAdditionalForeignKeyConstraints"
+      },
+      {
+         "className" : "ECDbSchemaPolicies.NoAdditionalLinkTables"
+      },
+      {
+         "className" : "BisCore.SchemaHasBehavior"
+      }
+   ],
+   "description" : "The BIS core schema contains classes that all other domain schemas extend.",
+   "items" : {
+      "AnnotationElement2d" : {
+         "baseClass" : "BisCore.GraphicalElement2d",
+         "customAttributes" : [
+            {
+               "className" : "BisCore.ClassHasHandler"
+            }
+         ],
+         "description" : "bis:AnnotationElement2d is a bis:GraphicalElement2d used to annotate drawings and sheets.",
+         "label" : "2D Annotation Element",
+         "schemaItemType" : "EntityClass"
+      },
+      "AnnotationFrameStyle" : {
+         "baseClass" : "BisCore.DefinitionElement",
+         "customAttributes" : [
+            {
+               "className" : "BisCore.ClassHasHandler"
+            }
+         ],
+         "label" : "Annotation Frame Style",
+         "modifier" : "Sealed",
+         "properties" : [
+            {
+               "customAttributes" : [
+                  {
+                     "className" : "BisCore.CustomHandledProperty"
+                  }
+               ],
+               "description" : "Description of the style",
+               "name" : "Description",
+               "type" : "PrimitiveProperty",
+               "typeName" : "string"
+            },
+            {
+               "customAttributes" : [
+                  {
+                     "className" : "BisCore.CustomHandledProperty"
+                  },
+                  {
+                     "className" : "CoreCustomAttributes.HiddenProperty"
+                  }
+               ],
+               "description" : "Encoded style properties",
+               "name" : "Data",
+               "type" : "PrimitiveProperty",
+               "typeName" : "binary"
+            }
+         ],
+         "schemaItemType" : "EntityClass"
+      },
+      "AnnotationLeaderStyle" : {
+         "baseClass" : "BisCore.DefinitionElement",
+         "customAttributes" : [
+            {
+               "className" : "BisCore.ClassHasHandler"
+            }
+         ],
+         "label" : "Annotation Leader Style",
+         "modifier" : "Sealed",
+         "properties" : [
+            {
+               "customAttributes" : [
+                  {
+                     "className" : "BisCore.CustomHandledProperty"
+                  }
+               ],
+               "description" : "Description of the style",
+               "name" : "Description",
+               "type" : "PrimitiveProperty",
+               "typeName" : "string"
+            },
+            {
+               "customAttributes" : [
+                  {
+                     "className" : "BisCore.CustomHandledProperty"
+                  },
+                  {
+                     "className" : "CoreCustomAttributes.HiddenProperty"
+                  }
+               ],
+               "description" : "Encoded style properties",
+               "name" : "Data",
+               "type" : "PrimitiveProperty",
+               "typeName" : "binary"
+            }
+         ],
+         "schemaItemType" : "EntityClass"
+      },
+      "AnnotationTextStyle" : {
+         "baseClass" : "BisCore.DefinitionElement",
+         "customAttributes" : [
+            {
+               "className" : "BisCore.ClassHasHandler"
+            }
+         ],
+         "label" : "Annotation Text Style",
+         "modifier" : "Sealed",
+         "properties" : [
+            {
+               "customAttributes" : [
+                  {
+                     "className" : "BisCore.CustomHandledProperty"
+                  }
+               ],
+               "description" : "Description of the style",
+               "name" : "Description",
+               "type" : "PrimitiveProperty",
+               "typeName" : "string"
+            },
+            {
+               "customAttributes" : [
+                  {
+                     "className" : "BisCore.CustomHandledProperty"
+                  },
+                  {
+                     "className" : "CoreCustomAttributes.HiddenProperty"
+                  }
+               ],
+               "description" : "Encoded style properties",
+               "name" : "Data",
+               "type" : "PrimitiveProperty",
+               "typeName" : "binary"
+            }
+         ],
+         "schemaItemType" : "EntityClass"
+      },
+      "AutoHandledProperty" : {
+         "appliesTo" : "AnyProperty",
+         "description" : "Applied to an element's property to indicate that select, update, and insert of the property's value are handled automatically by the platform.",
+         "properties" : [
+            {
+               "description" : "Indicates the statement types that are relevant for a particular auto-handled property.",
+               "name" : "StatementTypes",
+               "type" : "PrimitiveProperty",
+               "typeName" : "BisCore.AutoHandledPropertyStatementType"
+            }
+         ],
+         "schemaItemType" : "CustomAttributeClass"
+      },
+      "AutoHandledPropertyStatementType" : {
+         "enumerators" : [
+            {
+               "label" : "ReadOnly = Select|Insert",
+               "name" : "AutoHandledPropertyStatementType3",
+               "value" : 3
+            },
+            {
+               "label" : "All = Select | Insert | Update",
+               "name" : "AutoHandledPropertyStatementType7",
+               "value" : 7
+            }
+         ],
+         "isStrict" : true,
+         "schemaItemType" : "Enumeration",
+         "type" : "int"
+      },
+      "AuxCoordSystem" : {
+         "baseClass" : "BisCore.DefinitionElement",
+         "customAttributes" : [
+            {
+               "className" : "CoreCustomAttributes.NotSubclassableInReferencingSchemas"
+            }
+         ],
+         "label" : "Auxiliary Coordinate System",
+         "modifier" : "Abstract",
+         "properties" : [
+            {
+               "description" : "See the ACSType enum. None = 0;  Rectangular = 1; Cylindrical = 2; Spherical = 3.",
+               "name" : "Type",
+               "type" : "PrimitiveProperty",
+               "typeName" : "int"
+            },
+            {
+               "description" : "A human-readable description of the Auxiliary Coordinate System",
+               "name" : "Description",
+               "type" : "PrimitiveProperty",
+               "typeName" : "string"
+            }
+         ],
+         "schemaItemType" : "EntityClass"
+      },
+      "AuxCoordSystem2d" : {
+         "baseClass" : "BisCore.AuxCoordSystem",
+         "customAttributes" : [
+            {
+               "className" : "BisCore.ClassHasHandler"
+            }
+         ],
+         "description" : "A 2D coordinate system.",
+         "label" : "2D Auxiliary Coordinate System",
+         "properties" : [
+            {
+               "description" : "Defines the real location of the 0, 0 coordinate of the ACS.",
+               "name" : "Origin",
+               "type" : "PrimitiveProperty",
+               "typeName" : "point2d"
+            },
+            {
+               "description" : "The angle (in degrees) of the Coordinate System",
+               "name" : "Angle",
+               "type" : "PrimitiveProperty",
+               "typeName" : "double"
+            }
+         ],
+         "schemaItemType" : "EntityClass"
+      },
+      "AuxCoordSystem3d" : {
+         "baseClass" : "BisCore.AuxCoordSystem",
+         "customAttributes" : [
+            {
+               "className" : "BisCore.ClassHasHandler"
+            }
+         ],
+         "description" : "A 3D coordinate system.",
+         "label" : "3D Auxiliary Coordinate System",
+         "properties" : [
+            {
+               "description" : "Defines the plane of the ACS and the real location of the 0, 0, 0 coordinate of the ACS.",
+               "name" : "Origin",
+               "type" : "PrimitiveProperty",
+               "typeName" : "point3d"
+            },
+            {
+               "description" : "The Yaw angle (in degrees) of the orientation of this Coordinate System",
+               "name" : "Yaw",
+               "type" : "PrimitiveProperty",
+               "typeName" : "double"
+            },
+            {
+               "description" : "The Pitch angle (in degrees) of the orientation of this Coordinate System",
+               "name" : "Pitch",
+               "type" : "PrimitiveProperty",
+               "typeName" : "double"
+            },
+            {
+               "description" : "The Roll angle (in degrees) of the orientation of this Coordinate System",
+               "name" : "Roll",
+               "type" : "PrimitiveProperty",
+               "typeName" : "double"
+            }
+         ],
+         "schemaItemType" : "EntityClass"
+      },
+      "AuxCoordSystemSpatial" : {
+         "baseClass" : "BisCore.AuxCoordSystem3d",
+         "customAttributes" : [
+            {
+               "className" : "BisCore.ClassHasHandler"
+            }
+         ],
+         "description" : "A spatial coordinate system.",
+         "label" : "Spatial Auxiliary Coordinate System",
+         "schemaItemType" : "EntityClass"
+      },
+      "BaseModelForView2d" : {
+         "modifier" : "Sealed",
+         "schemaItemType" : "RelationshipClass",
+         "source" : {
+            "constraintClasses" : [ "BisCore.GeometricModel2d" ],
+            "multiplicity" : "(1..1)",
+            "polymorphic" : true,
+            "roleLabel" : "is base model for"
+         },
+         "strength" : "Referencing",
+         "strengthDirection" : "Forward",
+         "target" : {
+            "constraintClasses" : [ "BisCore.ViewDefinition2d" ],
+            "multiplicity" : "(0..*)",
+            "polymorphic" : true,
+            "roleLabel" : "has base"
+         }
+      },
+      "Category" : {
+         "baseClass" : "BisCore.DefinitionElement",
+         "customAttributes" : [
+            {
+               "className" : "BisCore.ClassHasHandler"
+            },
+            {
+               "className" : "CoreCustomAttributes.NotSubclassableInReferencingSchemas"
+            }
+         ],
+         "description" : "A bis:Category categorizes a bis:GeometricElement and its geometry. Every bis:GeometricElement is in one and only one bis:Category. The visibility (on/off) of a bis:Category may be controlled per-view. Categories are similar to levels in DGN, layers in DWG, and categories in RVT.",
+         "mixins" : [ "BisCore.IParentElement" ],
+         "modifier" : "Abstract",
+         "properties" : [
+            {
+               "customAttributes" : [
+                  {
+                     "className" : "CoreCustomAttributes.HiddenProperty"
+                  },
+                  {
+                     "className" : "BisCore.CustomHandledProperty"
+                  }
+               ],
+               "description" : "A human-readable description of the Category",
+               "label" : "Description",
+               "name" : "Description",
+               "type" : "PrimitiveProperty",
+               "typeName" : "string"
+            },
+            {
+               "customAttributes" : [
+                  {
+                     "className" : "CoreCustomAttributes.HiddenProperty"
+                  },
+                  {
+                     "className" : "BisCore.CustomHandledProperty"
+                  }
+               ],
+               "description" : "The Rank of a category indicates how it was created and where it can be used. 0=System; 1=Domain; 2=Application; 3=User.",
+               "name" : "Rank",
+               "type" : "PrimitiveProperty",
+               "typeName" : "int"
+            }
+         ],
+         "schemaItemType" : "EntityClass"
+      },
+      "CategoryOwnsSubCategories" : {
+         "baseClass" : "BisCore.ElementOwnsChildElements",
+         "modifier" : "None",
+         "schemaItemType" : "RelationshipClass",
+         "source" : {
+            "constraintClasses" : [ "BisCore.Category" ],
+            "multiplicity" : "(0..1)",
+            "polymorphic" : true,
+            "roleLabel" : "owns"
+         },
+         "strength" : "Embedding",
+         "strengthDirection" : "Forward",
+         "target" : {
+            "constraintClasses" : [ "BisCore.SubCategory" ],
+            "multiplicity" : "(0..*)",
+            "polymorphic" : false,
+            "roleLabel" : "is owned by"
+         }
+      },
+      "CategorySelector" : {
+         "baseClass" : "BisCore.DefinitionElement",
+         "customAttributes" : [
+            {
+               "className" : "BisCore.ClassHasHandler"
+            }
+         ],
+         "label" : "Category Selector",
+         "schemaItemType" : "EntityClass"
+      },
+      "CategorySelectorRefersToCategories" : {
+         "baseClass" : "BisCore.ElementRefersToElements",
+         "modifier" : "Sealed",
+         "schemaItemType" : "RelationshipClass",
+         "source" : {
+            "constraintClasses" : [ "BisCore.CategorySelector" ],
+            "multiplicity" : "(0..*)",
+            "polymorphic" : true,
+            "roleLabel" : "refers to"
+         },
+         "strength" : "Referencing",
+         "strengthDirection" : "Forward",
+         "target" : {
+            "constraintClasses" : [ "BisCore.Category" ],
+            "multiplicity" : "(0..*)",
+            "polymorphic" : true,
+            "roleLabel" : "is referenced by"
+         }
+      },
+      "ClassHasHandler" : {
+         "appliesTo" : "Any",
+         "description" : "Applied to an ECClass to indicate that a C++ subclass of DgnDomain::Handler will supply behavior for it at run-time. This custom attribute may only be used by BisCore or other core schemas.",
+         "properties" : [
+            {
+               "description" : "List of actions that are not permitted when the associated handler is not available",
+               "minOccurs" : 0,
+               "name" : "Restrictions",
+               "type" : "PrimitiveArrayProperty",
+               "typeName" : "string"
+            }
+         ],
+         "schemaItemType" : "CustomAttributeClass"
+      },
+      "CodeSpec" : {
+         "customAttributes" : [
+            {
+               "className" : "BisCore.ClassHasHandler"
+            }
+         ],
+         "description" : "A bis:CodeSpec (code specification) captures the rules for encoding and decoding significant business information into and from a Code (string). This specification is used to generate and validate Codes.",
+         "label" : "Code Specification",
+         "modifier" : "Sealed",
+         "properties" : [
+            {
+               "customAttributes" : [
+                  {
+                     "Collation" : "NoCase",
+                     "IsNullable" : false,
+                     "IsUnique" : true,
+                     "className" : "ECDbMap.PropertyMap"
+                  }
+               ],
+               "description" : "The unique name of the bis:CodeSpec. A best practice is to incorporate the schema alias or domain name into the bis:CodeSpec name to ensure uniqueness.",
+               "name" : "Name",
+               "type" : "PrimitiveProperty",
+               "typeName" : "string"
+            },
+            {
+               "description" : "A JSON string containing scope and fragment specifications used to generate and validate code values",
+               "extendedTypeName" : "Json",
+               "name" : "JsonProperties",
+               "type" : "PrimitiveProperty",
+               "typeName" : "string"
+            }
+         ],
+         "schemaItemType" : "EntityClass"
+      },
+      "CodeSpecSpecifiesCode" : {
+         "modifier" : "Sealed",
+         "schemaItemType" : "RelationshipClass",
+         "source" : {
+            "constraintClasses" : [ "BisCore.CodeSpec" ],
+            "multiplicity" : "(1..1)",
+            "polymorphic" : true,
+            "roleLabel" : "specified code for"
+         },
+         "strength" : "Referencing",
+         "strengthDirection" : "Forward",
+         "target" : {
+            "constraintClasses" : [ "BisCore.Element" ],
+            "multiplicity" : "(0..*)",
+            "polymorphic" : true,
+            "roleLabel" : "code is specified by"
+         }
+      },
+      "ColorBook" : {
+         "baseClass" : "BisCore.DefinitionElement",
+         "customAttributes" : [
+            {
+               "className" : "BisCore.ClassHasHandler"
+            }
+         ],
+         "label" : "Color Book",
+         "modifier" : "Sealed",
+         "properties" : [
+            {
+               "description" : "A human-readable description of the ColorBook",
+               "name" : "Description",
+               "type" : "PrimitiveProperty",
+               "typeName" : "string"
+            }
+         ],
+         "schemaItemType" : "EntityClass"
+      },
+      "CustomHandledProperty" : {
+         "appliesTo" : "AnyProperty",
+         "description" : "Applied to an element's property to indicate that the property's value is handled specially by a C++ class. Can only be applied to properties of ECClasses that specify ClassHasHandler.",
+         "properties" : [
+            {
+               "description" : "Indicates the statement types that are relevant for a particular custom-handled property.",
+               "name" : "StatementTypes",
+               "type" : "PrimitiveProperty",
+               "typeName" : "BisCore.CustomHandledPropertyStatementType"
+            }
+         ],
+         "schemaItemType" : "CustomAttributeClass"
+      },
+      "CustomHandledPropertyStatementType" : {
+         "description" : "Restrictions that may be applied to a CustomHandledProperty. Must match the ECSqlClassParams::StatementType enum",
+         "enumerators" : [
+            {
+               "label" : "None",
+               "name" : "CustomHandledPropertyStatementType0",
+               "value" : 0
+            },
+            {
+               "label" : "Select",
+               "name" : "CustomHandledPropertyStatementType1",
+               "value" : 1
+            },
+            {
+               "label" : "Insert",
+               "name" : "CustomHandledPropertyStatementType2",
+               "value" : 2
+            },
+            {
+               "label" : "ReadOnly = Select|Insert",
+               "name" : "CustomHandledPropertyStatementType3",
+               "value" : 3
+            },
+            {
+               "label" : "Update",
+               "name" : "CustomHandledPropertyStatementType4",
+               "value" : 4
+            },
+            {
+               "label" : "InsertUpdate = Insert | Update",
+               "name" : "CustomHandledPropertyStatementType6",
+               "value" : 6
+            },
+            {
+               "label" : "All = Select | Insert | Update",
+               "name" : "CustomHandledPropertyStatementType7",
+               "value" : 7
+            }
+         ],
+         "isStrict" : true,
+         "schemaItemType" : "Enumeration",
+         "type" : "int"
+      },
+      "DefinitionElement" : {
+         "baseClass" : "BisCore.InformationContentElement",
+         "customAttributes" : [
+            {
+               "className" : "BisCore.ClassHasHandler"
+            },
+            {
+               "ApplyToSubclassesOnly" : true,
+               "MaxSharedColumnsBeforeOverflow" : 32,
+               "className" : "ECDbMap.ShareColumns"
+            }
+         ],
+         "description" : "A bis:DefinitionElement holds configuration-related information that is meant to be referenced/shared.",
+         "label" : "Definition Element",
+         "modifier" : "Abstract",
+         "properties" : [
+            {
+               "customAttributes" : [
+                  {
+                     "className" : "BisCore.CustomHandledProperty"
+                  }
+               ],
+               "description" : "If true, this bis:DefinitionElement should not be displayed in the GUI.",
+               "label" : "Is Private",
+               "name" : "IsPrivate",
+               "type" : "PrimitiveProperty",
+               "typeName" : "boolean"
+            }
+         ],
+         "schemaItemType" : "EntityClass"
+      },
+      "DefinitionModel" : {
+         "baseClass" : "BisCore.InformationModel",
+         "customAttributes" : [
+            {
+               "className" : "BisCore.ClassHasHandler"
+            }
+         ],
+         "description" : "A container for persisting bis:DefinitionElement instances.",
+         "label" : "Definition Model",
+         "schemaItemType" : "EntityClass"
+      },
+      "DefinitionPartition" : {
+         "baseClass" : "BisCore.InformationPartitionElement",
+         "customAttributes" : [
+            {
+               "className" : "BisCore.ClassHasHandler"
+            }
+         ],
+         "description" : "A bis:DefinitionPartition element establishes a 'Definition' Modeling Perspective for its parent bis:Subject. A bis:DefinitionPartition is always sub-modeled by a bis:DefinitionModel.",
+         "label" : "Definition Partition",
+         "modifier" : "Sealed",
+         "schemaItemType" : "EntityClass"
+      },
+      "DictionaryModel" : {
+         "baseClass" : "BisCore.DefinitionModel",
+         "customAttributes" : [
+            {
+               "className" : "BisCore.ClassHasHandler"
+            }
+         ],
+         "description" : "The singleton container for repository-global bis:DefinitionElement instances.",
+         "label" : "Dictionary Model",
+         "modifier" : "Sealed",
+         "schemaItemType" : "EntityClass"
+      },
+      "DisplayStyle" : {
+         "baseClass" : "BisCore.DefinitionElement",
+         "customAttributes" : [
+            {
+               "className" : "BisCore.ClassHasHandler"
+            },
+            {
+               "className" : "CoreCustomAttributes.NotSubclassableInReferencingSchemas"
+            }
+         ],
+         "description" : "A bis:DisplayStyle defines the 'styling' parameters for rendering the contents of a view. It determines how graphics are rendered, not which elements are rendered. A bis:DisplayStyle can be shared by many Views.",
+         "label" : "Display Style",
+         "modifier" : "Abstract",
+         "schemaItemType" : "EntityClass"
+      },
+      "DisplayStyle2d" : {
+         "baseClass" : "BisCore.DisplayStyle",
+         "customAttributes" : [
+            {
+               "className" : "BisCore.ClassHasHandler"
+            }
+         ],
+         "description" : "A bis:DisplayStyle2d defines the 'styling' parameters for rendering the contents of a 2D View.",
+         "label" : "2D Display Style",
+         "schemaItemType" : "EntityClass"
+      },
+      "DisplayStyle3d" : {
+         "baseClass" : "BisCore.DisplayStyle",
+         "customAttributes" : [
+            {
+               "className" : "BisCore.ClassHasHandler"
+            }
+         ],
+         "description" : "A bis:DisplayStyle3d defines the 'styling' parameters for rendering the contents of a 3D View.",
+         "label" : "3D Display Style",
+         "schemaItemType" : "EntityClass"
+      },
+      "Document" : {
+         "baseClass" : "BisCore.InformationContentElement",
+         "customAttributes" : [
+            {
+               "className" : "BisCore.ClassHasHandler"
+            },
+            {
+               "ApplyToSubclassesOnly" : true,
+               "MaxSharedColumnsBeforeOverflow" : 32,
+               "className" : "ECDbMap.ShareColumns"
+            }
+         ],
+         "description" : "A bis:Document is a social artifact designed with the distinct purpose to convey information in a manner that maximizes reach and lifespan and minimize dependency on other artifacts. Although there is often a one-to-one relationship between a bis:Document and an electronic file, this does not imply that a document is a file; instead, a document can be realized in many different media (such as paper) or have more than one file supporting it.",
+         "label" : "Document",
+         "modifier" : "Abstract",
+         "schemaItemType" : "EntityClass"
+      },
+      "DocumentCarrier" : {
+         "baseClass" : "BisCore.InformationCarrierElement",
+         "customAttributes" : [
+            {
+               "Description" : "BisCore will focus on the information itself and not how it is carried. Thus, the DocumentCarrier class was deprecated.",
+               "className" : "CoreCustomAttributes.Deprecated"
+            },
+            {
+               "ApplyToSubclassesOnly" : true,
+               "MaxSharedColumnsBeforeOverflow" : 32,
+               "className" : "ECDbMap.ShareColumns"
+            }
+         ],
+         "description" : "DEPRECATED: A Document Carrier is an Information Carrier that carries a Document. An electronic file is a good example.",
+         "label" : "Document Carrier",
+         "modifier" : "Abstract",
+         "schemaItemType" : "EntityClass"
+      },
+      "DocumentListModel" : {
+         "baseClass" : "BisCore.InformationModel",
+         "customAttributes" : [
+            {
+               "className" : "BisCore.ClassHasHandler"
+            }
+         ],
+         "description" : "A container for persisting bis:Document elements.",
+         "label" : "Document List",
+         "schemaItemType" : "EntityClass"
+      },
+      "DocumentPartition" : {
+         "baseClass" : "BisCore.InformationPartitionElement",
+         "customAttributes" : [
+            {
+               "className" : "BisCore.ClassHasHandler"
+            }
+         ],
+         "description" : "A bis:DocumentPartition element establishes a 'Document' Modeling Perspective for its parent bis:Subject. A bis:DocumentPartition is always sub-modeled by a bis:DocumentListModel.",
+         "label" : "Document Partition",
+         "modifier" : "Sealed",
+         "schemaItemType" : "EntityClass"
+      },
+      "Drawing" : {
+         "baseClass" : "BisCore.Document",
+         "customAttributes" : [
+            {
+               "className" : "BisCore.ClassHasHandler"
+            }
+         ],
+         "description" : "A bis:Drawing is a bis:Document of a 2D drawing.",
+         "mixins" : [ "BisCore.ISubModeledElement" ],
+         "schemaItemType" : "EntityClass"
+      },
+      "DrawingCategory" : {
+         "baseClass" : "BisCore.Category",
+         "customAttributes" : [
+            {
+               "className" : "BisCore.ClassHasHandler"
+            }
+         ],
+         "description" : "A bis:DrawingCategory is used for classifying bis:GeometricElement2d elements via the bis:GeometricElement2dIsInCategory (concrete and sealed) relationship.",
+         "label" : "Drawing Category",
+         "modifier" : "Sealed",
+         "schemaItemType" : "EntityClass"
+      },
+      "DrawingGraphic" : {
+         "baseClass" : "BisCore.GraphicalElement2d",
+         "customAttributes" : [
+            {
+               "className" : "BisCore.ClassHasHandler"
+            }
+         ],
+         "description" : "bis:DrawingGraphic is a bis:GraphicalElement2d used to persist graphics for use in drawings.",
+         "label" : "Drawing Graphic",
+         "schemaItemType" : "EntityClass"
+      },
+      "DrawingGraphicRepresentsElement" : {
+         "baseClass" : "BisCore.ElementRefersToElements",
+         "description" : "Relates a bis:DrawingGraphic to the bis:Element that it represents.",
+         "modifier" : "None",
+         "schemaItemType" : "RelationshipClass",
+         "source" : {
+            "constraintClasses" : [ "BisCore.DrawingGraphic" ],
+            "multiplicity" : "(0..*)",
+            "polymorphic" : true,
+            "roleLabel" : "represents"
+         },
+         "strength" : "Referencing",
+         "strengthDirection" : "Forward",
+         "target" : {
+            "constraintClasses" : [ "BisCore.Element" ],
+            "multiplicity" : "(0..*)",
+            "polymorphic" : true,
+            "roleLabel" : "is represented by"
+         }
+      },
+      "DrawingModel" : {
+         "baseClass" : "BisCore.GraphicalModel2d",
+         "customAttributes" : [
+            {
+               "className" : "BisCore.ClassHasHandler"
+            }
+         ],
+         "description" : "A container for persisting bis:DrawingGraphic elements. ",
+         "label" : "Drawing Model",
+         "schemaItemType" : "EntityClass"
+      },
+      "DrawingModelBreaksDownDrawing" : {
+         "baseClass" : "BisCore.ModelModelsElement",
+         "label" : "DrawingModel Sub-Models Drawing",
+         "modifier" : "None",
+         "schemaItemType" : "RelationshipClass",
+         "source" : {
+            "constraintClasses" : [ "BisCore.DrawingModel" ],
+            "multiplicity" : "(0..1)",
+            "polymorphic" : true,
+            "roleLabel" : "sub-models"
+         },
+         "strength" : "Embedding",
+         "strengthDirection" : "Backward",
+         "target" : {
+            "constraintClasses" : [ "BisCore.Drawing" ],
+            "multiplicity" : "(1..1)",
+            "polymorphic" : true,
+            "roleLabel" : "is sub-modeled by"
+         }
+      },
+      "DrawingViewDefinition" : {
+         "baseClass" : "BisCore.ViewDefinition2d",
+         "customAttributes" : [
+            {
+               "className" : "BisCore.ClassHasHandler"
+            }
+         ],
+         "description" : "A bis:DrawingViewDefinition specifies parameters for a view of a bis:DrawingModel.",
+         "label" : "Drawing View Definition",
+         "schemaItemType" : "EntityClass"
+      },
+      "DriverBundleElement" : {
+         "baseClass" : "BisCore.InformationContentElement",
+         "customAttributes" : [
+            {
+               "className" : "BisCore.ClassHasHandler"
+            },
+            {
+               "ApplyToSubclassesOnly" : true,
+               "MaxSharedColumnsBeforeOverflow" : 32,
+               "className" : "ECDbMap.ShareColumns"
+            }
+         ],
+         "description" : "A bis:DriverBundleElement is used in conjunction with bis:ElementDrivesElement relationships to bundle multiple inputs before driving the output bis:Element.",
+         "label" : "Driver Bundle Element",
+         "modifier" : "Abstract",
+         "schemaItemType" : "EntityClass"
+      },
+      "Element" : {
+         "customAttributes" : [
+            {
+               "MapStrategy" : "TablePerHierarchy",
+               "className" : "ECDbMap.ClassMap"
+            },
+            {
+               "className" : "CoreCustomAttributes.NotSubclassableInReferencingSchemas"
+            },
+            {
+               "Indexes" : [
+                  {
+                     "IsUnique" : true,
+                     "Name" : "ix_bis_Element_FederationGuid",
+                     "Properties" : [ "FederationGuid" ],
+                     "Where" : "IndexedColumnsAreNotNull"
+                  },
+                  {
+                     "IsUnique" : true,
+                     "Name" : "ix_bis_Element_Code",
+                     "Properties" : [ "CodeSpec.Id", "CodeScope.Id", "CodeValue" ]
+                  },
+                  {
+                     "IsUnique" : false,
+                     "Name" : "ix_bis_Element_UserLabel",
+                     "Properties" : [ "UserLabel" ],
+                     "Where" : "IndexedColumnsAreNotNull"
+                  }
+               ],
+               "className" : "ECDbMap.DbIndexList"
+            },
+            {
+               "PropertyName" : "LastMod",
+               "className" : "CoreCustomAttributes.ClassHasCurrentTimeStampProperty"
+            },
+            {
+               "className" : "BisCore.ClassHasHandler"
+            },
+            {
+               "PropertyNames" : [ "Id", "ClassName", "ClassFullName", "Code" ],
+               "className" : "BisCore.ReservedPropertyNames"
+            }
+         ],
+         "description" : "A bis:Element is the smallest individually identifiable building block for modeling the real world. Each bis:Element represents an Entity in the real world. Sets of bis:Elements (contained in bis:Models) are used to sub-model other bis:Elements that represent larger scale real world Entities. Using this recursive modeling strategy, bis:Elements can represent Entities at any scale. Elements can represent physical things, abstract concepts or simply be information records.",
+         "modifier" : "Abstract",
+         "properties" : [
+            {
+               "customAttributes" : [
+                  {
+                     "StatementTypes" : 2,
+                     "className" : "BisCore.CustomHandledProperty"
+                  },
+                  {
+                     "OnDeleteAction" : "NoAction",
+                     "className" : "ECDbMap.ForeignKeyConstraint"
+                  }
+               ],
+               "description" : "The bis:Model that contains this bis:Element.",
+               "direction" : "Backward",
+               "isReadOnly" : true,
+               "name" : "Model",
+               "relationshipName" : "BisCore.ModelContainsElements",
+               "type" : "NavigationProperty"
+            },
+            {
+               "customAttributes" : [
+                  {
+                     "DateTimeKind" : "Utc",
+                     "className" : "CoreCustomAttributes.DateTimeInfo"
+                  },
+                  {
+                     "StatementTypes" : 0,
+                     "className" : "BisCore.CustomHandledProperty"
+                  },
+                  {
+                     "className" : "CoreCustomAttributes.HiddenProperty"
+                  }
+               ],
+               "description" : "The last modified time of the bis:Element. This is maintained by the core framework and should not be set directly by applications.",
+               "isReadOnly" : true,
+               "label" : "Last Modified",
+               "name" : "LastMod",
+               "type" : "PrimitiveProperty",
+               "typeName" : "dateTime"
+            },
+            {
+               "customAttributes" : [
+                  {
+                     "className" : "CoreCustomAttributes.HiddenProperty"
+                  },
+                  {
+                     "StatementTypes" : 6,
+                     "className" : "BisCore.CustomHandledProperty"
+                  },
+                  {
+                     "OnDeleteAction" : "NoAction",
+                     "className" : "ECDbMap.ForeignKeyConstraint"
+                  }
+               ],
+               "description" : "The CodeSpec property identifies the bis:CodeSpec used to generate and validate the code for this bis:Element. The combination of CodeSpec, CodeScope, and CodeValue properties must be unique for each bis:Element instance.",
+               "direction" : "Backward",
+               "label" : "Code Specification",
+               "name" : "CodeSpec",
+               "relationshipName" : "BisCore.CodeSpecSpecifiesCode",
+               "type" : "NavigationProperty"
+            },
+            {
+               "customAttributes" : [
+                  {
+                     "className" : "CoreCustomAttributes.HiddenProperty"
+                  },
+                  {
+                     "StatementTypes" : 6,
+                     "className" : "BisCore.CustomHandledProperty"
+                  },
+                  {
+                     "OnDeleteAction" : "NoAction",
+                     "className" : "ECDbMap.ForeignKeyConstraint"
+                  }
+               ],
+               "description" : "The CodeScope property identifies the bis:Element that provides the uniqueness scope for the code value. The combination of CodeSpec, CodeScope, and CodeValue properties must be unique for each bis:Element instance.",
+               "direction" : "Backward",
+               "label" : "Code Scope",
+               "name" : "CodeScope",
+               "relationshipName" : "BisCore.ElementScopesCode",
+               "type" : "NavigationProperty"
+            },
+            {
+               "customAttributes" : [
+                  {
+                     "Collation" : "NoCase",
+                     "IsNullable" : true,
+                     "className" : "ECDbMap.PropertyMap"
+                  },
+                  {
+                     "StatementTypes" : 6,
+                     "className" : "BisCore.CustomHandledProperty"
+                  }
+               ],
+               "description" : "The CodeValue property stores the formal name (business key) for a bis:Element. The combination of CodeSpec, CodeScope, and CodeValue properties must be unique for each bis:Element instance.",
+               "label" : "Code",
+               "name" : "CodeValue",
+               "type" : "PrimitiveProperty",
+               "typeName" : "string"
+            },
+            {
+               "customAttributes" : [
+                  {
+                     "Collation" : "NoCase",
+                     "IsNullable" : true,
+                     "IsUnique" : false,
+                     "className" : "ECDbMap.PropertyMap"
+                  },
+                  {
+                     "StatementTypes" : 6,
+                     "className" : "BisCore.CustomHandledProperty"
+                  }
+               ],
+               "description" : "An optional friendly name given by the user (as opposed to the formal name stored in the CodeValue property).",
+               "label" : "User Label",
+               "name" : "UserLabel",
+               "type" : "PrimitiveProperty",
+               "typeName" : "string"
+            },
+            {
+               "customAttributes" : [
+                  {
+                     "className" : "CoreCustomAttributes.HiddenProperty"
+                  },
+                  {
+                     "StatementTypes" : 6,
+                     "className" : "BisCore.CustomHandledProperty"
+                  },
+                  {
+                     "OnDeleteAction" : "NoAction",
+                     "className" : "ECDbMap.ForeignKeyConstraint"
+                  }
+               ],
+               "description" : "The parent bis:Element that owns this bis:Element.",
+               "direction" : "Backward",
+               "name" : "Parent",
+               "relationshipName" : "BisCore.ElementOwnsChildElements",
+               "type" : "NavigationProperty"
+            },
+            {
+               "customAttributes" : [
+                  {
+                     "IsNullable" : true,
+                     "IsUnique" : true,
+                     "className" : "ECDbMap.PropertyMap"
+                  },
+                  {
+                     "StatementTypes" : 6,
+                     "className" : "BisCore.CustomHandledProperty"
+                  },
+                  {
+                     "className" : "CoreCustomAttributes.HiddenProperty"
+                  }
+               ],
+               "description" : "The GUID used to federate this bis:Element across repositories.",
+               "extendedTypeName" : "BeGuid",
+               "label" : "Federation GUID",
+               "name" : "FederationGuid",
+               "type" : "PrimitiveProperty",
+               "typeName" : "binary"
+            },
+            {
+               "customAttributes" : [
+                  {
+                     "className" : "CoreCustomAttributes.HiddenProperty"
+                  },
+                  {
+                     "StatementTypes" : 6,
+                     "className" : "BisCore.CustomHandledProperty"
+                  }
+               ],
+               "description" : "A string property that users and/or applications can use to persist ad hoc JSON values.",
+               "extendedTypeName" : "Json",
+               "label" : "JSON Properties",
+               "name" : "JsonProperties",
+               "type" : "PrimitiveProperty",
+               "typeName" : "string"
+            }
+         ],
+         "schemaItemType" : "EntityClass"
+      },
+      "ElementAspect" : {
+         "customAttributes" : [
+            {
+               "className" : "BisCore.ClassHasHandler"
+            },
+            {
+               "className" : "CoreCustomAttributes.NotSubclassableInReferencingSchemas"
+            },
+            {
+               "PropertyNames" : [ "Id", "ClassName", "ClassFullName" ],
+               "className" : "BisCore.ReservedPropertyNames"
+            }
+         ],
+         "description" : "A bis:ElementAspect is a class that defines a set of properties that are related to (and owned by) a single bis:Element. Semantically, a bis:ElementAspect can be considered part of the bis:Element. Thus, a bis:ElementAspect is deleted if its owning bis:Element is deleted.",
+         "label" : "Element Aspect",
+         "modifier" : "Abstract",
+         "schemaItemType" : "EntityClass"
+      },
+      "ElementDrivesElement" : {
+         "customAttributes" : [
+            {
+               "className" : "BisCore.ClassHasHandler"
+            },
+            {
+               "MapStrategy" : "TablePerHierarchy",
+               "className" : "ECDbMap.ClassMap"
+            },
+            {
+               "ApplyToSubclassesOnly" : true,
+               "MaxSharedColumnsBeforeOverflow" : 32,
+               "className" : "ECDbMap.ShareColumns"
+            },
+            {
+               "CreateForeignKeyConstraints" : false,
+               "className" : "ECDbMap.LinkTableRelationshipMap"
+            },
+            {
+               "PropertyNames" : [
+                  "Id",
+                  "ClassName",
+                  "ClassFullName",
+                  "SourceId",
+                  "SourceClassId",
+                  "TargetId",
+                  "TargetClassId"
+               ],
+               "className" : "BisCore.ReservedPropertyNames"
+            }
+         ],
+         "description" : "A relationship that indicates that the source Element drives (controls the lifecycle or structure of) a dependent target Element.",
+         "modifier" : "None",
+         "properties" : [
+            {
+               "description" : "Bits that indicate the status of the dependency. Satisfied=0, Failed=1, Deferred=128. Deferred and Failed bits can be OR-ed together.",
+               "name" : "Status",
+               "type" : "PrimitiveProperty",
+               "typeName" : "int"
+            },
+            {
+               "description" : "The priority of this dependency, relative to other ElementDrivesElement instances. Note that ElementOwnsChildElements dependencies always take priority over ElementDrivesElement dependencies.",
+               "name" : "Priority",
+               "type" : "PrimitiveProperty",
+               "typeName" : "int"
+            }
+         ],
+         "schemaItemType" : "RelationshipClass",
+         "source" : {
+            "constraintClasses" : [ "BisCore.Element" ],
+            "multiplicity" : "(0..*)",
+            "polymorphic" : true,
+            "roleLabel" : "drives"
+         },
+         "strength" : "Referencing",
+         "strengthDirection" : "Forward",
+         "target" : {
+            "constraintClasses" : [ "BisCore.Element" ],
+            "multiplicity" : "(0..*)",
+            "polymorphic" : true,
+            "roleLabel" : "is driven by"
+         }
+      },
+      "ElementEncapsulatesElements" : {
+         "baseClass" : "BisCore.ElementOwnsChildElements",
+         "description" : "A relationship that indicates that child bis:Elements are meant to be hidden.",
+         "modifier" : "None",
+         "schemaItemType" : "RelationshipClass",
+         "source" : {
+            "constraintClasses" : [ "BisCore.Element" ],
+            "multiplicity" : "(0..1)",
+            "polymorphic" : true,
+            "roleLabel" : "encapsulates"
+         },
+         "strength" : "Embedding",
+         "strengthDirection" : "Forward",
+         "target" : {
+            "constraintClasses" : [ "BisCore.Element" ],
+            "multiplicity" : "(0..*)",
+            "polymorphic" : true,
+            "roleLabel" : "is encapsulated by"
+         }
+      },
+      "ElementGroupsMembers" : {
+         "baseClass" : "BisCore.ElementRefersToElements",
+         "description" : "A generic relationship used to capture the members of a defined set of bis:Elements.",
+         "modifier" : "None",
+         "properties" : [
+            {
+               "description" : "Can be used to prioritize or order members within an ElementGroup. Values do not have to be unique within a particular group.",
+               "label" : "Member Priority",
+               "name" : "MemberPriority",
+               "type" : "PrimitiveProperty",
+               "typeName" : "int"
+            }
+         ],
+         "schemaItemType" : "RelationshipClass",
+         "source" : {
+            "constraintClasses" : [ "BisCore.Element" ],
+            "multiplicity" : "(0..*)",
+            "polymorphic" : true,
+            "roleLabel" : "groups"
+         },
+         "strength" : "Referencing",
+         "strengthDirection" : "Forward",
+         "target" : {
+            "constraintClasses" : [ "BisCore.Element" ],
+            "multiplicity" : "(0..*)",
+            "polymorphic" : true,
+            "roleLabel" : "is grouped by"
+         }
+      },
+      "ElementHasLinks" : {
+         "baseClass" : "BisCore.ElementRefersToElements",
+         "description" : "Associates bis:LinkElements to a bis:Element.",
+         "modifier" : "None",
+         "schemaItemType" : "RelationshipClass",
+         "source" : {
+            "constraintClasses" : [ "BisCore.Element" ],
+            "multiplicity" : "(1..*)",
+            "polymorphic" : true,
+            "roleLabel" : "has"
+         },
+         "strength" : "Referencing",
+         "strengthDirection" : "Forward",
+         "target" : {
+            "constraintClasses" : [ "BisCore.LinkElement" ],
+            "multiplicity" : "(0..*)",
+            "polymorphic" : true,
+            "roleLabel" : "is referenced by"
+         }
+      },
+      "ElementMultiAspect" : {
+         "baseClass" : "BisCore.ElementAspect",
+         "customAttributes" : [
+            {
+               "MapStrategy" : "TablePerHierarchy",
+               "className" : "ECDbMap.ClassMap"
+            },
+            {
+               "ApplyToSubclassesOnly" : true,
+               "MaxSharedColumnsBeforeOverflow" : 32,
+               "className" : "ECDbMap.ShareColumns"
+            }
+         ],
+         "description" : "A bis:ElementMultiAspect is a bis:ElementAspect where there can be N instances of the bis:ElementAspect class per bis:Element.",
+         "label" : "Element Multi-Aspect",
+         "modifier" : "Abstract",
+         "properties" : [
+            {
+               "customAttributes" : [
+                  {
+                     "className" : "CoreCustomAttributes.HiddenProperty"
+                  },
+                  {
+                     "className" : "ECDbMap.ForeignKeyConstraint"
+                  }
+               ],
+               "description" : "The bis:Element that owns this bis:ElementMultiAspect.",
+               "direction" : "Backward",
+               "name" : "Element",
+               "relationshipName" : "BisCore.ElementOwnsMultiAspects",
+               "type" : "NavigationProperty"
+            }
+         ],
+         "schemaItemType" : "EntityClass"
+      },
+      "ElementOwnsChildElements" : {
+         "description" : "Relates a bis:Element to child bis:Elements which represent parts of the Entity modeled by the parent bis:Element.",
+         "modifier" : "None",
+         "schemaItemType" : "RelationshipClass",
+         "source" : {
+            "constraintClasses" : [ "BisCore.Element" ],
+            "multiplicity" : "(0..1)",
+            "polymorphic" : true,
+            "roleLabel" : "owns child"
+         },
+         "strength" : "Embedding",
+         "strengthDirection" : "Forward",
+         "target" : {
+            "constraintClasses" : [ "BisCore.Element" ],
+            "multiplicity" : "(0..*)",
+            "polymorphic" : true,
+            "roleLabel" : "is owned by parent"
+         }
+      },
+      "ElementOwnsExternalSourceAspects" : {
+         "baseClass" : "BisCore.ElementOwnsMultiAspects",
+         "modifier" : "None",
+         "schemaItemType" : "RelationshipClass",
+         "source" : {
+            "constraintClasses" : [ "BisCore.Element" ],
+            "multiplicity" : "(1..1)",
+            "polymorphic" : true,
+            "roleLabel" : "owns"
+         },
+         "strength" : "Embedding",
+         "strengthDirection" : "Forward",
+         "target" : {
+            "constraintClasses" : [ "BisCore.ExternalSourceAspect" ],
+            "multiplicity" : "(0..*)",
+            "polymorphic" : true,
+            "roleLabel" : "is owned by"
+         }
+      },
+      "ElementOwnsMultiAspects" : {
+         "modifier" : "None",
+         "schemaItemType" : "RelationshipClass",
+         "source" : {
+            "constraintClasses" : [ "BisCore.Element" ],
+            "multiplicity" : "(1..1)",
+            "polymorphic" : true,
+            "roleLabel" : "owns"
+         },
+         "strength" : "Embedding",
+         "strengthDirection" : "Forward",
+         "target" : {
+            "constraintClasses" : [ "BisCore.ElementMultiAspect" ],
+            "multiplicity" : "(0..*)",
+            "polymorphic" : true,
+            "roleLabel" : "is owned by"
+         }
+      },
+      "ElementOwnsUniqueAspect" : {
+         "modifier" : "None",
+         "schemaItemType" : "RelationshipClass",
+         "source" : {
+            "constraintClasses" : [ "BisCore.Element" ],
+            "multiplicity" : "(1..1)",
+            "polymorphic" : true,
+            "roleLabel" : "owns"
+         },
+         "strength" : "Embedding",
+         "strengthDirection" : "Forward",
+         "target" : {
+            "constraintClasses" : [ "BisCore.ElementUniqueAspect" ],
+            "multiplicity" : "(0..*)",
+            "polymorphic" : true,
+            "roleLabel" : "is owned by"
+         }
+      },
+      "ElementRefersToDocuments" : {
+         "baseClass" : "BisCore.ElementRefersToElements",
+         "description" : "A general relationship between a bis:Element and a bis:Document. There is no implied owner in this relationship – so it is valid for relationship where the document existed before the referenced element (e.g. design specification) or after (e.g. operational results).",
+         "modifier" : "None",
+         "schemaItemType" : "RelationshipClass",
+         "source" : {
+            "constraintClasses" : [ "BisCore.Element" ],
+            "multiplicity" : "(0..*)",
+            "polymorphic" : true,
+            "roleLabel" : "refers to"
+         },
+         "strength" : "Referencing",
+         "strengthDirection" : "Forward",
+         "target" : {
+            "constraintClasses" : [ "BisCore.Document" ],
+            "multiplicity" : "(0..*)",
+            "polymorphic" : true,
+            "roleLabel" : "is referenced by"
+         }
+      },
+      "ElementRefersToElements" : {
+         "customAttributes" : [
+            {
+               "CreateForeignKeyConstraints" : false,
+               "className" : "ECDbMap.LinkTableRelationshipMap"
+            },
+            {
+               "MapStrategy" : "TablePerHierarchy",
+               "className" : "ECDbMap.ClassMap"
+            },
+            {
+               "ApplyToSubclassesOnly" : true,
+               "MaxSharedColumnsBeforeOverflow" : 32,
+               "className" : "ECDbMap.ShareColumns"
+            },
+            {
+               "PropertyNames" : [
+                  "Id",
+                  "ClassName",
+                  "ClassFullName",
+                  "SourceId",
+                  "SourceClassId",
+                  "TargetId",
+                  "TargetClassId"
+               ],
+               "className" : "BisCore.ReservedPropertyNames"
+            }
+         ],
+         "description" : "A general relationship between two bis:Elements. These are typically specialized by derived relationship to give more specific meaning.",
+         "modifier" : "Abstract",
+         "schemaItemType" : "RelationshipClass",
+         "source" : {
+            "constraintClasses" : [ "BisCore.Element" ],
+            "multiplicity" : "(0..*)",
+            "polymorphic" : true,
+            "roleLabel" : "refers to"
+         },
+         "strength" : "Referencing",
+         "strengthDirection" : "Forward",
+         "target" : {
+            "constraintClasses" : [ "BisCore.Element" ],
+            "multiplicity" : "(0..*)",
+            "polymorphic" : true,
+            "roleLabel" : "is referenced by"
+         }
+      },
+      "ElementScopesCode" : {
+         "modifier" : "Sealed",
+         "schemaItemType" : "RelationshipClass",
+         "source" : {
+            "constraintClasses" : [ "BisCore.Element" ],
+            "multiplicity" : "(1..1)",
+            "polymorphic" : true,
+            "roleLabel" : "scopes code for"
+         },
+         "strength" : "Referencing",
+         "strengthDirection" : "Forward",
+         "target" : {
+            "constraintClasses" : [ "BisCore.Element" ],
+            "multiplicity" : "(0..*)",
+            "polymorphic" : true,
+            "roleLabel" : "code is scoped by"
+         }
+      },
+      "ElementScopesExternalSourceIdentifier" : {
+         "modifier" : "Sealed",
+         "schemaItemType" : "RelationshipClass",
+         "source" : {
+            "constraintClasses" : [ "BisCore.Element" ],
+            "multiplicity" : "(1..1)",
+            "polymorphic" : true,
+            "roleLabel" : "scopes"
+         },
+         "strength" : "Referencing",
+         "strengthDirection" : "Backward",
+         "target" : {
+            "constraintClasses" : [ "BisCore.ExternalSourceAspect" ],
+            "multiplicity" : "(0..*)",
+            "polymorphic" : true,
+            "roleLabel" : "is scoped by"
+         }
+      },
+      "ElementUniqueAspect" : {
+         "baseClass" : "BisCore.ElementAspect",
+         "customAttributes" : [
+            {
+               "MapStrategy" : "TablePerHierarchy",
+               "className" : "ECDbMap.ClassMap"
+            },
+            {
+               "ApplyToSubclassesOnly" : true,
+               "MaxSharedColumnsBeforeOverflow" : 32,
+               "className" : "ECDbMap.ShareColumns"
+            }
+         ],
+         "description" : "A bis:ElementUniqueAspect is a bis:ElementAspect where there can be only zero or one instance of the bis:ElementAspect class per bis:Element.",
+         "label" : "Element Unique Aspect",
+         "modifier" : "Abstract",
+         "properties" : [
+            {
+               "customAttributes" : [
+                  {
+                     "className" : "CoreCustomAttributes.HiddenProperty"
+                  },
+                  {
+                     "className" : "ECDbMap.ForeignKeyConstraint"
+                  }
+               ],
+               "description" : "The bis:Element that owns this bis:ElementUniqueAspect",
+               "direction" : "Backward",
+               "name" : "Element",
+               "relationshipName" : "BisCore.ElementOwnsUniqueAspect",
+               "type" : "NavigationProperty"
+            }
+         ],
+         "schemaItemType" : "EntityClass"
+      },
+      "EmbeddedFileLink" : {
+         "baseClass" : "BisCore.LinkElement",
+         "customAttributes" : [
+            {
+               "className" : "BisCore.ClassHasHandler"
+            },
+            {
+               "Indexes" : [
+                  {
+                     "IsUnique" : false,
+                     "Name" : "ix_bis_EmbeddedFileLink_Name",
+                     "Properties" : [ "Name" ]
+                  }
+               ],
+               "className" : "ECDbMap.DbIndexList"
+            }
+         ],
+         "description" : "A bis:EmbeddedFileLink is a bis:LinkElement that links to a file embedded within the iModel.",
+         "label" : "Embedded File Link",
+         "properties" : [
+            {
+               "customAttributes" : [
+                  {
+                     "className" : "BisCore.CustomHandledProperty"
+                  }
+               ],
+               "description" : "A name for looking up the embedded file. Must be unique within the iModel.",
+               "name" : "Name",
+               "type" : "PrimitiveProperty",
+               "typeName" : "string"
+            },
+            {
+               "customAttributes" : [
+                  {
+                     "className" : "BisCore.CustomHandledProperty"
+                  }
+               ],
+               "description" : "A human-readable description of the Embedded File",
+               "name" : "Description",
+               "type" : "PrimitiveProperty",
+               "typeName" : "string"
+            }
+         ],
+         "schemaItemType" : "EntityClass"
+      },
+      "ExternalSourceAspect" : {
+         "baseClass" : "BisCore.ElementMultiAspect",
+         "customAttributes" : [
+            {
+               "Indexes" : [
+                  {
+                     "IsUnique" : false,
+                     "Name" : "ix_bis_ExternalSourceAspect_Source",
+                     "Properties" : [ "Scope.Id", "Identifier", "Kind" ]
+                  },
+                  {
+                     "IsUnique" : false,
+                     "Name" : "ix_bis_ExternalSourceAspect_Identifier",
+                     "Properties" : [ "Identifier" ]
+                  }
+               ],
+               "className" : "ECDbMap.DbIndexList"
+            },
+            {
+               "className" : "CoreCustomAttributes.HiddenClass"
+            }
+         ],
+         "description" : "A bis:ElementMultiAspect that stores synchronization information for a bis:Element originating from an external source.",
+         "label" : "External Source Aspect",
+         "properties" : [
+            {
+               "description" : "The context in which the combination of (Kind, Identifier) identifies the object uniquely within the source repository. Scope is the Id of a bis:Element in the iModel (not the source) that corresponds to the scope or container in the source that owns, contains, or qualifies the idEntity of the source object.",
+               "direction" : "Backward",
+               "label" : "Scope",
+               "name" : "Scope",
+               "relationshipName" : "BisCore.ElementScopesExternalSourceIdentifier",
+               "type" : "NavigationProperty"
+            },
+            {
+               "description" : "The identifier of the object in the source repository",
+               "name" : "Identifier",
+               "type" : "PrimitiveProperty",
+               "typeName" : "string"
+            },
+            {
+               "description" : "The kind of object within the source repository",
+               "name" : "Kind",
+               "type" : "PrimitiveProperty",
+               "typeName" : "string"
+            },
+            {
+               "description" : "An optional value that is typically a version number or a pseudo version number like last modified time. It will be used by the synchronization process to detect that a source object is unchanged so that computing a cryptographic hash can be avoided. If present, this value must be guaranteed to change when any of the source object's content changes.",
+               "name" : "Version",
+               "type" : "PrimitiveProperty",
+               "typeName" : "string"
+            },
+            {
+               "description" : "The cryptographic hash (any algorithm) of the source object's content. If defined, it must be guaranteed to change when the source object's content changes.",
+               "name" : "Checksum",
+               "type" : "PrimitiveProperty",
+               "typeName" : "string"
+            },
+            {
+               "description" : "A place where additional JSON properties can be stored. For example, provenance information or properties relating to the synchronization process.",
+               "extendedTypeName" : "Json",
+               "name" : "JsonProperties",
+               "type" : "PrimitiveProperty",
+               "typeName" : "string"
+            }
+         ],
+         "schemaItemType" : "EntityClass"
+      },
+      "GeometricElement" : {
+         "baseClass" : "BisCore.Element",
+         "customAttributes" : [
+            {
+               "className" : "ECDbMap.JoinedTablePerDirectSubclass"
+            },
+            {
+               "className" : "CoreCustomAttributes.NotSubclassableInReferencingSchemas"
+            },
+            {
+               "PropertyNames" : [ "Geom" ],
+               "className" : "BisCore.ReservedPropertyNames"
+            }
+         ],
+         "description" : "bis:GeometricElement ia an abstract base class used to model real world Entities that intrinsically have geometry.",
+         "label" : "Geometric Element",
+         "modifier" : "Abstract",
+         "schemaItemType" : "EntityClass"
+      },
+      "GeometricElement2d" : {
+         "baseClass" : "BisCore.GeometricElement",
+         "customAttributes" : [
+            {
+               "className" : "BisCore.ClassHasHandler"
+            },
+            {
+               "ApplyToSubclassesOnly" : true,
+               "MaxSharedColumnsBeforeOverflow" : 32,
+               "className" : "ECDbMap.ShareColumns"
+            },
+            {
+               "PropertyNames" : [ "Placement" ],
+               "className" : "BisCore.ReservedPropertyNames"
+            }
+         ],
+         "description" : "bis:GeometricElement2d is an abstract base class used to model information Entities that intrinsically have 2D geometry.",
+         "label" : "2D Geometric Element",
+         "modifier" : "Abstract",
+         "properties" : [
+            {
+               "customAttributes" : [
+                  {
+                     "className" : "BisCore.CustomHandledProperty"
+                  },
+                  {
+                     "OnDeleteAction" : "NoAction",
+                     "className" : "ECDbMap.ForeignKeyConstraint"
+                  }
+               ],
+               "description" : "The bis:DrawingCategory used to categorize this bis:GeometricElement2d instance.",
+               "direction" : "Forward",
+               "name" : "Category",
+               "relationshipName" : "BisCore.GeometricElement2dIsInCategory",
+               "type" : "NavigationProperty"
+            },
+            {
+               "customAttributes" : [
+                  {
+                     "className" : "BisCore.CustomHandledProperty"
+                  }
+               ],
+               "description" : "The placement origin of this bis:Element.",
+               "name" : "Origin",
+               "type" : "PrimitiveProperty",
+               "typeName" : "point2d"
+            },
+            {
+               "customAttributes" : [
+                  {
+                     "className" : "BisCore.CustomHandledProperty"
+                  }
+               ],
+               "description" : "The placement rotation (in degrees) of this bis:Element.",
+               "name" : "Rotation",
+               "type" : "PrimitiveProperty",
+               "typeName" : "double"
+            },
+            {
+               "customAttributes" : [
+                  {
+                     "className" : "BisCore.CustomHandledProperty"
+                  }
+               ],
+               "description" : "The 'low' point of the element-aligned bounding box of this bis:Element.",
+               "label" : "Bounding Box Low",
+               "name" : "BBoxLow",
+               "type" : "PrimitiveProperty",
+               "typeName" : "point2d"
+            },
+            {
+               "customAttributes" : [
+                  {
+                     "className" : "BisCore.CustomHandledProperty"
+                  }
+               ],
+               "description" : "The 'high' point of the element-aligned bounding box of this bis:Element.",
+               "label" : "Bounding Box High",
+               "name" : "BBoxHigh",
+               "type" : "PrimitiveProperty",
+               "typeName" : "point2d"
+            },
+            {
+               "customAttributes" : [
+                  {
+                     "className" : "BisCore.CustomHandledProperty"
+                  },
+                  {
+                     "className" : "CoreCustomAttributes.HiddenProperty"
+                  }
+               ],
+               "description" : "Binary stream used to persist the geometry of this bis:Element.",
+               "extendedTypeName" : "GeometryStream",
+               "label" : "Geometry Stream",
+               "name" : "GeometryStream",
+               "type" : "PrimitiveProperty",
+               "typeName" : "binary"
+            },
+            {
+               "customAttributes" : [
+                  {
+                     "className" : "CoreCustomAttributes.HiddenProperty"
+                  },
+                  {
+                     "className" : "BisCore.CustomHandledProperty"
+                  },
+                  {
+                     "className" : "ECDbMap.ForeignKeyConstraint"
+                  }
+               ],
+               "description" : "Points to an instance of some specialization of TypeDefinition, which holds property values that vary per-type rather than by instance of this Element.",
+               "direction" : "Forward",
+               "label" : "Type Definition",
+               "name" : "TypeDefinition",
+               "relationshipName" : "BisCore.GeometricElement2dHasTypeDefinition",
+               "type" : "NavigationProperty"
+            }
+         ],
+         "schemaItemType" : "EntityClass"
+      },
+      "GeometricElement2dHasTypeDefinition" : {
+         "modifier" : "Abstract",
+         "schemaItemType" : "RelationshipClass",
+         "source" : {
+            "constraintClasses" : [ "BisCore.GeometricElement2d" ],
+            "multiplicity" : "(0..*)",
+            "polymorphic" : true,
+            "roleLabel" : "has"
+         },
+         "strength" : "Referencing",
+         "strengthDirection" : "Forward",
+         "target" : {
+            "constraintClasses" : [ "BisCore.TypeDefinitionElement" ],
+            "multiplicity" : "(0..1)",
+            "polymorphic" : true,
+            "roleLabel" : "classifies"
+         }
+      },
+      "GeometricElement2dIsInCategory" : {
+         "description" : "The relationship that determines the bis:DrawingCategory for a bis:GeometricElement2d.",
+         "modifier" : "Sealed",
+         "schemaItemType" : "RelationshipClass",
+         "source" : {
+            "constraintClasses" : [ "BisCore.GeometricElement2d" ],
+            "multiplicity" : "(0..*)",
+            "polymorphic" : true,
+            "roleLabel" : "is in"
+         },
+         "strength" : "Referencing",
+         "strengthDirection" : "Backward",
+         "target" : {
+            "constraintClasses" : [ "BisCore.DrawingCategory" ],
+            "multiplicity" : "(1..1)",
+            "polymorphic" : false,
+            "roleLabel" : "categorizes"
+         }
+      },
+      "GeometricElement3d" : {
+         "baseClass" : "BisCore.GeometricElement",
+         "customAttributes" : [
+            {
+               "className" : "BisCore.ClassHasHandler"
+            },
+            {
+               "ApplyToSubclassesOnly" : true,
+               "MaxSharedColumnsBeforeOverflow" : 32,
+               "className" : "ECDbMap.ShareColumns"
+            },
+            {
+               "PropertyNames" : [ "Placement" ],
+               "className" : "BisCore.ReservedPropertyNames"
+            }
+         ],
+         "description" : "bis:GeometricElement3d is an abstract base class used to model real world Entities that intrinsically have 3D geometry.",
+         "label" : "3D Geometric Element",
+         "modifier" : "Abstract",
+         "properties" : [
+            {
+               "customAttributes" : [
+                  {
+                     "className" : "BisCore.CustomHandledProperty"
+                  },
+                  {
+                     "OnDeleteAction" : "NoAction",
+                     "className" : "ECDbMap.ForeignKeyConstraint"
+                  }
+               ],
+               "description" : "The bis:SpatialCategory used to categorize this bis:GeometricElement3d",
+               "direction" : "Forward",
+               "name" : "Category",
+               "relationshipName" : "BisCore.GeometricElement3dIsInCategory",
+               "type" : "NavigationProperty"
+            },
+            {
+               "customAttributes" : [
+                  {
+                     "className" : "CoreCustomAttributes.HiddenProperty"
+                  },
+                  {
+                     "className" : "BisCore.CustomHandledProperty"
+                  }
+               ],
+               "description" : "If true, this element will have an entry in the Spatial Index.",
+               "label" : "In Spatial Index",
+               "name" : "InSpatialIndex",
+               "type" : "PrimitiveProperty",
+               "typeName" : "boolean"
+            },
+            {
+               "customAttributes" : [
+                  {
+                     "className" : "CoreCustomAttributes.HiddenProperty"
+                  },
+                  {
+                     "className" : "BisCore.CustomHandledProperty"
+                  }
+               ],
+               "description" : "The placement origin of this bis:Element.",
+               "name" : "Origin",
+               "type" : "PrimitiveProperty",
+               "typeName" : "point3d"
+            },
+            {
+               "customAttributes" : [
+                  {
+                     "className" : "CoreCustomAttributes.HiddenProperty"
+                  },
+                  {
+                     "className" : "BisCore.CustomHandledProperty"
+                  }
+               ],
+               "description" : "The Yaw angle (in degrees) of the orientation of this bis:Element.",
+               "name" : "Yaw",
+               "type" : "PrimitiveProperty",
+               "typeName" : "double"
+            },
+            {
+               "customAttributes" : [
+                  {
+                     "className" : "CoreCustomAttributes.HiddenProperty"
+                  },
+                  {
+                     "className" : "BisCore.CustomHandledProperty"
+                  }
+               ],
+               "description" : "The Pitch angle (in degrees) of the orientation of this bis:Element.",
+               "name" : "Pitch",
+               "type" : "PrimitiveProperty",
+               "typeName" : "double"
+            },
+            {
+               "customAttributes" : [
+                  {
+                     "className" : "CoreCustomAttributes.HiddenProperty"
+                  },
+                  {
+                     "className" : "BisCore.CustomHandledProperty"
+                  }
+               ],
+               "description" : "The Roll angle (in degrees) of the orientation of this bis:Element.",
+               "name" : "Roll",
+               "type" : "PrimitiveProperty",
+               "typeName" : "double"
+            },
+            {
+               "customAttributes" : [
+                  {
+                     "className" : "CoreCustomAttributes.HiddenProperty"
+                  },
+                  {
+                     "className" : "BisCore.CustomHandledProperty"
+                  }
+               ],
+               "description" : "The 'low' point of the element-aligned bounding box of this bis:Element.",
+               "label" : "Bounding Box Low",
+               "name" : "BBoxLow",
+               "type" : "PrimitiveProperty",
+               "typeName" : "point3d"
+            },
+            {
+               "customAttributes" : [
+                  {
+                     "className" : "CoreCustomAttributes.HiddenProperty"
+                  },
+                  {
+                     "className" : "BisCore.CustomHandledProperty"
+                  }
+               ],
+               "description" : "The 'high' point of the element-aligned bounding box of this bis:Element.",
+               "label" : "Bounding Box High",
+               "name" : "BBoxHigh",
+               "type" : "PrimitiveProperty",
+               "typeName" : "point3d"
+            },
+            {
+               "customAttributes" : [
+                  {
+                     "className" : "CoreCustomAttributes.HiddenProperty"
+                  },
+                  {
+                     "className" : "BisCore.CustomHandledProperty"
+                  }
+               ],
+               "description" : "Binary stream used to persist the geometry of this bis:Element.",
+               "extendedTypeName" : "GeometryStream",
+               "label" : "Geometry Stream",
+               "name" : "GeometryStream",
+               "type" : "PrimitiveProperty",
+               "typeName" : "binary"
+            },
+            {
+               "customAttributes" : [
+                  {
+                     "className" : "CoreCustomAttributes.HiddenProperty"
+                  },
+                  {
+                     "className" : "BisCore.CustomHandledProperty"
+                  },
+                  {
+                     "className" : "ECDbMap.ForeignKeyConstraint"
+                  }
+               ],
+               "description" : "Points to an instance of some specialization of TypeDefinition, which holds property values that vary per-type rather than per-instance of this Element.",
+               "direction" : "Forward",
+               "label" : "Type Definition",
+               "name" : "TypeDefinition",
+               "relationshipName" : "BisCore.GeometricElement3dHasTypeDefinition",
+               "type" : "NavigationProperty"
+            }
+         ],
+         "schemaItemType" : "EntityClass"
+      },
+      "GeometricElement3dHasTypeDefinition" : {
+         "modifier" : "Abstract",
+         "schemaItemType" : "RelationshipClass",
+         "source" : {
+            "constraintClasses" : [ "BisCore.GeometricElement3d" ],
+            "multiplicity" : "(0..*)",
+            "polymorphic" : true,
+            "roleLabel" : "has"
+         },
+         "strength" : "Referencing",
+         "strengthDirection" : "Forward",
+         "target" : {
+            "constraintClasses" : [ "BisCore.TypeDefinitionElement" ],
+            "multiplicity" : "(0..1)",
+            "polymorphic" : true,
+            "roleLabel" : "classifies"
+         }
+      },
+      "GeometricElement3dIsInCategory" : {
+         "description" : "The relationship that determines the bis:SpatialCategory for a bis:GeometricElement3d.",
+         "modifier" : "Sealed",
+         "schemaItemType" : "RelationshipClass",
+         "source" : {
+            "constraintClasses" : [ "BisCore.GeometricElement3d" ],
+            "multiplicity" : "(0..*)",
+            "polymorphic" : true,
+            "roleLabel" : "is in"
+         },
+         "strength" : "Referencing",
+         "strengthDirection" : "Backward",
+         "target" : {
+            "constraintClasses" : [ "BisCore.SpatialCategory" ],
+            "multiplicity" : "(1..1)",
+            "polymorphic" : false,
+            "roleLabel" : "categorizes"
+         }
+      },
+      "GeometricModel" : {
+         "baseClass" : "BisCore.Model",
+         "customAttributes" : [
+            {
+               "className" : "CoreCustomAttributes.NotSubclassableInReferencingSchemas"
+            }
+         ],
+         "description" : "A container for persisting bis:GeometricElement instances.",
+         "label" : "Geometric Model",
+         "modifier" : "Abstract",
+         "properties" : [
+            {
+               "customAttributes" : [
+                  {
+                     "className" : "CoreCustomAttributes.HiddenProperty"
+                  }
+               ],
+               "description" : "A GUID that changes whenever any element in this GeometricModel has a change to its geometry.",
+               "extendedTypeName" : "BeGuid",
+               "label" : "Geometry GUID",
+               "name" : "GeometryGuid",
+               "type" : "PrimitiveProperty",
+               "typeName" : "binary"
+            }
+         ],
+         "schemaItemType" : "EntityClass"
+      },
+      "GeometricModel2d" : {
+         "baseClass" : "BisCore.GeometricModel",
+         "customAttributes" : [
+            {
+               "className" : "BisCore.ClassHasHandler"
+            }
+         ],
+         "description" : "A container for persisting bis:GeometricElement2d instances.",
+         "label" : "2D Geometric Model",
+         "modifier" : "Abstract",
+         "properties" : [
+            {
+               "description" : "The actual coordinates of (0,0) in modeling coordinates. An offset applied to all modeling coordinates.",
+               "label" : "Global Origin",
+               "name" : "GlobalOrigin",
+               "type" : "PrimitiveProperty",
+               "typeName" : "point2d"
+            }
+         ],
+         "schemaItemType" : "EntityClass"
+      },
+      "GeometricModel3d" : {
+         "baseClass" : "BisCore.GeometricModel",
+         "description" : "A container for persisting bis:GeometricElement3d instances, which are considered to be in the iModel's real-world coordinate system unless their InSpatialIndex property has been set to 'false'.",
+         "label" : "3D Geometric Model",
+         "modifier" : "Abstract",
+         "properties" : [
+            {
+               "customAttributes" : [
+                  {
+                     "className" : "CoreCustomAttributes.HiddenProperty"
+                  }
+               ],
+               "description" : "If IsNotSpatiallyLocated is true, then the elements in this bis:GeometricModel3d are not in real-world coordinates and will not be in the spatial index.",
+               "label" : "Is Not Spatially Located",
+               "name" : "IsNotSpatiallyLocated",
+               "type" : "PrimitiveProperty",
+               "typeName" : "boolean"
+            },
+            {
+               "description" : "If IsPlanProjection is true, then the elements in this bis:GeometricModel3d are expected to be in an XY plane.",
+               "label" : "Is Plan Projection",
+               "name" : "IsPlanProjection",
+               "type" : "PrimitiveProperty",
+               "typeName" : "boolean"
+            }
+         ],
+         "schemaItemType" : "EntityClass"
+      },
+      "GeometryPart" : {
+         "baseClass" : "BisCore.DefinitionElement",
+         "customAttributes" : [
+            {
+               "className" : "BisCore.ClassHasHandler"
+            }
+         ],
+         "description" : "A bis:DefinitionElement that specifies a collection of geometry that is meant to be reused across bis:GeometricElement instances. Leveraging bis:GeometryParts can help reduce file size and improve display performance.",
+         "label" : "Geometry Part",
+         "properties" : [
+            {
+               "customAttributes" : [
+                  {
+                     "className" : "BisCore.CustomHandledProperty"
+                  },
+                  {
+                     "className" : "CoreCustomAttributes.HiddenProperty"
+                  }
+               ],
+               "description" : "The actual geometry of the Geometry Part",
+               "extendedTypeName" : "GeometryStream",
+               "label" : "Geometry Stream",
+               "name" : "GeometryStream",
+               "type" : "PrimitiveProperty",
+               "typeName" : "binary"
+            },
+            {
+               "customAttributes" : [
+                  {
+                     "className" : "BisCore.CustomHandledProperty"
+                  }
+               ],
+               "description" : "The low corner of the Geometry Part's bounding box.",
+               "label" : "Bounding Box Low",
+               "name" : "BBoxLow",
+               "type" : "PrimitiveProperty",
+               "typeName" : "point3d"
+            },
+            {
+               "customAttributes" : [
+                  {
+                     "className" : "BisCore.CustomHandledProperty"
+                  }
+               ],
+               "description" : "The high corner of the Geometry Part's bounding box",
+               "label" : "Bounding Box High",
+               "name" : "BBoxHigh",
+               "type" : "PrimitiveProperty",
+               "typeName" : "point3d"
+            }
+         ],
+         "schemaItemType" : "EntityClass"
+      },
+      "GraphicalElement2d" : {
+         "baseClass" : "BisCore.GeometricElement2d",
+         "description" : "bis:GraphicalElement2d is an abstract base class for 2D geometric elements that are used to convey information within graphical presentations (like drawings).",
+         "label" : "2D Graphical Element",
+         "modifier" : "Abstract",
+         "schemaItemType" : "EntityClass"
+      },
+      "GraphicalElement2dIsOfType" : {
+         "baseClass" : "BisCore.GeometricElement2dHasTypeDefinition",
+         "modifier" : "None",
+         "schemaItemType" : "RelationshipClass",
+         "source" : {
+            "constraintClasses" : [ "BisCore.GraphicalElement2d" ],
+            "multiplicity" : "(0..*)",
+            "polymorphic" : true,
+            "roleLabel" : "is of"
+         },
+         "strength" : "Referencing",
+         "strengthDirection" : "Forward",
+         "target" : {
+            "constraintClasses" : [ "BisCore.GraphicalType2d" ],
+            "multiplicity" : "(0..1)",
+            "polymorphic" : true,
+            "roleLabel" : "defines"
+         }
+      },
+      "GraphicalElement3d" : {
+         "baseClass" : "BisCore.GeometricElement3d",
+         "customAttributes" : [
+            {
+               "className" : "BisCore.ClassHasHandler"
+            }
+         ],
+         "description" : "A bis:GraphicalElement3d element conveys information within 3D graphical presentations.",
+         "label" : "3D Graphical Element",
+         "modifier" : "Abstract",
+         "schemaItemType" : "EntityClass"
+      },
+      "GraphicalElement3dRepresentsElement" : {
+         "baseClass" : "BisCore.ElementRefersToElements",
+         "description" : "Relates a bis:GraphicalElement3d to the bis:Element that it represents.",
+         "modifier" : "None",
+         "schemaItemType" : "RelationshipClass",
+         "source" : {
+            "constraintClasses" : [ "BisCore.GraphicalElement3d" ],
+            "multiplicity" : "(0..*)",
+            "polymorphic" : true,
+            "roleLabel" : "represents"
+         },
+         "strength" : "Referencing",
+         "strengthDirection" : "Forward",
+         "target" : {
+            "constraintClasses" : [ "BisCore.Element" ],
+            "multiplicity" : "(0..*)",
+            "polymorphic" : true,
+            "roleLabel" : "is represented by"
+         }
+      },
+      "GraphicalModel2d" : {
+         "baseClass" : "BisCore.GeometricModel2d",
+         "description" : "A container for persisting bis:GraphicalElement2d instances.",
+         "label" : "2D Graphical Model",
+         "modifier" : "Abstract",
+         "schemaItemType" : "EntityClass"
+      },
+      "GraphicalModel3d" : {
+         "baseClass" : "BisCore.GeometricModel3d",
+         "description" : "A container for persisting bis:GraphicalElement3d instances.",
+         "label" : "3D Graphical Model",
+         "modifier" : "Abstract",
+         "schemaItemType" : "EntityClass"
+      },
+      "GraphicalPartition3d" : {
+         "baseClass" : "BisCore.InformationPartitionElement",
+         "description" : "A bis:GraphicalPartition3d element establishes a '3D Graphical' Modeling Perspective for its parent bis:Subject. A bis:GraphicalPartition3d is always sub-modeled by a bis:GraphicalModel3d.",
+         "label" : "3D Graphical Partition",
+         "modifier" : "Sealed",
+         "schemaItemType" : "EntityClass"
+      },
+      "GraphicalType2d" : {
+         "baseClass" : "BisCore.TypeDefinitionElement",
+         "customAttributes" : [
+            {
+               "className" : "BisCore.ClassHasHandler"
+            }
+         ],
+         "description" : "Defines a shared set of properties (the 'type') that can be associated with a bis:GraphicalElement2d instance.",
+         "label" : "2D Graphical Type",
+         "modifier" : "Abstract",
+         "schemaItemType" : "EntityClass"
+      },
+      "GraphicalType2dHasTemplateRecipe" : {
+         "baseClass" : "BisCore.TypeDefinitionHasRecipe",
+         "modifier" : "None",
+         "schemaItemType" : "RelationshipClass",
+         "source" : {
+            "constraintClasses" : [ "BisCore.GraphicalType2d" ],
+            "multiplicity" : "(0..*)",
+            "polymorphic" : true,
+            "roleLabel" : "has"
+         },
+         "strength" : "Referencing",
+         "strengthDirection" : "Forward",
+         "target" : {
+            "constraintClasses" : [ "BisCore.TemplateRecipe2d" ],
+            "multiplicity" : "(0..1)",
+            "polymorphic" : true,
+            "roleLabel" : "is referenced by"
+         }
+      },
+      "GroupInformationElement" : {
+         "baseClass" : "BisCore.InformationReferenceElement",
+         "customAttributes" : [
+            {
+               "className" : "BisCore.ClassHasHandler"
+            }
+         ],
+         "description" : "bis:GroupInformationElement is an abstract base class used for modeling Entities whose main purpose is to group related elements.",
+         "label" : "Group Information",
+         "modifier" : "Abstract",
+         "schemaItemType" : "EntityClass"
+      },
+      "GroupInformationModel" : {
+         "baseClass" : "BisCore.InformationModel",
+         "customAttributes" : [
+            {
+               "className" : "BisCore.ClassHasHandler"
+            }
+         ],
+         "description" : "A container for persisting bis:GroupInformationElement instances.",
+         "label" : "Group Information Model",
+         "modifier" : "Abstract",
+         "schemaItemType" : "EntityClass"
+      },
+      "GroupInformationPartition" : {
+         "baseClass" : "BisCore.InformationPartitionElement",
+         "customAttributes" : [
+            {
+               "className" : "BisCore.ClassHasHandler"
+            }
+         ],
+         "description" : "A bis:GroupInformationPartition element establishes a 'Group Information' Modeling Perspective for its parent bis:Subject. A bis:GroupInformationPartition is always sub-modeled by a bis:GroupInformationModel.",
+         "label" : "Group Information Partition",
+         "modifier" : "Sealed",
+         "schemaItemType" : "EntityClass"
+      },
+      "IParentElement" : {
+         "appliesTo" : "BisCore.Element",
+         "description" : "An interface that can be mixed-into a bis:Element to indicate that it can be a parent (own child Elements). This interface is mutually exclusive with bis:ISubModeledElement.",
+         "label" : "Parent Element",
+         "schemaItemType" : "Mixin"
+      },
+      "ISubModeledElement" : {
+         "appliesTo" : "BisCore.Element",
+         "description" : "An interface that can be mixed-into a bis:Element to indicate that it can be sub-modeled by a finer-grained bis:Model. This interface is mutually exclusive with bis:IParentElement.",
+         "label" : "Sub-Modeled Element",
+         "schemaItemType" : "Mixin"
+      },
+      "InformationCarrierElement" : {
+         "baseClass" : "BisCore.Element",
+         "customAttributes" : [
+            {
+               "Description" : "BisCore will focus on the information itself and not how it is carried. Thus, the InformationCarrierElement class was deprecated.",
+               "className" : "CoreCustomAttributes.Deprecated"
+            },
+            {
+               "className" : "BisCore.ClassHasHandler"
+            },
+            {
+               "className" : "ECDbMap.JoinedTablePerDirectSubclass"
+            },
+            {
+               "className" : "CoreCustomAttributes.NotSubclassableInReferencingSchemas"
+            }
+         ],
+         "description" : "DEPRECATED: An Information Carrier carries information, but is not the information itself. For example, the arrangement of ink on paper or the sequence of electronic bits are information carriers.",
+         "label" : "Information Carrier",
+         "modifier" : "Abstract",
+         "schemaItemType" : "EntityClass"
+      },
+      "InformationContentElement" : {
+         "baseClass" : "BisCore.Element",
+         "customAttributes" : [
+            {
+               "className" : "BisCore.ClassHasHandler"
+            },
+            {
+               "className" : "ECDbMap.JoinedTablePerDirectSubclass"
+            },
+            {
+               "className" : "CoreCustomAttributes.NotSubclassableInReferencingSchemas"
+            }
+         ],
+         "description" : "bis:InformationContentElement is an abstract base class for modeling pure information Entities. Only the core framework should directly subclass from bis:InformationContentElement. Domain and application developers should start with the most appropriate subclass of bis:InformationContentElement.",
+         "label" : "Information Content Element",
+         "modifier" : "Abstract",
+         "schemaItemType" : "EntityClass"
+      },
+      "InformationModel" : {
+         "baseClass" : "BisCore.Model",
+         "customAttributes" : [
+            {
+               "className" : "BisCore.ClassHasHandler"
+            }
+         ],
+         "description" : "A container for persisting bis:InformationContentElement instances.",
+         "label" : "Information Model",
+         "modifier" : "Abstract",
+         "schemaItemType" : "EntityClass"
+      },
+      "InformationPartitionElement" : {
+         "baseClass" : "BisCore.InformationContentElement",
+         "customAttributes" : [
+            {
+               "className" : "BisCore.ClassHasHandler"
+            },
+            {
+               "ApplyToSubclassesOnly" : true,
+               "MaxSharedColumnsBeforeOverflow" : 32,
+               "className" : "ECDbMap.ShareColumns"
+            }
+         ],
+         "description" : "An instance of a specialization of bis:InformationPartitionElement establishes a particular Modeling Perspective for its parent bis:Subject. Instances are always sub-modeled by a specialization of bis:Model of the appropriate Modeling Perspective.",
+         "label" : "Information Partition",
+         "mixins" : [ "BisCore.ISubModeledElement" ],
+         "modifier" : "Abstract",
+         "properties" : [
+            {
+               "description" : "A human-readable string describing the intent behind the partition.",
+               "name" : "Description",
+               "type" : "PrimitiveProperty",
+               "typeName" : "string"
+            }
+         ],
+         "schemaItemType" : "EntityClass"
+      },
+      "InformationRecordElement" : {
+         "baseClass" : "BisCore.InformationContentElement",
+         "customAttributes" : [
+            {
+               "className" : "BisCore.ClassHasHandler"
+            },
+            {
+               "ApplyToSubclassesOnly" : true,
+               "MaxSharedColumnsBeforeOverflow" : 32,
+               "className" : "ECDbMap.ShareColumns"
+            }
+         ],
+         "description" : "bis:InformationRecordElement is an abstract base class for modeling information records. The bis:InformationRecordElement class is the default choice if no other subclass of bis:InformationContentElement makes sense.",
+         "label" : "Information Record Element",
+         "modifier" : "Abstract",
+         "schemaItemType" : "EntityClass"
+      },
+      "InformationRecordModel" : {
+         "baseClass" : "BisCore.InformationModel",
+         "customAttributes" : [
+            {
+               "className" : "BisCore.ClassHasHandler"
+            }
+         ],
+         "description" : "A container for persisting bis:InformationRecordElement instances",
+         "label" : "Information Record Model",
+         "schemaItemType" : "EntityClass"
+      },
+      "InformationRecordPartition" : {
+         "baseClass" : "BisCore.InformationPartitionElement",
+         "customAttributes" : [
+            {
+               "className" : "BisCore.ClassHasHandler"
+            }
+         ],
+         "description" : "A bis:InformationRecordPartition element establishes a 'Information Record' Modeling Perspective for its parent bis:Subject. A bis:InformationRecordPartition is always sub-modeled by a bis:InformationRecordModel.",
+         "label" : "Information Record Partition",
+         "modifier" : "Sealed",
+         "schemaItemType" : "EntityClass"
+      },
+      "InformationReferenceElement" : {
+         "baseClass" : "BisCore.InformationContentElement",
+         "customAttributes" : [
+            {
+               "ApplyToSubclassesOnly" : true,
+               "MaxSharedColumnsBeforeOverflow" : 32,
+               "className" : "ECDbMap.ShareColumns"
+            }
+         ],
+         "description" : "bis:InformationReferenceElement is an abstract base class used for modeling Entities whose main purpose is to reference something else.",
+         "label" : "Information Reference",
+         "modifier" : "Abstract",
+         "schemaItemType" : "EntityClass"
+      },
+      "LightLocation" : {
+         "baseClass" : "BisCore.SpatialLocationElement",
+         "customAttributes" : [
+            {
+               "className" : "BisCore.ClassHasHandler"
+            }
+         ],
+         "description" : "The spatial location of a light source",
+         "label" : "Light Location",
+         "modifier" : "Sealed",
+         "properties" : [
+            {
+               "description" : "Indicates that the light is on.",
+               "label" : "Is light turned on",
+               "name" : "Enabled",
+               "type" : "PrimitiveProperty",
+               "typeName" : "boolean"
+            }
+         ],
+         "schemaItemType" : "EntityClass"
+      },
+      "LineStyle" : {
+         "baseClass" : "BisCore.DefinitionElement",
+         "customAttributes" : [
+            {
+               "className" : "BisCore.ClassHasHandler"
+            }
+         ],
+         "label" : "Line Style",
+         "modifier" : "Sealed",
+         "properties" : [
+            {
+               "description" : "Description of the style",
+               "name" : "Description",
+               "type" : "PrimitiveProperty",
+               "typeName" : "string"
+            },
+            {
+               "description" : "Encoded style properties",
+               "extendedTypeName" : "Json",
+               "name" : "Data",
+               "type" : "PrimitiveProperty",
+               "typeName" : "string"
+            }
+         ],
+         "schemaItemType" : "EntityClass"
+      },
+      "LinkElement" : {
+         "baseClass" : "BisCore.InformationReferenceElement",
+         "description" : "A bis:LinkElement is a bis:InformationReferenceElement that specifies a link to some resource that is not modeled with BIS.",
+         "label" : "Link",
+         "modifier" : "Abstract",
+         "schemaItemType" : "EntityClass"
+      },
+      "LinkModel" : {
+         "baseClass" : "BisCore.InformationModel",
+         "customAttributes" : [
+            {
+               "className" : "BisCore.ClassHasHandler"
+            }
+         ],
+         "description" : "A container for persisting bis:LinkElement instances.",
+         "label" : "Link Model",
+         "schemaItemType" : "EntityClass"
+      },
+      "LinkPartition" : {
+         "baseClass" : "BisCore.InformationPartitionElement",
+         "customAttributes" : [
+            {
+               "className" : "BisCore.ClassHasHandler"
+            }
+         ],
+         "description" : "A bis:LinkPartition element establishes a 'Link' Modeling Perspective for its parent bis:Subject. A bis:LinkPartition is always sub-modeled by a bis:LinkModel.",
+         "label" : "Link Partition",
+         "modifier" : "Sealed",
+         "schemaItemType" : "EntityClass"
+      },
+      "Model" : {
+         "customAttributes" : [
+            {
+               "Restrictions" : [ "Clone" ],
+               "className" : "BisCore.ClassHasHandler"
+            },
+            {
+               "MapStrategy" : "TablePerHierarchy",
+               "className" : "ECDbMap.ClassMap"
+            },
+            {
+               "ApplyToSubclassesOnly" : true,
+               "MaxSharedColumnsBeforeOverflow" : 32,
+               "className" : "ECDbMap.ShareColumns"
+            },
+            {
+               "className" : "CoreCustomAttributes.NotSubclassableInReferencingSchemas"
+            },
+            {
+               "PropertyNames" : [ "Id", "ClassName", "ClassFullName" ],
+               "className" : "BisCore.ReservedPropertyNames"
+            }
+         ],
+         "description" : "A bis:Model is a container for persisting a collection of related elements.",
+         "modifier" : "Abstract",
+         "properties" : [
+            {
+               "customAttributes" : [
+                  {
+                     "className" : "CoreCustomAttributes.HiddenProperty"
+                  },
+                  {
+                     "OnDeleteAction" : "NoAction",
+                     "className" : "ECDbMap.ForeignKeyConstraint"
+                  }
+               ],
+               "description" : "The parent bis:Model contains the bis:Element that this bis:Model is sub-modeling.",
+               "direction" : "Backward",
+               "isReadOnly" : true,
+               "label" : "Parent Model",
+               "name" : "ParentModel",
+               "relationshipName" : "BisCore.ModelOwnsSubModel",
+               "type" : "NavigationProperty"
+            },
+            {
+               "customAttributes" : [
+                  {
+                     "OnDeleteAction" : "NoAction",
+                     "className" : "ECDbMap.ForeignKeyConstraint"
+                  }
+               ],
+               "description" : "The bis:Element that this bis:Model is sub-modeling. This bis:Model models the same Entity as the sub-Modeled bis:Element, but at a finer granularity.",
+               "direction" : "Forward",
+               "isReadOnly" : true,
+               "label" : "Modeled Element",
+               "name" : "ModeledElement",
+               "relationshipName" : "BisCore.ModelModelsElement",
+               "type" : "NavigationProperty"
+            },
+            {
+               "customAttributes" : [
+                  {
+                     "className" : "CoreCustomAttributes.HiddenProperty"
+                  }
+               ],
+               "description" : "If IsPrivate is true then this bis:Model should not appear in lists shown to the user.",
+               "label" : "Is Private",
+               "name" : "IsPrivate",
+               "type" : "PrimitiveProperty",
+               "typeName" : "boolean"
+            },
+            {
+               "customAttributes" : [
+                  {
+                     "className" : "CoreCustomAttributes.HiddenProperty"
+                  }
+               ],
+               "description" : "If IsTemplate is true then this bis:Model is used as a template for creating new instances.",
+               "label" : "Is Template",
+               "name" : "IsTemplate",
+               "type" : "PrimitiveProperty",
+               "typeName" : "boolean"
+            },
+            {
+               "customAttributes" : [
+                  {
+                     "className" : "CoreCustomAttributes.HiddenProperty"
+                  }
+               ],
+               "description" : "A string property that users and/or applications can use to persist ad hoc JSON values.",
+               "extendedTypeName" : "Json",
+               "label" : "JSON Properties",
+               "name" : "JsonProperties",
+               "type" : "PrimitiveProperty",
+               "typeName" : "string"
+            },
+            {
+               "customAttributes" : [
+                  {
+                     "StatementTypes" : 0,
+                     "className" : "BisCore.CustomHandledProperty"
+                  },
+                  {
+                     "DateTimeKind" : "Utc",
+                     "className" : "CoreCustomAttributes.DateTimeInfo"
+                  },
+                  {
+                     "className" : "CoreCustomAttributes.HiddenProperty"
+                  }
+               ],
+               "description" : "The last time any element in this Model was modified.",
+               "label" : "Last Modified",
+               "name" : "LastMod",
+               "type" : "PrimitiveProperty",
+               "typeName" : "dateTime"
+            }
+         ],
+         "schemaItemType" : "EntityClass"
+      },
+      "ModelContainsElements" : {
+         "description" : "The relationship that enforces that each bis:Element belongs to exactly one bis:Model.",
+         "modifier" : "Sealed",
+         "schemaItemType" : "RelationshipClass",
+         "source" : {
+            "constraintClasses" : [ "BisCore.Model" ],
+            "multiplicity" : "(1..1)",
+            "polymorphic" : true,
+            "roleLabel" : "contains"
+         },
+         "strength" : "Embedding",
+         "strengthDirection" : "Forward",
+         "target" : {
+            "constraintClasses" : [ "BisCore.Element" ],
+            "multiplicity" : "(0..*)",
+            "polymorphic" : true,
+            "roleLabel" : "is contained by"
+         }
+      },
+      "ModelModelsElement" : {
+         "description" : "Relates a bis:Model to the bis:Element that it sub-models. The sub-Model models the same Entity as the sub-modeled Element, but at a finer granularity.",
+         "label" : "Model Sub-Models Element",
+         "modifier" : "None",
+         "schemaItemType" : "RelationshipClass",
+         "source" : {
+            "constraintClasses" : [ "BisCore.Model" ],
+            "multiplicity" : "(0..1)",
+            "polymorphic" : true,
+            "roleLabel" : "models"
+         },
+         "strength" : "Embedding",
+         "strengthDirection" : "Backward",
+         "target" : {
+            "constraintClasses" : [ "BisCore.ISubModeledElement" ],
+            "multiplicity" : "(0..1)",
+            "polymorphic" : true,
+            "roleLabel" : "is modeled by"
+         }
+      },
+      "ModelOwnsSubModel" : {
+         "description" : "This relationship is essentially redundant with the combination of bis:ModelModelsElement and bis:ModelContainsElements. This 'shortcut' exists to support a model hierarchy index for performance reasons.",
+         "modifier" : "Sealed",
+         "schemaItemType" : "RelationshipClass",
+         "source" : {
+            "constraintClasses" : [ "BisCore.Model" ],
+            "multiplicity" : "(0..1)",
+            "polymorphic" : true,
+            "roleLabel" : "owns sub"
+         },
+         "strength" : "Embedding",
+         "strengthDirection" : "Forward",
+         "target" : {
+            "constraintClasses" : [ "BisCore.Model" ],
+            "multiplicity" : "(0..*)",
+            "polymorphic" : true,
+            "roleLabel" : "is owned by parent"
+         }
+      },
+      "ModelSelector" : {
+         "baseClass" : "BisCore.DefinitionElement",
+         "customAttributes" : [
+            {
+               "className" : "BisCore.ClassHasHandler"
+            }
+         ],
+         "label" : "Model Selector",
+         "schemaItemType" : "EntityClass"
+      },
+      "ModelSelectorRefersToModels" : {
+         "customAttributes" : [
+            {
+               "CreateForeignKeyConstraints" : false,
+               "className" : "ECDbMap.LinkTableRelationshipMap"
+            }
+         ],
+         "modifier" : "Sealed",
+         "schemaItemType" : "RelationshipClass",
+         "source" : {
+            "constraintClasses" : [ "BisCore.ModelSelector" ],
+            "multiplicity" : "(0..*)",
+            "polymorphic" : true,
+            "roleLabel" : "refers to"
+         },
+         "strength" : "Referencing",
+         "strengthDirection" : "Forward",
+         "target" : {
+            "constraintClasses" : [ "BisCore.Model" ],
+            "multiplicity" : "(0..*)",
+            "polymorphic" : true,
+            "roleLabel" : "is referenced by"
+         }
+      },
+      "OrthographicViewDefinition" : {
+         "baseClass" : "BisCore.SpatialViewDefinition",
+         "customAttributes" : [
+            {
+               "className" : "BisCore.ClassHasHandler"
+            }
+         ],
+         "description" : "A spatial view that always shows a parallel projection.",
+         "label" : "Orthographic Spatial View",
+         "schemaItemType" : "EntityClass"
+      },
+      "PartitionOriginatesFromRepository" : {
+         "baseClass" : "BisCore.ElementRefersToElements",
+         "customAttributes" : [
+            {
+               "Description" : "Use ElementHasLinks.",
+               "className" : "CoreCustomAttributes.Deprecated"
+            }
+         ],
+         "description" : "DEPRECATED: Use ElementHasLinks",
+         "modifier" : "Sealed",
+         "schemaItemType" : "RelationshipClass",
+         "source" : {
+            "constraintClasses" : [ "BisCore.InformationPartitionElement" ],
+            "multiplicity" : "(0..*)",
+            "polymorphic" : true,
+            "roleLabel" : "originates from"
+         },
+         "strength" : "Referencing",
+         "strengthDirection" : "Forward",
+         "target" : {
+            "constraintClasses" : [ "BisCore.RepositoryLink" ],
+            "multiplicity" : "(0..*)",
+            "polymorphic" : true,
+            "roleLabel" : "is origin of"
+         }
+      },
+      "PhysicalElement" : {
+         "baseClass" : "BisCore.SpatialElement",
+         "customAttributes" : [
+            {
+               "className" : "BisCore.ClassHasHandler"
+            }
+         ],
+         "description" : "A bis:PhysicalElement is spatially located, has mass, and can be 'touched'.",
+         "label" : "Physical Element",
+         "modifier" : "Abstract",
+         "schemaItemType" : "EntityClass"
+      },
+      "PhysicalElementAssemblesElements" : {
+         "baseClass" : "BisCore.ElementOwnsChildElements",
+         "description" : "A relationship that indicates a physical assembly of child bis:PhysicalElements.",
+         "modifier" : "None",
+         "schemaItemType" : "RelationshipClass",
+         "source" : {
+            "constraintClasses" : [ "BisCore.PhysicalElement" ],
+            "multiplicity" : "(0..1)",
+            "polymorphic" : true,
+            "roleLabel" : "assembles"
+         },
+         "strength" : "Embedding",
+         "strengthDirection" : "Forward",
+         "target" : {
+            "constraintClasses" : [ "BisCore.PhysicalElement" ],
+            "multiplicity" : "(0..*)",
+            "polymorphic" : true,
+            "roleLabel" : "is assembled by"
+         }
+      },
+      "PhysicalElementIsOfType" : {
+         "baseClass" : "BisCore.GeometricElement3dHasTypeDefinition",
+         "description" : "A type-instance relation; one that indicates that the specific bis:PhysicalElement is an instance of the defined bis:PhysicalType. E.g. a pump with serial number #AR-23 is of type X-Model-Y.",
+         "modifier" : "None",
+         "schemaItemType" : "RelationshipClass",
+         "source" : {
+            "constraintClasses" : [ "BisCore.PhysicalElement" ],
+            "multiplicity" : "(0..*)",
+            "polymorphic" : true,
+            "roleLabel" : "is of"
+         },
+         "strength" : "Referencing",
+         "strengthDirection" : "Forward",
+         "target" : {
+            "constraintClasses" : [ "BisCore.PhysicalType" ],
+            "multiplicity" : "(0..1)",
+            "polymorphic" : true,
+            "roleLabel" : "classifies"
+         }
+      },
+      "PhysicalMaterial" : {
+         "baseClass" : "BisCore.DefinitionElement",
+         "customAttributes" : [
+            {
+               "className" : "BisCore.ClassHasHandler"
+            }
+         ],
+         "description" : "A bis:PhysicalMaterial defines the matter of which physical objects are made. bis:PhysicalMaterials are not used to define rendering characteristics (see bis:RenderMaterial).",
+         "label" : "Physical Material",
+         "modifier" : "Abstract",
+         "schemaItemType" : "EntityClass"
+      },
+      "PhysicalModel" : {
+         "baseClass" : "BisCore.SpatialModel",
+         "customAttributes" : [
+            {
+               "className" : "BisCore.ClassHasHandler"
+            }
+         ],
+         "description" : "A container for persisting bis:PhysicalElement and bis:SpatialLocationElement instances used to model real physical space. Also allows bis:GraphicalElement3d and bis:InformationContentElement.",
+         "label" : "Physical Model",
+         "schemaItemType" : "EntityClass"
+      },
+      "PhysicalModelBreaksDownPhysicalPortion" : {
+         "baseClass" : "BisCore.ModelModelsElement",
+         "customAttributes" : [
+            {
+               "Description" : "The PhysicalPortion class has been deprecated, so this relationship class is also deprecated.",
+               "className" : "CoreCustomAttributes.Deprecated"
+            }
+         ],
+         "description" : "DEPRECATED",
+         "modifier" : "None",
+         "schemaItemType" : "RelationshipClass",
+         "source" : {
+            "constraintClasses" : [ "BisCore.PhysicalModel" ],
+            "multiplicity" : "(0..1)",
+            "polymorphic" : true,
+            "roleLabel" : "breaks down"
+         },
+         "strength" : "Embedding",
+         "strengthDirection" : "Backward",
+         "target" : {
+            "constraintClasses" : [ "BisCore.PhysicalPortion" ],
+            "multiplicity" : "(0..1)",
+            "polymorphic" : true,
+            "roleLabel" : "is sub-modeled by"
+         }
+      },
+      "PhysicalPartition" : {
+         "baseClass" : "BisCore.InformationPartitionElement",
+         "customAttributes" : [
+            {
+               "className" : "BisCore.ClassHasHandler"
+            }
+         ],
+         "description" : "A bis:PhysicalPartition element establishes a 'Physical' Modeling Perspective for its parent bis:Subject. A bis:PhysicalPartition is always sub-modeled by a bis:PhysicalModel.",
+         "label" : "Physical Partition",
+         "modifier" : "Sealed",
+         "schemaItemType" : "EntityClass"
+      },
+      "PhysicalPortion" : {
+         "baseClass" : "BisCore.PhysicalElement",
+         "customAttributes" : [
+            {
+               "Description" : "The best practice is now to inherit from a PhysicalElement subclass and mix-in ISubModeledElement directly.",
+               "className" : "CoreCustomAttributes.Deprecated"
+            }
+         ],
+         "description" : "DEPRECATED: A Physical Portion represents an arbitrary portion of a larger Physical Element that will be sub-modeled by a Physical Model.",
+         "label" : "Physical Portion",
+         "mixins" : [ "BisCore.ISubModeledElement" ],
+         "modifier" : "Abstract",
+         "schemaItemType" : "EntityClass"
+      },
+      "PhysicalType" : {
+         "baseClass" : "BisCore.TypeDefinitionElement",
+         "customAttributes" : [
+            {
+               "className" : "BisCore.ClassHasHandler"
+            }
+         ],
+         "description" : "Defines a shared set of properties whose values vary per-type of a bis:PhysicalElement rather than per-instance. Intended for modeling Entities such as catalog entries, that typically define property values that are common among all instances associated with a given catalog entry.",
+         "label" : "Physical Type",
+         "modifier" : "Abstract",
+         "schemaItemType" : "EntityClass"
+      },
+      "PhysicalTypeHasTemplateRecipe" : {
+         "baseClass" : "BisCore.TypeDefinitionHasRecipe",
+         "modifier" : "None",
+         "schemaItemType" : "RelationshipClass",
+         "source" : {
+            "constraintClasses" : [ "BisCore.PhysicalType" ],
+            "multiplicity" : "(0..*)",
+            "polymorphic" : true,
+            "roleLabel" : "has"
+         },
+         "strength" : "Referencing",
+         "strengthDirection" : "Forward",
+         "target" : {
+            "constraintClasses" : [ "BisCore.TemplateRecipe3d" ],
+            "multiplicity" : "(0..1)",
+            "polymorphic" : true,
+            "roleLabel" : "is referenced by"
+         }
+      },
+      "RecipeDefinitionElement" : {
+         "baseClass" : "BisCore.DefinitionElement",
+         "description" : "Defines instructions for creating/updating Element instances, e.g. determining their geometry from a template or a parametric script.",
+         "label" : "Recipe Definition",
+         "modifier" : "Abstract",
+         "schemaItemType" : "EntityClass"
+      },
+      "RenderMaterial" : {
+         "baseClass" : "BisCore.DefinitionElement",
+         "customAttributes" : [
+            {
+               "className" : "BisCore.ClassHasHandler"
+            }
+         ],
+         "description" : "A bis:RenderMaterial defines the rendering properties of materials for display. Not to be confused with a bis:PhysicalMaterial.",
+         "label" : "Render Material",
+         "mixins" : [ "BisCore.IParentElement" ],
+         "modifier" : "Sealed",
+         "properties" : [
+            {
+               "description" : "The palette name that categorizes this RenderMaterial.",
+               "name" : "PaletteName",
+               "type" : "PrimitiveProperty",
+               "typeName" : "string"
+            },
+            {
+               "description" : "A human-readable description of the RenderMaterial",
+               "name" : "Description",
+               "type" : "PrimitiveProperty",
+               "typeName" : "string"
+            }
+         ],
+         "schemaItemType" : "EntityClass"
+      },
+      "RenderMaterialOwnsRenderMaterials" : {
+         "baseClass" : "BisCore.ElementOwnsChildElements",
+         "modifier" : "None",
+         "schemaItemType" : "RelationshipClass",
+         "source" : {
+            "constraintClasses" : [ "BisCore.RenderMaterial" ],
+            "multiplicity" : "(0..1)",
+            "polymorphic" : false,
+            "roleLabel" : "owns child"
+         },
+         "strength" : "Embedding",
+         "strengthDirection" : "Forward",
+         "target" : {
+            "constraintClasses" : [ "BisCore.RenderMaterial" ],
+            "multiplicity" : "(0..*)",
+            "polymorphic" : false,
+            "roleLabel" : "is owned by parent"
+         }
+      },
+      "RepositoryLink" : {
+         "baseClass" : "BisCore.UrlLink",
+         "customAttributes" : [
+            {
+               "className" : "BisCore.ClassHasHandler"
+            }
+         ],
+         "description" : "A bis:RepositoryLink is a bis:UrlLink element that links to an external repository. It implements ISubModeledElement only so that a sub-Model could be used to cache information from the external repository.",
+         "label" : "Repository Link",
+         "mixins" : [ "BisCore.ISubModeledElement" ],
+         "modifier" : "Sealed",
+         "properties" : [
+            {
+               "customAttributes" : [
+                  {
+                     "className" : "BisCore.CustomHandledProperty"
+                  },
+                  {
+                     "className" : "CoreCustomAttributes.HiddenProperty"
+                  }
+               ],
+               "description" : "A GUID that identifies the external repository.",
+               "extendedTypeName" : "BeGuid",
+               "label" : "Repository GUID",
+               "name" : "RepositoryGuid",
+               "type" : "PrimitiveProperty",
+               "typeName" : "binary"
+            }
+         ],
+         "schemaItemType" : "EntityClass"
+      },
+      "RepositoryModel" : {
+         "baseClass" : "BisCore.DefinitionModel",
+         "customAttributes" : [
+            {
+               "className" : "BisCore.ClassHasHandler"
+            }
+         ],
+         "description" : "The singleton Model at the root of a BIS repository. Contains a hierarchy of bis:Subject elements that declare what the repository is modeling and child bis:InformationPartitionElement instances that establish Modeling Perspectives. Serves as a high-level table-of-contents for the BIS repository.",
+         "label" : "Repository Model",
+         "modifier" : "Sealed",
+         "schemaItemType" : "EntityClass"
+      },
+      "ReservedPropertyNames" : {
+         "appliesTo" : "EntityClass, RelationshipClass",
+         "description" : "Declare a list of properties as reserved. The property name listed would be forbidden from use in the class and classes that inherit from it.",
+         "modifier" : "Sealed",
+         "properties" : [
+            {
+               "description" : "An array of names of properties that should not be used. Case-insensitive comparison will be used.",
+               "minOccurs" : 0,
+               "name" : "PropertyNames",
+               "type" : "PrimitiveArrayProperty",
+               "typeName" : "string"
+            }
+         ],
+         "schemaItemType" : "CustomAttributeClass"
+      },
+      "RoleElement" : {
+         "baseClass" : "BisCore.Element",
+         "customAttributes" : [
+            {
+               "className" : "BisCore.ClassHasHandler"
+            },
+            {
+               "className" : "ECDbMap.JoinedTablePerDirectSubclass"
+            },
+            {
+               "Exceptions" : [ "Functional:FunctionalElement", "Asset:AssetElement" ],
+               "className" : "CoreCustomAttributes.NotSubclassableInReferencingSchemas"
+            }
+         ],
+         "description" : "A real world Entity is modeled as a bis:RoleElement when a set of external circumstances define an important role (one that is worth tracking) that is not intrinsic to the Entity playing the role. For example, a person can play the role of a teacher or a rock can play the role of a boundary marker.",
+         "label" : "Role Element",
+         "modifier" : "Abstract",
+         "schemaItemType" : "EntityClass"
+      },
+      "RoleModel" : {
+         "baseClass" : "BisCore.Model",
+         "customAttributes" : [
+            {
+               "className" : "BisCore.ClassHasHandler"
+            }
+         ],
+         "description" : "A container for persisting bis:RoleElement instances.",
+         "label" : "Role Model",
+         "schemaItemType" : "EntityClass"
+      },
+      "SchemaHasBehavior" : {
+         "appliesTo" : "Schema",
+         "description" : "Applied to an ECSchema to indicate that there is an associated JavaScript library that will provide run-time behavior.",
+         "properties" : [
+            {
+               "description" : "List of actions that are not permitted when the associated JavaScript library is not available.",
+               "minOccurs" : 0,
+               "name" : "Restrictions",
+               "type" : "PrimitiveArrayProperty",
+               "typeName" : "string"
+            }
+         ],
+         "schemaItemType" : "CustomAttributeClass"
+      },
+      "SectionDrawing" : {
+         "baseClass" : "BisCore.Drawing",
+         "customAttributes" : [
+            {
+               "className" : "BisCore.ClassHasHandler"
+            }
+         ],
+         "description" : "A bis:SectionDrawing is a bis:Document of a 2D section drawing.",
+         "label" : "Section Drawing",
+         "schemaItemType" : "EntityClass"
+      },
+      "SectionDrawingModel" : {
+         "baseClass" : "BisCore.DrawingModel",
+         "customAttributes" : [
+            {
+               "className" : "BisCore.ClassHasHandler"
+            }
+         ],
+         "description" : "A container for persisting section bis:DrawingGraphic elements representing a cross-section of a PhysicalModel. Generally at the same scale as the sectioned geometry to allow it to be display in situ at the location of the sectioning.",
+         "label" : "Section Drawing Model",
+         "schemaItemType" : "EntityClass"
+      },
+      "SectionLocation" : {
+         "baseClass" : "BisCore.SpatialLocationElement",
+         "description" : "The section location defines how a section drawing should be generated in a 3d view.",
+         "label" : "Section Location",
+         "properties" : [
+            {
+               "description" : "Type of the section: e.g. Section, Plan, Elevation, Detail.",
+               "label" : "Section Type",
+               "name" : "SectionType",
+               "type" : "PrimitiveProperty",
+               "typeName" : "BisCore.SectionType"
+            },
+            {
+               "description" : "Details on how this section was clipped.",
+               "extendedTypeName" : "Json",
+               "label" : "Clip Geometry",
+               "name" : "ClipGeometry",
+               "type" : "PrimitiveProperty",
+               "typeName" : "string"
+            },
+            {
+               "description" : "Describes the models relevant for this section location display.",
+               "direction" : "Forward",
+               "label" : "Model Selector",
+               "name" : "ModelSelector",
+               "relationshipName" : "BisCore.SectionLocationUsesModelSelector",
+               "type" : "NavigationProperty"
+            },
+            {
+               "description" : "Describes the categories relevant for this section location display.",
+               "direction" : "Forward",
+               "label" : "Category Selector",
+               "name" : "CategorySelector",
+               "relationshipName" : "BisCore.SectionLocationUsesCategorySelector",
+               "type" : "NavigationProperty"
+            },
+            {
+               "direction" : "Forward",
+               "label" : "Describes the view attachment attached to this section location",
+               "name" : "ViewAttachment",
+               "relationshipName" : "BisCore.SectionLocationRefersToViewAttachment",
+               "type" : "NavigationProperty"
+            }
+         ],
+         "schemaItemType" : "EntityClass"
+      },
+      "SectionLocationRefersToViewAttachment" : {
+         "modifier" : "Sealed",
+         "schemaItemType" : "RelationshipClass",
+         "source" : {
+            "constraintClasses" : [ "BisCore.SectionLocation" ],
+            "multiplicity" : "(0..*)",
+            "polymorphic" : true,
+            "roleLabel" : "refers to"
+         },
+         "strength" : "Referencing",
+         "strengthDirection" : "Backward",
+         "target" : {
+            "constraintClasses" : [ "BisCore.ViewAttachment" ],
+            "multiplicity" : "(0..1)",
+            "polymorphic" : true,
+            "roleLabel" : "is referenced by"
+         }
+      },
+      "SectionLocationUsesCategorySelector" : {
+         "description" : "Relates a section location to the categories relevant for this section location display.",
+         "modifier" : "Sealed",
+         "schemaItemType" : "RelationshipClass",
+         "source" : {
+            "constraintClasses" : [ "BisCore.SectionLocation" ],
+            "multiplicity" : "(0..*)",
+            "polymorphic" : true,
+            "roleLabel" : "uses"
+         },
+         "strength" : "Referencing",
+         "strengthDirection" : "Forward",
+         "target" : {
+            "constraintClasses" : [ "BisCore.CategorySelector" ],
+            "multiplicity" : "(1..1)",
+            "polymorphic" : true,
+            "roleLabel" : "is used by"
+         }
+      },
+      "SectionLocationUsesModelSelector" : {
+         "description" : "Relates a section location to the models relevant for this section location display.",
+         "modifier" : "Sealed",
+         "schemaItemType" : "RelationshipClass",
+         "source" : {
+            "constraintClasses" : [ "BisCore.SectionLocation" ],
+            "multiplicity" : "(0..*)",
+            "polymorphic" : true,
+            "roleLabel" : "uses"
+         },
+         "strength" : "Referencing",
+         "strengthDirection" : "Forward",
+         "target" : {
+            "constraintClasses" : [ "BisCore.ModelSelector" ],
+            "multiplicity" : "(1..1)",
+            "polymorphic" : true,
+            "roleLabel" : "is used by"
+         }
+      },
+      "SectionType" : {
+         "enumerators" : [
+            {
+               "label" : "Section",
+               "name" : "SectionType3",
+               "value" : 3
+            },
+            {
+               "label" : "Detail",
+               "name" : "SectionType4",
+               "value" : 4
+            },
+            {
+               "label" : "Elevation",
+               "name" : "SectionType5",
+               "value" : 5
+            },
+            {
+               "label" : "Plan",
+               "name" : "SectionType6",
+               "value" : 6
+            }
+         ],
+         "isStrict" : false,
+         "schemaItemType" : "Enumeration",
+         "type" : "int"
+      },
+      "Sheet" : {
+         "baseClass" : "BisCore.Document",
+         "customAttributes" : [
+            {
+               "className" : "BisCore.ClassHasHandler"
+            },
+            {
+               "PropertyNames" : [ "Attachments" ],
+               "className" : "BisCore.ReservedPropertyNames"
+            }
+         ],
+         "description" : "A bis:Sheet is a bis:Document of a 2D sheet.",
+         "mixins" : [ "BisCore.ISubModeledElement" ],
+         "properties" : [
+            {
+               "description" : "The Sheet's drawing scale",
+               "name" : "Scale",
+               "type" : "PrimitiveProperty",
+               "typeName" : "double"
+            },
+            {
+               "description" : "Height of the Sheet (in meters)",
+               "name" : "Height",
+               "type" : "PrimitiveProperty",
+               "typeName" : "double"
+            },
+            {
+               "description" : "Width of the Sheet (in meters)",
+               "name" : "Width",
+               "type" : "PrimitiveProperty",
+               "typeName" : "double"
+            },
+            {
+               "direction" : "Forward",
+               "label" : "Sheet Template",
+               "name" : "SheetTemplate",
+               "relationshipName" : "BisCore.SheetHasSheetTemplate",
+               "type" : "NavigationProperty"
+            }
+         ],
+         "schemaItemType" : "EntityClass"
+      },
+      "SheetBorder" : {
+         "baseClass" : "BisCore.DrawingGraphic",
+         "customAttributes" : [
+            {
+               "className" : "BisCore.ClassHasHandler"
+            }
+         ],
+         "label" : "Sheet Border",
+         "properties" : [
+            {
+               "direction" : "Forward",
+               "label" : "Border Template",
+               "name" : "BorderTemplate",
+               "relationshipName" : "BisCore.SheetBorderHasSheetBorderTemplate",
+               "type" : "NavigationProperty"
+            }
+         ],
+         "schemaItemType" : "EntityClass"
+      },
+      "SheetBorderHasSheetBorderTemplate" : {
+         "modifier" : "Sealed",
+         "schemaItemType" : "RelationshipClass",
+         "source" : {
+            "constraintClasses" : [ "BisCore.SheetBorder" ],
+            "multiplicity" : "(0..*)",
+            "polymorphic" : true,
+            "roleLabel" : "has"
+         },
+         "strength" : "Referencing",
+         "strengthDirection" : "Forward",
+         "target" : {
+            "constraintClasses" : [ "BisCore.SheetBorderTemplate" ],
+            "multiplicity" : "(0..1)",
+            "polymorphic" : true,
+            "roleLabel" : "defines"
+         }
+      },
+      "SheetBorderTemplate" : {
+         "baseClass" : "BisCore.Document",
+         "customAttributes" : [
+            {
+               "className" : "BisCore.ClassHasHandler"
+            }
+         ],
+         "label" : "Sheet Border Template",
+         "properties" : [
+            {
+               "description" : "Height of the sheet border.",
+               "name" : "Height",
+               "type" : "PrimitiveProperty",
+               "typeName" : "double"
+            },
+            {
+               "description" : "Width of the sheet border.",
+               "name" : "Width",
+               "type" : "PrimitiveProperty",
+               "typeName" : "double"
+            }
+         ],
+         "schemaItemType" : "EntityClass"
+      },
+      "SheetHasSheetTemplate" : {
+         "modifier" : "Sealed",
+         "schemaItemType" : "RelationshipClass",
+         "source" : {
+            "constraintClasses" : [ "BisCore.Sheet" ],
+            "multiplicity" : "(0..*)",
+            "polymorphic" : true,
+            "roleLabel" : "has"
+         },
+         "strength" : "Referencing",
+         "strengthDirection" : "Forward",
+         "target" : {
+            "constraintClasses" : [ "BisCore.SheetTemplate" ],
+            "multiplicity" : "(0..1)",
+            "polymorphic" : true,
+            "roleLabel" : "defines"
+         }
+      },
+      "SheetModel" : {
+         "baseClass" : "BisCore.GraphicalModel2d",
+         "customAttributes" : [
+            {
+               "className" : "BisCore.ClassHasHandler"
+            }
+         ],
+         "description" : "A container for persisting sheet views and graphics.",
+         "label" : "Sheet Model",
+         "schemaItemType" : "EntityClass"
+      },
+      "SheetModelBreaksDownSheet" : {
+         "baseClass" : "BisCore.ModelModelsElement",
+         "label" : "SheetModel Sub-Models Sheet",
+         "modifier" : "None",
+         "schemaItemType" : "RelationshipClass",
+         "source" : {
+            "constraintClasses" : [ "BisCore.SheetModel" ],
+            "multiplicity" : "(0..1)",
+            "polymorphic" : true,
+            "roleLabel" : "sub-models"
+         },
+         "strength" : "Embedding",
+         "strengthDirection" : "Backward",
+         "target" : {
+            "constraintClasses" : [ "BisCore.Sheet" ],
+            "multiplicity" : "(1..1)",
+            "polymorphic" : true,
+            "roleLabel" : "is sub-modeled by"
+         }
+      },
+      "SheetTemplate" : {
+         "baseClass" : "BisCore.Document",
+         "customAttributes" : [
+            {
+               "className" : "BisCore.ClassHasHandler"
+            }
+         ],
+         "label" : "Sheet Template",
+         "properties" : [
+            {
+               "description" : "Height of the sheet.",
+               "name" : "Height",
+               "type" : "PrimitiveProperty",
+               "typeName" : "double"
+            },
+            {
+               "description" : "Width of the sheet.",
+               "name" : "Width",
+               "type" : "PrimitiveProperty",
+               "typeName" : "double"
+            },
+            {
+               "direction" : "Forward",
+               "name" : "Border",
+               "relationshipName" : "BisCore.SheetTemplateHasSheetBorder",
+               "type" : "NavigationProperty"
+            }
+         ],
+         "schemaItemType" : "EntityClass"
+      },
+      "SheetTemplateHasSheetBorder" : {
+         "modifier" : "Sealed",
+         "schemaItemType" : "RelationshipClass",
+         "source" : {
+            "constraintClasses" : [ "BisCore.SheetTemplate" ],
+            "multiplicity" : "(0..*)",
+            "polymorphic" : true,
+            "roleLabel" : "has"
+         },
+         "strength" : "Referencing",
+         "strengthDirection" : "Forward",
+         "target" : {
+            "constraintClasses" : [ "BisCore.SheetBorder" ],
+            "multiplicity" : "(0..1)",
+            "polymorphic" : true,
+            "roleLabel" : "is referenced by"
+         }
+      },
+      "SheetViewDefinition" : {
+         "baseClass" : "BisCore.ViewDefinition2d",
+         "customAttributes" : [
+            {
+               "className" : "BisCore.ClassHasHandler"
+            }
+         ],
+         "description" : "A bis:SheetViewDefinition specifies parameters for a view of a bis:SheetModel.",
+         "label" : "Sheet View Definition",
+         "schemaItemType" : "EntityClass"
+      },
+      "SpatialCategory" : {
+         "baseClass" : "BisCore.Category",
+         "customAttributes" : [
+            {
+               "className" : "BisCore.ClassHasHandler"
+            }
+         ],
+         "description" : "A bis:SpatialCategory is used for classifying bis:GeometricElement3d elements via the bis:GeometricElement3dIsInCategory (concrete and sealed) relationship.",
+         "label" : "Spatial Category",
+         "modifier" : "Sealed",
+         "schemaItemType" : "EntityClass"
+      },
+      "SpatialElement" : {
+         "baseClass" : "BisCore.GeometricElement3d",
+         "description" : "A bis:SpatialElement is a bis:GeometricElement3d that occupies real world space.",
+         "label" : "Spatial Element",
+         "modifier" : "Abstract",
+         "schemaItemType" : "EntityClass"
+      },
+      "SpatialIndex" : {
+         "customAttributes" : [
+            {
+               "ECInstanceIdColumn" : "ElementId",
+               "MapStrategy" : "ExistingTable",
+               "TableName" : "dgn_SpatialIndex",
+               "className" : "ECDbMap.ClassMap"
+            }
+         ],
+         "description" : "The Spatial Index contains information used to optimize spatial queries. Like other database indices, it is automatically maintained by the system.",
+         "label" : "Spatial Index",
+         "modifier" : "Sealed",
+         "properties" : [
+            {
+               "description" : "Minimum X value of the axis-aligned range box that encloses the spatial element",
+               "isReadOnly" : true,
+               "label" : "Min X",
+               "name" : "MinX",
+               "type" : "PrimitiveProperty",
+               "typeName" : "double"
+            },
+            {
+               "description" : "Maximum X value of the axis-aligned range box that encloses the spatial element",
+               "isReadOnly" : true,
+               "label" : "Max X",
+               "name" : "MaxX",
+               "type" : "PrimitiveProperty",
+               "typeName" : "double"
+            },
+            {
+               "description" : "Minimum Y value of the axis-aligned range box that encloses the spatial element",
+               "isReadOnly" : true,
+               "label" : "Min Y",
+               "name" : "MinY",
+               "type" : "PrimitiveProperty",
+               "typeName" : "double"
+            },
+            {
+               "description" : "Maximum Y value of the axis-aligned range box that encloses the spatial element",
+               "isReadOnly" : true,
+               "label" : "Max Y",
+               "name" : "MaxY",
+               "type" : "PrimitiveProperty",
+               "typeName" : "double"
+            },
+            {
+               "description" : "Minimum Z value of the axis-aligned range box that encloses the spatial element",
+               "isReadOnly" : true,
+               "label" : "Min Z",
+               "name" : "MinZ",
+               "type" : "PrimitiveProperty",
+               "typeName" : "double"
+            },
+            {
+               "description" : "Maximum Z value of the axis-aligned range box that encloses the spatial element",
+               "isReadOnly" : true,
+               "label" : "Max Z",
+               "name" : "MaxZ",
+               "type" : "PrimitiveProperty",
+               "typeName" : "double"
+            }
+         ],
+         "schemaItemType" : "EntityClass"
+      },
+      "SpatialLocationElement" : {
+         "baseClass" : "BisCore.SpatialElement",
+         "customAttributes" : [
+            {
+               "className" : "BisCore.ClassHasHandler"
+            }
+         ],
+         "description" : "A bis:SpatialLocationElement identifies a 'tracked' real world location but has no mass and cannot be 'touched'.",
+         "label" : "Spatial Location Element",
+         "modifier" : "Abstract",
+         "schemaItemType" : "EntityClass"
+      },
+      "SpatialLocationIsOfType" : {
+         "baseClass" : "BisCore.GeometricElement3dHasTypeDefinition",
+         "description" : "A type-instance relation; one that indicates that the specific bis:SpatialLocationElement is an instance of the defined bis:SpatialLocationType. E.g. AssemblyArea#5 if of type FloorSpace.",
+         "modifier" : "None",
+         "schemaItemType" : "RelationshipClass",
+         "source" : {
+            "constraintClasses" : [ "BisCore.SpatialLocationElement" ],
+            "multiplicity" : "(0..*)",
+            "polymorphic" : true,
+            "roleLabel" : "is of"
+         },
+         "strength" : "Referencing",
+         "strengthDirection" : "Forward",
+         "target" : {
+            "constraintClasses" : [ "BisCore.SpatialLocationType" ],
+            "multiplicity" : "(0..1)",
+            "polymorphic" : true,
+            "roleLabel" : "classifies"
+         }
+      },
+      "SpatialLocationModel" : {
+         "baseClass" : "BisCore.SpatialModel",
+         "customAttributes" : [
+            {
+               "className" : "BisCore.ClassHasHandler"
+            }
+         ],
+         "description" : "A container for persisting bis:SpatialLocationElement instances. Also allows bis:GraphicalElement3d and bis:InformationContentElement.",
+         "label" : "Spatial Location Model",
+         "schemaItemType" : "EntityClass"
+      },
+      "SpatialLocationPartition" : {
+         "baseClass" : "BisCore.InformationPartitionElement",
+         "customAttributes" : [
+            {
+               "className" : "BisCore.ClassHasHandler"
+            }
+         ],
+         "description" : "A bis:SpatialLocationPartition element establishes a 'SpatialLocation' Modeling Perspective for its parent bis:Subject. A bis:SpatialLocationPartition is always sub-modeled by a bis:SpatialLocationModel.",
+         "label" : "Spatial Location Partition",
+         "modifier" : "Sealed",
+         "schemaItemType" : "EntityClass"
+      },
+      "SpatialLocationPortion" : {
+         "baseClass" : "BisCore.SpatialLocationElement",
+         "customAttributes" : [
+            {
+               "Description" : "The best practice is now to inherit from a SpatialLocationElement subclass and mix-in ISubModeledElement directly.",
+               "className" : "CoreCustomAttributes.Deprecated"
+            }
+         ],
+         "description" : "DEPRECATED: A Spatial Location Portion represents an arbitrary portion of a larger Spatial Location Element that will be sub-modeled by a Spatial Location Model.",
+         "label" : "Spatial Location Portion",
+         "mixins" : [ "BisCore.ISubModeledElement" ],
+         "modifier" : "Abstract",
+         "schemaItemType" : "EntityClass"
+      },
+      "SpatialLocationType" : {
+         "baseClass" : "BisCore.TypeDefinitionElement",
+         "customAttributes" : [
+            {
+               "className" : "BisCore.ClassHasHandler"
+            }
+         ],
+         "description" : "Defines a shared set of properties whose values vary per-type of a bis:SpatialLocationElement rather than per-instance.",
+         "label" : "Spatial Location Type",
+         "modifier" : "Abstract",
+         "schemaItemType" : "EntityClass"
+      },
+      "SpatialModel" : {
+         "baseClass" : "BisCore.GeometricModel3d",
+         "customAttributes" : [
+            {
+               "className" : "BisCore.ClassHasHandler"
+            }
+         ],
+         "description" : "An abstract base class for bis:PhysicalModel and bis:SpatialLocationModel--the only two types of model for real physical space. Other GeometricModel3d specializations use the real-world coordinate system, but are considered as informational or mathematical abstractions.",
+         "label" : "Spatial Model",
+         "modifier" : "Abstract",
+         "schemaItemType" : "EntityClass"
+      },
+      "SpatialViewDefinition" : {
+         "baseClass" : "BisCore.ViewDefinition3d",
+         "customAttributes" : [
+            {
+               "className" : "BisCore.ClassHasHandler"
+            }
+         ],
+         "description" : "A view of a spatially located volume.",
+         "label" : "Spatial View Definition",
+         "properties" : [
+            {
+               "customAttributes" : [
+                  {
+                     "className" : "BisCore.CustomHandledProperty"
+                  }
+               ],
+               "direction" : "Forward",
+               "label" : "Model Selector",
+               "name" : "ModelSelector",
+               "relationshipName" : "BisCore.SpatialViewDefinitionUsesModelSelector",
+               "type" : "NavigationProperty"
+            }
+         ],
+         "schemaItemType" : "EntityClass"
+      },
+      "SpatialViewDefinitionUsesModelSelector" : {
+         "modifier" : "Sealed",
+         "schemaItemType" : "RelationshipClass",
+         "source" : {
+            "constraintClasses" : [ "BisCore.SpatialViewDefinition" ],
+            "multiplicity" : "(0..*)",
+            "polymorphic" : true,
+            "roleLabel" : "uses"
+         },
+         "strength" : "Referencing",
+         "strengthDirection" : "Forward",
+         "target" : {
+            "constraintClasses" : [ "BisCore.ModelSelector" ],
+            "multiplicity" : "(1..1)",
+            "polymorphic" : true,
+            "roleLabel" : "is used by"
+         }
+      },
+      "SubCategory" : {
+         "baseClass" : "BisCore.DefinitionElement",
+         "customAttributes" : [
+            {
+               "className" : "BisCore.ClassHasHandler"
+            }
+         ],
+         "description" : "A bis:SubCategory is a subdivision of a bis:Category. SubCategories allow GeometricElements to have multiple pieces of Geometry that can be independently visible and styled (color, linesStyle, transparency, etc.). It is important to understand that a bis:SubCategory is not a bis:Category (i.e. Categories do not nest). bis:GeometricElements are always related to a bis:Category, not a bis:SubCategory.",
+         "label" : "Sub-Category",
+         "modifier" : "Sealed",
+         "properties" : [
+            {
+               "customAttributes" : [
+                  {
+                     "className" : "BisCore.CustomHandledProperty"
+                  }
+               ],
+               "description" : "A human-readable description of the SubCategory",
+               "name" : "Description",
+               "type" : "PrimitiveProperty",
+               "typeName" : "string"
+            },
+            {
+               "customAttributes" : [
+                  {
+                     "className" : "BisCore.CustomHandledProperty"
+                  }
+               ],
+               "description" : "Contains the display properties (color, style, weight, etc.) for the SubCategory. It should not be used for the persistence of application-specific information.",
+               "extendedTypeName" : "Json",
+               "name" : "Properties",
+               "type" : "PrimitiveProperty",
+               "typeName" : "string"
+            }
+         ],
+         "schemaItemType" : "EntityClass"
+      },
+      "Subject" : {
+         "baseClass" : "BisCore.InformationReferenceElement",
+         "customAttributes" : [
+            {
+               "className" : "BisCore.ClassHasHandler"
+            }
+         ],
+         "description" : "A bis:Subject is an information element that references (by name) some real-world Object that will be modeled in this BIS repository.",
+         "mixins" : [ "BisCore.IParentElement" ],
+         "modifier" : "Sealed",
+         "properties" : [
+            {
+               "description" : "A human-readable description of the real-world Object(s) that will be modeled for this Subject",
+               "name" : "Description",
+               "type" : "PrimitiveProperty",
+               "typeName" : "string"
+            }
+         ],
+         "schemaItemType" : "EntityClass"
+      },
+      "SubjectOwnsPartitionElements" : {
+         "baseClass" : "BisCore.ElementOwnsChildElements",
+         "modifier" : "None",
+         "schemaItemType" : "RelationshipClass",
+         "source" : {
+            "constraintClasses" : [ "BisCore.Subject" ],
+            "multiplicity" : "(0..1)",
+            "polymorphic" : false,
+            "roleLabel" : "owns"
+         },
+         "strength" : "Embedding",
+         "strengthDirection" : "Forward",
+         "target" : {
+            "constraintClasses" : [ "BisCore.InformationPartitionElement" ],
+            "multiplicity" : "(0..*)",
+            "polymorphic" : true,
+            "roleLabel" : "is owned by"
+         }
+      },
+      "SubjectOwnsSubjects" : {
+         "baseClass" : "BisCore.ElementOwnsChildElements",
+         "modifier" : "None",
+         "schemaItemType" : "RelationshipClass",
+         "source" : {
+            "constraintClasses" : [ "BisCore.Subject" ],
+            "multiplicity" : "(0..1)",
+            "polymorphic" : false,
+            "roleLabel" : "owns child"
+         },
+         "strength" : "Embedding",
+         "strengthDirection" : "Forward",
+         "target" : {
+            "constraintClasses" : [ "BisCore.Subject" ],
+            "multiplicity" : "(0..*)",
+            "polymorphic" : false,
+            "roleLabel" : "is owned by parent"
+         }
+      },
+      "TemplateRecipe2d" : {
+         "baseClass" : "BisCore.RecipeDefinitionElement",
+         "customAttributes" : [
+            {
+               "className" : "BisCore.ClassHasHandler"
+            }
+         ],
+         "description" : "A recipe that uses a 2D template for creating new instances.",
+         "label" : "2D Template Recipe",
+         "mixins" : [ "BisCore.ISubModeledElement" ],
+         "schemaItemType" : "EntityClass"
+      },
+      "TemplateRecipe3d" : {
+         "baseClass" : "BisCore.RecipeDefinitionElement",
+         "customAttributes" : [
+            {
+               "className" : "BisCore.ClassHasHandler"
+            }
+         ],
+         "description" : "A recipe that uses a 3D template for creating new instances.",
+         "label" : "3D Template Recipe",
+         "mixins" : [ "BisCore.ISubModeledElement" ],
+         "schemaItemType" : "EntityClass"
+      },
+      "TemplateViewDefinition2d" : {
+         "baseClass" : "BisCore.ViewDefinition2d",
+         "customAttributes" : [
+            {
+               "className" : "BisCore.ClassHasHandler"
+            }
+         ],
+         "description" : "A bis:ViewDefinition2d used to display a 2D template model.",
+         "label" : "2D Template View Definition",
+         "schemaItemType" : "EntityClass"
+      },
+      "TemplateViewDefinition3d" : {
+         "baseClass" : "BisCore.ViewDefinition3d",
+         "customAttributes" : [
+            {
+               "className" : "BisCore.ClassHasHandler"
+            }
+         ],
+         "description" : "A bis:ViewDefinition3d used to display a 3D template model.",
+         "label" : "3D Template View Definition",
+         "schemaItemType" : "EntityClass"
+      },
+      "TextAnnotation2d" : {
+         "baseClass" : "BisCore.AnnotationElement2d",
+         "customAttributes" : [
+            {
+               "className" : "BisCore.ClassHasHandler"
+            }
+         ],
+         "label" : "2D Text Annotation",
+         "schemaItemType" : "EntityClass"
+      },
+      "TextAnnotation2dOwnsTextAnnotationData" : {
+         "baseClass" : "BisCore.ElementOwnsUniqueAspect",
+         "modifier" : "None",
+         "schemaItemType" : "RelationshipClass",
+         "source" : {
+            "constraintClasses" : [ "BisCore.TextAnnotation2d" ],
+            "multiplicity" : "(1..1)",
+            "polymorphic" : true,
+            "roleLabel" : "owns"
+         },
+         "strength" : "Embedding",
+         "strengthDirection" : "Forward",
+         "target" : {
+            "constraintClasses" : [ "BisCore.TextAnnotationData" ],
+            "multiplicity" : "(0..1)",
+            "polymorphic" : false,
+            "roleLabel" : "is owned by"
+         }
+      },
+      "TextAnnotation3d" : {
+         "baseClass" : "BisCore.GraphicalElement3d",
+         "customAttributes" : [
+            {
+               "className" : "BisCore.ClassHasHandler"
+            }
+         ],
+         "label" : "3D Text Annotation",
+         "schemaItemType" : "EntityClass"
+      },
+      "TextAnnotation3dOwnsTextAnnotationData" : {
+         "baseClass" : "BisCore.ElementOwnsUniqueAspect",
+         "modifier" : "None",
+         "schemaItemType" : "RelationshipClass",
+         "source" : {
+            "constraintClasses" : [ "BisCore.TextAnnotation3d" ],
+            "multiplicity" : "(1..1)",
+            "polymorphic" : true,
+            "roleLabel" : "owns"
+         },
+         "strength" : "Embedding",
+         "strengthDirection" : "Forward",
+         "target" : {
+            "constraintClasses" : [ "BisCore.TextAnnotationData" ],
+            "multiplicity" : "(0..1)",
+            "polymorphic" : false,
+            "roleLabel" : "is owned by"
+         }
+      },
+      "TextAnnotationData" : {
+         "baseClass" : "BisCore.ElementUniqueAspect",
+         "customAttributes" : [
+            {
+               "className" : "BisCore.ClassHasHandler"
+            }
+         ],
+         "description" : "The aspect used to store text annotation data for bis:TextAnnotation2d an bis:TextAnnotation3d elements.",
+         "label" : "Text Annotation Data",
+         "modifier" : "Sealed",
+         "properties" : [
+            {
+               "customAttributes" : [
+                  {
+                     "className" : "CoreCustomAttributes.HiddenProperty"
+                  }
+               ],
+               "description" : "Text in Annotations.fb.h flat buffer format",
+               "label" : "Text Annotation",
+               "name" : "TextAnnotation",
+               "type" : "PrimitiveProperty",
+               "typeName" : "binary"
+            }
+         ],
+         "schemaItemType" : "EntityClass"
+      },
+      "TextAnnotationSeed" : {
+         "baseClass" : "BisCore.DefinitionElement",
+         "customAttributes" : [
+            {
+               "className" : "BisCore.ClassHasHandler"
+            }
+         ],
+         "label" : "Text Annotation Seed",
+         "modifier" : "Sealed",
+         "properties" : [
+            {
+               "customAttributes" : [
+                  {
+                     "className" : "BisCore.CustomHandledProperty"
+                  }
+               ],
+               "description" : "Description of the style",
+               "name" : "Description",
+               "type" : "PrimitiveProperty",
+               "typeName" : "string"
+            },
+            {
+               "customAttributes" : [
+                  {
+                     "className" : "BisCore.CustomHandledProperty"
+                  },
+                  {
+                     "className" : "CoreCustomAttributes.HiddenProperty"
+                  }
+               ],
+               "description" : "Encoded style properties",
+               "name" : "Data",
+               "type" : "PrimitiveProperty",
+               "typeName" : "binary"
+            }
+         ],
+         "schemaItemType" : "EntityClass"
+      },
+      "Texture" : {
+         "baseClass" : "BisCore.DefinitionElement",
+         "customAttributes" : [
+            {
+               "className" : "BisCore.ClassHasHandler"
+            }
+         ],
+         "description" : "A bis:Texture represents a named texture used for rendering purposes. The texture data is stored as a binary blob interpreted according to the specified texture format.",
+         "modifier" : "Sealed",
+         "properties" : [
+            {
+               "customAttributes" : [
+                  {
+                     "className" : "BisCore.CustomHandledProperty"
+                  }
+               ],
+               "description" : "A human-readable description of the Texture",
+               "name" : "Description",
+               "type" : "PrimitiveProperty",
+               "typeName" : "string"
+            },
+            {
+               "customAttributes" : [
+                  {
+                     "className" : "BisCore.CustomHandledProperty"
+                  },
+                  {
+                     "className" : "CoreCustomAttributes.HiddenProperty"
+                  }
+               ],
+               "description" : "Encoded texture data",
+               "name" : "Data",
+               "type" : "PrimitiveProperty",
+               "typeName" : "binary"
+            },
+            {
+               "customAttributes" : [
+                  {
+                     "className" : "BisCore.CustomHandledProperty"
+                  }
+               ],
+               "description" : "Format of the encoded texture data. See the ImageSourceFormat enum in the API.",
+               "name" : "Format",
+               "type" : "PrimitiveProperty",
+               "typeName" : "int"
+            },
+            {
+               "customAttributes" : [
+                  {
+                     "className" : "BisCore.CustomHandledProperty"
+                  }
+               ],
+               "description" : "Image width in pixels.",
+               "label" : "Width",
+               "name" : "Width",
+               "type" : "PrimitiveProperty",
+               "typeName" : "int"
+            },
+            {
+               "customAttributes" : [
+                  {
+                     "className" : "BisCore.CustomHandledProperty"
+                  }
+               ],
+               "description" : "Image height in pixels.",
+               "label" : "Height",
+               "name" : "Height",
+               "type" : "PrimitiveProperty",
+               "typeName" : "int"
+            },
+            {
+               "customAttributes" : [
+                  {
+                     "className" : "BisCore.CustomHandledProperty"
+                  }
+               ],
+               "description" : "Currently unused and always zero.",
+               "name" : "Flags",
+               "type" : "PrimitiveProperty",
+               "typeName" : "int"
+            }
+         ],
+         "schemaItemType" : "EntityClass"
+      },
+      "TypeDefinitionElement" : {
+         "baseClass" : "BisCore.DefinitionElement",
+         "description" : "Defines a shared set of properties (the 'type') that can be associated with a bis:Element.",
+         "label" : "Type Definition",
+         "modifier" : "Abstract",
+         "properties" : [
+            {
+               "direction" : "Forward",
+               "name" : "Recipe",
+               "relationshipName" : "BisCore.TypeDefinitionHasRecipe",
+               "type" : "NavigationProperty"
+            }
+         ],
+         "schemaItemType" : "EntityClass"
+      },
+      "TypeDefinitionHasRecipe" : {
+         "modifier" : "Abstract",
+         "schemaItemType" : "RelationshipClass",
+         "source" : {
+            "constraintClasses" : [ "BisCore.TypeDefinitionElement" ],
+            "multiplicity" : "(0..*)",
+            "polymorphic" : true,
+            "roleLabel" : "has"
+         },
+         "strength" : "Referencing",
+         "strengthDirection" : "Forward",
+         "target" : {
+            "constraintClasses" : [ "BisCore.RecipeDefinitionElement" ],
+            "multiplicity" : "(0..1)",
+            "polymorphic" : true,
+            "roleLabel" : "is referenced by"
+         }
+      },
+      "UrlLink" : {
+         "baseClass" : "BisCore.LinkElement",
+         "customAttributes" : [
+            {
+               "className" : "BisCore.ClassHasHandler"
+            },
+            {
+               "Indexes" : [
+                  {
+                     "IsUnique" : false,
+                     "Name" : "ix_bis_UrlLink_Url",
+                     "Properties" : [ "Url" ]
+                  }
+               ],
+               "className" : "ECDbMap.DbIndexList"
+            }
+         ],
+         "description" : "A bis:UrlLink is a bis:LinkElement that specifies a URL link.",
+         "label" : "URL Link",
+         "properties" : [
+            {
+               "customAttributes" : [
+                  {
+                     "className" : "BisCore.CustomHandledProperty"
+                  }
+               ],
+               "description" : "A URL pointing to an external resource.",
+               "label" : "URL",
+               "name" : "Url",
+               "type" : "PrimitiveProperty",
+               "typeName" : "string"
+            },
+            {
+               "customAttributes" : [
+                  {
+                     "className" : "BisCore.CustomHandledProperty"
+                  }
+               ],
+               "description" : "A human-readable description of the URL",
+               "name" : "Description",
+               "type" : "PrimitiveProperty",
+               "typeName" : "string"
+            }
+         ],
+         "schemaItemType" : "EntityClass"
+      },
+      "ViewAttachment" : {
+         "baseClass" : "BisCore.GraphicalElement2d",
+         "customAttributes" : [
+            {
+               "className" : "BisCore.ClassHasHandler"
+            }
+         ],
+         "label" : "View Attachment",
+         "properties" : [
+            {
+               "description" : "The view that is to be attached",
+               "direction" : "Backward",
+               "name" : "View",
+               "relationshipName" : "BisCore.ViewIsAttached",
+               "type" : "NavigationProperty"
+            }
+         ],
+         "schemaItemType" : "EntityClass"
+      },
+      "ViewDefinition" : {
+         "baseClass" : "BisCore.DefinitionElement",
+         "customAttributes" : [
+            {
+               "className" : "BisCore.ClassHasHandler"
+            },
+            {
+               "className" : "CoreCustomAttributes.NotSubclassableInReferencingSchemas"
+            }
+         ],
+         "description" : "A bis:ViewDefinition specifies the area/volume that is viewed, and refers to a bis:DisplayStyle and a bis:CategorySelector to be used. Subclasses of bis:ViewDefinition determine which model(s) are viewed.",
+         "label" : "View Definition",
+         "modifier" : "Abstract",
+         "properties" : [
+            {
+               "description" : "A human-readable description of the View Definition",
+               "name" : "Description",
+               "type" : "PrimitiveProperty",
+               "typeName" : "string"
+            },
+            {
+               "customAttributes" : [
+                  {
+                     "className" : "BisCore.CustomHandledProperty"
+                  }
+               ],
+               "direction" : "Forward",
+               "label" : "Category Selector",
+               "name" : "CategorySelector",
+               "relationshipName" : "BisCore.ViewDefinitionUsesCategorySelector",
+               "type" : "NavigationProperty"
+            },
+            {
+               "customAttributes" : [
+                  {
+                     "className" : "BisCore.CustomHandledProperty"
+                  }
+               ],
+               "direction" : "Forward",
+               "label" : "Display Style",
+               "name" : "DisplayStyle",
+               "relationshipName" : "BisCore.ViewDefinitionUsesDisplayStyle",
+               "type" : "NavigationProperty"
+            }
+         ],
+         "schemaItemType" : "EntityClass"
+      },
+      "ViewDefinition2d" : {
+         "baseClass" : "BisCore.ViewDefinition",
+         "customAttributes" : [
+            {
+               "className" : "BisCore.ClassHasHandler"
+            }
+         ],
+         "description" : "A view of a 2D model that has its own local coordinate system.",
+         "label" : "2D View Definition",
+         "modifier" : "Abstract",
+         "properties" : [
+            {
+               "customAttributes" : [
+                  {
+                     "className" : "BisCore.CustomHandledProperty"
+                  }
+               ],
+               "direction" : "Backward",
+               "label" : "Base Model",
+               "name" : "BaseModel",
+               "relationshipName" : "BisCore.BaseModelForView2d",
+               "type" : "NavigationProperty"
+            },
+            {
+               "customAttributes" : [
+                  {
+                     "className" : "BisCore.CustomHandledProperty"
+                  }
+               ],
+               "description" : "Lower left corner of the viewed area.",
+               "name" : "Origin",
+               "type" : "PrimitiveProperty",
+               "typeName" : "point2d"
+            },
+            {
+               "customAttributes" : [
+                  {
+                     "className" : "BisCore.CustomHandledProperty"
+                  }
+               ],
+               "description" : "Size of the view diagonal",
+               "name" : "Extents",
+               "type" : "PrimitiveProperty",
+               "typeName" : "point2d"
+            },
+            {
+               "customAttributes" : [
+                  {
+                     "className" : "BisCore.CustomHandledProperty"
+                  }
+               ],
+               "description" : "Rotation angle in degrees of the viewed area.",
+               "label" : "Rotation Angle",
+               "name" : "RotationAngle",
+               "type" : "PrimitiveProperty",
+               "typeName" : "double"
+            }
+         ],
+         "schemaItemType" : "EntityClass"
+      },
+      "ViewDefinition3d" : {
+         "baseClass" : "BisCore.ViewDefinition",
+         "customAttributes" : [
+            {
+               "className" : "BisCore.ClassHasHandler"
+            }
+         ],
+         "description" : "A bis:ViewDefinition3d specifies the volume that is viewed on referenced 3D bis:Models. It refers to a bis:DisplayStyle3d and a bis:CategorySelector to be used.",
+         "label" : "3D View Definition",
+         "modifier" : "Abstract",
+         "properties" : [
+            {
+               "customAttributes" : [
+                  {
+                     "className" : "BisCore.CustomHandledProperty"
+                  }
+               ],
+               "description" : "Origin of the viewed volume on the lower, back, rear",
+               "name" : "Origin",
+               "type" : "PrimitiveProperty",
+               "typeName" : "point3d"
+            },
+            {
+               "customAttributes" : [
+                  {
+                     "className" : "BisCore.CustomHandledProperty"
+                  }
+               ],
+               "description" : "Size of the view diagonal",
+               "name" : "Extents",
+               "type" : "PrimitiveProperty",
+               "typeName" : "point3d"
+            },
+            {
+               "customAttributes" : [
+                  {
+                     "className" : "BisCore.CustomHandledProperty"
+                  }
+               ],
+               "description" : "Yaw component of the view direction in degrees",
+               "name" : "Yaw",
+               "type" : "PrimitiveProperty",
+               "typeName" : "double"
+            },
+            {
+               "customAttributes" : [
+                  {
+                     "className" : "BisCore.CustomHandledProperty"
+                  }
+               ],
+               "description" : "Pitch component of the view direction in degrees",
+               "name" : "Pitch",
+               "type" : "PrimitiveProperty",
+               "typeName" : "double"
+            },
+            {
+               "customAttributes" : [
+                  {
+                     "className" : "BisCore.CustomHandledProperty"
+                  }
+               ],
+               "description" : "Roll component of the view direction in degrees",
+               "name" : "Roll",
+               "type" : "PrimitiveProperty",
+               "typeName" : "double"
+            },
+            {
+               "customAttributes" : [
+                  {
+                     "className" : "BisCore.CustomHandledProperty"
+                  }
+               ],
+               "description" : "Is the camera actually turned on?",
+               "label" : "Is Camera On",
+               "name" : "IsCameraOn",
+               "type" : "PrimitiveProperty",
+               "typeName" : "boolean"
+            },
+            {
+               "customAttributes" : [
+                  {
+                     "className" : "BisCore.CustomHandledProperty"
+                  }
+               ],
+               "description" : "Camera eye point",
+               "label" : "Eye Point",
+               "name" : "EyePoint",
+               "type" : "PrimitiveProperty",
+               "typeName" : "point3d"
+            },
+            {
+               "customAttributes" : [
+                  {
+                     "className" : "BisCore.CustomHandledProperty"
+                  }
+               ],
+               "description" : "Camera lens angle in degrees",
+               "label" : "Lens Angle",
+               "name" : "LensAngle",
+               "type" : "PrimitiveProperty",
+               "typeName" : "double"
+            },
+            {
+               "customAttributes" : [
+                  {
+                     "className" : "BisCore.CustomHandledProperty"
+                  }
+               ],
+               "description" : "Camera focus distance",
+               "label" : "Focus Distance",
+               "name" : "FocusDistance",
+               "type" : "PrimitiveProperty",
+               "typeName" : "double"
+            }
+         ],
+         "schemaItemType" : "EntityClass"
+      },
+      "ViewDefinitionUsesCategorySelector" : {
+         "modifier" : "Sealed",
+         "schemaItemType" : "RelationshipClass",
+         "source" : {
+            "constraintClasses" : [ "BisCore.ViewDefinition" ],
+            "multiplicity" : "(0..*)",
+            "polymorphic" : true,
+            "roleLabel" : "uses"
+         },
+         "strength" : "Referencing",
+         "strengthDirection" : "Forward",
+         "target" : {
+            "constraintClasses" : [ "BisCore.CategorySelector" ],
+            "multiplicity" : "(1..1)",
+            "polymorphic" : false,
+            "roleLabel" : "is used by"
+         }
+      },
+      "ViewDefinitionUsesDisplayStyle" : {
+         "modifier" : "Sealed",
+         "schemaItemType" : "RelationshipClass",
+         "source" : {
+            "constraintClasses" : [ "BisCore.ViewDefinition" ],
+            "multiplicity" : "(0..*)",
+            "polymorphic" : true,
+            "roleLabel" : "uses"
+         },
+         "strength" : "Referencing",
+         "strengthDirection" : "Forward",
+         "target" : {
+            "constraintClasses" : [ "BisCore.DisplayStyle" ],
+            "multiplicity" : "(1..1)",
+            "polymorphic" : true,
+            "roleLabel" : "is used by"
+         }
+      },
+      "ViewIsAttached" : {
+         "modifier" : "Sealed",
+         "schemaItemType" : "RelationshipClass",
+         "source" : {
+            "constraintClasses" : [ "BisCore.ViewDefinition" ],
+            "multiplicity" : "(1..1)",
+            "polymorphic" : true,
+            "roleLabel" : "owns"
+         },
+         "strength" : "Referencing",
+         "strengthDirection" : "Forward",
+         "target" : {
+            "constraintClasses" : [ "BisCore.ViewAttachment" ],
+            "multiplicity" : "(0..*)",
+            "polymorphic" : true,
+            "roleLabel" : "is owned by"
+         }
+      },
+      "VolumeElement" : {
+         "baseClass" : "BisCore.SpatialLocationElement",
+         "customAttributes" : [
+            {
+               "className" : "BisCore.ClassHasHandler"
+            }
+         ],
+         "description" : "A bis:VolumeElement is a bis:SpatialLocationElement that is restricted to defining a volume.",
+         "label" : "Volume Element",
+         "schemaItemType" : "EntityClass"
+      },
+      "WebMercatorModel" : {
+         "baseClass" : "BisCore.SpatialModel",
+         "customAttributes" : [
+            {
+               "Description" : "Instances of WebMercatorModel are no longer created.",
+               "className" : "CoreCustomAttributes.Deprecated"
+            },
+            {
+               "className" : "BisCore.ClassHasHandler"
+            }
+         ],
+         "description" : "DEPRECATED. Not used.",
+         "label" : "Web Mercator Model",
+         "schemaItemType" : "EntityClass"
+      }
+   },
+   "label" : "BIS Core",
+   "name" : "BisCore",
+   "references" : [
+      {
+         "name" : "CoreCustomAttributes",
+         "version" : "01.00.03"
+      },
+      {
+         "name" : "ECDbMap",
+         "version" : "02.00.00"
+      },
+      {
+         "name" : "ECDbSchemaPolicies",
+         "version" : "01.00.00"
+      }
+   ],
+   "version" : "01.00.09"
+}

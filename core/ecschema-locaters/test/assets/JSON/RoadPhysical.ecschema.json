@@ -1,0 +1,47 @@
+{
+   "$schema" : "https://dev.bentley.com/json_schemas/ec/32/ecschema",
+   "alias" : "rdphys",
+   "customAttributes" : [
+      {
+         "SupportedUse" : "Production",
+         "className" : "CoreCustomAttributes.ProductionStatus"
+      }
+   ],
+   "description" : "Main schema for the Road domain.",
+   "items" : {
+      "RoadNetwork" : {
+         "baseClass" : "RoadRailPhysical.TransportationNetwork",
+         "customAttributes" : [
+            {
+               "className" : "CoreCustomAttributes.HiddenClass"
+            }
+         ],
+         "description" : "Entry-point element leading to the physical modeling of a Road network.",
+         "label" : "Road Network",
+         "schemaItemType" : "EntityClass"
+      },
+      "Roadway" : {
+         "baseClass" : "RoadRailPhysical.PathwayElement",
+         "description" : "A Pathway with a smoothed or paved surface, made for traveling by motor vehicle, carriage, etc.",
+         "label" : "Roadway",
+         "modifier" : "Sealed",
+         "schemaItemType" : "EntityClass"
+      }
+   },
+   "name" : "RoadPhysical",
+   "references" : [
+      {
+         "name" : "BisCore",
+         "version" : "01.00.09"
+      },
+      {
+         "name" : "CoreCustomAttributes",
+         "version" : "01.00.03"
+      },
+      {
+         "name" : "RoadRailPhysical",
+         "version" : "03.00.00"
+      }
+   ],
+   "version" : "01.00.00"
+}

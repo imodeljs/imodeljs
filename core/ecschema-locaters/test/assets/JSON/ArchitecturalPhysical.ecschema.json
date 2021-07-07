@@ -1,0 +1,297 @@
+{
+   "$schema" : "https://dev.bentley.com/json_schemas/ec/32/ecschema",
+   "alias" : "ArchPhys",
+   "description" : "Architectural Physical Schema",
+   "items" : {
+      "Casework" : {
+         "baseClass" : "BisCore.PhysicalElement",
+         "schemaItemType" : "EntityClass"
+      },
+      "CurtainWall" : {
+         "baseClass" : "BisCore.PhysicalElement",
+         "label" : "Curtain Wall",
+         "schemaItemType" : "EntityClass"
+      },
+      "Door" : {
+         "baseClass" : "BisCore.PhysicalElement",
+         "customAttributes" : [
+            {
+               "className" : "BisCore.ClassHasHandler"
+            }
+         ],
+         "properties" : [
+            {
+               "description" : "Overall Height of the Door",
+               "kindOfQuantity" : "AecUnits.LENGTH_SHORT",
+               "label" : "Overall Height",
+               "name" : "OverallHeight",
+               "type" : "PrimitiveProperty",
+               "typeName" : "double"
+            },
+            {
+               "description" : "Overal1 Width of the Door",
+               "kindOfQuantity" : "AecUnits.LENGTH_SHORT",
+               "label" : "Overall Width",
+               "name" : "OverallWidth",
+               "type" : "PrimitiveProperty",
+               "typeName" : "double"
+            },
+            {
+               "name" : "Description",
+               "type" : "PrimitiveProperty",
+               "typeName" : "string"
+            }
+         ],
+         "schemaItemType" : "EntityClass"
+      },
+      "DoorType" : {
+         "baseClass" : "BisCore.PhysicalType",
+         "customAttributes" : [
+            {
+               "className" : "BisCore.ClassHasHandler"
+            }
+         ],
+         "description" : "Door Physical Type",
+         "label" : "Door Type",
+         "schemaItemType" : "EntityClass"
+      },
+      "Floor" : {
+         "baseClass" : "BisCore.PhysicalElement",
+         "schemaItemType" : "EntityClass"
+      },
+      "Furniture" : {
+         "baseClass" : "BisCore.PhysicalElement",
+         "schemaItemType" : "EntityClass"
+      },
+      "Railing" : {
+         "baseClass" : "BisCore.PhysicalElement",
+         "schemaItemType" : "EntityClass"
+      },
+      "Ramp" : {
+         "baseClass" : "BisCore.PhysicalElement",
+         "description" : "A slopping element that transistions between two elevations",
+         "schemaItemType" : "EntityClass"
+      },
+      "Roof" : {
+         "baseClass" : "BisCore.PhysicalElement",
+         "schemaItemType" : "EntityClass"
+      },
+      "Stair" : {
+         "baseClass" : "BisCore.PhysicalElement",
+         "schemaItemType" : "EntityClass"
+      },
+      "TransportationMechanism" : {
+         "baseClass" : "BisCore.PhysicalElement",
+         "label" : "Transportation Mechanism",
+         "schemaItemType" : "EntityClass"
+      },
+      "Wall" : {
+         "baseClass" : "BisCore.PhysicalElement",
+         "customAttributes" : [
+            {
+               "className" : "BisCore.ClassHasHandler"
+            }
+         ],
+         "description" : "Wall",
+         "mixins" : [ "BisCore.IParentElement" ],
+         "properties" : [
+            {
+               "description" : "Height of the wall",
+               "kindOfQuantity" : "AecUnits.LENGTH",
+               "label" : "Height",
+               "name" : "Height",
+               "type" : "PrimitiveProperty",
+               "typeName" : "double"
+            },
+            {
+               "description" : "Width (thickness) of the wall",
+               "kindOfQuantity" : "AecUnits.LENGTH_SHORT",
+               "label" : "Width",
+               "name" : "Width",
+               "type" : "PrimitiveProperty",
+               "typeName" : "double"
+            },
+            {
+               "description" : "Gross Volume at the of the wall",
+               "kindOfQuantity" : "AecUnits.VOLUME",
+               "label" : "Gross Volume",
+               "name" : "GrossVolume",
+               "type" : "PrimitiveProperty",
+               "typeName" : "double"
+            },
+            {
+               "description" : "Net Volume at the of the wall",
+               "kindOfQuantity" : "AecUnits.VOLUME",
+               "label" : "Net Volume",
+               "name" : "NetVolume",
+               "type" : "PrimitiveProperty",
+               "typeName" : "double"
+            },
+            {
+               "description" : "Gross Area at the center of the wall",
+               "kindOfQuantity" : "AecUnits.AREA",
+               "label" : "Gross Side Area",
+               "name" : "GrossSideArea",
+               "type" : "PrimitiveProperty",
+               "typeName" : "double"
+            },
+            {
+               "description" : "length along the centerline of the wall",
+               "kindOfQuantity" : "AecUnits.LENGTH",
+               "label" : "Length",
+               "name" : "Length",
+               "type" : "PrimitiveProperty",
+               "typeName" : "double"
+            },
+            {
+               "description" : "Net Area at the center of the wall",
+               "kindOfQuantity" : "AecUnits.AREA",
+               "label" : "Net Side Area",
+               "name" : "NetSideArea",
+               "type" : "PrimitiveProperty",
+               "typeName" : "double"
+            },
+            {
+               "description" : "Net Area at the center of the wall",
+               "kindOfQuantity" : "AecUnits.AREA",
+               "label" : "Gross Footprint Area",
+               "name" : "GrossFootprintArea",
+               "type" : "PrimitiveProperty",
+               "typeName" : "double"
+            },
+            {
+               "description" : "Net Area at the center of the wall",
+               "kindOfQuantity" : "AecUnits.AREA",
+               "label" : "Net Footprint Area",
+               "name" : "NetFootprintArea",
+               "type" : "PrimitiveProperty",
+               "typeName" : "double"
+            }
+         ],
+         "schemaItemType" : "EntityClass"
+      },
+      "WallLeaf" : {
+         "baseClass" : "BisCore.PhysicalElement",
+         "customAttributes" : [
+            {
+               "className" : "BisCore.ClassHasHandler"
+            }
+         ],
+         "description" : "Wall",
+         "label" : "Wall Leaf",
+         "properties" : [
+            {
+               "description" : "Height of the wall layer",
+               "kindOfQuantity" : "AecUnits.LENGTH",
+               "label" : "Height",
+               "name" : "Height",
+               "type" : "PrimitiveProperty",
+               "typeName" : "double"
+            },
+            {
+               "description" : "length along the centerline of the wall layer",
+               "kindOfQuantity" : "AecUnits.LENGTH",
+               "label" : "Length",
+               "name" : "Length",
+               "type" : "PrimitiveProperty",
+               "typeName" : "double"
+            },
+            {
+               "description" : "Width (thickness) of the wall layer",
+               "kindOfQuantity" : "AecUnits.LENGTH_SHORT",
+               "label" : "Width",
+               "name" : "Width",
+               "type" : "PrimitiveProperty",
+               "typeName" : "double"
+            }
+         ],
+         "schemaItemType" : "EntityClass"
+      },
+      "WallOwnsWallLeafs" : {
+         "baseClass" : "BisCore.ElementOwnsChildElements",
+         "label" : "Wall Owns Wall Leafs",
+         "modifier" : "None",
+         "schemaItemType" : "RelationshipClass",
+         "source" : {
+            "constraintClasses" : [ "ArchitecturalPhysical.Wall" ],
+            "multiplicity" : "(0..1)",
+            "polymorphic" : true,
+            "roleLabel" : "Wall leaf related to"
+         },
+         "strength" : "Embedding",
+         "strengthDirection" : "Forward",
+         "target" : {
+            "constraintClasses" : [ "ArchitecturalPhysical.WallLeaf" ],
+            "multiplicity" : "(0..*)",
+            "polymorphic" : true,
+            "roleLabel" : "Wall leaf owned by"
+         }
+      },
+      "WallType" : {
+         "baseClass" : "BisCore.PhysicalType",
+         "customAttributes" : [
+            {
+               "className" : "BisCore.ClassHasHandler"
+            }
+         ],
+         "description" : "Physical wall type",
+         "label" : "Wall Type",
+         "schemaItemType" : "EntityClass"
+      },
+      "Window" : {
+         "baseClass" : "BisCore.PhysicalElement",
+         "customAttributes" : [
+            {
+               "className" : "BisCore.ClassHasHandler"
+            }
+         ],
+         "description" : "Window",
+         "properties" : [
+            {
+               "description" : "Overall Height of the Window",
+               "kindOfQuantity" : "AecUnits.LENGTH_SHORT",
+               "label" : "Overall Height",
+               "name" : "OverallHeight",
+               "type" : "PrimitiveProperty",
+               "typeName" : "double"
+            },
+            {
+               "description" : "Overal1 Width of the Window",
+               "kindOfQuantity" : "AecUnits.LENGTH_SHORT",
+               "label" : "Overall Width",
+               "name" : "OverallWidth",
+               "type" : "PrimitiveProperty",
+               "typeName" : "double"
+            },
+            {
+               "name" : "Description",
+               "type" : "PrimitiveProperty",
+               "typeName" : "string"
+            }
+         ],
+         "schemaItemType" : "EntityClass"
+      },
+      "WindowType" : {
+         "baseClass" : "BisCore.PhysicalType",
+         "customAttributes" : [
+            {
+               "className" : "BisCore.ClassHasHandler"
+            }
+         ],
+         "label" : "Window Type",
+         "schemaItemType" : "EntityClass"
+      }
+   },
+   "name" : "ArchitecturalPhysical",
+   "references" : [
+      {
+         "name" : "AecUnits",
+         "version" : "01.00.03"
+      },
+      {
+         "name" : "BisCore",
+         "version" : "01.00.09"
+      }
+   ],
+   "version" : "01.00.00"
+}

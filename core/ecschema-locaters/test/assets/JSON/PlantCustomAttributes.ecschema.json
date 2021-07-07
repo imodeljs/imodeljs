@@ -1,0 +1,65 @@
+{
+   "$schema" : "https://dev.bentley.com/json_schemas/ec/32/ecschema",
+   "alias" : "PlantCA",
+   "description" : "Custom attributes for Plant",
+   "items" : {
+      "BisCorePropertyMappingsCustomAttribute" : {
+         "appliesTo" : "Any",
+         "description" : "Used to specify OpenPlant Schema property mappings that map to BIS Core properties.  Overriding BIS Core properties to add custom attributes causes the propert to be added as a shared column attribute",
+         "properties" : [
+            {
+               "description" : "List of BisCore property mappings, format \"BisCorePropName,OpenPlantPropertyName;BisCorePropName,OpenPlantPropertyName\"",
+               "name" : "BisCorePropertyMappings",
+               "type" : "PrimitiveProperty",
+               "typeName" : "string"
+            }
+         ],
+         "schemaItemType" : "CustomAttributeClass"
+      },
+      "MappingOriginCustomAttribute" : {
+         "appliesTo" : "Any",
+         "description" : "Used to specify OpenPlant Schema class and property origin for this schema",
+         "label" : "Mapping Origin Custom Attribute",
+         "properties" : [
+            {
+               "description" : "Name of OpenPlant equivalent class or property",
+               "label" : "Origin Name",
+               "name" : "OriginName",
+               "type" : "PrimitiveProperty",
+               "typeName" : "string"
+            },
+            {
+               "description" : "Additional OpenPlant class or property names, multiple entries separated by a semicolon",
+               "label" : "Additional Names",
+               "name" : "AdditionalNames",
+               "type" : "PrimitiveProperty",
+               "typeName" : "string"
+            }
+         ],
+         "schemaItemType" : "CustomAttributeClass"
+      },
+      "ReleaseVersion" : {
+         "appliesTo" : "Any",
+         "description" : "Tracking the version of release",
+         "label" : "Release Version",
+         "properties" : [
+            {
+               "description" : "version like 10.05",
+               "name" : "Version",
+               "type" : "PrimitiveProperty",
+               "typeName" : "string"
+            },
+            {
+               "label" : "Version Display Label",
+               "name" : "VersionDisplayLabel",
+               "type" : "PrimitiveProperty",
+               "typeName" : "string"
+            }
+         ],
+         "schemaItemType" : "CustomAttributeClass"
+      }
+   },
+   "label" : "Plant Custom Attributes",
+   "name" : "PlantCustomAttributes",
+   "version" : "01.00.01"
+}

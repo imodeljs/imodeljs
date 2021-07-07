@@ -1,0 +1,1571 @@
+{
+   "$schema" : "https://dev.bentley.com/json_schemas/ec/32/ecschema",
+   "alias" : "meta",
+   "items" : {
+      "ClassHasAllBaseClasses" : {
+         "customAttributes" : [
+            {
+               "MapStrategy" : "ExistingTable",
+               "TableName" : "ec_cache_ClassHierarchy",
+               "className" : "ECDbMap.ClassMap"
+            },
+            {
+               "SourceECInstanceIdColumn" : "ClassId",
+               "TargetECInstanceIdColumn" : "BaseClassId",
+               "className" : "ECDbMap.LinkTableRelationshipMap"
+            }
+         ],
+         "description" : "Relates a given ECClassId (Source) to all its base classes (recursively) (Target). For optimization reasons this ECRelationshipClass also holds a row for each ECClass that points to itself. Base class id order: class itself, then base classes in breadth first manner.",
+         "modifier" : "Sealed",
+         "schemaItemType" : "RelationshipClass",
+         "source" : {
+            "constraintClasses" : [ "ECDbMeta.ECClassDef" ],
+            "multiplicity" : "(0..*)",
+            "polymorphic" : false,
+            "roleLabel" : "is a"
+         },
+         "strength" : "Referencing",
+         "strengthDirection" : "Forward",
+         "target" : {
+            "constraintClasses" : [ "ECDbMeta.ECClassDef" ],
+            "multiplicity" : "(0..*)",
+            "polymorphic" : false,
+            "roleLabel" : "is ancestor of"
+         }
+      },
+      "ClassHasBaseClasses" : {
+         "customAttributes" : [
+            {
+               "MapStrategy" : "ExistingTable",
+               "TableName" : "ec_ClassHasBaseClasses",
+               "className" : "ECDbMap.ClassMap"
+            },
+            {
+               "SourceECInstanceIdColumn" : "ClassId",
+               "TargetECInstanceIdColumn" : "BaseClassId",
+               "className" : "ECDbMap.LinkTableRelationshipMap"
+            }
+         ],
+         "modifier" : "Sealed",
+         "properties" : [
+            {
+               "name" : "Ordinal",
+               "type" : "PrimitiveProperty",
+               "typeName" : "int"
+            }
+         ],
+         "schemaItemType" : "RelationshipClass",
+         "source" : {
+            "constraintClasses" : [ "ECDbMeta.ECClassDef" ],
+            "multiplicity" : "(0..*)",
+            "polymorphic" : false,
+            "roleLabel" : "is subclass of"
+         },
+         "strength" : "Referencing",
+         "strengthDirection" : "Forward",
+         "target" : {
+            "constraintClasses" : [ "ECDbMeta.ECClassDef" ],
+            "multiplicity" : "(0..*)",
+            "polymorphic" : false,
+            "roleLabel" : "is base class of"
+         }
+      },
+      "ClassOwnsLocalProperties" : {
+         "modifier" : "Sealed",
+         "schemaItemType" : "RelationshipClass",
+         "source" : {
+            "constraintClasses" : [ "ECDbMeta.ECClassDef" ],
+            "multiplicity" : "(1..1)",
+            "polymorphic" : false,
+            "roleLabel" : "locally defines"
+         },
+         "strength" : "Embedding",
+         "strengthDirection" : "Forward",
+         "target" : {
+            "constraintClasses" : [ "ECDbMeta.ECPropertyDef" ],
+            "multiplicity" : "(0..*)",
+            "polymorphic" : false,
+            "roleLabel" : "is defined in"
+         }
+      },
+      "CompositeUnitRefersToUnit" : {
+         "modifier" : "Sealed",
+         "schemaItemType" : "RelationshipClass",
+         "source" : {
+            "constraintClasses" : [ "ECDbMeta.FormatCompositeUnitDef" ],
+            "multiplicity" : "(0..*)",
+            "polymorphic" : false,
+            "roleLabel" : "refers to"
+         },
+         "strength" : "Referencing",
+         "strengthDirection" : "Forward",
+         "target" : {
+            "constraintClasses" : [ "ECDbMeta.UnitDef" ],
+            "multiplicity" : "(0..1)",
+            "polymorphic" : false,
+            "roleLabel" : "is referred to by"
+         }
+      },
+      "ECClassDef" : {
+         "customAttributes" : [
+            {
+               "MapStrategy" : "ExistingTable",
+               "TableName" : "ec_Class",
+               "className" : "ECDbMap.ClassMap"
+            }
+         ],
+         "description" : "ECClass",
+         "label" : "ECClass",
+         "modifier" : "Sealed",
+         "properties" : [
+            {
+               "direction" : "Backward",
+               "name" : "Schema",
+               "relationshipName" : "ECDbMeta.SchemaOwnsClasses",
+               "type" : "NavigationProperty"
+            },
+            {
+               "name" : "Name",
+               "type" : "PrimitiveProperty",
+               "typeName" : "string"
+            },
+            {
+               "name" : "DisplayLabel",
+               "type" : "PrimitiveProperty",
+               "typeName" : "string"
+            },
+            {
+               "name" : "Description",
+               "type" : "PrimitiveProperty",
+               "typeName" : "string"
+            },
+            {
+               "name" : "Type",
+               "type" : "PrimitiveProperty",
+               "typeName" : "ECDbMeta.ECClassType"
+            },
+            {
+               "name" : "Modifier",
+               "type" : "PrimitiveProperty",
+               "typeName" : "ECDbMeta.ECClassModifier"
+            },
+            {
+               "description" : "ECClassType::CustomAttribute: Specifies on which containers the custom attribute ECClass can be applied to.",
+               "name" : "CustomAttributeContainerType",
+               "type" : "PrimitiveProperty",
+               "typeName" : "ECDbMeta.ECCustomAttributeContainerType"
+            },
+            {
+               "description" : "Applies to ECClassType::Relationship only.",
+               "name" : "RelationshipStrength",
+               "type" : "PrimitiveProperty",
+               "typeName" : "ECDbMeta.ECRelationshipStrength"
+            },
+            {
+               "description" : "Applies to ECClassType::Relationship only.",
+               "name" : "RelationshipStrengthDirection",
+               "type" : "PrimitiveProperty",
+               "typeName" : "ECDbMeta.ECRelationshipDirection"
+            }
+         ],
+         "schemaItemType" : "EntityClass"
+      },
+      "ECClassModifier" : {
+         "enumerators" : [
+            {
+               "label" : "None",
+               "name" : "None",
+               "value" : 0
+            },
+            {
+               "label" : "Abstract",
+               "name" : "Abstract",
+               "value" : 1
+            },
+            {
+               "label" : "Sealed",
+               "name" : "Sealed",
+               "value" : 2
+            }
+         ],
+         "isStrict" : true,
+         "schemaItemType" : "Enumeration",
+         "type" : "int"
+      },
+      "ECClassType" : {
+         "enumerators" : [
+            {
+               "label" : "Entity",
+               "name" : "Entity",
+               "value" : 0
+            },
+            {
+               "label" : "Relationship",
+               "name" : "Relationship",
+               "value" : 1
+            },
+            {
+               "label" : "Struct",
+               "name" : "Struct",
+               "value" : 2
+            },
+            {
+               "label" : "CustomAttribute",
+               "name" : "CustomAttribute",
+               "value" : 3
+            }
+         ],
+         "isStrict" : true,
+         "schemaItemType" : "Enumeration",
+         "type" : "int"
+      },
+      "ECCustomAttributeContainerType" : {
+         "enumerators" : [
+            {
+               "label" : "Schema",
+               "name" : "Schema",
+               "value" : 1
+            },
+            {
+               "label" : "EntityClass",
+               "name" : "EntityClass",
+               "value" : 2
+            },
+            {
+               "label" : "CustomAttributeClass",
+               "name" : "CustomAttributeClass",
+               "value" : 4
+            },
+            {
+               "label" : "StructClass",
+               "name" : "StructClass",
+               "value" : 8
+            },
+            {
+               "label" : "RelationshipClass",
+               "name" : "RelationshipClass",
+               "value" : 16
+            },
+            {
+               "label" : "AnyClass",
+               "name" : "AnyClass",
+               "value" : 30
+            },
+            {
+               "label" : "PrimitiveProperty",
+               "name" : "PrimitiveProperty",
+               "value" : 32
+            },
+            {
+               "label" : "StructProperty",
+               "name" : "StructProperty",
+               "value" : 64
+            },
+            {
+               "label" : "PrimitiveArrayProperty",
+               "name" : "PrimitiveArrayProperty",
+               "value" : 128
+            },
+            {
+               "label" : "StructArrayProperty",
+               "name" : "StructArrayProperty",
+               "value" : 256
+            },
+            {
+               "label" : "NavigationProperty",
+               "name" : "NavigationProperty",
+               "value" : 512
+            },
+            {
+               "label" : "AnyProperty",
+               "name" : "AnyProperty",
+               "value" : 992
+            },
+            {
+               "label" : "SourceRelationshipConstraint",
+               "name" : "SourceRelationshipConstraint",
+               "value" : 1024
+            },
+            {
+               "label" : "TargetRelationshipConstraint",
+               "name" : "TargetRelationshipConstraint",
+               "value" : 2048
+            },
+            {
+               "label" : "AnyRelationshipConstraint",
+               "name" : "AnyRelationshipConstraint",
+               "value" : 3072
+            },
+            {
+               "label" : "Any",
+               "name" : "Any",
+               "value" : 4095
+            }
+         ],
+         "isStrict" : true,
+         "schemaItemType" : "Enumeration",
+         "type" : "int"
+      },
+      "ECEnumerationDef" : {
+         "customAttributes" : [
+            {
+               "MapStrategy" : "ExistingTable",
+               "TableName" : "ec_Enumeration",
+               "className" : "ECDbMap.ClassMap"
+            }
+         ],
+         "description" : "ECEnumeration",
+         "label" : "ECEnumeration",
+         "modifier" : "Sealed",
+         "properties" : [
+            {
+               "direction" : "Backward",
+               "name" : "Schema",
+               "relationshipName" : "ECDbMeta.SchemaOwnsEnumerations",
+               "type" : "NavigationProperty"
+            },
+            {
+               "name" : "Name",
+               "type" : "PrimitiveProperty",
+               "typeName" : "string"
+            },
+            {
+               "name" : "DisplayLabel",
+               "type" : "PrimitiveProperty",
+               "typeName" : "string"
+            },
+            {
+               "name" : "Description",
+               "type" : "PrimitiveProperty",
+               "typeName" : "string"
+            },
+            {
+               "customAttributes" : [
+                  {
+                     "ColumnName" : "UnderlyingPrimitiveType",
+                     "className" : "ECDbMap.PropertyMap"
+                  }
+               ],
+               "name" : "Type",
+               "type" : "PrimitiveProperty",
+               "typeName" : "ECDbMeta.PrimitiveType"
+            },
+            {
+               "name" : "IsStrict",
+               "type" : "PrimitiveProperty",
+               "typeName" : "boolean"
+            },
+            {
+               "minOccurs" : 1,
+               "name" : "EnumValues",
+               "type" : "StructArrayProperty",
+               "typeName" : "ECDbMeta.ECEnumeratorDef"
+            }
+         ],
+         "schemaItemType" : "EntityClass"
+      },
+      "ECEnumeratorDef" : {
+         "modifier" : "Sealed",
+         "properties" : [
+            {
+               "name" : "Name",
+               "type" : "PrimitiveProperty",
+               "typeName" : "string"
+            },
+            {
+               "name" : "DisplayLabel",
+               "type" : "PrimitiveProperty",
+               "typeName" : "string"
+            },
+            {
+               "name" : "Description",
+               "type" : "PrimitiveProperty",
+               "typeName" : "string"
+            },
+            {
+               "name" : "IntValue",
+               "type" : "PrimitiveProperty",
+               "typeName" : "int"
+            },
+            {
+               "name" : "StringValue",
+               "type" : "PrimitiveProperty",
+               "typeName" : "string"
+            }
+         ],
+         "schemaItemType" : "StructClass"
+      },
+      "ECPropertyDef" : {
+         "customAttributes" : [
+            {
+               "MapStrategy" : "ExistingTable",
+               "TableName" : "ec_Property",
+               "className" : "ECDbMap.ClassMap"
+            }
+         ],
+         "description" : "ECProperty",
+         "label" : "ECProperty",
+         "modifier" : "Sealed",
+         "properties" : [
+            {
+               "direction" : "Backward",
+               "name" : "Class",
+               "relationshipName" : "ECDbMeta.ClassOwnsLocalProperties",
+               "type" : "NavigationProperty"
+            },
+            {
+               "name" : "Name",
+               "type" : "PrimitiveProperty",
+               "typeName" : "string"
+            },
+            {
+               "name" : "DisplayLabel",
+               "type" : "PrimitiveProperty",
+               "typeName" : "string"
+            },
+            {
+               "name" : "Description",
+               "type" : "PrimitiveProperty",
+               "typeName" : "string"
+            },
+            {
+               "name" : "IsReadonly",
+               "type" : "PrimitiveProperty",
+               "typeName" : "boolean"
+            },
+            {
+               "name" : "Priority",
+               "type" : "PrimitiveProperty",
+               "typeName" : "int"
+            },
+            {
+               "description" : "Position of the ECProperty in its ECClass",
+               "name" : "Ordinal",
+               "type" : "PrimitiveProperty",
+               "typeName" : "int"
+            },
+            {
+               "name" : "Kind",
+               "type" : "PrimitiveProperty",
+               "typeName" : "ECDbMeta.ECPropertyKind"
+            },
+            {
+               "description" : "ECPropertyKind::Primitive: data type. ECPropertyKind::PrimitiveArray: data type of array elements.",
+               "name" : "PrimitiveType",
+               "type" : "PrimitiveProperty",
+               "typeName" : "ECDbMeta.PrimitiveType"
+            },
+            {
+               "description" : "Minimum length of strings or blobs.",
+               "name" : "PrimitiveTypeMinLength",
+               "type" : "PrimitiveProperty",
+               "typeName" : "int"
+            },
+            {
+               "description" : "Maximum length of strings or blobs.",
+               "name" : "PrimitiveTypeMaxLength",
+               "type" : "PrimitiveProperty",
+               "typeName" : "int"
+            },
+            {
+               "description" : "Minimum value of numeric primitives.",
+               "name" : "PrimitiveTypeMinValue",
+               "type" : "PrimitiveProperty",
+               "typeName" : "double"
+            },
+            {
+               "description" : "Maximum value of numeric primitives.",
+               "name" : "PrimitiveTypeMaxValue",
+               "type" : "PrimitiveProperty",
+               "typeName" : "double"
+            },
+            {
+               "description" : "ECPropertyKind::Primitive: Id of this property's ECEnumerationDef.",
+               "direction" : "Forward",
+               "name" : "Enumeration",
+               "relationshipName" : "ECDbMeta.PropertyHasEnumeration",
+               "type" : "NavigationProperty"
+            },
+            {
+               "description" : "ECPropertyKind::Primitive or ECPropertyKind::PrimitiveArray: Extended type name further describing PrimitiveType.",
+               "name" : "ExtendedTypeName",
+               "type" : "PrimitiveProperty",
+               "typeName" : "string"
+            },
+            {
+               "description" : "ECPropertyKind::Struct: ECClassId of property's struct type. ECPropertyKind::StructArray: ECClassId of array element struct type.",
+               "direction" : "Forward",
+               "name" : "StructClass",
+               "relationshipName" : "ECDbMeta.PropertyHasStructType",
+               "type" : "NavigationProperty"
+            },
+            {
+               "description" : "ECPropertyKind::Primitive or ECPropertyKind::PrimitiveArray: Id of this property's KindOfQuantityDef.",
+               "direction" : "Forward",
+               "name" : "KindOfQuantity",
+               "relationshipName" : "ECDbMeta.PropertyHasKindOfQuantity",
+               "type" : "NavigationProperty"
+            },
+            {
+               "description" : "Id of this property's PropertyCategoryDef.",
+               "direction" : "Forward",
+               "name" : "Category",
+               "relationshipName" : "ECDbMeta.PropertyHasCategory",
+               "type" : "NavigationProperty"
+            },
+            {
+               "description" : "ECPropertyKind::PrimitiveArray or ECPropertyKind::StructArray",
+               "name" : "ArrayMinOccurs",
+               "type" : "PrimitiveProperty",
+               "typeName" : "int"
+            },
+            {
+               "description" : "ECPropertyKind::PrimitiveArray or ECPropertyKind::StructArray",
+               "name" : "ArrayMaxOccurs",
+               "type" : "PrimitiveProperty",
+               "typeName" : "int"
+            },
+            {
+               "description" : "ECPropertyKind::Navigation: ECClassId of property's relationship class.",
+               "direction" : "Forward",
+               "name" : "NavigationRelationshipClass",
+               "relationshipName" : "ECDbMeta.PropertyHasNavigationRelationshipClassId",
+               "type" : "NavigationProperty"
+            },
+            {
+               "description" : "ECPropertyKind::Navigation: Direction to follow the relationship defined in NonPrimitiveTypeClassId.",
+               "name" : "NavigationDirection",
+               "type" : "PrimitiveProperty",
+               "typeName" : "ECDbMeta.ECRelationshipDirection"
+            }
+         ],
+         "schemaItemType" : "EntityClass"
+      },
+      "ECPropertyKind" : {
+         "enumerators" : [
+            {
+               "label" : "Primitive",
+               "name" : "Primitive",
+               "value" : 0
+            },
+            {
+               "label" : "Struct",
+               "name" : "Struct",
+               "value" : 1
+            },
+            {
+               "label" : "PrimitiveArray",
+               "name" : "PrimitiveArray",
+               "value" : 2
+            },
+            {
+               "label" : "StructArray",
+               "name" : "StructArray",
+               "value" : 3
+            },
+            {
+               "label" : "Navigation",
+               "name" : "Navigation",
+               "value" : 4
+            }
+         ],
+         "isStrict" : true,
+         "schemaItemType" : "Enumeration",
+         "type" : "int"
+      },
+      "ECRelationshipConstraintDef" : {
+         "customAttributes" : [
+            {
+               "MapStrategy" : "ExistingTable",
+               "TableName" : "ec_RelationshipConstraint",
+               "className" : "ECDbMap.ClassMap"
+            }
+         ],
+         "modifier" : "Sealed",
+         "properties" : [
+            {
+               "direction" : "Backward",
+               "name" : "RelationshipClass",
+               "relationshipName" : "ECDbMeta.RelationshipHasConstraints",
+               "type" : "NavigationProperty"
+            },
+            {
+               "name" : "RelationshipEnd",
+               "type" : "PrimitiveProperty",
+               "typeName" : "ECDbMeta.ECRelationshipEnd"
+            },
+            {
+               "name" : "MultiplicityLowerLimit",
+               "type" : "PrimitiveProperty",
+               "typeName" : "int"
+            },
+            {
+               "name" : "MultiplicityUpperLimit",
+               "type" : "PrimitiveProperty",
+               "typeName" : "int"
+            },
+            {
+               "name" : "IsPolymorphic",
+               "type" : "PrimitiveProperty",
+               "typeName" : "boolean"
+            },
+            {
+               "name" : "RoleLabel",
+               "type" : "PrimitiveProperty",
+               "typeName" : "string"
+            },
+            {
+               "description" : "ECClassId of base class for constraint classes of this constraint",
+               "direction" : "Forward",
+               "name" : "AbstractConstraintClass",
+               "relationshipName" : "ECDbMeta.RelationshipConstraintHasAbstractConstraintClass",
+               "type" : "NavigationProperty"
+            }
+         ],
+         "schemaItemType" : "EntityClass"
+      },
+      "ECRelationshipDirection" : {
+         "enumerators" : [
+            {
+               "label" : "Forward",
+               "name" : "Forward",
+               "value" : 1
+            },
+            {
+               "label" : "Backward",
+               "name" : "Backward",
+               "value" : 2
+            }
+         ],
+         "isStrict" : true,
+         "schemaItemType" : "Enumeration",
+         "type" : "int"
+      },
+      "ECRelationshipEnd" : {
+         "enumerators" : [
+            {
+               "label" : "Source",
+               "name" : "Source",
+               "value" : 0
+            },
+            {
+               "label" : "Target",
+               "name" : "Target",
+               "value" : 1
+            }
+         ],
+         "isStrict" : true,
+         "schemaItemType" : "Enumeration",
+         "type" : "int"
+      },
+      "ECRelationshipStrength" : {
+         "enumerators" : [
+            {
+               "label" : "Referencing",
+               "name" : "Referencing",
+               "value" : 0
+            },
+            {
+               "label" : "Holding",
+               "name" : "Holding",
+               "value" : 1
+            },
+            {
+               "label" : "Embedding",
+               "name" : "Embedding",
+               "value" : 2
+            }
+         ],
+         "isStrict" : true,
+         "schemaItemType" : "Enumeration",
+         "type" : "int"
+      },
+      "ECSchemaDef" : {
+         "customAttributes" : [
+            {
+               "MapStrategy" : "ExistingTable",
+               "TableName" : "ec_Schema",
+               "className" : "ECDbMap.ClassMap"
+            }
+         ],
+         "description" : "ECSchema",
+         "label" : "ECSchema",
+         "modifier" : "Sealed",
+         "properties" : [
+            {
+               "name" : "Name",
+               "type" : "PrimitiveProperty",
+               "typeName" : "string"
+            },
+            {
+               "name" : "DisplayLabel",
+               "type" : "PrimitiveProperty",
+               "typeName" : "string"
+            },
+            {
+               "name" : "Description",
+               "type" : "PrimitiveProperty",
+               "typeName" : "string"
+            },
+            {
+               "name" : "Alias",
+               "type" : "PrimitiveProperty",
+               "typeName" : "string"
+            },
+            {
+               "customAttributes" : [
+                  {
+                     "ColumnName" : "VersionDigit1",
+                     "className" : "ECDbMap.PropertyMap"
+                  }
+               ],
+               "name" : "VersionMajor",
+               "type" : "PrimitiveProperty",
+               "typeName" : "int"
+            },
+            {
+               "customAttributes" : [
+                  {
+                     "ColumnName" : "VersionDigit2",
+                     "className" : "ECDbMap.PropertyMap"
+                  }
+               ],
+               "name" : "VersionWrite",
+               "type" : "PrimitiveProperty",
+               "typeName" : "int"
+            },
+            {
+               "customAttributes" : [
+                  {
+                     "ColumnName" : "VersionDigit3",
+                     "className" : "ECDbMap.PropertyMap"
+                  }
+               ],
+               "name" : "VersionMinor",
+               "type" : "PrimitiveProperty",
+               "typeName" : "int"
+            },
+            {
+               "name" : "OriginalECXmlVersionMajor",
+               "type" : "PrimitiveProperty",
+               "typeName" : "int"
+            },
+            {
+               "name" : "OriginalECXmlVersionMinor",
+               "type" : "PrimitiveProperty",
+               "typeName" : "int"
+            }
+         ],
+         "schemaItemType" : "EntityClass"
+      },
+      "FormatCompositeUnitDef" : {
+         "customAttributes" : [
+            {
+               "MapStrategy" : "ExistingTable",
+               "TableName" : "ec_FormatCompositeUnit",
+               "className" : "ECDbMap.ClassMap"
+            }
+         ],
+         "description" : "FormatCompositeUnit",
+         "label" : "FormatCompositeUnit",
+         "modifier" : "Sealed",
+         "properties" : [
+            {
+               "direction" : "Backward",
+               "name" : "Format",
+               "relationshipName" : "ECDbMeta.FormatOwnsCompositeUnits",
+               "type" : "NavigationProperty"
+            },
+            {
+               "name" : "Label",
+               "type" : "PrimitiveProperty",
+               "typeName" : "string"
+            },
+            {
+               "direction" : "Forward",
+               "name" : "Unit",
+               "relationshipName" : "ECDbMeta.CompositeUnitRefersToUnit",
+               "type" : "NavigationProperty"
+            },
+            {
+               "description" : "Position of the Composite Unit in its Format",
+               "name" : "Ordinal",
+               "type" : "PrimitiveProperty",
+               "typeName" : "int"
+            }
+         ],
+         "schemaItemType" : "EntityClass"
+      },
+      "FormatDef" : {
+         "customAttributes" : [
+            {
+               "MapStrategy" : "ExistingTable",
+               "TableName" : "ec_Format",
+               "className" : "ECDbMap.ClassMap"
+            }
+         ],
+         "description" : "Format",
+         "label" : "Format",
+         "modifier" : "Sealed",
+         "properties" : [
+            {
+               "direction" : "Backward",
+               "name" : "Schema",
+               "relationshipName" : "ECDbMeta.SchemaOwnsFormats",
+               "type" : "NavigationProperty"
+            },
+            {
+               "name" : "Name",
+               "type" : "PrimitiveProperty",
+               "typeName" : "string"
+            },
+            {
+               "name" : "DisplayLabel",
+               "type" : "PrimitiveProperty",
+               "typeName" : "string"
+            },
+            {
+               "name" : "Description",
+               "type" : "PrimitiveProperty",
+               "typeName" : "string"
+            },
+            {
+               "extendedTypeName" : "JSON",
+               "name" : "NumericSpec",
+               "type" : "PrimitiveProperty",
+               "typeName" : "string"
+            },
+            {
+               "description" : "CompositeSpec without units. Composite units are held by FormatCompositeUnitDef",
+               "extendedTypeName" : "JSON",
+               "name" : "CompositeSpec",
+               "type" : "PrimitiveProperty",
+               "typeName" : "string"
+            }
+         ],
+         "schemaItemType" : "EntityClass"
+      },
+      "FormatOwnsCompositeUnits" : {
+         "modifier" : "Sealed",
+         "schemaItemType" : "RelationshipClass",
+         "source" : {
+            "constraintClasses" : [ "ECDbMeta.FormatDef" ],
+            "multiplicity" : "(1..1)",
+            "polymorphic" : false,
+            "roleLabel" : "contains"
+         },
+         "strength" : "Embedding",
+         "strengthDirection" : "Forward",
+         "target" : {
+            "constraintClasses" : [ "ECDbMeta.FormatCompositeUnitDef" ],
+            "multiplicity" : "(0..*)",
+            "polymorphic" : false,
+            "roleLabel" : "is defined in"
+         }
+      },
+      "KindOfQuantityDef" : {
+         "customAttributes" : [
+            {
+               "MapStrategy" : "ExistingTable",
+               "TableName" : "ec_KindOfQuantity",
+               "className" : "ECDbMap.ClassMap"
+            }
+         ],
+         "description" : "KindOfQuantity",
+         "label" : "KindOfQuantity",
+         "modifier" : "Sealed",
+         "properties" : [
+            {
+               "direction" : "Backward",
+               "name" : "Schema",
+               "relationshipName" : "ECDbMeta.SchemaOwnsKindOfQuantities",
+               "type" : "NavigationProperty"
+            },
+            {
+               "name" : "Name",
+               "type" : "PrimitiveProperty",
+               "typeName" : "string"
+            },
+            {
+               "name" : "DisplayLabel",
+               "type" : "PrimitiveProperty",
+               "typeName" : "string"
+            },
+            {
+               "name" : "Description",
+               "type" : "PrimitiveProperty",
+               "typeName" : "string"
+            },
+            {
+               "name" : "PersistenceUnit",
+               "type" : "PrimitiveProperty",
+               "typeName" : "string"
+            },
+            {
+               "name" : "RelativeError",
+               "type" : "PrimitiveProperty",
+               "typeName" : "double"
+            },
+            {
+               "minOccurs" : 0,
+               "name" : "PresentationUnits",
+               "type" : "PrimitiveArrayProperty",
+               "typeName" : "string"
+            }
+         ],
+         "schemaItemType" : "EntityClass"
+      },
+      "PhenomenonDef" : {
+         "customAttributes" : [
+            {
+               "MapStrategy" : "ExistingTable",
+               "TableName" : "ec_Phenomenon",
+               "className" : "ECDbMap.ClassMap"
+            }
+         ],
+         "description" : "Phenomenon",
+         "label" : "Phenomenon",
+         "modifier" : "Sealed",
+         "properties" : [
+            {
+               "direction" : "Backward",
+               "name" : "Schema",
+               "relationshipName" : "ECDbMeta.SchemaOwnsPhenomena",
+               "type" : "NavigationProperty"
+            },
+            {
+               "name" : "Name",
+               "type" : "PrimitiveProperty",
+               "typeName" : "string"
+            },
+            {
+               "name" : "DisplayLabel",
+               "type" : "PrimitiveProperty",
+               "typeName" : "string"
+            },
+            {
+               "name" : "Description",
+               "type" : "PrimitiveProperty",
+               "typeName" : "string"
+            },
+            {
+               "name" : "Definition",
+               "type" : "PrimitiveProperty",
+               "typeName" : "string"
+            }
+         ],
+         "schemaItemType" : "EntityClass"
+      },
+      "PhenomenonOwnsUnits" : {
+         "modifier" : "Sealed",
+         "schemaItemType" : "RelationshipClass",
+         "source" : {
+            "constraintClasses" : [ "ECDbMeta.PhenomenonDef" ],
+            "multiplicity" : "(1..1)",
+            "polymorphic" : false,
+            "roleLabel" : "has"
+         },
+         "strength" : "Embedding",
+         "strengthDirection" : "Forward",
+         "target" : {
+            "constraintClasses" : [ "ECDbMeta.UnitDef" ],
+            "multiplicity" : "(0..*)",
+            "polymorphic" : false,
+            "roleLabel" : "is of"
+         }
+      },
+      "PrimitiveType" : {
+         "enumerators" : [
+            {
+               "label" : "Binary",
+               "name" : "Binary",
+               "value" : 257
+            },
+            {
+               "label" : "Boolean",
+               "name" : "Boolean",
+               "value" : 513
+            },
+            {
+               "label" : "DateTime",
+               "name" : "DateTime",
+               "value" : 769
+            },
+            {
+               "label" : "Double",
+               "name" : "Double",
+               "value" : 1025
+            },
+            {
+               "label" : "Integer",
+               "name" : "Integer",
+               "value" : 1281
+            },
+            {
+               "label" : "Long",
+               "name" : "Long",
+               "value" : 1537
+            },
+            {
+               "label" : "Point2d",
+               "name" : "Point2d",
+               "value" : 1793
+            },
+            {
+               "label" : "Point3d",
+               "name" : "Point3d",
+               "value" : 2049
+            },
+            {
+               "label" : "String",
+               "name" : "String",
+               "value" : 2305
+            },
+            {
+               "label" : "IGeometry",
+               "name" : "IGeometry",
+               "value" : 2561
+            }
+         ],
+         "isStrict" : true,
+         "schemaItemType" : "Enumeration",
+         "type" : "int"
+      },
+      "PropertyCategoryDef" : {
+         "customAttributes" : [
+            {
+               "MapStrategy" : "ExistingTable",
+               "TableName" : "ec_PropertyCategory",
+               "className" : "ECDbMap.ClassMap"
+            }
+         ],
+         "description" : "PropertyCategory",
+         "label" : "PropertyCategory",
+         "modifier" : "Sealed",
+         "properties" : [
+            {
+               "direction" : "Backward",
+               "name" : "Schema",
+               "relationshipName" : "ECDbMeta.SchemaOwnsPropertyCategories",
+               "type" : "NavigationProperty"
+            },
+            {
+               "name" : "Name",
+               "type" : "PrimitiveProperty",
+               "typeName" : "string"
+            },
+            {
+               "name" : "DisplayLabel",
+               "type" : "PrimitiveProperty",
+               "typeName" : "string"
+            },
+            {
+               "name" : "Description",
+               "type" : "PrimitiveProperty",
+               "typeName" : "string"
+            },
+            {
+               "name" : "Priority",
+               "type" : "PrimitiveProperty",
+               "typeName" : "int"
+            }
+         ],
+         "schemaItemType" : "EntityClass"
+      },
+      "PropertyHasCategory" : {
+         "description" : "Relates the property to its PropertyCategory.",
+         "modifier" : "Sealed",
+         "schemaItemType" : "RelationshipClass",
+         "source" : {
+            "constraintClasses" : [ "ECDbMeta.ECPropertyDef" ],
+            "multiplicity" : "(0..*)",
+            "polymorphic" : false,
+            "roleLabel" : "is in"
+         },
+         "strength" : "Referencing",
+         "strengthDirection" : "Forward",
+         "target" : {
+            "constraintClasses" : [ "ECDbMeta.PropertyCategoryDef" ],
+            "multiplicity" : "(0..1)",
+            "polymorphic" : false,
+            "roleLabel" : "is used by"
+         }
+      },
+      "PropertyHasEnumeration" : {
+         "description" : "ECPropertyKind::Enumeration: relates the property to its ECEnumeration.",
+         "modifier" : "Sealed",
+         "schemaItemType" : "RelationshipClass",
+         "source" : {
+            "constraintClasses" : [ "ECDbMeta.ECPropertyDef" ],
+            "multiplicity" : "(0..*)",
+            "polymorphic" : false,
+            "roleLabel" : "is of type"
+         },
+         "strength" : "Referencing",
+         "strengthDirection" : "Forward",
+         "target" : {
+            "constraintClasses" : [ "ECDbMeta.ECEnumerationDef" ],
+            "multiplicity" : "(0..1)",
+            "polymorphic" : false,
+            "roleLabel" : "is type of"
+         }
+      },
+      "PropertyHasKindOfQuantity" : {
+         "description" : "ECPropertyKind::Primitive or ECPropertyKind::PrimitiveArray: relates the property to its KindOfQuantity.",
+         "modifier" : "Sealed",
+         "schemaItemType" : "RelationshipClass",
+         "source" : {
+            "constraintClasses" : [ "ECDbMeta.ECPropertyDef" ],
+            "multiplicity" : "(0..*)",
+            "polymorphic" : false,
+            "roleLabel" : "has"
+         },
+         "strength" : "Referencing",
+         "strengthDirection" : "Forward",
+         "target" : {
+            "constraintClasses" : [ "ECDbMeta.KindOfQuantityDef" ],
+            "multiplicity" : "(0..1)",
+            "polymorphic" : false,
+            "roleLabel" : "is used by"
+         }
+      },
+      "PropertyHasNavigationRelationshipClassId" : {
+         "description" : "ECPropertyKind::Navigation: relates the navigation property to its backing RelationshipECClass.",
+         "modifier" : "Sealed",
+         "schemaItemType" : "RelationshipClass",
+         "source" : {
+            "constraintClasses" : [ "ECDbMeta.ECPropertyDef" ],
+            "multiplicity" : "(0..*)",
+            "polymorphic" : false,
+            "roleLabel" : "is backed by"
+         },
+         "strength" : "Referencing",
+         "strengthDirection" : "Forward",
+         "target" : {
+            "constraintClasses" : [ "ECDbMeta.ECClassDef" ],
+            "multiplicity" : "(0..1)",
+            "polymorphic" : false,
+            "roleLabel" : "is ECRelationshipClass of"
+         }
+      },
+      "PropertyHasStructType" : {
+         "description" : "ECPropertyKind::Struct: relates the struct property to its struct ECClass. ECPropertyKind::StructArray: relates the struct array property to its array element type.",
+         "modifier" : "Sealed",
+         "schemaItemType" : "RelationshipClass",
+         "source" : {
+            "constraintClasses" : [ "ECDbMeta.ECPropertyDef" ],
+            "multiplicity" : "(0..*)",
+            "polymorphic" : false,
+            "roleLabel" : "is of type"
+         },
+         "strength" : "Referencing",
+         "strengthDirection" : "Forward",
+         "target" : {
+            "constraintClasses" : [ "ECDbMeta.ECClassDef" ],
+            "multiplicity" : "(0..1)",
+            "polymorphic" : false,
+            "roleLabel" : "is type of"
+         }
+      },
+      "RelationshipConstraintHasAbstractConstraintClass" : {
+         "modifier" : "Sealed",
+         "schemaItemType" : "RelationshipClass",
+         "source" : {
+            "constraintClasses" : [ "ECDbMeta.ECRelationshipConstraintDef" ],
+            "multiplicity" : "(0..*)",
+            "polymorphic" : false,
+            "roleLabel" : "defines"
+         },
+         "strength" : "Referencing",
+         "strengthDirection" : "Forward",
+         "target" : {
+            "constraintClasses" : [ "ECDbMeta.ECClassDef" ],
+            "multiplicity" : "(0..1)",
+            "polymorphic" : false,
+            "roleLabel" : "is abstract constraint class of"
+         }
+      },
+      "RelationshipConstraintHasClasses" : {
+         "customAttributes" : [
+            {
+               "MapStrategy" : "ExistingTable",
+               "TableName" : "ec_RelationshipConstraintClass",
+               "className" : "ECDbMap.ClassMap"
+            },
+            {
+               "SourceECInstanceIdColumn" : "ConstraintId",
+               "TargetECInstanceIdColumn" : "ClassId",
+               "className" : "ECDbMap.LinkTableRelationshipMap"
+            }
+         ],
+         "modifier" : "Sealed",
+         "schemaItemType" : "RelationshipClass",
+         "source" : {
+            "constraintClasses" : [ "ECDbMeta.ECRelationshipConstraintDef" ],
+            "multiplicity" : "(0..*)",
+            "polymorphic" : false,
+            "roleLabel" : "contains"
+         },
+         "strength" : "Referencing",
+         "strengthDirection" : "Forward",
+         "target" : {
+            "constraintClasses" : [ "ECDbMeta.ECClassDef" ],
+            "multiplicity" : "(0..*)",
+            "polymorphic" : false,
+            "roleLabel" : "is constraint class of"
+         }
+      },
+      "RelationshipHasConstraints" : {
+         "modifier" : "Sealed",
+         "schemaItemType" : "RelationshipClass",
+         "source" : {
+            "constraintClasses" : [ "ECDbMeta.ECClassDef" ],
+            "multiplicity" : "(1..1)",
+            "polymorphic" : false,
+            "roleLabel" : "defines"
+         },
+         "strength" : "Referencing",
+         "strengthDirection" : "Forward",
+         "target" : {
+            "constraintClasses" : [ "ECDbMeta.ECRelationshipConstraintDef" ],
+            "multiplicity" : "(2..2)",
+            "polymorphic" : false,
+            "roleLabel" : "is defined by"
+         }
+      },
+      "SchemaHasSchemaReferences" : {
+         "customAttributes" : [
+            {
+               "MapStrategy" : "ExistingTable",
+               "TableName" : "ec_SchemaReference",
+               "className" : "ECDbMap.ClassMap"
+            },
+            {
+               "SourceECInstanceIdColumn" : "SchemaId",
+               "TargetECInstanceIdColumn" : "ReferencedSchemaId",
+               "className" : "ECDbMap.LinkTableRelationshipMap"
+            }
+         ],
+         "modifier" : "Sealed",
+         "schemaItemType" : "RelationshipClass",
+         "source" : {
+            "constraintClasses" : [ "ECDbMeta.ECSchemaDef" ],
+            "multiplicity" : "(0..*)",
+            "polymorphic" : false,
+            "roleLabel" : "references"
+         },
+         "strength" : "Referencing",
+         "strengthDirection" : "Forward",
+         "target" : {
+            "constraintClasses" : [ "ECDbMeta.ECSchemaDef" ],
+            "multiplicity" : "(0..*)",
+            "polymorphic" : false,
+            "roleLabel" : "is referenced by"
+         }
+      },
+      "SchemaOwnsClasses" : {
+         "modifier" : "Sealed",
+         "schemaItemType" : "RelationshipClass",
+         "source" : {
+            "constraintClasses" : [ "ECDbMeta.ECSchemaDef" ],
+            "multiplicity" : "(1..1)",
+            "polymorphic" : false,
+            "roleLabel" : "contains"
+         },
+         "strength" : "Embedding",
+         "strengthDirection" : "Forward",
+         "target" : {
+            "constraintClasses" : [ "ECDbMeta.ECClassDef" ],
+            "multiplicity" : "(0..*)",
+            "polymorphic" : false,
+            "roleLabel" : "is defined in"
+         }
+      },
+      "SchemaOwnsEnumerations" : {
+         "modifier" : "Sealed",
+         "schemaItemType" : "RelationshipClass",
+         "source" : {
+            "constraintClasses" : [ "ECDbMeta.ECSchemaDef" ],
+            "multiplicity" : "(1..1)",
+            "polymorphic" : false,
+            "roleLabel" : "contains"
+         },
+         "strength" : "Embedding",
+         "strengthDirection" : "Forward",
+         "target" : {
+            "constraintClasses" : [ "ECDbMeta.ECEnumerationDef" ],
+            "multiplicity" : "(0..*)",
+            "polymorphic" : false,
+            "roleLabel" : "is defined in"
+         }
+      },
+      "SchemaOwnsFormats" : {
+         "modifier" : "Sealed",
+         "schemaItemType" : "RelationshipClass",
+         "source" : {
+            "constraintClasses" : [ "ECDbMeta.ECSchemaDef" ],
+            "multiplicity" : "(1..1)",
+            "polymorphic" : false,
+            "roleLabel" : "contains"
+         },
+         "strength" : "Embedding",
+         "strengthDirection" : "Forward",
+         "target" : {
+            "constraintClasses" : [ "ECDbMeta.FormatDef" ],
+            "multiplicity" : "(0..*)",
+            "polymorphic" : false,
+            "roleLabel" : "is defined in"
+         }
+      },
+      "SchemaOwnsKindOfQuantities" : {
+         "modifier" : "Sealed",
+         "schemaItemType" : "RelationshipClass",
+         "source" : {
+            "constraintClasses" : [ "ECDbMeta.ECSchemaDef" ],
+            "multiplicity" : "(1..1)",
+            "polymorphic" : false,
+            "roleLabel" : "contains"
+         },
+         "strength" : "Embedding",
+         "strengthDirection" : "Forward",
+         "target" : {
+            "constraintClasses" : [ "ECDbMeta.KindOfQuantityDef" ],
+            "multiplicity" : "(0..*)",
+            "polymorphic" : false,
+            "roleLabel" : "is defined in"
+         }
+      },
+      "SchemaOwnsPhenomena" : {
+         "modifier" : "Sealed",
+         "schemaItemType" : "RelationshipClass",
+         "source" : {
+            "constraintClasses" : [ "ECDbMeta.ECSchemaDef" ],
+            "multiplicity" : "(1..1)",
+            "polymorphic" : false,
+            "roleLabel" : "contains"
+         },
+         "strength" : "Embedding",
+         "strengthDirection" : "Forward",
+         "target" : {
+            "constraintClasses" : [ "ECDbMeta.PhenomenonDef" ],
+            "multiplicity" : "(0..*)",
+            "polymorphic" : false,
+            "roleLabel" : "is defined in"
+         }
+      },
+      "SchemaOwnsPropertyCategories" : {
+         "modifier" : "Sealed",
+         "schemaItemType" : "RelationshipClass",
+         "source" : {
+            "constraintClasses" : [ "ECDbMeta.ECSchemaDef" ],
+            "multiplicity" : "(1..1)",
+            "polymorphic" : false,
+            "roleLabel" : "contains"
+         },
+         "strength" : "Embedding",
+         "strengthDirection" : "Forward",
+         "target" : {
+            "constraintClasses" : [ "ECDbMeta.PropertyCategoryDef" ],
+            "multiplicity" : "(0..*)",
+            "polymorphic" : false,
+            "roleLabel" : "is defined in"
+         }
+      },
+      "SchemaOwnsUnitSystems" : {
+         "modifier" : "Sealed",
+         "schemaItemType" : "RelationshipClass",
+         "source" : {
+            "constraintClasses" : [ "ECDbMeta.ECSchemaDef" ],
+            "multiplicity" : "(1..1)",
+            "polymorphic" : false,
+            "roleLabel" : "contains"
+         },
+         "strength" : "Embedding",
+         "strengthDirection" : "Forward",
+         "target" : {
+            "constraintClasses" : [ "ECDbMeta.UnitSystemDef" ],
+            "multiplicity" : "(0..*)",
+            "polymorphic" : false,
+            "roleLabel" : "is defined in"
+         }
+      },
+      "SchemaOwnsUnits" : {
+         "modifier" : "Sealed",
+         "schemaItemType" : "RelationshipClass",
+         "source" : {
+            "constraintClasses" : [ "ECDbMeta.ECSchemaDef" ],
+            "multiplicity" : "(1..1)",
+            "polymorphic" : false,
+            "roleLabel" : "contains"
+         },
+         "strength" : "Embedding",
+         "strengthDirection" : "Forward",
+         "target" : {
+            "constraintClasses" : [ "ECDbMeta.UnitDef" ],
+            "multiplicity" : "(0..*)",
+            "polymorphic" : false,
+            "roleLabel" : "is defined in"
+         }
+      },
+      "UnitDef" : {
+         "customAttributes" : [
+            {
+               "MapStrategy" : "ExistingTable",
+               "TableName" : "ec_Unit",
+               "className" : "ECDbMap.ClassMap"
+            }
+         ],
+         "description" : "Unit",
+         "label" : "Unit",
+         "modifier" : "Sealed",
+         "properties" : [
+            {
+               "direction" : "Backward",
+               "name" : "Schema",
+               "relationshipName" : "ECDbMeta.SchemaOwnsUnits",
+               "type" : "NavigationProperty"
+            },
+            {
+               "name" : "Name",
+               "type" : "PrimitiveProperty",
+               "typeName" : "string"
+            },
+            {
+               "name" : "DisplayLabel",
+               "type" : "PrimitiveProperty",
+               "typeName" : "string"
+            },
+            {
+               "name" : "Description",
+               "type" : "PrimitiveProperty",
+               "typeName" : "string"
+            },
+            {
+               "direction" : "Backward",
+               "name" : "UnitSystem",
+               "relationshipName" : "ECDbMeta.UnitSystemHasUnits",
+               "type" : "NavigationProperty"
+            },
+            {
+               "direction" : "Backward",
+               "name" : "Phenomenon",
+               "relationshipName" : "ECDbMeta.PhenomenonOwnsUnits",
+               "type" : "NavigationProperty"
+            },
+            {
+               "name" : "Definition",
+               "type" : "PrimitiveProperty",
+               "typeName" : "string"
+            },
+            {
+               "name" : "Numerator",
+               "type" : "PrimitiveProperty",
+               "typeName" : "double"
+            },
+            {
+               "name" : "Denominator",
+               "type" : "PrimitiveProperty",
+               "typeName" : "double"
+            },
+            {
+               "name" : "Offset",
+               "type" : "PrimitiveProperty",
+               "typeName" : "double"
+            },
+            {
+               "name" : "IsConstant",
+               "type" : "PrimitiveProperty",
+               "typeName" : "boolean"
+            },
+            {
+               "description" : "If this property is set, this UnitDef is an inverted unit. It inverts the unit specified by this property.",
+               "direction" : "Backward",
+               "name" : "InvertingUnit",
+               "relationshipName" : "ECDbMeta.UnitHasInvertedUnit",
+               "type" : "NavigationProperty"
+            }
+         ],
+         "schemaItemType" : "EntityClass"
+      },
+      "UnitHasInvertedUnit" : {
+         "modifier" : "Sealed",
+         "schemaItemType" : "RelationshipClass",
+         "source" : {
+            "constraintClasses" : [ "ECDbMeta.UnitDef" ],
+            "multiplicity" : "(0..1)",
+            "polymorphic" : false,
+            "roleLabel" : "is inverted by"
+         },
+         "strength" : "Referencing",
+         "strengthDirection" : "Forward",
+         "target" : {
+            "constraintClasses" : [ "ECDbMeta.UnitDef" ],
+            "multiplicity" : "(0..1)",
+            "polymorphic" : false,
+            "roleLabel" : "inverts"
+         }
+      },
+      "UnitSystemDef" : {
+         "customAttributes" : [
+            {
+               "MapStrategy" : "ExistingTable",
+               "TableName" : "ec_UnitSystem",
+               "className" : "ECDbMap.ClassMap"
+            }
+         ],
+         "description" : "UnitSystem",
+         "label" : "UnitSystem",
+         "modifier" : "Sealed",
+         "properties" : [
+            {
+               "direction" : "Backward",
+               "name" : "Schema",
+               "relationshipName" : "ECDbMeta.SchemaOwnsUnitSystems",
+               "type" : "NavigationProperty"
+            },
+            {
+               "name" : "Name",
+               "type" : "PrimitiveProperty",
+               "typeName" : "string"
+            },
+            {
+               "name" : "DisplayLabel",
+               "type" : "PrimitiveProperty",
+               "typeName" : "string"
+            },
+            {
+               "name" : "Description",
+               "type" : "PrimitiveProperty",
+               "typeName" : "string"
+            }
+         ],
+         "schemaItemType" : "EntityClass"
+      },
+      "UnitSystemHasUnits" : {
+         "modifier" : "Sealed",
+         "schemaItemType" : "RelationshipClass",
+         "source" : {
+            "constraintClasses" : [ "ECDbMeta.UnitSystemDef" ],
+            "multiplicity" : "(0..1)",
+            "polymorphic" : false,
+            "roleLabel" : "has"
+         },
+         "strength" : "Referencing",
+         "strengthDirection" : "Forward",
+         "target" : {
+            "constraintClasses" : [ "ECDbMeta.UnitDef" ],
+            "multiplicity" : "(0..*)",
+            "polymorphic" : false,
+            "roleLabel" : "is defined in"
+         }
+      }
+   },
+   "name" : "ECDbMeta",
+   "references" : [
+      {
+         "name" : "ECDbMap",
+         "version" : "02.00.00"
+      }
+   ],
+   "version" : "04.00.01"
+}

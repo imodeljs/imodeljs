@@ -1,0 +1,754 @@
+{
+   "$schema" : "https://dev.bentley.com/json_schemas/ec/32/ecschema",
+   "alias" : "AECU",
+   "description" : "This contains the unit definitions that are use across AE Schemas",
+   "items" : {
+      "ACCELERATION" : {
+         "label" : "Acceleration",
+         "persistenceUnit" : "Units.M_PER_SEC_SQ",
+         "presentationUnits" : [
+            "Formats.DefaultRealU(4)[Units.M_PER_SEC_SQ]",
+            "Formats.DefaultRealU(4)[Units.CM_PER_SEC_SQ]",
+            "Formats.DefaultRealU(4)[Units.FT_PER_SEC_SQ]"
+         ],
+         "relativeError" : 0.0010,
+         "schemaItemType" : "KindOfQuantity"
+      },
+      "ANGLE" : {
+         "label" : "Angle",
+         "persistenceUnit" : "Units.RAD",
+         "presentationUnits" : [ "Formats.DefaultRealU(2)[Units.ARC_DEG]", "Formats.AngleDMS" ],
+         "relativeError" : 0.00010,
+         "schemaItemType" : "KindOfQuantity"
+      },
+      "ANGULAR_VELOCITY" : {
+         "label" : "Angular Velocity",
+         "persistenceUnit" : "Units.RAD_PER_SEC",
+         "presentationUnits" : [
+            "Formats.DefaultRealU(4)[Units.RAD_PER_SEC]",
+            "Formats.DefaultRealU(4)[Units.DEG_PER_SEC]",
+            "Formats.DefaultRealU(4)[Units.RPM]"
+         ],
+         "relativeError" : 0.0010,
+         "schemaItemType" : "KindOfQuantity"
+      },
+      "AREA" : {
+         "label" : "Area",
+         "persistenceUnit" : "Units.SQ_M",
+         "presentationUnits" : [
+            "Formats.DefaultRealU(4)[Units.SQ_M]",
+            "Formats.DefaultRealU(4)[Units.SQ_FT]"
+         ],
+         "relativeError" : 0.00010,
+         "schemaItemType" : "KindOfQuantity"
+      },
+      "AREA_FORCE" : {
+         "label" : "Area Force",
+         "persistenceUnit" : "Units.PA",
+         "presentationUnits" : [
+            "Formats.DefaultRealU(4)[Units.KILOPASCAL]",
+            "Formats.DefaultRealU(4)[Units.PSF]"
+         ],
+         "relativeError" : 0.00010,
+         "schemaItemType" : "KindOfQuantity"
+      },
+      "AREA_FORCE_LARGE" : {
+         "label" : "Area Force Large",
+         "persistenceUnit" : "Units.PA",
+         "presentationUnits" : [
+            "Formats.DefaultRealU(4)[Units.MEGAPASCAL]",
+            "Formats.DefaultRealU(4)[Units.KSF]"
+         ],
+         "relativeError" : 0.010,
+         "schemaItemType" : "KindOfQuantity"
+      },
+      "AREA_FORCE_SMALL" : {
+         "label" : "Area Force Small",
+         "persistenceUnit" : "Units.PA",
+         "presentationUnits" : [
+            "Formats.DefaultRealU(2)[Units.PA]",
+            "Formats.DefaultRealU(4)[Units.PSF]"
+         ],
+         "relativeError" : 0.00010,
+         "schemaItemType" : "KindOfQuantity"
+      },
+      "AREA_LARGE" : {
+         "label" : "Large Area",
+         "persistenceUnit" : "Units.SQ_M",
+         "presentationUnits" : [
+            "Formats.DefaultRealU(4)[Units.SQ_KM]",
+            "Formats.DefaultRealU(4)[Units.SQ_MILE]"
+         ],
+         "relativeError" : 0.010,
+         "schemaItemType" : "KindOfQuantity"
+      },
+      "AREA_MOMENT" : {
+         "label" : "Area Moment",
+         "persistenceUnit" : "Units.N_M_PER_SQ_M",
+         "presentationUnits" : [
+            "Formats.DefaultRealU(4)[Units.KN_M_PER_SQ_M]",
+            "Formats.DefaultRealU(4)[Units.LBF_FT_PER_SQ_FT]"
+         ],
+         "relativeError" : 0.00010,
+         "schemaItemType" : "KindOfQuantity"
+      },
+      "AREA_MOMENT_LARGE" : {
+         "label" : "Area Moment Large",
+         "persistenceUnit" : "Units.N_M_PER_SQ_M",
+         "presentationUnits" : [
+            "Formats.DefaultRealU(4)[Units.MEGAN_M_PER_SQ_M]",
+            "Formats.DefaultRealU(4)[Units.KPF_FT_PER_SQ_FT]"
+         ],
+         "relativeError" : 0.010,
+         "schemaItemType" : "KindOfQuantity"
+      },
+      "AREA_MOMENT_SMALL" : {
+         "label" : "Area Moment Small",
+         "persistenceUnit" : "Units.N_M_PER_SQ_M",
+         "presentationUnits" : [
+            "Formats.DefaultRealU(4)[Units.N_M_PER_SQ_M]",
+            "Formats.DefaultRealU(4)[Units.LBF_IN_PER_SQ_IN]"
+         ],
+         "relativeError" : 0.00010,
+         "schemaItemType" : "KindOfQuantity"
+      },
+      "AREA_SMALL" : {
+         "label" : "Small Area",
+         "persistenceUnit" : "Units.SQ_M",
+         "presentationUnits" : [
+            "Formats.DefaultRealU(2)[Units.SQ_MM]",
+            "Formats.DefaultRealU(4)[Units.SQ_IN]"
+         ],
+         "relativeError" : 0.00010,
+         "schemaItemType" : "KindOfQuantity"
+      },
+      "AREA_SPRING_CONSTANT" : {
+         "label" : "Area Spring Constant",
+         "persistenceUnit" : "Units.AREA_SPRING_CONSTANT_N_PER_CUB_M",
+         "presentationUnits" : [
+            "Formats.DefaultRealU(4)[Units.AREA_SPRING_CONSTANT_N_PER_CUB_M]",
+            "Formats.DefaultRealU(4)[Units.AREA_SPRING_CONSTANT_KN_PER_CUB_M]",
+            "Formats.DefaultRealU(4)[Units.AREA_SPRING_CONSTANT_KPF_PER_CUB_FT]"
+         ],
+         "relativeError" : 0.0010,
+         "schemaItemType" : "KindOfQuantity"
+      },
+      "CURRENT" : {
+         "label" : "Current",
+         "persistenceUnit" : "Units.A",
+         "presentationUnits" : [
+            "Formats.DefaultRealU(4)[Units.A]",
+            "Formats.DefaultRealU(4)[Units.KILOAMPERE]"
+         ],
+         "relativeError" : 0.0010,
+         "schemaItemType" : "KindOfQuantity"
+      },
+      "DENSITY" : {
+         "label" : "Density",
+         "persistenceUnit" : "Units.KG_PER_CUB_M",
+         "presentationUnits" : [
+            "Formats.DefaultRealU(4)[Units.KG_PER_CUB_M]",
+            "Formats.DefaultRealU(4)[Units.LBM_PER_CUB_FT]",
+            "Formats.DefaultRealU(4)[Units.G_PER_CUB_CM]",
+            "Formats.DefaultRealU(4)[Units.LBM_PER_CUB_IN]",
+            "Formats.DefaultRealU(4)[Units.KIP_PER_CUB_FT]"
+         ],
+         "relativeError" : 0.0010,
+         "schemaItemType" : "KindOfQuantity"
+      },
+      "DYNAMIC_VISCOSITY" : {
+         "label" : "Dynamic Viscosity",
+         "persistenceUnit" : "Units.PA_S",
+         "presentationUnits" : [
+            "Formats.DefaultRealU(4)[Units.PA_S]",
+            "Formats.DefaultRealU(4)[Units.POISE]",
+            "Formats.DefaultRealU(4)[Units.CENTIPOISE]",
+            "Formats.DefaultRealU(4)[Units.LBM_PER_FT_S]"
+         ],
+         "relativeError" : 0.0010,
+         "schemaItemType" : "KindOfQuantity"
+      },
+      "ELECTRIC_POTENTIAL" : {
+         "label" : "Electric Potential",
+         "persistenceUnit" : "Units.VOLT",
+         "presentationUnits" : [
+            "Formats.DefaultRealU(4)[Units.VOLT]",
+            "Formats.DefaultRealU(4)[Units.KILOVOLT]",
+            "Formats.DefaultRealU(4)[Units.MEGAVOLT]"
+         ],
+         "relativeError" : 0.0010,
+         "schemaItemType" : "KindOfQuantity"
+      },
+      "ENERGY" : {
+         "label" : "Energy",
+         "persistenceUnit" : "Units.J",
+         "presentationUnits" : [
+            "Formats.DefaultRealU(4)[Units.J]",
+            "Formats.DefaultRealU(4)[Units.KJ]",
+            "Formats.DefaultRealU(4)[Units.BTU]",
+            "Formats.DefaultRealU(4)[Units.KWH]"
+         ],
+         "relativeError" : 0.0010,
+         "schemaItemType" : "KindOfQuantity"
+      },
+      "FLOW" : {
+         "label" : "Flow Rate",
+         "persistenceUnit" : "Units.CUB_M_PER_SEC",
+         "presentationUnits" : [
+            "Formats.DefaultRealU(4)[Units.LITRE_PER_MIN]",
+            "Formats.DefaultRealU(4)[Units.CUB_FT_PER_MIN]",
+            "Formats.DefaultRealU(4)[Units.GALLON_PER_MIN]"
+         ],
+         "relativeError" : 1.0000000000000001e-05,
+         "schemaItemType" : "KindOfQuantity"
+      },
+      "FORCE" : {
+         "label" : "Force",
+         "persistenceUnit" : "Units.N",
+         "presentationUnits" : [
+            "Formats.DefaultRealU(4)[Units.KN]",
+            "Formats.DefaultRealU(4)[Units.LBF]"
+         ],
+         "relativeError" : 0.00010,
+         "schemaItemType" : "KindOfQuantity"
+      },
+      "FORCE_DENSITY" : {
+         "label" : "Force Density",
+         "persistenceUnit" : "Units.N_PER_CUB_M",
+         "presentationUnits" : [
+            "Formats.DefaultRealU(4)[Units.N_PER_CUB_M]",
+            "Formats.DefaultRealU(4)[Units.KN_PER_CUB_M]",
+            "Formats.DefaultRealU(4)[Units.N_PER_CUB_FT]",
+            "Formats.DefaultRealU(4)[Units.KN_PER_CUB_FT]"
+         ],
+         "relativeError" : 0.0010,
+         "schemaItemType" : "KindOfQuantity"
+      },
+      "FORCE_LARGE" : {
+         "label" : "Force Large",
+         "persistenceUnit" : "Units.N",
+         "presentationUnits" : [
+            "Formats.DefaultRealU(4)[Units.MEGAN]",
+            "Formats.DefaultRealU(4)[Units.KPF]"
+         ],
+         "relativeError" : 0.010,
+         "schemaItemType" : "KindOfQuantity"
+      },
+      "FORCE_SMALL" : {
+         "label" : "Force Small",
+         "persistenceUnit" : "Units.N",
+         "presentationUnits" : [
+            "Formats.DefaultRealU(2)[Units.N]",
+            "Formats.DefaultRealU(4)[Units.LBF]"
+         ],
+         "relativeError" : 0.00010,
+         "schemaItemType" : "KindOfQuantity"
+      },
+      "FREQUENCY" : {
+         "label" : "Frequency",
+         "persistenceUnit" : "Units.HZ",
+         "presentationUnits" : [
+            "Formats.DefaultRealU(4)[Units.HZ]",
+            "Formats.DefaultRealU(4)[Units.KHZ]",
+            "Formats.DefaultRealU(4)[Units.MHZ]"
+         ],
+         "relativeError" : 0.0010,
+         "schemaItemType" : "KindOfQuantity"
+      },
+      "HEAT_TRANSFER" : {
+         "label" : "Heat Transfer",
+         "persistenceUnit" : "Units.W_PER_SQ_M_K",
+         "presentationUnits" : [
+            "Formats.DefaultRealU(4)[Units.W_PER_SQ_M_K]",
+            "Formats.DefaultRealU(4)[Units.W_PER_SQ_M_CELSIUS]",
+            "Formats.DefaultRealU(4)[Units.BTU_PER_SQ_FT_HR_FAHRENHEIT]"
+         ],
+         "relativeError" : 0.0010,
+         "schemaItemType" : "KindOfQuantity"
+      },
+      "ILLUMINANCE" : {
+         "label" : "Illuminance",
+         "persistenceUnit" : "Units.LUX",
+         "presentationUnits" : [
+            "Formats.DefaultRealU(4)[Units.LUX]",
+            "Formats.DefaultRealU(4)[Units.LUMEN_PER_SQ_FT]"
+         ],
+         "relativeError" : 0.0010,
+         "schemaItemType" : "KindOfQuantity"
+      },
+      "LENGTH" : {
+         "label" : "Length",
+         "persistenceUnit" : "Units.M",
+         "presentationUnits" : [
+            "Formats.DefaultRealU(4)[Units.M]",
+            "Formats.DefaultRealU(4)[Units.MM]",
+            "Formats.AmerFI",
+            "Formats.AmerFI(16)",
+            "Formats.DefaultRealU(4)[Units.FT]"
+         ],
+         "relativeError" : 1.0000000000000001e-05,
+         "schemaItemType" : "KindOfQuantity"
+      },
+      "LENGTH_LONG" : {
+         "label" : "Long Length",
+         "persistenceUnit" : "Units.M",
+         "presentationUnits" : [
+            "Formats.DefaultRealU(4)[Units.KM]",
+            "Formats.DefaultRealU(4)[Units.M]",
+            "Formats.AmerFI",
+            "Formats.AmerFI(16)",
+            "Formats.DefaultRealU(4)[Units.FT]"
+         ],
+         "relativeError" : 0.00010,
+         "schemaItemType" : "KindOfQuantity"
+      },
+      "LENGTH_SHORT" : {
+         "label" : "Short Length",
+         "persistenceUnit" : "Units.M",
+         "presentationUnits" : [
+            "Formats.DefaultRealU(2)[Units.MM]",
+            "Formats.DefaultRealU(4)[Units.CM]",
+            "Formats.AmerFI",
+            "Formats.AmerFI(16)",
+            "Formats.DefaultRealU(4)[Units.IN]"
+         ],
+         "relativeError" : 0.010,
+         "schemaItemType" : "KindOfQuantity"
+      },
+      "LINEAR_DENSITY" : {
+         "label" : "Linear Density",
+         "persistenceUnit" : "Units.KG_PER_M",
+         "presentationUnits" : [
+            "Formats.DefaultRealU(4)[Units.KG_PER_M]",
+            "Formats.DefaultRealU(4)[Units.KG_PER_MM]",
+            "Formats.DefaultRealU(4)[Units.LBM_PER_FT]"
+         ],
+         "relativeError" : 0.0010,
+         "schemaItemType" : "KindOfQuantity"
+      },
+      "LINEAR_FORCE" : {
+         "label" : "Linear Force",
+         "persistenceUnit" : "Units.N_PER_M",
+         "presentationUnits" : [
+            "Formats.DefaultRealU(4)[Units.KN_PER_M]",
+            "Formats.DefaultRealU(4)[Units.LBF_PER_FT]"
+         ],
+         "relativeError" : 0.00010,
+         "schemaItemType" : "KindOfQuantity"
+      },
+      "LINEAR_FORCE_LARGE" : {
+         "label" : "Linear Force Large",
+         "persistenceUnit" : "Units.N_PER_M",
+         "presentationUnits" : [
+            "Formats.DefaultRealU(4)[Units.MEGAN_PER_M]",
+            "Formats.DefaultRealU(4)[Units.KPF_PER_FT]"
+         ],
+         "relativeError" : 0.010,
+         "schemaItemType" : "KindOfQuantity"
+      },
+      "LINEAR_FORCE_SMALL" : {
+         "label" : "Linear Force Small",
+         "persistenceUnit" : "Units.N_PER_M",
+         "presentationUnits" : [
+            "Formats.DefaultRealU(2)[Units.N_PER_M]",
+            "Formats.DefaultRealU(4)[Units.LBF_PER_FT]"
+         ],
+         "relativeError" : 0.00010,
+         "schemaItemType" : "KindOfQuantity"
+      },
+      "LINEAR_MOMENT" : {
+         "label" : "Linear Moment",
+         "persistenceUnit" : "Units.N_M_PER_M",
+         "presentationUnits" : [
+            "Formats.DefaultRealU(4)[Units.KN_M_PER_M]",
+            "Formats.DefaultRealU(4)[Units.LBF_FT_PER_FT]"
+         ],
+         "relativeError" : 0.00010,
+         "schemaItemType" : "KindOfQuantity"
+      },
+      "LINEAR_MOMENT_LARGE" : {
+         "label" : "Linear Moment Large",
+         "persistenceUnit" : "Units.N_M_PER_M",
+         "presentationUnits" : [
+            "Formats.DefaultRealU(4)[Units.MEGAN_M_PER_M]",
+            "Formats.DefaultRealU(4)[Units.KPF_FT_PER_FT]"
+         ],
+         "relativeError" : 0.010,
+         "schemaItemType" : "KindOfQuantity"
+      },
+      "LINEAR_MOMENT_SMALL" : {
+         "label" : "Linear Moment Small",
+         "persistenceUnit" : "Units.N_M_PER_M",
+         "presentationUnits" : [
+            "Formats.DefaultRealU(4)[Units.N_M_PER_M]",
+            "Formats.DefaultRealU(4)[Units.LBF_FT_PER_FT]"
+         ],
+         "relativeError" : 0.00010,
+         "schemaItemType" : "KindOfQuantity"
+      },
+      "LINEAR_ROTATIONAL_SPRING_CONSTANT" : {
+         "label" : "Linear Rotational Spring Constant",
+         "persistenceUnit" : "Units.N_PER_RAD",
+         "presentationUnits" : [
+            "Formats.DefaultRealU(4)[Units.N_PER_RAD]",
+            "Formats.DefaultRealU(4)[Units.KN_PER_RAD]",
+            "Formats.DefaultRealU(4)[Units.KPF_PER_RAD]"
+         ],
+         "relativeError" : 0.0010,
+         "schemaItemType" : "KindOfQuantity"
+      },
+      "LINEAR_SPRING_CONSTANT" : {
+         "label" : "Linear Spring Constant",
+         "persistenceUnit" : "Units.LINEAR_SPRING_CONSTANT_N_PER_SQ_M",
+         "presentationUnits" : [
+            "Formats.DefaultRealU(4)[Units.LINEAR_SPRING_CONSTANT_N_PER_SQ_M]",
+            "Formats.DefaultRealU(4)[Units.LINEAR_SPRING_CONSTANT_KN_PER_SQ_M]",
+            "Formats.DefaultRealU(4)[Units.LINEAR_SPRING_CONSTANT_KPF_PER_SQ_FT]"
+         ],
+         "relativeError" : 0.0010,
+         "schemaItemType" : "KindOfQuantity"
+      },
+      "LIQUID_VOLUME" : {
+         "label" : "Liquid Volume",
+         "persistenceUnit" : "Units.CUB_M",
+         "presentationUnits" : [
+            "Formats.DefaultRealU(4)[Units.LITRE]",
+            "Formats.DefaultRealU(4)[Units.GALLON]"
+         ],
+         "relativeError" : 0.00010,
+         "schemaItemType" : "KindOfQuantity"
+      },
+      "LIQUID_VOLUME_LARGE" : {
+         "label" : "Liquid Large Volume",
+         "persistenceUnit" : "Units.CUB_M",
+         "presentationUnits" : [
+            "Formats.DefaultRealU(4)[Units.THOUSAND_LITRE]",
+            "Formats.DefaultRealU(4)[Units.THOUSAND_GALLON]"
+         ],
+         "relativeError" : 0.010,
+         "schemaItemType" : "KindOfQuantity"
+      },
+      "LIQUID_VOLUME_SMALL" : {
+         "label" : "Liquid Small Volume",
+         "persistenceUnit" : "Units.CUB_M",
+         "presentationUnits" : [
+            "Formats.DefaultRealU(4)[Units.LITRE]",
+            "Formats.DefaultRealU(4)[Units.GALLON]"
+         ],
+         "relativeError" : 0.00010,
+         "schemaItemType" : "KindOfQuantity"
+      },
+      "LUMINOUS_FLUX" : {
+         "label" : "Luminous Flux",
+         "persistenceUnit" : "Units.LUMEN",
+         "presentationUnits" : [ "Formats.DefaultRealU(4)[Units.LUMEN]" ],
+         "relativeError" : 0.0010,
+         "schemaItemType" : "KindOfQuantity"
+      },
+      "LUMINOUS_INTENSITY" : {
+         "label" : "Luminous Intensity",
+         "persistenceUnit" : "Units.CD",
+         "presentationUnits" : [ "Formats.DefaultRealU(4)[Units.CD]" ],
+         "relativeError" : 0.0010,
+         "schemaItemType" : "KindOfQuantity"
+      },
+      "MOMENT" : {
+         "label" : "Moment",
+         "persistenceUnit" : "Units.N_M",
+         "presentationUnits" : [
+            "Formats.DefaultRealU(4)[Units.KN_M]",
+            "Formats.DefaultRealU(4)[Units.LBF_FT]"
+         ],
+         "relativeError" : 0.00010,
+         "schemaItemType" : "KindOfQuantity"
+      },
+      "MOMENT_LARGE" : {
+         "label" : "Moment Large",
+         "persistenceUnit" : "Units.N_M",
+         "presentationUnits" : [
+            "Formats.DefaultRealU(4)[Units.MEGAN_M]",
+            "Formats.DefaultRealU(4)[Units.KPF_FT]"
+         ],
+         "relativeError" : 0.010,
+         "schemaItemType" : "KindOfQuantity"
+      },
+      "MOMENT_OF_INERTIA" : {
+         "label" : "Moment Of Inertia",
+         "persistenceUnit" : "Units.M_TO_THE_FOURTH",
+         "presentationUnits" : [
+            "Formats.DefaultRealU(4)[Units.M_TO_THE_FOURTH]",
+            "Formats.DefaultRealU(4)[Units.MM_TO_THE_FOURTH]",
+            "Formats.DefaultRealU(4)[Units.CM_TO_THE_FOURTH]",
+            "Formats.DefaultRealU(4)[Units.IN_TO_THE_FOURTH]",
+            "Formats.DefaultRealU(4)[Units.FT_TO_THE_FOURTH]"
+         ],
+         "relativeError" : 0.0010,
+         "schemaItemType" : "KindOfQuantity"
+      },
+      "MOMENT_SMALL" : {
+         "label" : "Moment Small",
+         "persistenceUnit" : "Units.N_M",
+         "presentationUnits" : [
+            "Formats.DefaultRealU(2)[Units.N_M]",
+            "Formats.DefaultRealU(4)[Units.LBF_FT]"
+         ],
+         "relativeError" : 0.00010,
+         "schemaItemType" : "KindOfQuantity"
+      },
+      "POWER" : {
+         "label" : "Power",
+         "persistenceUnit" : "Units.W",
+         "presentationUnits" : [
+            "Formats.DefaultRealU(4)[Units.W]",
+            "Formats.DefaultRealU(4)[Units.KW]",
+            "Formats.DefaultRealU(4)[Units.MEGAW]",
+            "Formats.DefaultRealU(4)[Units.BTU_PER_HR]",
+            "Formats.DefaultRealU(4)[Units.KILOBTU_PER_HR]",
+            "Formats.DefaultRealU(4)[Units.HP]"
+         ],
+         "relativeError" : 0.0010,
+         "schemaItemType" : "KindOfQuantity"
+      },
+      "PRESSURE" : {
+         "label" : "Pressure",
+         "persistenceUnit" : "Units.PA",
+         "presentationUnits" : [
+            "Formats.DefaultRealU(4)[Units.PA]",
+            "Formats.DefaultRealU(4)[Units.PSIG]",
+            "Formats.DefaultRealU(4)[Units.PSI]"
+         ],
+         "relativeError" : 0.00010,
+         "schemaItemType" : "KindOfQuantity"
+      },
+      "PRESSURE_GRADIENT" : {
+         "label" : "Pressure Gradient",
+         "persistenceUnit" : "Units.PA_PER_M",
+         "presentationUnits" : [
+            "Formats.DefaultRealU(4)[Units.PA_PER_M]",
+            "Formats.DefaultRealU(4)[Units.BAR_PER_KM]"
+         ],
+         "relativeError" : 0.0010,
+         "schemaItemType" : "KindOfQuantity"
+      },
+      "PROBABILITY" : {
+         "label" : "Probability",
+         "persistenceUnit" : "Units.PROBABILITY_FRACTION",
+         "presentationUnits" : [ "Formats.DefaultRealU(2)[Units.PROBABILITY_PERCENT]" ],
+         "relativeError" : 0.0010,
+         "schemaItemType" : "KindOfQuantity"
+      },
+      "PROCESS_PIPING_FLOW" : {
+         "label" : "Process Piping Flow Rate",
+         "persistenceUnit" : "Units.CUB_M_PER_SEC",
+         "presentationUnits" : [
+            "Formats.DefaultRealU(4)[Units.LITRE_PER_MIN]",
+            "Formats.DefaultRealU(4)[Units.CUB_FT_PER_MIN]",
+            "Formats.DefaultRealU(4)[Units.GALLON_PER_MIN]"
+         ],
+         "relativeError" : 1.0000000000000001e-05,
+         "schemaItemType" : "KindOfQuantity"
+      },
+      "PROCESS_PIPING_PRESSURE" : {
+         "label" : "Process Piping Pressure",
+         "persistenceUnit" : "Units.PA",
+         "presentationUnits" : [
+            "Formats.DefaultRealU(4)[Units.PA]",
+            "Formats.DefaultRealU(4)[Units.PSIG]",
+            "Formats.DefaultRealU(4)[Units.PSI]"
+         ],
+         "relativeError" : 0.00010,
+         "schemaItemType" : "KindOfQuantity"
+      },
+      "PROCESS_PIPING_TEMPERATURE" : {
+         "label" : "Process Piping Temperature",
+         "persistenceUnit" : "Units.K",
+         "presentationUnits" : [
+            "Formats.DefaultRealU(2)[Units.CELSIUS]",
+            "Formats.DefaultRealU(2)[Units.FAHRENHEIT]",
+            "Formats.DefaultRealU(4)[Units.K]"
+         ],
+         "relativeError" : 0.010,
+         "schemaItemType" : "KindOfQuantity"
+      },
+      "ROTATIONAL_SPRING_CONSTANT" : {
+         "label" : "Rotational Spring Constant",
+         "persistenceUnit" : "Units.N_M_PER_RAD",
+         "presentationUnits" : [
+            "Formats.DefaultRealU(4)[Units.N_M_PER_RAD]",
+            "Formats.DefaultRealU(4)[Units.KN_M_PER_RAD]",
+            "Formats.DefaultRealU(4)[Units.KPF_FT_PER_RAD]"
+         ],
+         "relativeError" : 0.0010,
+         "schemaItemType" : "KindOfQuantity"
+      },
+      "SPECIFIC_HEAT_CAPACITY" : {
+         "label" : "Specific Heat Capacity",
+         "persistenceUnit" : "Units.J_PER_KG_K",
+         "presentationUnits" : [
+            "Formats.DefaultRealU(4)[Units.J_PER_KG_K]",
+            "Formats.DefaultRealU(4)[Units.BTU_PER_LBM_RANKINE]"
+         ],
+         "relativeError" : 0.0010,
+         "schemaItemType" : "KindOfQuantity"
+      },
+      "SPECIFIC_HEAT_OF_VAPORIZATION" : {
+         "label" : "Specific Heat Of Vaporization",
+         "persistenceUnit" : "Units.J_PER_KG",
+         "presentationUnits" : [
+            "Formats.DefaultRealU(4)[Units.J_PER_KG]",
+            "Formats.DefaultRealU(4)[Units.KJ_PER_KG]",
+            "Formats.DefaultRealU(4)[Units.BTU_PER_LBM]"
+         ],
+         "relativeError" : 0.0010,
+         "schemaItemType" : "KindOfQuantity"
+      },
+      "SPRING_CONSTANT" : {
+         "label" : "Spring Constant",
+         "persistenceUnit" : "Units.SPRING_CONSTANT_N_PER_M",
+         "presentationUnits" : [
+            "Formats.DefaultRealU(4)[Units.SPRING_CONSTANT_N_PER_M]",
+            "Formats.DefaultRealU(4)[Units.SPRING_CONSTANT_KN_PER_M]",
+            "Formats.DefaultRealU(4)[Units.SPRING_CONSTANT_KPF_PER_FT]"
+         ],
+         "relativeError" : 0.0010,
+         "schemaItemType" : "KindOfQuantity"
+      },
+      "TEMPERATURE" : {
+         "label" : "Temperature",
+         "persistenceUnit" : "Units.K",
+         "presentationUnits" : [
+            "Formats.DefaultRealU(4)[Units.CELSIUS]",
+            "Formats.DefaultRealU(4)[Units.FAHRENHEIT]",
+            "Formats.DefaultRealU(4)[Units.K]"
+         ],
+         "relativeError" : 0.010,
+         "schemaItemType" : "KindOfQuantity"
+      },
+      "THERMAL_CONDUCTIVITY" : {
+         "label" : "Thermal Conductivity",
+         "persistenceUnit" : "Units.W_PER_M_K",
+         "presentationUnits" : [
+            "Formats.DefaultRealU(4)[Units.W_PER_M_K]",
+            "Formats.DefaultRealU(4)[Units.W_PER_M_C]",
+            "Formats.DefaultRealU(4)[Units.BTU_IN_PER_SQ_FT_HR_FAHRENHEIT]"
+         ],
+         "relativeError" : 0.0010,
+         "schemaItemType" : "KindOfQuantity"
+      },
+      "THERMAL_EXPANSION_COEFFICIENT" : {
+         "label" : "Thermal Expansion Coefficient",
+         "persistenceUnit" : "Units.STRAIN_PER_KELVIN",
+         "presentationUnits" : [
+            "Formats.DefaultRealU(4)[Units.STRAIN_PER_KELVIN]",
+            "Formats.DefaultRealU(4)[Units.STRAIN_PER_CELSIUS]",
+            "Formats.DefaultRealU(4)[Units.STRAIN_PER_FAHRENHEIT]"
+         ],
+         "relativeError" : 0.0010,
+         "schemaItemType" : "KindOfQuantity"
+      },
+      "THERMAL_RESISTANCE" : {
+         "label" : "Thermal Resistance",
+         "persistenceUnit" : "Units.SQ_M_KELVIN_PER_WATT",
+         "presentationUnits" : [
+            "Formats.DefaultRealU(4)[Units.SQ_M_KELVIN_PER_WATT]",
+            "Formats.DefaultRealU(4)[Units.SQ_M_CELSIUS_PER_WATT]",
+            "Formats.DefaultRealU(4)[Units.SQ_FT_HR_FAHRENHEIT_PER_BTU]"
+         ],
+         "relativeError" : 0.0010,
+         "schemaItemType" : "KindOfQuantity"
+      },
+      "TIME" : {
+         "label" : "Time",
+         "persistenceUnit" : "Units.S",
+         "presentationUnits" : [
+            "Formats.DefaultRealU(4)[Units.S]",
+            "Formats.DefaultRealU(4)[Units.MIN]",
+            "Formats.DefaultRealU(4)[Units.HR]",
+            "Formats.DefaultRealU(4)[Units.DAY]",
+            "Formats.DefaultRealU(4)[Units.MS]"
+         ],
+         "relativeError" : 0.0010,
+         "schemaItemType" : "KindOfQuantity"
+      },
+      "VELOCITY" : {
+         "label" : "Velocity",
+         "persistenceUnit" : "Units.M_PER_SEC",
+         "presentationUnits" : [
+            "Formats.DefaultRealU(4)[Units.M_PER_SEC]",
+            "Formats.DefaultRealU(4)[Units.FT_PER_SEC]",
+            "Formats.DefaultRealU(4)[Units.MPH]",
+            "Formats.DefaultRealU(4)[Units.KM_PER_HR]"
+         ],
+         "relativeError" : 0.0010,
+         "schemaItemType" : "KindOfQuantity"
+      },
+      "VOLUME" : {
+         "label" : "Volume",
+         "persistenceUnit" : "Units.CUB_M",
+         "presentationUnits" : [
+            "Formats.DefaultRealU(4)[Units.CUB_M]",
+            "Formats.DefaultRealU(4)[Units.CUB_FT]",
+            "Formats.DefaultRealU(4)[Units.CUB_YRD]"
+         ],
+         "relativeError" : 0.00010,
+         "schemaItemType" : "KindOfQuantity"
+      },
+      "VOLUME_LARGE" : {
+         "label" : "Large Volume",
+         "persistenceUnit" : "Units.CUB_M",
+         "presentationUnits" : [
+            "Formats.DefaultRealU(4)[Units.CUB_KM]",
+            "Formats.DefaultRealU(4)[Units.CUB_M]",
+            "Formats.DefaultRealU(4)[Units.CUB_YRD]",
+            "Formats.DefaultRealU(4)[Units.CUB_FT]"
+         ],
+         "relativeError" : 0.010,
+         "schemaItemType" : "KindOfQuantity"
+      },
+      "VOLUME_SMALL" : {
+         "label" : "Small Volume",
+         "persistenceUnit" : "Units.CUB_M",
+         "presentationUnits" : [
+            "Formats.DefaultRealU(4)[Units.CUB_MM]",
+            "Formats.DefaultRealU(4)[Units.CUB_CM]",
+            "Formats.DefaultRealU(4)[Units.CUB_IN]",
+            "Formats.DefaultRealU(4)[Units.CUB_FT]"
+         ],
+         "relativeError" : 0.00010,
+         "schemaItemType" : "KindOfQuantity"
+      },
+      "WARPING_CONSTANT" : {
+         "label" : "Warping Constant",
+         "persistenceUnit" : "Units.M_TO_THE_SIXTH",
+         "presentationUnits" : [
+            "Formats.DefaultRealU(4)[Units.M_TO_THE_SIXTH]",
+            "Formats.DefaultRealU(4)[Units.FT_TO_THE_SIXTH]"
+         ],
+         "relativeError" : 0.0010,
+         "schemaItemType" : "KindOfQuantity"
+      },
+      "WEIGHT" : {
+         "label" : "Weight",
+         "persistenceUnit" : "Units.KG",
+         "presentationUnits" : [
+            "Formats.DefaultRealU(2)[Units.KG]",
+            "Formats.DefaultRealU(2)[Units.LBM]"
+         ],
+         "relativeError" : 0.0010,
+         "schemaItemType" : "KindOfQuantity"
+      }
+   },
+   "label" : "Design Modeling Units",
+   "name" : "AecUnits",
+   "references" : [
+      {
+         "name" : "Formats",
+         "version" : "01.00.00"
+      },
+      {
+         "name" : "Units",
+         "version" : "01.00.03"
+      }
+   ],
+   "version" : "01.00.03"
+}

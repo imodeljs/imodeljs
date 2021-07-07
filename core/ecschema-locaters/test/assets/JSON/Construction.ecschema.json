@@ -1,0 +1,331 @@
+{
+   "$schema" : "https://dev.bentley.com/json_schemas/ec/32/ecschema",
+   "alias" : "constr",
+   "description" : "Base schema for the Construction domain.",
+   "items" : {
+      "AREA" : {
+         "label" : "Area",
+         "persistenceUnit" : "Units.SQ_M",
+         "presentationUnits" : [
+            "Formats.DefaultRealU(2)[Units.SQ_M]",
+            "Formats.DefaultRealU(2)[Units.SQ_FT]"
+         ],
+         "relativeError" : 0.00010,
+         "schemaItemType" : "KindOfQuantity"
+      },
+      "ConstructionDetailingElement" : {
+         "baseClass" : "BisCore.SpatialLocationElement",
+         "description" : "Identifies a portion of real-world physical object that is suitable for construction.",
+         "label" : "Construction Detailing Element",
+         "modifier" : "Sealed",
+         "properties" : [
+            {
+               "description" : "Total surface area.",
+               "kindOfQuantity" : "Construction.AREA",
+               "label" : "Surface Area",
+               "name" : "SurfaceArea",
+               "type" : "PrimitiveProperty",
+               "typeName" : "double"
+            },
+            {
+               "description" : "Volume of the element.",
+               "kindOfQuantity" : "Construction.VOLUME",
+               "label" : "Volume",
+               "name" : "Volume",
+               "type" : "PrimitiveProperty",
+               "typeName" : "double"
+            },
+            {
+               "description" : "Well-known location of the element defined by the station range.",
+               "label" : "Station Range",
+               "name" : "StationRange",
+               "type" : "StructProperty",
+               "typeName" : "Construction.StationRange"
+            }
+         ],
+         "schemaItemType" : "EntityClass"
+      },
+      "ConstructionDetailingElementSplitsGeometricElement3d" : {
+         "baseClass" : "BisCore.ElementRefersToElements",
+         "description" : "Relationship enabling splitup of bis:GeometricElement3d elements into the smaller pieces.",
+         "modifier" : "Sealed",
+         "schemaItemType" : "RelationshipClass",
+         "source" : {
+            "constraintClasses" : [ "Construction.ConstructionDetailingElement" ],
+            "multiplicity" : "(0..*)",
+            "polymorphic" : false,
+            "roleLabel" : "splits up"
+         },
+         "strength" : "Referencing",
+         "strengthDirection" : "Forward",
+         "target" : {
+            "constraintClasses" : [ "BisCore.GeometricElement3d" ],
+            "multiplicity" : "(0..1)",
+            "polymorphic" : true,
+            "roleLabel" : "is split into"
+         }
+      },
+      "ConstructionInformationModel" : {
+         "baseClass" : "BisCore.InformationModel",
+         "description" : "A container for persisting constr:ConstructionItem instances.",
+         "label" : "Construction Information Model",
+         "schemaItemType" : "EntityClass"
+      },
+      "ConstructionInformationPartition" : {
+         "baseClass" : "BisCore.InformationPartitionElement",
+         "description" : "A constr:ConstructionInformationPartition element indicates that there is a construction modeling perspective within the overall information hierarchy. A constr:ConstructionInformationPartition is always parented to a bis:Subject and broken down by a constr:ConstructionInformationModel.",
+         "label" : "Construction Information Partition",
+         "modifier" : "Sealed",
+         "schemaItemType" : "EntityClass"
+      },
+      "ConstructionItem" : {
+         "baseClass" : "BisCore.InformationRecordElement",
+         "description" : "Defines a constructible component which may or may not be modeled in the 3D model.",
+         "label" : "Construction Item",
+         "modifier" : "Sealed",
+         "schemaItemType" : "EntityClass"
+      },
+      "ConstructionItemConstructsGeometricElement3d" : {
+         "baseClass" : "BisCore.ElementRefersToElements",
+         "description" : "Relates constr:ConstructionItem to the real world entities (or their split up pieces modeled as constr:ConstructionDetailingElement elements) it constructs.",
+         "modifier" : "Sealed",
+         "schemaItemType" : "RelationshipClass",
+         "source" : {
+            "constraintClasses" : [ "Construction.ConstructionItem" ],
+            "multiplicity" : "(0..*)",
+            "polymorphic" : false,
+            "roleLabel" : "constructs"
+         },
+         "strength" : "Referencing",
+         "strengthDirection" : "Forward",
+         "target" : {
+            "constraintClasses" : [ "BisCore.GeometricElement3d" ],
+            "multiplicity" : "(0..*)",
+            "polymorphic" : true,
+            "roleLabel" : "is constructed by"
+         }
+      },
+      "ConstructionItemOwnsConstuctionQuantities" : {
+         "baseClass" : "BisCore.ElementOwnsMultiAspects",
+         "description" : "Defines aspect's ownership.",
+         "modifier" : "Sealed",
+         "schemaItemType" : "RelationshipClass",
+         "source" : {
+            "constraintClasses" : [ "Construction.ConstructionItem" ],
+            "multiplicity" : "(1..1)",
+            "polymorphic" : false,
+            "roleLabel" : "owns"
+         },
+         "strength" : "Embedding",
+         "strengthDirection" : "Forward",
+         "target" : {
+            "constraintClasses" : [ "Construction.ConstructionQuantity" ],
+            "multiplicity" : "(0..*)",
+            "polymorphic" : false,
+            "roleLabel" : "is owned by"
+         }
+      },
+      "ConstructionItemOwnsCostCodes" : {
+         "baseClass" : "BisCore.ElementOwnsMultiAspects",
+         "description" : "Defines aspect's ownership.",
+         "modifier" : "Sealed",
+         "schemaItemType" : "RelationshipClass",
+         "source" : {
+            "constraintClasses" : [ "Construction.ConstructionItem" ],
+            "multiplicity" : "(1..1)",
+            "polymorphic" : false,
+            "roleLabel" : "owns"
+         },
+         "strength" : "Embedding",
+         "strengthDirection" : "Forward",
+         "target" : {
+            "constraintClasses" : [ "Construction.CostCode" ],
+            "multiplicity" : "(0..*)",
+            "polymorphic" : false,
+            "roleLabel" : "is owned by"
+         }
+      },
+      "ConstructionQuantity" : {
+         "baseClass" : "BisCore.ElementMultiAspect",
+         "customAttributes" : [
+            {
+               "className" : "BisCore.ClassHasHandler"
+            },
+            {
+               "Indexes" : [
+                  {
+                     "IsUnique" : true,
+                     "Name" : "ix_constr_workstepcode",
+                     "Properties" : [ "Element.Id", "CostCodeId", "WorkStepCode" ]
+                  }
+               ],
+               "className" : "ECDbMap.DbIndexList"
+            }
+         ],
+         "description" : "The aspect used to store construction quantity data for constr:ConstructionItem elements.",
+         "label" : "Construction Quantity",
+         "modifier" : "Sealed",
+         "properties" : [
+            {
+               "customAttributes" : [
+                  {
+                     "className" : "CoreCustomAttributes.HiddenProperty"
+                  }
+               ],
+               "description" : "The Id of the Cost Code in Construction QTO service.",
+               "label" : "Cost Code Id",
+               "name" : "CostCodeId",
+               "type" : "PrimitiveProperty",
+               "typeName" : "string"
+            },
+            {
+               "description" : "Work Step Code for which the value is calculated.",
+               "label" : "Work Step Code",
+               "name" : "WorkStepCode",
+               "type" : "PrimitiveProperty",
+               "typeName" : "string"
+            },
+            {
+               "description" : "Calculated quantity value.",
+               "label" : "Quantity value",
+               "name" : "Quantity",
+               "type" : "PrimitiveProperty",
+               "typeName" : "double"
+            },
+            {
+               "description" : "The fully qualified unit name (if it exists) used to persist the quantity value.",
+               "label" : "Unit of Measure name",
+               "name" : "QuantityUnitName",
+               "type" : "PrimitiveProperty",
+               "typeName" : "string"
+            },
+            {
+               "description" : "The unit display label to use when showing the quantity value.",
+               "label" : "Unit of Measure label",
+               "name" : "QuantityUnitLabel",
+               "type" : "PrimitiveProperty",
+               "typeName" : "string"
+            },
+            {
+               "customAttributes" : [
+                  {
+                     "className" : "CoreCustomAttributes.HiddenProperty"
+                  }
+               ],
+               "description" : "A string property that users and/or applications can use to persist ad hoc JSON values.",
+               "extendedTypeName" : "Json",
+               "label" : "JSON Properties",
+               "name" : "JsonProperties",
+               "type" : "PrimitiveProperty",
+               "typeName" : "string"
+            }
+         ],
+         "schemaItemType" : "EntityClass"
+      },
+      "CostCode" : {
+         "baseClass" : "BisCore.ElementMultiAspect",
+         "customAttributes" : [
+            {
+               "className" : "BisCore.ClassHasHandler"
+            },
+            {
+               "Indexes" : [
+                  {
+                     "IsUnique" : true,
+                     "Name" : "ix_constr_costcode",
+                     "Properties" : [ "Element.Id", "CodeId" ]
+                  }
+               ],
+               "className" : "ECDbMap.DbIndexList"
+            }
+         ],
+         "description" : "The aspect used to store Cost Code assignments to constr:ConstructionItem elements.",
+         "label" : "Cost Code",
+         "modifier" : "Sealed",
+         "properties" : [
+            {
+               "customAttributes" : [
+                  {
+                     "className" : "CoreCustomAttributes.HiddenProperty"
+                  }
+               ],
+               "description" : "The Id of the Cost Code in Construction QTO service.",
+               "label" : "Cost Code Id",
+               "name" : "CodeId",
+               "type" : "PrimitiveProperty",
+               "typeName" : "string"
+            }
+         ],
+         "schemaItemType" : "EntityClass"
+      },
+      "STATION" : {
+         "label" : "Station",
+         "persistenceUnit" : "Units.M",
+         "presentationUnits" : [
+            "Formats.StationZ_1000_3[Units.M]",
+            "Formats.StationZ_100_2[Units.FT]",
+            "Formats.DefaultRealU(2)[Units.M]",
+            "Formats.DefaultRealU(2)[Units.FT]"
+         ],
+         "relativeError" : 0.00010,
+         "schemaItemType" : "KindOfQuantity"
+      },
+      "StationRange" : {
+         "description" : "Struct to define a station range.",
+         "label" : "Station Range",
+         "properties" : [
+            {
+               "description" : "Station start point.",
+               "kindOfQuantity" : "Construction.STATION",
+               "label" : "Start Station",
+               "name" : "StartStation",
+               "type" : "PrimitiveProperty",
+               "typeName" : "double"
+            },
+            {
+               "description" : "Station end point.",
+               "kindOfQuantity" : "Construction.STATION",
+               "label" : "End Station",
+               "name" : "EndStation",
+               "type" : "PrimitiveProperty",
+               "typeName" : "double"
+            }
+         ],
+         "schemaItemType" : "StructClass"
+      },
+      "VOLUME" : {
+         "label" : "Volume",
+         "persistenceUnit" : "Units.CUB_M",
+         "presentationUnits" : [
+            "Formats.DefaultRealU(2)[Units.CUB_M]",
+            "Formats.DefaultRealU(2)[Units.CUB_FT]"
+         ],
+         "relativeError" : 0.00010,
+         "schemaItemType" : "KindOfQuantity"
+      }
+   },
+   "name" : "Construction",
+   "references" : [
+      {
+         "name" : "BisCore",
+         "version" : "01.00.09"
+      },
+      {
+         "name" : "CoreCustomAttributes",
+         "version" : "01.00.03"
+      },
+      {
+         "name" : "ECDbMap",
+         "version" : "02.00.00"
+      },
+      {
+         "name" : "Formats",
+         "version" : "01.00.00"
+      },
+      {
+         "name" : "Units",
+         "version" : "01.00.03"
+      }
+   ],
+   "version" : "01.00.00"
+}

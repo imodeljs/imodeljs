@@ -1,0 +1,64 @@
+{
+   "$schema" : "https://dev.bentley.com/json_schemas/ec/32/ecschema",
+   "alias" : "spatial",
+   "description" : "The Spatial representation of building composition elements",
+   "items" : {
+      "Building" : {
+         "baseClass" : "SpatialComposition.CompositeElement",
+         "customAttributes" : [
+            {
+               "className" : "BisCore.ClassHasHandler"
+            }
+         ],
+         "description" : "an element modeling the spatial perspective of a building",
+         "mixins" : [ "SpatialComposition.ICompositeVolume" ],
+         "schemaItemType" : "EntityClass"
+      },
+      "ElevationStory" : {
+         "baseClass" : "BuildingSpatial.Story",
+         "description" : "represents a (nearly) horizontal aggregation of spaces that are vertically bound",
+         "modifier" : "Abstract",
+         "schemaItemType" : "EntityClass"
+      },
+      "RegularStory" : {
+         "baseClass" : "BuildingSpatial.ElevationStory",
+         "customAttributes" : [
+            {
+               "className" : "BisCore.ClassHasHandler"
+            }
+         ],
+         "description" : "A building Story is delimited by 2 elevations from top and bottom and represents a horizontal aggregation of spaces that are vertically bound",
+         "schemaItemType" : "EntityClass"
+      },
+      "Space" : {
+         "baseClass" : "SpatialComposition.CompositeElement",
+         "customAttributes" : [
+            {
+               "className" : "BisCore.ClassHasHandler"
+            }
+         ],
+         "description" : "an element modeling a space",
+         "mixins" : [ "SpatialComposition.ICompositeVolume" ],
+         "schemaItemType" : "EntityClass"
+      },
+      "Story" : {
+         "baseClass" : "SpatialComposition.CompositeElement",
+         "description" : "A building Story that is an aggregation of spaces that are vertically bound",
+         "mixins" : [ "SpatialComposition.ICompositeVolume" ],
+         "modifier" : "Abstract",
+         "schemaItemType" : "EntityClass"
+      }
+   },
+   "name" : "BuildingSpatial",
+   "references" : [
+      {
+         "name" : "BisCore",
+         "version" : "01.00.09"
+      },
+      {
+         "name" : "SpatialComposition",
+         "version" : "01.00.00"
+      }
+   ],
+   "version" : "01.00.00"
+}

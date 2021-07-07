@@ -1,0 +1,11 @@
+{
+  "changes": [
+    {
+      "packageName": "@bentley/ecschema-locaters",
+      "comment": "Enable concurrent schema deserialization for schema context",
+      "type": "none"
+    }
+  ],
+  "packageName": "@bentley/ecschema-locaters",
+  "email": "Ivan.Kok@bentley.com"
+}

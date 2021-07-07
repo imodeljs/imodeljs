@@ -1,0 +1,439 @@
+{
+   "$schema" : "https://dev.bentley.com/json_schemas/ec/32/ecschema",
+   "alias" : "lr",
+   "customAttributes" : [
+      {
+         "SupportedUse" : "Production",
+         "className" : "CoreCustomAttributes.ProductionStatus"
+      }
+   ],
+   "description" : "Base schema for Linear Referencing.",
+   "items" : {
+      "DistanceExpression" : {
+         "description" : "Core structure carrying linearly-referenced information.",
+         "properties" : [
+            {
+               "kindOfQuantity" : "LinearReferencing.LENGTH",
+               "name" : "DistanceAlongFromStart",
+               "type" : "PrimitiveProperty",
+               "typeName" : "double"
+            },
+            {
+               "kindOfQuantity" : "LinearReferencing.LENGTH",
+               "name" : "LateralOffsetFromILinearElement",
+               "type" : "PrimitiveProperty",
+               "typeName" : "double"
+            },
+            {
+               "kindOfQuantity" : "LinearReferencing.LENGTH",
+               "name" : "VerticalOffsetFromILinearElement",
+               "type" : "PrimitiveProperty",
+               "typeName" : "double"
+            },
+            {
+               "kindOfQuantity" : "LinearReferencing.LENGTH",
+               "name" : "DistanceAlongFromReferent",
+               "type" : "PrimitiveProperty",
+               "typeName" : "double"
+            }
+         ],
+         "schemaItemType" : "StructClass"
+      },
+      "ILinearElement" : {
+         "appliesTo" : "BisCore.GeometricElement3d",
+         "description" : "Mix-in to be supported by Element-subclasses meant to play the role of Linear-Elements.",
+         "properties" : [
+            {
+               "description" : "Distance along value at the start of the Linear-Element, measured from an absolute zero.",
+               "kindOfQuantity" : "LinearReferencing.LENGTH",
+               "label" : "Start Value",
+               "name" : "StartValue",
+               "type" : "PrimitiveProperty",
+               "typeName" : "double"
+            },
+            {
+               "description" : "Length measure value for the Linear-Element.",
+               "kindOfQuantity" : "LinearReferencing.LENGTH",
+               "label" : "Length",
+               "name" : "LengthValue",
+               "type" : "PrimitiveProperty",
+               "typeName" : "double"
+            },
+            {
+               "description" : "Source element providing this Linear-Element.",
+               "direction" : "Forward",
+               "label" : "Source",
+               "name" : "LinearElementSource",
+               "relationshipName" : "LinearReferencing.ILinearElementProvidedBySource",
+               "type" : "NavigationProperty"
+            }
+         ],
+         "schemaItemType" : "Mixin"
+      },
+      "ILinearElementProvidedBySource" : {
+         "description" : "Relationship associating Linear-Elements with the elements they came from.",
+         "modifier" : "None",
+         "schemaItemType" : "RelationshipClass",
+         "source" : {
+            "constraintClasses" : [ "LinearReferencing.ILinearElement" ],
+            "multiplicity" : "(0..*)",
+            "polymorphic" : true,
+            "roleLabel" : "provided by"
+         },
+         "strength" : "Referencing",
+         "strengthDirection" : "Forward",
+         "target" : {
+            "constraintClasses" : [ "LinearReferencing.ILinearElementSource" ],
+            "multiplicity" : "(0..1)",
+            "polymorphic" : true,
+            "roleLabel" : "provides"
+         }
+      },
+      "ILinearElementSource" : {
+         "appliesTo" : "BisCore.GeometricElement3d",
+         "description" : "Mix-in to be supported by Element-subclasses meant to provide Linear-Elements.",
+         "schemaItemType" : "Mixin"
+      },
+      "ILinearLocationElement" : {
+         "appliesTo" : "BisCore.GeometricElement3d",
+         "baseClass" : "LinearReferencing.ILinearlyLocated",
+         "description" : "Mix-in to be supported by Element-subclasses located along a Linear-Element provided by a Linear-Element-Source.",
+         "schemaItemType" : "Mixin"
+      },
+      "ILinearLocationLocatesElement" : {
+         "baseClass" : "BisCore.ElementRefersToElements",
+         "description" : "Relationship indicating the bis:Element being linearly-located by a concrete instance mixing-in ILinearLocationElement.",
+         "modifier" : "None",
+         "schemaItemType" : "RelationshipClass",
+         "source" : {
+            "constraintClasses" : [ "LinearReferencing.ILinearLocationElement" ],
+            "multiplicity" : "(0..*)",
+            "polymorphic" : true,
+            "roleLabel" : "linearly-locates"
+         },
+         "strength" : "Referencing",
+         "strengthDirection" : "Forward",
+         "target" : {
+            "constraintClasses" : [ "BisCore.Element" ],
+            "multiplicity" : "(0..1)",
+            "polymorphic" : true,
+            "roleLabel" : "linearly-located by"
+         }
+      },
+      "ILinearlyLocated" : {
+         "appliesTo" : "BisCore.GeometricElement3d",
+         "description" : "Base mix-in for Elements to be linearly-referenced along Linear-Elements.",
+         "schemaItemType" : "Mixin"
+      },
+      "ILinearlyLocatedAlongILinearElement" : {
+         "baseClass" : "BisCore.ElementRefersToElements",
+         "description" : "Relationship indicating the Linear-Element along which concrete instances mixing-in ILinearlyLocated are located.",
+         "modifier" : "None",
+         "schemaItemType" : "RelationshipClass",
+         "source" : {
+            "constraintClasses" : [ "LinearReferencing.ILinearlyLocated" ],
+            "multiplicity" : "(0..*)",
+            "polymorphic" : true,
+            "roleLabel" : "along"
+         },
+         "strength" : "Referencing",
+         "strengthDirection" : "Forward",
+         "target" : {
+            "constraintClasses" : [ "LinearReferencing.ILinearElement" ],
+            "multiplicity" : "(0..1)",
+            "polymorphic" : true,
+            "roleLabel" : "is linear axis for"
+         }
+      },
+      "ILinearlyLocatedAttributesElement" : {
+         "description" : "Relationship indicating the bis:Element being attributed by a concrete instance mixing-in ILinearlyLocatedAttribution.",
+         "modifier" : "None",
+         "schemaItemType" : "RelationshipClass",
+         "source" : {
+            "constraintClasses" : [ "LinearReferencing.ILinearlyLocatedAttribution" ],
+            "multiplicity" : "(0..*)",
+            "polymorphic" : true,
+            "roleLabel" : "attributes"
+         },
+         "strength" : "Referencing",
+         "strengthDirection" : "Forward",
+         "target" : {
+            "constraintClasses" : [ "BisCore.GeometricElement3d" ],
+            "multiplicity" : "(0..1)",
+            "polymorphic" : true,
+            "roleLabel" : "is attributed by"
+         }
+      },
+      "ILinearlyLocatedAttribution" : {
+         "appliesTo" : "BisCore.GeometricElement3d",
+         "baseClass" : "LinearReferencing.ILinearlyLocated",
+         "description" : "Mix-in to be supported by Element-subclasses representing properties whose value is located along a Linear-Element and only applies to a portion of a Linear-Element-Source.",
+         "properties" : [
+            {
+               "description" : "Element being attributed.",
+               "direction" : "Forward",
+               "label" : "Attributed Element",
+               "name" : "AttributedElement",
+               "relationshipName" : "LinearReferencing.ILinearlyLocatedAttributesElement",
+               "type" : "NavigationProperty"
+            }
+         ],
+         "schemaItemType" : "Mixin"
+      },
+      "ILinearlyLocatedOwnsAtLocations" : {
+         "baseClass" : "BisCore.ElementOwnsMultiAspects",
+         "description" : "Relationship documenting multi-aspect ownership by concrete instances of ILinearlyLocated.",
+         "modifier" : "None",
+         "schemaItemType" : "RelationshipClass",
+         "source" : {
+            "constraintClasses" : [ "LinearReferencing.ILinearlyLocated" ],
+            "multiplicity" : "(1..1)",
+            "polymorphic" : true,
+            "roleLabel" : "owns"
+         },
+         "strength" : "Embedding",
+         "strengthDirection" : "Forward",
+         "target" : {
+            "constraintClasses" : [ "LinearReferencing.LinearlyReferencedAtLocation" ],
+            "multiplicity" : "(0..*)",
+            "polymorphic" : false,
+            "roleLabel" : "is owned by"
+         }
+      },
+      "ILinearlyLocatedOwnsFromToLocations" : {
+         "baseClass" : "BisCore.ElementOwnsMultiAspects",
+         "description" : "Relationship documenting multi-aspect ownership by concrete instances of ILinearlyLocated.",
+         "modifier" : "None",
+         "schemaItemType" : "RelationshipClass",
+         "source" : {
+            "constraintClasses" : [ "LinearReferencing.ILinearlyLocated" ],
+            "multiplicity" : "(1..1)",
+            "polymorphic" : true,
+            "roleLabel" : "owns"
+         },
+         "strength" : "Embedding",
+         "strengthDirection" : "Forward",
+         "target" : {
+            "constraintClasses" : [ "LinearReferencing.LinearlyReferencedFromToLocation" ],
+            "multiplicity" : "(0..*)",
+            "polymorphic" : false,
+            "roleLabel" : "is owned by"
+         }
+      },
+      "IReferent" : {
+         "appliesTo" : "BisCore.GeometricElement3d",
+         "baseClass" : "LinearReferencing.ILinearlyLocated",
+         "description" : "Mix-in to be supported by Element-subclasses that can play the role of a Referent (known location along a Linear-Element).",
+         "properties" : [
+            {
+               "direction" : "Forward",
+               "name" : "ReferencedElement",
+               "relationshipName" : "LinearReferencing.IReferentReferencesElement",
+               "type" : "NavigationProperty"
+            }
+         ],
+         "schemaItemType" : "Mixin"
+      },
+      "IReferentReferencesElement" : {
+         "description" : "Relationship indicating the bis:GeometricElement3d being used as Referent for Linear Referencing purposes.",
+         "modifier" : "None",
+         "schemaItemType" : "RelationshipClass",
+         "source" : {
+            "constraintClasses" : [ "LinearReferencing.IReferent" ],
+            "multiplicity" : "(0..*)",
+            "polymorphic" : true,
+            "roleLabel" : "references"
+         },
+         "strength" : "Referencing",
+         "strengthDirection" : "Forward",
+         "target" : {
+            "constraintClasses" : [ "BisCore.GeometricElement3d" ],
+            "multiplicity" : "(0..1)",
+            "polymorphic" : true,
+            "roleLabel" : "is referenced by"
+         }
+      },
+      "LENGTH" : {
+         "label" : "Linear Referencing Length",
+         "persistenceUnit" : "Units.M",
+         "presentationUnits" : [
+            "Formats.DefaultRealU(2)[Units.M]",
+            "Formats.DefaultRealU(2)[Units.FT]"
+         ],
+         "relativeError" : 0.00010,
+         "schemaItemType" : "KindOfQuantity"
+      },
+      "LinearLocation" : {
+         "baseClass" : "LinearReferencing.LinearLocationElement",
+         "description" : "ILinearLocationElement-implementation attaching Linear Referencing Location to a bis:Element not inherently Linearly-Referenced.",
+         "modifier" : "Sealed",
+         "schemaItemType" : "EntityClass"
+      },
+      "LinearLocationElement" : {
+         "baseClass" : "BisCore.SpatialLocationElement",
+         "description" : "Base class for ILinearLocationElement-implementations that are subclasses of bis:SpatialLocationElement.",
+         "mixins" : [ "LinearReferencing.ILinearLocationElement" ],
+         "modifier" : "Abstract",
+         "schemaItemType" : "EntityClass"
+      },
+      "LinearPhysicalElement" : {
+         "baseClass" : "BisCore.PhysicalElement",
+         "description" : "Base class for ILinearLocationElement-implementations that are subclasses of bis:PhysicalElement.",
+         "mixins" : [ "LinearReferencing.ILinearLocationElement" ],
+         "modifier" : "Abstract",
+         "schemaItemType" : "EntityClass"
+      },
+      "LinearlyLocatedAttribution" : {
+         "baseClass" : "BisCore.SpatialLocationElement",
+         "description" : "Base class for ILinearlyLocatedAttribution-implementations that are Spatial Location Elements.",
+         "mixins" : [ "LinearReferencing.ILinearlyLocatedAttribution" ],
+         "modifier" : "Abstract",
+         "schemaItemType" : "EntityClass"
+      },
+      "LinearlyReferencedAtLocation" : {
+         "baseClass" : "LinearReferencing.LinearlyReferencedLocation",
+         "description" : "Concrete multi-aspect class carrying 'at' linearly-referenced positions along a Linear-Element.",
+         "modifier" : "Sealed",
+         "properties" : [
+            {
+               "name" : "AtPosition",
+               "type" : "StructProperty",
+               "typeName" : "LinearReferencing.DistanceExpression"
+            },
+            {
+               "direction" : "Forward",
+               "name" : "FromReferent",
+               "relationshipName" : "LinearReferencing.LinearlyReferencedAtPositionRefersToReferent",
+               "type" : "NavigationProperty"
+            }
+         ],
+         "schemaItemType" : "EntityClass"
+      },
+      "LinearlyReferencedAtPositionRefersToReferent" : {
+         "description" : "Relationship indicating the referent used by a particular linearly-referenced At position.",
+         "modifier" : "None",
+         "schemaItemType" : "RelationshipClass",
+         "source" : {
+            "constraintClasses" : [ "LinearReferencing.LinearlyReferencedAtLocation" ],
+            "multiplicity" : "(0..*)",
+            "polymorphic" : true,
+            "roleLabel" : "refers to"
+         },
+         "strength" : "Referencing",
+         "strengthDirection" : "Forward",
+         "target" : {
+            "constraintClasses" : [ "LinearReferencing.IReferent" ],
+            "multiplicity" : "(0..1)",
+            "polymorphic" : true,
+            "roleLabel" : "is referenced by"
+         }
+      },
+      "LinearlyReferencedFromPositionRefersToReferent" : {
+         "description" : "Relationship indicating the referent used by a particular linearly-referenced From position.",
+         "modifier" : "None",
+         "schemaItemType" : "RelationshipClass",
+         "source" : {
+            "constraintClasses" : [ "LinearReferencing.LinearlyReferencedFromToLocation" ],
+            "multiplicity" : "(0..*)",
+            "polymorphic" : true,
+            "roleLabel" : "refers to"
+         },
+         "strength" : "Referencing",
+         "strengthDirection" : "Forward",
+         "target" : {
+            "constraintClasses" : [ "LinearReferencing.IReferent" ],
+            "multiplicity" : "(0..1)",
+            "polymorphic" : true,
+            "roleLabel" : "is referenced by"
+         }
+      },
+      "LinearlyReferencedFromToLocation" : {
+         "baseClass" : "LinearReferencing.LinearlyReferencedLocation",
+         "description" : "Concrete multi-aspect class carrying 'from/to' linearly-referenced positions along a Linear-Element.",
+         "modifier" : "Sealed",
+         "properties" : [
+            {
+               "name" : "FromPosition",
+               "type" : "StructProperty",
+               "typeName" : "LinearReferencing.DistanceExpression"
+            },
+            {
+               "direction" : "Forward",
+               "name" : "FromPositionFromReferent",
+               "relationshipName" : "LinearReferencing.LinearlyReferencedFromPositionRefersToReferent",
+               "type" : "NavigationProperty"
+            },
+            {
+               "name" : "ToPosition",
+               "type" : "StructProperty",
+               "typeName" : "LinearReferencing.DistanceExpression"
+            },
+            {
+               "direction" : "Forward",
+               "name" : "ToPositionFromReferent",
+               "relationshipName" : "LinearReferencing.LinearlyReferencedToPositionRefersToReferent",
+               "type" : "NavigationProperty"
+            }
+         ],
+         "schemaItemType" : "EntityClass"
+      },
+      "LinearlyReferencedLocation" : {
+         "baseClass" : "BisCore.ElementMultiAspect",
+         "description" : "Base class for multi-aspects carrying linearly-referenced locations.",
+         "modifier" : "Abstract",
+         "schemaItemType" : "EntityClass"
+      },
+      "LinearlyReferencedToPositionRefersToReferent" : {
+         "description" : "Relationship indicating the referent used by a particular linearly-referenced To position.",
+         "modifier" : "None",
+         "schemaItemType" : "RelationshipClass",
+         "source" : {
+            "constraintClasses" : [ "LinearReferencing.LinearlyReferencedFromToLocation" ],
+            "multiplicity" : "(0..*)",
+            "polymorphic" : true,
+            "roleLabel" : "refers to"
+         },
+         "strength" : "Referencing",
+         "strengthDirection" : "Forward",
+         "target" : {
+            "constraintClasses" : [ "LinearReferencing.IReferent" ],
+            "multiplicity" : "(0..1)",
+            "polymorphic" : true,
+            "roleLabel" : "is referenced by"
+         }
+      },
+      "Referent" : {
+         "baseClass" : "LinearReferencing.ReferentElement",
+         "description" : "IReferent-implementation turning any bis:GeometricElement3d not inherently Linearly-Referenced into a Referent for Linear-Referencing purposes.",
+         "modifier" : "Sealed",
+         "schemaItemType" : "EntityClass"
+      },
+      "ReferentElement" : {
+         "baseClass" : "BisCore.SpatialLocationElement",
+         "description" : "Base class for IReferent-implementations that are Spatial Location Elements.",
+         "mixins" : [ "LinearReferencing.IReferent" ],
+         "modifier" : "Abstract",
+         "schemaItemType" : "EntityClass"
+      }
+   },
+   "name" : "LinearReferencing",
+   "references" : [
+      {
+         "name" : "BisCore",
+         "version" : "01.00.09"
+      },
+      {
+         "name" : "CoreCustomAttributes",
+         "version" : "01.00.03"
+      },
+      {
+         "name" : "Formats",
+         "version" : "01.00.00"
+      },
+      {
+         "name" : "Units",
+         "version" : "01.00.03"
+      }
+   ],
+   "version" : "02.00.01"
+}

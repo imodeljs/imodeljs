@@ -1,0 +1,150 @@
+{
+   "$schema" : "https://dev.bentley.com/json_schemas/ec/32/ecschema",
+   "alias" : "bphys",
+   "customAttributes" : [
+      {
+         "SupportedUse" : "Production",
+         "className" : "CoreCustomAttributes.ProductionStatus"
+      }
+   ],
+   "description" : "Base schema for Physical Bridges.",
+   "items" : {
+      "Bridge" : {
+         "baseClass" : "LinearReferencing.LinearPhysicalElement",
+         "description" : "Physical bridge supporting a segment of a road or rail.",
+         "mixins" : [ "LinearReferencing.ILinearElement", "BisCore.ISubModeledElement" ],
+         "modifier" : "Sealed",
+         "schemaItemType" : "EntityClass"
+      },
+      "GenericSubstructureElement" : {
+         "baseClass" : "BridgeStructuralPhysical.SubstructureElement",
+         "description" : "Generic Substructure Element that is composed of its constituent structural components",
+         "schemaItemType" : "EntityClass"
+      },
+      "GenericSuperstructureElement" : {
+         "baseClass" : "BridgeStructuralPhysical.SuperstructureElement",
+         "description" : "Generic Superstructure Element that is composed of its constituent structural components",
+         "schemaItemType" : "EntityClass"
+      },
+      "PLANE_ANGLE" : {
+         "label" : "PLANE_ANGLE",
+         "persistenceUnit" : "Units.RAD",
+         "relativeError" : 0.010,
+         "schemaItemType" : "KindOfQuantity"
+      },
+      "PhysicalModelBreaksDownBridgeElement" : {
+         "baseClass" : "BisCore.ModelModelsElement",
+         "description" : "Relationship enabling break-down of an Physical Bridge Element into its constituent components",
+         "modifier" : "Sealed",
+         "schemaItemType" : "RelationshipClass",
+         "source" : {
+            "constraintClasses" : [ "BisCore.PhysicalModel" ],
+            "multiplicity" : "(0..1)",
+            "polymorphic" : false,
+            "roleLabel" : "breaks down"
+         },
+         "strength" : "Embedding",
+         "strengthDirection" : "Backward",
+         "target" : {
+            "constraintClasses" : [ "BridgeStructuralPhysical.Bridge" ],
+            "multiplicity" : "(1..1)",
+            "polymorphic" : false,
+            "roleLabel" : "is broken down by"
+         }
+      },
+      "StructuralSystem" : {
+         "baseClass" : "BisCore.PhysicalElement",
+         "customAttributes" : [
+            {
+               "className" : "CoreCustomAttributes.HiddenClass"
+            }
+         ],
+         "mixins" : [ "BisCore.ISubModeledElement" ],
+         "schemaItemType" : "EntityClass"
+      },
+      "SubstructureElement" : {
+         "baseClass" : "LinearReferencing.LinearPhysicalElement",
+         "description" : "Base class for physical elements describing substructures of a bridge.",
+         "modifier" : "Abstract",
+         "properties" : [
+            {
+               "description" : "Skew angle of substructure element relative to alignment perpendicular (0 is perpendicular to alignment)",
+               "kindOfQuantity" : "BridgeStructuralPhysical.PLANE_ANGLE",
+               "label" : "Skew",
+               "name" : "Skew",
+               "type" : "PrimitiveProperty",
+               "typeName" : "double"
+            }
+         ],
+         "schemaItemType" : "EntityClass"
+      },
+      "SubstructureElementAssemblesStructuralMembers" : {
+         "baseClass" : "BisCore.PhysicalElementAssemblesElements",
+         "modifier" : "None",
+         "schemaItemType" : "RelationshipClass",
+         "source" : {
+            "constraintClasses" : [ "BridgeStructuralPhysical.SubstructureElement" ],
+            "multiplicity" : "(0..1)",
+            "polymorphic" : false,
+            "roleLabel" : "assembles"
+         },
+         "strength" : "Embedding",
+         "strengthDirection" : "Forward",
+         "target" : {
+            "constraintClasses" : [ "StructuralPhysical.StructuralMember" ],
+            "multiplicity" : "(0..*)",
+            "polymorphic" : true,
+            "roleLabel" : "is assembled by"
+         }
+      },
+      "SuperstructureElement" : {
+         "baseClass" : "LinearReferencing.LinearPhysicalElement",
+         "description" : "Abstract Base class for the element describing a Bridge superstructure component",
+         "modifier" : "Abstract",
+         "schemaItemType" : "EntityClass"
+      },
+      "SuperstructureElementAssemblesStructuralMembers" : {
+         "baseClass" : "BisCore.PhysicalElementAssemblesElements",
+         "modifier" : "None",
+         "schemaItemType" : "RelationshipClass",
+         "source" : {
+            "constraintClasses" : [ "BridgeStructuralPhysical.SuperstructureElement" ],
+            "multiplicity" : "(0..1)",
+            "polymorphic" : false,
+            "roleLabel" : "assembles"
+         },
+         "strength" : "Embedding",
+         "strengthDirection" : "Forward",
+         "target" : {
+            "constraintClasses" : [ "StructuralPhysical.StructuralMember" ],
+            "multiplicity" : "(0..*)",
+            "polymorphic" : true,
+            "roleLabel" : "is assembled by"
+         }
+      }
+   },
+   "name" : "BridgeStructuralPhysical",
+   "references" : [
+      {
+         "name" : "BisCore",
+         "version" : "01.00.09"
+      },
+      {
+         "name" : "CoreCustomAttributes",
+         "version" : "01.00.03"
+      },
+      {
+         "name" : "LinearReferencing",
+         "version" : "02.00.01"
+      },
+      {
+         "name" : "StructuralPhysical",
+         "version" : "01.00.00"
+      },
+      {
+         "name" : "Units",
+         "version" : "01.00.03"
+      }
+   ],
+   "version" : "02.00.00"
+}

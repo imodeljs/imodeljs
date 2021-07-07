@@ -1,0 +1,55 @@
+{
+   "$schema" : "https://dev.bentley.com/json_schemas/ec/32/ecschema",
+   "alias" : "ecdbpol",
+   "description" : "Schema policies which impose schema authoring rules.",
+   "items" : {
+      "NoAdditionalForeignKeyConstraints" : {
+         "appliesTo" : "Schema",
+         "description" : "If opted-in by a schema, other schemas may not define additional ECDbMap:ForeignKeyConstraint custom attributes.",
+         "modifier" : "Sealed",
+         "properties" : [
+            {
+               "description" : "Navigation properties that are allowed violate against the policy. Format: {schema name}:{class name}.{property name}",
+               "minOccurs" : 0,
+               "name" : "Exceptions",
+               "type" : "PrimitiveArrayProperty",
+               "typeName" : "string"
+            }
+         ],
+         "schemaItemType" : "CustomAttributeClass"
+      },
+      "NoAdditionalLinkTables" : {
+         "appliesTo" : "Schema",
+         "description" : "If opted-in by a schema, other schemas may not define ECRelationshipClasses that cause new link tables to be created.",
+         "modifier" : "Sealed",
+         "properties" : [
+            {
+               "description" : "Relationship classes that that are allowed to violate against the policy. Format: {schema name}:{relationship class name}",
+               "minOccurs" : 0,
+               "name" : "Exceptions",
+               "type" : "PrimitiveArrayProperty",
+               "typeName" : "string"
+            }
+         ],
+         "schemaItemType" : "CustomAttributeClass"
+      },
+      "NoAdditionalRootEntityClasses" : {
+         "appliesTo" : "Schema",
+         "description" : "If opted-in by a schema, other schemas may not define entity classes that do not subclass from existing classes (mixins are excluded from this policy).",
+         "modifier" : "Sealed",
+         "properties" : [
+            {
+               "description" : "Entity classes that that are allowed to violate against the policy.  Format: {schema name}:{class name}",
+               "minOccurs" : 0,
+               "name" : "Exceptions",
+               "type" : "PrimitiveArrayProperty",
+               "typeName" : "string"
+            }
+         ],
+         "schemaItemType" : "CustomAttributeClass"
+      }
+   },
+   "label" : "ECDb Schema Policies",
+   "name" : "ECDbSchemaPolicies",
+   "version" : "01.00.00"
+}

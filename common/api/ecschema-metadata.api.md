@@ -2382,7 +2382,7 @@ export class Schema implements CustomAttributeContainerProps {
 // @beta (undocumented)
 export class SchemaCache implements ISchemaLocater {
     constructor();
-    addSchema<T extends Schema>(schema: T): Promise<void>;
+    addSchema<T extends Schema>(schema: T, loadSchema?: Promise<T>): Promise<void>;
     addSchemaSync<T extends Schema>(schema: T): void;
     // (undocumented)
     get count(): number;
@@ -2781,7 +2781,7 @@ export class SchemaContext implements ISchemaLocater, ISchemaItemLocater {
     constructor();
     // (undocumented)
     addLocater(locater: ISchemaLocater): void;
-    addSchema(schema: Schema): Promise<void>;
+    addSchema(schema: Schema, loadSchema?: Promise<Schema>): Promise<void>;
     addSchemaItem(schemaItem: SchemaItem): Promise<void>;
     addSchemaSync(schema: Schema): void;
     // @internal
@@ -2981,7 +2981,7 @@ export interface SchemaKeyProps {
 }
 
 // @beta (undocumented)
-export class SchemaMap extends Array<Schema> {
+export class SchemaMap extends Array<SchemaInfo> {
 }
 
 // @beta

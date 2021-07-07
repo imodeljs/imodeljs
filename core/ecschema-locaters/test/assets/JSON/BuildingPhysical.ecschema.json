@@ -1,0 +1,35 @@
+{
+   "$schema" : "https://dev.bentley.com/json_schemas/ec/32/ecschema",
+   "alias" : "BldgPhys",
+   "description" : "Building Physical Schema",
+   "items" : {
+      "BuildingPhysicalModel" : {
+         "baseClass" : "BisCore.PhysicalModel",
+         "customAttributes" : [
+            {
+               "className" : "BisCore.ClassHasHandler"
+            }
+         ],
+         "label" : "Building Physical Model",
+         "schemaItemType" : "EntityClass"
+      },
+      "BuildingTypeDefinitionModel" : {
+         "baseClass" : "BisCore.DefinitionModel",
+         "customAttributes" : [
+            {
+               "className" : "BisCore.ClassHasHandler"
+            }
+         ],
+         "label" : "Building Type Definition Model",
+         "schemaItemType" : "EntityClass"
+      }
+   },
+   "name" : "BuildingPhysical",
+   "references" : [
+      {
+         "name" : "BisCore",
+         "version" : "01.00.09"
+      }
+   ],
+   "version" : "01.00.00"
+}

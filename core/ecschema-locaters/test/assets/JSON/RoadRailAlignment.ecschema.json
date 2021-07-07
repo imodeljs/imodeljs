@@ -1,0 +1,375 @@
+{
+   "$schema" : "https://dev.bentley.com/json_schemas/ec/32/ecschema",
+   "alias" : "rralign",
+   "customAttributes" : [
+      {
+         "SupportedUse" : "Production",
+         "className" : "CoreCustomAttributes.ProductionStatus"
+      }
+   ],
+   "description" : "Base schema for the Alignment domain in light of Road and Rail applications.",
+   "items" : {
+      "ANGLE" : {
+         "description" : "DEPRECATED: Refer to KindOfQuantities defined in the new RoadRailUnits schema instead",
+         "label" : "Road & Rail Angle",
+         "persistenceUnit" : "Units.RAD",
+         "presentationUnits" : [ "Formats.DefaultRealU(2)[Units.ARC_DEG]", "Formats.AngleDMS" ],
+         "relativeError" : 0.00010,
+         "schemaItemType" : "KindOfQuantity"
+      },
+      "AREA" : {
+         "description" : "DEPRECATED: Refer to KindOfQuantities defined in the new RoadRailUnits schema instead",
+         "label" : "Road & Rail Area",
+         "persistenceUnit" : "Units.SQ_M",
+         "presentationUnits" : [
+            "Formats.DefaultRealU(2)[Units.SQ_M]",
+            "Formats.DefaultRealU(2)[Units.SQ_FT]"
+         ],
+         "relativeError" : 0.00010,
+         "schemaItemType" : "KindOfQuantity"
+      },
+      "Alignment" : {
+         "baseClass" : "BisCore.SpatialLocationElement",
+         "customAttributes" : [
+            {
+               "Indexes" : [
+                  {
+                     "IsUnique" : true,
+                     "Name" : "ix_rra_Alignment_Horizontal",
+                     "Properties" : [ "Horizontal.Id" ],
+                     "Where" : "IndexedColumnsAreNotNull"
+                  }
+               ],
+               "className" : "ECDbMap.DbIndexList"
+            }
+         ],
+         "description" : "Reference system to position elements mainly for linear construction works. Provides concrete implementation of an ILinearElement mix-in in the context of Road and Rail disciplines.",
+         "label" : "Alignment",
+         "mixins" : [ "BisCore.ISubModeledElement", "LinearReferencing.ILinearElement" ],
+         "modifier" : "Sealed",
+         "properties" : [
+            {
+               "kindOfQuantity" : "RoadRailUnits.STATION",
+               "label" : "Start Station",
+               "name" : "StartStation",
+               "type" : "PrimitiveProperty",
+               "typeName" : "double"
+            },
+            {
+               "customAttributes" : [
+                  {
+                     "className" : "CoreCustomAttributes.HiddenProperty"
+                  }
+               ],
+               "kindOfQuantity" : "RoadRailUnits.LENGTH",
+               "label" : "Start Distance Along",
+               "name" : "StartValue",
+               "type" : "PrimitiveProperty",
+               "typeName" : "double"
+            },
+            {
+               "customAttributes" : [
+                  {
+                     "className" : "CoreCustomAttributes.HiddenProperty"
+                  }
+               ],
+               "direction" : "Forward",
+               "label" : "Horizontal Alignment",
+               "name" : "Horizontal",
+               "relationshipName" : "RoadRailAlignment.AlignmentRefersToHorizontal",
+               "type" : "NavigationProperty"
+            },
+            {
+               "customAttributes" : [
+                  {
+                     "className" : "CoreCustomAttributes.HiddenProperty"
+                  }
+               ],
+               "direction" : "Forward",
+               "label" : "Main Vertical Alignment",
+               "name" : "MainVertical",
+               "relationshipName" : "RoadRailAlignment.AlignmentRefersToMainVertical",
+               "type" : "NavigationProperty"
+            }
+         ],
+         "schemaItemType" : "EntityClass"
+      },
+      "AlignmentOwnsReferents" : {
+         "baseClass" : "BisCore.ElementOwnsChildElements",
+         "description" : "Relationship definitiong ownership from an Alignment to its child Referents.",
+         "modifier" : "None",
+         "schemaItemType" : "RelationshipClass",
+         "source" : {
+            "constraintClasses" : [ "RoadRailAlignment.Alignment" ],
+            "multiplicity" : "(0..1)",
+            "polymorphic" : false,
+            "roleLabel" : "owns"
+         },
+         "strength" : "Embedding",
+         "strengthDirection" : "Forward",
+         "target" : {
+            "constraintClasses" : [ "LinearReferencing.ReferentElement" ],
+            "multiplicity" : "(0..*)",
+            "polymorphic" : true,
+            "roleLabel" : "is owned by"
+         }
+      },
+      "AlignmentRefersToHorizontal" : {
+         "description" : "Relationship enabling an Alignment to refer to its Horizontal alignment.",
+         "modifier" : "Sealed",
+         "schemaItemType" : "RelationshipClass",
+         "source" : {
+            "constraintClasses" : [ "RoadRailAlignment.Alignment" ],
+            "multiplicity" : "(0..*)",
+            "polymorphic" : false,
+            "roleLabel" : "refers to"
+         },
+         "strength" : "Referencing",
+         "strengthDirection" : "Forward",
+         "target" : {
+            "constraintClasses" : [ "RoadRailAlignment.HorizontalAlignment" ],
+            "multiplicity" : "(0..1)",
+            "polymorphic" : false,
+            "roleLabel" : "is referenced by"
+         }
+      },
+      "AlignmentRefersToMainVertical" : {
+         "description" : "Relationship enabling an Alignment to refer to its main Vertical alignment.",
+         "modifier" : "Sealed",
+         "schemaItemType" : "RelationshipClass",
+         "source" : {
+            "constraintClasses" : [ "RoadRailAlignment.Alignment" ],
+            "multiplicity" : "(0..*)",
+            "polymorphic" : false,
+            "roleLabel" : "refers to main"
+         },
+         "strength" : "Referencing",
+         "strengthDirection" : "Forward",
+         "target" : {
+            "constraintClasses" : [ "RoadRailAlignment.VerticalAlignment" ],
+            "multiplicity" : "(0..1)",
+            "polymorphic" : false,
+            "roleLabel" : "main is referenced by"
+         }
+      },
+      "AlignmentStation" : {
+         "baseClass" : "LinearReferencing.ReferentElement",
+         "customAttributes" : [
+            {
+               "className" : "CoreCustomAttributes.HiddenClass"
+            }
+         ],
+         "description" : "Well-known location along a Linear-Element, with a specific Station value assigned to it.",
+         "modifier" : "Sealed",
+         "properties" : [
+            {
+               "kindOfQuantity" : "RoadRailUnits.STATION",
+               "name" : "Station",
+               "type" : "PrimitiveProperty",
+               "typeName" : "double"
+            }
+         ],
+         "schemaItemType" : "EntityClass"
+      },
+      "BEARING" : {
+         "description" : "DEPRECATED: Refer to KindOfQuantities defined in the new RoadRailUnits schema instead",
+         "label" : "Road & Rail Bearing",
+         "persistenceUnit" : "Units.RAD",
+         "presentationUnits" : [ "Formats.AngleDMS" ],
+         "relativeError" : 0.00010,
+         "schemaItemType" : "KindOfQuantity"
+      },
+      "DesignAlignments" : {
+         "baseClass" : "BisCore.SpatialLocationElement",
+         "customAttributes" : [
+            {
+               "className" : "CoreCustomAttributes.HiddenClass"
+            }
+         ],
+         "description" : "Entry-point element into an AlignmentModel containing Alignments used for design purposes in given Spatial Model.",
+         "mixins" : [ "BisCore.ISubModeledElement" ],
+         "schemaItemType" : "EntityClass"
+      },
+      "HorizontalAlignment" : {
+         "baseClass" : "BisCore.SpatialLocationElement",
+         "customAttributes" : [
+            {
+               "className" : "CoreCustomAttributes.HiddenClass"
+            }
+         ],
+         "description" : "Detailing of an Alignment horizontally (Top/Plan view).",
+         "properties" : [
+            {
+               "customAttributes" : [
+                  {
+                     "className" : "CoreCustomAttributes.HiddenProperty"
+                  }
+               ],
+               "kindOfQuantity" : "RoadRailUnits.LENGTH",
+               "name" : "HorizontalGeometry",
+               "type" : "PrimitiveProperty",
+               "typeName" : "Bentley.Geometry.Common.IGeometry"
+            }
+         ],
+         "schemaItemType" : "EntityClass"
+      },
+      "HorizontalAlignments" : {
+         "baseClass" : "BisCore.SpatialLocationElement",
+         "customAttributes" : [
+            {
+               "className" : "CoreCustomAttributes.HiddenClass"
+            }
+         ],
+         "description" : "Horizontal/Top perspective on Alignments in an AlignmentModel that will be broken down in more detail in a separate HorizontalAlignmentModel.",
+         "mixins" : [ "BisCore.ISubModeledElement" ],
+         "schemaItemType" : "EntityClass"
+      },
+      "HorizontalModelBreaksDownAlignments" : {
+         "baseClass" : "BisCore.ModelModelsElement",
+         "description" : "Relationship enabling break-down of an AlignmentModel (3d) into a 2d model focusing on Horizontal/Plan-view of them.",
+         "modifier" : "Sealed",
+         "schemaItemType" : "RelationshipClass",
+         "source" : {
+            "constraintClasses" : [ "BisCore.SpatialLocationModel" ],
+            "multiplicity" : "(0..1)",
+            "polymorphic" : false,
+            "roleLabel" : "breaks down"
+         },
+         "strength" : "Embedding",
+         "strengthDirection" : "Backward",
+         "target" : {
+            "constraintClasses" : [ "RoadRailAlignment.HorizontalAlignments" ],
+            "multiplicity" : "(1..1)",
+            "polymorphic" : false,
+            "roleLabel" : "is broken down by"
+         }
+      },
+      "LENGTH" : {
+         "description" : "DEPRECATED: Refer to KindOfQuantities defined in the new RoadRailUnits schema instead",
+         "label" : "Road & Rail Alignment Length",
+         "persistenceUnit" : "Units.M",
+         "presentationUnits" : [
+            "Formats.DefaultRealU(2)[Units.M]",
+            "Formats.DefaultRealU(2)[Units.FT]"
+         ],
+         "relativeError" : 0.00010,
+         "schemaItemType" : "KindOfQuantity"
+      },
+      "SLOPE" : {
+         "description" : "DEPRECATED: Refer to KindOfQuantities defined in the new RoadRailUnits schema instead",
+         "label" : "Road & Rail Slope",
+         "persistenceUnit" : "Units.M_PER_M",
+         "presentationUnits" : [
+            "Formats.DefaultRealU(2)[Units.M_PER_M]",
+            "Formats.DefaultRealU(2)[Units.FT_PER_FT]"
+         ],
+         "relativeError" : 0.00010,
+         "schemaItemType" : "KindOfQuantity"
+      },
+      "STATION" : {
+         "description" : "DEPRECATED: Refer to KindOfQuantities defined in the new RoadRailUnits schema instead",
+         "label" : "Road & Rail Station",
+         "persistenceUnit" : "Units.M",
+         "presentationUnits" : [
+            "Formats.StationZ_1000_3[Units.M]",
+            "Formats.StationZ_100_2[Units.FT]",
+            "Formats.DefaultRealU(2)[Units.M]",
+            "Formats.DefaultRealU(2)[Units.FT]"
+         ],
+         "relativeError" : 0.00010,
+         "schemaItemType" : "KindOfQuantity"
+      },
+      "VELOCITY" : {
+         "description" : "DEPRECATED: Refer to KindOfQuantities defined in the new RoadRailUnits schema instead",
+         "label" : "Road & Rail Velocity",
+         "persistenceUnit" : "Units.M_PER_SEC",
+         "presentationUnits" : [
+            "Formats.DefaultRealU(2)[Units.KM_PER_HR]",
+            "Formats.DefaultRealU(2)[Units.MPH]"
+         ],
+         "relativeError" : 0.00010,
+         "schemaItemType" : "KindOfQuantity"
+      },
+      "VerticalAlignment" : {
+         "baseClass" : "BisCore.GeometricElement2d",
+         "customAttributes" : [
+            {
+               "className" : "CoreCustomAttributes.HiddenClass"
+            }
+         ],
+         "description" : "Detailing of a Alignment or a portion of it, vertically along its path.",
+         "properties" : [
+            {
+               "customAttributes" : [
+                  {
+                     "className" : "CoreCustomAttributes.HiddenProperty"
+                  }
+               ],
+               "description" : "Geometry primitives accurately describing the vertical alignment. X-values mean distance-along the HorizontalAlignment; Y-values are always zero; Z-values provide elevation information.",
+               "kindOfQuantity" : "RoadRailUnits.LENGTH",
+               "name" : "VerticalGeometry",
+               "type" : "PrimitiveProperty",
+               "typeName" : "Bentley.Geometry.Common.IGeometry"
+            }
+         ],
+         "schemaItemType" : "EntityClass"
+      },
+      "VerticalAlignmentModel" : {
+         "baseClass" : "BisCore.GeometricModel2d",
+         "description" : "Container for all Vertical Alignments breaking down an Alignment.",
+         "schemaItemType" : "EntityClass"
+      },
+      "VerticalModelBreaksDownAlignment" : {
+         "baseClass" : "BisCore.ModelModelsElement",
+         "description" : "Relationship enabling break-downs of an Alignment into Vertical-Alignments.",
+         "modifier" : "Sealed",
+         "schemaItemType" : "RelationshipClass",
+         "source" : {
+            "constraintClasses" : [ "RoadRailAlignment.VerticalAlignmentModel" ],
+            "multiplicity" : "(0..1)",
+            "polymorphic" : false,
+            "roleLabel" : "breaks down"
+         },
+         "strength" : "Embedding",
+         "strengthDirection" : "Backward",
+         "target" : {
+            "constraintClasses" : [ "RoadRailAlignment.Alignment" ],
+            "multiplicity" : "(1..1)",
+            "polymorphic" : false,
+            "roleLabel" : "is broken down by"
+         }
+      }
+   },
+   "name" : "RoadRailAlignment",
+   "references" : [
+      {
+         "name" : "BisCore",
+         "version" : "01.00.09"
+      },
+      {
+         "name" : "CoreCustomAttributes",
+         "version" : "01.00.03"
+      },
+      {
+         "name" : "ECDbMap",
+         "version" : "02.00.00"
+      },
+      {
+         "name" : "Formats",
+         "version" : "01.00.00"
+      },
+      {
+         "name" : "LinearReferencing",
+         "version" : "02.00.01"
+      },
+      {
+         "name" : "RoadRailUnits",
+         "version" : "01.00.00"
+      },
+      {
+         "name" : "Units",
+         "version" : "01.00.03"
+      }
+   ],
+   "version" : "02.00.01"
+}

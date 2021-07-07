@@ -1,0 +1,200 @@
+{
+   "$schema" : "https://dev.bentley.com/json_schemas/ec/32/ecschema",
+   "alias" : "func",
+   "description" : "The Functional schema defines common base classes to be used by discipline-specific functional domains.",
+   "items" : {
+      "DrawingGraphicRepresentsFunctionalElement" : {
+         "baseClass" : "BisCore.DrawingGraphicRepresentsElement",
+         "description" : "Relates bis:DrawingGraphic instances to the func:FunctionalElement instances they represent.",
+         "modifier" : "None",
+         "schemaItemType" : "RelationshipClass",
+         "source" : {
+            "constraintClasses" : [ "BisCore.DrawingGraphic" ],
+            "multiplicity" : "(0..*)",
+            "polymorphic" : true,
+            "roleLabel" : "represents"
+         },
+         "strength" : "Referencing",
+         "strengthDirection" : "Forward",
+         "target" : {
+            "constraintClasses" : [ "Functional.FunctionalElement" ],
+            "multiplicity" : "(0..*)",
+            "polymorphic" : true,
+            "roleLabel" : "is represented by"
+         }
+      },
+      "FunctionalBreakdownElement" : {
+         "baseClass" : "Functional.FunctionalElement",
+         "customAttributes" : [
+            {
+               "className" : "BisCore.ClassHasHandler"
+            }
+         ],
+         "description" : "A func:FunctionalBreakdownElement models an aggregate functional Entity with child func:FunctionalElements modeling its parts.",
+         "label" : "Functional Breakdown",
+         "mixins" : [ "BisCore.IParentElement" ],
+         "modifier" : "Abstract",
+         "schemaItemType" : "EntityClass"
+      },
+      "FunctionalComponentElement" : {
+         "baseClass" : "Functional.FunctionalElement",
+         "customAttributes" : [
+            {
+               "className" : "BisCore.ClassHasHandler"
+            }
+         ],
+         "description" : "A func:FunctionalComponentElement models an 'atomic' functional Entity which will not be sub-modeled at a finer granularity and does not have 'child' parts.",
+         "label" : "Functional Component",
+         "modifier" : "Abstract",
+         "schemaItemType" : "EntityClass"
+      },
+      "FunctionalComposite" : {
+         "baseClass" : "Functional.FunctionalBreakdownElement",
+         "customAttributes" : [
+            {
+               "className" : "BisCore.ClassHasHandler"
+            },
+            {
+               "Description" : "The best practice is now to inherit from a FunctionalBreakdownElement instead.",
+               "className" : "CoreCustomAttributes.Deprecated"
+            }
+         ],
+         "description" : "DEPRECATED: Inherit from FunctionalBreakdownElement instead.",
+         "label" : "Functional Composite",
+         "schemaItemType" : "EntityClass"
+      },
+      "FunctionalElement" : {
+         "baseClass" : "BisCore.RoleElement",
+         "customAttributes" : [
+            {
+               "ApplyToSubclassesOnly" : true,
+               "MaxSharedColumnsBeforeOverflow" : 32,
+               "className" : "ECDbMap.ShareColumns"
+            }
+         ],
+         "description" : "A func:FunctionalElement models required functionality that will ultimately be fulfilled by a physical Entity.",
+         "label" : "Functional Element",
+         "modifier" : "Abstract",
+         "properties" : [
+            {
+               "customAttributes" : [
+                  {
+                     "className" : "ECDbMap.ForeignKeyConstraint"
+                  }
+               ],
+               "direction" : "Forward",
+               "label" : "Type Definition",
+               "name" : "TypeDefinition",
+               "relationshipName" : "Functional.FunctionalElementIsOfType",
+               "type" : "NavigationProperty"
+            }
+         ],
+         "schemaItemType" : "EntityClass"
+      },
+      "FunctionalElementIsOfType" : {
+         "description" : "A type-instance relation; one that indicates that the specific func:FunctionalElement is an instance of the defined func:FunctionalType.",
+         "modifier" : "None",
+         "schemaItemType" : "RelationshipClass",
+         "source" : {
+            "constraintClasses" : [ "Functional.FunctionalElement" ],
+            "multiplicity" : "(0..*)",
+            "polymorphic" : true,
+            "roleLabel" : "is of"
+         },
+         "strength" : "Referencing",
+         "strengthDirection" : "Forward",
+         "target" : {
+            "constraintClasses" : [ "Functional.FunctionalType" ],
+            "multiplicity" : "(0..1)",
+            "polymorphic" : true,
+            "roleLabel" : "defines"
+         }
+      },
+      "FunctionalModel" : {
+         "baseClass" : "BisCore.RoleModel",
+         "customAttributes" : [
+            {
+               "className" : "BisCore.ClassHasHandler"
+            }
+         ],
+         "description" : "A container for persisting func:FunctionalElement instances.",
+         "label" : "Functional Model",
+         "schemaItemType" : "EntityClass"
+      },
+      "FunctionalPartition" : {
+         "baseClass" : "BisCore.InformationPartitionElement",
+         "customAttributes" : [
+            {
+               "className" : "BisCore.ClassHasHandler"
+            }
+         ],
+         "description" : "A func:FunctionalPartition element establishes a 'Functional' Modeling Perspective for its parent bis:Subject. It is intended to be specialized, and should be considered 'abstract'.",
+         "label" : "Functional Partition",
+         "schemaItemType" : "EntityClass"
+      },
+      "FunctionalPortion" : {
+         "baseClass" : "Functional.FunctionalComponentElement",
+         "customAttributes" : [
+            {
+               "className" : "BisCore.ClassHasHandler"
+            },
+            {
+               "Description" : "The best practice is now to inherit from a FunctionalComponentElement subclass and mix in ISubModeledElement when a breakdown concept is needed.",
+               "className" : "CoreCustomAttributes.Deprecated"
+            }
+         ],
+         "description" : "DEPRECATED: A Functional Portion is a Functional Component that will be broken down in more detail in a separate (sub) Functional Model.",
+         "label" : "Functional Portion",
+         "mixins" : [ "BisCore.ISubModeledElement" ],
+         "schemaItemType" : "EntityClass"
+      },
+      "FunctionalType" : {
+         "baseClass" : "BisCore.TypeDefinitionElement",
+         "customAttributes" : [
+            {
+               "className" : "BisCore.ClassHasHandler"
+            }
+         ],
+         "description" : "Defines a shared set of properties (the 'type') that can be associated with a func:FunctionalElement.",
+         "label" : "Functional Type",
+         "modifier" : "Abstract",
+         "schemaItemType" : "EntityClass"
+      },
+      "PhysicalElementFulfillsFunction" : {
+         "baseClass" : "BisCore.ElementRefersToElements",
+         "description" : "Relates func:FunctionalElement instances (which model a required function) to the bis:PhysicalElement instances that model the physical Entity that fulfills the function.",
+         "modifier" : "None",
+         "schemaItemType" : "RelationshipClass",
+         "source" : {
+            "constraintClasses" : [ "BisCore.PhysicalElement" ],
+            "multiplicity" : "(0..*)",
+            "polymorphic" : true,
+            "roleLabel" : "fulfills"
+         },
+         "strength" : "Referencing",
+         "strengthDirection" : "Forward",
+         "target" : {
+            "constraintClasses" : [ "Functional.FunctionalElement" ],
+            "multiplicity" : "(0..*)",
+            "polymorphic" : true,
+            "roleLabel" : "is fulfilled by"
+         }
+      }
+   },
+   "name" : "Functional",
+   "references" : [
+      {
+         "name" : "BisCore",
+         "version" : "01.00.09"
+      },
+      {
+         "name" : "CoreCustomAttributes",
+         "version" : "01.00.03"
+      },
+      {
+         "name" : "ECDbMap",
+         "version" : "02.00.00"
+      }
+   ],
+   "version" : "01.00.03"
+}

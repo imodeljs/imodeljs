@@ -1,0 +1,145 @@
+{
+   "$schema" : "https://dev.bentley.com/json_schemas/ec/32/ecschema",
+   "alias" : "sp",
+   "items" : {
+      "Beam" : {
+         "baseClass" : "StructuralPhysical.StructuralMember",
+         "customAttributes" : [
+            {
+               "className" : "BisCore.ClassHasHandler"
+            }
+         ],
+         "label" : "Beam",
+         "schemaItemType" : "EntityClass"
+      },
+      "Brace" : {
+         "baseClass" : "StructuralPhysical.StructuralMember",
+         "customAttributes" : [
+            {
+               "className" : "BisCore.ClassHasHandler"
+            }
+         ],
+         "label" : "Brace",
+         "schemaItemType" : "EntityClass"
+      },
+      "Column" : {
+         "baseClass" : "StructuralPhysical.StructuralMember",
+         "customAttributes" : [
+            {
+               "className" : "BisCore.ClassHasHandler"
+            }
+         ],
+         "label" : "Column",
+         "schemaItemType" : "EntityClass"
+      },
+      "FoundationMember" : {
+         "baseClass" : "StructuralPhysical.StructuralMember",
+         "customAttributes" : [
+            {
+               "className" : "BisCore.ClassHasHandler"
+            }
+         ],
+         "label" : "Foundation Member",
+         "schemaItemType" : "EntityClass"
+      },
+      "Pile" : {
+         "baseClass" : "StructuralPhysical.FoundationMember",
+         "customAttributes" : [
+            {
+               "className" : "BisCore.ClassHasHandler"
+            }
+         ],
+         "label" : "Pile",
+         "schemaItemType" : "EntityClass"
+      },
+      "PileCap" : {
+         "baseClass" : "StructuralPhysical.FoundationMember",
+         "customAttributes" : [
+            {
+               "className" : "BisCore.ClassHasHandler"
+            }
+         ],
+         "label" : "Pile Cap",
+         "schemaItemType" : "EntityClass"
+      },
+      "Slab" : {
+         "baseClass" : "StructuralPhysical.StructuralMember",
+         "customAttributes" : [
+            {
+               "className" : "BisCore.ClassHasHandler"
+            }
+         ],
+         "label" : "Slab",
+         "schemaItemType" : "EntityClass"
+      },
+      "SpreadFooting" : {
+         "baseClass" : "StructuralPhysical.FoundationMember",
+         "customAttributes" : [
+            {
+               "className" : "BisCore.ClassHasHandler"
+            }
+         ],
+         "label" : "Spread Footing",
+         "schemaItemType" : "EntityClass"
+      },
+      "StripFooting" : {
+         "baseClass" : "StructuralPhysical.FoundationMember",
+         "customAttributes" : [
+            {
+               "className" : "BisCore.ClassHasHandler"
+            }
+         ],
+         "label" : "Strip Footing",
+         "schemaItemType" : "EntityClass"
+      },
+      "StructuralElement" : {
+         "baseClass" : "BisCore.PhysicalElement",
+         "customAttributes" : [
+            {
+               "className" : "BisCore.ClassHasHandler"
+            }
+         ],
+         "label" : "Structural Element",
+         "modifier" : "Abstract",
+         "schemaItemType" : "EntityClass"
+      },
+      "StructuralMember" : {
+         "baseClass" : "StructuralPhysical.StructuralElement",
+         "customAttributes" : [
+            {
+               "className" : "BisCore.ClassHasHandler"
+            }
+         ],
+         "label" : "Structural Member",
+         "schemaItemType" : "EntityClass"
+      },
+      "StructuralPhysicalModel" : {
+         "baseClass" : "BisCore.PhysicalModel",
+         "customAttributes" : [
+            {
+               "className" : "BisCore.ClassHasHandler"
+            }
+         ],
+         "label" : "Structural Physical Model",
+         "schemaItemType" : "EntityClass"
+      },
+      "Wall" : {
+         "baseClass" : "StructuralPhysical.StructuralMember",
+         "customAttributes" : [
+            {
+               "className" : "BisCore.ClassHasHandler"
+            }
+         ],
+         "label" : "Wall",
+         "schemaItemType" : "EntityClass"
+      }
+   },
+   "name" : "StructuralPhysical",
+   "references" : [
+      {
+         "name" : "BisCore",
+         "version" : "01.00.09"
+      }
+   ],
+   "version" : "01.00.00"
+}

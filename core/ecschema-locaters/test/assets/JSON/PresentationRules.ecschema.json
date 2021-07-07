@@ -1,0 +1,18 @@
+{
+   "$schema" : "https://dev.bentley.com/json_schemas/ec/32/ecschema",
+   "alias" : "pr",
+   "items" : {
+      "Ruleset" : {
+         "baseClass" : "BisCore.DefinitionElement",
+         "schemaItemType" : "EntityClass"
+      }
+   },
+   "name" : "PresentationRules",
+   "references" : [
+      {
+         "name" : "BisCore",
+         "version" : "01.00.09"
+      }
+   ],
+   "version" : "01.00.00"
+}

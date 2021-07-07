@@ -1,0 +1,149 @@
+{
+   "$schema" : "https://dev.bentley.com/json_schemas/ec/32/ecschema",
+   "alias" : "f",
+   "description" : "Standard Set of Format definitions",
+   "items" : {
+      "AmerFI" : {
+         "composite" : {
+            "includeZero" : true,
+            "spacer" : "",
+            "units" : [
+               {
+                  "label" : "'",
+                  "name" : "Units.FT"
+               },
+               {
+                  "label" : "\"",
+                  "name" : "Units.IN"
+               }
+            ]
+         },
+         "formatTraits" : [ "keepSingleZero", "keepDecimalPoint", "showUnitLabel" ],
+         "label" : "FeetInches",
+         "precision" : 8,
+         "schemaItemType" : "Format",
+         "type" : "Fractional",
+         "uomSeparator" : ""
+      },
+      "AmerI" : {
+         "composite" : {
+            "includeZero" : true,
+            "spacer" : "",
+            "units" : [
+               {
+                  "label" : "\"",
+                  "name" : "Units.IN"
+               }
+            ]
+         },
+         "formatTraits" : [ "keepSingleZero", "showUnitLabel" ],
+         "label" : "Inches",
+         "precision" : 8,
+         "schemaItemType" : "Format",
+         "type" : "Fractional",
+         "uomSeparator" : ""
+      },
+      "AngleDMS" : {
+         "composite" : {
+            "includeZero" : true,
+            "spacer" : "",
+            "units" : [
+               {
+                  "label" : "°",
+                  "name" : "Units.ARC_DEG"
+               },
+               {
+                  "label" : "'",
+                  "name" : "Units.ARC_MINUTE"
+               },
+               {
+                  "label" : "\"",
+                  "name" : "Units.ARC_SECOND"
+               }
+            ]
+         },
+         "formatTraits" : [ "keepSingleZero", "keepDecimalPoint", "showUnitLabel" ],
+         "label" : "DegreesMinutesSeconds",
+         "precision" : 4,
+         "schemaItemType" : "Format",
+         "type" : "Decimal",
+         "uomSeparator" : ""
+      },
+      "DefaultReal" : {
+         "formatTraits" : [ "keepSingleZero", "keepDecimalPoint" ],
+         "label" : "real",
+         "precision" : 6,
+         "schemaItemType" : "Format",
+         "type" : "Decimal"
+      },
+      "DefaultRealU" : {
+         "formatTraits" : [ "keepSingleZero", "keepDecimalPoint", "showUnitLabel" ],
+         "label" : "realu",
+         "precision" : 6,
+         "schemaItemType" : "Format",
+         "type" : "Decimal"
+      },
+      "DefaultRealUNS" : {
+         "formatTraits" : [ "keepSingleZero", "keepDecimalPoint", "showUnitLabel" ],
+         "precision" : 6,
+         "schemaItemType" : "Format",
+         "type" : "Decimal",
+         "uomSeparator" : ""
+      },
+      "Fractional" : {
+         "formatTraits" : [ "keepSingleZero", "keepDecimalPoint" ],
+         "label" : "fract",
+         "precision" : 64,
+         "schemaItemType" : "Format",
+         "type" : "Fractional"
+      },
+      "HMS" : {
+         "composite" : {
+            "includeZero" : true,
+            "units" : [
+               {
+                  "label" : "hour(s)",
+                  "name" : "Units.HR"
+               },
+               {
+                  "label" : "min",
+                  "name" : "Units.MIN"
+               },
+               {
+                  "label" : "sec",
+                  "name" : "Units.S"
+               }
+            ]
+         },
+         "formatTraits" : [ "keepSingleZero", "keepDecimalPoint", "showUnitLabel" ],
+         "label" : "HoursMinutesSeconds",
+         "precision" : 2,
+         "schemaItemType" : "Format",
+         "type" : "Decimal"
+      },
+      "StationZ_1000_3" : {
+         "formatTraits" : [ "trailZeroes", "keepSingleZero", "keepDecimalPoint" ],
+         "minWidth" : 3,
+         "precision" : 2,
+         "schemaItemType" : "Format",
+         "stationOffsetSize" : 3,
+         "type" : "Station"
+      },
+      "StationZ_100_2" : {
+         "formatTraits" : [ "trailZeroes", "keepSingleZero", "keepDecimalPoint" ],
+         "minWidth" : 2,
+         "precision" : 2,
+         "schemaItemType" : "Format",
+         "stationOffsetSize" : 2,
+         "type" : "Station"
+      }
+   },
+   "name" : "Formats",
+   "references" : [
+      {
+         "name" : "Units",
+         "version" : "01.00.03"
+      }
+   ],
+   "version" : "01.00.00"
+}

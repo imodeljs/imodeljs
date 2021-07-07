@@ -1,0 +1,122 @@
+{
+   "$schema" : "https://dev.bentley.com/json_schemas/ec/32/ecschema",
+   "alias" : "rru",
+   "customAttributes" : [
+      {
+         "SupportedUse" : "Production",
+         "className" : "CoreCustomAttributes.ProductionStatus"
+      }
+   ],
+   "description" : "This contains the unit definitions that are used across Road and Rail schemas",
+   "items" : {
+      "ANGLE" : {
+         "label" : "Road & Rail Angle",
+         "persistenceUnit" : "Units.RAD",
+         "presentationUnits" : [ "Formats.DefaultRealU(2)[Units.ARC_DEG]", "Formats.AngleDMS" ],
+         "relativeError" : 0.00010,
+         "schemaItemType" : "KindOfQuantity"
+      },
+      "AREA" : {
+         "label" : "Road & Rail Area",
+         "persistenceUnit" : "Units.SQ_M",
+         "presentationUnits" : [
+            "Formats.DefaultRealU(2)[Units.SQ_M]",
+            "Formats.DefaultRealU(2)[Units.SQ_FT]"
+         ],
+         "relativeError" : 0.00010,
+         "schemaItemType" : "KindOfQuantity"
+      },
+      "BEARING" : {
+         "label" : "Road & Rail Bearing",
+         "persistenceUnit" : "Units.RAD",
+         "presentationUnits" : [ "Formats.AngleDMS" ],
+         "relativeError" : 0.00010,
+         "schemaItemType" : "KindOfQuantity"
+      },
+      "ELEVATION" : {
+         "label" : "Road & Rail Elevation",
+         "persistenceUnit" : "Units.M",
+         "presentationUnits" : [
+            "Formats.DefaultRealU(2)[Units.M]",
+            "Formats.DefaultRealU(2)[Units.FT]"
+         ],
+         "relativeError" : 0.00010,
+         "schemaItemType" : "KindOfQuantity"
+      },
+      "LENGTH" : {
+         "label" : "Road & Rail Length",
+         "persistenceUnit" : "Units.M",
+         "presentationUnits" : [
+            "Formats.DefaultRealU(2)[Units.M]",
+            "Formats.DefaultRealU(2)[Units.FT]"
+         ],
+         "relativeError" : 0.00010,
+         "schemaItemType" : "KindOfQuantity"
+      },
+      "LENGTH_SHORT" : {
+         "label" : "Road & Rail Short Length",
+         "persistenceUnit" : "Units.M",
+         "presentationUnits" : [ "Formats.DefaultRealU(3)[Units.M]", "Formats.AmerFI" ],
+         "relativeError" : 0.00010,
+         "schemaItemType" : "KindOfQuantity"
+      },
+      "SLOPE" : {
+         "label" : "Road & Rail Slope",
+         "persistenceUnit" : "Units.M_PER_M",
+         "presentationUnits" : [
+            "Formats.DefaultRealU(2)[Units.M_PER_M]",
+            "Formats.DefaultRealU(2)[Units.FT_PER_FT]"
+         ],
+         "relativeError" : 0.00010,
+         "schemaItemType" : "KindOfQuantity"
+      },
+      "STATION" : {
+         "label" : "Road & Rail Station",
+         "persistenceUnit" : "Units.M",
+         "presentationUnits" : [
+            "Formats.StationZ_1000_3[Units.M]",
+            "Formats.StationZ_100_2[Units.FT]",
+            "Formats.DefaultRealU(2)[Units.M]",
+            "Formats.DefaultRealU(2)[Units.FT]"
+         ],
+         "relativeError" : 0.00010,
+         "schemaItemType" : "KindOfQuantity"
+      },
+      "VELOCITY" : {
+         "label" : "Road & Rail Velocity",
+         "persistenceUnit" : "Units.M_PER_SEC",
+         "presentationUnits" : [
+            "Formats.DefaultRealU(2)[Units.KM_PER_HR]",
+            "Formats.DefaultRealU(2)[Units.MPH]"
+         ],
+         "relativeError" : 0.00010,
+         "schemaItemType" : "KindOfQuantity"
+      },
+      "VOLUME" : {
+         "label" : "Road & Rail Volume",
+         "persistenceUnit" : "Units.CUB_M",
+         "presentationUnits" : [
+            "Formats.DefaultRealU(2)[Units.CUB_M]",
+            "Formats.DefaultRealU(2)[Units.CUB_FT]"
+         ],
+         "relativeError" : 0.00010,
+         "schemaItemType" : "KindOfQuantity"
+      }
+   },
+   "name" : "RoadRailUnits",
+   "references" : [
+      {
+         "name" : "CoreCustomAttributes",
+         "version" : "01.00.03"
+      },
+      {
+         "name" : "Formats",
+         "version" : "01.00.00"
+      },
+      {
+         "name" : "Units",
+         "version" : "01.00.03"
+      }
+   ],
+   "version" : "01.00.00"
+}

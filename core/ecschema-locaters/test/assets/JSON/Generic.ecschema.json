@@ -1,0 +1,254 @@
+{
+   "$schema" : "https://dev.bentley.com/json_schemas/ec/32/ecschema",
+   "alias" : "generic",
+   "description" : "This schema contains classes that are completely generic. These classes should only be used when there is not enough context to pick something more specific.",
+   "items" : {
+      "Callout" : {
+         "baseClass" : "Generic.DetailingSymbol",
+         "customAttributes" : [
+            {
+               "className" : "BisCore.ClassHasHandler"
+            }
+         ],
+         "description" : "A generic:DetailingSymbol that calls out a reference to another bis:Drawing.",
+         "modifier" : "Abstract",
+         "properties" : [
+            {
+               "direction" : "Forward",
+               "isReadOnly" : true,
+               "label" : "Drawing Model",
+               "name" : "DrawingModel",
+               "relationshipName" : "Generic.CalloutRefersToDrawingModel",
+               "type" : "NavigationProperty"
+            }
+         ],
+         "schemaItemType" : "EntityClass"
+      },
+      "CalloutRefersToDrawingModel" : {
+         "modifier" : "Sealed",
+         "schemaItemType" : "RelationshipClass",
+         "source" : {
+            "constraintClasses" : [ "Generic.Callout" ],
+            "multiplicity" : "(0..*)",
+            "polymorphic" : true,
+            "roleLabel" : "refers to"
+         },
+         "strength" : "Referencing",
+         "strengthDirection" : "Backward",
+         "target" : {
+            "constraintClasses" : [ "BisCore.DrawingModel" ],
+            "multiplicity" : "(0..1)",
+            "polymorphic" : true,
+            "roleLabel" : "is referenced by"
+         }
+      },
+      "DetailCallout" : {
+         "baseClass" : "Generic.Callout",
+         "description" : "A generic:Callout that calls out a reference to a detail drawing.",
+         "label" : "Detail Callout",
+         "modifier" : "Sealed",
+         "schemaItemType" : "EntityClass"
+      },
+      "DetailingSymbol" : {
+         "baseClass" : "BisCore.GraphicalElement2d",
+         "customAttributes" : [
+            {
+               "className" : "BisCore.ClassHasHandler"
+            }
+         ],
+         "description" : "A graphical detailing symbol that is placed on a bis:Drawing or bis:Sheet.",
+         "label" : "Detailing Symbol",
+         "modifier" : "Abstract",
+         "schemaItemType" : "EntityClass"
+      },
+      "Document" : {
+         "baseClass" : "BisCore.Document",
+         "description" : "The generic:Document class is used for bis:Document elements which cannot be further classified. More-specific bis:Document subclasses should be used wherever possible.",
+         "modifier" : "Sealed",
+         "schemaItemType" : "EntityClass"
+      },
+      "ElevationCallout" : {
+         "baseClass" : "Generic.Callout",
+         "description" : "A generic:Callout that calls out a reference to an elevation drawing.",
+         "label" : "Elevation Callout",
+         "modifier" : "Sealed",
+         "schemaItemType" : "EntityClass"
+      },
+      "Graphic3d" : {
+         "baseClass" : "BisCore.GraphicalElement3d",
+         "customAttributes" : [
+            {
+               "className" : "BisCore.ClassHasHandler"
+            }
+         ],
+         "description" : "The generic:Graphic3d class is a concrete subclass of bis:GraphicalElement3d that can be used for generic 3D graphics which cannot be further classified. More-specific bis:GraphicalElement3d subclasses should be used wherever possible.",
+         "label" : "3D Graphic",
+         "modifier" : "Sealed",
+         "schemaItemType" : "EntityClass"
+      },
+      "GraphicalModel3d" : {
+         "baseClass" : "BisCore.GraphicalModel3d",
+         "description" : "A container for persisting bis:GraphicalElement3d instances.",
+         "label" : "3D Graphical Model",
+         "modifier" : "Sealed",
+         "schemaItemType" : "EntityClass"
+      },
+      "GraphicalType2d" : {
+         "baseClass" : "BisCore.GraphicalType2d",
+         "customAttributes" : [
+            {
+               "className" : "BisCore.ClassHasHandler"
+            }
+         ],
+         "description" : "The generic:GraphicalType2d class is used for bis:GraphicalType2d elements which cannot be further classified. More-specific bis:GraphicalType2d subclasses should be used wherever possible.",
+         "label" : "2D Graphical Type",
+         "modifier" : "Sealed",
+         "schemaItemType" : "EntityClass"
+      },
+      "Group" : {
+         "baseClass" : "BisCore.GroupInformationElement",
+         "customAttributes" : [
+            {
+               "className" : "BisCore.ClassHasHandler"
+            }
+         ],
+         "modifier" : "Sealed",
+         "schemaItemType" : "EntityClass"
+      },
+      "GroupModel" : {
+         "baseClass" : "BisCore.GroupInformationModel",
+         "customAttributes" : [
+            {
+               "className" : "BisCore.ClassHasHandler"
+            }
+         ],
+         "label" : "Group Model",
+         "modifier" : "Sealed",
+         "schemaItemType" : "EntityClass"
+      },
+      "PhysicalMaterial" : {
+         "baseClass" : "BisCore.PhysicalMaterial",
+         "description" : "The generic:PhysicalMaterial class is used for bis:PhysicalMaterial elements which cannot be further classified. More-specific bis:PhysicalMaterial subclasses should be used wherever possible.",
+         "label" : "Physical Material",
+         "modifier" : "Sealed",
+         "schemaItemType" : "EntityClass"
+      },
+      "PhysicalObject" : {
+         "baseClass" : "BisCore.PhysicalElement",
+         "customAttributes" : [
+            {
+               "className" : "BisCore.ClassHasHandler"
+            }
+         ],
+         "description" : "The generic:PhysicalObject class is used for bis:PhysicalElements which cannot be further classified. More-specific bis:PhysicalElement subclasses should be used wherever possible.",
+         "label" : "Physical Object",
+         "modifier" : "Sealed",
+         "schemaItemType" : "EntityClass"
+      },
+      "PhysicalType" : {
+         "baseClass" : "BisCore.PhysicalType",
+         "customAttributes" : [
+            {
+               "className" : "BisCore.ClassHasHandler"
+            }
+         ],
+         "description" : "The generic:PhysicalType class is used for bis:PhysicalType elements which cannot be further classified. More-specific bis:PhysicalType subclasses should be used wherever possible.",
+         "label" : "Physical Type",
+         "modifier" : "Sealed",
+         "schemaItemType" : "EntityClass"
+      },
+      "PlanCallout" : {
+         "baseClass" : "Generic.Callout",
+         "description" : "A generic:Callout that calls out a reference to a plan drawing.",
+         "label" : "Plan Callout",
+         "modifier" : "Sealed",
+         "schemaItemType" : "EntityClass"
+      },
+      "SectionCallout" : {
+         "baseClass" : "Generic.Callout",
+         "description" : "A generic:Callout that calls out a reference to a section drawing.",
+         "label" : "Section Callout",
+         "modifier" : "Sealed",
+         "schemaItemType" : "EntityClass"
+      },
+      "SpatialLocation" : {
+         "baseClass" : "BisCore.SpatialLocationElement",
+         "customAttributes" : [
+            {
+               "className" : "BisCore.ClassHasHandler"
+            }
+         ],
+         "description" : "The generic:SpatialLocation class is used for bis:SpatialLocationElements which cannot be further classified. More-specific bis:SpatialLocationElement subclasses should be used wherever possible.",
+         "label" : "Spatial Location",
+         "modifier" : "Sealed",
+         "schemaItemType" : "EntityClass"
+      },
+      "TitleText" : {
+         "baseClass" : "Generic.DetailingSymbol",
+         "description" : "A generic:DetailingSymbol that contains title text.",
+         "label" : "Title Text",
+         "modifier" : "Sealed",
+         "schemaItemType" : "EntityClass"
+      },
+      "ViewAttachmentLabel" : {
+         "baseClass" : "Generic.DetailingSymbol",
+         "customAttributes" : [
+            {
+               "className" : "BisCore.ClassHasHandler"
+            }
+         ],
+         "description" : "A generic:DetailingSymbol that contains a view attachment label.",
+         "label" : "View Attachment Label",
+         "modifier" : "Sealed",
+         "properties" : [
+            {
+               "direction" : "Forward",
+               "isReadOnly" : true,
+               "label" : "View Attachment",
+               "name" : "ViewAttachment",
+               "relationshipName" : "Generic.ViewAttachmentLabelAnnotatesViewAttachment",
+               "type" : "NavigationProperty"
+            },
+            {
+               "description" : "Defines the area on the sheet that contains annotations relevant to the View Attachment.",
+               "extendedTypeName" : "Json",
+               "label" : "Clip Geometry",
+               "name" : "ClipGeometry",
+               "type" : "PrimitiveProperty",
+               "typeName" : "string"
+            }
+         ],
+         "schemaItemType" : "EntityClass"
+      },
+      "ViewAttachmentLabelAnnotatesViewAttachment" : {
+         "modifier" : "Sealed",
+         "schemaItemType" : "RelationshipClass",
+         "source" : {
+            "constraintClasses" : [ "Generic.ViewAttachmentLabel" ],
+            "multiplicity" : "(0..1)",
+            "polymorphic" : true,
+            "roleLabel" : "annotates"
+         },
+         "strength" : "Referencing",
+         "strengthDirection" : "Backward",
+         "target" : {
+            "constraintClasses" : [ "BisCore.ViewAttachment" ],
+            "multiplicity" : "(0..1)",
+            "polymorphic" : true,
+            "roleLabel" : "is annotated by"
+         }
+      }
+   },
+   "name" : "Generic",
+   "references" : [
+      {
+         "name" : "BisCore",
+         "version" : "01.00.09"
+      },
+      {
+         "name" : "ECDbMap",
+         "version" : "02.00.00"
+      }
+   ],
+   "version" : "01.00.03"
+}

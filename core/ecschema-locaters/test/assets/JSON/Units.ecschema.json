@@ -1,0 +1,4005 @@
+{
+   "$schema" : "https://dev.bentley.com/json_schemas/ec/32/ecschema",
+   "alias" : "u",
+   "description" : "Standard Set of Unit definitions for the system",
+   "items" : {
+      "A" : {
+         "definition" : "A",
+         "phenomenon" : "Units.CURRENT",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.SI"
+      },
+      "ACCELERATION" : {
+         "definition" : "LENGTH*TIME(-2)",
+         "label" : "Acceleration",
+         "schemaItemType" : "Phenomenon"
+      },
+      "ACRE" : {
+         "definition" : "CHAIN(2)",
+         "description" : "Exact, http://www.nist.gov/pml/wmd/pubs/upload/hb44-15-web-final.pdf, Appendix C. Section 4, Page C-9",
+         "label" : "acres",
+         "numerator" : 10.0,
+         "phenomenon" : "Units.AREA",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.USCUSTOM"
+      },
+      "ACRE_FT" : {
+         "definition" : "ACRE*FT",
+         "label" : "acre·ft",
+         "phenomenon" : "Units.VOLUME",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.USCUSTOM"
+      },
+      "ACRE_FT_PER_DAY" : {
+         "definition" : "ACRE_FT*DAY(-1)",
+         "label" : "acre·ft/day",
+         "phenomenon" : "Units.VOLUMETRIC_FLOW",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.USCUSTOM"
+      },
+      "ACRE_FT_PER_HR" : {
+         "definition" : "ACRE_FT*HR(-1)",
+         "label" : "acre·ft/h",
+         "phenomenon" : "Units.VOLUMETRIC_FLOW",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.USCUSTOM"
+      },
+      "ACRE_FT_PER_MIN" : {
+         "definition" : "ACRE_FT*MIN(-1)",
+         "label" : "acre·ft/min",
+         "phenomenon" : "Units.VOLUMETRIC_FLOW",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.USCUSTOM"
+      },
+      "ACRE_IN" : {
+         "definition" : "ACRE*IN",
+         "label" : "acre·in",
+         "phenomenon" : "Units.VOLUME",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.USCUSTOM"
+      },
+      "ACRE_IN_PER_DAY" : {
+         "definition" : "ACRE_IN*DAY(-1)",
+         "label" : "acre_in/day",
+         "phenomenon" : "Units.VOLUMETRIC_FLOW",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.USCUSTOM"
+      },
+      "ACRE_IN_PER_HR" : {
+         "definition" : "ACRE_IN*HR(-1)",
+         "label" : "acre·in/h",
+         "phenomenon" : "Units.VOLUMETRIC_FLOW",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.USCUSTOM"
+      },
+      "ACRE_IN_PER_MIN" : {
+         "definition" : "ACRE_IN*MIN(-1)",
+         "label" : "acre·in/min",
+         "phenomenon" : "Units.VOLUMETRIC_FLOW",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.USCUSTOM"
+      },
+      "ANGLE" : {
+         "definition" : "ANGLE",
+         "label" : "Angle",
+         "schemaItemType" : "Phenomenon"
+      },
+      "ANGULAR_VELOCITY" : {
+         "definition" : "ANGLE*TIME(-1)",
+         "label" : "Angular Velocity",
+         "schemaItemType" : "Phenomenon"
+      },
+      "APPARENT_POWER" : {
+         "definition" : "ELECTRIC_POTENTIAL*CURRENT",
+         "label" : "Apparent Power",
+         "schemaItemType" : "Phenomenon"
+      },
+      "ARC_DEG" : {
+         "definition" : "[PI]*RAD",
+         "denominator" : 180.0,
+         "description" : "1/180",
+         "label" : "°",
+         "phenomenon" : "Units.ANGLE",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.METRIC"
+      },
+      "ARC_MINUTE" : {
+         "definition" : "ARC_DEG",
+         "denominator" : 60.0,
+         "description" : "1/60",
+         "label" : "'",
+         "phenomenon" : "Units.ANGLE",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.METRIC"
+      },
+      "ARC_QUADRANT" : {
+         "definition" : "[HALF_PI]*RAD",
+         "label" : "quadrants",
+         "phenomenon" : "Units.ANGLE",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.METRIC"
+      },
+      "ARC_SECOND" : {
+         "definition" : "ARC_DEG",
+         "denominator" : 3600.0,
+         "description" : "1/3600",
+         "label" : "''",
+         "phenomenon" : "Units.ANGLE",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.METRIC"
+      },
+      "ARE" : {
+         "definition" : "[HECTO]*M(2)",
+         "label" : "are",
+         "phenomenon" : "Units.AREA",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.METRIC"
+      },
+      "AREA" : {
+         "definition" : "LENGTH(2)",
+         "label" : "Area",
+         "schemaItemType" : "Phenomenon"
+      },
+      "AREA_MOMENT_INERTIA" : {
+         "definition" : "LENGTH(4)",
+         "label" : "Area Moment Inertia",
+         "schemaItemType" : "Phenomenon"
+      },
+      "AREA_SPRING_CONSTANT" : {
+         "definition" : "SPRING_CONSTANT*AREA(-1)",
+         "label" : "Area Spring Constant",
+         "schemaItemType" : "Phenomenon"
+      },
+      "AREA_SPRING_CONSTANT_KN_PER_CUB_M" : {
+         "definition" : "SPRING_CONSTANT_KN_PER_M*SQ_M(-1)",
+         "label" : "kN/m³",
+         "phenomenon" : "Units.AREA_SPRING_CONSTANT",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.METRIC"
+      },
+      "AREA_SPRING_CONSTANT_KPF_PER_CUB_FT" : {
+         "definition" : "SPRING_CONSTANT_KPF_PER_FT*SQ_FT(-1)",
+         "label" : "kpf/ft³",
+         "phenomenon" : "Units.AREA_SPRING_CONSTANT",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.USCUSTOM"
+      },
+      "AREA_SPRING_CONSTANT_N_PER_CUB_M" : {
+         "definition" : "SPRING_CONSTANT_N_PER_M*SQ_M(-1)",
+         "label" : "N/m³",
+         "phenomenon" : "Units.AREA_SPRING_CONSTANT",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.SI"
+      },
+      "AREA_TORQUE" : {
+         "definition" : "TORQUE*AREA(-1)",
+         "label" : "Area Torque",
+         "schemaItemType" : "Phenomenon"
+      },
+      "AT" : {
+         "definition" : "KGF*CM(-2)",
+         "description" : "Exact, See http://physics.nist.gov/cuu/pdf/sp811.pdf Appendix B.",
+         "label" : "kgf/cm²",
+         "phenomenon" : "Units.PRESSURE",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.INTERNATIONAL"
+      },
+      "ATM" : {
+         "definition" : "PA",
+         "description" : "Standard atmosphere, see AT for atmosphere-technical.  Exact, See http://physics.nist.gov/cuu/pdf/sp811.pdf Appendix B.  ",
+         "label" : "atm",
+         "numerator" : 101325.0,
+         "phenomenon" : "Units.PRESSURE",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.METRIC"
+      },
+      "ATTO" : {
+         "definition" : "ONE",
+         "label" : "atto",
+         "numerator" : 1.0000000000000001e-18,
+         "phenomenon" : "Units.NUMBER",
+         "schemaItemType" : "Constant"
+      },
+      "AT_GAUGE" : {
+         "definition" : "AT",
+         "description" : "Offset is one standard atmosphere (101325 PA) converted to atmosphere-technical (AT).  Offset is exact, See http://physics.nist.gov/cuu/pdf/sp811.pdf Appendix B.  ",
+         "label" : "kgf/cm² (Gauge)",
+         "offset" : 1.0332274527998859,
+         "phenomenon" : "Units.PRESSURE",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.INDUSTRIAL"
+      },
+      "BAR" : {
+         "definition" : "PA",
+         "description" : "Exact, See http://physics.nist.gov/cuu/pdf/sp811.pdf Appendix B.  ",
+         "label" : "bar",
+         "numerator" : 100000.0,
+         "phenomenon" : "Units.PRESSURE",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.METRIC"
+      },
+      "BARYE" : {
+         "definition" : "DYNE*CM(-2)",
+         "label" : "ba",
+         "phenomenon" : "Units.PRESSURE",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.METRIC"
+      },
+      "BAR_GAUGE" : {
+         "definition" : "PA",
+         "description" : "Offset is one standard atmosphere converted to BAR.  Offset is exact, See http://physics.nist.gov/cuu/pdf/sp811.pdf Appendix B.  ",
+         "label" : "bar (Gauge)",
+         "numerator" : 100000.0,
+         "offset" : 1.013250,
+         "phenomenon" : "Units.PRESSURE",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.INDUSTRIAL"
+      },
+      "BAR_PER_KM" : {
+         "definition" : "BAR*KM(-1)",
+         "label" : "bar/km",
+         "phenomenon" : "Units.PRESSURE_GRADIENT",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.METRIC"
+      },
+      "BTU" : {
+         "definition" : "J",
+         "description" : "Is IT BTU.  http://physics.nist.gov/cuu/pdf/sp811.pdf, Appendix B.  See foot note #9: ",
+         "label" : "Btu",
+         "numerator" : 1055.055852620,
+         "phenomenon" : "Units.WORK",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.INTERNATIONAL"
+      },
+      "BTU_IN_PER_SQ_FT_HR_FAHRENHEIT" : {
+         "definition" : "BTU*IN*FT(-2)*HR(-1)*DELTA_FAHRENHEIT(-1)",
+         "label" : "Btu·in/(ft²·h·Δ°F)",
+         "phenomenon" : "Units.THERMAL_CONDUCTIVITY",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.USCUSTOM"
+      },
+      "BTU_PER_HR" : {
+         "definition" : "BTU*HR(-1)",
+         "label" : "Btu/h",
+         "phenomenon" : "Units.POWER",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.USCUSTOM"
+      },
+      "BTU_PER_LBM" : {
+         "definition" : "BTU*LBM(-1)",
+         "label" : "Btu/lb",
+         "phenomenon" : "Units.SPECIFIC_ENERGY",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.USCUSTOM"
+      },
+      "BTU_PER_LBM_RANKINE" : {
+         "definition" : "BTU*LBM(-1)*DELTA_RANKINE(-1)",
+         "label" : "Btu/(lbm·Δ°R)",
+         "phenomenon" : "Units.SPECIFIC_HEAT_CAPACITY",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.USCUSTOM"
+      },
+      "BTU_PER_LB_MOL_RANKINE" : {
+         "definition" : "BTU*LB_MOL(-1)*DELTA_RANKINE(-1)",
+         "label" : "Btu/(lb-mol·Δ°R)",
+         "phenomenon" : "Units.SPECIFIC_HEAT_CAPACITY_MOLAR",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.USCUSTOM"
+      },
+      "BTU_PER_SQ_FT_HR_FAHRENHEIT" : {
+         "definition" : "BTU*FT(-2)*HR(-1)*DELTA_FAHRENHEIT(-1)",
+         "label" : "Btu/(ft²·h·Δ°F)",
+         "phenomenon" : "Units.HEAT_TRANSFER",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.USCUSTOM"
+      },
+      "CAPITA" : {
+         "definition" : "CAPITA",
+         "label" : "Capita",
+         "schemaItemType" : "Phenomenon"
+      },
+      "CD" : {
+         "definition" : "CD",
+         "label" : "cd",
+         "phenomenon" : "Units.LUMINOSITY",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.SI"
+      },
+      "CELSIUS" : {
+         "definition" : "K",
+         "label" : "°C",
+         "offset" : 273.14999999999998,
+         "phenomenon" : "Units.TEMPERATURE",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.METRIC"
+      },
+      "CENTI" : {
+         "definition" : "ONE",
+         "label" : "centi",
+         "numerator" : 0.010,
+         "phenomenon" : "Units.NUMBER",
+         "schemaItemType" : "Constant"
+      },
+      "CENTIPOISE" : {
+         "definition" : "[CENTI]*POISE",
+         "label" : "cP",
+         "phenomenon" : "Units.DYNAMIC_VISCOSITY",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.METRIC"
+      },
+      "CENTISTOKE" : {
+         "definition" : "MM(2)*S(-1)",
+         "label" : "cSt",
+         "phenomenon" : "Units.KINEMATIC_VISCOSITY",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.METRIC"
+      },
+      "CGS" : {
+         "schemaItemType" : "UnitSystem"
+      },
+      "CHAIN" : {
+         "definition" : "FT",
+         "description" : "Exact, http://www.nist.gov/pml/wmd/pubs/upload/hb44-15-web-final.pdf, Appendix C. Section 4, Page C-8",
+         "label" : "chain",
+         "numerator" : 66.0,
+         "phenomenon" : "Units.LENGTH",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.USCUSTOM"
+      },
+      "CM" : {
+         "definition" : "[CENTI]*M",
+         "label" : "cm",
+         "phenomenon" : "Units.LENGTH",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.METRIC"
+      },
+      "CM_PER_DAY" : {
+         "definition" : "CM*DAY(-1)",
+         "label" : "cm/day",
+         "phenomenon" : "Units.VELOCITY",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.METRIC"
+      },
+      "CM_PER_HR" : {
+         "definition" : "CM*HR(-1)",
+         "label" : "cm/h",
+         "phenomenon" : "Units.VELOCITY",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.METRIC"
+      },
+      "CM_PER_M" : {
+         "definition" : "CM*M(-1)",
+         "label" : "cm/m",
+         "phenomenon" : "Units.SLOPE",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.METRIC"
+      },
+      "CM_PER_MIN" : {
+         "definition" : "CM*MIN(-1)",
+         "label" : "cm/min",
+         "phenomenon" : "Units.VELOCITY",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.METRIC"
+      },
+      "CM_PER_SEC" : {
+         "definition" : "CM*S(-1)",
+         "label" : "cm/s",
+         "phenomenon" : "Units.VELOCITY",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.METRIC"
+      },
+      "CM_PER_SEC_SQ" : {
+         "definition" : "CM*S(-2)",
+         "label" : "cm/sec²",
+         "phenomenon" : "Units.ACCELERATION",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.METRIC"
+      },
+      "CM_TO_THE_FOURTH" : {
+         "definition" : "CM(4)",
+         "label" : "cm⁴",
+         "phenomenon" : "Units.AREA_MOMENT_INERTIA",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.METRIC"
+      },
+      "CM_TO_THE_SIXTH" : {
+         "definition" : "CM(6)",
+         "label" : "cm⁶",
+         "phenomenon" : "Units.TORSIONAL_WARPING_CONSTANT",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.METRIC"
+      },
+      "CONSTANT" : {
+         "schemaItemType" : "UnitSystem"
+      },
+      "COULOMB" : {
+         "definition" : "A*S",
+         "label" : "C",
+         "phenomenon" : "Units.ELECTRIC_CHARGE",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.SI"
+      },
+      "CUB_CM" : {
+         "definition" : "CM(3)",
+         "label" : "cm³",
+         "phenomenon" : "Units.VOLUME",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.METRIC"
+      },
+      "CUB_DM" : {
+         "definition" : "DM(3)",
+         "label" : "dm³",
+         "phenomenon" : "Units.VOLUME",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.METRIC"
+      },
+      "CUB_FT" : {
+         "definition" : "FT(3)",
+         "label" : "ft³",
+         "phenomenon" : "Units.VOLUME",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.USCUSTOM"
+      },
+      "CUB_FT_PER_ACRE_SEC" : {
+         "definition" : "FT(3)*ACRE(-1)*S(-1)",
+         "label" : "ft³/(acres·s)",
+         "phenomenon" : "Units.FLOW_DENSITY_PER_AREA",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.USCUSTOM"
+      },
+      "CUB_FT_PER_DAY" : {
+         "definition" : "CUB_FT*DAY(-1)",
+         "label" : "ft³/day",
+         "phenomenon" : "Units.VOLUMETRIC_FLOW",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.USCUSTOM"
+      },
+      "CUB_FT_PER_LBM" : {
+         "definition" : "FT(3)*LBM(-1)",
+         "label" : "ft³/lm",
+         "phenomenon" : "Units.SPECIFIC_VOLUME",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.USCUSTOM"
+      },
+      "CUB_FT_PER_LB_MOL" : {
+         "definition" : "CUB_FT*LB_MOL(-1)",
+         "label" : "ft³/lb-mol",
+         "phenomenon" : "Units.MOLAR_VOLUME",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.USCUSTOM"
+      },
+      "CUB_FT_PER_MIN" : {
+         "definition" : "CUB_FT*MIN(-1)",
+         "label" : "ft³/min",
+         "phenomenon" : "Units.VOLUMETRIC_FLOW",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.USCUSTOM"
+      },
+      "CUB_FT_PER_SEC" : {
+         "definition" : "CUB_FT*S(-1)",
+         "label" : "ft³/s",
+         "phenomenon" : "Units.VOLUMETRIC_FLOW",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.USCUSTOM"
+      },
+      "CUB_FT_PER_SQ_FT_MIN" : {
+         "definition" : "FT*MIN(-1)",
+         "label" : "ft³/(ft²·min)",
+         "phenomenon" : "Units.FLOW_DENSITY_PER_AREA",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.USCUSTOM"
+      },
+      "CUB_FT_PER_SQ_FT_SEC" : {
+         "definition" : "FT*S(-1)",
+         "label" : "ft³/(ft²·s)",
+         "phenomenon" : "Units.FLOW_DENSITY_PER_AREA",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.USCUSTOM"
+      },
+      "CUB_FT_PER_SQ_MILE_SEC" : {
+         "definition" : "FT(3)*MILE(-2)*S(-1)",
+         "label" : "ft³/(mi²·s)",
+         "phenomenon" : "Units.FLOW_DENSITY_PER_AREA",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.USCUSTOM"
+      },
+      "CUB_IN" : {
+         "definition" : "IN(3)",
+         "label" : "in³",
+         "phenomenon" : "Units.VOLUME",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.USCUSTOM"
+      },
+      "CUB_IN_PER_MIN" : {
+         "definition" : "CUB_IN*MIN(-1)",
+         "label" : "in³/min",
+         "phenomenon" : "Units.VOLUMETRIC_FLOW",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.USCUSTOM"
+      },
+      "CUB_IN_PER_SEC" : {
+         "definition" : "CUB_IN*S(-1)",
+         "label" : "in³/sec",
+         "phenomenon" : "Units.VOLUMETRIC_FLOW",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.USCUSTOM"
+      },
+      "CUB_KM" : {
+         "definition" : "KM(3)",
+         "label" : "km³",
+         "phenomenon" : "Units.VOLUME",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.METRIC"
+      },
+      "CUB_M" : {
+         "definition" : "M(3)",
+         "label" : "m³",
+         "phenomenon" : "Units.VOLUME",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.SI"
+      },
+      "CUB_MILE" : {
+         "definition" : "MILE(3)",
+         "label" : "mile³",
+         "phenomenon" : "Units.VOLUME",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.USCUSTOM"
+      },
+      "CUB_MM" : {
+         "definition" : "MM(3)",
+         "label" : "mm³",
+         "phenomenon" : "Units.VOLUME",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.METRIC"
+      },
+      "CUB_M_PER_CUB_M" : {
+         "definition" : "M(3)*M(-3)",
+         "label" : "m³/m³",
+         "phenomenon" : "Units.VOLUME_RATIO",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.SI"
+      },
+      "CUB_M_PER_DAY" : {
+         "definition" : "M(3)*DAY(-1)",
+         "label" : "m³/day",
+         "phenomenon" : "Units.VOLUMETRIC_FLOW",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.METRIC"
+      },
+      "CUB_M_PER_HECTARE_DAY" : {
+         "definition" : "CUB_M*HECTARE(-1)*DAY(-1)",
+         "label" : "m³/(ha·day)",
+         "phenomenon" : "Units.FLOW_DENSITY_PER_AREA",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.METRIC"
+      },
+      "CUB_M_PER_HR" : {
+         "definition" : "M(3)*HR(-1)",
+         "label" : "m³/h",
+         "phenomenon" : "Units.VOLUMETRIC_FLOW",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.METRIC"
+      },
+      "CUB_M_PER_KG" : {
+         "definition" : "M(3)*KG(-1)",
+         "label" : "m³/kg",
+         "phenomenon" : "Units.SPECIFIC_VOLUME",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.SI"
+      },
+      "CUB_M_PER_KMOL" : {
+         "definition" : "CUB_M*[KILO](-1)*MOL(-1)",
+         "label" : "m³/kmol",
+         "phenomenon" : "Units.MOLAR_VOLUME",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.METRIC"
+      },
+      "CUB_M_PER_MIN" : {
+         "definition" : "M(3)*MIN(-1)",
+         "label" : "m³/min",
+         "phenomenon" : "Units.VOLUMETRIC_FLOW",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.METRIC"
+      },
+      "CUB_M_PER_MOL" : {
+         "definition" : "CUB_M*MOL(-1)",
+         "label" : "m³/mol",
+         "phenomenon" : "Units.MOLAR_VOLUME",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.SI"
+      },
+      "CUB_M_PER_SEC" : {
+         "definition" : "M(3)*S(-1)",
+         "label" : "m³/s",
+         "phenomenon" : "Units.VOLUMETRIC_FLOW",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.SI"
+      },
+      "CUB_M_PER_SQ_KM_DAY" : {
+         "definition" : "CUB_M*KM(-2)*DAY(-1)",
+         "label" : "m³/(km²·day)",
+         "phenomenon" : "Units.FLOW_DENSITY_PER_AREA",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.METRIC"
+      },
+      "CUB_M_PER_SQ_M_DAY" : {
+         "definition" : "M*DAY(-1)",
+         "label" : "m³/(m²·day)",
+         "phenomenon" : "Units.FLOW_DENSITY_PER_AREA",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.METRIC"
+      },
+      "CUB_M_PER_SQ_M_SEC" : {
+         "definition" : "M*S(-1)",
+         "label" : "m³/(m²*sec)",
+         "phenomenon" : "Units.FLOW_DENSITY_PER_AREA",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.SI"
+      },
+      "CUB_UM" : {
+         "definition" : "UM(3)",
+         "label" : "um³",
+         "phenomenon" : "Units.VOLUME",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.METRIC"
+      },
+      "CUB_YRD" : {
+         "definition" : "YRD(3)",
+         "label" : "yd³",
+         "phenomenon" : "Units.VOLUME",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.USCUSTOM"
+      },
+      "CURRENCY" : {
+         "definition" : "CURRENCY",
+         "schemaItemType" : "Phenomenon"
+      },
+      "CURRENT" : {
+         "definition" : "CURRENT",
+         "label" : "Current",
+         "schemaItemType" : "Phenomenon"
+      },
+      "DAY" : {
+         "definition" : "HR",
+         "label" : "days",
+         "numerator" : 24.0,
+         "phenomenon" : "Units.TIME",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.INTERNATIONAL"
+      },
+      "DECA" : {
+         "definition" : "ONE",
+         "numerator" : 10.0,
+         "phenomenon" : "Units.NUMBER",
+         "schemaItemType" : "Constant"
+      },
+      "DECI" : {
+         "definition" : "ONE",
+         "label" : "deci",
+         "numerator" : 0.10000000000000001,
+         "phenomenon" : "Units.NUMBER",
+         "schemaItemType" : "Constant"
+      },
+      "DECIMAL_PERCENT" : {
+         "definition" : "PERCENT",
+         "label" : "%",
+         "numerator" : 100.0,
+         "phenomenon" : "Units.PERCENTAGE",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.INTERNATIONAL"
+      },
+      "DEG360" : {
+         "definition" : "ARC_DEG",
+         "label" : "360°",
+         "numerator" : 360.0,
+         "phenomenon" : "Units.ANGLE",
+         "schemaItemType" : "Constant"
+      },
+      "DEG_PER_HR" : {
+         "definition" : "ARC_DEG*HR(-1)",
+         "label" : "deg/hr",
+         "phenomenon" : "Units.ANGULAR_VELOCITY",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.METRIC"
+      },
+      "DEG_PER_MIN" : {
+         "definition" : "ARC_DEG*MIN(-1)",
+         "label" : "deg/min",
+         "phenomenon" : "Units.ANGULAR_VELOCITY",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.METRIC"
+      },
+      "DEG_PER_SEC" : {
+         "definition" : "ARC_DEG*S(-1)",
+         "label" : "deg/sec",
+         "phenomenon" : "Units.ANGULAR_VELOCITY",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.METRIC"
+      },
+      "DELTA_CELSIUS" : {
+         "definition" : "DELTA_KELVIN",
+         "label" : "Δ°C",
+         "phenomenon" : "Units.TEMPERATURE_CHANGE",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.METRIC"
+      },
+      "DELTA_FAHRENHEIT" : {
+         "definition" : "DELTA_CELSIUS",
+         "denominator" : 9.0,
+         "description" : "Factor is 5/9",
+         "label" : "Δ°F",
+         "numerator" : 5.0,
+         "phenomenon" : "Units.TEMPERATURE_CHANGE",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.USCUSTOM"
+      },
+      "DELTA_KELVIN" : {
+         "definition" : "DELTA_KELVIN",
+         "label" : "ΔK",
+         "phenomenon" : "Units.TEMPERATURE_CHANGE",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.SI"
+      },
+      "DELTA_RANKINE" : {
+         "definition" : "DELTA_KELVIN",
+         "denominator" : 9.0,
+         "description" : "Factor is 5/9",
+         "label" : "Δ°R",
+         "numerator" : 5.0,
+         "phenomenon" : "Units.TEMPERATURE_CHANGE",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.USCUSTOM"
+      },
+      "DENSITY" : {
+         "definition" : "MASS*VOLUME(-1)",
+         "label" : "Density",
+         "schemaItemType" : "Phenomenon"
+      },
+      "DM" : {
+         "definition" : "[DECI]*M",
+         "label" : "dm",
+         "phenomenon" : "Units.LENGTH",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.METRIC"
+      },
+      "DYNAMIC_VISCOSITY" : {
+         "definition" : "PRESSURE*TIME",
+         "label" : "Dynamic Viscosity",
+         "schemaItemType" : "Phenomenon"
+      },
+      "DYNE" : {
+         "definition" : "G*CM*S(-2)",
+         "label" : "dyn",
+         "phenomenon" : "Units.FORCE",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.METRIC"
+      },
+      "ELECTRIC_CHARGE" : {
+         "definition" : "CURRENT*TIME",
+         "label" : "Electric Charge",
+         "schemaItemType" : "Phenomenon"
+      },
+      "ELECTRIC_POTENTIAL" : {
+         "definition" : "POWER*CURRENT(-1)",
+         "label" : "Electric Potential",
+         "schemaItemType" : "Phenomenon"
+      },
+      "ENERGY_DENSITY" : {
+         "definition" : "WORK*VOLUME(-1)",
+         "label" : "Energy Density",
+         "schemaItemType" : "Phenomenon"
+      },
+      "EXA" : {
+         "definition" : "ONE",
+         "label" : "exa",
+         "numerator" : 1.0000000000000000e+18,
+         "phenomenon" : "Units.NUMBER",
+         "schemaItemType" : "Constant"
+      },
+      "FAHRENHEIT" : {
+         "definition" : "CELSIUS",
+         "denominator" : 9.0,
+         "description" : "Factor is 5/9",
+         "label" : "°F",
+         "numerator" : 5.0,
+         "offset" : -32.0,
+         "phenomenon" : "Units.TEMPERATURE",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.USCUSTOM"
+      },
+      "FEMTO" : {
+         "definition" : "ONE",
+         "label" : "femto",
+         "numerator" : 1.0000000000000001e-15,
+         "phenomenon" : "Units.NUMBER",
+         "schemaItemType" : "Constant"
+      },
+      "FINANCE" : {
+         "schemaItemType" : "UnitSystem"
+      },
+      "FLOW_DENSITY_PER_AREA" : {
+         "definition" : "VOLUMETRIC_FLOW*AREA(-1)",
+         "description" : "Flow demanded by or discharged to a Water/Sewer network per area.",
+         "label" : "Flow Density per Area",
+         "schemaItemType" : "Phenomenon"
+      },
+      "FORCE" : {
+         "definition" : "MASS*ACCELERATION",
+         "label" : "Force",
+         "schemaItemType" : "Phenomenon"
+      },
+      "FORCE_DENSITY" : {
+         "definition" : "FORCE*VOLUME(-1)",
+         "label" : "Force Density",
+         "schemaItemType" : "Phenomenon"
+      },
+      "FREQUENCY" : {
+         "definition" : "TIME(-1)",
+         "label" : "Frequency",
+         "schemaItemType" : "Phenomenon"
+      },
+      "FT" : {
+         "definition" : "IN",
+         "description" : "Exact, http://www.nist.gov/pml/wmd/pubs/upload/hb44-15-web-final.pdf, Appendix C. Section 2, Page C-4",
+         "label" : "ft",
+         "numerator" : 12.0,
+         "phenomenon" : "Units.LENGTH",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.USCUSTOM"
+      },
+      "FT_FT" : {
+         "definition" : "FT*FT",
+         "label" : "ft·ft",
+         "phenomenon" : "Units.PIPE_DIAMETER_LENGTH",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.INDUSTRIAL"
+      },
+      "FT_H2O" : {
+         "definition" : "PA",
+         "description" : "foot of H2O Conventional, See http://physics.nist.gov/cuu/pdf/sp811.pdf Appendix B.",
+         "label" : "ft H2O (Conv)",
+         "numerator" : 2989.0670,
+         "phenomenon" : "Units.PRESSURE",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.USCUSTOM"
+      },
+      "FT_HORIZONTAL_PER_FT_VERTICAL" : {
+         "invertsUnit" : "Units.FT_PER_FT",
+         "schemaItemType" : "InvertedUnit",
+         "unitSystem" : "Units.USCUSTOM"
+      },
+      "FT_MILE" : {
+         "definition" : "FT*MILE",
+         "label" : "ft·mi",
+         "phenomenon" : "Units.PIPE_DIAMETER_LENGTH",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.INDUSTRIAL"
+      },
+      "FT_PDL" : {
+         "definition" : "PDL*FT",
+         "label" : "ft*pdl",
+         "phenomenon" : "Units.WORK",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.USCUSTOM"
+      },
+      "FT_PER_DAY" : {
+         "definition" : "FT*DAY(-1)",
+         "label" : "ft/day",
+         "phenomenon" : "Units.VELOCITY",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.USCUSTOM"
+      },
+      "FT_PER_FT" : {
+         "definition" : "FT*FT(-1)",
+         "label" : "ft/ft",
+         "phenomenon" : "Units.SLOPE",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.USCUSTOM"
+      },
+      "FT_PER_HR" : {
+         "definition" : "FT*HR(-1)",
+         "label" : "ft/h",
+         "phenomenon" : "Units.VELOCITY",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.USCUSTOM"
+      },
+      "FT_PER_IN" : {
+         "definition" : "FT*IN(-1)",
+         "label" : "ft/in",
+         "phenomenon" : "Units.SLOPE",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.USCUSTOM"
+      },
+      "FT_PER_MILE" : {
+         "definition" : "FT*MILE(-1)",
+         "label" : "ft/mi",
+         "phenomenon" : "Units.SLOPE",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.USCUSTOM"
+      },
+      "FT_PER_MIN" : {
+         "definition" : "FT*MIN(-1)",
+         "label" : "ft/min",
+         "phenomenon" : "Units.VELOCITY",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.USCUSTOM"
+      },
+      "FT_PER_SEC" : {
+         "definition" : "FT*S(-1)",
+         "label" : "ft/s",
+         "phenomenon" : "Units.VELOCITY",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.USCUSTOM"
+      },
+      "FT_PER_SEC_SQ" : {
+         "definition" : "FT*S(-2)",
+         "label" : "ft/sec²",
+         "phenomenon" : "Units.ACCELERATION",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.USCUSTOM"
+      },
+      "FT_PER_THOUSAND_FOOT" : {
+         "definition" : "FT*[KILO](-1)*FT(-1)",
+         "label" : "ft/1000ft",
+         "phenomenon" : "Units.SLOPE",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.USCUSTOM"
+      },
+      "FT_TO_THE_FOURTH" : {
+         "definition" : "FT(4)",
+         "label" : "ft⁴",
+         "phenomenon" : "Units.AREA_MOMENT_INERTIA",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.USCUSTOM"
+      },
+      "FT_TO_THE_SIXTH" : {
+         "definition" : "FT(6)",
+         "label" : "ft⁶",
+         "phenomenon" : "Units.TORSIONAL_WARPING_CONSTANT",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.USCUSTOM"
+      },
+      "G" : {
+         "definition" : "[MILLI]*KG",
+         "label" : "g",
+         "phenomenon" : "Units.MASS",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.METRIC"
+      },
+      "GALLON" : {
+         "definition" : "IN(3)",
+         "description" : "Exact, http://www.nist.gov/pml/wmd/pubs/upload/hb44-15-web-final.pdf, Appendix C. Section 4, Page C-11",
+         "label" : "gal",
+         "numerator" : 231.0,
+         "phenomenon" : "Units.VOLUME",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.USCUSTOM"
+      },
+      "GALLON_IMPERIAL" : {
+         "definition" : "LITRE",
+         "description" : "Exact, See http://physics.nist.gov/cuu/pdf/sp811.pdf Appendix B.",
+         "label" : "gal (imp)",
+         "numerator" : 4.5460900000000004,
+         "phenomenon" : "Units.VOLUME",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.IMPERIAL"
+      },
+      "GALLON_IMPERIAL_PER_DAY" : {
+         "definition" : "GALLON_IMPERIAL*DAY(-1)",
+         "label" : "gal (imp)/day",
+         "phenomenon" : "Units.VOLUMETRIC_FLOW",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.IMPERIAL"
+      },
+      "GALLON_IMPERIAL_PER_HR" : {
+         "definition" : "GALLON_IMPERIAL*HR(-1)",
+         "label" : "gal (imp)/h",
+         "phenomenon" : "Units.VOLUMETRIC_FLOW",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.IMPERIAL"
+      },
+      "GALLON_IMPERIAL_PER_MIN" : {
+         "definition" : "GALLON_IMPERIAL*MIN(-1)",
+         "label" : "gal (imp)/min",
+         "phenomenon" : "Units.VOLUMETRIC_FLOW",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.IMPERIAL"
+      },
+      "GALLON_IMPERIAL_PER_SEC" : {
+         "definition" : "GALLON_IMPERIAL*S(-1)",
+         "label" : "gal (imp)/s",
+         "phenomenon" : "Units.VOLUMETRIC_FLOW",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.IMPERIAL"
+      },
+      "GALLON_PER_ACRE_DAY" : {
+         "definition" : "GALLON*DAY(-1)*ACRE(-1)",
+         "label" : "gal/(acre·day)",
+         "phenomenon" : "Units.FLOW_DENSITY_PER_AREA",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.USCUSTOM"
+      },
+      "GALLON_PER_ACRE_MIN" : {
+         "definition" : "GALLON*MIN(-1)*ACRE(-1)",
+         "label" : "gal/(acre·min)",
+         "phenomenon" : "Units.FLOW_DENSITY_PER_AREA",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.USCUSTOM"
+      },
+      "GALLON_PER_DAY" : {
+         "definition" : "GALLON*DAY(-1)",
+         "label" : "gal/day",
+         "phenomenon" : "Units.VOLUMETRIC_FLOW",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.USCUSTOM"
+      },
+      "GALLON_PER_HR" : {
+         "definition" : "GALLON*HR(-1)",
+         "label" : "gal/h",
+         "phenomenon" : "Units.VOLUMETRIC_FLOW",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.USCUSTOM"
+      },
+      "GALLON_PER_MIN" : {
+         "definition" : "GALLON*MIN(-1)",
+         "label" : "gal/min",
+         "phenomenon" : "Units.VOLUMETRIC_FLOW",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.USCUSTOM"
+      },
+      "GALLON_PER_SEC" : {
+         "definition" : "GALLON*S(-1)",
+         "label" : "gal/s",
+         "phenomenon" : "Units.VOLUMETRIC_FLOW",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.USCUSTOM"
+      },
+      "GALLON_PER_SQ_FT_DAY" : {
+         "definition" : "GALLON*DAY(-1)*FT(-2)",
+         "label" : "gal/(ft²·day)",
+         "phenomenon" : "Units.FLOW_DENSITY_PER_AREA",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.USCUSTOM"
+      },
+      "GALLON_PER_SQ_FT_MIN" : {
+         "definition" : "GALLON*MIN(-1)*FT(-2)",
+         "label" : "gal/(ft²·min)",
+         "phenomenon" : "Units.FLOW_DENSITY_PER_AREA",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.USCUSTOM"
+      },
+      "GALLON_PER_SQ_MILE_DAY" : {
+         "definition" : "GALLON*DAY(-1)*MILE(-2)",
+         "label" : "gal/(mi²·day)",
+         "phenomenon" : "Units.FLOW_DENSITY_PER_AREA",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.USCUSTOM"
+      },
+      "GALLON_PER_SQ_MILE_MIN" : {
+         "definition" : "GALLON*MIN(-1)*MILE(-2)",
+         "label" : "gal/(mi²·min)",
+         "phenomenon" : "Units.FLOW_DENSITY_PER_AREA",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.USCUSTOM"
+      },
+      "GIGA" : {
+         "definition" : "ONE",
+         "label" : "giga",
+         "numerator" : 1000000000.0,
+         "phenomenon" : "Units.NUMBER",
+         "schemaItemType" : "Constant"
+      },
+      "GJ" : {
+         "definition" : "[GIGA]*J",
+         "phenomenon" : "Units.WORK",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.METRIC"
+      },
+      "GRAD" : {
+         "definition" : "[PI]*RAD",
+         "denominator" : 200.0,
+         "description" : "1/200",
+         "label" : "grad",
+         "phenomenon" : "Units.ANGLE",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.METRIC"
+      },
+      "GRM" : {
+         "definition" : "LBM",
+         "denominator" : 7000.0,
+         "description" : "Exact, http://www.nist.gov/pml/wmd/pubs/upload/hb44-15-web-final.pdf, Appendix B. Section 3.2, Page B-10",
+         "label" : "gr",
+         "phenomenon" : "Units.MASS",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.USCUSTOM"
+      },
+      "GRM_PER_LBM" : {
+         "definition" : "GRM*LBM(-1)",
+         "label" : "gr/lb",
+         "phenomenon" : "Units.MASS_RATIO",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.USCUSTOM"
+      },
+      "GW" : {
+         "definition" : "[GIGA]*W",
+         "phenomenon" : "Units.POWER",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.METRIC"
+      },
+      "GWH" : {
+         "definition" : "GW*HR",
+         "label" : "GWh",
+         "phenomenon" : "Units.WORK",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.INTERNATIONAL"
+      },
+      "G_PER_CUB_CM" : {
+         "definition" : "G*CM(-3)",
+         "label" : "g/cm³",
+         "phenomenon" : "Units.DENSITY",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.METRIC"
+      },
+      "G_PER_HR" : {
+         "definition" : "G*HR(-1)",
+         "label" : "g/h",
+         "phenomenon" : "Units.MASS_FLOW",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.METRIC"
+      },
+      "G_PER_MIN" : {
+         "definition" : "G*MIN(-1)",
+         "label" : "g/min",
+         "phenomenon" : "Units.MASS_FLOW",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.METRIC"
+      },
+      "G_PER_SEC" : {
+         "definition" : "G*S(-1)",
+         "label" : "g/s",
+         "phenomenon" : "Units.MASS_FLOW",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.METRIC"
+      },
+      "G_PER_SQ_M" : {
+         "definition" : "G*M(-2)",
+         "label" : "g/m²",
+         "phenomenon" : "Units.SURFACE_DENSITY",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.METRIC"
+      },
+      "HALF_PI" : {
+         "definition" : "PI",
+         "denominator" : 2.0,
+         "label" : "Pi/2",
+         "numerator" : 1.0,
+         "phenomenon" : "Units.LENGTH_RATIO",
+         "schemaItemType" : "Constant"
+      },
+      "HEAT_FLUX_DENSITY" : {
+         "definition" : "POWER*AREA(-1)",
+         "description" : "https://en.wikipedia.org/wiki/Heat_flux see description of heat flux density",
+         "label" : "Heat Flux Density",
+         "schemaItemType" : "Phenomenon"
+      },
+      "HEAT_TRANSFER" : {
+         "definition" : "POWER*AREA(-1)*TEMPERATURE_CHANGE(-1)",
+         "description" : "https://en.wikipedia.org/wiki/Heat_transfer_coefficient",
+         "label" : "Heat Transfer",
+         "schemaItemType" : "Phenomenon"
+      },
+      "HECTARE" : {
+         "definition" : "[HECTO]*ARE",
+         "label" : "ha",
+         "phenomenon" : "Units.AREA",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.METRIC"
+      },
+      "HECTO" : {
+         "definition" : "ONE",
+         "label" : "hecto",
+         "numerator" : 100.0,
+         "phenomenon" : "Units.NUMBER",
+         "schemaItemType" : "Constant"
+      },
+      "HECTOPASCAL" : {
+         "definition" : "[HECTO]*PA",
+         "label" : "hPa",
+         "phenomenon" : "Units.PRESSURE",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.METRIC"
+      },
+      "HORIZONTAL_PER_VERTICAL" : {
+         "invertsUnit" : "Units.VERTICAL_PER_HORIZONTAL",
+         "schemaItemType" : "InvertedUnit",
+         "unitSystem" : "Units.INTERNATIONAL"
+      },
+      "HP" : {
+         "definition" : "LBF*FT*S(-1)",
+         "description" : "Exact, See http://physics.nist.gov/cuu/pdf/sp811.pdf Appendix B.",
+         "label" : "hp",
+         "numerator" : 550.0,
+         "phenomenon" : "Units.POWER",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.USCUSTOM"
+      },
+      "HR" : {
+         "definition" : "MIN",
+         "label" : "h",
+         "numerator" : 60.0,
+         "phenomenon" : "Units.TIME",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.INTERNATIONAL"
+      },
+      "HUNDRED_PERSON" : {
+         "definition" : "[HECTO]*PERSON",
+         "phenomenon" : "Units.CAPITA",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.STATISTICS"
+      },
+      "HZ" : {
+         "definition" : "S(-1)",
+         "label" : "Hz",
+         "phenomenon" : "Units.FREQUENCY",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.SI"
+      },
+      "ILLUMINANCE" : {
+         "definition" : "LUMINOUS_FLUX*LENGTH(-2)",
+         "label" : "Illuminance",
+         "schemaItemType" : "Phenomenon"
+      },
+      "IMPERIAL" : {
+         "schemaItemType" : "UnitSystem"
+      },
+      "IN" : {
+         "definition" : "MM",
+         "description" : "Exact, http://www.nist.gov/pml/wmd/pubs/upload/hb44-15-web-final.pdf, Appendix B. Section 3.1, Page B-10",
+         "label" : "in",
+         "numerator" : 25.399999999999999,
+         "phenomenon" : "Units.LENGTH",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.USCUSTOM"
+      },
+      "INDUSTRIAL" : {
+         "schemaItemType" : "UnitSystem"
+      },
+      "INTERNATIONAL" : {
+         "schemaItemType" : "UnitSystem"
+      },
+      "IN_FT" : {
+         "definition" : "IN*FT",
+         "label" : "in·ft",
+         "phenomenon" : "Units.PIPE_DIAMETER_LENGTH",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.INDUSTRIAL"
+      },
+      "IN_H2O_AT_32F" : {
+         "definition" : "PA",
+         "description" : "Inch of H2O at 32 Fahrenheit, Water is assumed to be in a liquid state. Equal to water at 0C.  No verified source",
+         "label" : "inH2O@32°F",
+         "numerator" : 249.10830000000001,
+         "phenomenon" : "Units.PRESSURE",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.USCUSTOM"
+      },
+      "IN_H2O_AT_39_2F" : {
+         "definition" : "PA",
+         "description" : "See http://physics.nist.gov/cuu/pdf/sp811.pdf Appendix B.",
+         "label" : "inH2O@39.2°F",
+         "numerator" : 249.08199999999999,
+         "phenomenon" : "Units.PRESSURE",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.USCUSTOM"
+      },
+      "IN_H2O_AT_60F" : {
+         "definition" : "PA",
+         "description" : "See http://physics.nist.gov/cuu/pdf/sp811.pdf Appendix B.",
+         "label" : "inH2O@60°F",
+         "numerator" : 248.840,
+         "phenomenon" : "Units.PRESSURE",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.USCUSTOM"
+      },
+      "IN_HG" : {
+         "definition" : "PA",
+         "description" : "Inch of HG conventional, See http://physics.nist.gov/cuu/pdf/sp811.pdf Appendix B.",
+         "label" : "inHg (Conv)",
+         "numerator" : 3386.3890000000001,
+         "phenomenon" : "Units.PRESSURE",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.USCUSTOM"
+      },
+      "IN_HG_AT_32F" : {
+         "definition" : "PA",
+         "description" : "See http://physics.nist.gov/cuu/pdf/sp811.pdf Appendix B.",
+         "label" : "inHg@32°F",
+         "numerator" : 3386.3800000000001,
+         "phenomenon" : "Units.PRESSURE",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.USCUSTOM"
+      },
+      "IN_HG_AT_60F" : {
+         "definition" : "PA",
+         "description" : "See http://physics.nist.gov/cuu/pdf/sp811.pdf Appendix B.",
+         "label" : "inHg@60°F",
+         "numerator" : 3376.8499999999999,
+         "phenomenon" : "Units.PRESSURE",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.USCUSTOM"
+      },
+      "IN_M" : {
+         "definition" : "IN*M",
+         "label" : "in·m",
+         "phenomenon" : "Units.PIPE_DIAMETER_LENGTH",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.INDUSTRIAL"
+      },
+      "IN_MILE" : {
+         "definition" : "IN*MILE",
+         "label" : "in·mi",
+         "phenomenon" : "Units.PIPE_DIAMETER_LENGTH",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.INDUSTRIAL"
+      },
+      "IN_PER_DAY" : {
+         "definition" : "IN*DAY(-1)",
+         "label" : "in/day",
+         "phenomenon" : "Units.VELOCITY",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.USCUSTOM"
+      },
+      "IN_PER_DEGREE" : {
+         "definition" : "IN*ARC_DEG(-1)",
+         "label" : "in/degree",
+         "phenomenon" : "Units.THREAD_PITCH",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.USCUSTOM"
+      },
+      "IN_PER_FT" : {
+         "definition" : "IN*FT(-1)",
+         "label" : "in/ft",
+         "phenomenon" : "Units.SLOPE",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.USCUSTOM"
+      },
+      "IN_PER_HR" : {
+         "definition" : "IN*HR(-1)",
+         "label" : "in/h",
+         "phenomenon" : "Units.VELOCITY",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.USCUSTOM"
+      },
+      "IN_PER_MIN" : {
+         "definition" : "IN*MIN(-1)",
+         "label" : "in/min",
+         "phenomenon" : "Units.VELOCITY",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.USCUSTOM"
+      },
+      "IN_PER_SEC" : {
+         "definition" : "IN*S(-1)",
+         "label" : "in/s",
+         "phenomenon" : "Units.VELOCITY",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.USCUSTOM"
+      },
+      "IN_TO_THE_FOURTH" : {
+         "definition" : "IN(4)",
+         "label" : "in⁴",
+         "phenomenon" : "Units.AREA_MOMENT_INERTIA",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.USCUSTOM"
+      },
+      "IN_TO_THE_SIXTH" : {
+         "definition" : "IN(6)",
+         "label" : "in⁶",
+         "phenomenon" : "Units.TORSIONAL_WARPING_CONSTANT",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.USCUSTOM"
+      },
+      "J" : {
+         "definition" : "N*M",
+         "phenomenon" : "Units.WORK",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.SI"
+      },
+      "J_PER_CUB_M" : {
+         "definition" : "J*M(-3)",
+         "label" : "J/m³",
+         "phenomenon" : "Units.ENERGY_DENSITY",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.SI"
+      },
+      "J_PER_KG" : {
+         "definition" : "J*KG(-1)",
+         "label" : "J/kg",
+         "phenomenon" : "Units.SPECIFIC_ENERGY",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.SI"
+      },
+      "J_PER_KG_K" : {
+         "definition" : "J*KG(-1)*DELTA_KELVIN(-1)",
+         "label" : "J/(kg·ΔK)",
+         "phenomenon" : "Units.SPECIFIC_HEAT_CAPACITY",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.SI"
+      },
+      "J_PER_KMOL_K" : {
+         "definition" : "J*KMOL(-1)*DELTA_KELVIN(-1)",
+         "label" : "J/(kmol·ΔK)",
+         "phenomenon" : "Units.SPECIFIC_HEAT_CAPACITY_MOLAR",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.METRIC"
+      },
+      "J_PER_MOL_K" : {
+         "definition" : "J*MOL(-1)*DELTA_KELVIN(-1)",
+         "label" : "J/(mol*K)",
+         "phenomenon" : "Units.SPECIFIC_HEAT_CAPACITY_MOLAR",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.SI"
+      },
+      "K" : {
+         "definition" : "K",
+         "phenomenon" : "Units.TEMPERATURE",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.SI"
+      },
+      "KELVIN_PER_M" : {
+         "definition" : "DELTA_KELVIN*M(-1)",
+         "label" : "ΔK/m",
+         "phenomenon" : "Units.TEMPERATURE_GRADIENT",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.SI"
+      },
+      "KG" : {
+         "definition" : "KG",
+         "label" : "kg",
+         "phenomenon" : "Units.MASS",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.SI"
+      },
+      "KGF" : {
+         "definition" : "[STD_G]*KG",
+         "label" : "kgf",
+         "phenomenon" : "Units.FORCE",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.METRIC"
+      },
+      "KGF_PER_SQ_M" : {
+         "definition" : "KGF*M(-2)",
+         "label" : "kgf/m²",
+         "phenomenon" : "Units.PRESSURE",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.INTERNATIONAL"
+      },
+      "KG_PER_CUB_CM" : {
+         "definition" : "KG*CM(-3)",
+         "label" : "kg/cm³",
+         "phenomenon" : "Units.DENSITY",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.METRIC"
+      },
+      "KG_PER_CUB_M" : {
+         "definition" : "KG*M(-3)",
+         "label" : "kg/m³",
+         "phenomenon" : "Units.DENSITY",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.SI"
+      },
+      "KG_PER_DAY" : {
+         "definition" : "KG*DAY(-1)",
+         "label" : "kg/day",
+         "phenomenon" : "Units.MASS_FLOW",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.METRIC"
+      },
+      "KG_PER_HECTARE" : {
+         "definition" : "KG*HECTARE(-1)",
+         "label" : "kg/ha",
+         "phenomenon" : "Units.SURFACE_DENSITY",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.METRIC"
+      },
+      "KG_PER_HR" : {
+         "definition" : "KG*HR(-1)",
+         "label" : "kg/h",
+         "phenomenon" : "Units.MASS_FLOW",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.METRIC"
+      },
+      "KG_PER_KG" : {
+         "definition" : "KG*KG(-1)",
+         "label" : "kg/kg",
+         "phenomenon" : "Units.MASS_RATIO",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.SI"
+      },
+      "KG_PER_LITRE" : {
+         "definition" : "KG*DM(-3)",
+         "label" : "kg/dm³",
+         "phenomenon" : "Units.DENSITY",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.METRIC"
+      },
+      "KG_PER_M" : {
+         "definition" : "KG*M(-1)",
+         "label" : "kg/m",
+         "phenomenon" : "Units.LINEAR_DENSITY",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.SI"
+      },
+      "KG_PER_MIN" : {
+         "definition" : "KG*MIN(-1)",
+         "label" : "kg/min",
+         "phenomenon" : "Units.MASS_FLOW",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.METRIC"
+      },
+      "KG_PER_MM" : {
+         "definition" : "KG*MM(-1)",
+         "label" : "kg/mm",
+         "phenomenon" : "Units.LINEAR_DENSITY",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.METRIC"
+      },
+      "KG_PER_SEC" : {
+         "definition" : "KG*S(-1)",
+         "label" : "kg/s",
+         "phenomenon" : "Units.MASS_FLOW",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.SI"
+      },
+      "KG_PER_SQ_M" : {
+         "definition" : "KG*M(-2)",
+         "label" : "kg/m²",
+         "phenomenon" : "Units.SURFACE_DENSITY",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.SI"
+      },
+      "KHZ" : {
+         "definition" : "[KILO]*S(-1)",
+         "label" : "KHz",
+         "phenomenon" : "Units.FREQUENCY",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.METRIC"
+      },
+      "KILO" : {
+         "definition" : "ONE",
+         "label" : "kilo",
+         "numerator" : 1000.0,
+         "phenomenon" : "Units.NUMBER",
+         "schemaItemType" : "Constant"
+      },
+      "KILOAMPERE" : {
+         "definition" : "[KILO]*A",
+         "label" : "KA",
+         "phenomenon" : "Units.CURRENT",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.METRIC"
+      },
+      "KILOBTU" : {
+         "definition" : "[KILO]*BTU",
+         "label" : "kBtu",
+         "phenomenon" : "Units.WORK",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.USCUSTOM"
+      },
+      "KILOBTU_PER_HR" : {
+         "definition" : "[KILO]*BTU*HR(-1)",
+         "label" : "kBtu/h",
+         "phenomenon" : "Units.POWER",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.USCUSTOM"
+      },
+      "KILOPASCAL" : {
+         "definition" : "[KILO]*PA",
+         "label" : "kPa",
+         "phenomenon" : "Units.PRESSURE",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.METRIC"
+      },
+      "KILOPASCAL_GAUGE" : {
+         "definition" : "[KILO]*PA",
+         "description" : "Offset is one standard atmosphere (101325 PA) converted to kilopascal.  Offset is exact, See http://physics.nist.gov/cuu/pdf/sp811.pdf Appendix B.  ",
+         "label" : "kPa (Gauge)",
+         "numerator" : 1.0,
+         "offset" : 101.3250,
+         "phenomenon" : "Units.PRESSURE",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.INDUSTRIAL"
+      },
+      "KILOVOLT" : {
+         "definition" : "[KILO]*VOLT",
+         "label" : "KV",
+         "phenomenon" : "Units.ELECTRIC_POTENTIAL",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.METRIC"
+      },
+      "KINEMATIC_VISCOSITY" : {
+         "definition" : "DYNAMIC_VISCOSITY*DENSITY(-1)",
+         "label" : "Kinematic Viscosity",
+         "schemaItemType" : "Phenomenon"
+      },
+      "KIPM" : {
+         "definition" : "[KILO]*LBM",
+         "description" : "Exact, http://physics.nist.gov/cuu/pdf/sp811.pdf, Appendix B.",
+         "label" : "kipm",
+         "phenomenon" : "Units.MASS",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.USCUSTOM"
+      },
+      "KIP_PER_CUB_FT" : {
+         "definition" : "KIPM*FT(-3)",
+         "label" : "kip/ft³",
+         "phenomenon" : "Units.DENSITY",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.USCUSTOM"
+      },
+      "KJ" : {
+         "definition" : "[KILO]*J",
+         "label" : "kJ",
+         "phenomenon" : "Units.WORK",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.METRIC"
+      },
+      "KJ_PER_CUB_M" : {
+         "definition" : "KJ*M(-3)",
+         "label" : "kJ/m³",
+         "phenomenon" : "Units.ENERGY_DENSITY",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.METRIC"
+      },
+      "KJ_PER_KG" : {
+         "definition" : "KJ*KG(-1)",
+         "label" : "kJ/kg",
+         "phenomenon" : "Units.SPECIFIC_ENERGY",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.METRIC"
+      },
+      "KJ_PER_KMOL_K" : {
+         "definition" : "KJ*KMOL(-1)*DELTA_KELVIN(-1)",
+         "label" : "kJ/(kmol·ΔK)",
+         "phenomenon" : "Units.SPECIFIC_HEAT_CAPACITY_MOLAR",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.METRIC"
+      },
+      "KM" : {
+         "definition" : "[KILO]*M",
+         "label" : "km",
+         "phenomenon" : "Units.LENGTH",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.METRIC"
+      },
+      "KMOL" : {
+         "definition" : "[KILO]*MOL",
+         "label" : "kmol",
+         "phenomenon" : "Units.MOLE",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.METRIC"
+      },
+      "KMOL_PER_CUB_M" : {
+         "definition" : "[KILO]*MOL*CUB_M(-1)",
+         "label" : "kmol/m³",
+         "phenomenon" : "Units.MOLAR_CONCENTRATION",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.METRIC"
+      },
+      "KMOL_PER_SEC" : {
+         "definition" : "[KILO]*MOL*S(-1)",
+         "label" : "kmol/s",
+         "phenomenon" : "Units.MOLAR_FLOW",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.METRIC"
+      },
+      "KM_PER_HR" : {
+         "definition" : "KM*HR(-1)",
+         "label" : "km/h",
+         "phenomenon" : "Units.VELOCITY",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.METRIC"
+      },
+      "KM_PER_SEC" : {
+         "definition" : "KM*S(-1)",
+         "label" : "km/sec",
+         "phenomenon" : "Units.VELOCITY",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.METRIC"
+      },
+      "KN" : {
+         "definition" : "[KILO]*N",
+         "label" : "kN",
+         "phenomenon" : "Units.FORCE",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.METRIC"
+      },
+      "KNOT_INTERNATIONAL" : {
+         "definition" : "NAUT_MILE*HR(-1)",
+         "label" : "knot (Int.)",
+         "phenomenon" : "Units.VELOCITY",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.MARITIME"
+      },
+      "KN_M" : {
+         "definition" : "KN*M*RAD(-1)",
+         "label" : "kN·m",
+         "phenomenon" : "Units.TORQUE",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.METRIC"
+      },
+      "KN_M_PER_M" : {
+         "definition" : "KN_M*M(-1)",
+         "label" : "kN·m/m",
+         "phenomenon" : "Units.LINEAR_TORQUE",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.METRIC"
+      },
+      "KN_M_PER_RAD" : {
+         "definition" : "KN_M*RAD(-1)",
+         "label" : "kN·m/rad",
+         "phenomenon" : "Units.ROTATIONAL_SPRING_CONSTANT",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.METRIC"
+      },
+      "KN_M_PER_SQ_M" : {
+         "definition" : "KN_M*M(-2)",
+         "label" : "kN·m/m²",
+         "phenomenon" : "Units.AREA_TORQUE",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.METRIC"
+      },
+      "KN_PER_CUB_FT" : {
+         "definition" : "[KILO]*N*FT(-3)",
+         "label" : "kN/ft³",
+         "phenomenon" : "Units.FORCE_DENSITY",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.USCUSTOM"
+      },
+      "KN_PER_CUB_M" : {
+         "definition" : "[KILO]*N*M(-3)",
+         "label" : "kN/m³",
+         "phenomenon" : "Units.FORCE_DENSITY",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.METRIC"
+      },
+      "KN_PER_M" : {
+         "definition" : "KN*M(-1)",
+         "label" : "kN/m",
+         "phenomenon" : "Units.LINEAR_LOAD",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.METRIC"
+      },
+      "KN_PER_RAD" : {
+         "definition" : "KN*RAD(-1)",
+         "label" : "kN/rad",
+         "phenomenon" : "Units.LINEAR_ROTATIONAL_SPRING_CONSTANT",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.METRIC"
+      },
+      "KPF" : {
+         "definition" : "[KILO]*LBF",
+         "label" : "kpf",
+         "phenomenon" : "Units.FORCE",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.USCUSTOM"
+      },
+      "KPF_FT" : {
+         "definition" : "KPF*FT*RAD(-1)",
+         "label" : "kpf·ft",
+         "phenomenon" : "Units.TORQUE",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.USCUSTOM"
+      },
+      "KPF_FT_PER_FT" : {
+         "definition" : "KPF_FT*FT(-1)",
+         "label" : "kpf·ft/ft",
+         "phenomenon" : "Units.LINEAR_TORQUE",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.USCUSTOM"
+      },
+      "KPF_FT_PER_RAD" : {
+         "definition" : "KPF_FT*RAD(-1)",
+         "label" : "kpf·ft/rad",
+         "phenomenon" : "Units.ROTATIONAL_SPRING_CONSTANT",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.USCUSTOM"
+      },
+      "KPF_FT_PER_SQ_FT" : {
+         "definition" : "KPF_FT*FT(-2)",
+         "label" : "kpf·ft/ft²",
+         "phenomenon" : "Units.AREA_TORQUE",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.USCUSTOM"
+      },
+      "KPF_PER_CUB_FT" : {
+         "definition" : "KPF*FT(-3)",
+         "label" : "kpf/ft³",
+         "phenomenon" : "Units.FORCE_DENSITY",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.USCUSTOM"
+      },
+      "KPF_PER_FT" : {
+         "definition" : "KPF*FT(-1)",
+         "label" : "kpf/ft",
+         "phenomenon" : "Units.LINEAR_LOAD",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.USCUSTOM"
+      },
+      "KPF_PER_RAD" : {
+         "definition" : "KPF*RAD(-1)",
+         "label" : "kpf/rad",
+         "phenomenon" : "Units.LINEAR_ROTATIONAL_SPRING_CONSTANT",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.USCUSTOM"
+      },
+      "KSF" : {
+         "definition" : "KPF*FT(-2)",
+         "label" : "ksf",
+         "phenomenon" : "Units.PRESSURE",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.USCUSTOM"
+      },
+      "KSI" : {
+         "definition" : "KPF*IN(-2)",
+         "label" : "ksi",
+         "phenomenon" : "Units.PRESSURE",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.USCUSTOM"
+      },
+      "KVA" : {
+         "definition" : "[KILO]*VA",
+         "phenomenon" : "Units.APPARENT_POWER",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.METRIC"
+      },
+      "KW" : {
+         "definition" : "[KILO]*W",
+         "label" : "kW",
+         "phenomenon" : "Units.POWER",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.METRIC"
+      },
+      "KWH" : {
+         "definition" : "KW*HR",
+         "label" : "kW·h",
+         "phenomenon" : "Units.WORK",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.INTERNATIONAL"
+      },
+      "KWH_PER_CUB_FT" : {
+         "definition" : "KWH*FT(-3)",
+         "label" : "kWh/ft³",
+         "phenomenon" : "Units.ENERGY_DENSITY",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.USCUSTOM"
+      },
+      "KWH_PER_CUB_M" : {
+         "definition" : "KWH*M(-3)",
+         "label" : "kW·h/m³",
+         "phenomenon" : "Units.ENERGY_DENSITY",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.METRIC"
+      },
+      "KWH_PER_MILLION_GALLON" : {
+         "definition" : "KWH*[MEGA](-1)*GALLON(-1)",
+         "label" : "kW·h/million gal",
+         "phenomenon" : "Units.ENERGY_DENSITY",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.USCUSTOM"
+      },
+      "LBF" : {
+         "definition" : "[STD_G]*LBM",
+         "label" : "lbf",
+         "phenomenon" : "Units.FORCE",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.USCUSTOM"
+      },
+      "LBF_FT" : {
+         "definition" : "LBF*FT*RAD(-1)",
+         "label" : "lbf·ft",
+         "phenomenon" : "Units.TORQUE",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.USCUSTOM"
+      },
+      "LBF_FT_PER_FT" : {
+         "definition" : "LBF_FT*FT(-1)",
+         "label" : "lbf·ft/ft",
+         "phenomenon" : "Units.LINEAR_TORQUE",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.USCUSTOM"
+      },
+      "LBF_FT_PER_SQ_FT" : {
+         "definition" : "LBF_FT*FT(-2)",
+         "label" : "lbf·ft/ft²",
+         "phenomenon" : "Units.AREA_TORQUE",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.USCUSTOM"
+      },
+      "LBF_IN" : {
+         "definition" : "LBF*IN*RAD(-1)",
+         "label" : "lbf·in",
+         "phenomenon" : "Units.TORQUE",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.USCUSTOM"
+      },
+      "LBF_IN_PER_IN" : {
+         "definition" : "LBF_IN*IN(-1)",
+         "label" : "lbf·in/in",
+         "phenomenon" : "Units.LINEAR_TORQUE",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.USCUSTOM"
+      },
+      "LBF_IN_PER_SQ_IN" : {
+         "definition" : "LBF_IN*IN(-2)",
+         "label" : "lbf·in/in²",
+         "phenomenon" : "Units.AREA_TORQUE",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.USCUSTOM"
+      },
+      "LBF_PER_FT" : {
+         "definition" : "LBF*FT(-1)",
+         "label" : "lbf/ft",
+         "phenomenon" : "Units.LINEAR_LOAD",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.USCUSTOM"
+      },
+      "LBF_PER_IN" : {
+         "definition" : "LBF*IN(-1)",
+         "label" : "lbf/in",
+         "phenomenon" : "Units.LINEAR_LOAD",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.USCUSTOM"
+      },
+      "LBF_PER_SQ_FT" : {
+         "definition" : "LBF*FT(-2)",
+         "label" : "lbf/ft²",
+         "phenomenon" : "Units.PRESSURE",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.USCUSTOM"
+      },
+      "LBM" : {
+         "definition" : "KG",
+         "description" : "Is Avoirdupois Pound.  Exact, http://physics.nist.gov/cuu/pdf/sp811.pdf, Appendix B. Footnote 22",
+         "label" : "lb",
+         "numerator" : 0.45359237000000002,
+         "phenomenon" : "Units.MASS",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.USCUSTOM"
+      },
+      "LBM_PER_ACRE" : {
+         "definition" : "LBM*ACRE(-1)",
+         "label" : "lb/acre",
+         "phenomenon" : "Units.SURFACE_DENSITY",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.USCUSTOM"
+      },
+      "LBM_PER_CUB_FT" : {
+         "definition" : "LBM*FT(-3)",
+         "label" : "lb/ft³",
+         "phenomenon" : "Units.DENSITY",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.USCUSTOM"
+      },
+      "LBM_PER_CUB_IN" : {
+         "definition" : "LBM*IN(-3)",
+         "label" : "lb/in³",
+         "phenomenon" : "Units.DENSITY",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.USCUSTOM"
+      },
+      "LBM_PER_DAY" : {
+         "definition" : "LBM*DAY(-1)",
+         "label" : "lb/day",
+         "phenomenon" : "Units.MASS_FLOW",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.USCUSTOM"
+      },
+      "LBM_PER_FT" : {
+         "definition" : "LBM*FT(-1)",
+         "label" : "lb/ft",
+         "phenomenon" : "Units.LINEAR_DENSITY",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.USCUSTOM"
+      },
+      "LBM_PER_FT_S" : {
+         "definition" : "LBM*FT(-1)*S(-1)",
+         "label" : "lbm/(ft*s)",
+         "phenomenon" : "Units.DYNAMIC_VISCOSITY",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.USCUSTOM"
+      },
+      "LBM_PER_GALLON" : {
+         "definition" : "LBM*GALLON(-1)",
+         "label" : "lb/gal",
+         "phenomenon" : "Units.DENSITY",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.USCUSTOM"
+      },
+      "LBM_PER_GALLON_IMPERIAL" : {
+         "definition" : "LBM*GALLON_IMPERIAL(-1)",
+         "label" : "lb/gal (imp)",
+         "phenomenon" : "Units.DENSITY",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.IMPERIAL"
+      },
+      "LBM_PER_HR" : {
+         "definition" : "LBM*HR(-1)",
+         "label" : "lb/h",
+         "phenomenon" : "Units.MASS_FLOW",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.USCUSTOM"
+      },
+      "LBM_PER_MILLION_GALLON" : {
+         "definition" : "LBM*[MEGA](-1)*GALLON(-1)",
+         "label" : "lb/million gal",
+         "phenomenon" : "Units.DENSITY",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.USCUSTOM"
+      },
+      "LBM_PER_MIN" : {
+         "definition" : "LBM*MIN(-1)",
+         "label" : "lb/min",
+         "phenomenon" : "Units.MASS_FLOW",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.USCUSTOM"
+      },
+      "LBM_PER_SEC" : {
+         "definition" : "LBM*S(-1)",
+         "label" : "lb/s",
+         "phenomenon" : "Units.MASS_FLOW",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.USCUSTOM"
+      },
+      "LB_MOL" : {
+         "definition" : "MOL",
+         "description" : "ASTM SI 10 standard SI1-.phhc8328.pdf page 29, 35 and http://en.wikipedia.org/wiki/Mole_%28unit%29",
+         "label" : "lb-mol",
+         "numerator" : 453.59237000000002,
+         "phenomenon" : "Units.MOLE",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.USCUSTOM"
+      },
+      "LENGTH" : {
+         "definition" : "LENGTH",
+         "label" : "Length",
+         "schemaItemType" : "Phenomenon"
+      },
+      "LENGTH_RATIO" : {
+         "definition" : "LENGTH*LENGTH(-1)",
+         "schemaItemType" : "Phenomenon"
+      },
+      "LINEAR_COEFFICIENT_OF_THERMAL_EXPANSION" : {
+         "definition" : "LENGTH*LENGTH(-1)*TEMPERATURE_CHANGE(-1)",
+         "label" : "Linear Coefficient Of Thermal Expansion",
+         "schemaItemType" : "Phenomenon"
+      },
+      "LINEAR_DENSITY" : {
+         "definition" : "MASS*LENGTH(-1)",
+         "label" : "Linear Density",
+         "schemaItemType" : "Phenomenon"
+      },
+      "LINEAR_LOAD" : {
+         "definition" : "FORCE*LENGTH(-1)",
+         "label" : "Linear Load",
+         "schemaItemType" : "Phenomenon"
+      },
+      "LINEAR_RATE" : {
+         "definition" : "NUMBER*LENGTH(-1)",
+         "label" : "Linear Rate",
+         "schemaItemType" : "Phenomenon"
+      },
+      "LINEAR_ROTATIONAL_SPRING_CONSTANT" : {
+         "definition" : "FORCE*ANGLE(-1)",
+         "label" : "Linear Rotational Spring Constant",
+         "schemaItemType" : "Phenomenon"
+      },
+      "LINEAR_SPRING_CONSTANT" : {
+         "definition" : "SPRING_CONSTANT*LENGTH(-1)",
+         "label" : "Linear Spring Constant",
+         "schemaItemType" : "Phenomenon"
+      },
+      "LINEAR_SPRING_CONSTANT_KN_PER_SQ_M" : {
+         "definition" : "SPRING_CONSTANT_KN_PER_M*M(-1)",
+         "label" : "kN/m²",
+         "phenomenon" : "Units.LINEAR_SPRING_CONSTANT",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.METRIC"
+      },
+      "LINEAR_SPRING_CONSTANT_KPF_PER_SQ_FT" : {
+         "definition" : "SPRING_CONSTANT_KPF_PER_FT*FT(-1)",
+         "label" : "kpf/ft²",
+         "phenomenon" : "Units.LINEAR_SPRING_CONSTANT",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.USCUSTOM"
+      },
+      "LINEAR_SPRING_CONSTANT_N_PER_SQ_M" : {
+         "definition" : "SPRING_CONSTANT_N_PER_M*M(-1)",
+         "label" : "N/m²",
+         "phenomenon" : "Units.LINEAR_SPRING_CONSTANT",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.SI"
+      },
+      "LINEAR_TORQUE" : {
+         "definition" : "TORQUE*LENGTH(-1)",
+         "label" : "Linear Torque",
+         "schemaItemType" : "Phenomenon"
+      },
+      "LITRE" : {
+         "definition" : "CUB_DM",
+         "label" : "L",
+         "phenomenon" : "Units.VOLUME",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.METRIC"
+      },
+      "LITRE_PER_DAY" : {
+         "definition" : "LITRE*DAY(-1)",
+         "label" : "L/day",
+         "phenomenon" : "Units.VOLUMETRIC_FLOW",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.METRIC"
+      },
+      "LITRE_PER_HR" : {
+         "definition" : "LITRE*HR(-1)",
+         "label" : "L/h",
+         "phenomenon" : "Units.VOLUMETRIC_FLOW",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.METRIC"
+      },
+      "LITRE_PER_LITRE" : {
+         "definition" : "LITRE*LITRE(-1)",
+         "label" : "liter/liter",
+         "phenomenon" : "Units.VOLUME_RATIO",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.METRIC"
+      },
+      "LITRE_PER_MIN" : {
+         "definition" : "LITRE*MIN(-1)",
+         "label" : "L/min",
+         "phenomenon" : "Units.VOLUMETRIC_FLOW",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.METRIC"
+      },
+      "LITRE_PER_SEC" : {
+         "definition" : "LITRE*S(-1)",
+         "label" : "L/s",
+         "phenomenon" : "Units.VOLUMETRIC_FLOW",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.METRIC"
+      },
+      "LITRE_PER_SQ_M_SEC" : {
+         "definition" : "LITRE*M(-2)*S(-1)",
+         "label" : "L/(m²·s)",
+         "phenomenon" : "Units.FLOW_DENSITY_PER_AREA",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.METRIC"
+      },
+      "LONG_TON_FORCE" : {
+         "definition" : "[STD_G]*LONG_TON_MASS",
+         "label" : "tnf (long)",
+         "phenomenon" : "Units.FORCE",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.USCUSTOM"
+      },
+      "LONG_TON_MASS" : {
+         "definition" : "LBM",
+         "description" : "Exact, http://physics.nist.gov/cuu/pdf/sp811.pdf, Appendix B.",
+         "label" : "tn (long)",
+         "numerator" : 2240.0,
+         "phenomenon" : "Units.MASS",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.USCUSTOM"
+      },
+      "LUMEN" : {
+         "definition" : "CD*STERAD",
+         "label" : "lm",
+         "phenomenon" : "Units.LUMINOUS_FLUX",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.SI"
+      },
+      "LUMEN_PER_SQ_FT" : {
+         "definition" : "LUMEN*FT(-2)",
+         "label" : "lm/ft²",
+         "phenomenon" : "Units.ILLUMINANCE",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.USCUSTOM"
+      },
+      "LUMINOSITY" : {
+         "definition" : "LUMINOSITY",
+         "label" : "Luminosity",
+         "schemaItemType" : "Phenomenon"
+      },
+      "LUMINOUS_FLUX" : {
+         "definition" : "LUMINOSITY*SOLIDANGLE",
+         "label" : "Luminous Flux",
+         "schemaItemType" : "Phenomenon"
+      },
+      "LUX" : {
+         "definition" : "LUMEN*M(-2)",
+         "label" : "lx",
+         "phenomenon" : "Units.ILLUMINANCE",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.SI"
+      },
+      "M" : {
+         "definition" : "M",
+         "label" : "m",
+         "phenomenon" : "Units.LENGTH",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.SI"
+      },
+      "MARITIME" : {
+         "schemaItemType" : "UnitSystem"
+      },
+      "MASS" : {
+         "definition" : "MASS",
+         "label" : "Mass",
+         "schemaItemType" : "Phenomenon"
+      },
+      "MASS_FLOW" : {
+         "definition" : "MASS*TIME(-1)",
+         "label" : "Mass Flow",
+         "schemaItemType" : "Phenomenon"
+      },
+      "MASS_RATIO" : {
+         "definition" : "MASS*MASS(-1)",
+         "label" : "Mass Ratio",
+         "schemaItemType" : "Phenomenon"
+      },
+      "MBAR" : {
+         "definition" : "[MILLI]*BAR",
+         "label" : "mBar",
+         "phenomenon" : "Units.PRESSURE",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.METRIC"
+      },
+      "MEGA" : {
+         "definition" : "ONE",
+         "label" : "mega",
+         "numerator" : 1000000.0,
+         "phenomenon" : "Units.NUMBER",
+         "schemaItemType" : "Constant"
+      },
+      "MEGAGRAM" : {
+         "definition" : "[MEGA]*G",
+         "label" : "Mg",
+         "phenomenon" : "Units.MASS",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.METRIC"
+      },
+      "MEGAJ" : {
+         "definition" : "[MEGA]*J",
+         "label" : "MJ",
+         "phenomenon" : "Units.WORK",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.METRIC"
+      },
+      "MEGAJ_PER_KG" : {
+         "definition" : "MEGAJ*KG(-1)",
+         "label" : "MJ/kg",
+         "phenomenon" : "Units.SPECIFIC_ENERGY",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.METRIC"
+      },
+      "MEGAN" : {
+         "definition" : "[MEGA]*N",
+         "label" : "MN",
+         "phenomenon" : "Units.FORCE",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.METRIC"
+      },
+      "MEGAN_M" : {
+         "definition" : "MEGAN*M*RAD(-1)",
+         "label" : "MN·m",
+         "phenomenon" : "Units.TORQUE",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.METRIC"
+      },
+      "MEGAN_M_PER_M" : {
+         "definition" : "MEGAN_M*M(-1)",
+         "label" : "MN·m/m",
+         "phenomenon" : "Units.LINEAR_TORQUE",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.METRIC"
+      },
+      "MEGAN_M_PER_SQ_M" : {
+         "definition" : "MEGAN_M*M(-2)",
+         "label" : "MN·m/m²",
+         "phenomenon" : "Units.AREA_TORQUE",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.METRIC"
+      },
+      "MEGAN_PER_M" : {
+         "definition" : "MEGAN*M(-1)",
+         "label" : "MN/m",
+         "phenomenon" : "Units.LINEAR_LOAD",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.METRIC"
+      },
+      "MEGAPASCAL" : {
+         "definition" : "[MEGA]*PA",
+         "label" : "MPa",
+         "phenomenon" : "Units.PRESSURE",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.METRIC"
+      },
+      "MEGAPASCAL_GAUGE" : {
+         "definition" : "[MEGA]*PA",
+         "description" : "Offset is one standard atmosphere (101325 PA) converted to megapascal.  Offset is exact, See http://physics.nist.gov/cuu/pdf/sp811.pdf Appendix B.  ",
+         "label" : "MPa (Gauge)",
+         "numerator" : 1.0,
+         "offset" : 0.1013250,
+         "phenomenon" : "Units.PRESSURE",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.INDUSTRIAL"
+      },
+      "MEGAVOLT" : {
+         "definition" : "[MEGA]*VOLT",
+         "label" : "MV",
+         "phenomenon" : "Units.ELECTRIC_POTENTIAL",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.METRIC"
+      },
+      "MEGAW" : {
+         "definition" : "[MEGA]*W",
+         "label" : "MW",
+         "phenomenon" : "Units.POWER",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.METRIC"
+      },
+      "MEGAWH" : {
+         "definition" : "MEGAW*HR",
+         "label" : "MWh",
+         "phenomenon" : "Units.WORK",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.INTERNATIONAL"
+      },
+      "METRIC" : {
+         "schemaItemType" : "UnitSystem"
+      },
+      "MG" : {
+         "definition" : "[MILLI]*G",
+         "label" : "mg",
+         "phenomenon" : "Units.MASS",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.METRIC"
+      },
+      "MG_PER_DAY" : {
+         "definition" : "MG*DAY(-1)",
+         "label" : "mg/day",
+         "phenomenon" : "Units.MASS_FLOW",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.METRIC"
+      },
+      "MG_PER_HR" : {
+         "definition" : "MG*HR(-1)",
+         "label" : "mg/h",
+         "phenomenon" : "Units.MASS_FLOW",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.METRIC"
+      },
+      "MG_PER_LITRE" : {
+         "definition" : "MG*DM(-3)",
+         "label" : "mg/L",
+         "phenomenon" : "Units.DENSITY",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.METRIC"
+      },
+      "MG_PER_MIN" : {
+         "definition" : "MG*MIN(-1)",
+         "label" : "mg/min",
+         "phenomenon" : "Units.MASS_FLOW",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.METRIC"
+      },
+      "MG_PER_SEC" : {
+         "definition" : "MG*S(-1)",
+         "label" : "mg/s",
+         "phenomenon" : "Units.MASS_FLOW",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.METRIC"
+      },
+      "MHZ" : {
+         "definition" : "[MEGA]*S(-1)",
+         "label" : "MHz",
+         "phenomenon" : "Units.FREQUENCY",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.METRIC"
+      },
+      "MICRO" : {
+         "definition" : "ONE",
+         "label" : "micro",
+         "numerator" : 9.9999999999999995e-07,
+         "phenomenon" : "Units.NUMBER",
+         "schemaItemType" : "Constant"
+      },
+      "MICROAMPERE" : {
+         "definition" : "[MICRO]*A",
+         "label" : "µA",
+         "phenomenon" : "Units.CURRENT",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.METRIC"
+      },
+      "MICROINCH" : {
+         "definition" : "[MICRO]*IN",
+         "label" : "µin",
+         "phenomenon" : "Units.LENGTH",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.USCUSTOM"
+      },
+      "MICROLITRE" : {
+         "definition" : "[MICRO]*LITRE",
+         "label" : "µliter",
+         "phenomenon" : "Units.VOLUME",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.METRIC"
+      },
+      "MICROMOL_PER_CUB_DM" : {
+         "definition" : "[MICRO]*MOL*CUB_DM(-1)",
+         "label" : "µmol/dm³",
+         "phenomenon" : "Units.MOLAR_CONCENTRATION",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.METRIC"
+      },
+      "MILE" : {
+         "definition" : "YRD",
+         "description" : "Exact, http://www.nist.gov/pml/wmd/pubs/upload/hb44-15-web-final.pdf, Appendix C. Section 4, Page C-8",
+         "label" : "mi",
+         "numerator" : 1760.0,
+         "phenomenon" : "Units.LENGTH",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.USCUSTOM"
+      },
+      "MILLI" : {
+         "definition" : "ONE",
+         "label" : "milli",
+         "numerator" : 0.0010,
+         "phenomenon" : "Units.NUMBER",
+         "schemaItemType" : "Constant"
+      },
+      "MILLIAMPERE" : {
+         "definition" : "[MILLI]*A",
+         "label" : "mA",
+         "phenomenon" : "Units.CURRENT",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.METRIC"
+      },
+      "MILLIFOOT" : {
+         "definition" : "[MILLI]*FT",
+         "label" : "mft",
+         "phenomenon" : "Units.LENGTH",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.USCUSTOM"
+      },
+      "MILLIINCH" : {
+         "definition" : "[MILLI]*IN",
+         "label" : "mil",
+         "phenomenon" : "Units.LENGTH",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.USCUSTOM"
+      },
+      "MILLION_GALLON" : {
+         "definition" : "[MEGA]*GALLON",
+         "label" : "million gal",
+         "phenomenon" : "Units.VOLUME",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.USCUSTOM"
+      },
+      "MILLION_LITRE" : {
+         "definition" : "[MEGA]*LITRE",
+         "label" : "million L",
+         "phenomenon" : "Units.VOLUME",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.METRIC"
+      },
+      "MIN" : {
+         "definition" : "S",
+         "label" : "min",
+         "numerator" : 60.0,
+         "phenomenon" : "Units.TIME",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.INTERNATIONAL"
+      },
+      "MKG" : {
+         "definition" : "[MICRO]*G",
+         "label" : "µg",
+         "phenomenon" : "Units.MASS",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.METRIC"
+      },
+      "MKG_PER_DAY" : {
+         "definition" : "MKG*DAY(-1)",
+         "label" : "µg/day",
+         "phenomenon" : "Units.MASS_FLOW",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.METRIC"
+      },
+      "MKG_PER_HR" : {
+         "definition" : "MKG*HR(-1)",
+         "label" : "µg/h",
+         "phenomenon" : "Units.MASS_FLOW",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.METRIC"
+      },
+      "MKG_PER_LITRE" : {
+         "definition" : "MKG*DM(-3)",
+         "label" : "µg/L",
+         "phenomenon" : "Units.DENSITY",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.METRIC"
+      },
+      "MKG_PER_MIN" : {
+         "definition" : "MKG*MIN(-1)",
+         "label" : "µg/min",
+         "phenomenon" : "Units.MASS_FLOW",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.METRIC"
+      },
+      "MKG_PER_SEC" : {
+         "definition" : "MKG*S(-1)",
+         "label" : "µg/s",
+         "phenomenon" : "Units.MASS_FLOW",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.METRIC"
+      },
+      "MKS" : {
+         "definition" : "[MICRO]*S",
+         "label" : "µs",
+         "phenomenon" : "Units.TIME",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.INTERNATIONAL"
+      },
+      "MM" : {
+         "definition" : "[MILLI]*M",
+         "label" : "mm",
+         "phenomenon" : "Units.LENGTH",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.METRIC"
+      },
+      "MM_H2O" : {
+         "definition" : "PA",
+         "description" : "Millimeter of H2O Conventional, See http://physics.nist.gov/cuu/pdf/sp811.pdf Appendix B.",
+         "label" : "mmH2O (Conv)",
+         "numerator" : 9.8066499999999994,
+         "phenomenon" : "Units.PRESSURE",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.METRIC"
+      },
+      "MM_HG_AT_32F" : {
+         "definition" : "PA",
+         "description" : "See http://physics.nist.gov/cuu/pdf/sp811.pdf Appendix B.  Used centimeter of mercury (0 C) to pascal",
+         "label" : "mmHg@32°F",
+         "numerator" : 133.3220,
+         "phenomenon" : "Units.PRESSURE",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.METRIC"
+      },
+      "MM_KM" : {
+         "definition" : "MM*KM",
+         "label" : "mm·km",
+         "phenomenon" : "Units.PIPE_DIAMETER_LENGTH",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.INDUSTRIAL"
+      },
+      "MM_M" : {
+         "definition" : "MM*M",
+         "label" : "mm·m",
+         "phenomenon" : "Units.PIPE_DIAMETER_LENGTH",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.INDUSTRIAL"
+      },
+      "MM_MILE" : {
+         "definition" : "MM*MILE",
+         "label" : "mm·mi",
+         "phenomenon" : "Units.PIPE_DIAMETER_LENGTH",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.INDUSTRIAL"
+      },
+      "MM_PER_DAY" : {
+         "definition" : "MM*DAY(-1)",
+         "label" : "mm/day",
+         "phenomenon" : "Units.VELOCITY",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.METRIC"
+      },
+      "MM_PER_HR" : {
+         "definition" : "MM*HR(-1)",
+         "label" : "mm/h",
+         "phenomenon" : "Units.VELOCITY",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.METRIC"
+      },
+      "MM_PER_M" : {
+         "definition" : "MM*M(-1)",
+         "label" : "mm/m",
+         "phenomenon" : "Units.SLOPE",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.METRIC"
+      },
+      "MM_PER_MIN" : {
+         "definition" : "MM*MIN(-1)",
+         "label" : "mm/min",
+         "phenomenon" : "Units.VELOCITY",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.METRIC"
+      },
+      "MM_PER_SEC" : {
+         "definition" : "MM*S(-1)",
+         "label" : "mm/sec",
+         "phenomenon" : "Units.VELOCITY",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.METRIC"
+      },
+      "MM_TO_THE_FOURTH" : {
+         "definition" : "MM(4)",
+         "label" : "mm⁴",
+         "phenomenon" : "Units.AREA_MOMENT_INERTIA",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.METRIC"
+      },
+      "MM_TO_THE_SIXTH" : {
+         "definition" : "MM(6)",
+         "label" : "mm⁶",
+         "phenomenon" : "Units.TORSIONAL_WARPING_CONSTANT",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.METRIC"
+      },
+      "MN" : {
+         "definition" : "[MILLI]*N",
+         "label" : "mN",
+         "phenomenon" : "Units.FORCE",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.METRIC"
+      },
+      "MOL" : {
+         "definition" : "MOL",
+         "description" : "Where mol is the SI gram mol or gmol.",
+         "label" : "mol",
+         "phenomenon" : "Units.MOLE",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.SI"
+      },
+      "MOLAR_CONCENTRATION" : {
+         "definition" : "MOLE*VOLUME(-1)",
+         "label" : "Molar Concentration",
+         "schemaItemType" : "Phenomenon"
+      },
+      "MOLAR_FLOW" : {
+         "definition" : "MOLE*TIME(-1)",
+         "label" : "Molar Flow",
+         "schemaItemType" : "Phenomenon"
+      },
+      "MOLAR_VOLUME" : {
+         "definition" : "VOLUME*MOLE(-1)",
+         "label" : "Molar Volume",
+         "schemaItemType" : "Phenomenon"
+      },
+      "MOLE" : {
+         "definition" : "MOLE",
+         "label" : "Mole",
+         "schemaItemType" : "Phenomenon"
+      },
+      "MOL_PER_CUB_DM" : {
+         "definition" : "MOL*CUB_DM(-1)",
+         "label" : "mol/dm³",
+         "phenomenon" : "Units.MOLAR_CONCENTRATION",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.METRIC"
+      },
+      "MOL_PER_CUB_FT" : {
+         "definition" : "MOL*CUB_FT(-1)",
+         "label" : "mol/ft³",
+         "phenomenon" : "Units.MOLAR_CONCENTRATION",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.USCUSTOM"
+      },
+      "MOL_PER_CUB_M" : {
+         "definition" : "MOL*CUB_M(-1)",
+         "label" : "mol/m³",
+         "phenomenon" : "Units.MOLAR_CONCENTRATION",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.SI"
+      },
+      "MOL_PER_SEC" : {
+         "definition" : "MOL*S(-1)",
+         "label" : "mol/s",
+         "phenomenon" : "Units.MOLAR_FLOW",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.SI"
+      },
+      "MONETARY_UNIT" : {
+         "definition" : "MONETARY_UNIT",
+         "label" : "dollar",
+         "phenomenon" : "Units.CURRENCY",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.FINANCE"
+      },
+      "MPH" : {
+         "definition" : "MILE*HR(-1)",
+         "label" : "mi/h",
+         "phenomenon" : "Units.VELOCITY",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.USCUSTOM"
+      },
+      "MS" : {
+         "definition" : "[MILLI]*S",
+         "label" : "ms",
+         "phenomenon" : "Units.TIME",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.INTERNATIONAL"
+      },
+      "MVA" : {
+         "definition" : "[MEGA]*VA",
+         "phenomenon" : "Units.APPARENT_POWER",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.METRIC"
+      },
+      "M_H2O" : {
+         "definition" : "[KILO]*MM_H2O",
+         "description" : "Meter of H2O Conventional",
+         "label" : "mH2O (Conv)",
+         "phenomenon" : "Units.PRESSURE",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.METRIC"
+      },
+      "M_HORIZONTAL_PER_M_VERTICAL" : {
+         "invertsUnit" : "Units.M_PER_M",
+         "schemaItemType" : "InvertedUnit",
+         "unitSystem" : "Units.SI"
+      },
+      "M_KM" : {
+         "definition" : "M*KM",
+         "label" : "m·km",
+         "phenomenon" : "Units.PIPE_DIAMETER_LENGTH",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.INDUSTRIAL"
+      },
+      "M_M" : {
+         "definition" : "M*M",
+         "label" : "m·m",
+         "phenomenon" : "Units.PIPE_DIAMETER_LENGTH",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.SI"
+      },
+      "M_PER_DAy" : {
+         "definition" : "M*DAY(-1)",
+         "label" : "m/day",
+         "phenomenon" : "Units.VELOCITY",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.METRIC"
+      },
+      "M_PER_HR" : {
+         "definition" : "M*HR(-1)",
+         "label" : "m/h",
+         "phenomenon" : "Units.VELOCITY",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.METRIC"
+      },
+      "M_PER_KM" : {
+         "definition" : "M*KM(-1)",
+         "label" : "m/km",
+         "phenomenon" : "Units.SLOPE",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.METRIC"
+      },
+      "M_PER_M" : {
+         "definition" : "M*M(-1)",
+         "label" : "m/m",
+         "phenomenon" : "Units.SLOPE",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.SI"
+      },
+      "M_PER_MIN" : {
+         "definition" : "M*MIN(-1)",
+         "label" : "m/min",
+         "phenomenon" : "Units.VELOCITY",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.METRIC"
+      },
+      "M_PER_RAD" : {
+         "definition" : "M*RAD(-1)",
+         "label" : "m/rad",
+         "phenomenon" : "Units.THREAD_PITCH",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.SI"
+      },
+      "M_PER_REVOLUTION" : {
+         "definition" : "M*REVOLUTION(-1)",
+         "label" : "m/r",
+         "phenomenon" : "Units.THREAD_PITCH",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.INTERNATIONAL"
+      },
+      "M_PER_SEC" : {
+         "definition" : "M*S(-1)",
+         "label" : "m/s",
+         "phenomenon" : "Units.VELOCITY",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.SI"
+      },
+      "M_PER_SEC_SQ" : {
+         "definition" : "M*S(-2)",
+         "label" : "m/sec²",
+         "phenomenon" : "Units.ACCELERATION",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.SI"
+      },
+      "M_TO_THE_FOURTH" : {
+         "definition" : "M(4)",
+         "label" : "m⁴",
+         "phenomenon" : "Units.AREA_MOMENT_INERTIA",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.SI"
+      },
+      "M_TO_THE_SIXTH" : {
+         "definition" : "M(6)",
+         "label" : "m⁶",
+         "phenomenon" : "Units.TORSIONAL_WARPING_CONSTANT",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.SI"
+      },
+      "N" : {
+         "definition" : "KG*M*S(-2)",
+         "phenomenon" : "Units.FORCE",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.SI"
+      },
+      "NANO" : {
+         "definition" : "ONE",
+         "label" : "nano",
+         "numerator" : 1.0000000000000001e-09,
+         "phenomenon" : "Units.NUMBER",
+         "schemaItemType" : "Constant"
+      },
+      "NAUT_MILE" : {
+         "definition" : "M",
+         "description" : "International Nautical Mile.  Exact, http://www.nist.gov/pml/wmd/pubs/upload/hb44-15-web-final.pdf, Appendix C. Section 2, Page C-4",
+         "label" : "nmi",
+         "numerator" : 1852.0,
+         "phenomenon" : "Units.LENGTH",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.MARITIME"
+      },
+      "NG" : {
+         "definition" : "[NANO]*G",
+         "label" : "ng",
+         "phenomenon" : "Units.MASS",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.METRIC"
+      },
+      "NMOL_PER_CUB_DM" : {
+         "definition" : "[NANO]*MOL*CUB_DM(-1)",
+         "label" : "nmol/dm³",
+         "phenomenon" : "Units.MOLAR_CONCENTRATION",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.METRIC"
+      },
+      "NUMBER" : {
+         "definition" : "NUMBER",
+         "label" : "Number",
+         "schemaItemType" : "Phenomenon"
+      },
+      "N_CM" : {
+         "definition" : "N*CM*RAD(-1)",
+         "label" : "N·cm",
+         "phenomenon" : "Units.TORQUE",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.METRIC"
+      },
+      "N_CM_PER_CM" : {
+         "definition" : "N_CM*CM(-1)",
+         "label" : "N·cm/cm",
+         "phenomenon" : "Units.LINEAR_TORQUE",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.METRIC"
+      },
+      "N_CM_PER_SQ_CM" : {
+         "definition" : "N_CM*CM(-2)",
+         "label" : "N·cm/cm²",
+         "phenomenon" : "Units.AREA_TORQUE",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.METRIC"
+      },
+      "N_M" : {
+         "definition" : "N*M*RAD(-1)",
+         "label" : "N·m",
+         "phenomenon" : "Units.TORQUE",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.SI"
+      },
+      "N_M_PER_DEG" : {
+         "definition" : "N_M*ARC_DEG(-1)",
+         "label" : "N·m/deg",
+         "phenomenon" : "Units.ROTATIONAL_SPRING_CONSTANT",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.METRIC"
+      },
+      "N_M_PER_M" : {
+         "definition" : "N_M*M(-1)",
+         "label" : "N·m/m",
+         "phenomenon" : "Units.LINEAR_TORQUE",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.SI"
+      },
+      "N_M_PER_RAD" : {
+         "definition" : "N_M*RAD(-1)",
+         "label" : "N·m/rad",
+         "phenomenon" : "Units.ROTATIONAL_SPRING_CONSTANT",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.SI"
+      },
+      "N_M_PER_SQ_M" : {
+         "definition" : "N_M*M(-2)",
+         "label" : "N·m/m²",
+         "phenomenon" : "Units.AREA_TORQUE",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.SI"
+      },
+      "N_PER_CUB_FT" : {
+         "definition" : "N*FT(-3)",
+         "label" : "N/ft³",
+         "phenomenon" : "Units.FORCE_DENSITY",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.USCUSTOM"
+      },
+      "N_PER_CUB_M" : {
+         "definition" : "N*M(-3)",
+         "label" : "N/m³",
+         "phenomenon" : "Units.FORCE_DENSITY",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.SI"
+      },
+      "N_PER_M" : {
+         "definition" : "N*M(-1)",
+         "label" : "N/m",
+         "phenomenon" : "Units.LINEAR_LOAD",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.SI"
+      },
+      "N_PER_MM" : {
+         "definition" : "N*MM(-1)",
+         "label" : "N/mm",
+         "phenomenon" : "Units.LINEAR_LOAD",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.METRIC"
+      },
+      "N_PER_RAD" : {
+         "definition" : "N*RAD(-1)",
+         "label" : "N/rad",
+         "phenomenon" : "Units.LINEAR_ROTATIONAL_SPRING_CONSTANT",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.SI"
+      },
+      "ONE" : {
+         "definition" : "ONE",
+         "label" : "one",
+         "phenomenon" : "Units.NUMBER",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.INTERNATIONAL"
+      },
+      "OZF" : {
+         "definition" : "[STD_G]*OZM",
+         "label" : "ozf",
+         "phenomenon" : "Units.FORCE",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.USCUSTOM"
+      },
+      "OZM" : {
+         "definition" : "LBM",
+         "denominator" : 16.0,
+         "description" : "1/16 Exact, https://en.wikipedia.org/wiki/Ounce",
+         "label" : "oz",
+         "phenomenon" : "Units.MASS",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.USCUSTOM"
+      },
+      "PA" : {
+         "definition" : "N*M(-2)",
+         "label" : "N/m²",
+         "phenomenon" : "Units.PRESSURE",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.SI"
+      },
+      "PA_GAUGE" : {
+         "definition" : "PA",
+         "description" : "Offset is one standard atmosphere in PA.  Offset is exact, See http://physics.nist.gov/cuu/pdf/sp811.pdf Appendix B.  ",
+         "label" : "Pa (gauge)",
+         "numerator" : 1.0,
+         "offset" : 101325.0,
+         "phenomenon" : "Units.PRESSURE",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.INDUSTRIAL"
+      },
+      "PA_PER_M" : {
+         "definition" : "PA*M(-1)",
+         "label" : "Pa/m",
+         "phenomenon" : "Units.PRESSURE_GRADIENT",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.SI"
+      },
+      "PA_S" : {
+         "definition" : "PA*S",
+         "label" : "Pa·s",
+         "phenomenon" : "Units.DYNAMIC_VISCOSITY",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.SI"
+      },
+      "PDL" : {
+         "definition" : "LBM*FT*S(-2)",
+         "label" : "pdl",
+         "phenomenon" : "Units.FORCE",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.USCUSTOM"
+      },
+      "PERCENT" : {
+         "definition" : "ONE",
+         "label" : "%",
+         "phenomenon" : "Units.PERCENTAGE",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.INTERNATIONAL"
+      },
+      "PERCENTAGE" : {
+         "definition" : "NUMBER",
+         "label" : "Percentage",
+         "schemaItemType" : "Phenomenon"
+      },
+      "PERCENT_SLOPE" : {
+         "definition" : "DECIMAL_PERCENT(-1)*M_PER_M",
+         "label" : "%",
+         "phenomenon" : "Units.SLOPE",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.INTERNATIONAL"
+      },
+      "PERSON" : {
+         "definition" : "PERSON",
+         "label" : "person",
+         "phenomenon" : "Units.CAPITA",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.SI"
+      },
+      "PERSON_PER_ACRE" : {
+         "definition" : "PERSON*ACRE(-1)",
+         "label" : "p/acre",
+         "phenomenon" : "Units.POPULATION_DENSITY",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.USCUSTOM"
+      },
+      "PERSON_PER_HECTARE" : {
+         "definition" : "PERSON*HECTARE(-1)",
+         "label" : "p/ha",
+         "phenomenon" : "Units.POPULATION_DENSITY",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.METRIC"
+      },
+      "PERSON_PER_SQ_FT" : {
+         "definition" : "PERSON*FT(-2)",
+         "label" : "p/ft²",
+         "phenomenon" : "Units.POPULATION_DENSITY",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.USCUSTOM"
+      },
+      "PERSON_PER_SQ_KM" : {
+         "definition" : "PERSON*KM(-2)",
+         "label" : "p/km²",
+         "phenomenon" : "Units.POPULATION_DENSITY",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.METRIC"
+      },
+      "PERSON_PER_SQ_M" : {
+         "definition" : "PERSON*M(-2)",
+         "label" : "p/m²",
+         "phenomenon" : "Units.POPULATION_DENSITY",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.SI"
+      },
+      "PERSON_PER_SQ_MILE" : {
+         "definition" : "PERSON*MILE(-2)",
+         "label" : "p/mi²",
+         "phenomenon" : "Units.POPULATION_DENSITY",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.USCUSTOM"
+      },
+      "PER_FT" : {
+         "definition" : "FT(-1)",
+         "label" : "1/ft",
+         "phenomenon" : "Units.LINEAR_RATE",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.USCUSTOM"
+      },
+      "PER_KM" : {
+         "definition" : "KM(-1)",
+         "label" : "1/km",
+         "phenomenon" : "Units.LINEAR_RATE",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.METRIC"
+      },
+      "PER_M" : {
+         "definition" : "M(-1)",
+         "label" : "1/m",
+         "phenomenon" : "Units.LINEAR_RATE",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.SI"
+      },
+      "PER_MILE" : {
+         "definition" : "MILE(-1)",
+         "label" : "1/mile",
+         "phenomenon" : "Units.LINEAR_RATE",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.USCUSTOM"
+      },
+      "PER_MM" : {
+         "definition" : "MM(-1)",
+         "label" : "1/mm",
+         "phenomenon" : "Units.LINEAR_RATE",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.METRIC"
+      },
+      "PER_THOUSAND_FT" : {
+         "definition" : "FT(-1)",
+         "label" : "1/1000 ft",
+         "numerator" : 0.0010,
+         "phenomenon" : "Units.LINEAR_RATE",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.USCUSTOM"
+      },
+      "PETA" : {
+         "definition" : "ONE",
+         "label" : "peta",
+         "numerator" : 1000000000000000.0,
+         "phenomenon" : "Units.NUMBER",
+         "schemaItemType" : "Constant"
+      },
+      "PI" : {
+         "definition" : "ONE",
+         "label" : "Pi",
+         "numerator" : 3.1415926535897931,
+         "phenomenon" : "Units.LENGTH_RATIO",
+         "schemaItemType" : "Constant"
+      },
+      "PICO" : {
+         "definition" : "ONE",
+         "label" : "pico",
+         "numerator" : 9.9999999999999998e-13,
+         "phenomenon" : "Units.NUMBER",
+         "schemaItemType" : "Constant"
+      },
+      "PICOMOL_PER_CUB_DM" : {
+         "definition" : "[PICO]*MOL*CUB_DM(-1)",
+         "label" : "picomol/dm³",
+         "phenomenon" : "Units.MOLAR_CONCENTRATION",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.METRIC"
+      },
+      "PIPE_DIAMETER_LENGTH" : {
+         "definition" : "LENGTH*LENGTH",
+         "description" : "The diameter of a pipe multiplied by its length, used as a coefficient for pipe-infiltration calculations.",
+         "label" : "Pipe Diameter-Length",
+         "schemaItemType" : "Phenomenon"
+      },
+      "POISE" : {
+         "definition" : "[DECI]*PA_S",
+         "description" : "Exact, See http://physics.nist.gov/cuu/pdf/sp811.pdf Appendix B.",
+         "label" : "poise",
+         "phenomenon" : "Units.DYNAMIC_VISCOSITY",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.METRIC"
+      },
+      "POPULATION_DENSITY" : {
+         "definition" : "CAPITA*AREA(-1)",
+         "label" : "Population Density",
+         "schemaItemType" : "Phenomenon"
+      },
+      "POWER" : {
+         "definition" : "WORK*TIME(-1)",
+         "label" : "Power",
+         "schemaItemType" : "Phenomenon"
+      },
+      "PRESSURE" : {
+         "definition" : "FORCE*AREA(-1)",
+         "label" : "Pressure",
+         "schemaItemType" : "Phenomenon"
+      },
+      "PRESSURE_GRADIENT" : {
+         "definition" : "PRESSURE*LENGTH(-1)",
+         "label" : "Pressure Gradient",
+         "schemaItemType" : "Phenomenon"
+      },
+      "PROBABILITY" : {
+         "definition" : "NUMBER",
+         "label" : "Probability",
+         "schemaItemType" : "Phenomenon"
+      },
+      "PROBABILITY_FRACTION" : {
+         "definition" : "ONE",
+         "label" : "PROBABILITY_FRACTION",
+         "phenomenon" : "Units.PROBABILITY",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.SI"
+      },
+      "PROBABILITY_PERCENT" : {
+         "definition" : "PROBABILITY_FRACTION",
+         "denominator" : 100.0,
+         "label" : "%",
+         "phenomenon" : "Units.PROBABILITY",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.INTERNATIONAL"
+      },
+      "PSF" : {
+         "definition" : "LBF*FT(-2)",
+         "label" : "lbf/ft²",
+         "phenomenon" : "Units.PRESSURE",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.USCUSTOM"
+      },
+      "PSI" : {
+         "definition" : "LBF*IN(-2)",
+         "label" : "lbf/in²",
+         "phenomenon" : "Units.PRESSURE",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.USCUSTOM"
+      },
+      "PSIG" : {
+         "definition" : "LBF*IN(-2)",
+         "description" : "Offset is one standard atmosphere (101325 PA) converted to PSI",
+         "label" : "lbf/in² (Gauge)",
+         "numerator" : 1.0,
+         "offset" : 14.695948775513449,
+         "phenomenon" : "Units.PRESSURE",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.USCUSTOM"
+      },
+      "QUARTER_PI" : {
+         "definition" : "PI",
+         "denominator" : 4.0,
+         "label" : "Pi/4",
+         "numerator" : 1.0,
+         "phenomenon" : "Units.LENGTH_RATIO",
+         "schemaItemType" : "Constant"
+      },
+      "RAD" : {
+         "definition" : "RAD",
+         "label" : "rad",
+         "phenomenon" : "Units.ANGLE",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.SI"
+      },
+      "RAD_PER_HR" : {
+         "definition" : "RAD*HR(-1)",
+         "label" : "rad/hr",
+         "phenomenon" : "Units.ANGULAR_VELOCITY",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.METRIC"
+      },
+      "RAD_PER_MIN" : {
+         "definition" : "RAD*MIN(-1)",
+         "label" : "rad/min",
+         "phenomenon" : "Units.ANGULAR_VELOCITY",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.METRIC"
+      },
+      "RAD_PER_SEC" : {
+         "definition" : "RAD*S(-1)",
+         "label" : "rad/sec",
+         "phenomenon" : "Units.ANGULAR_VELOCITY",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.SI"
+      },
+      "RANKINE" : {
+         "definition" : "K",
+         "denominator" : 9.0,
+         "description" : "Factor is 5/9",
+         "label" : "°R",
+         "numerator" : 5.0,
+         "phenomenon" : "Units.TEMPERATURE",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.USCUSTOM"
+      },
+      "REVOLUTION" : {
+         "definition" : "[TWO_PI]*RAD",
+         "label" : "r",
+         "phenomenon" : "Units.ANGLE",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.METRIC"
+      },
+      "ROTATIONAL_SPRING_CONSTANT" : {
+         "definition" : "TORQUE*ANGLE(-1)",
+         "label" : "Rotational Spring Constant",
+         "schemaItemType" : "Phenomenon"
+      },
+      "RPH" : {
+         "definition" : "[TWO_PI]*RAD*HR(-1)",
+         "label" : "cycle/hr",
+         "phenomenon" : "Units.ANGULAR_VELOCITY",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.METRIC"
+      },
+      "RPM" : {
+         "definition" : "[TWO_PI]*RAD*MIN(-1)",
+         "label" : "cycle/min",
+         "phenomenon" : "Units.ANGULAR_VELOCITY",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.METRIC"
+      },
+      "RPS" : {
+         "definition" : "[TWO_PI]*RAD*S(-1)",
+         "label" : "cycle/sec",
+         "phenomenon" : "Units.ANGULAR_VELOCITY",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.METRIC"
+      },
+      "S" : {
+         "definition" : "S",
+         "label" : "s",
+         "phenomenon" : "Units.TIME",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.SI"
+      },
+      "SHORT_TON_FORCE" : {
+         "definition" : "[STD_G]*SHORT_TON_MASS",
+         "label" : "tnf (short)",
+         "phenomenon" : "Units.FORCE",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.USCUSTOM"
+      },
+      "SHORT_TON_MASS" : {
+         "definition" : "LBM",
+         "description" : "Exact, http://physics.nist.gov/cuu/pdf/sp811.pdf, Appendix B.",
+         "label" : "tn (short)",
+         "numerator" : 2000.0,
+         "phenomenon" : "Units.MASS",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.USCUSTOM"
+      },
+      "SHORT_TON_PER_CUB_FT" : {
+         "definition" : "SHORT_TON_MASS*FT(-3)",
+         "label" : "tn (short)/ft³",
+         "phenomenon" : "Units.DENSITY",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.USCUSTOM"
+      },
+      "SHORT_TON_PER_HR" : {
+         "definition" : "SHORT_TON_MASS*HR(-1)",
+         "label" : "tph",
+         "phenomenon" : "Units.MASS_FLOW",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.USCUSTOM"
+      },
+      "SI" : {
+         "schemaItemType" : "UnitSystem"
+      },
+      "SLOPE" : {
+         "definition" : "LENGTH*LENGTH(-1)",
+         "label" : "Slope",
+         "schemaItemType" : "Phenomenon"
+      },
+      "SLUG" : {
+         "definition" : "LBF*S(2)*FT(-1)",
+         "label" : "slug",
+         "phenomenon" : "Units.MASS",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.USCUSTOM"
+      },
+      "SLUG_PER_CUB_FT" : {
+         "definition" : "SLUG*FT(-3)",
+         "label" : "slug/ft³",
+         "phenomenon" : "Units.DENSITY",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.USCUSTOM"
+      },
+      "SOLIDANGLE" : {
+         "definition" : "SOLIDANGLE",
+         "label" : "Solid Angle",
+         "schemaItemType" : "Phenomenon"
+      },
+      "SPECIFIC_ENERGY" : {
+         "definition" : "WORK*MASS(-1)",
+         "label" : "Specific Energy",
+         "schemaItemType" : "Phenomenon"
+      },
+      "SPECIFIC_HEAT_CAPACITY" : {
+         "definition" : "WORK*MASS(-1)*TEMPERATURE_CHANGE(-1)",
+         "label" : "Specific_heat Capacity",
+         "schemaItemType" : "Phenomenon"
+      },
+      "SPECIFIC_HEAT_CAPACITY_MOLAR" : {
+         "definition" : "WORK*MOLE(-1)*TEMPERATURE_CHANGE(-1)",
+         "label" : "Specific_heat Capacity Molar",
+         "schemaItemType" : "Phenomenon"
+      },
+      "SPECIFIC_VOLUME" : {
+         "definition" : "VOLUME*MASS(-1)",
+         "label" : "Specific Volume",
+         "schemaItemType" : "Phenomenon"
+      },
+      "SPRING_CONSTANT" : {
+         "definition" : "FORCE*LENGTH(-1)",
+         "label" : "Spring Constant",
+         "schemaItemType" : "Phenomenon"
+      },
+      "SPRING_CONSTANT_KN_PER_M" : {
+         "definition" : "KN*M(-1)",
+         "label" : "kN/m",
+         "phenomenon" : "Units.SPRING_CONSTANT",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.METRIC"
+      },
+      "SPRING_CONSTANT_KPF_PER_FT" : {
+         "definition" : "KPF*FT(-1)",
+         "label" : "kpf/ft",
+         "phenomenon" : "Units.SPRING_CONSTANT",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.USCUSTOM"
+      },
+      "SPRING_CONSTANT_N_PER_M" : {
+         "definition" : "N*M(-1)",
+         "label" : "N/m",
+         "phenomenon" : "Units.SPRING_CONSTANT",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.SI"
+      },
+      "SQ_CHAIN" : {
+         "definition" : "CHAIN(2)",
+         "label" : "chain²",
+         "phenomenon" : "Units.AREA",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.USCUSTOM"
+      },
+      "SQ_CM" : {
+         "definition" : "CM(2)",
+         "label" : "cm²",
+         "phenomenon" : "Units.AREA",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.METRIC"
+      },
+      "SQ_DM" : {
+         "definition" : "DM(2)",
+         "label" : "dm²",
+         "phenomenon" : "Units.AREA",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.METRIC"
+      },
+      "SQ_FT" : {
+         "definition" : "FT(2)",
+         "label" : "ft²",
+         "phenomenon" : "Units.AREA",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.USCUSTOM"
+      },
+      "SQ_FT_HR_FAHRENHEIT_PER_BTU" : {
+         "definition" : "FT(2)*HR*DELTA_FAHRENHEIT*BTU(-1)",
+         "label" : "ft²·h·Δ°F/Btu",
+         "phenomenon" : "Units.THERMAL_INSULANCE",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.USCUSTOM"
+      },
+      "SQ_FT_PER_SEC" : {
+         "definition" : "FT(2)*S(-1)",
+         "label" : "ft²/s",
+         "phenomenon" : "Units.KINEMATIC_VISCOSITY",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.USCUSTOM"
+      },
+      "SQ_IN" : {
+         "definition" : "IN(2)",
+         "label" : "in²",
+         "phenomenon" : "Units.AREA",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.USCUSTOM"
+      },
+      "SQ_KM" : {
+         "definition" : "KM(2)",
+         "label" : "km²",
+         "phenomenon" : "Units.AREA",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.METRIC"
+      },
+      "SQ_M" : {
+         "definition" : "M(2)",
+         "label" : "m²",
+         "phenomenon" : "Units.AREA",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.SI"
+      },
+      "SQ_MILE" : {
+         "definition" : "MILE(2)",
+         "label" : "mi²",
+         "phenomenon" : "Units.AREA",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.USCUSTOM"
+      },
+      "SQ_MM" : {
+         "definition" : "MM(2)",
+         "label" : "mm²",
+         "phenomenon" : "Units.AREA",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.METRIC"
+      },
+      "SQ_M_CELSIUS_PER_WATT" : {
+         "definition" : "M(2)*DELTA_CELSIUS*W(-1)",
+         "label" : "m²·Δ°C/W",
+         "phenomenon" : "Units.THERMAL_INSULANCE",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.METRIC"
+      },
+      "SQ_M_KELVIN_PER_WATT" : {
+         "definition" : "M(2)*DELTA_KELVIN*W(-1)",
+         "label" : "m²·ΔK/W",
+         "phenomenon" : "Units.THERMAL_INSULANCE",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.SI"
+      },
+      "SQ_M_PER_SEC" : {
+         "definition" : "M(2)*S(-1)",
+         "label" : "m²/s",
+         "phenomenon" : "Units.KINEMATIC_VISCOSITY",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.SI"
+      },
+      "SQ_UM" : {
+         "definition" : "UM(2)",
+         "label" : "um²",
+         "phenomenon" : "Units.AREA",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.METRIC"
+      },
+      "SQ_US_SURVEY_CHAIN" : {
+         "definition" : "US_SURVEY_CHAIN(2)",
+         "label" : "chain² (US Survey)",
+         "phenomenon" : "Units.AREA",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.USSURVEY"
+      },
+      "SQ_US_SURVEY_FT" : {
+         "definition" : "US_SURVEY_FT(2)",
+         "label" : "ft² (US Survey)",
+         "phenomenon" : "Units.AREA",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.USSURVEY"
+      },
+      "SQ_US_SURVEY_IN" : {
+         "definition" : "US_SURVEY_IN(2)",
+         "label" : "in² (US Survey)",
+         "phenomenon" : "Units.AREA",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.USSURVEY"
+      },
+      "SQ_US_SURVEY_MILE" : {
+         "definition" : "US_SURVEY_MILE(2)",
+         "label" : "mile² (US Survey)",
+         "phenomenon" : "Units.AREA",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.USSURVEY"
+      },
+      "SQ_US_SURVEY_YRD" : {
+         "definition" : "US_SURVEY_YRD(2)",
+         "label" : "yrd² (US Survey)",
+         "phenomenon" : "Units.AREA",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.USSURVEY"
+      },
+      "SQ_YRD" : {
+         "definition" : "YRD(2)",
+         "label" : "yd²",
+         "phenomenon" : "Units.AREA",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.USCUSTOM"
+      },
+      "STATISTICS" : {
+         "schemaItemType" : "UnitSystem"
+      },
+      "STD_G" : {
+         "definition" : "M*S(-2)",
+         "label" : "ɡ0",
+         "numerator" : 9.8066499999999994,
+         "phenomenon" : "Units.ACCELERATION",
+         "schemaItemType" : "Constant"
+      },
+      "STERAD" : {
+         "definition" : "STERAD",
+         "label" : "sterad",
+         "phenomenon" : "Units.SOLIDANGLE",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.SI"
+      },
+      "STOKE" : {
+         "definition" : "CM(2)*S(-1)",
+         "label" : "St",
+         "phenomenon" : "Units.KINEMATIC_VISCOSITY",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.METRIC"
+      },
+      "STRAIN_PER_CELSIUS" : {
+         "definition" : "DELTA_CELSIUS(-1)",
+         "label" : "1/Δ°C",
+         "phenomenon" : "Units.LINEAR_COEFFICIENT_OF_THERMAL_EXPANSION",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.METRIC"
+      },
+      "STRAIN_PER_FAHRENHEIT" : {
+         "definition" : "DELTA_FAHRENHEIT(-1)",
+         "label" : "1/Δ°F",
+         "phenomenon" : "Units.LINEAR_COEFFICIENT_OF_THERMAL_EXPANSION",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.USCUSTOM"
+      },
+      "STRAIN_PER_KELVIN" : {
+         "definition" : "DELTA_KELVIN(-1)",
+         "label" : "1/ΔK",
+         "phenomenon" : "Units.LINEAR_COEFFICIENT_OF_THERMAL_EXPANSION",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.SI"
+      },
+      "STRAIN_PER_RANKINE" : {
+         "definition" : "DELTA_RANKINE(-1)",
+         "label" : "1/Δ°R",
+         "phenomenon" : "Units.LINEAR_COEFFICIENT_OF_THERMAL_EXPANSION",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.USCUSTOM"
+      },
+      "SURFACE_DENSITY" : {
+         "definition" : "MASS*AREA(-1)",
+         "label" : "Surface Density",
+         "schemaItemType" : "Phenomenon"
+      },
+      "TEMPERATURE" : {
+         "definition" : "TEMPERATURE",
+         "label" : "Temperature",
+         "schemaItemType" : "Phenomenon"
+      },
+      "TEMPERATURE_CHANGE" : {
+         "definition" : "TEMPERATURE_CHANGE",
+         "label" : "Temperature Change",
+         "schemaItemType" : "Phenomenon"
+      },
+      "TEMPERATURE_GRADIENT" : {
+         "definition" : "TEMPERATURE_CHANGE*LENGTH(-1)",
+         "label" : "Temperature Gradient",
+         "schemaItemType" : "Phenomenon"
+      },
+      "TERA" : {
+         "definition" : "ONE",
+         "label" : "tera",
+         "numerator" : 1000000000000.0,
+         "phenomenon" : "Units.NUMBER",
+         "schemaItemType" : "Constant"
+      },
+      "THERMAL_CONDUCTIVITY" : {
+         "definition" : "POWER*LENGTH(-1)*TEMPERATURE_CHANGE(-1)",
+         "label" : "Thermal Conductivity",
+         "schemaItemType" : "Phenomenon"
+      },
+      "THERMAL_INSULANCE" : {
+         "definition" : "AREA*TEMPERATURE_CHANGE*POWER(-1)",
+         "label" : "Thermal Resistance",
+         "schemaItemType" : "Phenomenon"
+      },
+      "THOUSAND_GALLON" : {
+         "definition" : "[KILO]*GALLON",
+         "label" : "thousand gal",
+         "phenomenon" : "Units.VOLUME",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.USCUSTOM"
+      },
+      "THOUSAND_LITRE" : {
+         "definition" : "[KILO]*LITRE",
+         "label" : "thousand L",
+         "phenomenon" : "Units.VOLUME",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.METRIC"
+      },
+      "THOUSAND_PERSON" : {
+         "definition" : "[KILO]*PERSON",
+         "phenomenon" : "Units.CAPITA",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.STATISTICS"
+      },
+      "THOUSAND_SQ_FT" : {
+         "definition" : "[KILO]*FT(2)",
+         "label" : "thousand ft²",
+         "phenomenon" : "Units.AREA",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.USCUSTOM"
+      },
+      "THREAD_PITCH" : {
+         "definition" : "LENGTH*ANGLE(-1)",
+         "label" : "Thread Pitch",
+         "schemaItemType" : "Phenomenon"
+      },
+      "TIME" : {
+         "definition" : "TIME",
+         "label" : "Time",
+         "schemaItemType" : "Phenomenon"
+      },
+      "TONNE" : {
+         "definition" : "[KILO]*KG",
+         "description" : "Also known as a metric ton http://phyMETRICcs.nist.gov/cuu/pdf/sp811.pdf, Appendix B.",
+         "label" : "tonne",
+         "phenomenon" : "Units.MASS",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.METRIC"
+      },
+      "TONNE_PER_HR" : {
+         "definition" : "TONNE*HR(-1)",
+         "label" : "tph",
+         "phenomenon" : "Units.MASS_FLOW",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.METRIC"
+      },
+      "TORQUE" : {
+         "definition" : "FORCE*LENGTH*ANGLE(-1)",
+         "label" : "Torque",
+         "schemaItemType" : "Phenomenon"
+      },
+      "TORR" : {
+         "definition" : "PA",
+         "denominator" : 760.0,
+         "description" : "See http://physics.nist.gov/cuu/pdf/sp811.pdf Appendix B. for approx conversion and Table 11 for a reference to the exact conversion",
+         "label" : "torr",
+         "numerator" : 101325.0,
+         "phenomenon" : "Units.PRESSURE",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.USCUSTOM"
+      },
+      "TORSIONAL_WARPING_CONSTANT" : {
+         "definition" : "LENGTH(6)",
+         "label" : "Torsional Warping Constant",
+         "schemaItemType" : "Phenomenon"
+      },
+      "TWO_PI" : {
+         "definition" : "PI",
+         "label" : "2Pi",
+         "numerator" : 2.0,
+         "phenomenon" : "Units.LENGTH_RATIO",
+         "schemaItemType" : "Constant"
+      },
+      "UM" : {
+         "definition" : "[MICRO]*M",
+         "label" : "µm",
+         "phenomenon" : "Units.LENGTH",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.METRIC"
+      },
+      "USCUSTOM" : {
+         "schemaItemType" : "UnitSystem"
+      },
+      "USSURVEY" : {
+         "schemaItemType" : "UnitSystem"
+      },
+      "US_DOLLAR" : {
+         "definition" : "US_DOLLAR",
+         "label" : "$",
+         "phenomenon" : "Units.CURRENCY",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.FINANCE"
+      },
+      "US_SURVEY_ACRE" : {
+         "definition" : "US_SURVEY_CHAIN(2)",
+         "description" : "Exact, http://www.nist.gov/pml/wmd/pubs/upload/hb44-15-web-final.pdf, Appendix C. Section 4, Page C-9",
+         "label" : "acre (US Survey)",
+         "numerator" : 10.0,
+         "phenomenon" : "Units.AREA",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.USSURVEY"
+      },
+      "US_SURVEY_CHAIN" : {
+         "definition" : "US_SURVEY_FT",
+         "description" : "Exact, http://www.nist.gov/pml/wmd/pubs/upload/hb44-15-web-final.pdf, Appendix C. Section 4, Page C-8",
+         "label" : "chain (US Survey)",
+         "numerator" : 66.0,
+         "phenomenon" : "Units.LENGTH",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.USSURVEY"
+      },
+      "US_SURVEY_FT" : {
+         "definition" : "US_SURVEY_IN",
+         "description" : "Exact, http://www.nist.gov/pml/wmd/pubs/upload/hb44-15-web-final.pdf, Appendix C. Section 2, Page C-4",
+         "label" : "ft (US Survey)",
+         "numerator" : 12.0,
+         "phenomenon" : "Units.LENGTH",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.USSURVEY"
+      },
+      "US_SURVEY_IN" : {
+         "definition" : "M",
+         "denominator" : 3937.0,
+         "description" : "100/3937 Derived from the definition of us survey foot in terms of meters.  Exact, http://www.nist.gov/pml/wmd/pubs/upload/hb44-15-web-final.pdf, Appendix C. Section 4, Page C-9",
+         "label" : "in (US Survey)",
+         "numerator" : 100.0,
+         "phenomenon" : "Units.LENGTH",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.USSURVEY"
+      },
+      "US_SURVEY_MILE" : {
+         "definition" : "US_SURVEY_YRD",
+         "description" : "Exact, http://www.nist.gov/pml/wmd/pubs/upload/hb44-15-web-final.pdf, Appendix C. Section 4, Page C-8",
+         "label" : "mi (US Survey)",
+         "numerator" : 1760.0,
+         "phenomenon" : "Units.LENGTH",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.USSURVEY"
+      },
+      "US_SURVEY_YRD" : {
+         "definition" : "US_SURVEY_FT",
+         "description" : "Exact, http://www.nist.gov/pml/wmd/pubs/upload/hb44-15-web-final.pdf, Appendix C. Section 2, Page C-4",
+         "label" : "yrd (US Survey)",
+         "numerator" : 3.0,
+         "phenomenon" : "Units.LENGTH",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.USSURVEY"
+      },
+      "VA" : {
+         "definition" : "VOLT*A",
+         "phenomenon" : "Units.APPARENT_POWER",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.SI"
+      },
+      "VELOCITY" : {
+         "definition" : "LENGTH*TIME(-1)",
+         "label" : "Velocity",
+         "schemaItemType" : "Phenomenon"
+      },
+      "VERTICAL_PER_HORIZONTAL" : {
+         "definition" : "M_PER_M",
+         "label" : "slope",
+         "phenomenon" : "Units.SLOPE",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.INTERNATIONAL"
+      },
+      "VOLT" : {
+         "definition" : "N*M*COULOMB(-1)",
+         "label" : "V",
+         "phenomenon" : "Units.ELECTRIC_POTENTIAL",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.SI"
+      },
+      "VOLUME" : {
+         "definition" : "LENGTH(3)",
+         "label" : "Volume",
+         "schemaItemType" : "Phenomenon"
+      },
+      "VOLUMETRIC_FLOW" : {
+         "definition" : "VOLUME*TIME(-1)",
+         "label" : "Volumetric Flow",
+         "schemaItemType" : "Phenomenon"
+      },
+      "VOLUME_RATIO" : {
+         "definition" : "VOLUME*VOLUME(-1)",
+         "label" : "Volume Ratio",
+         "schemaItemType" : "Phenomenon"
+      },
+      "W" : {
+         "definition" : "N*M*S(-1)",
+         "phenomenon" : "Units.POWER",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.SI"
+      },
+      "WATT_SECOND" : {
+         "definition" : "W*S",
+         "label" : "Ws",
+         "phenomenon" : "Units.WORK",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.INTERNATIONAL"
+      },
+      "WEEK" : {
+         "definition" : "DAY",
+         "label" : "week",
+         "numerator" : 7.0,
+         "phenomenon" : "Units.TIME",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.INTERNATIONAL"
+      },
+      "WORK" : {
+         "definition" : "FORCE*LENGTH",
+         "label" : "Work",
+         "schemaItemType" : "Phenomenon"
+      },
+      "W_PER_M_C" : {
+         "definition" : "W*M(-1)*DELTA_CELSIUS(-1)",
+         "label" : "W/(m·Δ°C)",
+         "phenomenon" : "Units.THERMAL_CONDUCTIVITY",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.METRIC"
+      },
+      "W_PER_M_K" : {
+         "definition" : "W*M(-1)*DELTA_KELVIN(-1)",
+         "label" : "W/(m·K)",
+         "phenomenon" : "Units.THERMAL_CONDUCTIVITY",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.SI"
+      },
+      "W_PER_SQ_M" : {
+         "definition" : "W*M(-2)",
+         "label" : "W/m²",
+         "phenomenon" : "Units.HEAT_FLUX_DENSITY",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.SI"
+      },
+      "W_PER_SQ_M_CELSIUS" : {
+         "definition" : "W*M(-2)*DELTA_CELSIUS(-1)",
+         "label" : "W/(m²·Δ°C)",
+         "phenomenon" : "Units.HEAT_TRANSFER",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.METRIC"
+      },
+      "W_PER_SQ_M_K" : {
+         "definition" : "W*M(-2)*DELTA_KELVIN(-1)",
+         "label" : "W/(m²·ΔK)",
+         "phenomenon" : "Units.HEAT_TRANSFER",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.SI"
+      },
+      "YEAR_SIDEREAL" : {
+         "definition" : "S",
+         "description" : "http://physics.nist.gov/cuu/pdf/sp811.pdf, Appendix B.",
+         "label" : "Year (Sidereal)",
+         "numerator" : 31558150.0,
+         "phenomenon" : "Units.TIME",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.INTERNATIONAL"
+      },
+      "YEAR_TROPICAL" : {
+         "definition" : "S",
+         "description" : "http://physics.nist.gov/cuu/pdf/sp811.pdf, Appendix B.",
+         "label" : "Year (Tropical)",
+         "numerator" : 31556930.0,
+         "phenomenon" : "Units.TIME",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.INTERNATIONAL"
+      },
+      "YOCTO" : {
+         "definition" : "ONE",
+         "label" : "yocto",
+         "numerator" : 9.9999999999999992e-25,
+         "phenomenon" : "Units.NUMBER",
+         "schemaItemType" : "Constant"
+      },
+      "YOTTA" : {
+         "definition" : "ONE",
+         "label" : "yotta",
+         "numerator" : 9.9999999999999998e+23,
+         "phenomenon" : "Units.NUMBER",
+         "schemaItemType" : "Constant"
+      },
+      "YR" : {
+         "definition" : "DAY",
+         "description" : "http://physics.nist.gov/cuu/pdf/sp811.pdf, Appendix B. Year is 3.1536 E+07 seconds which is equal to 365 * 24 * 60 * 60",
+         "label" : "years",
+         "numerator" : 365.0,
+         "phenomenon" : "Units.TIME",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.INTERNATIONAL"
+      },
+      "YRD" : {
+         "definition" : "FT",
+         "description" : "Exact, http://www.nist.gov/pml/wmd/pubs/upload/hb44-15-web-final.pdf, Appendix C. Section 2, Page C-4",
+         "label" : "yd",
+         "numerator" : 3.0,
+         "phenomenon" : "Units.LENGTH",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.USCUSTOM"
+      },
+      "YRD_PER_SEC" : {
+         "definition" : "YRD*S(-1)",
+         "label" : "yrd/sec",
+         "phenomenon" : "Units.VELOCITY",
+         "schemaItemType" : "Unit",
+         "unitSystem" : "Units.USCUSTOM"
+      },
+      "ZEPTO" : {
+         "definition" : "ONE",
+         "label" : "zepto",
+         "numerator" : 9.9999999999999991e-22,
+         "phenomenon" : "Units.NUMBER",
+         "schemaItemType" : "Constant"
+      },
+      "ZETTA" : {
+         "definition" : "ONE",
+         "label" : "zetta",
+         "numerator" : 1.0000000000000000e+21,
+         "phenomenon" : "Units.NUMBER",
+         "schemaItemType" : "Constant"
+      }
+   },
+   "label" : "Units",
+   "name" : "Units",
+   "version" : "01.00.03"
+}

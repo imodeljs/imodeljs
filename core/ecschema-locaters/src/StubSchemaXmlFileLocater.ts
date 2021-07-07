@@ -78,6 +78,14 @@ export class StubSchemaXmlFileLocater extends SchemaFileLocater implements ISche
     return schema;
   }
 
+  public async getLoadingSchema<T extends Schema>(key: SchemaKey, matchType: SchemaMatchType, context: SchemaContext): Promise<T | undefined> {
+    return this.getSchemaSync(key, matchType, context) as T;
+  }
+
+  public getLoadingSchemaSync<T extends Schema>(key: SchemaKey, matchType: SchemaMatchType, context: SchemaContext): T | undefined {
+    return this.getSchemaSync(key, matchType, context) as T;
+  }
+
   /**
    * Constructs a SchemaKey based on the information in the Schema XML.
    * @param schemaXml The Schema XML as a string.

@@ -1,0 +1,146 @@
+{
+   "$schema" : "https://dev.bentley.com/json_schemas/ec/32/ecschema",
+   "alias" : "V2ToV3",
+   "items" : {
+      "DropClass" : {
+         "appliesTo" : "Any",
+         "schemaItemType" : "CustomAttributeClass"
+      },
+      "DropConstraints" : {
+         "appliesTo" : "Any",
+         "description" : "Define a semi-colon delimited list of constraint classes to drop.  Apply the custom attribute to the Source and/or Target nodes.  Use the format 'SchemaPrefix':'Class' to specify a schema.  Otherwise, it is just 'Class'",
+         "properties" : [
+            {
+               "name" : "Drop",
+               "type" : "PrimitiveProperty",
+               "typeName" : "string"
+            }
+         ],
+         "schemaItemType" : "CustomAttributeClass"
+      },
+      "Extension" : {
+         "appliesTo" : "Any",
+         "description" : "Used to indicate that the property this custom attribute is applied to is an extension property.",
+         "properties" : [
+            {
+               "description" : "Extension origin.",
+               "name" : "Origin",
+               "type" : "PrimitiveProperty",
+               "typeName" : "string"
+            }
+         ],
+         "schemaItemType" : "CustomAttributeClass"
+      },
+      "ForceAbstract" : {
+         "appliesTo" : "Any",
+         "schemaItemType" : "CustomAttributeClass"
+      },
+      "ForceCustomAttributeClass" : {
+         "appliesTo" : "Any",
+         "schemaItemType" : "CustomAttributeClass"
+      },
+      "ForceEntityClass" : {
+         "appliesTo" : "Any",
+         "schemaItemType" : "CustomAttributeClass"
+      },
+      "ForceInstantiable" : {
+         "appliesTo" : "Any",
+         "schemaItemType" : "CustomAttributeClass"
+      },
+      "ForceSealed" : {
+         "appliesTo" : "Any",
+         "schemaItemType" : "CustomAttributeClass"
+      },
+      "ForceStructClass" : {
+         "appliesTo" : "Any",
+         "schemaItemType" : "CustomAttributeClass"
+      },
+      "IgnoreBaseClass" : {
+         "appliesTo" : "Any",
+         "properties" : [
+            {
+               "name" : "Except",
+               "type" : "PrimitiveProperty",
+               "typeName" : "string"
+            }
+         ],
+         "schemaItemType" : "CustomAttributeClass"
+      },
+      "IsFlattened" : {
+         "appliesTo" : "Any",
+         "description" : "Used to indicate that this schema was flattened during conversion.  All base class properties were merged into each class, and all extra base classes were dropped.  This means polymorphism no longer works natively.",
+         "schemaItemType" : "CustomAttributeClass"
+      },
+      "OldDerivedClasses" : {
+         "appliesTo" : "Any",
+         "description" : "Used when a schema has been flattened to preserve polymorphism.  Will contain a list of direct derived classes that no longer are derived.  Can be used to create 'polymorphic' queries.",
+         "properties" : [
+            {
+               "description" : "Semi-colon delimited list of old derived classes.",
+               "name" : "Classes",
+               "type" : "PrimitiveProperty",
+               "typeName" : "string"
+            }
+         ],
+         "schemaItemType" : "CustomAttributeClass"
+      },
+      "OldPersistenceUnit" : {
+         "appliesTo" : "Any",
+         "description" : "Old persistence unit applied to a property for converting from the old unit to the new one during schema conversion.",
+         "properties" : [
+            {
+               "description" : "Name of the old persistence unit to use for conversion to the new unit.",
+               "name" : "Name",
+               "type" : "PrimitiveProperty",
+               "typeName" : "string"
+            }
+         ],
+         "schemaItemType" : "CustomAttributeClass"
+      },
+      "OverwriteCardinality" : {
+         "appliesTo" : "Any",
+         "properties" : [
+            {
+               "name" : "Cardinality",
+               "type" : "PrimitiveProperty",
+               "typeName" : "string"
+            }
+         ],
+         "schemaItemType" : "CustomAttributeClass"
+      },
+      "OverwriteTypeName" : {
+         "appliesTo" : "Any",
+         "properties" : [
+            {
+               "name" : "TypeName",
+               "type" : "PrimitiveProperty",
+               "typeName" : "string"
+            }
+         ],
+         "schemaItemType" : "CustomAttributeClass"
+      },
+      "RenamedPropertiesMapping" : {
+         "appliesTo" : "Any",
+         "description" : "Mapping applied to a class for when a property name is renamed during schema conversion.  Format of the string is: OriginalPropertyName|NewPropertyName.  Multiple mappings are separated by a ;",
+         "properties" : [
+            {
+               "description" : "Mapping of original property name(s) to new name(s).",
+               "name" : "PropertyMapping",
+               "type" : "PrimitiveProperty",
+               "typeName" : "string"
+            }
+         ],
+         "schemaItemType" : "CustomAttributeClass"
+      },
+      "ResolveClassNameConflicts" : {
+         "appliesTo" : "Any",
+         "schemaItemType" : "CustomAttributeClass"
+      },
+      "ResolvePropertyNameConflicts" : {
+         "appliesTo" : "Any",
+         "schemaItemType" : "CustomAttributeClass"
+      }
+   },
+   "name" : "ECv3ConversionAttributes",
+   "version" : "01.00.01"
+}

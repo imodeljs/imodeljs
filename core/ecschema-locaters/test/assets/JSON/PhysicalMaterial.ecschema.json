@@ -1,0 +1,49 @@
+{
+   "$schema" : "https://dev.bentley.com/json_schemas/ec/32/ecschema",
+   "alias" : "physMat",
+   "items" : {
+      "Aggregate" : {
+         "baseClass" : "BisCore.PhysicalMaterial",
+         "description" : "Aggregate is a bis:PhysicalMaterial representing a broad category of coarse to medium grained particulate material typically used in construction as well as base material under foundations, roadways, and railways.",
+         "label" : "Aggregate",
+         "modifier" : "Sealed",
+         "schemaItemType" : "EntityClass"
+      },
+      "Aluminum" : {
+         "baseClass" : "BisCore.PhysicalMaterial",
+         "description" : "Aluminum is a bis:PhysicalMaterial representing aluminum (atomic symbol Al) or one of its alloys.",
+         "label" : "Aluminum",
+         "modifier" : "Sealed",
+         "schemaItemType" : "EntityClass"
+      },
+      "Asphalt" : {
+         "baseClass" : "BisCore.PhysicalMaterial",
+         "description" : "Asphalt is a bis:PhysicalMaterial representing a mixture of a bituminous binder and aggregates. Asphalt is typically used for roadway surfacing.",
+         "label" : "Asphalt",
+         "modifier" : "Sealed",
+         "schemaItemType" : "EntityClass"
+      },
+      "Concrete" : {
+         "baseClass" : "BisCore.PhysicalMaterial",
+         "description" : "Concrete is a bis:PhysicalMaterial representing a mixture of hydraulic cement, aggregates, water and optionally other materials.",
+         "label" : "Concrete",
+         "modifier" : "Sealed",
+         "schemaItemType" : "EntityClass"
+      },
+      "Steel" : {
+         "baseClass" : "BisCore.PhysicalMaterial",
+         "description" : "Steel is a bis:PhysicalMaterial representing an alloy of iron, carbon and other elements.",
+         "label" : "Steel",
+         "modifier" : "Sealed",
+         "schemaItemType" : "EntityClass"
+      }
+   },
+   "name" : "PhysicalMaterial",
+   "references" : [
+      {
+         "name" : "BisCore",
+         "version" : "01.00.09"
+      }
+   ],
+   "version" : "01.00.01"
+}

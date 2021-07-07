@@ -1,0 +1,239 @@
+{
+   "$schema" : "https://dev.bentley.com/json_schemas/ec/32/ecschema",
+   "alias" : "ecdbf",
+   "description" : "ECDb FileInfo",
+   "items" : {
+      "EmbeddedFileInfo" : {
+         "baseClass" : "ECDbFileInfo.FileInfo",
+         "customAttributes" : [
+            {
+               "MapStrategy" : "ExistingTable",
+               "TableName" : "be_EmbedFile",
+               "className" : "ECDbMap.ClassMap"
+            }
+         ],
+         "description" : "Attributes of a file stored in the ECDb file.",
+         "label" : "Embedded File Info",
+         "modifier" : "Sealed",
+         "properties" : [
+            {
+               "customAttributes" : [
+                  {
+                     "Collation" : "NoCase",
+                     "IsNullable" : false,
+                     "IsUnique" : true,
+                     "className" : "ECDbMap.PropertyMap"
+                  }
+               ],
+               "description" : "File name",
+               "name" : "Name",
+               "type" : "PrimitiveProperty",
+               "typeName" : "string"
+            },
+            {
+               "customAttributes" : [
+                  {
+                     "ColumnName" : "Descr",
+                     "className" : "ECDbMap.PropertyMap"
+                  }
+               ],
+               "description" : "File description",
+               "name" : "Description",
+               "type" : "PrimitiveProperty",
+               "typeName" : "string"
+            },
+            {
+               "description" : "File type",
+               "name" : "Type",
+               "type" : "PrimitiveProperty",
+               "typeName" : "string"
+            }
+         ],
+         "schemaItemType" : "EntityClass"
+      },
+      "ExternalFileInfo" : {
+         "baseClass" : "ECDbFileInfo.FileInfo",
+         "customAttributes" : [
+            {
+               "MapStrategy" : "TablePerHierarchy",
+               "className" : "ECDbMap.ClassMap"
+            },
+            {
+               "ApplyToSubclassesOnly" : true,
+               "className" : "ECDbMap.ShareColumns"
+            }
+         ],
+         "description" : "Attributes of a file stored external to the repository.",
+         "label" : "External File Info",
+         "properties" : [
+            {
+               "description" : "Discrete set of root folders defined by the application. The DgnClientFx's standard root folders are reserved folders. Custom root folders must use ids other than the ones used for the standard root folders.",
+               "name" : "RootFolder",
+               "type" : "PrimitiveProperty",
+               "typeName" : "ECDbFileInfo.StandardRootFolderType"
+            },
+            {
+               "description" : "File path relative to root folder",
+               "name" : "RelativePath",
+               "type" : "PrimitiveProperty",
+               "typeName" : "string"
+            }
+         ],
+         "schemaItemType" : "EntityClass"
+      },
+      "FileInfo" : {
+         "description" : "Abstract base class for holding attributes of a file",
+         "modifier" : "Abstract",
+         "properties" : [
+            {
+               "description" : "File name",
+               "name" : "Name",
+               "type" : "PrimitiveProperty",
+               "typeName" : "string"
+            },
+            {
+               "description" : "File size",
+               "name" : "Size",
+               "type" : "PrimitiveProperty",
+               "typeName" : "long"
+            },
+            {
+               "description" : "File description",
+               "name" : "Description",
+               "type" : "PrimitiveProperty",
+               "typeName" : "string"
+            },
+            {
+               "customAttributes" : [
+                  {
+                     "DateTimeKind" : "Utc",
+                     "className" : "CoreCustomAttributes.DateTimeInfo"
+                  }
+               ],
+               "description" : "Time the file was last modified.",
+               "name" : "LastModified",
+               "type" : "PrimitiveProperty",
+               "typeName" : "dateTime"
+            }
+         ],
+         "schemaItemType" : "EntityClass"
+      },
+      "FileInfoOwnership" : {
+         "customAttributes" : [
+            {
+               "Indexes" : [
+                  {
+                     "IsUnique" : true,
+                     "Name" : "uix_ecdbf_fileinfoownership_fileinfoid_fileinfoecclassid",
+                     "Properties" : [ "FileInfoId", "FileInfoECClassId" ]
+                  },
+                  {
+                     "IsUnique" : true,
+                     "Name" : "uix_ecdbf_fileinfoownership_ownerid_ownerecclassid",
+                     "Properties" : [ "OwnerId", "OwnerECClassId" ]
+                  },
+                  {
+                     "Name" : "ix_ecdbf_fileinfoownership_ownerecclassid",
+                     "Properties" : [ "OwnerECClassId" ]
+                  }
+               ],
+               "className" : "ECDbMap.DbIndexList"
+            }
+         ],
+         "modifier" : "Sealed",
+         "properties" : [
+            {
+               "customAttributes" : [
+                  {
+                     "IsNullable" : false,
+                     "className" : "ECDbMap.PropertyMap"
+                  }
+               ],
+               "extendedTypeName" : "Id",
+               "name" : "OwnerId",
+               "type" : "PrimitiveProperty",
+               "typeName" : "long"
+            },
+            {
+               "customAttributes" : [
+                  {
+                     "IsNullable" : false,
+                     "className" : "ECDbMap.PropertyMap"
+                  }
+               ],
+               "extendedTypeName" : "Id",
+               "name" : "OwnerECClassId",
+               "type" : "PrimitiveProperty",
+               "typeName" : "long"
+            },
+            {
+               "customAttributes" : [
+                  {
+                     "IsNullable" : false,
+                     "className" : "ECDbMap.PropertyMap"
+                  }
+               ],
+               "extendedTypeName" : "Id",
+               "name" : "FileInfoId",
+               "type" : "PrimitiveProperty",
+               "typeName" : "long"
+            },
+            {
+               "customAttributes" : [
+                  {
+                     "IsNullable" : false,
+                     "className" : "ECDbMap.PropertyMap"
+                  }
+               ],
+               "extendedTypeName" : "Id",
+               "name" : "FileInfoECClassId",
+               "type" : "PrimitiveProperty",
+               "typeName" : "long"
+            }
+         ],
+         "schemaItemType" : "EntityClass"
+      },
+      "StandardRootFolderType" : {
+         "description" : "Discrete set of root folders defined by the application. The DgnClientFx's standard root folders are reserved folders. Custom root folders must use ids other than the ones used for the standard root folders.",
+         "enumerators" : [
+            {
+               "label" : "DocumentsFolder",
+               "name" : "DocumentsFolder",
+               "value" : 0
+            },
+            {
+               "label" : "TemporaryFolder",
+               "name" : "TemporaryFolder",
+               "value" : 1
+            },
+            {
+               "label" : "CachesFolder",
+               "name" : "CachesFolder",
+               "value" : 2
+            },
+            {
+               "label" : "LocalStateFolder",
+               "name" : "LocalStateFolder",
+               "value" : 3
+            }
+         ],
+         "isStrict" : false,
+         "label" : "Root Folder Type",
+         "schemaItemType" : "Enumeration",
+         "type" : "int"
+      }
+   },
+   "label" : "ECDb FileInfo",
+   "name" : "ECDbFileInfo",
+   "references" : [
+      {
+         "name" : "CoreCustomAttributes",
+         "version" : "01.00.03"
+      },
+      {
+         "name" : "ECDbMap",
+         "version" : "02.00.00"
+      }
+   ],
+   "version" : "02.00.01"
+}

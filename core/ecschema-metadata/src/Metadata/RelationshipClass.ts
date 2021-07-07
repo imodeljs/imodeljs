@@ -296,6 +296,7 @@ export class RelationshipConstraint implements CustomAttributeContainerProps {
       const tempConstraintClass = relClassSchema.lookupItemSync<AnyConstraintClass>(constraintClassName);
       if (!tempConstraintClass)
         throw new ECObjectsError(ECObjectsStatus.InvalidECJson, ``);
+
       return tempConstraintClass;
     };
 

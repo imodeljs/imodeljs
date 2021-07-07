@@ -57,15 +57,68 @@ export class FileSchemaKey extends SchemaKey {
   }
 }
 
+interface SchemaText {
+  schemaKey: SchemaKey;
+  readSchemaText: Promise<string | undefined>;
+}
+
+export class SchemaTexts extends Array<SchemaText> { }
+
 /**
  * Abstract class to hold common/overlapping functionality between SchemaJsonFileLocater and SchemaXmlFileLocater
  * @alpha - Needs further testing and possibly moved to a separate package.
  */
 export abstract class SchemaFileLocater {
   public searchPaths: string[];
+  private _schemaTexts = new SchemaTexts();
 
   constructor() {
     this.searchPaths = [];
+  }
+
+  protected async addSchemaText(schemaKey: SchemaKey, readSchemaText: Promise<string | undefined>) {
+    this.addSchemaTextSync(schemaKey, readSchemaText);
+  }
+
+  protected addSchemaTextSync(schemaKey: SchemaKey, readSchemaText: Promise<string | undefined>) {
+    this._schemaTexts.push({ schemaKey, readSchemaText });
+  }
+
+  protected async findCachedSchemaText(schemaKey: SchemaKey, matchType: SchemaMatchType = SchemaMatchType.Latest): Promise<SchemaText | undefined> {
+    return this.findCachedSchemaTextSync(schemaKey, matchType);
+  }
+
+  protected findCachedSchemaTextSync(schemaKey: SchemaKey, matchType: SchemaMatchType = SchemaMatchType.Latest): SchemaText | undefined {
+    const findSchemaText = (schemaText: SchemaText) => {
+      return schemaText.schemaKey.matches(schemaKey, matchType);
+    };
+
+    return this._schemaTexts.find(findSchemaText);
+  }
+
+  protected async getSchemaText(schemaKey: SchemaKey, matchType: SchemaMatchType = SchemaMatchType.Latest): Promise<string | undefined> {
+    return this.getSchemaTextSync(schemaKey, matchType);
+  }
+
+  protected getSchemaTextSync(schemaKey: SchemaKey, matchType: SchemaMatchType = SchemaMatchType.Latest): Promise<string | undefined> | undefined {
+    const foundSchemaText = this.findCachedSchemaTextSync(schemaKey, matchType);
+    if (foundSchemaText)
+      return foundSchemaText.readSchemaText;
+
+    return undefined;
+  }
+
+  public async readSchemaText(schemaPath: string): Promise<string | undefined> {
+    // Load the file
+    if (!await this.fileExists(schemaPath))
+      return undefined;
+
+    const schemaText = await this.readUtf8FileToString(schemaPath);
+    if (!schemaText)
+      return undefined;
+
+    this.addSchemaSearchPaths([path.dirname(schemaPath)]);
+    return schemaText;
   }
 
   public async readUtf8FileToString(filePath: string): Promise<string | undefined> {

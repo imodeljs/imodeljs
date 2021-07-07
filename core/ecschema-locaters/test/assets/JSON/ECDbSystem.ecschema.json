@@ -1,0 +1,130 @@
+{
+   "$schema" : "https://dev.bentley.com/json_schemas/ec/32/ecschema",
+   "alias" : "ecdbsys",
+   "description" : "Helper ECSchema for ECDb internal purposes.",
+   "items" : {
+      "ClassECSqlSystemProperties" : {
+         "customAttributes" : [
+            {
+               "MapStrategy" : "NotMapped",
+               "className" : "ECDbMap.ClassMap"
+            }
+         ],
+         "description" : "Defines the ECSQL system properties of an ECClass in an ECSQL statement.",
+         "modifier" : "Abstract",
+         "properties" : [
+            {
+               "description" : "Represents the Id system property in ECSQL.",
+               "extendedTypeName" : "Id",
+               "name" : "ECInstanceId",
+               "type" : "PrimitiveProperty",
+               "typeName" : "long"
+            },
+            {
+               "description" : "Represents the ECClassId system property in ECSQL.",
+               "extendedTypeName" : "Id",
+               "isReadOnly" : true,
+               "name" : "ECClassId",
+               "type" : "PrimitiveProperty",
+               "typeName" : "long"
+            }
+         ],
+         "schemaItemType" : "EntityClass"
+      },
+      "NavigationECSqlSystemProperties" : {
+         "description" : "Represents the ECSQL data type of a navigation property in an ECSQL statement.",
+         "modifier" : "Abstract",
+         "properties" : [
+            {
+               "description" : "Represents the Id system property of an NavigationProperty in ECSQL.",
+               "extendedTypeName" : "Id",
+               "name" : "Id",
+               "type" : "PrimitiveProperty",
+               "typeName" : "long"
+            },
+            {
+               "description" : "Represents the Relationship ClassId system property of an NavigationProperty in ECSQL.",
+               "extendedTypeName" : "Id",
+               "name" : "RelECClassId",
+               "type" : "PrimitiveProperty",
+               "typeName" : "long"
+            }
+         ],
+         "schemaItemType" : "StructClass"
+      },
+      "PointECSqlSystemProperties" : {
+         "description" : "Represents the ECSQL data type of a Point property in an ECSQL statement.",
+         "modifier" : "Abstract",
+         "properties" : [
+            {
+               "description" : "Represents the X component of Point2d and Point3d in ECSQL",
+               "name" : "X",
+               "type" : "PrimitiveProperty",
+               "typeName" : "double"
+            },
+            {
+               "description" : "Represents the Y component of Point2d and Point3d in ECSQL",
+               "name" : "Y",
+               "type" : "PrimitiveProperty",
+               "typeName" : "double"
+            },
+            {
+               "description" : "Represents the Z component of Point3d in ECSQL",
+               "name" : "Z",
+               "type" : "PrimitiveProperty",
+               "typeName" : "double"
+            }
+         ],
+         "schemaItemType" : "StructClass"
+      },
+      "RelationshipECSqlSystemProperties" : {
+         "customAttributes" : [
+            {
+               "MapStrategy" : "NotMapped",
+               "className" : "ECDbMap.ClassMap"
+            }
+         ],
+         "description" : "Defines the ECSQL system properties of an ECRelationshipClass in an ECSQL statement.",
+         "modifier" : "Abstract",
+         "properties" : [
+            {
+               "description" : "Represents the SourceId system property of an ECRelationship in ECSQL.",
+               "extendedTypeName" : "Id",
+               "name" : "SourceECInstanceId",
+               "type" : "PrimitiveProperty",
+               "typeName" : "long"
+            },
+            {
+               "description" : "Represents the SourceECClassId system property of an ECRelationship in ECSQL.",
+               "extendedTypeName" : "Id",
+               "name" : "SourceECClassId",
+               "type" : "PrimitiveProperty",
+               "typeName" : "long"
+            },
+            {
+               "description" : "Represents the TargetId system property of an ECRelationship in ECSQL.",
+               "extendedTypeName" : "Id",
+               "name" : "TargetECInstanceId",
+               "type" : "PrimitiveProperty",
+               "typeName" : "long"
+            },
+            {
+               "description" : "Represents the TargetECClassId system property of an ECRelationship in ECSQL.",
+               "extendedTypeName" : "Id",
+               "name" : "TargetECClassId",
+               "type" : "PrimitiveProperty",
+               "typeName" : "long"
+            }
+         ],
+         "schemaItemType" : "EntityClass"
+      }
+   },
+   "name" : "ECDbSystem",
+   "references" : [
+      {
+         "name" : "ECDbMap",
+         "version" : "02.00.00"
+      }
+   ],
+   "version" : "05.00.01"
+}

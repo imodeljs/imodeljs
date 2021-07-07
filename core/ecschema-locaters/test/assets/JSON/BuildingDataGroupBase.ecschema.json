@@ -1,0 +1,52 @@
+{
+   "$schema" : "https://dev.bentley.com/json_schemas/ec/32/ecschema",
+   "alias" : "bdgb",
+   "description" : "ABD Static Schema",
+   "items" : {
+      "BuildingPropertiesCategory" : {
+         "description" : "Properties for Building Components",
+         "label" : "Properties",
+         "priority" : 0,
+         "schemaItemType" : "PropertyCategory"
+      },
+      "TriformaIdentity" : {
+         "properties" : [
+            {
+               "category" : "BuildingDataGroupBase.BuildingPropertiesCategory",
+               "description" : "Open Buildings Designer part",
+               "label" : "Part",
+               "name" : "PART",
+               "type" : "PrimitiveProperty",
+               "typeName" : "string"
+            },
+            {
+               "description" : "Open Buildings Designer part family",
+               "label" : "Family",
+               "name" : "FAMILY",
+               "type" : "PrimitiveProperty",
+               "typeName" : "string"
+            }
+         ],
+         "schemaItemType" : "StructClass"
+      },
+      "TriformaPhysical" : {
+         "baseClass" : "BisCore.PhysicalElement",
+         "properties" : [
+            {
+               "name" : "identity",
+               "type" : "StructProperty",
+               "typeName" : "BuildingDataGroupBase.TriformaIdentity"
+            }
+         ],
+         "schemaItemType" : "EntityClass"
+      }
+   },
+   "name" : "BuildingDataGroupBase",
+   "references" : [
+      {
+         "name" : "BisCore",
+         "version" : "01.00.09"
+      }
+   ],
+   "version" : "01.00.00"
+}

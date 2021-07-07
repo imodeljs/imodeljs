@@ -67,14 +67,20 @@ export class SchemaReadHelper<T = unknown> {
 
     this._parser = new this._parserType(rawSchema);
 
-    // Loads all of the properties on the Schema object
+    // Load the schemas attributes but not the items or references of the schema
     await schema.fromJSON(this._parser.parseSchema());
 
     this._schema = schema;
 
-    // Need to add this schema to the context to be able to locate schemaItems within the context.
-    await this._context.addSchema(schema);
+    await this._context.checkAndAddSchema(schema, async () => this.loadSchema(schema));
 
+    // Await loading the rest of the schema
+    const loadedSchema = await this._context.getSchema<U>(schema.schemaKey);
+
+    return loadedSchema!;
+  }
+
+  private async loadSchema<U extends Schema>(schema: U): Promise<U> {
     // Load schema references first
     // Need to figure out if other schemas are present.
     for (const reference of this._parser.getReferences()) {
@@ -151,13 +157,49 @@ export class SchemaReadHelper<T = unknown> {
     return schema;
   }
 
+  public async readLoadingSchema<U extends Schema>(schema: U, rawSchema: T): Promise<U> {
+    // Ensure context matches schema context
+    if (schema.context) {
+      if (this._context !== schema.context)
+        throw new ECObjectsError(ECObjectsStatus.DifferentSchemaContexts, "The SchemaContext of the schema must be the same SchemaContext held by the SchemaReadHelper.");
+    } else {
+      (schema as Schema as MutableSchema).setContext(this._context);
+    }
+
+    this._parser = new this._parserType(rawSchema);
+
+    // Load the schemas attributes but not the items or references of the schema
+    await schema.fromJSON(this._parser.parseSchema());
+
+    this._schema = schema;
+
+    await this._context.checkAndAddSchema(schema, async () => this.loadSchema(schema));
+
+    // Will have schema here since it's checked or added above
+    const foundSchema = await this._context.getCachedLoadedOrLoadingSchema<U>(schema.schemaKey);
+    return foundSchema!;
+  }
+
+  public readLoadingSchemaSync<U extends Schema>(schema: U, rawSchema: T): U {
+    this._parser = new this._parserType(rawSchema);
+
+    // Loads all of the properties on the Schema object
+    schema.fromJSONSync(this._parser.parseSchema());
+
+    this._schema = schema;
+
+    this._context.checkAndAddSchemaSync(schema, async () => this.loadSchema(schema));
+
+    return this._context.getCachedLoadedOrLoadingSchemaSync<U>(schema.schemaKey)!;
+  }
+
   /**
    * Ensures that the schema references can be located and adds them to the schema.
    * @param ref The object to read the SchemaReference's props from.
    */
   private async loadSchemaReference(ref: SchemaReferenceProps): Promise<void> {
     const schemaKey = new SchemaKey(ref.name, ECVersion.fromString(ref.version));
-    const refSchema = await this._context.getSchema(schemaKey, SchemaMatchType.LatestWriteCompatible);
+    let refSchema = await this._context.getLoadingSchema(schemaKey, SchemaMatchType.LatestWriteCompatible);
     if (undefined === refSchema)
       throw new ECObjectsError(ECObjectsStatus.UnableToLocateSchema, `Could not locate the referenced schema, ${ref.name}.${ref.version}, of ${this._schema!.schemaKey.name}`);
 
@@ -172,6 +214,9 @@ export class SchemaReadHelper<T = unknown> {
     if (errorMessage) {
       throw new ECObjectsError(ECObjectsStatus.InvalidECJson, `${errorMessage}`);
     }
+
+    // Load the referenced schema here after validating it
+    await this._context.getSchema(schemaKey, SchemaMatchType.LatestWriteCompatible);
   }
 
   /**
@@ -389,7 +434,12 @@ export class SchemaReadHelper<T = unknown> {
     if (undefined === schemaName || 0 === schemaName.length)
       throw new ECObjectsError(ECObjectsStatus.InvalidECJson, `The SchemaItem ${name} is invalid without a schema name`);
 
-    if (isInThisSchema && undefined === await this._schema!.getItem(itemName)) {
+    if (isInThisSchema) {
+      schemaItem = await this._schema!.getItem(itemName);
+      if (schemaItem !== undefined) {
+        return schemaItem;
+      }
+
       const foundItem = this._parser.findItem(itemName);
       if (foundItem) {
         schemaItem = await this.loadSchemaItem(this._schema!, ...foundItem);

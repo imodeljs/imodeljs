@@ -1,0 +1,257 @@
+{
+   "$schema" : "https://dev.bentley.com/json_schemas/ec/32/ecschema",
+   "alias" : "rrphys",
+   "customAttributes" : [
+      {
+         "SupportedUse" : "Production",
+         "className" : "CoreCustomAttributes.ProductionStatus"
+      }
+   ],
+   "description" : "Base schema for the Road and Rail domains.",
+   "items" : {
+      "Corridor" : {
+         "baseClass" : "LinearReferencing.LinearPhysicalElement",
+         "description" : "A long, narrow physical stretch that is designed for one mode of transportation as part of a Network. It is typically defined along a main linear-element.",
+         "label" : "Corridor",
+         "mixins" : [
+            "BisCore.ISubModeledElement",
+            "LinearReferencing.ILinearElementSource"
+         ],
+         "modifier" : "Sealed",
+         "schemaItemType" : "EntityClass"
+      },
+      "CorridorPortionElement" : {
+         "baseClass" : "BisCore.PhysicalElement",
+         "description" : "Base class for long, narrow physical stretches of a Corridor, constructed for either a particular travel type, or a separation between them.",
+         "mixins" : [ "BisCore.IParentElement", "LinearReferencing.ILinearElementSource" ],
+         "modifier" : "Abstract",
+         "properties" : [
+            {
+               "direction" : "Forward",
+               "label" : "Main Alignment",
+               "name" : "MainAlignment",
+               "relationshipName" : "RoadRailPhysical.CorridorPortionRefersToMainAlignment",
+               "type" : "NavigationProperty"
+            }
+         ],
+         "schemaItemType" : "EntityClass"
+      },
+      "CorridorPortionOwnsAlignments" : {
+         "baseClass" : "BisCore.ElementOwnsChildElements",
+         "modifier" : "None",
+         "schemaItemType" : "RelationshipClass",
+         "source" : {
+            "constraintClasses" : [ "RoadRailPhysical.CorridorPortionElement" ],
+            "multiplicity" : "(0..1)",
+            "polymorphic" : true,
+            "roleLabel" : "owns"
+         },
+         "strength" : "Embedding",
+         "strengthDirection" : "Forward",
+         "target" : {
+            "constraintClasses" : [ "RoadRailAlignment.Alignment" ],
+            "multiplicity" : "(0..*)",
+            "polymorphic" : false,
+            "roleLabel" : "is owned by"
+         }
+      },
+      "CorridorPortionRefersToMainAlignment" : {
+         "description" : "Relationship enabling a CorridorPortionElement to refer to its Main Alignment.",
+         "modifier" : "Sealed",
+         "schemaItemType" : "RelationshipClass",
+         "source" : {
+            "constraintClasses" : [ "RoadRailPhysical.CorridorPortionElement" ],
+            "multiplicity" : "(0..*)",
+            "polymorphic" : true,
+            "roleLabel" : "refers to"
+         },
+         "strength" : "Referencing",
+         "strengthDirection" : "Forward",
+         "target" : {
+            "constraintClasses" : [ "RoadRailAlignment.Alignment" ],
+            "multiplicity" : "(0..1)",
+            "polymorphic" : false,
+            "roleLabel" : "is referenced by"
+         }
+      },
+      "DesignSpeed" : {
+         "baseClass" : "LinearReferencing.LinearlyLocatedAttribution",
+         "description" : "Class for Linearly located properties of a Pathway specifying design-speeds along it.",
+         "label" : "Design Speed",
+         "modifier" : "Sealed",
+         "properties" : [
+            {
+               "direction" : "Forward",
+               "name" : "StartDefinition",
+               "relationshipName" : "RoadRailPhysical.DesignSpeedRefersToStartDefinition",
+               "type" : "NavigationProperty"
+            },
+            {
+               "direction" : "Forward",
+               "name" : "EndDefinition",
+               "relationshipName" : "RoadRailPhysical.DesignSpeedRefersToEndDefinition",
+               "type" : "NavigationProperty"
+            }
+         ],
+         "schemaItemType" : "EntityClass"
+      },
+      "DesignSpeedDefinition" : {
+         "baseClass" : "BisCore.DefinitionElement",
+         "description" : "Standardized design-speed definition in the context of a Subject.",
+         "label" : "Design Speed Definition",
+         "modifier" : "Sealed",
+         "properties" : [
+            {
+               "kindOfQuantity" : "RoadRailUnits.VELOCITY",
+               "name" : "DesignSpeed",
+               "type" : "PrimitiveProperty",
+               "typeName" : "double"
+            },
+            {
+               "label" : "Unit System applicable for this design speed definition",
+               "name" : "UnitSystem",
+               "type" : "PrimitiveProperty",
+               "typeName" : "RoadRailPhysical.DesignSpeedDefinition_UnitSystem"
+            }
+         ],
+         "schemaItemType" : "EntityClass"
+      },
+      "DesignSpeedDefinition_UnitSystem" : {
+         "enumerators" : [
+            {
+               "label" : "SI",
+               "name" : "SI",
+               "value" : 0
+            },
+            {
+               "label" : "Imperial",
+               "name" : "Imperial",
+               "value" : 1
+            }
+         ],
+         "isStrict" : true,
+         "schemaItemType" : "Enumeration",
+         "type" : "int"
+      },
+      "DesignSpeedRefersToEndDefinition" : {
+         "modifier" : "Sealed",
+         "schemaItemType" : "RelationshipClass",
+         "source" : {
+            "constraintClasses" : [ "RoadRailPhysical.DesignSpeed" ],
+            "multiplicity" : "(0..*)",
+            "polymorphic" : false,
+            "roleLabel" : "refers to"
+         },
+         "strength" : "Referencing",
+         "strengthDirection" : "Backward",
+         "target" : {
+            "constraintClasses" : [ "RoadRailPhysical.DesignSpeedDefinition" ],
+            "multiplicity" : "(0..1)",
+            "polymorphic" : false,
+            "roleLabel" : "is referenced by"
+         }
+      },
+      "DesignSpeedRefersToStartDefinition" : {
+         "modifier" : "Sealed",
+         "schemaItemType" : "RelationshipClass",
+         "source" : {
+            "constraintClasses" : [ "RoadRailPhysical.DesignSpeed" ],
+            "multiplicity" : "(0..*)",
+            "polymorphic" : false,
+            "roleLabel" : "refers to"
+         },
+         "strength" : "Referencing",
+         "strengthDirection" : "Backward",
+         "target" : {
+            "constraintClasses" : [ "RoadRailPhysical.DesignSpeedDefinition" ],
+            "multiplicity" : "(0..1)",
+            "polymorphic" : false,
+            "roleLabel" : "is referenced by"
+         }
+      },
+      "PathwayDesignCriteria" : {
+         "baseClass" : "BisCore.SpatialLocationElement",
+         "description" : "Entry-point element containing design criteria for a Pathway",
+         "label" : "Design Criteria",
+         "mixins" : [ "BisCore.ISubModeledElement" ],
+         "modifier" : "Sealed",
+         "schemaItemType" : "EntityClass"
+      },
+      "PathwayElement" : {
+         "baseClass" : "RoadRailPhysical.CorridorPortionElement",
+         "description" : "A long, narrow physical stretch of a Corridor especially constructed for a particular travel type.",
+         "modifier" : "Abstract",
+         "schemaItemType" : "EntityClass"
+      },
+      "PathwayOwnsDesignCriteria" : {
+         "baseClass" : "BisCore.ElementOwnsChildElements",
+         "modifier" : "None",
+         "schemaItemType" : "RelationshipClass",
+         "source" : {
+            "constraintClasses" : [ "RoadRailPhysical.PathwayElement" ],
+            "multiplicity" : "(0..1)",
+            "polymorphic" : true,
+            "roleLabel" : "owns"
+         },
+         "strength" : "Embedding",
+         "strengthDirection" : "Forward",
+         "target" : {
+            "constraintClasses" : [ "RoadRailPhysical.PathwayDesignCriteria" ],
+            "multiplicity" : "(0..*)",
+            "polymorphic" : false,
+            "roleLabel" : "is owned by"
+         }
+      },
+      "TransportationNetwork" : {
+         "baseClass" : "BisCore.PhysicalElement",
+         "customAttributes" : [
+            {
+               "className" : "CoreCustomAttributes.HiddenClass"
+            }
+         ],
+         "description" : "Entry-point element leading to the physical modeling of a network of Corridors, primarily designed for one mode of transportation.",
+         "label" : "Transportation Network",
+         "mixins" : [ "BisCore.ISubModeledElement" ],
+         "modifier" : "Abstract",
+         "schemaItemType" : "EntityClass"
+      },
+      "TransportationSystem" : {
+         "baseClass" : "BisCore.PhysicalElement",
+         "description" : "Entry-point element containing Transportation-related details of a Corridor.",
+         "label" : "Transportation System",
+         "mixins" : [ "BisCore.ISubModeledElement" ],
+         "modifier" : "Sealed",
+         "schemaItemType" : "EntityClass"
+      },
+      "UndeterminedCorridorPortion" : {
+         "baseClass" : "RoadRailPhysical.CorridorPortionElement",
+         "description" : "A long, narrow physical stretch of a Corridor whose construction purpose is not known.",
+         "modifier" : "Sealed",
+         "schemaItemType" : "EntityClass"
+      }
+   },
+   "name" : "RoadRailPhysical",
+   "references" : [
+      {
+         "name" : "BisCore",
+         "version" : "01.00.09"
+      },
+      {
+         "name" : "CoreCustomAttributes",
+         "version" : "01.00.03"
+      },
+      {
+         "name" : "LinearReferencing",
+         "version" : "02.00.01"
+      },
+      {
+         "name" : "RoadRailAlignment",
+         "version" : "02.00.01"
+      },
+      {
+         "name" : "RoadRailUnits",
+         "version" : "01.00.00"
+      }
+   ],
+   "version" : "03.00.00"
+}

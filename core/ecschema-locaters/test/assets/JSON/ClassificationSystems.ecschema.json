@@ -1,0 +1,176 @@
+{
+   "$schema" : "https://dev.bentley.com/json_schemas/ec/32/ecschema",
+   "alias" : "clsf",
+   "description" : "a schema for classifying elements",
+   "items" : {
+      "Classification" : {
+         "baseClass" : "BisCore.DefinitionElement",
+         "customAttributes" : [
+            {
+               "className" : "BisCore.ClassHasHandler"
+            }
+         ],
+         "description" : "An element that represents a single entry in a classification system",
+         "label" : "Classification",
+         "modifier" : "Sealed",
+         "properties" : [
+            {
+               "description" : "description for this classification",
+               "label" : "Description",
+               "name" : "Description",
+               "type" : "PrimitiveProperty",
+               "typeName" : "string"
+            }
+         ],
+         "schemaItemType" : "EntityClass"
+      },
+      "ClassificationGroup" : {
+         "baseClass" : "BisCore.GroupInformationElement",
+         "customAttributes" : [
+            {
+               "className" : "BisCore.ClassHasHandler"
+            }
+         ],
+         "description" : "ClassificationGroup groups classifications",
+         "label" : "Classification group",
+         "modifier" : "Sealed",
+         "schemaItemType" : "EntityClass"
+      },
+      "ClassificationGroupGroupsClassifications" : {
+         "baseClass" : "BisCore.ElementGroupsMembers",
+         "description" : "maps Classification to its group",
+         "modifier" : "None",
+         "schemaItemType" : "RelationshipClass",
+         "source" : {
+            "constraintClasses" : [ "ClassificationSystems.ClassificationGroup" ],
+            "multiplicity" : "(0..*)",
+            "polymorphic" : false,
+            "roleLabel" : "groups"
+         },
+         "strength" : "Referencing",
+         "strengthDirection" : "Forward",
+         "target" : {
+            "constraintClasses" : [ "ClassificationSystems.Classification" ],
+            "multiplicity" : "(0..*)",
+            "polymorphic" : false,
+            "roleLabel" : "is grouped in"
+         }
+      },
+      "ClassificationOwnsSubClassifications" : {
+         "baseClass" : "BisCore.ElementOwnsChildElements",
+         "description" : "a relationship used to indicate that one classification specializes other classification",
+         "modifier" : "None",
+         "schemaItemType" : "RelationshipClass",
+         "source" : {
+            "constraintClasses" : [ "ClassificationSystems.Classification" ],
+            "multiplicity" : "(0..1)",
+            "polymorphic" : false,
+            "roleLabel" : "owns"
+         },
+         "strength" : "Embedding",
+         "strengthDirection" : "Forward",
+         "target" : {
+            "constraintClasses" : [ "ClassificationSystems.Classification" ],
+            "multiplicity" : "(0..*)",
+            "polymorphic" : false,
+            "roleLabel" : "is owned by"
+         }
+      },
+      "ClassificationSystem" : {
+         "baseClass" : "BisCore.DefinitionElement",
+         "customAttributes" : [
+            {
+               "className" : "BisCore.ClassHasHandler"
+            }
+         ],
+         "description" : "an element used to represent a classification system",
+         "label" : "Classification System",
+         "modifier" : "Sealed",
+         "properties" : [
+            {
+               "description" : "Source (or publisher) for this classification",
+               "label" : "Source",
+               "name" : "Source",
+               "type" : "PrimitiveProperty",
+               "typeName" : "string"
+            },
+            {
+               "description" : "The edition or version of the classification system from which the classification notation is derived.",
+               "label" : "Edition",
+               "name" : "Edition",
+               "type" : "PrimitiveProperty",
+               "typeName" : "string"
+            },
+            {
+               "description" : "Resource identifier or locator, provided as URI, URN or URL, of the classification.",
+               "label" : "Location",
+               "name" : "Location",
+               "type" : "PrimitiveProperty",
+               "typeName" : "string"
+            }
+         ],
+         "schemaItemType" : "EntityClass"
+      },
+      "ClassificationSystemOwnsClassificationTable" : {
+         "baseClass" : "BisCore.ElementOwnsChildElements",
+         "description" : "maps classification systems to their tables",
+         "modifier" : "None",
+         "schemaItemType" : "RelationshipClass",
+         "source" : {
+            "constraintClasses" : [ "ClassificationSystems.ClassificationSystem" ],
+            "multiplicity" : "(0..1)",
+            "polymorphic" : false,
+            "roleLabel" : "owns"
+         },
+         "strength" : "Embedding",
+         "strengthDirection" : "Forward",
+         "target" : {
+            "constraintClasses" : [ "ClassificationSystems.ClassificationTable" ],
+            "multiplicity" : "(0..*)",
+            "polymorphic" : false,
+            "roleLabel" : "is owned by"
+         }
+      },
+      "ClassificationTable" : {
+         "baseClass" : "BisCore.DefinitionElement",
+         "customAttributes" : [
+            {
+               "className" : "BisCore.ClassHasHandler"
+            }
+         ],
+         "description" : "an element used to represent a table in a classification system",
+         "label" : "Classification Table",
+         "mixins" : [ "BisCore.ISubModeledElement" ],
+         "modifier" : "Sealed",
+         "schemaItemType" : "EntityClass"
+      },
+      "ElementHasClassifications" : {
+         "baseClass" : "BisCore.ElementRefersToElements",
+         "description" : "assigns Classifications to Elements",
+         "modifier" : "None",
+         "schemaItemType" : "RelationshipClass",
+         "source" : {
+            "constraintClasses" : [ "BisCore.Element" ],
+            "multiplicity" : "(0..*)",
+            "polymorphic" : true,
+            "roleLabel" : "has classification"
+         },
+         "strength" : "Referencing",
+         "strengthDirection" : "Forward",
+         "target" : {
+            "constraintClasses" : [ "ClassificationSystems.Classification" ],
+            "multiplicity" : "(0..*)",
+            "polymorphic" : false,
+            "roleLabel" : "classifies"
+         }
+      }
+   },
+   "name" : "ClassificationSystems",
+   "references" : [
+      {
+         "name" : "BisCore",
+         "version" : "01.00.09"
+      }
+   ],
+   "version" : "01.00.00"
+}

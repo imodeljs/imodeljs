@@ -1,0 +1,47 @@
+{
+   "$schema" : "https://dev.bentley.com/json_schemas/ec/32/ecschema",
+   "alias" : "rlphys",
+   "customAttributes" : [
+      {
+         "SupportedUse" : "Production",
+         "className" : "CoreCustomAttributes.ProductionStatus"
+      }
+   ],
+   "description" : "Main schema for the Rail domain.",
+   "items" : {
+      "RailNetwork" : {
+         "baseClass" : "RoadRailPhysical.TransportationNetwork",
+         "customAttributes" : [
+            {
+               "className" : "CoreCustomAttributes.HiddenClass"
+            }
+         ],
+         "description" : "Entry-point element leading to the physical modeling of a Rail network.",
+         "label" : "Rail Network",
+         "schemaItemType" : "EntityClass"
+      },
+      "Railway" : {
+         "baseClass" : "RoadRailPhysical.PathwayElement",
+         "description" : "A Pathway with a track or set of tracks along which passenger and freight trains run.",
+         "label" : "Railway",
+         "modifier" : "Sealed",
+         "schemaItemType" : "EntityClass"
+      }
+   },
+   "name" : "RailPhysical",
+   "references" : [
+      {
+         "name" : "BisCore",
+         "version" : "01.00.09"
+      },
+      {
+         "name" : "CoreCustomAttributes",
+         "version" : "01.00.03"
+      },
+      {
+         "name" : "RoadRailPhysical",
+         "version" : "03.00.00"
+      }
+   ],
+   "version" : "01.00.00"
+}

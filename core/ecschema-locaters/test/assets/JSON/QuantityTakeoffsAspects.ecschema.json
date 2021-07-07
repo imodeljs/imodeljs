@@ -1,0 +1,1192 @@
+{
+   "$schema" : "https://dev.bentley.com/json_schemas/ec/32/ecschema",
+   "alias" : "qto",
+   "items" : {
+      "DimensionsAspect" : {
+         "baseClass" : "QuantityTakeoffsAspects.QuantityTakeoffAspect",
+         "customAttributes" : [
+            {
+               "className" : "BisCore.ClassHasHandler"
+            }
+         ],
+         "description" : "An aspect that defines basic object measurements: height, length width.",
+         "properties" : [
+            {
+               "description" : "Object's height/depth in meters.",
+               "kindOfQuantity" : "AecUnits.LENGTH",
+               "name" : "Height",
+               "type" : "PrimitiveProperty",
+               "typeName" : "double"
+            },
+            {
+               "description" : "Object's length in meters.",
+               "kindOfQuantity" : "AecUnits.LENGTH",
+               "name" : "Length",
+               "type" : "PrimitiveProperty",
+               "typeName" : "double"
+            },
+            {
+               "description" : "Object's width/thickness in meters.",
+               "kindOfQuantity" : "AecUnits.LENGTH",
+               "name" : "Width",
+               "type" : "PrimitiveProperty",
+               "typeName" : "double"
+            }
+         ],
+         "schemaItemType" : "EntityClass"
+      },
+      "DoorAspect" : {
+         "baseClass" : "QuantityTakeoffsAspects.QuantityTakeoffAspect",
+         "customAttributes" : [
+            {
+               "className" : "BisCore.ClassHasHandler"
+            }
+         ],
+         "description" : "An aspect that describes the door type.",
+         "properties" : [
+            {
+               "description" : "Type of a door.",
+               "name" : "Type",
+               "type" : "PrimitiveProperty",
+               "typeName" : "QuantityTakeoffsAspects.DoorType"
+            }
+         ],
+         "schemaItemType" : "EntityClass"
+      },
+      "DoorType" : {
+         "enumerators" : [
+            {
+               "label" : "Flush",
+               "name" : "DoorType0",
+               "value" : 0
+            },
+            {
+               "label" : "Full Glass",
+               "name" : "DoorType1",
+               "value" : 1
+            },
+            {
+               "label" : "Half Glass",
+               "name" : "DoorType2",
+               "value" : 2
+            },
+            {
+               "label" : "2 Lite",
+               "name" : "DoorType3",
+               "value" : 3
+            },
+            {
+               "label" : "Narrow View",
+               "name" : "DoorType4",
+               "value" : 4
+            },
+            {
+               "label" : "View",
+               "name" : "DoorType5",
+               "value" : 5
+            },
+            {
+               "label" : "Louver - Full",
+               "name" : "DoorType6",
+               "value" : 6
+            },
+            {
+               "label" : "Louver - Bottom",
+               "name" : "DoorType7",
+               "value" : 7
+            },
+            {
+               "label" : "Louver - Top",
+               "name" : "DoorType8",
+               "value" : 8
+            },
+            {
+               "label" : "Half Glass w/ Louver",
+               "name" : "DoorType9",
+               "value" : 9
+            },
+            {
+               "label" : "Narrow View w/ Louver",
+               "name" : "DoorType10",
+               "value" : 10
+            }
+         ],
+         "isStrict" : true,
+         "schemaItemType" : "Enumeration",
+         "type" : "int"
+      },
+      "ElementOwnsDimensionsAspect" : {
+         "baseClass" : "QuantityTakeoffsAspects.ElementOwnsQuantityTakeOffAspect",
+         "description" : "A relationship tieing the specialized quantity takeoff aspect with an element",
+         "modifier" : "None",
+         "schemaItemType" : "RelationshipClass",
+         "source" : {
+            "constraintClasses" : [ "BisCore.Element" ],
+            "multiplicity" : "(1..1)",
+            "polymorphic" : true,
+            "roleLabel" : "owns"
+         },
+         "strength" : "Embedding",
+         "strengthDirection" : "Forward",
+         "target" : {
+            "constraintClasses" : [ "QuantityTakeoffsAspects.DimensionsAspect" ],
+            "multiplicity" : "(0..1)",
+            "polymorphic" : false,
+            "roleLabel" : "is owned by"
+         }
+      },
+      "ElementOwnsDoorAspect" : {
+         "baseClass" : "QuantityTakeoffsAspects.ElementOwnsQuantityTakeOffAspect",
+         "description" : "A relationship tieing the specialized quantity takeoff aspect with an element",
+         "modifier" : "None",
+         "schemaItemType" : "RelationshipClass",
+         "source" : {
+            "constraintClasses" : [ "BisCore.Element" ],
+            "multiplicity" : "(1..1)",
+            "polymorphic" : true,
+            "roleLabel" : "owns"
+         },
+         "strength" : "Embedding",
+         "strengthDirection" : "Forward",
+         "target" : {
+            "constraintClasses" : [ "QuantityTakeoffsAspects.DoorAspect" ],
+            "multiplicity" : "(0..1)",
+            "polymorphic" : false,
+            "roleLabel" : "is owned by"
+         }
+      },
+      "ElementOwnsEnergyPerformanceAspect" : {
+         "baseClass" : "QuantityTakeoffsAspects.ElementOwnsQuantityTakeOffAspect",
+         "description" : "A relationship tieing the specialized quantity takeoff aspect with an element",
+         "modifier" : "None",
+         "schemaItemType" : "RelationshipClass",
+         "source" : {
+            "constraintClasses" : [ "BisCore.Element" ],
+            "multiplicity" : "(1..1)",
+            "polymorphic" : true,
+            "roleLabel" : "owns"
+         },
+         "strength" : "Embedding",
+         "strengthDirection" : "Forward",
+         "target" : {
+            "constraintClasses" : [ "QuantityTakeoffsAspects.EnergyPerformanceAspect" ],
+            "multiplicity" : "(0..1)",
+            "polymorphic" : false,
+            "roleLabel" : "is owned by"
+         }
+      },
+      "ElementOwnsFoundationAspect" : {
+         "baseClass" : "QuantityTakeoffsAspects.ElementOwnsQuantityTakeOffAspect",
+         "description" : "A relationship tieing the specialized quantity takeoff aspect with an element",
+         "modifier" : "None",
+         "schemaItemType" : "RelationshipClass",
+         "source" : {
+            "constraintClasses" : [ "BisCore.Element" ],
+            "multiplicity" : "(1..1)",
+            "polymorphic" : true,
+            "roleLabel" : "owns"
+         },
+         "strength" : "Embedding",
+         "strengthDirection" : "Forward",
+         "target" : {
+            "constraintClasses" : [ "QuantityTakeoffsAspects.FoundationAspect" ],
+            "multiplicity" : "(0..1)",
+            "polymorphic" : false,
+            "roleLabel" : "is owned by"
+         }
+      },
+      "ElementOwnsMaterialAspect" : {
+         "baseClass" : "QuantityTakeoffsAspects.ElementOwnsQuantityTakeOffAspect",
+         "description" : "A relationship tieing the specialized quantity takeoff aspect with an element",
+         "modifier" : "None",
+         "schemaItemType" : "RelationshipClass",
+         "source" : {
+            "constraintClasses" : [ "BisCore.Element" ],
+            "multiplicity" : "(1..1)",
+            "polymorphic" : true,
+            "roleLabel" : "owns"
+         },
+         "strength" : "Embedding",
+         "strengthDirection" : "Forward",
+         "target" : {
+            "constraintClasses" : [ "QuantityTakeoffsAspects.MaterialAspect" ],
+            "multiplicity" : "(0..1)",
+            "polymorphic" : false,
+            "roleLabel" : "is owned by"
+         }
+      },
+      "ElementOwnsPerimeterAspect" : {
+         "baseClass" : "QuantityTakeoffsAspects.ElementOwnsQuantityTakeOffAspect",
+         "description" : "A relationship tieing the specialized quantity takeoff aspect with an element",
+         "modifier" : "None",
+         "schemaItemType" : "RelationshipClass",
+         "source" : {
+            "constraintClasses" : [ "BisCore.Element" ],
+            "multiplicity" : "(1..1)",
+            "polymorphic" : true,
+            "roleLabel" : "owns"
+         },
+         "strength" : "Embedding",
+         "strengthDirection" : "Forward",
+         "target" : {
+            "constraintClasses" : [ "QuantityTakeoffsAspects.PerimeterAspect" ],
+            "multiplicity" : "(0..1)",
+            "polymorphic" : false,
+            "roleLabel" : "is owned by"
+         }
+      },
+      "ElementOwnsPileAspect" : {
+         "baseClass" : "QuantityTakeoffsAspects.ElementOwnsQuantityTakeOffAspect",
+         "description" : "A relationship tieing the specialized quantity takeoff aspect with an element",
+         "modifier" : "None",
+         "schemaItemType" : "RelationshipClass",
+         "source" : {
+            "constraintClasses" : [ "BisCore.Element" ],
+            "multiplicity" : "(1..1)",
+            "polymorphic" : true,
+            "roleLabel" : "owns"
+         },
+         "strength" : "Embedding",
+         "strengthDirection" : "Forward",
+         "target" : {
+            "constraintClasses" : [ "QuantityTakeoffsAspects.PileAspect" ],
+            "multiplicity" : "(0..1)",
+            "polymorphic" : false,
+            "roleLabel" : "is owned by"
+         }
+      },
+      "ElementOwnsPipeAspect" : {
+         "baseClass" : "QuantityTakeoffsAspects.ElementOwnsQuantityTakeOffAspect",
+         "description" : "A relationship tieing the specialized quantity takeoff aspect with an element",
+         "modifier" : "None",
+         "schemaItemType" : "RelationshipClass",
+         "source" : {
+            "constraintClasses" : [ "BisCore.Element" ],
+            "multiplicity" : "(1..1)",
+            "polymorphic" : true,
+            "roleLabel" : "owns"
+         },
+         "strength" : "Embedding",
+         "strengthDirection" : "Forward",
+         "target" : {
+            "constraintClasses" : [ "QuantityTakeoffsAspects.PipeAspect" ],
+            "multiplicity" : "(0..1)",
+            "polymorphic" : false,
+            "roleLabel" : "is owned by"
+         }
+      },
+      "ElementOwnsQuantityTakeOffAspect" : {
+         "baseClass" : "BisCore.ElementOwnsUniqueAspect",
+         "description" : "Element may own one or more quantitytakeoffaspects",
+         "modifier" : "None",
+         "schemaItemType" : "RelationshipClass",
+         "source" : {
+            "constraintClasses" : [ "BisCore.Element" ],
+            "multiplicity" : "(1..1)",
+            "polymorphic" : true,
+            "roleLabel" : "owns"
+         },
+         "strength" : "Embedding",
+         "strengthDirection" : "Forward",
+         "target" : {
+            "constraintClasses" : [ "QuantityTakeoffsAspects.QuantityTakeoffAspect" ],
+            "multiplicity" : "(0..*)",
+            "polymorphic" : true,
+            "roleLabel" : "is owned by"
+         }
+      },
+      "ElementOwnsSideAreasAspect" : {
+         "baseClass" : "QuantityTakeoffsAspects.ElementOwnsQuantityTakeOffAspect",
+         "description" : "A relationship tieing the specialized quantity takeoff aspect with an element",
+         "modifier" : "None",
+         "schemaItemType" : "RelationshipClass",
+         "source" : {
+            "constraintClasses" : [ "BisCore.Element" ],
+            "multiplicity" : "(1..1)",
+            "polymorphic" : true,
+            "roleLabel" : "owns"
+         },
+         "strength" : "Embedding",
+         "strengthDirection" : "Forward",
+         "target" : {
+            "constraintClasses" : [ "QuantityTakeoffsAspects.SideAreasAspect" ],
+            "multiplicity" : "(0..1)",
+            "polymorphic" : false,
+            "roleLabel" : "is owned by"
+         }
+      },
+      "ElementOwnsSlabAspect" : {
+         "baseClass" : "QuantityTakeoffsAspects.ElementOwnsQuantityTakeOffAspect",
+         "description" : "A relationship tieing the specialized quantity takeoff aspect with an element",
+         "modifier" : "None",
+         "schemaItemType" : "RelationshipClass",
+         "source" : {
+            "constraintClasses" : [ "BisCore.Element" ],
+            "multiplicity" : "(1..1)",
+            "polymorphic" : true,
+            "roleLabel" : "owns"
+         },
+         "strength" : "Embedding",
+         "strengthDirection" : "Forward",
+         "target" : {
+            "constraintClasses" : [ "QuantityTakeoffsAspects.SlabAspect" ],
+            "multiplicity" : "(0..1)",
+            "polymorphic" : false,
+            "roleLabel" : "is owned by"
+         }
+      },
+      "ElementOwnsSlopeAspect" : {
+         "baseClass" : "QuantityTakeoffsAspects.ElementOwnsQuantityTakeOffAspect",
+         "description" : "A relationship tieing the specialized quantity takeoff aspect with an element",
+         "modifier" : "None",
+         "schemaItemType" : "RelationshipClass",
+         "source" : {
+            "constraintClasses" : [ "BisCore.Element" ],
+            "multiplicity" : "(1..1)",
+            "polymorphic" : true,
+            "roleLabel" : "owns"
+         },
+         "strength" : "Embedding",
+         "strengthDirection" : "Forward",
+         "target" : {
+            "constraintClasses" : [ "QuantityTakeoffsAspects.SlopeAspect" ],
+            "multiplicity" : "(0..1)",
+            "polymorphic" : false,
+            "roleLabel" : "is owned by"
+         }
+      },
+      "ElementOwnsStairsAspect" : {
+         "baseClass" : "QuantityTakeoffsAspects.ElementOwnsQuantityTakeOffAspect",
+         "description" : "A relationship tieing the specialized quantity takeoff aspect with an element",
+         "modifier" : "None",
+         "schemaItemType" : "RelationshipClass",
+         "source" : {
+            "constraintClasses" : [ "BisCore.Element" ],
+            "multiplicity" : "(1..1)",
+            "polymorphic" : true,
+            "roleLabel" : "owns"
+         },
+         "strength" : "Embedding",
+         "strengthDirection" : "Forward",
+         "target" : {
+            "constraintClasses" : [ "QuantityTakeoffsAspects.StairsAspect" ],
+            "multiplicity" : "(0..1)",
+            "polymorphic" : false,
+            "roleLabel" : "is owned by"
+         }
+      },
+      "ElementOwnsStructuralLinearMemberAspect" : {
+         "baseClass" : "QuantityTakeoffsAspects.ElementOwnsQuantityTakeOffAspect",
+         "description" : "A relationship tieing the specialized quantity takeoff aspect with an element",
+         "modifier" : "None",
+         "schemaItemType" : "RelationshipClass",
+         "source" : {
+            "constraintClasses" : [ "BisCore.Element" ],
+            "multiplicity" : "(1..1)",
+            "polymorphic" : true,
+            "roleLabel" : "owns"
+         },
+         "strength" : "Embedding",
+         "strengthDirection" : "Forward",
+         "target" : {
+            "constraintClasses" : [ "QuantityTakeoffsAspects.StructuralLinearMemberAspect" ],
+            "multiplicity" : "(0..1)",
+            "polymorphic" : false,
+            "roleLabel" : "is owned by"
+         }
+      },
+      "ElementOwnsSurfaceAreaAspect" : {
+         "baseClass" : "QuantityTakeoffsAspects.ElementOwnsQuantityTakeOffAspect",
+         "description" : "A relationship tieing the specialized quantity takeoff aspect with an element",
+         "modifier" : "None",
+         "schemaItemType" : "RelationshipClass",
+         "source" : {
+            "constraintClasses" : [ "BisCore.Element" ],
+            "multiplicity" : "(1..1)",
+            "polymorphic" : true,
+            "roleLabel" : "owns"
+         },
+         "strength" : "Embedding",
+         "strengthDirection" : "Forward",
+         "target" : {
+            "constraintClasses" : [ "QuantityTakeoffsAspects.SurfaceAreaAspect" ],
+            "multiplicity" : "(0..1)",
+            "polymorphic" : false,
+            "roleLabel" : "is owned by"
+         }
+      },
+      "ElementOwnsThicknessAspect" : {
+         "baseClass" : "QuantityTakeoffsAspects.ElementOwnsQuantityTakeOffAspect",
+         "description" : "A relationship tieing the specialized quantity takeoff aspect with an element",
+         "modifier" : "None",
+         "schemaItemType" : "RelationshipClass",
+         "source" : {
+            "constraintClasses" : [ "BisCore.Element" ],
+            "multiplicity" : "(1..1)",
+            "polymorphic" : true,
+            "roleLabel" : "owns"
+         },
+         "strength" : "Embedding",
+         "strengthDirection" : "Forward",
+         "target" : {
+            "constraintClasses" : [ "QuantityTakeoffsAspects.ThicknessAspect" ],
+            "multiplicity" : "(0..1)",
+            "polymorphic" : false,
+            "roleLabel" : "is owned by"
+         }
+      },
+      "ElementOwnsVolumeAspect" : {
+         "baseClass" : "QuantityTakeoffsAspects.ElementOwnsQuantityTakeOffAspect",
+         "description" : "A relationship tieing the specialized quantity takeoff aspect with an element",
+         "modifier" : "None",
+         "schemaItemType" : "RelationshipClass",
+         "source" : {
+            "constraintClasses" : [ "BisCore.Element" ],
+            "multiplicity" : "(1..1)",
+            "polymorphic" : true,
+            "roleLabel" : "owns"
+         },
+         "strength" : "Embedding",
+         "strengthDirection" : "Forward",
+         "target" : {
+            "constraintClasses" : [ "QuantityTakeoffsAspects.VolumeAspect" ],
+            "multiplicity" : "(0..1)",
+            "polymorphic" : false,
+            "roleLabel" : "is owned by"
+         }
+      },
+      "ElementOwnsWallAspect" : {
+         "baseClass" : "QuantityTakeoffsAspects.ElementOwnsQuantityTakeOffAspect",
+         "description" : "A relationship tieing the specialized quantity takeoff aspect with an element",
+         "modifier" : "None",
+         "schemaItemType" : "RelationshipClass",
+         "source" : {
+            "constraintClasses" : [ "BisCore.Element" ],
+            "multiplicity" : "(1..1)",
+            "polymorphic" : true,
+            "roleLabel" : "owns"
+         },
+         "strength" : "Embedding",
+         "strengthDirection" : "Forward",
+         "target" : {
+            "constraintClasses" : [ "QuantityTakeoffsAspects.WallAspect" ],
+            "multiplicity" : "(0..1)",
+            "polymorphic" : false,
+            "roleLabel" : "is owned by"
+         }
+      },
+      "ElementOwnsWindowAspect" : {
+         "baseClass" : "QuantityTakeoffsAspects.ElementOwnsQuantityTakeOffAspect",
+         "description" : "A relationship tieing the specialized quantity takeoff aspect with an element",
+         "modifier" : "None",
+         "schemaItemType" : "RelationshipClass",
+         "source" : {
+            "constraintClasses" : [ "BisCore.Element" ],
+            "multiplicity" : "(1..1)",
+            "polymorphic" : true,
+            "roleLabel" : "owns"
+         },
+         "strength" : "Embedding",
+         "strengthDirection" : "Forward",
+         "target" : {
+            "constraintClasses" : [ "QuantityTakeoffsAspects.WindowAspect" ],
+            "multiplicity" : "(0..1)",
+            "polymorphic" : false,
+            "roleLabel" : "is owned by"
+         }
+      },
+      "EnergyPerformanceAspect" : {
+         "baseClass" : "QuantityTakeoffsAspects.QuantityTakeoffAspect",
+         "customAttributes" : [
+            {
+               "className" : "BisCore.ClassHasHandler"
+            }
+         ],
+         "description" : "An aspect that defines the overall energy efficiency rating of a building.",
+         "properties" : [
+            {
+               "description" : "Energy performance rating defined as a number from 0 to 100.",
+               "name" : "Rating",
+               "type" : "PrimitiveProperty",
+               "typeName" : "double"
+            }
+         ],
+         "schemaItemType" : "EntityClass"
+      },
+      "FoundationAspect" : {
+         "baseClass" : "QuantityTakeoffsAspects.QuantityTakeoffAspect",
+         "customAttributes" : [
+            {
+               "className" : "BisCore.ClassHasHandler"
+            }
+         ],
+         "description" : "An aspect that describes the type of structural foundation.",
+         "properties" : [
+            {
+               "description" : "Type of a structural foundation.",
+               "name" : "Type",
+               "type" : "PrimitiveProperty",
+               "typeName" : "QuantityTakeoffsAspects.FoundationType"
+            }
+         ],
+         "schemaItemType" : "EntityClass"
+      },
+      "FoundationType" : {
+         "enumerators" : [
+            {
+               "label" : "Mat Foundation",
+               "name" : "FoundationType0",
+               "value" : 0
+            },
+            {
+               "label" : "Pile",
+               "name" : "FoundationType1",
+               "value" : 1
+            },
+            {
+               "label" : "Pile Cap",
+               "name" : "FoundationType2",
+               "value" : 2
+            },
+            {
+               "label" : "Spread Footing",
+               "name" : "FoundationType3",
+               "value" : 3
+            },
+            {
+               "label" : "Strip Footing",
+               "name" : "FoundationType4",
+               "value" : 4
+            }
+         ],
+         "isStrict" : true,
+         "schemaItemType" : "Enumeration",
+         "type" : "int"
+      },
+      "MaterialAspect" : {
+         "baseClass" : "QuantityTakeoffsAspects.QuantityTakeoffAspect",
+         "customAttributes" : [
+            {
+               "className" : "BisCore.ClassHasHandler"
+            }
+         ],
+         "description" : "An aspect that defines the basic properties of a material.",
+         "properties" : [
+            {
+               "description" : "Material name.",
+               "name" : "Material",
+               "type" : "PrimitiveProperty",
+               "typeName" : "string"
+            },
+            {
+               "description" : "Material density described as kilogram per meter cubed.",
+               "kindOfQuantity" : "AecUnits.DENSITY",
+               "label" : "Material Density",
+               "name" : "MaterialDensity",
+               "type" : "PrimitiveProperty",
+               "typeName" : "double"
+            },
+            {
+               "description" : "Material weight in kilograms.",
+               "kindOfQuantity" : "AecUnits.WEIGHT",
+               "name" : "Weight",
+               "type" : "PrimitiveProperty",
+               "typeName" : "double"
+            }
+         ],
+         "schemaItemType" : "EntityClass"
+      },
+      "PerimeterAspect" : {
+         "baseClass" : "QuantityTakeoffsAspects.QuantityTakeoffAspect",
+         "customAttributes" : [
+            {
+               "className" : "BisCore.ClassHasHandler"
+            }
+         ],
+         "description" : "An aspect that defines the length of the outline of a shape - perimeter.",
+         "properties" : [
+            {
+               "description" : "Perimeter of the shape in meters.",
+               "kindOfQuantity" : "AecUnits.LENGTH",
+               "name" : "Perimeter",
+               "type" : "PrimitiveProperty",
+               "typeName" : "double"
+            }
+         ],
+         "schemaItemType" : "EntityClass"
+      },
+      "PileAspect" : {
+         "baseClass" : "QuantityTakeoffsAspects.QuantityTakeoffAspect",
+         "customAttributes" : [
+            {
+               "className" : "BisCore.ClassHasHandler"
+            }
+         ],
+         "description" : "An aspect that defines the depth of a vertical structural element of a deep foundation - pile.",
+         "properties" : [
+            {
+               "description" : "Describes how deep a pile is embedded in meters.",
+               "kindOfQuantity" : "AecUnits.LENGTH",
+               "label" : "Embedment Depth",
+               "name" : "EmbedmentDepth",
+               "type" : "PrimitiveProperty",
+               "typeName" : "double"
+            }
+         ],
+         "schemaItemType" : "EntityClass"
+      },
+      "PipeAspect" : {
+         "baseClass" : "QuantityTakeoffsAspects.QuantityTakeoffAspect",
+         "customAttributes" : [
+            {
+               "className" : "BisCore.ClassHasHandler"
+            }
+         ],
+         "description" : "An aspect that defines the basic measurements of a pipe.",
+         "properties" : [
+            {
+               "description" : "Diameter of a pipe in meters.",
+               "kindOfQuantity" : "AecUnits.LENGTH_SHORT",
+               "name" : "Diameter",
+               "type" : "PrimitiveProperty",
+               "typeName" : "double"
+            },
+            {
+               "description" : "Length of a pipe in meters.",
+               "kindOfQuantity" : "AecUnits.LENGTH",
+               "name" : "Length",
+               "type" : "PrimitiveProperty",
+               "typeName" : "double"
+            },
+            {
+               "description" : "Schedule of a pipe. The schedule number on a pipe relates to the thickness of the wall on the pipe.",
+               "name" : "Schedule",
+               "type" : "PrimitiveProperty",
+               "typeName" : "string"
+            },
+            {
+               "description" : "Thickness of a pipe in meters.",
+               "kindOfQuantity" : "AecUnits.LENGTH_SHORT",
+               "name" : "Thickness",
+               "type" : "PrimitiveProperty",
+               "typeName" : "double"
+            }
+         ],
+         "schemaItemType" : "EntityClass"
+      },
+      "QuantityTakeoffAspect" : {
+         "baseClass" : "BisCore.ElementUniqueAspect",
+         "description" : "An abstract aspect that contains detailed measurement of materials and labor needed to complete a construction project.",
+         "modifier" : "Abstract",
+         "schemaItemType" : "EntityClass"
+      },
+      "SideAreasAspect" : {
+         "baseClass" : "QuantityTakeoffsAspects.QuantityTakeoffAspect",
+         "customAttributes" : [
+            {
+               "className" : "BisCore.ClassHasHandler"
+            }
+         ],
+         "description" : "An aspect that defines the area measurements for the different sides of a three dimensional object.",
+         "properties" : [
+            {
+               "description" : "Total surface area of the bottom side.",
+               "kindOfQuantity" : "AecUnits.AREA",
+               "label" : "Bottom Gross Area",
+               "name" : "BottomGrossArea",
+               "type" : "PrimitiveProperty",
+               "typeName" : "double"
+            },
+            {
+               "description" : "Usable surface area of the bottom side.",
+               "kindOfQuantity" : "AecUnits.AREA",
+               "label" : "Bottom Net Area",
+               "name" : "BottomNetArea",
+               "type" : "PrimitiveProperty",
+               "typeName" : "double"
+            },
+            {
+               "description" : "Total surface area of the left side.",
+               "kindOfQuantity" : "AecUnits.AREA",
+               "label" : "Left Side Gross Area",
+               "name" : "LeftSideGrossArea",
+               "type" : "PrimitiveProperty",
+               "typeName" : "double"
+            },
+            {
+               "description" : "Usable surface area of the left side.",
+               "kindOfQuantity" : "AecUnits.AREA",
+               "label" : "Left Side Net Area",
+               "name" : "LeftSideNetArea",
+               "type" : "PrimitiveProperty",
+               "typeName" : "double"
+            },
+            {
+               "description" : "Total surface area of the right side.",
+               "kindOfQuantity" : "AecUnits.AREA",
+               "label" : "Right Side Gross Area",
+               "name" : "RightSideGrossArea",
+               "type" : "PrimitiveProperty",
+               "typeName" : "double"
+            },
+            {
+               "description" : "Usable surface area of the right side.",
+               "kindOfQuantity" : "AecUnits.AREA",
+               "label" : "Right Side Net Area",
+               "name" : "RightSideNetArea",
+               "type" : "PrimitiveProperty",
+               "typeName" : "double"
+            },
+            {
+               "description" : "Total surface area of the top side.",
+               "kindOfQuantity" : "AecUnits.AREA",
+               "label" : "Top Gross Area",
+               "name" : "TopGrossArea",
+               "type" : "PrimitiveProperty",
+               "typeName" : "double"
+            },
+            {
+               "description" : "Usable surface area of the top side.",
+               "kindOfQuantity" : "AecUnits.AREA",
+               "label" : "Top Net Area",
+               "name" : "TopNetArea",
+               "type" : "PrimitiveProperty",
+               "typeName" : "double"
+            }
+         ],
+         "schemaItemType" : "EntityClass"
+      },
+      "SlabAspect" : {
+         "baseClass" : "QuantityTakeoffsAspects.QuantityTakeoffAspect",
+         "customAttributes" : [
+            {
+               "className" : "BisCore.ClassHasHandler"
+            }
+         ],
+         "description" : "An aspect that describes the properties of a large, flat piece of concrete or stone - slab.",
+         "properties" : [
+            {
+               "description" : "Describes in which direction is a slab supported.",
+               "label" : "Slab Direction",
+               "name" : "SlabDirection",
+               "type" : "PrimitiveProperty",
+               "typeName" : "QuantityTakeoffsAspects.SlabDirectionType"
+            },
+            {
+               "description" : "Type of a slab.",
+               "name" : "Type",
+               "type" : "PrimitiveProperty",
+               "typeName" : "QuantityTakeoffsAspects.SlabType"
+            }
+         ],
+         "schemaItemType" : "EntityClass"
+      },
+      "SlabDirectionType" : {
+         "enumerators" : [
+            {
+               "label" : "Unknown",
+               "name" : "SlabDirectionType0",
+               "value" : 0
+            },
+            {
+               "label" : "One Way",
+               "name" : "SlabDirectionType1",
+               "value" : 1
+            },
+            {
+               "label" : "Two Way",
+               "name" : "SlabDirectionType2",
+               "value" : 2
+            }
+         ],
+         "isStrict" : true,
+         "schemaItemType" : "Enumeration",
+         "type" : "int"
+      },
+      "SlabType" : {
+         "enumerators" : [
+            {
+               "label" : "Floor",
+               "name" : "SlabType0",
+               "value" : 0
+            },
+            {
+               "label" : "Roof",
+               "name" : "SlabType1",
+               "value" : 1
+            },
+            {
+               "label" : "Landing",
+               "name" : "SlabType2",
+               "value" : 2
+            },
+            {
+               "label" : "Base Slab",
+               "name" : "SlabType3",
+               "value" : 3
+            },
+            {
+               "label" : "User Defined",
+               "name" : "SlabType4",
+               "value" : 4
+            },
+            {
+               "label" : "Not Defined",
+               "name" : "SlabType5",
+               "value" : 5
+            }
+         ],
+         "isStrict" : true,
+         "schemaItemType" : "Enumeration",
+         "type" : "int"
+      },
+      "SlopeAspect" : {
+         "baseClass" : "QuantityTakeoffsAspects.QuantityTakeoffAspect",
+         "customAttributes" : [
+            {
+               "className" : "BisCore.ClassHasHandler"
+            }
+         ],
+         "description" : "An aspect that defines the angle of a slope.",
+         "properties" : [
+            {
+               "description" : "Angle of a slope in radians.",
+               "kindOfQuantity" : "AecUnits.ANGLE",
+               "name" : "Slope",
+               "type" : "PrimitiveProperty",
+               "typeName" : "double"
+            }
+         ],
+         "schemaItemType" : "EntityClass"
+      },
+      "StairsAspect" : {
+         "baseClass" : "QuantityTakeoffsAspects.QuantityTakeoffAspect",
+         "customAttributes" : [
+            {
+               "className" : "BisCore.ClassHasHandler"
+            }
+         ],
+         "description" : "An aspect that describes properties of stairs.",
+         "properties" : [
+            {
+               "description" : "Number of steps/risers in the stairs.",
+               "label" : "Number of Risers",
+               "name" : "NumberOfRisers",
+               "type" : "PrimitiveProperty",
+               "typeName" : "int"
+            },
+            {
+               "description" : "Height of a riser, distance between steps.",
+               "kindOfQuantity" : "AecUnits.LENGTH_SHORT",
+               "label" : "Riser Height",
+               "name" : "RiserHeight",
+               "type" : "PrimitiveProperty",
+               "typeName" : "double"
+            }
+         ],
+         "schemaItemType" : "EntityClass"
+      },
+      "StructuralFramingType" : {
+         "enumerators" : [
+            {
+               "label" : "Beam",
+               "name" : "StructuralFramingType0",
+               "value" : 0
+            },
+            {
+               "label" : "Column",
+               "name" : "StructuralFramingType1",
+               "value" : 1
+            },
+            {
+               "label" : "Vertical Brace",
+               "name" : "StructuralFramingType2",
+               "value" : 2
+            },
+            {
+               "label" : "Horizontal Brace",
+               "name" : "StructuralFramingType3",
+               "value" : 3
+            },
+            {
+               "label" : "Pier",
+               "name" : "StructuralFramingType4",
+               "value" : 4
+            },
+            {
+               "label" : "Pile",
+               "name" : "StructuralFramingType5",
+               "value" : 5
+            },
+            {
+               "label" : "Purlin",
+               "name" : "StructuralFramingType6",
+               "value" : 6
+            },
+            {
+               "label" : "Cladding",
+               "name" : "StructuralFramingType7",
+               "value" : 7
+            }
+         ],
+         "isStrict" : true,
+         "schemaItemType" : "Enumeration",
+         "type" : "int"
+      },
+      "StructuralLinearMemberAspect" : {
+         "baseClass" : "QuantityTakeoffsAspects.QuantityTakeoffAspect",
+         "customAttributes" : [
+            {
+               "className" : "BisCore.ClassHasHandler"
+            }
+         ],
+         "description" : "An aspect that describes a straight structural member.",
+         "properties" : [
+            {
+               "description" : "Cross-Sectional area of a structural member.",
+               "kindOfQuantity" : "AecUnits.AREA",
+               "label" : "Cross-Sectional Area",
+               "name" : "CrossSectionalArea",
+               "type" : "PrimitiveProperty",
+               "typeName" : "double"
+            },
+            {
+               "description" : "Name of a structural member.",
+               "label" : "Section Name",
+               "name" : "SectionName",
+               "type" : "PrimitiveProperty",
+               "typeName" : "string"
+            },
+            {
+               "description" : "Type of a structural member.",
+               "name" : "Type",
+               "type" : "PrimitiveProperty",
+               "typeName" : "QuantityTakeoffsAspects.StructuralFramingType"
+            }
+         ],
+         "schemaItemType" : "EntityClass"
+      },
+      "SurfaceAreaAspect" : {
+         "baseClass" : "QuantityTakeoffsAspects.QuantityTakeoffAspect",
+         "customAttributes" : [
+            {
+               "className" : "BisCore.ClassHasHandler"
+            }
+         ],
+         "description" : "An aspect that defines gross and net surface area measurements.",
+         "properties" : [
+            {
+               "description" : "Total surface area.",
+               "kindOfQuantity" : "AecUnits.AREA",
+               "label" : "Gross Surface Area",
+               "name" : "GrossSurfaceArea",
+               "type" : "PrimitiveProperty",
+               "typeName" : "double"
+            },
+            {
+               "description" : "Usable surface area.",
+               "kindOfQuantity" : "AecUnits.AREA",
+               "label" : "Net Surface Area",
+               "name" : "NetSurfaceArea",
+               "type" : "PrimitiveProperty",
+               "typeName" : "double"
+            }
+         ],
+         "schemaItemType" : "EntityClass"
+      },
+      "ThicknessAspect" : {
+         "baseClass" : "QuantityTakeoffsAspects.QuantityTakeoffAspect",
+         "customAttributes" : [
+            {
+               "className" : "BisCore.ClassHasHandler"
+            }
+         ],
+         "description" : "An aspect that defines object's thickness.",
+         "properties" : [
+            {
+               "description" : "Thickness of an object in meters.",
+               "kindOfQuantity" : "AecUnits.LENGTH_SHORT",
+               "name" : "Thickness",
+               "type" : "PrimitiveProperty",
+               "typeName" : "double"
+            }
+         ],
+         "schemaItemType" : "EntityClass"
+      },
+      "VolumeAspect" : {
+         "baseClass" : "QuantityTakeoffsAspects.QuantityTakeoffAspect",
+         "customAttributes" : [
+            {
+               "className" : "BisCore.ClassHasHandler"
+            }
+         ],
+         "description" : "An aspect that defines gross and net volumes of an object.",
+         "properties" : [
+            {
+               "description" : "Total volume of an object with packaging.",
+               "kindOfQuantity" : "AecUnits.VOLUME",
+               "label" : "Gross Volume",
+               "name" : "GrossVolume",
+               "type" : "PrimitiveProperty",
+               "typeName" : "double"
+            },
+            {
+               "description" : "Volume of an object alone.",
+               "kindOfQuantity" : "AecUnits.VOLUME",
+               "label" : "Net Volume",
+               "name" : "NetVolume",
+               "type" : "PrimitiveProperty",
+               "typeName" : "double"
+            }
+         ],
+         "schemaItemType" : "EntityClass"
+      },
+      "WallAspect" : {
+         "baseClass" : "QuantityTakeoffsAspects.QuantityTakeoffAspect",
+         "customAttributes" : [
+            {
+               "className" : "BisCore.ClassHasHandler"
+            }
+         ],
+         "description" : "An aspect that describes the wall type.",
+         "properties" : [
+            {
+               "description" : "Type of a wall.",
+               "name" : "Type",
+               "type" : "PrimitiveProperty",
+               "typeName" : "QuantityTakeoffsAspects.WallType"
+            }
+         ],
+         "schemaItemType" : "EntityClass"
+      },
+      "WallType" : {
+         "enumerators" : [
+            {
+               "label" : "Movable",
+               "name" : "WallType0",
+               "value" : 0
+            },
+            {
+               "label" : "Parapet",
+               "name" : "WallType1",
+               "value" : 1
+            },
+            {
+               "label" : "Partitioning",
+               "name" : "WallType2",
+               "value" : 2
+            },
+            {
+               "label" : "Plumbing Wall",
+               "name" : "WallType3",
+               "value" : 3
+            },
+            {
+               "label" : "Shear",
+               "name" : "WallType4",
+               "value" : 4
+            },
+            {
+               "label" : "Solid Wall",
+               "name" : "WallType5",
+               "value" : 5
+            },
+            {
+               "label" : "Standard",
+               "name" : "WallType6",
+               "value" : 6
+            },
+            {
+               "label" : "Polygonal",
+               "name" : "WallType7",
+               "value" : 7
+            },
+            {
+               "label" : "Elemented Wall",
+               "name" : "WallType8",
+               "value" : 8
+            },
+            {
+               "label" : "User Defined",
+               "name" : "WallType9",
+               "value" : 9
+            },
+            {
+               "label" : "Not Defined",
+               "name" : "WallType10",
+               "value" : 10
+            }
+         ],
+         "isStrict" : true,
+         "schemaItemType" : "Enumeration",
+         "type" : "int"
+      },
+      "WindowAspect" : {
+         "baseClass" : "QuantityTakeoffsAspects.QuantityTakeoffAspect",
+         "customAttributes" : [
+            {
+               "className" : "BisCore.ClassHasHandler"
+            }
+         ],
+         "description" : "An aspect that describes the window type.",
+         "properties" : [
+            {
+               "description" : "Type of a window.",
+               "name" : "Type",
+               "type" : "PrimitiveProperty",
+               "typeName" : "QuantityTakeoffsAspects.WindowType"
+            }
+         ],
+         "schemaItemType" : "EntityClass"
+      },
+      "WindowType" : {
+         "enumerators" : [
+            {
+               "label" : "Casement",
+               "name" : "WindowType0",
+               "value" : 0
+            },
+            {
+               "label" : "Single Hung",
+               "name" : "WindowType1",
+               "value" : 1
+            },
+            {
+               "label" : "Double Hung",
+               "name" : "WindowType2",
+               "value" : 2
+            },
+            {
+               "label" : "Awning",
+               "name" : "WindowType3",
+               "value" : 3
+            },
+            {
+               "label" : "Hopper",
+               "name" : "WindowType4",
+               "value" : 4
+            },
+            {
+               "label" : "Sliding",
+               "name" : "WindowType5",
+               "value" : 5
+            }
+         ],
+         "isStrict" : true,
+         "schemaItemType" : "Enumeration",
+         "type" : "int"
+      }
+   },
+   "name" : "QuantityTakeoffsAspects",
+   "references" : [
+      {
+         "name" : "AecUnits",
+         "version" : "01.00.03"
+      },
+      {
+         "name" : "BisCore",
+         "version" : "01.00.09"
+      }
+   ],
+   "version" : "01.00.01"
+}

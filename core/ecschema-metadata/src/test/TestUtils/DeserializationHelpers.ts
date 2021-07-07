@@ -24,22 +24,31 @@ export function createSchemaJsonWithItems(itemsJson: any, referenceJson?: any): 
 }
 export class ReferenceSchemaLocater implements ISchemaLocater {
   private readonly _schemaList: Map<string, Object>;
-  private readonly _parser: (schemaContent: any, context: SchemaContext) => Schema;
+  private readonly _parser: (schemaContent: any, context: SchemaContext) => Schema | Promise<Schema>;
+  private readonly _loadingSchemaParser: (schemaContent: any, context: SchemaContext) => Schema | Promise<Schema>;
 
-  constructor(parser: (schemaContent: any, context: SchemaContext) => Schema) {
+  constructor(parser: (schemaContent: any, context: SchemaContext) => Schema | Promise<Schema>, loadingSchemaParser: (schemaContent: any, context: SchemaContext) => Schema | Promise<Schema>) {
     this._schemaList = new Map();
     this._parser = parser;
+    this._loadingSchemaParser = loadingSchemaParser;
   }
 
   public addSchema(schemaName: string, schema: any) {
     this._schemaList.set(schemaName, schema);
   }
-  public async getSchema<T extends Schema>(schemaKey: SchemaKey, matchType: SchemaMatchType, context: SchemaContext): Promise<T | undefined> {
-    return this.getSchemaSync(schemaKey, matchType, context) as T;
+
+  public async getSchema<T extends Schema>(schemaKey: SchemaKey, _matchType: SchemaMatchType, context: SchemaContext): Promise<T | undefined> {
+    if (this._schemaList.has(schemaKey.name)) {
+      const schemaBody = this._schemaList.get(schemaKey.name);
+      const schema = await this._parser(schemaBody, context);
+
+      return schema as T;
+    }
+
+    return undefined;
   }
 
   public getSchemaSync<T extends Schema>(schemaKey: SchemaKey, _matchType: SchemaMatchType, context: SchemaContext): T | undefined {
-
     if (this._schemaList.has(schemaKey.name)) {
       const schemaBody = this._schemaList.get(schemaKey.name);
       const schema = this._parser(schemaBody, context);
@@ -49,10 +58,35 @@ export class ReferenceSchemaLocater implements ISchemaLocater {
 
     return undefined;
   }
+
+  public async getLoadingSchema<T extends Schema>(schemaKey: SchemaKey, _matchType: SchemaMatchType, context: SchemaContext): Promise<T | undefined> {
+    if (this._schemaList.has(schemaKey.name)) {
+      const schemaBody = this._schemaList.get(schemaKey.name);
+      const schema = await this._loadingSchemaParser(schemaBody, context);
+
+      return schema as T;
+    }
+
+    return undefined;
+  }
+
+  public getLoadingSchemaSync<T extends Schema>(schemaKey: SchemaKey, _matchType: SchemaMatchType, context: SchemaContext): T | undefined {
+    if (this._schemaList.has(schemaKey.name)) {
+      const schemaBody = this._schemaList.get(schemaKey.name);
+      const schema = this._loadingSchemaParser(schemaBody, context);
+
+      return schema as T;
+    }
+
+    return undefined;
+  }
 }
 
 export async function deserializeXml(schemaXml: string, context: SchemaContext) {
-  return Promise.resolve(deserializeXmlSync(schemaXml, context));
+  const parser = new DOMParser();
+  const document = parser.parseFromString(schemaXml);
+  const reader = new SchemaReadHelper(XmlParser, context);
+  return reader.readSchema(new Schema(context), document);
 }
 
 export function deserializeXmlSync(schemaXml: string, context: SchemaContext) {
@@ -60,6 +94,20 @@ export function deserializeXmlSync(schemaXml: string, context: SchemaContext) {
   const document = parser.parseFromString(schemaXml);
   const reader = new SchemaReadHelper(XmlParser, context);
   return reader.readSchemaSync(new Schema(context), document);
+}
+
+export async function deserializeXmlLoadingSchema(schemaXml: string, context: SchemaContext) {
+  const parser = new DOMParser();
+  const document = parser.parseFromString(schemaXml);
+  const reader = new SchemaReadHelper(XmlParser, context);
+  return reader.readLoadingSchema(new Schema(context), document);
+}
+
+export function deserializeXmlLoadingSchemaSync(schemaXml: string, context: SchemaContext) {
+  const parser = new DOMParser();
+  const document = parser.parseFromString(schemaXml);
+  const reader = new SchemaReadHelper(XmlParser, context);
+  return reader.readLoadingSchemaSync(new Schema(context), document);
 }
 
 export function createSchemaXmlWithItems(itemsXml: string | Element, ec32: boolean = false): Document {

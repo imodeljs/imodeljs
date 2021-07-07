@@ -1,0 +1,202 @@
+{
+   "$schema" : "https://dev.bentley.com/json_schemas/ec/32/ecschema",
+   "alias" : "ecdbmap",
+   "description" : "Custom attributes that customize ECDb's ECSchema to database mapping.",
+   "items" : {
+      "ClassMap" : {
+         "appliesTo" : "EntityClass, RelationshipClass",
+         "modifier" : "Sealed",
+         "properties" : [
+            {
+               "description" : "Defines how the ECClass is mapped to table(s). Values: OwnTable (default), TablePerHierarchy, ExistingTable, NotMapped",
+               "name" : "MapStrategy",
+               "type" : "PrimitiveProperty",
+               "typeName" : "string"
+            },
+            {
+               "description" : "If MapStrategy is 'ExistingTable' provide the table name here. Must not be set in all other cases.",
+               "name" : "TableName",
+               "type" : "PrimitiveProperty",
+               "typeName" : "string"
+            },
+            {
+               "description" : "Optionally specify the name of custom 'primary key' column which must be of type Int64.",
+               "name" : "ECInstanceIdColumn",
+               "type" : "PrimitiveProperty",
+               "typeName" : "string"
+            }
+         ],
+         "schemaItemType" : "CustomAttributeClass"
+      },
+      "DbIndex" : {
+         "description" : "Specify a database index for an ECClass.",
+         "modifier" : "Sealed",
+         "properties" : [
+            {
+               "description" : "Name of the index. Must follow EC identifier rules. It needs to be globally unique in the database.",
+               "name" : "Name",
+               "type" : "PrimitiveProperty",
+               "typeName" : "string"
+            },
+            {
+               "description" : "Default: false. If true, all values in the indexed properties must be unique.",
+               "name" : "IsUnique",
+               "type" : "PrimitiveProperty",
+               "typeName" : "boolean"
+            },
+            {
+               "description" : "List of properties that make up the index. Only properties of primitive type are supported.",
+               "minOccurs" : 1,
+               "name" : "Properties",
+               "type" : "PrimitiveArrayProperty",
+               "typeName" : "string"
+            },
+            {
+               "description" : "Where constraint for index",
+               "name" : "Where",
+               "type" : "PrimitiveProperty",
+               "typeName" : "string"
+            }
+         ],
+         "schemaItemType" : "StructClass"
+      },
+      "DbIndexList" : {
+         "appliesTo" : "EntityClass, RelationshipClass",
+         "modifier" : "Sealed",
+         "properties" : [
+            {
+               "description" : "List of indexes on properties of this class. It can be use to improve query performance or to add unique constraint.",
+               "minOccurs" : 1,
+               "name" : "Indexes",
+               "type" : "StructArrayProperty",
+               "typeName" : "ECDbMap.DbIndex"
+            }
+         ],
+         "schemaItemType" : "CustomAttributeClass"
+      },
+      "ForeignKeyConstraint" : {
+         "appliesTo" : "NavigationProperty",
+         "description" : "Creates a foreign key for this navigation property.",
+         "modifier" : "Sealed",
+         "properties" : [
+            {
+               "description" : "Possible values: NoAction (default), Cascade (which deletes child rows when parent row is deleted), SetNull(foreign key property in child is set to NULL), Restrict (cannot delete parent if it still has children).",
+               "name" : "OnDeleteAction",
+               "type" : "PrimitiveProperty",
+               "typeName" : "string"
+            },
+            {
+               "description" : "Possible values: NoAction (default), Cascade (which updates child foreign key when parent primary key is updated).",
+               "name" : "OnUpdateAction",
+               "type" : "PrimitiveProperty",
+               "typeName" : "string"
+            }
+         ],
+         "schemaItemType" : "CustomAttributeClass"
+      },
+      "JoinedTablePerDirectSubclass" : {
+         "appliesTo" : "EntityClass",
+         "description" : "Maps subclasses and their children to a joined table. Can only be applied to classes in a hierarchy using MapStrategy TablePerHierarchy.",
+         "modifier" : "Sealed",
+         "schemaItemType" : "CustomAttributeClass"
+      },
+      "LinkTableRelationshipMap" : {
+         "appliesTo" : "RelationshipClass",
+         "modifier" : "Sealed",
+         "properties" : [
+            {
+               "description" : "Optional. If not set, a default column name will be used",
+               "name" : "SourceECInstanceIdColumn",
+               "type" : "PrimitiveProperty",
+               "typeName" : "string"
+            },
+            {
+               "description" : "Optional. If not set, a default column name will be used",
+               "name" : "TargetECInstanceIdColumn",
+               "type" : "PrimitiveProperty",
+               "typeName" : "string"
+            },
+            {
+               "description" : "Default: true. If set to false, no foreign key constraints are created on the link table. In that case, deleting instance does not delete its relationships in the link table.",
+               "name" : "CreateForeignKeyConstraints",
+               "type" : "PrimitiveProperty",
+               "typeName" : "boolean"
+            },
+            {
+               "description" : "Default: false. If set to true duplicate relationships are allowed.",
+               "name" : "AllowDuplicateRelationships",
+               "type" : "PrimitiveProperty",
+               "typeName" : "boolean"
+            }
+         ],
+         "schemaItemType" : "CustomAttributeClass"
+      },
+      "PropertyMap" : {
+         "appliesTo" : "PrimitiveProperty",
+         "modifier" : "Sealed",
+         "properties" : [
+            {
+               "description" : "If not specified, the ECProperty name is used. It must follow EC Identifier specification.",
+               "name" : "ColumnName",
+               "type" : "PrimitiveProperty",
+               "typeName" : "string"
+            },
+            {
+               "description" : "If false, values must not be unset for this property.",
+               "name" : "IsNullable",
+               "type" : "PrimitiveProperty",
+               "typeName" : "boolean"
+            },
+            {
+               "description" : "Only allow unique values for this property.",
+               "name" : "IsUnique",
+               "type" : "PrimitiveProperty",
+               "typeName" : "boolean"
+            },
+            {
+               "description" : "Specifies how string comparisons should work for this property. Possible values: Binary (default): bit to bit matching. NoCase: The same as binary, except that the 26 upper case characters of ASCII are folded to their lower case equivalents before comparing. Note that it only folds ASCII characters. RTrim: The same as binary, except that trailing space characters are ignored.",
+               "name" : "Collation",
+               "type" : "PrimitiveProperty",
+               "typeName" : "string"
+            }
+         ],
+         "schemaItemType" : "CustomAttributeClass"
+      },
+      "SchemaMap" : {
+         "appliesTo" : "Schema",
+         "modifier" : "Sealed",
+         "properties" : [
+            {
+               "description" : "Specifies a prefix for generated tables. If not specified, the alias of the ECSchema is used",
+               "name" : "TablePrefix",
+               "type" : "PrimitiveProperty",
+               "typeName" : "string"
+            }
+         ],
+         "schemaItemType" : "CustomAttributeClass"
+      },
+      "ShareColumns" : {
+         "appliesTo" : "EntityClass, RelationshipClass",
+         "description" : "Allows to share columns amongst ECProperties. Can only be applied to MapStrategy TablePerHierarchy",
+         "modifier" : "Sealed",
+         "properties" : [
+            {
+               "description" : "False (Default):Columns are shared for the properties of the ECClass to which this CA is applied and all its subclasses. True: Columns are not shared for this ECClass but for all of its subclasses.",
+               "name" : "ApplyToSubclassesOnly",
+               "type" : "PrimitiveProperty",
+               "typeName" : "boolean"
+            },
+            {
+               "description" : "Maximum number of shared columns to use before using an overflow table (optional). If not specified, ECDb will create as many shared columns until the table has 63 columns.",
+               "name" : "MaxSharedColumnsBeforeOverflow",
+               "type" : "PrimitiveProperty",
+               "typeName" : "int"
+            }
+         ],
+         "schemaItemType" : "CustomAttributeClass"
+      }
+   },
+   "label" : "ECDb DB Mapping",
+   "name" : "ECDbMap",
+   "version" : "02.00.00"
+}

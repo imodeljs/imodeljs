@@ -1,0 +1,221 @@
+{
+   "$schema" : "https://dev.bentley.com/json_schemas/ec/32/ecschema",
+   "alias" : "ppidg",
+   "customAttributes" : [
+      {
+         "className" : "CoreCustomAttributes.HiddenSchema"
+      }
+   ],
+   "description" : "Process PID graphical schema",
+   "items" : {
+      "OpCheckOutId" : {
+         "baseClass" : "BisCore.DefinitionElement",
+         "customAttributes" : [
+            {
+               "className" : "BisCore.ClassHasHandler"
+            }
+         ],
+         "description" : "Element that contains the checkout Id",
+         "label" : "OpenPlant checkout Id",
+         "properties" : [
+            {
+               "description" : "Name of the user that did the checkout",
+               "label" : "User Name",
+               "name" : "UserName",
+               "type" : "PrimitiveProperty",
+               "typeName" : "string"
+            },
+            {
+               "description" : "Name of the file that was the target of the check-out",
+               "label" : "Dgn File Name",
+               "name" : "DgnFileName",
+               "type" : "PrimitiveProperty",
+               "typeName" : "string"
+            },
+            {
+               "description" : "Briefcase ID that was the source for the check-out",
+               "label" : "Briefcase ID",
+               "name" : "BriefcaseId",
+               "type" : "PrimitiveProperty",
+               "typeName" : "int"
+            },
+            {
+               "description" : "Identifies if the check-out Id is active.",
+               "label" : "Is Active",
+               "name" : "IsActive",
+               "type" : "PrimitiveProperty",
+               "typeName" : "boolean"
+            }
+         ],
+         "schemaItemType" : "EntityClass"
+      },
+      "OpFontMap" : {
+         "baseClass" : "BisCore.DefinitionElement",
+         "customAttributes" : [
+            {
+               "className" : "BisCore.ClassHasHandler"
+            }
+         ],
+         "description" : "Element that contains the mapping to V8 Fonts",
+         "label" : "OpenPlant Font Map",
+         "properties" : [
+            {
+               "description" : "Name of the V8 Font",
+               "label" : "Font Name",
+               "name" : "FontName",
+               "type" : "PrimitiveProperty",
+               "typeName" : "string"
+            }
+         ],
+         "schemaItemType" : "EntityClass"
+      },
+      "OpLevelMap" : {
+         "baseClass" : "BisCore.DefinitionElement",
+         "customAttributes" : [
+            {
+               "className" : "BisCore.ClassHasHandler"
+            }
+         ],
+         "description" : "Element that contains the mapping to V8 levels",
+         "label" : "OpenPlant Level Map",
+         "properties" : [
+            {
+               "description" : "Name of the V8 Level",
+               "label" : "Level Name",
+               "name" : "LevelName",
+               "type" : "PrimitiveProperty",
+               "typeName" : "string"
+            }
+         ],
+         "schemaItemType" : "EntityClass"
+      },
+      "OpLineStyleMap" : {
+         "baseClass" : "BisCore.DefinitionElement",
+         "customAttributes" : [
+            {
+               "className" : "BisCore.ClassHasHandler"
+            }
+         ],
+         "description" : "Element that contains the mapping to V8 Line Styles",
+         "label" : "OpenPlant Line Style Map",
+         "properties" : [
+            {
+               "description" : "Name of the V8 Line Style",
+               "label" : "Style Name",
+               "name" : "StyleName",
+               "type" : "PrimitiveProperty",
+               "typeName" : "string"
+            }
+         ],
+         "schemaItemType" : "EntityClass"
+      },
+      "OpSettings" : {
+         "baseClass" : "BisCore.DefinitionElement",
+         "customAttributes" : [
+            {
+               "className" : "BisCore.ClassHasHandler"
+            }
+         ],
+         "description" : "Element that contains the settings to check for V8 Element Descriptors",
+         "label" : "OpenPlant Settings",
+         "properties" : [
+            {
+               "description" : "Uors per Meter",
+               "label" : "UorsPerMeter",
+               "name" : "UorsPerMeter",
+               "type" : "PrimitiveProperty",
+               "typeName" : "double"
+            },
+            {
+               "description" : "Solids Working Area",
+               "label" : "Solids Working Area",
+               "name" : "SolidWorkingArea",
+               "type" : "PrimitiveProperty",
+               "typeName" : "double"
+            }
+         ],
+         "schemaItemType" : "EntityClass"
+      },
+      "PIDGraphicOwnsPidTextAnnotation" : {
+         "baseClass" : "BisCore.ElementOwnsChildElements",
+         "modifier" : "None",
+         "schemaItemType" : "RelationshipClass",
+         "source" : {
+            "constraintClasses" : [ "ProcessPidGraphical.PidGraphic" ],
+            "multiplicity" : "(1..1)",
+            "polymorphic" : true,
+            "roleLabel" : "owns"
+         },
+         "strength" : "Embedding",
+         "strengthDirection" : "Forward",
+         "target" : {
+            "constraintClasses" : [ "ProcessPidGraphical.PidTextAnnotation" ],
+            "multiplicity" : "(0..1)",
+            "polymorphic" : false,
+            "roleLabel" : "is owned by"
+         }
+      },
+      "PidGraphic" : {
+         "baseClass" : "BisCore.DrawingGraphic",
+         "customAttributes" : [
+            {
+               "className" : "BisCore.ClassHasHandler"
+            }
+         ],
+         "description" : "Pid graphic",
+         "label" : "Pid Graphic",
+         "properties" : [
+            {
+               "description" : "Class name corresponding to OpenPlant v8i round tripping",
+               "label" : "Type Name",
+               "name" : "TypeName",
+               "type" : "PrimitiveProperty",
+               "typeName" : "string"
+            },
+            {
+               "description" : "v8i Element ID",
+               "label" : "V8 ID",
+               "name" : "V8Id",
+               "type" : "PrimitiveProperty",
+               "typeName" : "int"
+            },
+            {
+               "description" : "V8 Last Modified of the cooresponding V8 Element",
+               "label" : "V8 Last Modified",
+               "name" : "V8ModifiedTime",
+               "type" : "PrimitiveProperty",
+               "typeName" : "double"
+            }
+         ],
+         "schemaItemType" : "EntityClass"
+      },
+      "PidTextAnnotation" : {
+         "baseClass" : "ProcessPidGraphical.PidGraphic",
+         "customAttributes" : [
+            {
+               "className" : "BisCore.ClassHasHandler"
+            }
+         ],
+         "description" : "Pid text annotation",
+         "label" : "Pid text annotation",
+         "schemaItemType" : "EntityClass"
+      }
+   },
+   "label" : "Process PID Graphical",
+   "name" : "ProcessPidGraphical",
+   "references" : [
+      {
+         "name" : "BisCore",
+         "version" : "01.00.09"
+      },
+      {
+         "name" : "CoreCustomAttributes",
+         "version" : "01.00.03"
+      },
+      {
+         "name" : "PlantCustomAttributes",
+         "version" : "01.00.01"
+      }
+   ],
+   "version" : "01.00.01"
+}

@@ -1,0 +1,95 @@
+{
+   "$schema" : "https://dev.bentley.com/json_schemas/ec/32/ecschema",
+   "alias" : "spcomp",
+   "description" : "Provision of a spatial structure of the project by aggregating spatial elements.",
+   "items" : {
+      "CompositeComposesSubComposites" : {
+         "description" : "relates the Composer with its' composees",
+         "modifier" : "None",
+         "schemaItemType" : "RelationshipClass",
+         "source" : {
+            "constraintClasses" : [ "SpatialComposition.CompositeElement" ],
+            "multiplicity" : "(0..1)",
+            "polymorphic" : true,
+            "roleLabel" : "is composed by"
+         },
+         "strength" : "Embedding",
+         "strengthDirection" : "Forward",
+         "target" : {
+            "constraintClasses" : [ "SpatialComposition.CompositeElement" ],
+            "multiplicity" : "(0..*)",
+            "polymorphic" : true,
+            "roleLabel" : "composes"
+         }
+      },
+      "CompositeElement" : {
+         "baseClass" : "BisCore.SpatialLocationElement",
+         "description" : "a spatial element that may be Composite of other CompositeElements",
+         "modifier" : "Abstract",
+         "properties" : [
+            {
+               "description" : "The Composite Element",
+               "direction" : "Backward",
+               "name" : "ComposingElement",
+               "relationshipName" : "SpatialComposition.CompositeComposesSubComposites",
+               "type" : "NavigationProperty"
+            },
+            {
+               "isReadOnly" : true,
+               "kindOfQuantity" : "AecUnits.AREA",
+               "label" : "FootprintArea",
+               "name" : "FootprintArea",
+               "type" : "PrimitiveProperty",
+               "typeName" : "double"
+            }
+         ],
+         "schemaItemType" : "EntityClass"
+      },
+      "CompositeOverlapsSpatialElements" : {
+         "baseClass" : "BisCore.ElementRefersToElements",
+         "description" : "a relationship to mark that an element is at least partially contained within the CompositeElement",
+         "modifier" : "None",
+         "schemaItemType" : "RelationshipClass",
+         "source" : {
+            "constraintClasses" : [ "SpatialComposition.CompositeElement" ],
+            "multiplicity" : "(0..*)",
+            "polymorphic" : true,
+            "roleLabel" : "overlaps"
+         },
+         "strength" : "Referencing",
+         "strengthDirection" : "Forward",
+         "target" : {
+            "constraintClasses" : [ "BisCore.SpatialElement" ],
+            "multiplicity" : "(0..*)",
+            "polymorphic" : true,
+            "roleLabel" : "is overlaped by"
+         }
+      },
+      "ICompositeBoundary" : {
+         "appliesTo" : "SpatialComposition.CompositeElement",
+         "description" : "An interface that indicates that the CompositeElement is delimited by a curve",
+         "schemaItemType" : "Mixin"
+      },
+      "ICompositeVolume" : {
+         "appliesTo" : "SpatialComposition.CompositeElement",
+         "description" : "An interface that indicates that the CompositeElement is delimited by a volume",
+         "schemaItemType" : "Mixin"
+      }
+   },
+   "name" : "SpatialComposition",
+   "references" : [
+      {
+         "name" : "AecUnits",
+         "version" : "01.00.03"
+      },
+      {
+         "name" : "BisCore",
+         "version" : "01.00.09"
+      },
+      {
+         "name" : "CoreCustomAttributes",
+         "version" : "01.00.03"
+      }
+   ],
+   "version" : "01.00.00"
+}
