@@ -7,10 +7,9 @@
  */
 
 import { assert, DbResult, GuidString, Id64String, IModelStatus, Logger, PerfLogger, using } from "@bentley/bentleyjs-core";
-import { ChangedValueState, ChangeOpCode, IModelError, IModelVersion } from "@bentley/imodeljs-common";
+import { ChangedValueState, ChangeOpCode, ChangesetRange, IModelError, IModelVersion } from "@bentley/imodeljs-common";
 import { AuthorizedClientRequestContext } from "@bentley/itwin-client";
 import * as path from "path";
-import { ChangesetRange } from "./BackendHubAccess";
 import { BackendLoggerCategory } from "./BackendLoggerCategory";
 import { BriefcaseManager } from "./BriefcaseManager";
 import { ECDb, ECDbOpenMode } from "./ECDb";

@@ -8,14 +8,13 @@
 
 import { assert, BeEvent, CompressedId64Set, Guid, GuidString, Id64String, IModelStatus, OpenMode } from "@bentley/bentleyjs-core";
 import {
-  IModelConnectionProps, IModelError, IModelVersionProps, OpenBriefcaseProps,
-  StandaloneOpenOptions,
+  ChangesetIndexAndId, IModelConnectionProps, IModelError, IModelVersionProps, OpenBriefcaseProps, StandaloneOpenOptions,
 } from "@bentley/imodeljs-common";
+import { BriefcaseTxns } from "./BriefcaseTxns";
+import { GraphicalEditingScope } from "./GraphicalEditingScope";
+import { IModelApp } from "./IModelApp";
 import { IModelConnection } from "./IModelConnection";
 import { IpcApp } from "./IpcApp";
-import { GraphicalEditingScope } from "./GraphicalEditingScope";
-import { BriefcaseTxns } from "./BriefcaseTxns";
-import { IModelApp } from "./IModelApp";
 import { disposeTileTreesForGeometricModels } from "./tile/internal";
 
 /** Keeps track of changes to models, buffering them until synchronization points.
@@ -232,7 +231,7 @@ export class BriefcaseConnection extends IModelConnection {
    */
   public async pullAndMergeChanges(version?: IModelVersionProps): Promise<void> {
     this.requireTimeline();
-    this._changeSetId = await IpcApp.callIpcHost("pullAndMergeChanges", this.key, version);
+    this.changeset = await IpcApp.callIpcHost("pullAndMergeChanges", this.key, version);
   }
 
   /** Create a changeset from local Txns and push to iModelHub. On success, clear Txn table.
@@ -240,7 +239,7 @@ export class BriefcaseConnection extends IModelConnection {
    * @returns the changesetId of the pushed changes
    * @see [[BriefcaseTxns.onChangesPushed]] for the event dispatched after changes are pushed.
    */
-  public async pushChanges(description: string): Promise<string> {
+  public async pushChanges(description: string): Promise<ChangesetIndexAndId> {
     this.requireTimeline();
     return IpcApp.callIpcHost("pushChanges", this.key, description);
   }

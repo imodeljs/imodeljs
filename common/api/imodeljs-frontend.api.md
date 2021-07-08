@@ -40,6 +40,7 @@ import { Cartographic } from '@bentley/imodeljs-common';
 import { CartographicRange } from '@bentley/imodeljs-common';
 import { CategorySelectorProps } from '@bentley/imodeljs-common';
 import { ChangedEntities } from '@bentley/imodeljs-common';
+import { ChangesetIndexAndId } from '@bentley/imodeljs-common';
 import { ClientRequestContext } from '@bentley/bentleyjs-core';
 import { ClipPlane } from '@bentley/geometry-core';
 import { ClipShape } from '@bentley/geometry-core';
@@ -1639,7 +1640,7 @@ export class BriefcaseConnection extends IModelConnection {
     static openFile(briefcaseProps: OpenBriefcaseProps): Promise<BriefcaseConnection>;
     static openStandalone(filePath: string, openMode?: OpenMode, opts?: StandaloneOpenOptions): Promise<BriefcaseConnection>;
     pullAndMergeChanges(version?: IModelVersionProps): Promise<void>;
-    pushChanges(description: string): Promise<string>;
+    pushChanges(description: string): Promise<ChangesetIndexAndId>;
     saveChanges(description?: string): Promise<void>;
     supportsGraphicalEditing(): Promise<boolean>;
     readonly txns: BriefcaseTxns;
@@ -1694,16 +1695,16 @@ export class BriefcaseTxns extends BriefcaseNotificationHandler implements TxnNo
     // @internal (undocumented)
     notifyProjectExtentsChanged(range: Range3dProps): void;
     // @internal (undocumented)
-    notifyPulledChanges(parentChangeSetId: string): void;
+    notifyPulledChanges(parentChangeset: ChangesetIndexAndId): void;
     // @internal (undocumented)
-    notifyPushedChanges(parentChangeSetId: string): void;
+    notifyPushedChanges(parentChangeset: ChangesetIndexAndId): void;
     // @internal (undocumented)
     notifyRootSubjectChanged(subject: RootSubjectProps): void;
     readonly onAfterUndoRedo: BeEvent<(isUndo: boolean) => void>;
     readonly onBeforeUndoRedo: BeEvent<(isUndo: boolean) => void>;
     readonly onChangesApplied: BeEvent<() => void>;
-    readonly onChangesPulled: BeEvent<(parentChangeSetId: string) => void>;
-    readonly onChangesPushed: BeEvent<(parentChangeSetId: string) => void>;
+    readonly onChangesPulled: BeEvent<(parentChangeset: ChangesetIndexAndId) => void>;
+    readonly onChangesPushed: BeEvent<(parentChangeset: ChangesetIndexAndId) => void>;
     readonly onCommit: BeEvent<() => void>;
     readonly onCommitted: BeEvent<(hasPendingTxns: boolean, time: number) => void>;
     readonly onElementsChanged: BeEvent<(changes: Readonly<ChangedEntities>) => void>;

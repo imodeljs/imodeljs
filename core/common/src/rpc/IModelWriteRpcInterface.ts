@@ -8,6 +8,7 @@
 
 import { DbOpcode, GuidString, Id64Array, Id64String, IModelStatus } from "@bentley/bentleyjs-core";
 import { LockLevel } from "@bentley/imodelhub-client";
+import { ChangesetId } from "../ChangesetProps";
 import { CodeProps } from "../Code";
 import { AxisAlignedBox3dProps } from "../geometry/Placement";
 import { IModelConnectionProps, IModelRpcOpenProps, IModelRpcProps } from "../IModel";
@@ -16,10 +17,13 @@ import { RpcManager } from "../RpcManager";
 import { SubCategoryAppearance } from "../SubCategoryAppearance";
 import { RpcRoutingToken } from "./core/RpcRoutingToken";
 
+/* eslint-disable deprecation/deprecation */
+
 /** The RPC interface for writing to an iModel.
  * All operations require read+write access.
  * This interface is not normally used directly. See IModelConnection for higher-level and more convenient API for accessing iModels from a frontend.
  * @internal
+ * @deprecated use IPC for writing to iModels
  */
 export abstract class IModelWriteRpcInterface extends RpcInterface {
   /** Returns the IModelWriteRpcInterface client instance for the frontend. */
@@ -59,7 +63,7 @@ export abstract class IModelWriteRpcInterface extends RpcInterface {
   /**
    * @deprecated The parent change set id is always maintained in the IModelConnection
    */
-  public async getParentChangeset(_iModelToken: IModelRpcProps): Promise<string> { return this.forward(arguments); }
+  public async getParentChangeset(_iModelToken: IModelRpcProps): Promise<ChangesetId> { return this.forward(arguments); }
 
   public async pullAndMergeChanges(_tokenProps: IModelRpcProps): Promise<IModelConnectionProps> { return this.forward(arguments); }
   public async pushChanges(_tokenProps: IModelRpcProps, _description: string): Promise<IModelConnectionProps> { return this.forward(arguments); }

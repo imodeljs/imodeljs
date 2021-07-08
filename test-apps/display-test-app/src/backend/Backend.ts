@@ -92,7 +92,7 @@ export const getRpcInterfaces = (): RpcInterfaceDefinition[] => {
     DtaRpcInterface,
     IModelReadRpcInterface,
     IModelTileRpcInterface,
-    IModelWriteRpcInterface,
+    IModelWriteRpcInterface, // eslint-disable-line deprecation/deprecation
     SnapshotIModelRpcInterface,
   ];
 

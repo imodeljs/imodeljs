@@ -10,6 +10,7 @@ export * from "./BriefcaseTypes";
 export * from "./Camera";
 export * from "./ChangedElements";
 export * from "./ChangedEntities";
+export * from "./ChangesetProps";
 export * from "./ClipStyle";
 export * from "./CloudStorage";
 export * from "./CloudStorageTileCache";

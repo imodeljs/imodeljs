@@ -200,7 +200,7 @@ describe("ChangedElements (#integration)", () => {
     const result = await cache.processChangesetsAndRoll(requestContext, iModel, options);
     const newIModel = SnapshotDb.openDgnDb({ path: iModelFilepath }, OpenMode.Readonly);
     // Ensure that the iModel got rolled as part of the processing operation
-    assert.equal(newIModel.getParentChangeSetId(), changesetId);
+    assert.equal(newIModel.getParentChangeset().id, changesetId);
     assert.equal(result, DbResult.BE_SQLITE_OK);
     // Check that the changesets should have been processed now
     assert.isTrue(cache.isProcessed(changesetId));

@@ -126,7 +126,7 @@ export class RobotWorldEngine {
     this.registerImpls();
     const interfaces = this.chooseInterfacesToExpose();
     if (this._features.check("robot.imodel.readwrite"))  // choose additional interfaces that we don't want in the doc example
-      interfaces.push(IModelWriteRpcInterface);
+      interfaces.push(IModelWriteRpcInterface); // eslint-disable-line deprecation/deprecation
     TestRpcManager.initialize(interfaces);
 
     // __PUBLISH_EXTRACT_START__ Schema.registerSchema

@@ -9,6 +9,7 @@
 import { BentleyStatus, GuidString, IModelStatus } from "@bentley/bentleyjs-core";
 import { ChangeSet, ChangeSetQuery, IModelClient, VersionQuery } from "@bentley/imodelhub-client";
 import { AuthorizedClientRequestContext } from "@bentley/itwin-client";
+import { ChangesetId } from "./ChangesetProps";
 import { IModelError } from "./IModelError";
 
 /** Properties for IModelVersion
@@ -109,7 +110,7 @@ export class IModelVersion {
    * if this describes the first version, last version, named version, etc.
    * @see evaluateChangeSet() for those use cases.
    */
-  public getAsOfChangeSet(): GuidString | undefined { return this._afterChangeSetId; }
+  public getAsOfChangeSet(): ChangesetId | undefined { return this._afterChangeSetId; }
 
   /** Returns the name of the version if this describes a named version. @see named() */
   public getName(): string | undefined { return this._versionName; }
@@ -121,7 +122,7 @@ export class IModelVersion {
    * that Id without any validation.
    * @deprecated use IModelHost/IModelApp hubAccess.getChangesetIdFromVersion
    */
-  public async evaluateChangeSet(requestContext: AuthorizedClientRequestContext, iModelId: GuidString, imodelClient: IModelClient): Promise<GuidString> {
+  public async evaluateChangeSet(requestContext: AuthorizedClientRequestContext, iModelId: GuidString, imodelClient: IModelClient): Promise<ChangesetId> {
     if (this._first)
       return "";
 
@@ -141,7 +142,7 @@ export class IModelVersion {
    * @internal - public only so tests can catch calls to it and fail.
    * @deprecated use IModelHost/IModelApp hubAccess.getChangesetIdFromVersion
    */
-  public static async getLatestChangeSetId(requestContext: AuthorizedClientRequestContext, imodelClient: IModelClient, iModelId: GuidString): Promise<GuidString> {
+  public static async getLatestChangeSetId(requestContext: AuthorizedClientRequestContext, imodelClient: IModelClient, iModelId: GuidString): Promise<ChangesetId> {
     const changeSets: ChangeSet[] = await imodelClient.changeSets.get(requestContext, iModelId, new ChangeSetQuery().top(1).latest());
     return (changeSets.length === 0) ? "" : changeSets[changeSets.length - 1].wsgId;
   }
@@ -150,7 +151,7 @@ export class IModelVersion {
    * @internal - public only so tests can catch calls to it and fail.
    * @deprecated use IModelHost/IModelApp hubAccess.getChangesetIdFromVersion
    */
-  public static async getChangeSetFromNamedVersion(requestContext: AuthorizedClientRequestContext, imodelClient: IModelClient, iModelId: GuidString, versionName: string): Promise<GuidString> {
+  public static async getChangeSetFromNamedVersion(requestContext: AuthorizedClientRequestContext, imodelClient: IModelClient, iModelId: GuidString, versionName: string): Promise<ChangesetId> {
     const versions = await imodelClient.versions.get(requestContext, iModelId, new VersionQuery().select("ChangeSetId").byName(versionName));
 
     if (!versions[0] || !versions[0].changeSetId)

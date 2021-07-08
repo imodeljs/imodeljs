@@ -5,11 +5,8 @@
 
 import { join } from "path";
 import { DbResult, GuidString, Id64String, IModelHubStatus, IModelStatus, OpenMode } from "@bentley/bentleyjs-core";
-import { BriefcaseIdValue, IModelError } from "@bentley/imodeljs-common";
-import {
-  ChangesetFileProps, ChangesetId, ChangesetIndex, ChangesetIndexOrId, ChangesetProps, ChangesetRange, LocalDirName, LocalFileName, LockProps,
-  LockScope,
-} from "../BackendHubAccess";
+import { BriefcaseIdValue, ChangesetFileProps, ChangesetId, ChangesetIndex, ChangesetIndexOrId, ChangesetProps, ChangesetRange, IModelError, LocalDirName, LocalFileName } from "@bentley/imodeljs-common";
+import { LockProps, LockScope } from "../BackendHubAccess";
 import { BriefcaseId, BriefcaseManager } from "../BriefcaseManager";
 import { IModelDb } from "../IModelDb";
 import { IModelJsFs } from "../IModelJsFs";

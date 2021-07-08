@@ -261,7 +261,7 @@ export class IModelExporter {
     if (!this.sourceDb.isBriefcaseDb()) {
       throw new IModelError(IModelStatus.BadRequest, "Must be a briefcase to export changes", Logger.logError, loggerCategory);
     }
-    if ((undefined === this.sourceDb.changeSetId) || ("" === this.sourceDb.changeSetId)) {
+    if ("" === this.sourceDb.changeset.id) {
       await this.exportAll(); // no changesets, so revert to exportAll
       requestContext.enter();
       return;

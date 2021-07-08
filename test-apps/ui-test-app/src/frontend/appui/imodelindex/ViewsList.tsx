@@ -94,7 +94,7 @@ export class ViewsList extends React.Component<ViewsListProps, ViewsListState> {
 
   public override async componentDidUpdate(nextProps: ViewsListProps) {
     // if no incoming imodel exists or either the incoming imodel's id or changeset id is different from the current imodel then clear cache
-    if (!nextProps.iModelConnection || (this.props.iModelConnection && (this.props.iModelConnection.iModelId !== nextProps.iModelConnection.iModelId || this.props.iModelConnection.changeSetId !== nextProps.iModelConnection.changeSetId))) {
+    if (!nextProps.iModelConnection || (this.props.iModelConnection && (this.props.iModelConnection.iModelId !== nextProps.iModelConnection.iModelId || this.props.iModelConnection.changeset.id !== nextProps.iModelConnection.changeset.id))) {
       // Clear cache
       this._viewDefCache = undefined;
       // if incoming imodel exists then load new views

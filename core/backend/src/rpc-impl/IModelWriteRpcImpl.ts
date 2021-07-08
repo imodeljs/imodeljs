@@ -5,14 +5,14 @@
 /** @packageDocumentation
  * @module RpcInterface
  */
-import { assert, ClientRequestContext, DbOpcode, GuidString, Id64, Id64Array, Id64String, IModelStatus } from "@bentley/bentleyjs-core";
+import { assert, ClientRequestContext, DbOpcode, Id64, Id64Array, Id64String, IModelStatus } from "@bentley/bentleyjs-core";
 import { Range3d } from "@bentley/geometry-core";
+import { LockLevel } from "@bentley/imodelhub-client";
 import {
-  AxisAlignedBox3dProps, Code, CodeProps, ElementProps, ImageSourceFormat, IModel, IModelConnectionProps, IModelRpcProps, IModelWriteRpcInterface,
-  RelatedElement, RpcInterface, RpcManager, SubCategoryAppearance, SyncMode, ThumbnailProps,
+  AxisAlignedBox3dProps, ChangesetId, Code, CodeProps, ElementProps, ImageSourceFormat, IModel, IModelConnectionProps, IModelRpcProps,
+  IModelWriteRpcInterface, RelatedElement, RpcInterface, RpcManager, SubCategoryAppearance, SyncMode, ThumbnailProps,
 } from "@bentley/imodeljs-common";
 import { AuthorizedClientRequestContext } from "@bentley/itwin-client";
-import { LockLevel } from "@bentley/imodelhub-client";
 import { AuthorizedBackendRequestContext } from "../BackendRequestContext";
 import { SpatialCategory } from "../Category";
 import { ConcurrencyControl } from "../ConcurrencyControl";
@@ -21,6 +21,8 @@ import { BriefcaseDb, IModelDb, StandaloneDb } from "../IModelDb";
 import { PhysicalModel } from "../Model";
 import { SubjectOwnsPartitionElements } from "../NavigationRelationship";
 import { RpcBriefcaseUtility } from "./RpcBriefcaseUtility";
+
+/* eslint-disable deprecation/deprecation */
 
 class EditingFunctions {
   public static async createAndInsertPartition(rqctx: AuthorizedBackendRequestContext, iModelDb: IModelDb, newModelCode: CodeProps): Promise<Id64String> {
@@ -73,6 +75,7 @@ class EditingFunctions {
 /**
  * The backend implementation of IModelWriteRpcInterface.
  * @internal
+ * @deprecated
  */
 export class IModelWriteRpcImpl extends RpcInterface implements IModelWriteRpcInterface {
   public static register() { RpcManager.registerImpl(IModelWriteRpcInterface, IModelWriteRpcImpl); }
@@ -94,8 +97,8 @@ export class IModelWriteRpcImpl extends RpcInterface implements IModelWriteRpcIn
     return IModelDb.findByKey(tokenProps.key).nativeDb.hasPendingTxns();
   }
 
-  public async getParentChangeset(tokenProps: IModelRpcProps): Promise<string> {
-    return BriefcaseDb.findByKey(tokenProps.key).changeSetId;
+  public async getParentChangeset(tokenProps: IModelRpcProps): Promise<ChangesetId> {
+    return BriefcaseDb.findByKey(tokenProps.key).changeset.id;
   }
 
   public async updateProjectExtents(tokenProps: IModelRpcProps, newExtents: AxisAlignedBox3dProps): Promise<void> {
@@ -127,15 +130,14 @@ export class IModelWriteRpcImpl extends RpcInterface implements IModelWriteRpcIn
     return iModelDb.concurrencyControl.syncCache(requestContext);
   }
 
-  public async pullMergePush(tokenProps: IModelRpcProps, comment: string, doPush: boolean): Promise<GuidString> {
+  public async pullMergePush(tokenProps: IModelRpcProps, comment: string, doPush: boolean): Promise<ChangesetId> {
     const iModelDb = BriefcaseDb.findByKey(tokenProps.key);
     const requestContext = ClientRequestContext.current as AuthorizedClientRequestContext;
     await iModelDb.pullAndMergeChanges(requestContext);
     requestContext.enter();
-    const parentChangeSetId = iModelDb.changeSetId;
     if (doPush)
       await iModelDb.pushChanges(requestContext, comment);
-    return parentChangeSetId;
+    return iModelDb.changeset.id;
   }
 
   public async pullAndMergeChanges(tokenProps: IModelRpcProps): Promise<IModelConnectionProps> {

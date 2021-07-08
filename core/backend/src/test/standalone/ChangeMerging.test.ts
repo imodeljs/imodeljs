@@ -5,39 +5,35 @@
 
 import { assert } from "chai";
 import * as path from "path";
-import { ChangeSetApplyOption, ChangeSetStatus, Id64String, OpenMode } from "@bentley/bentleyjs-core";
-import { IModel, IModelError, SubCategoryAppearance } from "@bentley/imodeljs-common";
-import { IModelJsNative } from "@bentley/imodeljs-native";
+import { ChangeSetApplyOption, Id64String, OpenMode } from "@bentley/bentleyjs-core";
+import { ChangesetFileProps, IModel, SubCategoryAppearance } from "@bentley/imodeljs-common";
 import { ConcurrencyControl, DictionaryModel, Element, IModelDb, IModelJsFs, SpatialCategory, StandaloneDb } from "../../imodeljs-backend";
 import { IModelTestUtils } from "../IModelTestUtils";
 import { KnownTestLocations } from "../KnownTestLocations";
 
 // Combine all local Txns and generate a changeset file. Then delete all local Txns.
-function createChangeSet(imodel: IModelDb): IModelJsNative.ChangeSetProps {
-  const token = imodel.nativeDb.startCreateChangeSet();
+function createChangeset(imodel: IModelDb): ChangesetFileProps {
+  const changeset = imodel.nativeDb.startCreateChangeset();
 
-  // finishCreateChangeSet deletes the file that startCreateChangeSet created.
+  // completeCreateChangeset deletes the file that startCreateChangeSet created.
   // We make a copy of it now, before he does that.
-  const csFileName = path.join(KnownTestLocations.outputDir, `${token.id}.cs`);
-  IModelJsFs.copySync(token.pathname, csFileName);
-  token.pathname = csFileName;
+  const csFileName = path.join(KnownTestLocations.outputDir, `${changeset.id}.changeset`);
+  IModelJsFs.copySync(changeset.pathname, csFileName);
+  changeset.pathname = csFileName;
 
-  const status: ChangeSetStatus = imodel.nativeDb.finishCreateChangeSet();
-  if (ChangeSetStatus.Success !== status)
-    throw new IModelError(status, "Error in finishCreateChangeSet");
-
-  return token;
+  imodel.nativeDb.completeCreateChangeset({ index: 0 });
+  return changeset;
 }
 
-function applyOneChangeSet(imodel: IModelDb, csToken: IModelJsNative.ChangeSetProps) {
+function applyOneChangeSet(imodel: IModelDb, csToken: ChangesetFileProps) {
   try {
-    imodel.nativeDb.applyChangeSet(csToken, ChangeSetApplyOption.Merge);
+    imodel.nativeDb.applyChangeset(csToken, ChangeSetApplyOption.Merge);
   } catch (err) {
     assert.isTrue(false, `apply failed, err=${err.errorNumber}`);
   }
 }
 
-function applyChangeSets(imodel: IModelDb, csHistory: IModelJsNative.ChangeSetProps[], curIdx: number): number {
+function applyChangeSets(imodel: IModelDb, csHistory: ChangesetFileProps[], curIdx: number): number {
   while (curIdx < (csHistory.length - 1)) {
     ++curIdx;
     applyOneChangeSet(imodel, csHistory[curIdx]);
@@ -54,7 +50,7 @@ describe("ChangeMerging", () => {
     const seedFileName = IModelTestUtils.resolveAssetFile("testImodel.bim");
     IModelJsFs.copySync(seedFileName, testFileName);
     const upgradedDb = StandaloneDb.openFile(testFileName, OpenMode.ReadWrite);
-    createChangeSet(upgradedDb);
+    createChangeset(upgradedDb);
 
     // Open copies of the seed file.
     const firstFileName = IModelTestUtils.prepareOutputFile("ChangeMerging", "first.bim");
@@ -75,7 +71,7 @@ describe("ChangeMerging", () => {
     secondDb.nativeDb.setBriefcaseManagerOptimisticConcurrencyControlPolicy(new ConcurrencyControl.OptimisticPolicy().conflictResolution);
     // // Note: neutral observer's IModel does not need to be configured for optimistic concurrency. He just pulls changes.
 
-    const csHistory: IModelJsNative.ChangeSetProps[] = [];
+    const csHistory: ChangesetFileProps[] = [];
 
     let firstParent = -1;
     let secondParent = -1;
@@ -92,7 +88,7 @@ describe("ChangeMerging", () => {
       spatialCategoryId = SpatialCategory.insert(dictionary.iModel, dictionary.id, newCategoryCode.value, new SubCategoryAppearance({ color: 0xff0000 }));
       el1 = firstDb.elements.insertElement(IModelTestUtils.createPhysicalObject(firstDb, modelId, spatialCategoryId));
       firstDb.saveChanges();
-      csHistory.push(createChangeSet(firstDb));
+      csHistory.push(createChangeset(firstDb));
       firstParent = csHistory.length - 1;
       assert.isTrue((csHistory.length - 1) === firstParent);
     }
@@ -118,7 +114,7 @@ describe("ChangeMerging", () => {
       el1cc.userLabel = `${el1cc.userLabel} -> changed by first`;
       firstDb.elements.updateElement(el1cc);
       firstDb.saveChanges("first modified el1.userLabel");
-      csHistory.push(createChangeSet(firstDb));
+      csHistory.push(createChangeset(firstDb));
       firstParent = csHistory.length - 1;
     }
 
@@ -135,7 +131,7 @@ describe("ChangeMerging", () => {
       secondParent = applyChangeSets(secondDb, csHistory, secondParent);
       const el1after = secondDb.elements.getElement(el1);
       assert.equal(el1after.userLabel, expectedValueOfEl1UserLabel);
-      csHistory.push(createChangeSet(secondDb));
+      csHistory.push(createChangeset(secondDb));
       secondParent = csHistory.length - 1; // eslint-disable-line @typescript-eslint/no-unused-vars
     }
 

@@ -8,14 +8,13 @@
 
 import { GuidString, Id64String, IModelStatus, LogLevel, OpenMode } from "@bentley/bentleyjs-core";
 import { Range3dProps, XYZProps } from "@bentley/geometry-core";
-import { ChangedEntities } from "./ChangedEntities";
 import { OpenBriefcaseProps } from "./BriefcaseTypes";
-import {
-  EcefLocationProps, IModelConnectionProps, IModelRpcProps, RootSubjectProps, StandaloneOpenOptions,
-} from "./IModel";
+import { ChangedEntities } from "./ChangedEntities";
+import { ChangesetIndexAndId } from "./ChangesetProps";
+import { GeographicCRSProps } from "./geometry/CoordinateReferenceSystem";
+import { EcefLocationProps, IModelConnectionProps, IModelRpcProps, RootSubjectProps, StandaloneOpenOptions } from "./IModel";
 import { IModelVersionProps } from "./IModelVersion";
 import { ModelGeometryChangesProps } from "./ModelGeometryChanges";
-import { GeographicCRSProps } from "./geometry/CoordinateReferenceSystem";
 
 /** Identifies a list of tile content Ids belonging to a single tile tree.
  * @internal
@@ -68,8 +67,8 @@ export interface TxnNotifications {
   notifyChangesApplied: () => void;
   notifyBeforeUndoRedo: (isUndo: boolean) => void;
   notifyAfterUndoRedo: (isUndo: boolean) => void;
-  notifyPulledChanges: (parentChangeSetId: string) => void;
-  notifyPushedChanges: (parentChangeSetId: string) => void;
+  notifyPulledChanges: (parentChangeSetId: ChangesetIndexAndId) => void;
+  notifyPushedChanges: (parentChangeSetId: ChangesetIndexAndId) => void;
 
   notifyIModelNameChanged: (name: string) => void;
   notifyRootSubjectChanged: (subject: RootSubjectProps) => void;
@@ -120,9 +119,9 @@ export interface IpcAppFunctions {
   getRedoString: (key: string) => Promise<string>;
 
   /** see BriefcaseConnection.pullAndMergeChanges */
-  pullAndMergeChanges: (key: string, version?: IModelVersionProps) => Promise<string>;
+  pullAndMergeChanges: (key: string, version?: IModelVersionProps) => Promise<ChangesetIndexAndId>;
   /** see BriefcaseConnection.pushChanges */
-  pushChanges: (key: string, description: string) => Promise<string>;
+  pushChanges: (key: string, description: string) => Promise<ChangesetIndexAndId>;
   /** Cancels currently pending or active generation of tile content.  */
   cancelTileContentRequests: (tokenProps: IModelRpcProps, _contentIds: TileTreeContentIds[]) => Promise<void>;
 

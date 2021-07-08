@@ -2032,7 +2032,7 @@ describe("iModel", () => {
 
   it("Standalone iModel properties", () => {
     const standaloneRootSubjectName = "Standalone";
-    const standaloneFile1: string = IModelTestUtils.prepareOutputFile("IModel", "Standalone1.bim");
+    const standaloneFile1 = IModelTestUtils.prepareOutputFile("IModel", "Standalone1.bim");
     let standaloneDb1 = StandaloneDb.createEmpty(standaloneFile1, { rootSubject: { name: standaloneRootSubjectName } });
     assert.isTrue(standaloneDb1.isStandaloneDb());
     assert.isTrue(standaloneDb1.isStandalone);
@@ -2045,7 +2045,8 @@ describe("iModel", () => {
     assert.isTrue(standaloneDb1.isOpen);
     assert.isTrue(Guid.isV4Guid(standaloneDb1.iModelId));
     assert.equal(standaloneDb1.contextId, Guid.empty);
-    assert.isUndefined(standaloneDb1.changeSetId);
+    assert.strictEqual("", standaloneDb1.changeset.id);
+    assert.strictEqual(0, standaloneDb1.changeset.index);
     assert.equal(standaloneDb1.openMode, OpenMode.ReadWrite);
     standaloneDb1.close();
     assert.isFalse(standaloneDb1.isOpen);

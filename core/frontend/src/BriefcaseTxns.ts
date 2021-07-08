@@ -9,7 +9,7 @@
 import { BeEvent } from "@bentley/bentleyjs-core";
 import { Point3d, Range3d, Range3dProps, XYZProps } from "@bentley/geometry-core";
 import {
-  ChangedEntities, EcefLocation, EcefLocationProps, GeographicCRS, GeographicCRSProps, IModelStatus, IpcAppChannel, ModelIdAndGeometryGuid,
+  ChangedEntities, ChangesetIndexAndId, EcefLocation, EcefLocationProps, GeographicCRS, GeographicCRSProps, IModelStatus, IpcAppChannel, ModelIdAndGeometryGuid,
   RemoveFunction, RootSubjectProps, TxnNotifications,
 } from "@bentley/imodeljs-common";
 import { BriefcaseConnection } from "./BriefcaseConnection";
@@ -89,12 +89,12 @@ export class BriefcaseTxns extends BriefcaseNotificationHandler implements TxnNo
   /** Event raised after changes are pulled and merged into the briefcase.
    * @see [[BriefcaseConnection.pullAndMergeChanges]].
    */
-  public readonly onChangesPulled = new BeEvent<(parentChangeSetId: string) => void>();
+  public readonly onChangesPulled = new BeEvent<(parentChangeset: ChangesetIndexAndId) => void>();
 
   /** Event raised after the briefcase's local changes are pushed.
    * @see [[BriefcaseConnection.pushChanges]].
    */
-  public readonly onChangesPushed = new BeEvent<(parentChangeSetId: string) => void>();
+  public readonly onChangesPushed = new BeEvent<(parentChangeset: ChangesetIndexAndId) => void>();
 
   /** @internal */
   public constructor(iModel: BriefcaseConnection) {
@@ -188,7 +188,7 @@ export class BriefcaseTxns extends BriefcaseNotificationHandler implements TxnNo
   /** Reinstate (redo) the most recently reversed transaction. Since at any time multiple transactions can be reversed, it
    * may take multiple calls to this method to reinstate all reversed operations.
    * @returns Success if a reversed transaction was reinstated, error status otherwise.
-   * @note If there are any outstanding uncommited changes, they are canceled before the Txn is reinstated.
+   * @note If there are any outstanding uncommitted changes, they are canceled before the Txn is reinstated.
    * @see [[isRedoPossible]] to determine if any reinstatable operations exist.
    * @see [[reverseSingleTxn]] or [[reverseAll]] to undo changes.
    */
@@ -247,13 +247,13 @@ export class BriefcaseTxns extends BriefcaseNotificationHandler implements TxnNo
   }
 
   /** @internal */
-  public notifyPulledChanges(parentChangeSetId: string) {
-    this.onChangesPulled.raiseEvent(parentChangeSetId);
+  public notifyPulledChanges(parentChangeset: ChangesetIndexAndId) {
+    this.onChangesPulled.raiseEvent(parentChangeset);
   }
 
   /** @internal */
-  public notifyPushedChanges(parentChangeSetId: string) {
-    this.onChangesPushed.raiseEvent(parentChangeSetId);
+  public notifyPushedChanges(parentChangeset: ChangesetIndexAndId) {
+    this.onChangesPushed.raiseEvent(parentChangeset);
   }
 
   /** @internal */

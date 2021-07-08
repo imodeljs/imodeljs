@@ -1,0 +1,11 @@
+{
+  "changes": [
+    {
+      "packageName": "@bentley/imodeljs-frontend",
+      "comment": "BriefcaseConnection.PullAndMergeChanges now returns both changesetId and changesetIndex",
+      "type": "none"
+    }
+  ],
+  "packageName": "@bentley/imodeljs-frontend",
+  "email": "33296803+kabentley@users.noreply.github.com"
+}

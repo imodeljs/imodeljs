@@ -172,7 +172,9 @@ export class ByteStream {
 export enum ChangeSetApplyOption {
     Merge = 1,
     None = 0,
+    // @deprecated
     Reinstate = 3,
+    // @deprecated
     Reverse = 2
 }
 

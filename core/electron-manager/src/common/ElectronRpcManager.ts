@@ -39,7 +39,7 @@ export class ElectronRpcManager extends RpcManager {
     const interfaces = rpcs ?? [
       IModelReadRpcInterface,
       IModelTileRpcInterface,
-      IModelWriteRpcInterface,
+      IModelWriteRpcInterface,// eslint-disable-line deprecation/deprecation
       SnapshotIModelRpcInterface,
       PresentationRpcInterface,
     ];

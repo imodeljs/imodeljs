@@ -66,7 +66,7 @@ export abstract class EventsTestRpcInterface extends RpcInterface {
 export const rpcInterfaces = [
   IModelReadRpcInterface,
   IModelTileRpcInterface,
-  IModelWriteRpcInterface,
+  IModelWriteRpcInterface, // eslint-disable-line deprecation/deprecation
   SnapshotIModelRpcInterface,
   TestRpcInterface,
   WipRpcInterface,

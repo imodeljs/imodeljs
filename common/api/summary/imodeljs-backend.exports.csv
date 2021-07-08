@@ -40,6 +40,9 @@ public;CategoryOwnsSubCategories
 public;CategorySelector 
 internal;ChangedElementsDb 
 internal;ChangesetArg 
+<<<<<<< HEAD
+internal;ChangesetIndexArg 
+=======
 internal;ChangesetFileProps 
 internal;ChangesetId = string
 beta;ChangesetIndex = number
@@ -47,8 +50,8 @@ internal;ChangesetIndexArg
 internal;ChangesetIndexOrId =
 internal;ChangesetProps
 beta;ChangesetRange
+>>>>>>> origin/imodel02
 internal;ChangesetRangeArg 
-public;ChangesetType
 beta;ChangeSummary
 beta;ChangeSummaryExtractOptions
 deprecated;ChangeSummaryExtractOptions
@@ -246,8 +249,6 @@ public;LineStyleDefinition
 public;class LinkElement 
 public;LinkModel 
 public;LinkPartition 
-internal;LocalDirName = string
-internal;LocalFileName = string
 internal;LocalhostIpcHost
 beta;LockProps
 public;LockScope

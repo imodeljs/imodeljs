@@ -12,6 +12,7 @@ import {
 import {
   Angle, AxisIndex, AxisOrder, Constant, Geometry, Matrix3d, Point3d, Range3d, Range3dProps, Transform, Vector3d, XYAndZ, XYZProps, YawPitchRollAngles, YawPitchRollProps,
 } from "@bentley/geometry-core";
+import { ChangesetId, ChangesetIdWithIndex, ChangesetIndex } from "./ChangesetProps";
 import { Cartographic, LatLongAndHeight } from "./geometry/Cartographic";
 import { GeographicCRS, GeographicCRSProps } from "./geometry/CoordinateReferenceSystem";
 import { AxisAlignedBox3d } from "./geometry/Placement";
@@ -26,10 +27,15 @@ export interface IModelRpcOpenProps {
   readonly contextId?: GuidString;
   /** Guid of the iModel. */
   readonly iModelId?: GuidString;
+
   /** Id of the last ChangeSet that was applied to the iModel - must be defined for briefcases that are synchronized with iModelHub. An empty string indicates the first version.
    * @note ChangeSet Ids are string hash values based on the ChangeSet's content and parent.
    */
-  changeSetId?: string;
+  changeSetId?: ChangesetId;
+
+  /** The index of the last changeset. If <= 0, must be determined by changeSetId */
+  changesetIndex?: ChangesetIndex;
+
   /** Mode used to open the iModel */
   openMode?: OpenMode;
 }
@@ -336,7 +342,7 @@ export abstract class IModel implements IModelProps {
   public set name(name: string) {
     if (name !== this._name) {
       const old = this._name;
-      this._name =  name;
+      this._name = name;
       if (undefined !== old)
         this.onNameChanged.raiseEvent(old);
     }
@@ -472,12 +478,14 @@ export abstract class IModel implements IModelProps {
   /** The Guid that identifies this iModel. */
   public get iModelId(): GuidString | undefined { return this._iModelId; }
 
-  /** @internal */
-  protected _changeSetId: string | undefined;
+  /** @public */
+  public changeset: ChangesetIdWithIndex;
+
   /** The Id of the last changeset that was applied to this iModel.
-   * @note An empty string indicates the first version while `undefined` mean no changeset information is available.
+   * @note An empty string indicates the first version
+   * @deprecated use changeset.id
    */
-  public get changeSetId() { return this._changeSetId; }
+  public get changeSetId() { return this.changeset.id; }
 
   /** The [[OpenMode]] used for this IModel. */
   public readonly openMode: OpenMode;
@@ -491,18 +499,24 @@ export abstract class IModel implements IModelProps {
       key: this._fileKey,
       contextId: this.contextId,
       iModelId: this.iModelId,
-      changeSetId: this.changeSetId,
+      changeSetId: this.changeset.id,
+      changesetIndex: this.changeset.index,
       openMode: this.openMode,
     };
   }
 
   /** @internal */
   protected constructor(tokenProps: IModelRpcProps | undefined, openMode: OpenMode) {
-    this._fileKey = tokenProps?.key ?? "";
-    this._contextId = tokenProps?.contextId;
-    this._iModelId = tokenProps?.iModelId;
-    this._changeSetId = tokenProps?.changeSetId;
-    this.openMode = openMode; // Note: The open mode passed through the RPC layer is ignored in the case of IModelDb-s
+    this.changeset = { id: "", index: 0 };
+    this._fileKey = "";
+    if (tokenProps) {
+      this._fileKey = tokenProps.key;
+      this._contextId = tokenProps.contextId;
+      this._iModelId = tokenProps.iModelId;
+      if (tokenProps.changeSetId)
+        this.changeset = { id: tokenProps.changeSetId, index: tokenProps.changesetIndex };
+    }
+    this.openMode = openMode;
   }
 
   /** @internal */

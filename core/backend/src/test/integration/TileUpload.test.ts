@@ -40,7 +40,7 @@ async function getTileProps(iModel: IModelDb, requestContext: AuthorizedBackendR
     if (treeProps.rootTile.maximumSize === 0 && treeProps.rootTile.isLeaf === true)
       continue;
 
-    let guid = model.geometryGuid || iModel.changeSetId || "first";
+    let guid = model.geometryGuid || iModel.changeset.id || "first";
     if (treeProps.contentIdQualifier)
       guid = `${guid}_${treeProps.contentIdQualifier}`;
 

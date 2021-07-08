@@ -12,7 +12,7 @@ import { IModelTestUtils } from "../IModelTestUtils";
 import { HubUtility } from "./HubUtility";
 
 // Useful utilities to download/upload test cases from/to iModelHub
-describe("ApplyChangeSets (#integration)", () => {
+describe("ApplyChangesets (#integration)", () => {
   before(async () => {
     // Note: Change to LogLevel.Info for useful debug information
     Logger.setLevel(HubUtility.logCategory, LogLevel.Error);
@@ -41,7 +41,7 @@ describe("ApplyChangeSets (#integration)", () => {
     requestContext.enter();
   };
 
-  it("should test all change set operations after downloading iModel from the hub (#integration)", async () => {
+  it("should test all changeset operations after downloading iModel from the hub (#integration)", async () => {
     const requestContext = await TestUtility.getAuthorizedClientRequestContext(TestUsers.regular);
 
     const projectId = await HubUtility.getTestContextId(requestContext);

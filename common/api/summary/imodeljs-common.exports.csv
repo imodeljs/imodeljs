@@ -73,6 +73,15 @@ public;ChangedEntities
 internal;ChangedModels
 public;ChangedValueState
 public;ChangeOpCode
+beta;ChangesetFileProps 
+public;ChangesetId = string
+public;ChangesetIdWithIndex
+public;ChangesetIndex = number
+public;ChangesetIndexAndId
+public;ChangesetIndexOrId = ChangesetIndexAndId |
+beta;ChangesetProps
+public;ChangesetRange
+public;ChangesetType
 alpha;ChannelConstraintError 
 public;ChannelRootAspectProps 
 internal;ClassifierTileTreeId
@@ -314,6 +323,7 @@ internal;IModelTileTreeProps
 public;IModelVersion
 public;IModelVersionProps =
 internal;class IModelWriteRpcInterface 
+deprecated;class IModelWriteRpcInterface 
 public;InformationPartitionElementProps 
 internal;initializeRpcRequest: () => void
 internal;INSTANCE: unique symbol
@@ -352,6 +362,8 @@ public;LineStyle
 public;LineStyleProps 
 public;LocalAlignedBox3d = Range3d
 public;LocalBriefcaseProps
+public;LocalDirName = string
+public;LocalFileName = string
 beta;MapImageryProps
 beta;MapImagerySettings
 beta;MapLayerKey

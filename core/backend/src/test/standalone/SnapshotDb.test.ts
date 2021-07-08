@@ -19,7 +19,7 @@ describe("SnapshotDb.reattachDaemon", () => {
       .onFirstCall().resolves({ filePath: "testFilePath1", expiryTimestamp: Date.parse("2021-01-01T01:00:00Z") })
       .onSecondCall().resolves({ filePath: "testFilePath2", expiryTimestamp: Date.parse("2021-01-01T01:30:00Z") });
     const openDgnDbStub = sinon.stub(SnapshotDb, "openDgnDb")
-      .returns({ isReadonly: () => true, getDbGuid: () => "fakeIModelId", getParentChangeSetId: () => "fakeChangeSetId", setIModelDb: () => { } } as any);
+      .returns({ isReadonly: () => true, getDbGuid: () => "fakeIModelId", getParentChangeset: () => { return { id: "fakeChangeSetId" }; }, setIModelDb: () => { } } as any);
     sinon.stub(CheckpointManager, "validateCheckpointGuids").returns();
     sinon.stub(IModelDb.prototype, "initializeIModelDb" as any);
     const requestContext = {} as any;
@@ -46,7 +46,7 @@ describe("SnapshotDb.reattachDaemon", () => {
       .onFirstCall().resolves({ filePath: "testFilePath1", expiryTimestamp: Date.parse("2021-01-01T01:00:00Z") })
       .onSecondCall().resolves({ filePath: "testFilePath2", expiryTimestamp: Date.parse("2021-01-01T01:30:00Z") });
     const openDgnDbStub = sinon.stub(SnapshotDb, "openDgnDb")
-      .returns({ isReadonly: () => true, getDbGuid: () => "fakeIModelId", getParentChangeSetId: () => "fakeChangeSetId", setIModelDb: () => { } } as any);
+      .returns({ isReadonly: () => true, getDbGuid: () => "fakeIModelId", getParentChangeset: () => { return { id: "fakeChangeSetId" }; }, setIModelDb: () => { } } as any);
     sinon.stub(CheckpointManager, "validateCheckpointGuids").returns();
     sinon.stub(IModelDb.prototype, "initializeIModelDb" as any);
     const requestContext = {} as any;
@@ -67,7 +67,7 @@ describe("SnapshotDb.reattachDaemon", () => {
     const clock = sinon.useFakeTimers();
     clock.setSystemTime(Date.parse("2021-01-01T00:00:00Z"));
     sinon.stub(SnapshotDb, "openDgnDb")
-      .returns({ isReadonly: () => true, getDbGuid: () => "fakeIModelId", getParentChangeSetId: () => "fakeChangeSetId", setIModelDb: () => { } } as any);
+      .returns({ isReadonly: () => true, getDbGuid: () => "fakeIModelId", getParentChangeset: () => { return { id: "fakeChangeSetId" }; }, setIModelDb: () => { } } as any);
     sinon.stub(CheckpointManager, "validateCheckpointGuids").returns();
     sinon.stub(IModelDb.prototype, "initializeIModelDb" as any);
     const requestContext = {} as any;

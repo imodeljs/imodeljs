@@ -8,10 +8,9 @@ import * as path from "path";
 import { BentleyStatus, ChangeSetApplyOption, ChangeSetStatus, Guid, GuidString, Logger, OpenMode, PerfLogger } from "@bentley/bentleyjs-core";
 import { ContextRegistryClient, Project } from "@bentley/context-registry-client";
 import { Briefcase, ChangeSet, ChangeSetQuery, HubIModel, IModelHubClient, IModelQuery, Version, VersionQuery } from "@bentley/imodelhub-client";
-import { BriefcaseIdValue } from "@bentley/imodeljs-common";
+import { BriefcaseIdValue, ChangesetFileProps, ChangesetType } from "@bentley/imodeljs-common";
 import { IModelJsNative } from "@bentley/imodeljs-native";
 import { AuthorizedClientRequestContext } from "@bentley/itwin-client";
-import { ChangesetFileProps, ChangesetProps, ChangesetType } from "../../BackendHubAccess";
 import { IModelDb } from "../../IModelDb";
 import { IModelHost } from "../../IModelHost";
 import { IModelHubBackend } from "../../IModelHubBackend";
@@ -237,7 +236,7 @@ export class HubUtility {
       const startTime = new Date().getTime();
       let csResult = ChangeSetStatus.Success;
       try {
-        nativeDb.applyChangeSet(changeSet, applyOption);
+        nativeDb.applyChangeset(changeSet, applyOption);
       } catch (err) {
         csResult = err.errorNumber;
       }
@@ -267,10 +266,10 @@ export class HubUtility {
 
     const nativeDb = new IModelHost.platform.DgnDb();
     nativeDb.openIModel(briefcasePathname, OpenMode.ReadWrite);
-    const lastAppliedChangeSetId = nativeDb.getParentChangeSetId();
+    const lastAppliedChangeset = nativeDb.getParentChangeset();
 
     const changeSets = HubUtility.readChangeSets(iModelDir);
-    const lastMergedChangeSet = changeSets.find((value) => value.id === lastAppliedChangeSetId);
+    const lastMergedChangeSet = changeSets.find((value) => value.id === lastAppliedChangeset.id);
     const filteredChangeSets = lastMergedChangeSet ? changeSets.filter((value) => value.index > lastMergedChangeSet.index) : changeSets;
 
     // Logger.logInfo(HubUtility.logCategory, "Dumping all available change sets");
@@ -311,13 +310,13 @@ export class HubUtility {
     const filteredChangeSets = reverseChangeSets.slice(0, schemaChangeIndex); // exclusive of element at schemaChangeIndex
     if (status === ChangeSetStatus.Success) {
       Logger.logInfo(HubUtility.logCategory, "Reversing all available change sets");
-      status = HubUtility.applyChangeSetsToNativeDb(nativeDb, filteredChangeSets, ChangeSetApplyOption.Reverse);
+      status = HubUtility.applyChangeSetsToNativeDb(nativeDb, filteredChangeSets, ChangeSetApplyOption.Reverse);      // eslint-disable-line deprecation/deprecation
     }
 
     if (status === ChangeSetStatus.Success) {
       Logger.logInfo(HubUtility.logCategory, "Reinstating all available change sets");
       filteredChangeSets.reverse();
-      status = HubUtility.applyChangeSetsToNativeDb(nativeDb, filteredChangeSets, ChangeSetApplyOption.Reinstate);
+      status = HubUtility.applyChangeSetsToNativeDb(nativeDb, filteredChangeSets, ChangeSetApplyOption.Merge);
     }
 
     nativeDb.closeIModel();
@@ -473,22 +472,23 @@ export class HubUtility {
 
   /** Reads change sets from disk and expects a standard structure of how the folder is organized */
   public static readChangeSets(iModelDir: string): ChangesetFileProps[] {
-    const tokens: ChangesetFileProps[] = [];
+    const props: ChangesetFileProps[] = [];
 
     const changeSetJsonPathname = path.join(iModelDir, "changeSets.json");
     if (!IModelJsFs.existsSync(changeSetJsonPathname))
-      return tokens;
+      return props;
 
     const jsonStr = IModelJsFs.readFileSync(changeSetJsonPathname) as string;
-    const changesets = JSON.parse(jsonStr) as (ChangesetProps & { fileName: string })[];
+    const changesets = JSON.parse(jsonStr);
 
     for (const changeset of changesets) {
+      changeset.index = parseInt(changeset.index, 10); // it's a string from iModelHub
       const pathname = path.join(iModelDir, "changeSets", changeset.fileName);
       if (!IModelJsFs.existsSync(pathname))
         throw new Error(`Cannot find the ChangeSet file: ${pathname}`);
-      tokens.push({ ...changeset, pathname });
+      props.push({ ...changeset, pathname });
     }
-    return tokens;
+    return props;
   }
 
   /** Creates a standalone iModel from the seed file (version 0) */
@@ -524,7 +524,7 @@ export class HubUtility {
       ++count;
       Logger.logInfo(HubUtility.logCategory, `Started applying change set: ${count} of ${changeSets.length} (${new Date(Date.now()).toString()})`, () => ({ ...changeSet }));
       try {
-        nativeDb.applyChangeSet(changeSet, applyOption);
+        nativeDb.applyChangeset(changeSet, applyOption);
         Logger.logInfo(HubUtility.logCategory, "Successfully applied ChangeSet", () => ({ ...changeSet, status }));
       } catch (err) {
         Logger.logError(HubUtility.logCategory, `Error applying ChangeSet ${err.errorNumber}`, () => ({ ...changeSet }));
@@ -538,7 +538,7 @@ export class HubUtility {
   }
 
   public static dumpChangeSet(iModel: IModelDb, changeSet: ChangesetFileProps) {
-    iModel.nativeDb.dumpChangeSet(changeSet);
+    iModel.nativeDb.dumpChangeset(changeSet);
   }
 
   /** Dumps change sets to the log */

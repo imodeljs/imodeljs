@@ -22,7 +22,7 @@ export function getSupportedRpcs(): RpcInterfaceDefinition[] {
       IModelTileRpcInterface,
       SnapshotIModelRpcInterface,
       PresentationRpcInterface,
-      IModelWriteRpcInterface,
+      IModelWriteRpcInterface, // eslint-disable-line deprecation/deprecation
     ];
   }
 

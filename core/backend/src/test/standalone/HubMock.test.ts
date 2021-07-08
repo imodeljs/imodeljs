@@ -6,8 +6,9 @@
 import { assert, expect } from "chai";
 import { join } from "path";
 import { Guid } from "@bentley/bentleyjs-core";
+import { ChangesetFileProps, ChangesetType } from "@bentley/imodeljs-common";
 import { AuthorizedClientRequestContext } from "@bentley/itwin-client";
-import { ChangesetFileProps, ChangesetType, LockProps, LockScope } from "../../BackendHubAccess";
+import { LockProps, LockScope } from "../../BackendHubAccess";
 import { BriefcaseManager } from "../../BriefcaseManager";
 import { IModelHost } from "../../IModelHost";
 import { IModelJsFs } from "../../IModelJsFs";

@@ -39,7 +39,7 @@ export function getRpcInterfaces(settings: Settings) {
   if (settings.runiModelReadRpcTests)
     rpcInterfaces.push(IModelReadRpcInterface);
   if (settings.runiModelWriteRpcTests)
-    rpcInterfaces.push(IModelWriteRpcInterface);
+    rpcInterfaces.push(IModelWriteRpcInterface); // eslint-disable-line deprecation/deprecation
   if (settings.runiModelTileRpcTests)
     rpcInterfaces.push(IModelTileRpcInterface);
 

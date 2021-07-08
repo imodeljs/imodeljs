@@ -1066,7 +1066,7 @@ export namespace IModelConnection { // eslint-disable-line no-redeclare
       const high32 = Id64.getUpperUint32(viewId);
       new Uint32Array(val.buffer, 16, 2).set([low32, high32]); // viewId is 8 bytes starting at offset 16
       val.set(thumbnail.image, 24); // image data at offset 24
-      return IModelWriteRpcInterface.getClientForRouting(this._iModel.routingContext.token).saveThumbnail(this._iModel.getRpcProps(), val);
+      return IModelWriteRpcInterface.getClientForRouting(this._iModel.routingContext.token).saveThumbnail(this._iModel.getRpcProps(), val); // eslint-disable-line deprecation/deprecation
     }
   }
 }

@@ -889,7 +889,68 @@ export enum ChangeOpCode {
     Update = 2
 }
 
+// @beta
+export interface ChangesetFileProps extends ChangesetProps {
+    pathname: LocalFileName;
+}
+
+// @public
+export type ChangesetId = string;
+
+// @public
+export interface ChangesetIdWithIndex {
+    // (undocumented)
+    id: ChangesetId;
+    // (undocumented)
+    index?: ChangesetIndex;
+}
+
+// @public
+export type ChangesetIndex = number;
+
+// @public
+export interface ChangesetIndexAndId {
+    // (undocumented)
+    id: ChangesetId;
+    // (undocumented)
+    index: ChangesetIndex;
+}
+
+// @public
+export type ChangesetIndexOrId = ChangesetIndexAndId | {
+    index: ChangesetIndex;
+    id?: never;
+} | {
+    id: ChangesetId;
+    index?: never;
+};
+
+// @beta
+export interface ChangesetProps {
+    briefcaseId: number;
+    changesType: ChangesetType;
+    description: string;
+    id: ChangesetId;
+    index: ChangesetIndex;
+    parentId: ChangesetId;
+    pushDate: string;
+    size?: number;
+    userCreated: string;
+}
+
+// @public
+export interface ChangesetRange {
+    end?: ChangesetIndex;
+    first: ChangesetIndex;
+}
+
 export { ChangeSetStatus }
+
+// @public
+export enum ChangesetType {
+    Regular = 0,
+    Schema = 1
+}
 
 // @alpha
 export class ChannelConstraintError extends IModelError {
@@ -4081,9 +4142,10 @@ export abstract class IModel implements IModelProps {
     // @internal
     protected constructor(tokenProps: IModelRpcProps | undefined, openMode: OpenMode);
     cartographicToSpatialFromEcef(cartographic: Cartographic, result?: Point3d): Point3d;
-    get changeSetId(): string | undefined;
-    // @internal (undocumented)
-    protected _changeSetId: string | undefined;
+    // (undocumented)
+    changeset: ChangesetIdWithIndex;
+    // @deprecated
+    get changeSetId(): string;
     get contextId(): GuidString | undefined;
     // @internal (undocumented)
     protected _contextId?: GuidString;
@@ -4239,7 +4301,8 @@ export abstract class IModelReadRpcInterface extends RpcInterface {
 
 // @public
 export interface IModelRpcOpenProps {
-    changeSetId?: string;
+    changeSetId?: ChangesetId;
+    changesetIndex?: ChangesetIndex;
     readonly contextId?: GuidString;
     readonly iModelId?: GuidString;
     openMode?: OpenMode;
@@ -4294,16 +4357,16 @@ export interface IModelTileTreeProps extends TileTreeProps {
 export class IModelVersion {
     static asOfChangeSet(changeSetId: string): IModelVersion;
     // @deprecated
-    evaluateChangeSet(requestContext: AuthorizedClientRequestContext, iModelId: GuidString, imodelClient: IModelClient): Promise<GuidString>;
+    evaluateChangeSet(requestContext: AuthorizedClientRequestContext, iModelId: GuidString, imodelClient: IModelClient): Promise<ChangesetId>;
     static first(): IModelVersion;
     static fromJSON(json: IModelVersionProps): IModelVersion;
     // @deprecated
     static fromJson(jsonObj: any): IModelVersion;
-    getAsOfChangeSet(): GuidString | undefined;
+    getAsOfChangeSet(): ChangesetId | undefined;
     // @internal @deprecated
-    static getChangeSetFromNamedVersion(requestContext: AuthorizedClientRequestContext, imodelClient: IModelClient, iModelId: GuidString, versionName: string): Promise<GuidString>;
+    static getChangeSetFromNamedVersion(requestContext: AuthorizedClientRequestContext, imodelClient: IModelClient, iModelId: GuidString, versionName: string): Promise<ChangesetId>;
     // @internal @deprecated
-    static getLatestChangeSetId(requestContext: AuthorizedClientRequestContext, imodelClient: IModelClient, iModelId: GuidString): Promise<GuidString>;
+    static getLatestChangeSetId(requestContext: AuthorizedClientRequestContext, imodelClient: IModelClient, iModelId: GuidString): Promise<ChangesetId>;
     getName(): string | undefined;
     get isFirst(): boolean;
     get isLatest(): boolean;
@@ -4336,7 +4399,7 @@ export type IModelVersionProps = {
     afterChangeSetId?: never;
 };
 
-// @internal
+// @internal @deprecated
 export abstract class IModelWriteRpcInterface extends RpcInterface {
     // @deprecated (undocumented)
     createAndInsertPhysicalModel(_tokenProps: IModelRpcProps, _newModelCode: CodeProps, _privateModel: boolean): Promise<Id64String>;
@@ -4351,7 +4414,7 @@ export abstract class IModelWriteRpcInterface extends RpcInterface {
     // @deprecated (undocumented)
     getModelsAffectedByWrites(_tokenProps: IModelRpcProps): Promise<Id64String[]>;
     // @deprecated (undocumented)
-    getParentChangeset(_iModelToken: IModelRpcProps): Promise<string>;
+    getParentChangeset(_iModelToken: IModelRpcProps): Promise<ChangesetId>;
     // (undocumented)
     hasPendingTxns(_iModelToken: IModelRpcProps): Promise<boolean>;
     // (undocumented)
@@ -4445,8 +4508,8 @@ export interface IpcAppFunctions {
     log: (_timestamp: number, _level: LogLevel, _category: string, _message: string, _metaData?: any) => Promise<void>;
     openBriefcase: (_args: OpenBriefcaseProps) => Promise<IModelConnectionProps>;
     openStandalone: (_filePath: string, _openMode: OpenMode, _opts?: StandaloneOpenOptions) => Promise<IModelConnectionProps>;
-    pullAndMergeChanges: (key: string, version?: IModelVersionProps) => Promise<string>;
-    pushChanges: (key: string, description: string) => Promise<string>;
+    pullAndMergeChanges: (key: string, version?: IModelVersionProps) => Promise<ChangesetIndexAndId>;
+    pushChanges: (key: string, description: string) => Promise<ChangesetIndexAndId>;
     queryConcurrency: (pool: "io" | "cpu") => Promise<number>;
     // (undocumented)
     reinstateTxn: (key: string) => Promise<IModelStatus>;
@@ -4753,12 +4816,20 @@ export type LocalAlignedBox3d = Range3d;
 // @public
 export interface LocalBriefcaseProps {
     briefcaseId: number;
-    changeSetId: string;
+    changeSetId: ChangesetId;
+    // (undocumented)
+    changesetIndex?: ChangesetIndex;
     contextId: GuidString;
     fileName: string;
     fileSize: number;
     iModelId: GuidString;
 }
+
+// @public (undocumented)
+export type LocalDirName = string;
+
+// @public (undocumented)
+export type LocalFileName = string;
 
 export { LogFunction }
 
@@ -8419,9 +8490,9 @@ export interface TxnNotifications {
     // (undocumented)
     notifyProjectExtentsChanged: (extents: Range3dProps) => void;
     // (undocumented)
-    notifyPulledChanges: (parentChangeSetId: string) => void;
+    notifyPulledChanges: (parentChangeSetId: ChangesetIndexAndId) => void;
     // (undocumented)
-    notifyPushedChanges: (parentChangeSetId: string) => void;
+    notifyPushedChanges: (parentChangeSetId: ChangesetIndexAndId) => void;
     // (undocumented)
     notifyRootSubjectChanged: (subject: RootSubjectProps) => void;
 }

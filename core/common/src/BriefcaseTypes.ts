@@ -7,6 +7,7 @@
  */
 
 import { GuidString } from "@bentley/bentleyjs-core";
+import { ChangesetId, ChangesetIndex } from "./ChangesetProps";
 import { IModelEncryptionProps, OpenDbKey } from "./IModel";
 import { IModelVersionProps } from "./IModelVersion";
 
@@ -115,7 +116,9 @@ export interface LocalBriefcaseProps {
   /** The current changeSetId.
    * @note ChangeSet Ids are string hash values based on the ChangeSet's content and parent.
    */
-  changeSetId: string;
+  changeSetId: ChangesetId;
+
+  changesetIndex?: ChangesetIndex;
 
   /** Size of the briefcase file in bytes  */
   fileSize: number;

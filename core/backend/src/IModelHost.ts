@@ -423,7 +423,7 @@ export class IModelHost {
     [
       IModelReadRpcImpl,
       IModelTileRpcImpl,
-      IModelWriteRpcImpl,
+      IModelWriteRpcImpl, // eslint-disable-line deprecation/deprecation
       SnapshotIModelRpcImpl,
       WipRpcImpl,
       DevToolsRpcImpl,

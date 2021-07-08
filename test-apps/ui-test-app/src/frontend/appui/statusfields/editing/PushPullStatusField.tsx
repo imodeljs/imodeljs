@@ -47,7 +47,7 @@ class SyncManager {
       const requestContext = await AuthorizedFrontendRequestContext.create();
 
       // Bootstrap the process by finding out if there are newer changesets on the server already.
-      this.state.parentChangesetId = this.briefcaseConnection.changeSetId!;
+      this.state.parentChangesetId = this.briefcaseConnection.changeset.id;
 
       if (!!this.state.parentChangesetId) {  // avoid error if imodel has no changesets.
         const allOnServer = await IModelHubFrontend.iModelClient.changeSets.get(requestContext, iModelId, new ChangeSetQuery().fromId(this.state.parentChangesetId));
@@ -94,17 +94,17 @@ class SyncManager {
       }
     });
 
-    txns.onChangesPushed.addListener((parentChangeSetId) => {
+    txns.onChangesPushed.addListener((parentChangeset) => {
       // In case I got the changeSetSubscription event first, remove the changeset that I pushed from the list of server changes waiting to be merged.
-      const allChangesOnServer = this.state.changesOnServer.filter((cs) => cs !== parentChangeSetId);
+      const allChangesOnServer = this.state.changesOnServer.filter((cs) => cs !== parentChangeset.id);
       this.state.mustPush = false;
       this.state.changesOnServer = allChangesOnServer;
-      this.state.parentChangesetId = parentChangeSetId;
+      this.state.parentChangesetId = parentChangeset.id;
       this.onStateChange.raiseEvent();
     });
 
-    txns.onChangesPulled.addListener((parentChangeSetId) => {
-      this.updateParentChangesetId(parentChangeSetId);
+    txns.onChangesPulled.addListener((parentChangeset) => {
+      this.updateParentChangesetId(parentChangeset.id);
       this.onStateChange.raiseEvent();
     });
   }
@@ -129,7 +129,7 @@ class SyncManager {
 
     try {
       await this.briefcaseConnection.pushChanges("");
-      const parentChangesetId = this.briefcaseConnection.changeSetId!;
+      const parentChangesetId = this.briefcaseConnection.changeset.id;
       this.updateParentChangesetId(parentChangesetId);
     } catch (err) {
       IModelApp.notifications.outputMessage(new NotifyMessageDetails(OutputMessagePriority.Info, failmsg, err.message, OutputMessageType.Alert, OutputMessageAlert.Dialog));

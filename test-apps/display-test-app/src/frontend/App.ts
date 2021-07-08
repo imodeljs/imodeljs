@@ -160,7 +160,7 @@ export class DisplayTestApp {
           DtaRpcInterface,
           IModelReadRpcInterface,
           IModelTileRpcInterface,
-          IModelWriteRpcInterface,
+          IModelWriteRpcInterface, // eslint-disable-line deprecation/deprecation
           SnapshotIModelRpcInterface,
         ],
       },

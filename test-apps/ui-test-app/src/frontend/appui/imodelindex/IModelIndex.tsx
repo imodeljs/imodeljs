@@ -109,7 +109,7 @@ export class IModelIndex extends React.Component<IModelIndexProps, IModelIndexSt
     const _versions: Version[] = await hubClient.versions.get(requestContext, iModelId, new VersionQuery().top(1));
 
     /* determine if the version is up-to-date */
-    const changeSetId = this.props.iModelConnection.changeSetId!;
+    const changeSetId = this.props.iModelConnection.changeset.id;
     const _upToDate = (_versions.length > 0 && _versions[0].changeSetId === changeSetId);
 
     /* get the version name */

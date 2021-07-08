@@ -57,7 +57,7 @@ if (ProcessDetector.isElectronAppFrontend) {
       await ElectronApp.startup({ iModelApp: { renderSys: new NullRenderSystem() } });
 
       // expose interfaces using a direct call mechanism
-      TestRpcManager.initialize([SnapshotIModelRpcInterface, IModelReadRpcInterface, IModelWriteRpcInterface, RobotWorldReadRpcInterface, RobotWorldWriteRpcInterface]);
+      TestRpcManager.initialize([SnapshotIModelRpcInterface, IModelReadRpcInterface, IModelWriteRpcInterface, RobotWorldReadRpcInterface, RobotWorldWriteRpcInterface]);// eslint-disable-line deprecation/deprecation
       const roWrite = RobotWorldWriteRpcInterface.getClient();
       const roRead = RobotWorldReadRpcInterface.getClient();
 

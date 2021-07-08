@@ -10,14 +10,13 @@ import { join } from "path";
 import { AzureFileHandler } from "@bentley/backend-itwin-client";
 import { BentleyError, BriefcaseStatus, GuidString, IModelHubStatus, IModelStatus, Logger } from "@bentley/bentleyjs-core";
 import {
-  BriefcaseQuery, ChangeSet, ChangeSetQuery, ChangesType, CheckpointQuery, CheckpointV2, CheckpointV2Query, CodeQuery, IModelBankClient, IModelClient, IModelHubClient, IModelQuery,
-  Lock, LockLevel, LockQuery, LockType, VersionQuery,
+  BriefcaseQuery, ChangeSet, ChangeSetQuery, ChangesType, CheckpointQuery, CheckpointV2, CheckpointV2Query, CodeQuery, IModelBankClient, IModelClient,
+  IModelHubClient, IModelQuery, Lock, LockLevel, LockQuery, LockType, VersionQuery,
 } from "@bentley/imodelhub-client";
-import { CodeProps, IModelError, IModelVersion } from "@bentley/imodeljs-common";
+import { ChangesetFileProps, ChangesetId, ChangesetIndex, ChangesetProps, CodeProps, IModelError, IModelVersion, LocalDirName } from "@bentley/imodeljs-common";
 import { AuthorizedClientRequestContext, ProgressCallback, UserCancelledError } from "@bentley/itwin-client";
 import {
-  BriefcaseDbArg, BriefcaseIdArg, ChangesetArg, ChangesetFileProps, ChangesetId, ChangesetIndex, ChangesetIndexArg, ChangesetProps, ChangesetRangeArg, CheckPointArg,
-  IModelIdArg, LocalDirName, LockProps,
+  BriefcaseDbArg, BriefcaseIdArg, ChangesetArg, ChangesetIndexArg, ChangesetRangeArg, CheckPointArg, IModelIdArg, LockProps,
 } from "./BackendHubAccess";
 import { AuthorizedBackendRequestContext } from "./BackendRequestContext";
 import { BriefcaseManager } from "./BriefcaseManager";

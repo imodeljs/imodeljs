@@ -26,7 +26,14 @@ import { ChangedModels } from '@bentley/imodeljs-common';
 import { ChangedValueState } from '@bentley/imodeljs-common';
 import { ChangeOpCode } from '@bentley/imodeljs-common';
 import { ChangeSet } from '@bentley/imodelhub-client';
-import { ChangesType } from '@bentley/imodelhub-client';
+import { ChangesetFileProps } from '@bentley/imodeljs-common';
+import { ChangesetId } from '@bentley/imodeljs-common';
+import { ChangesetIndex } from '@bentley/imodeljs-common';
+import { ChangesetIndexAndId } from '@bentley/imodeljs-common';
+import { ChangesetIndexOrId } from '@bentley/imodeljs-common';
+import { ChangesetProps } from '@bentley/imodeljs-common';
+import { ChangesetRange } from '@bentley/imodeljs-common';
+import { ChangesetType } from '@bentley/imodeljs-common';
 import { ChannelRootAspectProps } from '@bentley/imodeljs-common';
 import { ClientAuthIntrospectionManager } from '@bentley/backend-itwin-client';
 import { ClientRequestContext } from '@bentley/bentleyjs-core';
@@ -116,6 +123,8 @@ import { LightLocationProps } from '@bentley/imodeljs-common';
 import { LinePixels } from '@bentley/imodeljs-common';
 import { LineStyleProps } from '@bentley/imodeljs-common';
 import { LocalBriefcaseProps } from '@bentley/imodeljs-common';
+import { LocalDirName } from '@bentley/imodeljs-common';
+import { LocalFileName } from '@bentley/imodeljs-common';
 import { Lock } from '@bentley/imodelhub-client';
 import { LogLevel } from '@bentley/bentleyjs-core';
 import { LowAndHighXYZ } from '@bentley/geometry-core';
@@ -470,8 +479,6 @@ export class BriefcaseDb extends IModelDb {
     beforeClose(): void;
     // (undocumented)
     readonly briefcaseId: number;
-    get changeSetId(): string;
-    set changeSetId(csId: string);
     // @beta
     readonly concurrencyControl: ConcurrencyControl;
     get contextId(): GuidString;
@@ -481,8 +488,8 @@ export class BriefcaseDb extends IModelDb {
     static readonly onOpen: BeEvent<(_requestContext: ClientRequestContext, _props: IModelRpcProps) => void>;
     static readonly onOpened: BeEvent<(_requestContext: ClientRequestContext, _imodelDb: BriefcaseDb) => void>;
     static open(requestContext: ClientRequestContext, args: OpenBriefcaseProps): Promise<BriefcaseDb>;
-    pullAndMergeChanges(requestContext: AuthorizedClientRequestContext, version?: IModelVersion): Promise<string>;
-    pushChanges(requestContext: AuthorizedClientRequestContext, description: string, changeType?: ChangesType): Promise<void>;
+    pullAndMergeChanges(requestContext: AuthorizedClientRequestContext, version?: IModelVersion): Promise<ChangesetIndexAndId>;
+    pushChanges(requestContext: AuthorizedClientRequestContext, description: string, _unused?: any): Promise<ChangesetIndexAndId>;
     // @deprecated
     reinstateChanges(requestContext: AuthorizedClientRequestContext, version?: IModelVersion): Promise<void>;
     // @deprecated
@@ -498,7 +505,7 @@ export class BriefcaseDb extends IModelDb {
 export interface BriefcaseDbArg {
     // (undocumented)
     briefcase: {
-        briefcaseId: number;
+        briefcaseId: BriefcaseId;
         iModelId: GuidString;
         changeSetId: ChangesetId;
     };
@@ -532,7 +539,7 @@ export class BriefcaseManager {
     static get cacheDir(): string;
     // @internal (undocumented)
     static changesetFromVersion(requestContext: AuthorizedClientRequestContext, version: IModelVersion, iModelId: string): Promise<ChangesetProps>;
-    // @beta
+    // @deprecated
     static create(requestContext: AuthorizedClientRequestContext, contextId: GuidString, iModelName: GuidString, args: CreateIModelProps): Promise<GuidString>;
     static deleteBriefcaseFiles(filePath: string, requestContext?: AuthorizedClientRequestContext): Promise<void>;
     // @internal
@@ -564,7 +571,7 @@ export class BriefcaseManager {
     // @internal
     static pullAndMergeChanges(requestContext: AuthorizedClientRequestContext, db: BriefcaseDb, mergeToVersion?: IModelVersion): Promise<void>;
     // @internal
-    static pushChanges(requestContext: AuthorizedClientRequestContext, db: BriefcaseDb, description: string, changeType?: ChangesetType, relinquishCodesLocks?: boolean): Promise<void>;
+    static pushChanges(requestContext: AuthorizedClientRequestContext, db: BriefcaseDb, description: string, _changeType?: ChangesetType, releaseLocks?: boolean): Promise<void>;
     // @internal @deprecated (undocumented)
     static reinstateChanges(requestContext: AuthorizedClientRequestContext, db: BriefcaseDb, reinstateToVersion?: IModelVersion): Promise<void>;
     static releaseBriefcase(requestContext: AuthorizedClientRequestContext, briefcase: BriefcaseProps): Promise<void>;
@@ -645,17 +652,6 @@ export interface ChangesetArg extends IModelIdArg {
     changeset: ChangesetIndexOrId;
 }
 
-// @internal
-export interface ChangesetFileProps extends ChangesetProps {
-    pathname: LocalFileName;
-}
-
-// @internal
-export type ChangesetId = string;
-
-// @beta (undocumented)
-export type ChangesetIndex = number;
-
 // @internal (undocumented)
 export interface ChangesetIndexArg extends IModelIdArg {
     // (undocumented)
@@ -663,45 +659,8 @@ export interface ChangesetIndexArg extends IModelIdArg {
 }
 
 // @internal
-export type ChangesetIndexOrId = {
-    index: ChangesetIndex;
-    id: ChangesetId;
-} | {
-    index: ChangesetIndex;
-    id?: never;
-} | {
-    id: ChangesetId;
-    index?: never;
-};
-
-// @internal
-export interface ChangesetProps {
-    briefcaseId: number;
-    changesType: ChangesetType;
-    description: string;
-    id: ChangesetId;
-    index: ChangesetIndex;
-    parentId: ChangesetId;
-    pushDate: string;
-    size?: number;
-    userCreated: string;
-}
-
-// @beta
-export interface ChangesetRange {
-    end?: ChangesetIndex;
-    first: ChangesetIndex;
-}
-
-// @internal
 export interface ChangesetRangeArg extends IModelIdArg {
     range?: ChangesetRange;
-}
-
-// @public
-export enum ChangesetType {
-    Regular = 0,
-    Schema = 1
 }
 
 // @beta
@@ -780,7 +739,9 @@ export class CheckpointManager {
 
 // @public
 export interface CheckpointProps {
-    changeSetId: string;
+    changeSetId: ChangesetId;
+    // (undocumented)
+    changesetIndex?: ChangesetIndex;
     contextId: GuidString;
     // (undocumented)
     expectV2?: boolean;
@@ -2979,7 +2940,7 @@ export class IModelHubBackend {
     // (undocumented)
     static getRequestContext(arg: {
         requestContext?: AuthorizedClientRequestContext;
-    }): Promise<AuthorizedClientRequestContext>;
+    }): Promise<AuthorizedClientRequestContext | AuthorizedBackendRequestContext>;
     // (undocumented)
     static get iModelClient(): IModelClient;
     // (undocumented)
@@ -3509,12 +3470,6 @@ export class LinkPartition extends InformationPartitionElement {
     // @internal (undocumented)
     static get className(): string;
 }
-
-// @internal (undocumented)
-export type LocalDirName = string;
-
-// @internal (undocumented)
-export type LocalFileName = string;
 
 // @internal (undocumented)
 export class LocalhostIpcHost {
@@ -4206,8 +4161,6 @@ export class SnapshotDb extends IModelDb {
     static findByKey(key: string): SnapshotDb;
     // (undocumented)
     get isSnapshot(): boolean;
-    // @beta (undocumented)
-    get isV2Checkpoint(): boolean;
     // @internal
     static openCheckpointV1(fileName: string, checkpoint: CheckpointProps): SnapshotDb;
     // @internal
@@ -4376,7 +4329,6 @@ export enum SqliteValueType {
 
 // @public
 export class StandaloneDb extends IModelDb {
-    get changeSetId(): undefined;
     static createEmpty(filePath: string, args: CreateEmptyStandaloneIModelProps): StandaloneDb;
     // @deprecated
     get filePath(): string;
