@@ -99,6 +99,15 @@ export interface ClassInfoJSON {
 }
 
 /**
+ * A serialized and compressed version of [[ClassInfo]]
+ * @public
+ */
+export interface CompressedClassInfoJSON {
+  name: string;
+  label: string;
+}
+
+/**
  * A single choice in enumeration
  * @public
  */
@@ -182,6 +191,18 @@ export namespace PropertyInfo {
  */
 export interface PropertyInfoJSON {
   classInfo: ClassInfoJSON;
+  name: string;
+  type: string;
+  enumerationInfo?: EnumerationInfo;
+  kindOfQuantity?: KindOfQuantityInfo;
+}
+
+/**
+ * A serialized and compressed version of [[PropertyInfo]]
+ * @public
+ */
+export interface CompressedPropertyInfoJSON {
+  classInfo: string;
   name: string;
   type: string;
   enumerationInfo?: EnumerationInfo;
@@ -282,6 +303,19 @@ export interface RelatedClassInfoJSON {
 }
 
 /**
+ * A serialized and compressed version of [[RelatedClassInfo]]
+ * @beta
+ */
+export interface CompressedRelatedClassInfoJSON {
+  sourceClassInfo: string;
+  targetClassInfo: string;
+  isPolymorphicTargetClass?: boolean;
+  relationshipInfo: string;
+  isForwardRelationship: boolean;
+  isPolymorphicRelationship?: boolean;
+}
+
+/**
  * A structure that describes a related class path.
  * @public
  */
@@ -292,6 +326,12 @@ export type RelationshipPath = RelatedClassInfo[];
  * @public
  */
 export type RelationshipPathJSON = RelatedClassInfoJSON[];
+
+/**
+ * Serialized and compressed [[RelationshipPath]]
+ * @beta
+ */
+export type CompressedRelationshipPathJSON = CompressedRelatedClassInfoJSON[];
 
 /** @public */
 export namespace RelationshipPath { // eslint-disable-line @typescript-eslint/no-redeclare

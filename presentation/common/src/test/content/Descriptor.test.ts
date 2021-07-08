@@ -8,8 +8,9 @@ import { Descriptor, Field, NestedContentField, PropertyValueFormat, StructTypeD
 import { DescriptorJSON, DescriptorSource, SortDirection } from "../../presentation-common/content/Descriptor";
 import { FieldDescriptorType } from "../../presentation-common/content/Fields";
 import {
+  compressDescriptorJSON,
   createRandomCategory, createRandomCategoryJSON, createRandomDescriptor, createRandomDescriptorJSON, createRandomECClassInfo,
-  createRandomNestedFieldJSON, createRandomPrimitiveField, createRandomPrimitiveFieldJSON, createRandomRelationshipPath,
+  createRandomNestedFieldJSON, createRandomPrimitiveField, createRandomPrimitiveFieldJSON, createRandomPropertiesFieldJSON, createRandomRelationshipPath,
 } from "../_helpers/random";
 
 describe("Descriptor", () => {
@@ -84,6 +85,23 @@ describe("Descriptor", () => {
       const descriptor = Descriptor.fromJSON(JSON.stringify(testDescriptorJSON));
       validateParentship(descriptor!.fields);
       expect(descriptor).to.matchSnapshot();
+    });
+
+    it("creates valid descriptorJSON from CompressedDescriptorJSON with nestedField", () => {
+      const compressedDescriptorJSON = compressDescriptorJSON(testDescriptorJSON);
+      const descriptorFromCompressedJSON = Descriptor.fromJSON(JSON.stringify(compressedDescriptorJSON));
+      const descriptor = Descriptor.fromJSON(JSON.stringify(testDescriptorJSON));
+      expect(descriptor).to.deep.eq(descriptorFromCompressedJSON);
+    });
+
+    it("creates valid descriptorJSON from CompressedDescriptorJSON with propertiesField", () => {
+      testDescriptorJSON = createRandomDescriptorJSON();
+      testDescriptorJSON.fields.push(createRandomPropertiesFieldJSON(testDescriptorJSON.categories![0], 2));
+
+      const compressedDescriptorJSON = compressDescriptorJSON(testDescriptorJSON);
+      const descriptorFromCompressedJSON = Descriptor.fromJSON(JSON.stringify(compressedDescriptorJSON));
+      const descriptor = Descriptor.fromJSON(JSON.stringify(testDescriptorJSON));
+      expect(descriptor).to.deep.eq(descriptorFromCompressedJSON);
     });
 
     it("skips fields that fail to deserialize", () => {

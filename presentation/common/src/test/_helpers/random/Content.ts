@@ -5,12 +5,12 @@
 /* eslint-disable deprecation/deprecation */
 import * as faker from "faker";
 import {
-  CategoryDescription, CategoryDescriptionJSON, Content, Descriptor, EditorDescription, Field, NestedContentField, PrimitiveTypeDescription,
-  PropertiesField, PropertyValueFormat, StructTypeDescription, TypeDescription,
+  CategoryDescription, CategoryDescriptionJSON, CompressedClassInfoJSON, CompressedPropertyInfoJSON, CompressedRelatedClassInfoJSON, Content, Descriptor, EditorDescription, Field, NestedContentField, PrimitiveTypeDescription,
+  PropertiesField, PropertyInfoJSON, PropertyValueFormat, RelatedClassInfoJSON, StructTypeDescription, TypeDescription,
 } from "../../../presentation-common";
-import { SelectClassInfoJSON } from "../../../presentation-common/content/Descriptor";
-import { BaseFieldJSON, FieldJSON, NestedContentFieldJSON, PropertiesFieldJSON } from "../../../presentation-common/content/Fields";
-import { PropertyJSON } from "../../../presentation-common/content/Property";
+import { CompressedDescriptorJSON, CompressedSelectClassInfoJSON, DescriptorJSON, SelectClassInfoJSON } from "../../../presentation-common/content/Descriptor";
+import { BaseFieldJSON, CompressedFieldJSON, CompressedPropertiesFieldJSON, FieldJSON, isNestedContentField, isPropertiesField, NestedContentFieldJSON, PropertiesFieldJSON } from "../../../presentation-common/content/Fields";
+import { CompressedPropertyJSON, PropertyJSON } from "../../../presentation-common/content/Property";
 import { createRandomECClassInfoJSON, createRandomPropertyInfoJSON, createRandomRelatedClassInfoJSON, createRandomRelationshipPathJSON } from "./EC";
 import { nullable } from "./Misc";
 
@@ -131,6 +131,77 @@ export const createRandomDescriptorJSON = (displayType?: string, fields?: FieldJ
     categories,
     fields,
     contentFlags: 0,
+  };
+};
+
+export const compressDescriptorJSON = (json: DescriptorJSON): CompressedDescriptorJSON => {
+  const classesMap: { [id: string]: CompressedClassInfoJSON } = {};
+  const selectClasses: CompressedSelectClassInfoJSON[] = json.selectClasses.map((selectClass) => {
+    classesMap[selectClass.selectClassInfo.id] = { ...selectClass.selectClassInfo };
+
+    return {
+      ...selectClass,
+      selectClassInfo: selectClass.selectClassInfo.id,
+      relatedInstanceClasses: selectClass.relatedInstanceClasses.map((instanceClass) => compressRelatedClassInfoJSON(instanceClass, classesMap)),
+      navigationPropertyClasses: selectClass.navigationPropertyClasses.map((propertyClass) => compressRelatedClassInfoJSON(propertyClass, classesMap)),
+      pathToPrimaryClass: selectClass.pathToPrimaryClass.map((relatedClass) => compressRelatedClassInfoJSON(relatedClass, classesMap)),
+      relatedPropertyPaths: selectClass.relatedPropertyPaths.map((path) => path.map((relatedClass) => compressRelatedClassInfoJSON(relatedClass, classesMap))),
+    };
+  });
+
+  const fields: CompressedFieldJSON[] = json.fields.map((field) => {
+    if (isPropertiesField(field))
+      return {
+        ...field,
+        properties: field.properties.map((property) => compressPropertyJSON(property, classesMap)),
+      };
+
+    if (isNestedContentField(field)) {
+      classesMap[field.contentClassInfo.id] = { ...field.contentClassInfo };
+      return {
+        ...field,
+        contentClassInfo: field.contentClassInfo.id,
+        pathToPrimaryClass: field.pathToPrimaryClass.map((classInfoJSON) => compressRelatedClassInfoJSON(classInfoJSON, classesMap)),
+      };
+    }
+
+    return field;
+  });
+
+  return {
+    ...json,
+    fields,
+    selectClasses,
+    classesMap,
+  };
+};
+
+const compressPropertyJSON = (json: PropertyJSON, classesMap: { [id: string]: CompressedClassInfoJSON }): CompressedPropertyJSON => {
+  return {
+    property: compressPropertyInfoJSON(json.property, classesMap),
+    relatedClassPath: json.relatedClassPath.map((classInfoJSON) => compressRelatedClassInfoJSON(classInfoJSON, classesMap)),
+  };
+};
+
+const compressPropertyInfoJSON = (json: PropertyInfoJSON, classesMap: { [id: string]: CompressedClassInfoJSON }): CompressedPropertyInfoJSON => {
+  classesMap[json.classInfo.id] = { ...json.classInfo };
+
+  return {
+    ...json,
+    classInfo: json.classInfo.id,
+  };
+};
+
+const compressRelatedClassInfoJSON = (json: RelatedClassInfoJSON, classesMap: { [id: string]: CompressedClassInfoJSON }): CompressedRelatedClassInfoJSON => {
+  classesMap[json.sourceClassInfo.id] = { ...json.sourceClassInfo };
+  classesMap[json.targetClassInfo.id] = { ...json.targetClassInfo };
+  classesMap[json.relationshipInfo.id] = { ...json.relationshipInfo };
+
+  return {
+    ...json,
+    sourceClassInfo: json.sourceClassInfo.id,
+    targetClassInfo: json.targetClassInfo.id,
+    relationshipInfo: json.relationshipInfo.id,
   };
 };
 

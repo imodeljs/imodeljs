@@ -1,0 +1,11 @@
+{
+  "changes": [
+    {
+      "packageName": "@bentley/presentation-common",
+      "comment": "Added conmpressed interfaces for `DescriptorJSON` and ways to handle them.",
+      "type": "none"
+    }
+  ],
+  "packageName": "@bentley/presentation-common",
+  "email": "30312645+aurislt7@users.noreply.github.com"
+}
