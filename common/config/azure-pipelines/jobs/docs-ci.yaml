@@ -1,0 +1,38 @@
+# iModel.js Docs CI Build
+
+pr:
+  drafts: false
+  branches:
+    include:
+      - master
+      - release/*
+
+jobs:
+  - job:
+    workspace:
+      clean: all
+    pool:
+      name: iModelTechCI
+      demands: Agent.OS -equals Windows_NT
+
+    steps:
+      - checkout: self
+        clean: true
+      - task: NodeTool@0
+        displayName: Use Node 12.17.0
+        inputs:
+          versionSpec: 12.17.0
+          checkLatest: true
+      - script: |
+          git config --local user.email imodeljs-admin@users.noreply.github.com
+          git config --local user.name imodeljs-admin
+        displayName: Setup git config
+
+      - template: ../templates/docs-build.yaml
+
+      - task: PublishPipelineArtifact@1
+        displayName: Publish Pipeline Artifact - Docs build
+        inputs:
+          targetPath: $(Agent.BuildDirectory)/tempDocsBuild/public_build/
+          artifact: DocsBuild
+        condition: and(succeeded(), or(eq(variables['Build.SourceBranch'], 'refs/heads/master'), startsWith(variables['Build.SourceBranch'], 'refs/heads/release')))

@@ -1,0 +1,72 @@
+# This template handles gathering all of the raw docs artifacts into a single staging directory
+# to allow them to be processed for publication.
+#
+# Note: This step has a dependency on the
+
+parameters:
+  - name: workingDir
+    type: string
+    default: $(System.DefaultWorkingDirectory)
+  - name: stagingDir
+    type: string
+    default: $(System.ArtifactsDirectory)/staging/
+  - name: downloadCurrentBuildArtifacts
+    type: boolean
+    default: false
+
+steps:
+  - script: |
+      mkdir ${{ parameters.stagingDir }}/reference/
+      echo Copying all reference files to staging
+      robocopy /E generated-docs/core/ ${{ parameters.stagingDir }}/reference/
+      robocopy /E generated-docs/clients/ ${{ parameters.stagingDir }}/reference/
+      robocopy /E generated-docs/ui/ ${{ parameters.stagingDir }}/reference/
+      robocopy /E generated-docs/presentation/ ${{ parameters.stagingDir }}/reference/
+      robocopy /E generated-docs/domains/ ${{ parameters.stagingDir }}/reference/
+      echo Copying extracted code to staging
+      mkdir ${{ parameters.stagingDir }}/extract/
+      robocopy /E generated-docs/extract/ ${{ parameters.stagingDir }}/extract/
+      echo Copying all files from \docs folder
+      robocopy /E docs/ ${{ parameters.stagingDir }}/
+    workingDirectory: ${{ parameters.workingDir }}
+    displayName: Copy Reference files to Staging
+    failOnStderr: false
+    continueOnError: true
+  - script: dir /S
+    workingDirectory: ${{ parameters.stagingDir }}
+    displayName: Log files
+
+  # BIS Docs are pulled from a separate internal build currently. This will change in the future
+  - task: DownloadBuildArtifacts@0
+    displayName: Download Bis Docs Artifacts
+    inputs:
+      buildType: specific
+      project: 2c48216e-e72f-48b4-a4eb-40ff1c04e8e4
+      pipeline: 1633
+      buildVersionToDownload: latest
+      artifactName: Bis Docs
+    condition: and(succeeded(), eq('${{ parameters.downloadCurrentBuildArtifacts }}', false))
+
+  # BIS Docs are pulled from the current build for the validation
+  - task: DownloadBuildArtifacts@0
+    displayName: Download Current Bis Docs Artifacts
+    inputs:
+      buildType: current
+      project: 2c48216e-e72f-48b4-a4eb-40ff1c04e8e4
+      pipeline: 1633
+      artifactName: Bis Docs
+    condition: and(succeeded(), eq('${{ parameters.downloadCurrentBuildArtifacts }}', true))
+
+  - task: CopyFiles@2
+    displayName: Copy Bis Docs to staging
+    inputs:
+      SourceFolder: "$(System.ArtifactsDirectory)/Bis Docs"
+      TargetFolder: ${{ parameters.stagingDir }}/bis/domains/
+
+  # The .updated.json is cached in order to let BeMetalsmith know what needs to be re-built.
+  # - task: DownloadPipelineArtifact@2
+  #   displayName: Download Pipeline Artifact - .updated.json
+  #   inputs:
+  #     runVersion: latestFromBranch
+  #     artifactName: .updated.json
+  #     targetPath: ${{ parameters.stagingDir }}/config/

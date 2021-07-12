@@ -1,0 +1,53 @@
+# The template defines the primary steps for creating the TypeDoc API files, gathering other md files,
+# and running a step to combine everything.
+
+parameters:
+  - name: workingDir
+    type: string
+    default: $(System.DefaultWorkingDirectory)
+  - name: stagingDir
+    type: string
+    default: $(System.ArtifactsDirectory)/staging
+  - name: outputDir
+    type: string
+    default: $(Agent.BuildDirectory)/tempDocsBuild/public_build
+  - name: downloadCurrentBuildArtifacts
+    type: boolean
+    default: false
+
+steps:
+- script: node common/scripts/install-run-rush.js install
+  displayName: rush install
+  workingDirectory: ${{ parameters.workingDir }}
+
+- script: node common/scripts/install-run-rush.js compile -v
+  displayName: rush compile
+  workingDirectory: ${{ parameters.workingDir }}
+
+- script: node common/scripts/install-run-rush.js docs
+  displayName: rush docs
+  workingDirectory: ${{ parameters.workingDir }}
+
+# Gathers all the pieces to run BeMetalsmith
+- template: ../templates/gather-docs.yaml
+  parameters:
+    workingDir: ${{ parameters.workingDir }}
+    stagingDir: ${{ parameters.stagingDir }}
+    downloadCurrentBuildArtifacts: ${{ parameters.downloadCurrentBuildArtifacts }}
+
+# Currently BeMetalsmith is an internal only tool
+- script: npm install @bentley/bemetalsmith@4.x
+  displayName: Install BeMetalsmith
+  workingDirectory: $(Build.ArtifactStagingDirectory)
+
+- script: "./node_modules/.bin/bmsBuild --strictLinkChecking --topicsMustHaveDesc --source ${{ parameters.stagingDir }} --destination ${{ parameters.outputDir }} --siteTitle iTwin.js"
+  displayName: Run bmsBuild
+  workingDirectory: $(Build.ArtifactStagingDirectory)
+
+# Update the .updated.json file after the bmsBuild
+- task: PublishPipelineArtifact@1
+  displayName: Publish Pipeline Artifact - .updated.json
+  inputs:
+    targetPath: ${{ parameters.stagingDir }}/config/.updated.json
+    artifact: .updated.json
+  condition: and(succeeded(), eq('${{ parameters.downloadCurrentBuildArtifacts }}', false), or(eq(variables['Build.SourceBranch'], 'refs/heads/master'), startsWith(variables['Build.SourceBranch'], 'refs/heads/release')))
