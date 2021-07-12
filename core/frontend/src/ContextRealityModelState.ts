@@ -181,6 +181,7 @@ export async function queryRealityData(criteria: RealityDataQueryCriteria): Prom
       if (currentRealityData.type && (currentRealityData.type.toUpperCase() === "OPC") && currentRealityData.rootDocument !== undefined) {
         const rootDocUrl: string = await currentRealityData.getBlobStringUrl(requestContext, currentRealityData.rootDocument);
         opcConfig = {
+          rdsUrl: "",
           containerName: "",
           blobFileName: rootDocUrl,
           accountName: "",

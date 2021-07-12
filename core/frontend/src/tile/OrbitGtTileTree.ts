@@ -29,10 +29,12 @@ import { RenderSystem } from "../render/RenderSystem";
 import { ViewingSpace } from "../ViewingSpace";
 import { Viewport } from "../Viewport";
 import {
-  RealityModelTileTree, Tile, TileContent,
+  RealityModelTileClient, RealityModelTileTree, Tile, TileContent,
   TileDrawArgs, TileLoadPriority, TileParams, TileRequest, TileTree, TileTreeOwner, TileTreeParams, TileTreeSupplier,
 } from "./internal";
 import { TileUsageMarker } from "./TileUsageMarker";
+import { AccessToken } from "@bentley/itwin-client";
+import { AuthorizedFrontendRequestContext } from "../FrontendRequestContext";
 
 const scratchRange = Range3d.create();
 const scratchWorldFrustum = new Frustum();
@@ -343,7 +345,54 @@ export namespace OrbitGtTileTree {
     modelId?: Id64String;
   }
 
+  async function getAccessTokenRDS(): Promise<AccessToken | undefined> {
+
+    if (!IModelApp.authorizationClient || !IModelApp.authorizationClient.hasSignedIn)
+      return undefined; // Not signed in
+
+    try {
+      return IModelApp.authorizationClient.getAccessToken();
+    } catch (_) {
+      return undefined;
+    }
+  }
+
+  async function initializeBlobStorage(_props: OrbitGtBlobProps, iModel: IModelConnection, _modelId: Id64String) {
+
+    // rdsUrl must be defined and not null to be resolved
+    if(!_props.rdsUrl)
+      return false;
+
+    const accessToken: AccessToken | undefined = await getAccessTokenRDS();
+    if (!accessToken)
+      return false;
+
+    const authRequestContext = new AuthorizedFrontendRequestContext(accessToken);
+    authRequestContext.enter();
+
+    const tileClient = new RealityModelTileClient(_props.rdsUrl, accessToken, iModel.contextId);
+
+    const blobUrl = await tileClient.getBlobAccessData();
+    if (blobUrl === undefined)
+      return false;
+
+    _props.accountName = "";
+    _props.containerName = "";
+    _props.sasToken = "";
+
+    // _props.blobFileName originates from Connector Conversion
+    _props.accountName = blobUrl.hostname.split(".")[0];   // take first word up to first .
+    _props.containerName = blobUrl.pathname.substring(1);  // strip off leading slash
+    _props.sasToken = blobUrl.search.substring(1);         // strip off leading ?
+
+    return _props.accountName !== "" && _props.containerName !== "" && _props.sasToken !== "" && _props.blobFileName !== "";
+  }
+
   export async function createOrbitGtTileTree(props: OrbitGtBlobProps, iModel: IModelConnection, modelId: Id64String): Promise<TileTree | undefined> {
+
+    if (await initializeBlobStorage(props, iModel, modelId) === false)
+      return undefined;
+
     const { accountName, containerName, blobFileName, sasToken } = props;
     if (Downloader.INSTANCE == null) Downloader.INSTANCE = new DownloaderXhr();
     if (CRSManager.ENGINE == null) CRSManager.ENGINE = await OnlineEngine.create();

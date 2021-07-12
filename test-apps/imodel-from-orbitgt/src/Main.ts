@@ -10,6 +10,8 @@ import { OrbitGtContextIModelCreator } from "./OrbitGtContextModelCreator";
 /** Use [yargs](https://www.npmjs.com/package/yargs) to validate and extract command line options. */
 const argv: yargs.Arguments<{}> = yargs
   .usage("Usage: $0 --input [RealityModelURL] --output [iModelFileName]")
+  .describe("rdsUrl", "RDS URL")
+  .string("rdsUrl")
   .describe("accountName", "Account Name")
   .string("accountName")
   .describe("sasToken", "SAS Token")
@@ -32,6 +34,7 @@ const argv: yargs.Arguments<{}> = yargs
   Logger.initializeToConsole();
 
   const pcProps = {
+    rdsUrl: argv.rdsUrl as string,
     accountName: argv.accountName as string,
     sasToken: argv.sasToken as string,
     containerName: argv.containerName as string,

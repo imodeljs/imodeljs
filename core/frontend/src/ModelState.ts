@@ -14,7 +14,7 @@ import {
 import { EntityState } from "./EntityState";
 import { HitDetail } from "./HitDetail";
 import { IModelConnection } from "./IModelConnection";
-import { createPrimaryTileTreeReference, createRealityTileTreeReference, TileTreeReference } from "./tile/internal";
+import { createOrbitGtTileTreeReference, createPrimaryTileTreeReference, createRealityTileTreeReference, TileTreeReference } from "./tile/internal";
 import { ViewState } from "./ViewState";
 
 /** Represents the front-end state of a [Model]($backend).
@@ -113,15 +113,36 @@ export abstract class GeometricModelState extends ModelState implements Geometri
   /** @internal */
   public createTileTreeReference(view: ViewState): TileTreeReference {
     // If this is a reality model, its tile tree is obtained from reality data service URL.
+
     const url = this.jsonProperties.tilesetUrl;
     if (undefined !== url) {
       const spatialModel = this.asSpatialModel;
-      return createRealityTileTreeReference({
-        url,
+
+      if (url.orbitGtBlob === undefined) {
+        return createRealityTileTreeReference({
+          url,
+          iModel: this.iModel,
+          source: view,
+          modelId: this.id,
+          tilesetToDbTransform: this.jsonProperties.tilesetToDbTransform,
+          classifiers: undefined !== spatialModel ? spatialModel.classifiers : undefined,
+        });
+      }
+
+      let orbitGtName = "";
+      if (url.orbitGtBlob.blobFileName !== "") {
+        if (url.orbitGtBlob.blobFileName[0] === "/")
+          orbitGtName = url.orbitGtBlob.blobFileName.substring(1);
+        else
+          orbitGtName = url.orbitGtBlob.blobFileName;
+      }
+
+      return createOrbitGtTileTreeReference({
         iModel: this.iModel,
         source: view,
         modelId: this.id,
-        tilesetToDbTransform: this.jsonProperties.tilesetToDbTransform,
+        orbitGtBlob: url.orbitGtBlob,
+        name: orbitGtName,
         classifiers: undefined !== spatialModel ? spatialModel.classifiers : undefined,
       });
     }

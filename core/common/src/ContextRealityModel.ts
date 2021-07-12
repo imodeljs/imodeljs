@@ -15,6 +15,7 @@ import { FeatureAppearance, FeatureAppearanceProps } from "./FeatureSymbology";
  * @alpha
  */
 export interface OrbitGtBlobProps {
+  rdsUrl?: string;
   containerName: string;
   blobFileName: string;
   sasToken: string;

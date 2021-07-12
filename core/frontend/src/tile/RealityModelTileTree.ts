@@ -707,7 +707,7 @@ class RealityTreeReference extends RealityModelTileTree.Reference {
 
     const strings = [];
 
-    const loader = (tree as RealityModelTileTree).loader ;
+    const loader = (tree as RealityModelTileTree).loader;
     const type = await (loader as RealityModelTileLoader).tree.client.getRealityDataType();
 
     // If a type is specified, display it
@@ -858,6 +858,22 @@ export class RealityModelTileClient {
     };
     const data = await request(requestContext, url, options);
     return data.body;
+  }
+
+  // Get blob URL information from RDS
+  public async getBlobAccessData(): Promise<URL | undefined> {
+
+    if (this.rdsProps && this._token) {
+      const authRequestContext = new AuthorizedFrontendRequestContext(this._token);
+      authRequestContext.enter();
+
+      await this.initializeRDSRealityData(authRequestContext);
+      authRequestContext.enter();
+
+      return this._realityData!.getBlobUrl(authRequestContext, false);
+    }
+
+    return undefined;
   }
 
   // ### TODO. Technically the url should not be required. If the reality data encapsulated is stored on PW Context Share then

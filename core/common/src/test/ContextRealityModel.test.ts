@@ -43,7 +43,7 @@ describe("ContextRealityModel", () => {
         },
       }],
       orbitGtBlob: {
-        containerName: "container", blobFileName: "blob", sasToken: "token", accountName: "account",
+        rdsUrl: "rdsUrl", containerName: "container", blobFileName: "blob", sasToken: "token", accountName: "account",
       },
       planarClipMask: { mode: PlanarClipMaskMode.Priority },
     });
@@ -128,7 +128,7 @@ describe("ContextRealityModel", () => {
         },
       }],
       orbitGtBlob: {
-        containerName: "container", blobFileName: "blob", sasToken: "token", accountName: "account",
+        rdsUrl: "rdsUrl", containerName: "container", blobFileName: "blob", sasToken: "token", accountName: "account",
       },
       planarClipMask: { mode: PlanarClipMaskMode.Priority },
     };

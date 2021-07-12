@@ -1,0 +1,11 @@
+{
+  "changes": [
+    {
+      "packageName": "@bentley/imodeljs-common",
+      "comment": "Addition of rdsUrl to OrbitGtBlobProps to support PointCloudModel OPC attachments",
+      "type": "none"
+    }
+  ],
+  "packageName": "@bentley/imodeljs-common",
+  "email": "leepipbull@users.noreply.github.com"
+}

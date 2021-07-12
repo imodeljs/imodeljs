@@ -1,0 +1,11 @@
+{
+  "changes": [
+    {
+      "packageName": "@bentley/imodeljs-frontend",
+      "comment": "Added support for PointCloudModel attachments in OPC format with RDS URL resolving to OrbitGtBlobProps.",
+      "type": "none"
+    }
+  ],
+  "packageName": "@bentley/imodeljs-frontend",
+  "email": "leepipbull@users.noreply.github.com"
+}
