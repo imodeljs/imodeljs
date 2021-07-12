@@ -2,8 +2,8 @@
 * Copyright (c) Bentley Systems, Incorporated. All rights reserved.
 * See LICENSE.md in the project root for license terms and full copyright notice.
 *--------------------------------------------------------------------------------------------*/
-import * as requestPromise from "request-promise-native";
-import { Id64String, JsonUtils } from "@bentley/bentleyjs-core";
+import { getJson } from "@bentley/itwin-client";
+import { ClientRequestContext, Id64String, JsonUtils } from "@bentley/bentleyjs-core";
 import { Matrix3d, Point3d, Range3d, StandardViewIndex, Transform, Vector3d } from "@bentley/geometry-core";
 import { CategorySelector, DisplayStyle3d, IModelDb, ModelSelector, OrthographicViewDefinition } from "@bentley/imodeljs-backend";
 import {
@@ -53,18 +53,18 @@ class RealityModelTileUtils {
       const ecefLow = (new Cartographic(region[0], region[1], region[4])).toEcef();
       const ecefHigh = (new Cartographic(region[2], region[3], region[5])).toEcef();
       return Range3d.create(ecefLow, ecefHigh);
-    } else {
-      let rootTransform = RealityModelTileUtils.transformFromJson(json.root.transform);
-      const range = RealityModelTileUtils.rangeFromBoundingVolume(json.root.boundingVolume)!;
-      if (undefined === rootTransform)
-        rootTransform = Transform.createIdentity();
-
-      return rootTransform.multiplyRange(range);
     }
-    return Range3d.createNull();
+
+    let rootTransform = RealityModelTileUtils.transformFromJson(json.root.transform);
+    const range = RealityModelTileUtils.rangeFromBoundingVolume(json.root.boundingVolume)!;
+    if (undefined === rootTransform)
+      rootTransform = Transform.createIdentity();
+
+    return rootTransform.multiplyRange(range);
   }
+
   public static async rangeFromUrl(url: string): Promise<AxisAlignedBox3d> {
-    const json = await requestPromise(url, { json: true });   // eslint-disable-line
+    const json = await getJson(new ClientRequestContext(), url);
     return RealityModelTileUtils.rangeFromJson(json);
   }
 }

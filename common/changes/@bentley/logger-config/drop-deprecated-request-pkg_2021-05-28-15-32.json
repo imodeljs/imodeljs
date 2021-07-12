@@ -1,0 +1,11 @@
+{
+  "changes": [
+    {
+      "packageName": "@bentley/logger-config",
+      "comment": "Remove peerDependency on the deprecated request package. Replace with itwin-client wrapper around superagent.",
+      "type": "none"
+    }
+  ],
+  "packageName": "@bentley/logger-config",
+  "email": "31107829+calebmshafer@users.noreply.github.com"
+}

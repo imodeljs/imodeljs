@@ -907,10 +907,6 @@
       "allowedCategories": [ "backend", "internal" ]
     },
     {
-      "name": "request-promise-native",
-      "allowedCategories": [ "internal" ]
-    },
-    {
       "name": "require-dir",
       "allowedCategories": [ "tools" ]
     },

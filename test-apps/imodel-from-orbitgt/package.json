@@ -20,18 +20,14 @@
     "@bentley/imodeljs-common": "workspace:*",
     "@bentley/imodeljs-backend": "workspace:*",
     "@bentley/orbitgt-core": "workspace:*",
-    "request-promise-native": "^1.0.5",
-    "request": "^2.88.0",
     "yargs": "^16.0.0"
   },
   "devDependencies": {
     "@bentley/build-tools": "workspace:*",
     "@bentley/eslint-plugin": "workspace:*",
     "@types/fs-extra": "^4.0.7",
-    "@types/lodash": "^4.14.0",
     "@types/node": "10.14.1",
     "@types/yargs": "^12.0.5",
-    "@types/request-promise-native": "^1.0.15",
     "eslint": "^7.11.0",
     "rimraf": "^3.0.2",
     "typescript": "~4.3.0"
