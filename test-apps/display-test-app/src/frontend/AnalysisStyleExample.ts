@@ -187,8 +187,19 @@ class AnalysisDecorator {
   public constructor(viewport: Viewport, mesh: AnalysisMesh) {
     this._viewport = viewport;
     this.mesh = mesh;
-    this._dispose = viewport.onDisposed.addOnce(() => this.dispose());
     this._id = viewport.iModel.transientIds.next;
+
+    const removeDisposalListener = viewport.onDisposed.addOnce(() => this.dispose());
+    const removeAnalysisStyleListener = viewport.addOnAnalysisStyleChangedListener(() => {
+      this._graphic?.disposeGraphic();
+      this._graphic = undefined;
+    });
+
+    this._dispose = () => {
+      removeAnalysisStyleListener();
+      removeDisposalListener();
+    };
+
     IModelApp.viewManager.addDecorator(this);
   }
 

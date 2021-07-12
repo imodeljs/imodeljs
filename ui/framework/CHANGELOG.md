@@ -1,6 +1,6 @@
 # Change Log - @bentley/ui-framework
 
-This log was last generated on Fri, 02 Jul 2021 15:38:31 GMT and should not be manually modified.
+This log was last generated on Tue, 06 Jul 2021 22:08:34 GMT and should not be manually modified.
 
 ## 2.17.1
 Fri, 02 Jul 2021 15:38:31 GMT
@@ -19,6 +19,11 @@ Mon, 28 Jun 2021 16:20:11 GMT
 - Add getters to retrieve the list of category and model overrides & make update category/model overrides functions public
 - publish in-use APIs
 - Refactor SolarTimeline and ScheduleAnimationProvider to use new TimelineComponent iteration.
+
+## 2.16.9
+Tue, 06 Jul 2021 22:08:34 GMT
+
+_Version update only_
 
 ## 2.16.8
 Fri, 02 Jul 2021 17:40:46 GMT

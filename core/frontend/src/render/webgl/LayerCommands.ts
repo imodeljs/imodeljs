@@ -15,7 +15,7 @@ import { RenderCommands } from "./RenderCommands";
 import { RenderPass } from "./RenderFlags";
 import { Target } from "./Target";
 
-type OpCode = "Idle"| "Container"| "Branch"| "Batch"| "Layer";
+type OpCode = "Idle" | "Container" | "Branch" | "Batch" | "Layer";
 
 abstract class State {
   public readonly map: LayerCommandMap;
@@ -76,7 +76,7 @@ class IdleState extends State {
     super(map);
   }
 
-  public processLayers(container: LayerContainer, func: () => void): void {
+  public override processLayers(container: LayerContainer, func: () => void): void {
     this.executeTransition(new ContainerState(this, container), func);
   }
 }
@@ -90,7 +90,7 @@ class ContainerState extends State {
     this.elevation = container.elevation;
   }
 
-  protected processBranch(push: PushBranchCommand, func: () => void): void {
+  protected override processBranch(push: PushBranchCommand, func: () => void): void {
     this.executeTransition(new BranchState(this, push), func);
   }
 }
@@ -108,7 +108,7 @@ class BranchState extends State {
     this.pushCommand = pushCommand;
   }
 
-  protected processBatch(push: PushBatchCommand, func: () => void): void {
+  protected override processBatch(push: PushBatchCommand, func: () => void): void {
     this.executeTransition(new BatchState(this, push), func);
   }
 
@@ -119,7 +119,7 @@ class BranchState extends State {
     }
   }
 
-  protected exit(): void {
+  protected override exit(): void {
     for (const cmds of this._layerCommands)
       cmds.commands.push(PopBranchCommand.instance);
   }
@@ -137,7 +137,7 @@ class BatchState extends State {
     this.pushCommand = pushCommand;
   }
 
-  public set currentLayer(layer: Layer | undefined) {
+  public override set currentLayer(layer: Layer | undefined) {
     if (undefined === layer)
       this.throwStateError("currentLayer = undefined");
     else
@@ -160,7 +160,7 @@ class LayerState extends State {
     this.commands.commands.push(batchState.pushCommand);
   }
 
-  public set currentLayer(layer: Layer | undefined) {
+  public override set currentLayer(layer: Layer | undefined) {
     if (undefined === layer) {
       this.commands.commands.push(PopBatchCommand.instance);
       this.map.state = this._batchState;
@@ -169,13 +169,13 @@ class LayerState extends State {
     }
   }
 
-  public pushAndPop(push: PushCommand, pop: PopCommand, func: () => void): void {
+  public override pushAndPop(push: PushCommand, pop: PopCommand, func: () => void): void {
     this.commands.commands.push(push);
     func();
     this.commands.commands.push(pop);
   }
 
-  public addCommands(commands: DrawCommand[]): void {
+  public override addCommands(commands: DrawCommand[]): void {
     for (const command of commands)
       this.commands.commands.push(command);
   }
@@ -218,7 +218,7 @@ class LayerCommandMap extends SortedArray<LayerCommands> {
     this.state = new IdleState(this);
   }
 
-  public clear(): void {
+  public override clear(): void {
     super.clear();
     assert(this.state instanceof IdleState);
   }

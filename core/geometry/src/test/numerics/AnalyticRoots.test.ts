@@ -32,7 +32,7 @@ describe("AnalyticRoots.SolveLinear", () => {
         const s = new GrowableFloat64Array();
         AnalyticRoots.appendLinearRoot(-slope * a, slope, s);
         if (slope !== 0) {
-          if (ck.testPointer(s) && s) {
+          if (ck.testPointer(s)) {
             ck.testExactNumber(s.length, 1, "SolveLinear (root a, slope)", a, slope);
             ck.testCoordinate(s.atUncheckedIndex(0), a, "SolveLinear", powerCoffs);
           }
@@ -53,7 +53,7 @@ describe("AnalyticRoots.SolveQuadric", () => {
       const quadric = Degree2PowerPolynomial.fromRootsAndC2(i, i);
       const roots = new GrowableFloat64Array();
       AnalyticRoots.appendQuadraticRoots(Float64Array.from(quadric.coffs), roots);
-      if (ck.testPointer(roots) && roots) {
+      if (ck.testPointer(roots)) {
         roots.sort(compare);
         ck.testExactNumber(roots.length, 1, `SolveQuadric s = [${i}, ${i}]`);
         ck.testCoordinate(roots.atUncheckedIndex(0), i, "Quadratic double root");
@@ -80,7 +80,7 @@ describe("AnalyticRoots.SolveQuadric", () => {
         const quadric = Degree2PowerPolynomial.fromRootsAndC2(root0, root1);
         const roots = new GrowableFloat64Array();
         AnalyticRoots.appendQuadraticRoots(Float64Array.from(quadric.coffs), roots);
-        if (ck.testPointer(roots) && roots) {
+        if (ck.testPointer(roots)) {
           roots.sort(compare);
           ck.testExactNumber(roots.length, 2, "appendQuadraticSolutions ", roots, root0, root1);
           ck.testCoordinate(roots.atUncheckedIndex(0), Math.min(root0, root1), "Quadratic two roots");
@@ -282,7 +282,7 @@ describe("AnalyticRoots.SolveCubic", () => {
       const target: number[] = [a];
       const actual = new GrowableFloat64Array();
       AnalyticRoots.appendCubicRoots(coffs, actual);
-      if (ck.testPointer(actual) && actual) {
+      if (ck.testPointer(actual)) {
         ck.testCoordinate(actual.length, 1, "simple root count");
 
         const eMax = matchRoots(target, actual);
@@ -321,7 +321,7 @@ describe("AnalyticRoots.SolveCubic", () => {
         const actual = new GrowableFloat64Array();
         AnalyticRoots.appendCubicRoots(coffs, actual);
 
-        if (ck.testPointer(actual) && actual && ck.testExactNumber(3, actual.length, "3 root cubic")) {
+        if (ck.testPointer(actual) && ck.testExactNumber(3, actual.length, "3 root cubic")) {
           const uMax = NumberArray.maxAbsArray(target);
           const eMax = matchRoots(target, actual) / uMax;
           const eSafe = maxDiffMatchedArrays(target, actual) / uMax;

@@ -86,26 +86,26 @@ class HilitedIds extends Id64.Uint32Set {
     this._iModel = iModel;
   }
 
-  public add(low: number, high: number) {
+  public override add(low: number, high: number) {
     super.add(low, high);
     this.onChanged();
   }
 
-  public delete(low: number, high: number) {
+  public override delete(low: number, high: number) {
     super.delete(low, high);
     this.onChanged();
   }
 
-  public clear() {
+  public override clear() {
     super.clear();
     this.onChanged();
   }
 
-  public addIds(ids: Id64Arg) {
+  public override addIds(ids: Id64Arg) {
     this.change(() => super.addIds(ids));
   }
 
-  public deleteIds(ids: Id64Arg) {
+  public override deleteIds(ids: Id64Arg) {
     this.change(() => super.deleteIds(ids));
   }
 

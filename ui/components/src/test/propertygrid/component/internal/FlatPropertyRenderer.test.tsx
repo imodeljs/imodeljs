@@ -60,7 +60,7 @@ describe("FlatPropertyRenderer", () => {
 
   it("uses provided propertyValueRendererManager", async () => {
     class RendererManager extends PropertyValueRendererManager {
-      public render({ }) {
+      public override render({ }) {
         return ("Test");
       }
     }

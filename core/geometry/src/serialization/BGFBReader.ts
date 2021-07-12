@@ -42,6 +42,9 @@ import { Segment1d } from "../geometry3d/Segment1d";
 import { IntegratedSpiral3d } from "../curve/spiral/IntegratedSpiral3d";
 import { DirectSpiral3d } from "../curve/spiral/DirectSpiral3d";
 import { TaggedNumericData } from "../polyface/TaggedNumericData";
+import { InterpolationCurve3d, InterpolationCurve3dOptions } from "../bspline/InterpolationCurve3d";
+import { NumberArray, Point3dArray } from "../geometry3d/PointHelpers";
+import { AkimaCurve3d, AkimaCurve3dOptions } from "../bspline/AkimaCurve3d";
 
 /** * Context to write to a flatbuffer blob.
  *  * This class is internal.
@@ -79,7 +82,84 @@ export class BGFBReader {
     }
     return undefined;
   }
-  /**
+/*
+  public writeInterpolationCurve3dAsFBVariantGeometry(data: InterpolationCurve3dData): number | undefined {
+    const fitPointsOffset = this.writeDoubleArray(data.copyFitPointsFloat64Array());
+    if (fitPointsOffset === undefined)
+    return undefined;
+  const knotOffset = data.knots ? this.writeDoubleArray(data.knots) : 0;
+
+    // REMARK: some native or flatbuffer quirk made startTangent a point and endTangent a vector.
+  const startTangentOffset = data.startTangent ?
+    BGFBAccessors.DPoint3d.createDPoint3d(this.builder,
+      data.startTangent.x, data.startTangent.y, data.startTangent.z)
+      : 0;
+  const endTangentOffset = data.endTangent ?
+      BGFBAccessors.DVector3d.createDVector3d(this.builder,
+        data.endTangent.x, data.endTangent.y, data.endTangent.z)
+        : 0;
+    BGFBAccessors.InterpolationCurve.startInterpolationCurve(this.builder);
+  BGFBAccessors.InterpolationCurve.addFitPoints(this.builder, fitPointsOffset);
+  if (data.order)
+    BGFBAccessors.InterpolationCurve.addOrder(this.builder, data.order);
+  if (data.closed)
+    BGFBAccessors.InterpolationCurve.addClosed(this.builder, data.closed);
+  if (data.isChordLenKnots)
+    BGFBAccessors.InterpolationCurve.addIsChordLenKnots(this.builder, data.isChordLenKnots);
+  if (data.isColinearTangents)
+    BGFBAccessors.InterpolationCurve.addIsColinearTangents(this.builder, data.isColinearTangents);
+  if (data.isChordLenKnots)
+    BGFBAccessors.InterpolationCurve.addIsChordLenKnots(this.builder, data.isChordLenKnots);
+  if (data.isNaturalTangents)
+    BGFBAccessors.InterpolationCurve.addIsNaturalTangents(this.builder, data.isNaturalTangents);
+  if (startTangentOffset !== 0)
+    BGFBAccessors.InterpolationCurve.addStartTangent(this.builder, startTangentOffset);
+  if (endTangentOffset !== 0)
+    BGFBAccessors.InterpolationCurve.addEndTangent(this.builder, endTangentOffset);
+  if (knotOffset !== 0)
+    BGFBAccessors.InterpolationCurve.addKnots(this.builder, knotOffset);
+  const headerOffset = BGFBAccessors.InterpolationCurve.endInterpolationCurve(this.builder);
+  return BGFBAccessors.VariantGeometry.createVariantGeometry(this.builder, BGFBAccessors.VariantGeometryUnion.tagInterpolationCurve, headerOffset, 0);
+  }
+*/
+/**
+ * Extract an interpolating curve
+ * @param variant read position in the flat buffer.
+ */
+  public readInterpolationCurve3d(header: BGFBAccessors.InterpolationCurve): InterpolationCurve3d | undefined {
+    const xyzArray = header.fitPointsArray();
+    if (xyzArray instanceof Float64Array){
+    const knots = header.knotsArray();
+      const options = new InterpolationCurve3dOptions(Point3dArray.clonePoint3dArray(xyzArray), knots ? NumberArray.create(knots) : undefined);
+      const startTangent = header.startTangent();
+      const endTangent = header.startTangent();
+      options.captureOptionalProps(
+        header.order(),
+        header.closed(),
+        header.isChordLenKnots(),
+        header.isColinearTangents(),
+        header.isChordLenTangents(),
+        header.isNaturalTangents (),
+        startTangent !== null ? Vector3d.create(startTangent.x(), startTangent.y(), startTangent.z()) : undefined,
+        endTangent !== null ? Vector3d.create(endTangent.x(), endTangent.y(), endTangent.z()) : undefined);
+      return InterpolationCurve3d.createCapture(options);
+    }
+  return undefined;
+}
+
+/**
+ * Extract an akima curve
+ * @param variant read position in the flat buffer.
+ */
+ public readAkimaCurve3d(header: BGFBAccessors.AkimaCurve): AkimaCurve3d | undefined {
+  const xyzArray = header.pointsArray();
+  if (xyzArray instanceof Float64Array){
+    const options = new AkimaCurve3dOptions(Point3dArray.clonePoint3dArray(xyzArray));
+    return AkimaCurve3d.createCapture(options);
+  }
+return undefined;
+}
+/**
    * Extract a bspline curve
    * @param variant read position in the flat buffer.
    */
@@ -181,6 +261,14 @@ export class BGFBReader {
       const offsetToTransitionSpiralTable = variant.geometry(new BGFBAccessors.TransitionSpiral());
       if (offsetToTransitionSpiralTable !== null)
         return this.readTransitionSpiral(offsetToTransitionSpiralTable);
+    } else if (geometryType === BGFBAccessors.VariantGeometryUnion.tagInterpolationCurve) {
+        const offsetToInterpolationCurveTable = variant.geometry(new BGFBAccessors.InterpolationCurve());
+        if (offsetToInterpolationCurveTable !== null)
+        return this.readInterpolationCurve3d(offsetToInterpolationCurveTable);
+    } else if (geometryType === BGFBAccessors.VariantGeometryUnion.tagAkimaCurve) {
+          const offsetToAkimaCurveTable = variant.geometry(new BGFBAccessors.AkimaCurve());
+          if (offsetToAkimaCurveTable !== null)
+            return this.readAkimaCurve3d(offsetToAkimaCurveTable);
     }
     return undefined;
   }
@@ -298,6 +386,7 @@ export class BGFBReader {
         const twoSided = polyfaceHeader.twoSided();
         const expectedClosure = polyfaceHeader.expectedClosure();
         const meshStyle = polyfaceHeader.meshStyle();
+        const numPerFace = polyfaceHeader.numPerFace();
 
         const pointF64 = nullToUndefined<Float64Array>(polyfaceHeader.pointArray());
         const paramF64 = nullToUndefined<Float64Array>(polyfaceHeader.paramArray());
@@ -327,31 +416,42 @@ export class BGFBReader {
             for (const c of intColorU32)
               polyface.data.color!.push(c);
           }
-          // The flatbuffer data is one based, zero terminated.
-          // polyface data needs zero based with counts in the IndexedPolyface.
-          let i0 = 0;
+          // The flatbuffer data is one based.
+          // If numPerFace is less than 2, facets are variable size and zero terminated
+          // If numPerFace is 2 or more, indices are blocked
           const numIndex = pointIndexI32.length;
-          for (let i1 = i0; i1 < numIndex; i1++) {
-            if (pointIndexI32[i1] === 0) {
-              if (i1 > i0) {
-                for (let i = i0; i < i1; i++) {
-                  const q = pointIndexI32[i];
-                  polyface.addPointIndex(Math.abs(q) - 1, q > 0);
-                  if (normalF64 && normalIndexI32) {
-                    polyface.addNormalIndex(Math.abs(normalIndexI32[i]) - 1);
-                  }
-                  if (paramF64 && paramIndexI32) {
-                    polyface.addParamIndex(Math.abs(paramIndexI32[i]) - 1);
-                  }
-                  if (intColorU32 && colorIndexI32) {
-                    polyface.addColorIndex(Math.abs(colorIndexI32[i]) - 1);
-                  }
+          const addIndicesInBlock = (k0: number, k1: number) => {
+            for (let k = k0; k < k1; k++) {
+              const q = pointIndexI32[k];
+              polyface.addPointIndex(Math.abs(q) - 1, q > 0);
+              if (normalF64 && normalIndexI32) {
+                polyface.addNormalIndex(Math.abs(normalIndexI32[k]) - 1);
+              }
+              if (paramF64 && paramIndexI32) {
+                polyface.addParamIndex(Math.abs(paramIndexI32[k]) - 1);
+              }
+              if (intColorU32 && colorIndexI32) {
+                polyface.addColorIndex(Math.abs(colorIndexI32[k]) - 1);
+              }
+            }
+          };
+
+          if (numPerFace > 1) {
+            for (let i0 = 0; i0 + numPerFace <= numIndex; i0 += numPerFace){
+              addIndicesInBlock(i0, i0 + numPerFace);
+              polyface.terminateFacet(true);
+            }
+          } else {
+            let i0 = 0;
+            for (let i1 = i0; i1 < numIndex; i1++) {
+              if (pointIndexI32[i1] === 0) {
+                addIndicesInBlock(i0, i1);
+                polyface.terminateFacet(true);
+                i0 = i1 + 1;
                 }
               }
-              polyface.terminateFacet(true);
-              i0 = i1 + 1;
             }
-          }
+
           polyface.data.auxData = this.readPolyfaceAuxData(polyfaceHeader.auxData());
           if (taggedNumericDataOffset) {
               const taggedNumericDataAccessor = nullToUndefined<BGFBAccessors.TaggedNumericData>(taggedNumericDataOffset);
@@ -498,7 +598,9 @@ export class BGFBReader {
       case BGFBAccessors.VariantGeometryUnion.tagEllipticArc:
       case BGFBAccessors.VariantGeometryUnion.tagBsplineCurve:
       case BGFBAccessors.VariantGeometryUnion.tagTransitionSpiral:
-        {
+      case BGFBAccessors.VariantGeometryUnion.tagInterpolationCurve:
+        case BGFBAccessors.VariantGeometryUnion.tagAkimaCurve:
+          {
           return this.readCurvePrimitiveFromVariant(variant);
         }
       case BGFBAccessors.VariantGeometryUnion.tagCurveVector:

@@ -20,7 +20,7 @@ export interface RadioProps extends React.InputHTMLAttributes<HTMLInputElement>,
  * @public
  */
 export class Radio extends React.PureComponent<RadioProps> {
-  public render(): JSX.Element {
+  public override render(): JSX.Element {
     const { label, disabled, status, className, style, inputStyle, inputClassName, type, ...props } = this.props; // eslint-disable-line @typescript-eslint/no-unused-vars
 
     return (

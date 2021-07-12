@@ -32,14 +32,14 @@ export class WidgetContent extends React.PureComponent<WidgetContentProps> {
   private _scrollTop = 0;
   private _scrollLeft = 0;
 
-  public componentDidUpdate() {
+  public override componentDidUpdate() {
     if (!this._content.current)
       return;
     this._content.current.scrollTop = this._scrollTop;
     this._content.current.scrollLeft = this._scrollLeft;
   }
 
-  public render() {
+  public override render() {
     const className = classnames(
       "nz-widget-rectangular-content",
       HorizontalAnchorHelpers.getCssClassName(this.props.anchor),

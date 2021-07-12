@@ -175,11 +175,10 @@ describe("GraphicBuilder", () => {
 
     it("should preserve polyface normals", () => {
       const test = (wantNormals: boolean, requestNormals: boolean) => {
-        // Currently there's no API for generating normals for a Polyface.
         // If normals are present and wanted, use them.
         // If present and unwanted, ignore them.
-        // If wanted but not present, no normals until such an API is provided.
-        injectNormalsCheck(wantNormals && requestNormals);
+        // If wanted but not present, generate them.
+        injectNormalsCheck(requestNormals);
         expect(createMeshInvoked).to.be.false;
 
         const options = StrokeOptions.createForFacets();

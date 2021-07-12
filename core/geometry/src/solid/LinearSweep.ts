@@ -112,7 +112,7 @@ export class LinearSweep extends SolidPrimitive {
     return result;
   }
   /** Test for near-equality of coordinates in `other` */
-  public isAlmostEqual(other: GeometryQuery): boolean {
+  public override isAlmostEqual(other: GeometryQuery): boolean {
     if (other instanceof LinearSweep) {
       return this._contour.isAlmostEqual(other._contour)
         && this._direction.isAlmostEqual(other._direction)

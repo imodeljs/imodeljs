@@ -76,7 +76,7 @@ class NavigationTreeWidget extends React.Component<NavigationTreeWidgetProps> {
     );
   }
 
-  public render(): React.ReactNode {
+  public override render(): React.ReactNode {
     if (this.props.iModelConnection && this.props.rulesetId)
       return <NavigationTree iModelConnection={this.props.iModelConnection} rulesetId={this.props.rulesetId} />;
     else

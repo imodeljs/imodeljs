@@ -34,7 +34,7 @@ export interface ToolSettingsTabProps extends CommonProps {
  * @beta
  */
 export class ToolSettingsTab extends React.PureComponent<ToolSettingsTabProps> {
-  public render() {
+  public override render() {
     const className = classnames(
       "nz-widget-toolSettings-tab",
       this.props.className);

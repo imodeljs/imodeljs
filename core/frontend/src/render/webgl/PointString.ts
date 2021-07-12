@@ -52,9 +52,9 @@ export class PointStringGeometry extends LUTGeometry {
 
   public get techniqueId(): TechniqueId { return TechniqueId.PointString; }
   public getRenderPass(_target: Target): RenderPass { return RenderPass.OpaqueLinear; }
-  public get hasFeatures() { return this._hasFeatures; }
+  public override get hasFeatures() { return this._hasFeatures; }
   public get renderOrder(): RenderOrder { return RenderOrder.PlanarLinear; }
-  protected _getLineWeight(_params: ShaderProgramParams): number { return this.weight; }
+  protected override _getLineWeight(_params: ShaderProgramParams): number { return this.weight; }
 
   protected _draw(numInstances: number, instanceBuffersContainer?: BuffersContainer): void {
     const gl = System.instance;

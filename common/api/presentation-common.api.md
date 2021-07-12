@@ -463,6 +463,8 @@ export interface DEPRECATED_RelatedPropertiesSpecification {
     relationshipMeaning?: RelationshipMeaning;
     relationships?: MultiSchemaClassesSpecification | MultiSchemaClassesSpecification[];
     requiredDirection?: RelationshipDirection;
+    // @beta
+    skipIfDuplicate?: boolean;
 }
 
 // @public
@@ -1677,6 +1679,9 @@ export interface NodeArtifactsRule extends RuleBase, ConditionContainer {
 
 // @public
 export interface NodeDeletionInfo {
+    parent?: NodeKey;
+    position: number;
+    // @deprecated
     target: NodeKey;
     // (undocumented)
     type: "Delete";
@@ -1684,7 +1689,9 @@ export interface NodeDeletionInfo {
 
 // @public
 export interface NodeDeletionInfoJSON {
-    // (undocumented)
+    parent?: NodeKeyJSON;
+    position: number;
+    // @deprecated
     target: NodeKeyJSON;
     // (undocumented)
     type: "Delete";
@@ -2383,6 +2390,8 @@ export interface RelatedPropertiesSpecificationNew {
     properties?: Array<string | PropertySpecification> | RelatedPropertiesSpecialValues;
     propertiesSource: RelationshipPathSpecification;
     relationshipMeaning?: RelationshipMeaning;
+    // @beta
+    skipIfDuplicate?: boolean;
 }
 
 // @public

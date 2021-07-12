@@ -100,15 +100,15 @@ class MeasureMarker extends Marker {
     this.labelOffset = { x: 0, y: -1 };
   }
 
-  public onMouseButton(_ev: BeButtonEvent): boolean { return true; } // Never forward event to active tool...
+  public override onMouseButton(_ev: BeButtonEvent): boolean { return true; } // Never forward event to active tool...
 
-  public onMouseEnter(ev: BeButtonEvent) {
+  public override onMouseEnter(ev: BeButtonEvent) {
     super.onMouseEnter(ev);
     if (this.title && InputSource.Touch === ev.inputSource && ev.viewport)
       ev.viewport.openToolTip(this.title, ev.viewPoint, this.tooltipOptions);
   }
 
-  public onMouseLeave() {
+  public override onMouseLeave() {
     super.onMouseLeave();
     if (this.title)
       IModelApp.notifications.clearToolTip(); // Clear tool tip from tap since we won't get a motion event...
@@ -155,8 +155,8 @@ function adjustPoint(ev: BeButtonEvent, segments?: Array<Segment>, locations?: A
  * @public
  */
 export class MeasureDistanceTool extends PrimitiveTool {
-  public static toolId = "Measure.Distance";
-  public static iconSpec = "icon-measure-distance";
+  public static override toolId = "Measure.Distance";
+  public static override iconSpec = "icon-measure-distance";
   /** @internal */
   protected readonly _locationData = new Array<Location>();
   /** @internal */
@@ -175,15 +175,15 @@ export class MeasureDistanceTool extends PrimitiveTool {
   /** @internal */
   protected allowView(vp: Viewport) { return vp.view.isSpatialView() || vp.view.isDrawingView(); }
   /** @internal */
-  public isCompatibleViewport(vp: Viewport | undefined, isSelectedViewChange: boolean): boolean { return (super.isCompatibleViewport(vp, isSelectedViewChange) && undefined !== vp && this.allowView(vp)); }
+  public override isCompatibleViewport(vp: Viewport | undefined, isSelectedViewChange: boolean): boolean { return (super.isCompatibleViewport(vp, isSelectedViewChange) && undefined !== vp && this.allowView(vp)); }
   /** @internal */
-  public isValidLocation(_ev: BeButtonEvent, _isButtonEvent: boolean): boolean { return true; }
+  public override isValidLocation(_ev: BeButtonEvent, _isButtonEvent: boolean): boolean { return true; }
   /** @internal */
-  public requireWriteableTarget(): boolean { return false; }
+  public override requireWriteableTarget(): boolean { return false; }
   /** @internal */
-  public onPostInstall() { super.onPostInstall(); this.setupAndPromptForNextAction(); }
+  public override onPostInstall() { super.onPostInstall(); this.setupAndPromptForNextAction(); }
   /** @internal */
-  public onUnsuspend(): void { this.showPrompt(); }
+  public override onUnsuspend(): void { this.showPrompt(); }
 
   /** @internal */
   protected showPrompt(): void {
@@ -226,7 +226,7 @@ export class MeasureDistanceTool extends PrimitiveTool {
   }
 
   /** @internal */
-  public testDecorationHit(id: string): boolean { return id === this._snapGeomId; }
+  public override testDecorationHit(id: string): boolean { return id === this._snapGeomId; }
 
   /** @internal */
   protected getSnapPoints(): Point3d[] | undefined {
@@ -248,7 +248,7 @@ export class MeasureDistanceTool extends PrimitiveTool {
   }
 
   /** @internal */
-  public getDecorationGeometry(_hit: HitDetail): GeometryStreamProps | undefined {
+  public override getDecorationGeometry(_hit: HitDetail): GeometryStreamProps | undefined {
     const snapPoints = this.getSnapPoints();
     if (undefined === snapPoints)
       return undefined;
@@ -393,12 +393,12 @@ export class MeasureDistanceTool extends PrimitiveTool {
   }
 
   /** @internal */
-  public decorate(context: DecorateContext): void { this.createDecorations(context, false); }
+  public override decorate(context: DecorateContext): void { this.createDecorations(context, false); }
   /** @internal */
-  public decorateSuspended(context: DecorateContext): void { this.createDecorations(context, true); }
+  public override decorateSuspended(context: DecorateContext): void { this.createDecorations(context, true); }
 
   /** @internal */
-  public async onMouseMotion(ev: BeButtonEvent): Promise<void> {
+  public override async onMouseMotion(ev: BeButtonEvent): Promise<void> {
     if (this._locationData.length > 0 && undefined !== ev.viewport) {
       const point = ev.point;
       const adjustedPoint = adjustPoint(ev, this._acceptedSegments, this._locationData);
@@ -574,7 +574,7 @@ export class MeasureDistanceTool extends PrimitiveTool {
   }
 
   /** @internal */
-  public async onDataButtonDown(ev: BeButtonEvent): Promise<EventHandled> {
+  public override async onDataButtonDown(ev: BeButtonEvent): Promise<EventHandled> {
     const point = ev.point.clone();
     const adjustedPoint = adjustPoint(ev, this._acceptedSegments, this._locationData);
     const refAxes = this.getReferenceAxes(ev.viewport);
@@ -623,7 +623,7 @@ export class MeasureDistanceTool extends PrimitiveTool {
   }
 
   /** @internal */
-  public async onResetButtonUp(ev: BeButtonEvent): Promise<EventHandled> {
+  public override async onResetButtonUp(ev: BeButtonEvent): Promise<EventHandled> {
     if (0 === this._locationData.length) {
       this.onReinitialize();
       return EventHandled.No;
@@ -636,7 +636,7 @@ export class MeasureDistanceTool extends PrimitiveTool {
   }
 
   /** @internal */
-  public async onUndoPreviousStep(): Promise<boolean> {
+  public override async onUndoPreviousStep(): Promise<boolean> {
     if (0 === this._locationData.length && 0 === this._acceptedSegments.length)
       return false;
 
@@ -667,22 +667,22 @@ export class MeasureDistanceTool extends PrimitiveTool {
  * @public
  */
 export class MeasureLocationTool extends PrimitiveTool {
-  public static toolId = "Measure.Location";
-  public static iconSpec = "icon-measure-location";
+  public static override toolId = "Measure.Location";
+  public static override iconSpec = "icon-measure-location";
   /** @internal */
   protected readonly _acceptedLocations: MeasureMarker[] = [];
   /** @internal */
   protected allowView(vp: Viewport) { return vp.view.isSpatialView() || vp.view.isDrawingView(); }
   /** @internal */
-  public isCompatibleViewport(vp: Viewport | undefined, isSelectedViewChange: boolean): boolean { return (super.isCompatibleViewport(vp, isSelectedViewChange) && undefined !== vp && this.allowView(vp)); }
+  public override isCompatibleViewport(vp: Viewport | undefined, isSelectedViewChange: boolean): boolean { return (super.isCompatibleViewport(vp, isSelectedViewChange) && undefined !== vp && this.allowView(vp)); }
   /** @internal */
-  public isValidLocation(_ev: BeButtonEvent, _isButtonEvent: boolean): boolean { return true; }
+  public override isValidLocation(_ev: BeButtonEvent, _isButtonEvent: boolean): boolean { return true; }
   /** @internal */
-  public requireWriteableTarget(): boolean { return false; }
+  public override requireWriteableTarget(): boolean { return false; }
   /** @internal */
-  public onPostInstall() { super.onPostInstall(); this.setupAndPromptForNextAction(); }
+  public override onPostInstall() { super.onPostInstall(); this.setupAndPromptForNextAction(); }
   /** @internal */
-  public onUnsuspend(): void { this.showPrompt(); }
+  public override onUnsuspend(): void { this.showPrompt(); }
 
   /** @internal */
   protected showPrompt(): void {
@@ -756,9 +756,9 @@ export class MeasureLocationTool extends PrimitiveTool {
   }
 
   /** @internal */
-  public decorate(context: DecorateContext): void { if (!this.isCompatibleViewport(context.viewport, false)) return; this._acceptedLocations.forEach((marker) => marker.addDecoration(context)); }
+  public override decorate(context: DecorateContext): void { if (!this.isCompatibleViewport(context.viewport, false)) return; this._acceptedLocations.forEach((marker) => marker.addDecoration(context)); }
   /** @internal */
-  public decorateSuspended(context: DecorateContext): void { this.decorate(context); }
+  public override decorateSuspended(context: DecorateContext): void { this.decorate(context); }
 
   protected reportMeasurements(): void {
     if (0 === this._acceptedLocations.length)
@@ -771,7 +771,7 @@ export class MeasureLocationTool extends PrimitiveTool {
   }
 
   /** @internal */
-  public async onDataButtonDown(ev: BeButtonEvent): Promise<EventHandled> {
+  public override async onDataButtonDown(ev: BeButtonEvent): Promise<EventHandled> {
     const point = ev.point.clone();
     const adjustedPoint = adjustPoint(ev);
     const toolTip = await this.getMarkerToolTip(adjustedPoint);
@@ -786,13 +786,13 @@ export class MeasureLocationTool extends PrimitiveTool {
   }
 
   /** @internal */
-  public async onResetButtonUp(_ev: BeButtonEvent): Promise<EventHandled> {
+  public override async onResetButtonUp(_ev: BeButtonEvent): Promise<EventHandled> {
     this.onReinitialize();
     return EventHandled.No;
   }
 
   /** @internal */
-  public async onUndoPreviousStep(): Promise<boolean> {
+  public override async onUndoPreviousStep(): Promise<boolean> {
     if (0 === this._acceptedLocations.length)
       return false;
 
@@ -818,8 +818,8 @@ export class MeasureLocationTool extends PrimitiveTool {
  * @public
  */
 export class MeasureAreaByPointsTool extends PrimitiveTool {
-  public static toolId = "Measure.AreaByPoints";
-  public static iconSpec = "icon-measure-2d";
+  public static override toolId = "Measure.AreaByPoints";
+  public static override iconSpec = "icon-measure-2d";
   /** @internal */
   private _orientationValue: DialogItemValue = { value: ContextRotationId.Top };
   /** @internal */
@@ -871,7 +871,7 @@ export class MeasureAreaByPointsTool extends PrimitiveTool {
   };
 
   /** @internal */
-  public supplyToolSettingsProperties(): DialogItem[] | undefined {
+  public override supplyToolSettingsProperties(): DialogItem[] | undefined {
     const initialValue = IModelApp.toolAdmin.toolSettingsState.getInitialToolSettingValue(this.toolId, MeasureAreaByPointsTool._orientationName);
     initialValue && (this._orientationValue = initialValue);
     const toolSettings = new Array<DialogItem>();
@@ -880,7 +880,7 @@ export class MeasureAreaByPointsTool extends PrimitiveTool {
   }
 
   /** @internal */
-  public applyToolSettingPropertyChange(updatedValue: DialogPropertySyncItem): boolean {
+  public override applyToolSettingPropertyChange(updatedValue: DialogPropertySyncItem): boolean {
     if (updatedValue.propertyName === MeasureAreaByPointsTool._orientationName) {
       this._orientationValue = updatedValue.value;
       if (!this._orientationValue)
@@ -895,15 +895,15 @@ export class MeasureAreaByPointsTool extends PrimitiveTool {
   /** @internal */
   protected allowView(vp: Viewport) { return vp.view.isSpatialView() || vp.view.isDrawingView(); }
   /** @internal */
-  public isCompatibleViewport(vp: Viewport | undefined, isSelectedViewChange: boolean): boolean { return (super.isCompatibleViewport(vp, isSelectedViewChange) && undefined !== vp && this.allowView(vp)); }
+  public override isCompatibleViewport(vp: Viewport | undefined, isSelectedViewChange: boolean): boolean { return (super.isCompatibleViewport(vp, isSelectedViewChange) && undefined !== vp && this.allowView(vp)); }
   /** @internal */
-  public isValidLocation(_ev: BeButtonEvent, _isButtonEvent: boolean): boolean { return true; }
+  public override isValidLocation(_ev: BeButtonEvent, _isButtonEvent: boolean): boolean { return true; }
   /** @internal */
-  public requireWriteableTarget(): boolean { return false; }
+  public override requireWriteableTarget(): boolean { return false; }
   /** @internal */
-  public onPostInstall() { super.onPostInstall(); this.setupAndPromptForNextAction(); }
+  public override onPostInstall() { super.onPostInstall(); this.setupAndPromptForNextAction(); }
   /** @internal */
-  public onUnsuspend(): void { this.showPrompt(); }
+  public override onUnsuspend(): void { this.showPrompt(); }
 
   /** @internal */
   protected showPrompt(): void {
@@ -1013,7 +1013,7 @@ export class MeasureAreaByPointsTool extends PrimitiveTool {
   }
 
   /** @internal */
-  public decorate(context: DecorateContext): void {
+  public override decorate(context: DecorateContext): void {
     if (context.viewport !== this.targetView)
       return;
 
@@ -1048,10 +1048,10 @@ export class MeasureAreaByPointsTool extends PrimitiveTool {
   }
 
   /** @internal */
-  public decorateSuspended(context: DecorateContext): void { if (this._isComplete) this.decorate(context); }
+  public override decorateSuspended(context: DecorateContext): void { if (this._isComplete) this.decorate(context); }
 
   /** @internal */
-  public async onMouseMotion(ev: BeButtonEvent): Promise<void> {
+  public override async onMouseMotion(ev: BeButtonEvent): Promise<void> {
     if (this._points.length > 0 && undefined !== ev.viewport && !this._isComplete) {
       if (undefined !== this._lastMotionPt)
         this._lastMotionPt.setFrom(ev.point);
@@ -1134,7 +1134,7 @@ export class MeasureAreaByPointsTool extends PrimitiveTool {
   }
 
   /** @internal */
-  public async onDataButtonDown(ev: BeButtonEvent): Promise<EventHandled> {
+  public override async onDataButtonDown(ev: BeButtonEvent): Promise<EventHandled> {
     if (undefined === this.targetView)
       return EventHandled.No;
 
@@ -1172,7 +1172,7 @@ export class MeasureAreaByPointsTool extends PrimitiveTool {
   }
 
   /** @internal */
-  public async onResetButtonUp(ev: BeButtonEvent): Promise<EventHandled> {
+  public override async onResetButtonUp(ev: BeButtonEvent): Promise<EventHandled> {
     if (undefined !== ev.viewport)
       ev.viewport.invalidateDecorations();
     this.onReinitialize();
@@ -1180,7 +1180,7 @@ export class MeasureAreaByPointsTool extends PrimitiveTool {
   }
 
   /** @internal */
-  public onReinitialize(): void {
+  public override onReinitialize(): void {
     this._acceptedMeasurement = undefined;
     this._marker = undefined;
     this._isComplete = false;
@@ -1191,7 +1191,7 @@ export class MeasureAreaByPointsTool extends PrimitiveTool {
   }
 
   /** @internal */
-  public async onUndoPreviousStep(): Promise<boolean> {
+  public override async onUndoPreviousStep(): Promise<boolean> {
     if (0 === this._points.length || this._isComplete)
       return false;
 
@@ -1230,15 +1230,15 @@ export abstract class MeasureElementTool extends PrimitiveTool {
   /** @internal */
   protected allowView(vp: Viewport) { return (MassPropertiesOperation.AccumulateVolumes === this.getOperation() ? vp.view.isSpatialView() : (vp.view.isSpatialView() || vp.view.isDrawingView())); }
   /** @internal */
-  public isCompatibleViewport(vp: Viewport | undefined, isSelectedViewChange: boolean): boolean { return (super.isCompatibleViewport(vp, isSelectedViewChange) && undefined !== vp && this.allowView(vp)); }
+  public override isCompatibleViewport(vp: Viewport | undefined, isSelectedViewChange: boolean): boolean { return (super.isCompatibleViewport(vp, isSelectedViewChange) && undefined !== vp && this.allowView(vp)); }
   /** @internal */
-  public requireWriteableTarget(): boolean { return false; }
+  public override requireWriteableTarget(): boolean { return false; }
   /** @internal */
-  public onPostInstall() { super.onPostInstall(); this.setupAndPromptForNextAction(); }
+  public override onPostInstall() { super.onPostInstall(); this.setupAndPromptForNextAction(); }
   /** @internal */
-  public onCleanup(): void { if (0 !== this._acceptedIds.length) this.iModel.hilited.setHilite(this._acceptedIds, false); }
+  public override onCleanup(): void { if (0 !== this._acceptedIds.length) this.iModel.hilited.setHilite(this._acceptedIds, false); }
   /** @internal */
-  public onUnsuspend(): void { this.showPrompt(); }
+  public override onUnsuspend(): void { this.showPrompt(); }
 
   /** @internal */
   protected showPrompt(): void {
@@ -1283,9 +1283,9 @@ export abstract class MeasureElementTool extends PrimitiveTool {
   }
 
   /** @internal */
-  public decorate(context: DecorateContext): void { if (!this.isCompatibleViewport(context.viewport, false)) return; this._acceptedMeasurements.forEach((marker) => marker.addDecoration(context)); if (undefined !== this._totalMarker) this._totalMarker.addDecoration(context); }
+  public override decorate(context: DecorateContext): void { if (!this.isCompatibleViewport(context.viewport, false)) return; this._acceptedMeasurements.forEach((marker) => marker.addDecoration(context)); if (undefined !== this._totalMarker) this._totalMarker.addDecoration(context); }
   /** @internal */
-  public decorateSuspended(context: DecorateContext): void { this.decorate(context); }
+  public override decorateSuspended(context: DecorateContext): void { this.decorate(context); }
 
   protected reportMeasurements(): void {
     if (undefined === this._totalMarker)
@@ -1465,7 +1465,7 @@ export abstract class MeasureElementTool extends PrimitiveTool {
   }
 
   /** @internal */
-  public async filterHit(hit: HitDetail, _out?: LocateResponse): Promise<LocateFilterStatus> {
+  public override async filterHit(hit: HitDetail, _out?: LocateResponse): Promise<LocateFilterStatus> {
     if (!hit.isElementHit)
       return LocateFilterStatus.Reject;
 
@@ -1483,7 +1483,7 @@ export abstract class MeasureElementTool extends PrimitiveTool {
   }
 
   /** @internal */
-  public onReinitialize(): void {
+  public override onReinitialize(): void {
     if (this._useSelection) {
       this.exitTool();
       return;
@@ -1492,13 +1492,13 @@ export abstract class MeasureElementTool extends PrimitiveTool {
   }
 
   /** @internal */
-  public async onResetButtonUp(_ev: BeButtonEvent): Promise<EventHandled> {
+  public override async onResetButtonUp(_ev: BeButtonEvent): Promise<EventHandled> {
     this.onReinitialize();
     return EventHandled.No;
   }
 
   /** @internal */
-  public async onDataButtonDown(ev: BeButtonEvent): Promise<EventHandled> {
+  public override async onDataButtonDown(ev: BeButtonEvent): Promise<EventHandled> {
     if (this._useSelection) {
       if (0 === this._acceptedMeasurements.length && undefined !== ev.viewport) {
         await this.doMeasureSelectedElements(ev.viewport);
@@ -1537,7 +1537,7 @@ export abstract class MeasureElementTool extends PrimitiveTool {
   }
 
   /** @internal */
-  public async onUndoPreviousStep(): Promise<boolean> {
+  public override async onUndoPreviousStep(): Promise<boolean> {
     if (0 === this._acceptedMeasurements.length)
       return false;
 
@@ -1557,8 +1557,8 @@ export abstract class MeasureElementTool extends PrimitiveTool {
  * @public
  */
 export class MeasureLengthTool extends MeasureElementTool {
-  public static toolId = "Measure.Length";
-  public static iconSpec = "icon-measure";
+  public static override toolId = "Measure.Length";
+  public static override iconSpec = "icon-measure";
   protected getOperation(): MassPropertiesOperation { return MassPropertiesOperation.AccumulateLengths; }
 
   /** @internal */
@@ -1573,8 +1573,8 @@ export class MeasureLengthTool extends MeasureElementTool {
  * @public
  */
 export class MeasureAreaTool extends MeasureElementTool {
-  public static toolId = "Measure.Area";
-  public static iconSpec = "icon-measure-area";
+  public static override toolId = "Measure.Area";
+  public static override iconSpec = "icon-measure-area";
   protected getOperation(): MassPropertiesOperation { return MassPropertiesOperation.AccumulateAreas; }
 
   /** @internal */
@@ -1589,8 +1589,8 @@ export class MeasureAreaTool extends MeasureElementTool {
  * @public
  */
 export class MeasureVolumeTool extends MeasureElementTool {
-  public static toolId = "Measure.Volume";
-  public static iconSpec = "icon-measure-3d";
+  public static override toolId = "Measure.Volume";
+  public static override iconSpec = "icon-measure-3d";
   protected getOperation(): MassPropertiesOperation { return MassPropertiesOperation.AccumulateVolumes; }
 
   /** @internal */

@@ -300,7 +300,7 @@ export class CursorPopupRenderer extends React.Component<any, CursorPopupRendere
     };
   }
 
-  public render(): React.ReactNode {
+  public override render(): React.ReactNode {
     if (CursorPopupManager.popupCount <= 0)
       return null;
 
@@ -420,12 +420,12 @@ export class CursorPopupRenderer extends React.Component<any, CursorPopupRendere
     return outOffset;
   }
 
-  public componentDidMount(): void {
+  public override componentDidMount(): void {
     CursorPopupManager.onCursorPopupsChangedEvent.addListener(this._handlePopupChangedEvent);
     CursorPopupManager.onCursorPopupUpdatePositionEvent.addListener(this._handleCursorPopupUpdatePositionEvent);
   }
 
-  public componentWillUnmount(): void {
+  public override componentWillUnmount(): void {
     CursorPopupManager.onCursorPopupsChangedEvent.removeListener(this._handlePopupChangedEvent);
     CursorPopupManager.onCursorPopupUpdatePositionEvent.removeListener(this._handleCursorPopupUpdatePositionEvent);
   }

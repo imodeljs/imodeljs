@@ -22,7 +22,7 @@ const loggerCategory = BackendLoggerCategory.Relationship;
  */
 export class Relationship extends Entity implements RelationshipProps {
   /** @internal */
-  public static get className(): string { return "Relationship"; }
+  public static override get className(): string { return "Relationship"; }
   public readonly sourceId: Id64String;
   public readonly targetId: Id64String;
 
@@ -34,7 +34,7 @@ export class Relationship extends Entity implements RelationshipProps {
   }
 
   /** @internal */
-  public toJSON(): RelationshipProps {
+  public override toJSON(): RelationshipProps {
     const val = super.toJSON() as RelationshipProps;
     val.sourceId = this.sourceId;
     val.targetId = this.targetId;
@@ -70,7 +70,7 @@ export class Relationship extends Entity implements RelationshipProps {
   /** Add a request for the locks that would be needed to carry out the specified operation.
    * @param opcode The operation that will be performed on the Relationship instance.
    */
-  public buildConcurrencyControlRequest(opcode: DbOpcode): void {
+  public override buildConcurrencyControlRequest(opcode: DbOpcode): void {
     if (this.iModel.isBriefcaseDb()) {
       this.iModel.concurrencyControl.buildRequestForRelationship(this, opcode);
     }
@@ -82,7 +82,7 @@ export class Relationship extends Entity implements RelationshipProps {
  */
 export class ElementRefersToElements extends Relationship {
   /** @internal */
-  public static get className(): string { return "ElementRefersToElements"; }
+  public static override get className(): string { return "ElementRefersToElements"; }
   /** Create an instance of the Relationship.
    * @param iModel The iModel that will contain the relationship
    * @param sourceId The sourceId of the relationship, that is, the driver element
@@ -109,7 +109,7 @@ export class ElementRefersToElements extends Relationship {
  */
 export class DrawingGraphicRepresentsElement extends ElementRefersToElements {
   /** @internal */
-  public static get className(): string { return "DrawingGraphicRepresentsElement"; }
+  public static override get className(): string { return "DrawingGraphicRepresentsElement"; }
 }
 
 /** Relates a [[GraphicalElement3d]] to the [[Element]] that it represents
@@ -117,7 +117,7 @@ export class DrawingGraphicRepresentsElement extends ElementRefersToElements {
  */
 export class GraphicalElement3dRepresentsElement extends ElementRefersToElements {
   /** @internal */
-  public static get className(): string { return "GraphicalElement3dRepresentsElement"; }
+  public static override get className(): string { return "GraphicalElement3dRepresentsElement"; }
 }
 
 /** Relates a [[SynchronizationConfigLink]] to N [[ExternalSource]] instances.
@@ -127,7 +127,7 @@ export class GraphicalElement3dRepresentsElement extends ElementRefersToElements
  */
 export class SynchronizationConfigProcessesSources extends ElementRefersToElements {
   /** @internal */
-  public static get className(): string { return "SynchronizationConfigProcessesSources"; }
+  public static override get className(): string { return "SynchronizationConfigProcessesSources"; }
 }
 
 /** Relates a [[SynchronizationConfigLink]] to *root* [[ExternalSource]] instances.
@@ -136,7 +136,7 @@ export class SynchronizationConfigProcessesSources extends ElementRefersToElemen
  */
 export class SynchronizationConfigSpecifiesRootSources extends SynchronizationConfigProcessesSources {
   /** @internal */
-  public static get className(): string { return "SynchronizationConfigSpecifiesRootSources"; }
+  public static override get className(): string { return "SynchronizationConfigSpecifiesRootSources"; }
 }
 
 /** Properties that are common to all types of link table ECRelationships
@@ -151,7 +151,7 @@ export interface ElementGroupsMembersProps extends RelationshipProps {
  */
 export class ElementGroupsMembers extends ElementRefersToElements {
   /** @internal */
-  public static get className(): string { return "ElementGroupsMembers"; }
+  public static override get className(): string { return "ElementGroupsMembers"; }
   public memberPriority: number;
 
   constructor(props: ElementGroupsMembersProps, iModel: IModelDb) {
@@ -159,7 +159,7 @@ export class ElementGroupsMembers extends ElementRefersToElements {
     this.memberPriority = props.memberPriority;
   }
 
-  public static create<T extends ElementRefersToElements>(iModel: IModelDb, sourceId: Id64String, targetId: Id64String, memberPriority: number = 0): T {
+  public static override create<T extends ElementRefersToElements>(iModel: IModelDb, sourceId: Id64String, targetId: Id64String, memberPriority: number = 0): T {
     const props: ElementGroupsMembersProps = { sourceId, targetId, memberPriority, classFullName: this.classFullName };
     return iModel.relationships.createInstance(props) as T;
   }
@@ -171,7 +171,7 @@ export class ElementGroupsMembers extends ElementRefersToElements {
  */
 export class DefinitionGroupGroupsDefinitions extends ElementGroupsMembers {
   /** @internal */
-  public static get className(): string { return "DefinitionGroupGroupsDefinitions"; }
+  public static override get className(): string { return "DefinitionGroupGroupsDefinitions"; }
 }
 
 /** Represents group membership where the group Element (and its properties) impart information about the member Elements above mere membership.
@@ -181,7 +181,7 @@ export class DefinitionGroupGroupsDefinitions extends ElementGroupsMembers {
  */
 export class GroupImpartsToMembers extends ElementGroupsMembers {
   /** @internal */
-  public static get className(): string { return "GroupImpartsToMembers"; }
+  public static override get className(): string { return "GroupImpartsToMembers"; }
 }
 
 /** Relates an [[ExternalSourceGroup]] to its [[ExternalSource]] members.
@@ -190,7 +190,7 @@ export class GroupImpartsToMembers extends ElementGroupsMembers {
  */
 export class ExternalSourceGroupGroupsSources extends ElementGroupsMembers {
   /** @internal */
-  public static get className(): string { return "ExternalSourceGroupGroupsSources"; }
+  public static override get className(): string { return "ExternalSourceGroupGroupsSources"; }
 }
 
 /** Properties that are common to all types of ElementDrivesElements
@@ -387,7 +387,7 @@ export interface ElementDrivesElementProps extends RelationshipProps {
  */
 export class ElementDrivesElement extends Relationship implements ElementDrivesElementProps {
   /** @internal */
-  public static get className(): string { return "ElementDrivesElement"; }
+  public static override get className(): string { return "ElementDrivesElement"; }
   /** Relationship status
    * * 0 indicates no errors. iModel.js sets this after a successful evaluation.
    * * 1 indicates that this driving relationship could not be evaluated. The callback itself can set this to indicate that it failed to process the input changes. Also, iModel.js sets this if it finds that the relationship is part of a circular dependency.

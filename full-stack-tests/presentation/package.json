@@ -83,7 +83,7 @@
     "ignore-styles": "^5.0.1",
     "internal-tools": "workspace:*",
     "jsdom-global": "3.0.2",
-    "typescript": "~4.1.0"
+    "typescript": "~4.3.0"
   },
   "eslintConfig": {
     "plugins": [

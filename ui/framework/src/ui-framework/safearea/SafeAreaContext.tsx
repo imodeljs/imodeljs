@@ -31,7 +31,7 @@ export const withSafeArea = <P extends InjectedWithSafeAreaProps, C>(
   type Props = JSX.LibraryManagedAttributes<C, Subtract<P, InjectedWithSafeAreaProps>>;
 
   return class WithSafeArea extends React.PureComponent<Props> {
-    public render() {
+    public override render() {
       const { ...props } = this.props;
       return (
         <SafeAreaContext.Consumer>

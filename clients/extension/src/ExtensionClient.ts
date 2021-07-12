@@ -30,7 +30,7 @@ export class ExtensionClient extends Client {
   /** @internal */
   protected getUrlSearchKey(): string { assert(false, "Bentley cloud-specific method should be factored out of WsgClient base class"); return ""; }
 
-  public async getUrl(requestContext: ClientRequestContext): Promise<string> {
+  public override async getUrl(requestContext: ClientRequestContext): Promise<string> {
     if (this._url !== undefined)
       return this._url;
 

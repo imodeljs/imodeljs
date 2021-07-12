@@ -31,7 +31,7 @@ interface CalculatorPopupState {
  */
 export class CalculatorPopup extends React.PureComponent<CalculatorPopupProps, CalculatorPopupState> {
   /** @internal */
-  public readonly state = {
+  public override readonly state = {
     size: new Size(-1, -1),
   };
 
@@ -42,7 +42,7 @@ export class CalculatorPopup extends React.PureComponent<CalculatorPopupProps, C
   };
 
   /** @internal */
-  public render() {
+  public override render() {
     const point = PopupManager.getPopupPosition(this.props.el, this.props.pt, this.props.offset, this.state.size);
 
     return (

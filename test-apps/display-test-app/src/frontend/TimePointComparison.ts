@@ -77,8 +77,8 @@ class TimePointComparison {
 
       const createClip = (vec: Vector3d, pt: Point3d) => {
         const plane = ClipPlane.createNormalAndPoint(vec, pt)!;
-        const planes = ConvexClipPlaneSet.createPlanes([ plane ]);
-        return ClipVector.createCapture([ ClipPrimitive.createCapture(planes) ]);
+        const planes = ConvexClipPlaneSet.createPlanes([plane]);
+        return ClipVector.createCapture([ClipPrimitive.createCapture(planes)]);
       };
 
       vp.addTiledGraphicsProvider(new TimePointComparison(createClip(normal, point), timePoint));
@@ -94,9 +94,9 @@ class TimePointComparison {
 }
 
 export class TimePointComparisonTool extends Tool {
-  public static toolId = "ToggleTimePointComparison";
+  public static override toolId = "ToggleTimePointComparison";
 
-  public run(): boolean {
+  public override run(): boolean {
     const vp = IModelApp.viewManager.selectedView;
     if (vp)
       TimePointComparison.toggle(vp);

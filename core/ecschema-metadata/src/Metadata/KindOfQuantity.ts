@@ -30,7 +30,7 @@ interface OverrideFormatProps {
  * @beta
  */
 export class KindOfQuantity extends SchemaItem {
-  public readonly schemaItemType!: SchemaItemType.KindOfQuantity; // eslint-disable-line
+  public override readonly schemaItemType!: SchemaItemType.KindOfQuantity; // eslint-disable-line
   protected _relativeError: number = 1.0;
   protected _presentationFormats: Array<Format | OverrideFormat> = new Array<Format | OverrideFormat>();
   protected _persistenceUnit?: LazyLoadedUnit | LazyLoadedInvertedUnit;
@@ -213,7 +213,7 @@ export class KindOfQuantity extends SchemaItem {
    * @param standalone Serialization includes only this object (as opposed to the full schema).
    * @param includeSchemaVersion Include the Schema's version information in the serialized object.
    */
-  public toJSON(standalone: boolean = false, includeSchemaVersion: boolean = false): KindOfQuantityProps {
+  public override toJSON(standalone: boolean = false, includeSchemaVersion: boolean = false): KindOfQuantityProps {
     const schemaJson = super.toJSON(standalone, includeSchemaVersion) as any;
     schemaJson.relativeError = this.relativeError;
     schemaJson.persistenceUnit = this.persistenceUnit!.fullName;
@@ -223,7 +223,7 @@ export class KindOfQuantity extends SchemaItem {
   }
 
   /** @internal */
-  public async toXml(schemaXml: Document): Promise<Element> {
+  public override async toXml(schemaXml: Document): Promise<Element> {
     const itemElement = await super.toXml(schemaXml);
 
     const persistenceUnit = await this.persistenceUnit;
@@ -245,7 +245,7 @@ export class KindOfQuantity extends SchemaItem {
     return itemElement;
   }
 
-  public fromJSONSync(kindOfQuantityProps: KindOfQuantityProps): void {
+  public override fromJSONSync(kindOfQuantityProps: KindOfQuantityProps): void {
     super.fromJSONSync(kindOfQuantityProps);
     this._relativeError = kindOfQuantityProps.relativeError;
 
@@ -262,7 +262,7 @@ export class KindOfQuantity extends SchemaItem {
       this.processPresentationUnitsSync(kindOfQuantityProps.presentationUnits);
   }
 
-  public async fromJSON(kindOfQuantityProps: KindOfQuantityProps): Promise<void> {
+  public override async fromJSON(kindOfQuantityProps: KindOfQuantityProps): Promise<void> {
     await super.fromJSON(kindOfQuantityProps);
     this._relativeError = kindOfQuantityProps.relativeError;
 
@@ -284,7 +284,7 @@ export class KindOfQuantity extends SchemaItem {
  * An abstract class used for schema editing.
  */
 export abstract class MutableKindOfQuantity extends KindOfQuantity {
-  public abstract addPresentationFormat(format: Format | OverrideFormat, isDefault: boolean): void;
-  public abstract createFormatOverride(parent: Format, precision?: number, unitLabelOverrides?: Array<[Unit | InvertedUnit, string | undefined]>): OverrideFormat;
-  public abstract setDisplayLabel(displayLabel: string): void;
+  public abstract override addPresentationFormat(format: Format | OverrideFormat, isDefault: boolean): void;
+  public abstract override createFormatOverride(parent: Format, precision?: number, unitLabelOverrides?: Array<[Unit | InvertedUnit, string | undefined]>): OverrideFormat;
+  public abstract override setDisplayLabel(displayLabel: string): void;
 }

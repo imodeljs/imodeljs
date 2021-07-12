@@ -50,7 +50,7 @@ export class Indicator extends React.Component<IndicatorProps, any> {
       this.props.onClick();
   };
 
-  public render() {
+  public override render() {
     const className = classnames(
       "uifw-footer-indicator",
       this.props.isInFooterMode && "nz-footer-mode",

@@ -22,7 +22,7 @@ export class FeedbackDemoWidget extends WidgetControl {
 export class FeedbackWidget extends React.Component {
   /** hidden */
 
-  public render() {
+  public override render() {
     return (
       <div>
         <table>

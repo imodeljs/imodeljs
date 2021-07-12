@@ -23,7 +23,7 @@ export interface ExpandableButtonProps extends CommonProps {
  * @alpha
  */
 export class ExpandableButton extends React.PureComponent<ExpandableButtonProps> {
-  public render() {
+  public override render() {
     const className = classnames(
       "nz-widget-tools-button-expandable",
       this.props.className);

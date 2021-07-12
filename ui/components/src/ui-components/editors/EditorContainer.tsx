@@ -110,10 +110,10 @@ export class EditorContainer extends React.PureComponent<EditorContainerProps> {
 
     return clonedNode;
   }
-  public componentDidMount() {
+  public override componentDidMount() {
     this._spanRef.current?.addEventListener("keydown", this._handleKeyDown, true);
   }
-  public componentWillUnmount() {
+  public override componentWillUnmount() {
     // istanbul ignore next
     if (this._spanRef.current)
       this._spanRef.current.removeEventListener("keydown", this._handleKeyDown, true);
@@ -250,7 +250,7 @@ export class EditorContainer extends React.PureComponent<EditorContainerProps> {
   };
 
   /** @internal */
-  public render() {
+  public override render() {
     return (
       <span className="components-editor-container"
         onBlur={this._handleContainerBlur}

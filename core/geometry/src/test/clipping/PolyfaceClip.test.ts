@@ -994,7 +994,7 @@ describe("PolyfaceClip", () => {
       const clipperFile = `./src/test/testInputs/clipping/arnoldasInOut/${caseDirectory}/clipper.json`;
       const meshA = IModelJson.Reader.parse(JSON.parse(fs.readFileSync(meshFile, "utf8")));
       const clipper = UnionOfConvexClipPlaneSets.fromJSON(JSON.parse(fs.readFileSync(clipperFile, "utf8")));
-      if (ck.testType<IndexedPolyface>(meshA as IndexedPolyface, "Expect mesh") && meshA instanceof IndexedPolyface && ck.testType<UnionOfConvexClipPlaneSets>(clipper, "expect clipper")) {
+      if (ck.testType(meshA as IndexedPolyface, IndexedPolyface, "Expect mesh") && meshA instanceof IndexedPolyface && ck.testType(clipper, UnionOfConvexClipPlaneSets, "expect clipper")) {
         GeometryCoreTestIO.captureCloneGeometry(allGeometry, meshA, 0, 0);
         const range = meshA.range();
         const dx = 0.2 * range.xLength();
@@ -1031,7 +1031,7 @@ describe("PolyfaceClip", () => {
     PolyfaceClip.clipPolyfaceInsideOutside(mesh!, clipper!, builders);
     // const inside = builders.builderA?.claimPolyface();
     const outside = builders.builderB?.claimPolyface();
-    if (ck.testType<IndexedPolyface>(outside)) {
+    if (ck.testType(outside, IndexedPolyface)) {
       GeometryCoreTestIO.captureCloneGeometry(allGeometry, mesh, 0, 0);
       GeometryCoreTestIO.captureCloneGeometry(allGeometry, clipRectangle, 0, 0);
 

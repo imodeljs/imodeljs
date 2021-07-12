@@ -61,7 +61,7 @@ export class ToolSettings extends React.PureComponent<ToolSettingsProps> {
     return this._widget.current.getBoundingClientRect();
   }
 
-  public render() {
+  public override render() {
     const className = classnames(
       "nz-widget-toolSettings",
       this.props.fillZone && "nz-fill",

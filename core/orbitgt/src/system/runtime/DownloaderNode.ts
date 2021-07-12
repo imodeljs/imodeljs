@@ -107,19 +107,19 @@ export class DownloaderNode extends Downloader {
 
     // Downloader base class method override
     //
-    public async downloadBytes(method: string, requestURL: string, requestHeaders: StringMap<string>, postText: string, postData: ABuffer, responseHeaders: StringMap<string>): Promise<ABuffer> {
+    public override async downloadBytes(method: string, requestURL: string, requestHeaders: StringMap<string>, postText: string, postData: ABuffer, responseHeaders: StringMap<string>): Promise<ABuffer> {
         return new Promise<ABuffer>((resolve, reject) => { this.download0(method, requestURL, "arraybuffer"/*responseType*/, requestHeaders, postText, postData, responseHeaders, resolve, reject); });
     }
 
     // Downloader base class method override
     //
-    public async downloadText(method: string, requestURL: string, requestHeaders: StringMap<string>, postText: string, postData: ABuffer, responseHeaders: StringMap<string>): Promise<string> {
+    public override async downloadText(method: string, requestURL: string, requestHeaders: StringMap<string>, postText: string, postData: ABuffer, responseHeaders: StringMap<string>): Promise<string> {
         return new Promise<string>((resolve, reject) => { this.download0(method, requestURL, "text"/*responseType*/, requestHeaders, postText, postData, responseHeaders, resolve, reject); });
     }
 
     // Downloader base class method override
     //
-    public async downloadText2(requestURL: string): Promise<string> {
+    public override async downloadText2(requestURL: string): Promise<string> {
         return await this.downloadText("GET", requestURL, null, null, null, null);
     }
 }

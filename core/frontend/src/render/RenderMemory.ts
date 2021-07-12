@@ -69,7 +69,7 @@ export namespace RenderMemory {
     public get terrain() { return this.consumers[BufferType.Terrain]; }
     public get reality() { return this.consumers[BufferType.RealityMesh]; }
 
-    public clear(): void {
+    public override clear(): void {
       for (const consumer of this.consumers)
         consumer.clear();
 

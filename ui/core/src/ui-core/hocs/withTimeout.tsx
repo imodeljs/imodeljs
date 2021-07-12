@@ -29,20 +29,20 @@ export const withTimeout = <ComponentProps extends {}>(
   return class WithTimeout extends React.PureComponent<ComponentProps & WithTimeoutProps> {
     public timer: Timer = new Timer(0);
 
-    public componentDidMount(): void {
+    public override componentDidMount(): void {
       this.timer.setOnExecute(() => this.props.onTimeout && this.props.onTimeout());
       this.startTimer(this.props.timeout);
     }
 
-    public componentDidUpdate(_prevProps: Readonly<ComponentProps & WithTimeoutProps>): void {
+    public override componentDidUpdate(_prevProps: Readonly<ComponentProps & WithTimeoutProps>): void {
       this.startTimer(this.props.timeout);
     }
 
-    public componentWillUnmount(): void {
+    public override componentWillUnmount(): void {
       this.timer.stop();
     }
 
-    public render() {
+    public override render() {
       const { timeout, onTimeout, ...props } = this.props; // eslint-disable-line @typescript-eslint/no-unused-vars
       return (
         <Component {...props as ComponentProps} {...this.state} />

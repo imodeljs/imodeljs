@@ -27,7 +27,7 @@ export interface AppButtonProps extends OmitChildrenProp<ToolbarIconProps>, NoCh
  * @alpha
  */
 export class AppButton extends React.PureComponent<AppButtonProps> {
-  public render() {
+  public override render() {
     const { className, small, ...props } = this.props;
 
     const buttonClassName = (small) ? classnames("nz-toolbar-button-app-small", className) : classnames("nz-toolbar-button-app", className);

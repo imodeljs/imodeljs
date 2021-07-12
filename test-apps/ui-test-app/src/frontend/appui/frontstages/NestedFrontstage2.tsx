@@ -107,7 +107,7 @@ class FrontstageToolWidget extends React.Component {
     />
   );
 
-  public render() {
+  public override render() {
     return (
       <ToolWidget
         appButton={NestedFrontstage.backToPreviousFrontstageCommand}
@@ -146,7 +146,7 @@ class FrontstageNavigationWidget extends React.Component {
     />
   );
 
-  public render() {
+  public override render() {
     return (
       <NavigationWidget
         navigationAidId="StandardRotationNavigationAid"

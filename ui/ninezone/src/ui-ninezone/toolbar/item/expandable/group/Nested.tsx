@@ -29,7 +29,7 @@ export interface NestedGroupProps extends GroupProps {
  * @alpha
  */
 export class NestedGroup extends React.PureComponent<NestedGroupProps> {
-  public render() {
+  public override render() {
     const className = classnames(
       "nz-toolbar-item-expandable-group-nested",
       this.props.className);

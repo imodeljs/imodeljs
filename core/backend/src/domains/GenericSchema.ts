@@ -14,7 +14,7 @@ import * as elementsModule from "./GenericElements";
 
 /** @public */
 export class GenericSchema extends Schema {
-  public static get schemaName(): string { return "Generic"; }
+  public static override get schemaName(): string { return "Generic"; }
   public static get schemaFilePath(): string { return path.join(KnownLocations.nativeAssetsDir, "ECSchemas", "Dgn", `${GenericSchema.schemaName}.ecschema.xml`); }
   public static registerSchema() {
     if (this !== Schemas.getRegisteredSchema(this.schemaName)) {

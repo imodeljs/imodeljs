@@ -14,7 +14,7 @@ import { parseToggle } from "./parseToggle";
  * @beta
  */
 export abstract class RenderTargetDebugControlTool extends Tool {
-  public run(_args: any[]): boolean {
+  public override run(_args: any[]): boolean {
     const view = IModelApp.viewManager.selectedView;
     const control = undefined !== view ? view.target.debugControl : undefined;
     if (undefined !== control)
@@ -34,8 +34,8 @@ type DebugControlBoolean =
  * @beta
  */
 export abstract class RenderTargetDebugControlToggleTool extends RenderTargetDebugControlTool {
-  public static get minArgs() { return 0; }
-  public static get maxArgs() { return 1; }
+  public static override get minArgs() { return 0; }
+  public static override get maxArgs() { return 1; }
 
   private _enable?: boolean;
 
@@ -47,7 +47,7 @@ export abstract class RenderTargetDebugControlToggleTool extends RenderTargetDeb
     vp.invalidateRenderPlan();
   }
 
-  public parseAndRun(...args: string[]): boolean {
+  public override parseAndRun(...args: string[]): boolean {
     const enable = parseToggle(args[0]);
     if (typeof enable !== "string") {
       this._enable = enable;
@@ -62,7 +62,7 @@ export abstract class RenderTargetDebugControlToggleTool extends RenderTargetDeb
  * @beta
  */
 export class ToggleReadPixelsTool extends RenderTargetDebugControlToggleTool {
-  public static toolId = "ToggleReadPixels";
+  public static override toolId = "ToggleReadPixels";
   public get aspect(): DebugControlBoolean { return "drawForReadPixels"; }
 }
 
@@ -70,7 +70,7 @@ export class ToggleReadPixelsTool extends RenderTargetDebugControlToggleTool {
  * @beta
  */
 export class ToggleDrapeFrustumTool extends RenderTargetDebugControlToggleTool {
-  public static toolId = "ToggleDrapeFrustum";
+  public static override toolId = "ToggleDrapeFrustum";
   public get aspect(): DebugControlBoolean { return "displayDrapeFrustum"; }
 }
 
@@ -79,9 +79,9 @@ export class ToggleDrapeFrustumTool extends RenderTargetDebugControlToggleTool {
  * @beta
  */
 export class TogglePrimitiveVisibilityTool extends RenderTargetDebugControlTool {
-  public static toolId = "TogglePrimitiveVisibility";
-  public static get minArgs() { return 0; }
-  public static get maxArgs() { return 1; }
+  public static override toolId = "TogglePrimitiveVisibility";
+  public static override get minArgs() { return 0; }
+  public static override get maxArgs() { return 1; }
 
   private _visibility = PrimitiveVisibility.All;
 
@@ -90,7 +90,7 @@ export class TogglePrimitiveVisibilityTool extends RenderTargetDebugControlTool 
     vp.invalidateScene();
   }
 
-  public parseAndRun(...args: string[]): boolean {
+  public override parseAndRun(...args: string[]): boolean {
     if (0 < args.length) {
       switch (args[0].toLowerCase()) {
         case "instanced":
@@ -114,7 +114,7 @@ export class TogglePrimitiveVisibilityTool extends RenderTargetDebugControlTool 
  * @beta
  */
 export class ToggleRealityTileBounds extends RenderTargetDebugControlToggleTool {
-  public static toolId = "ToggleRealityTileBounds";
+  public static override toolId = "ToggleRealityTileBounds";
   public get aspect(): DebugControlBoolean { return "displayRealityTileRanges"; }
 }
 
@@ -122,14 +122,14 @@ export class ToggleRealityTileBounds extends RenderTargetDebugControlToggleTool 
  * @beta
  */
 export class ToggleRealityTilePreload extends RenderTargetDebugControlToggleTool {
-  public static toolId = "ToggleRealityTilePreload";
+  public static override toolId = "ToggleRealityTilePreload";
   public get aspect(): DebugControlBoolean { return "displayRealityTilePreload"; }
 }
 /** Freeze loading of reality tiles.
  * @beta
  */
 export class ToggleRealityTileFreeze extends RenderTargetDebugControlToggleTool {
-  public static toolId = "ToggleRealityTileFreeze";
+  public static override toolId = "ToggleRealityTileFreeze";
   public get aspect(): DebugControlBoolean { return "freezeRealityTiles"; }
 }
 
@@ -137,7 +137,7 @@ export class ToggleRealityTileFreeze extends RenderTargetDebugControlToggleTool 
  * @beta
  */
 export class ToggleRealityTileLogging extends RenderTargetDebugControlToggleTool {
-  public static toolId = "ToggleRealityTileLogging";
+  public static override toolId = "ToggleRealityTileLogging";
   public get aspect(): DebugControlBoolean { return "logRealityTiles"; }
 }
 
@@ -145,7 +145,7 @@ export class ToggleRealityTileLogging extends RenderTargetDebugControlToggleTool
  * @beta
  */
 export class ToggleVolClassIntersect extends RenderTargetDebugControlToggleTool {
-  public static toolId = "ToggleVCIntersect";
+  public static override toolId = "ToggleVCIntersect";
   public get aspect(): DebugControlBoolean { return "vcSupportIntersectingVolumes"; }
 }
 
@@ -153,9 +153,9 @@ export class ToggleVolClassIntersect extends RenderTargetDebugControlToggleTool 
  * @beta
  */
 export class SetAASamplesTool extends RenderTargetDebugControlTool {
-  public static toolId = "SetAASamples";
-  public static get minArgs() { return 1; }
-  public static get maxArgs() { return 2; }
+  public static override toolId = "SetAASamples";
+  public static override get minArgs() { return 1; }
+  public static override get maxArgs() { return 2; }
 
   private _aaSamples = 1;
   private _changeAll = false;
@@ -170,7 +170,7 @@ export class SetAASamplesTool extends RenderTargetDebugControlTool {
   /** Runs this tool, setting the number of antialiasing samples to use (<=1 for no antialiasing).
    * @param args contains the arguments used by the tool's run method: args[0] contains the number of samples; optionally args[1] can contain the word "all" in order to set those number of samples for all viewports.
    */
-  public parseAndRun(...args: string[]): boolean {
+  public override parseAndRun(...args: string[]): boolean {
     if (0 < args.length)
       this._aaSamples = parseInt(args[0], 10);
     this._changeAll = (1 < args.length && args[1].toLowerCase() === "all");

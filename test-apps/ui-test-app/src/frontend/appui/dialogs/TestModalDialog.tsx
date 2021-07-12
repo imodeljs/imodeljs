@@ -20,7 +20,7 @@ export interface TestModalDialogState {
 }
 
 export class TestModalDialog extends React.Component<TestModalDialogProps, TestModalDialogState> {
-  public readonly state: Readonly<TestModalDialogState>;
+  public override readonly state: Readonly<TestModalDialogState>;
   private _paragraphs: string[] = [];
 
   constructor(props: TestModalDialogProps) {
@@ -42,7 +42,7 @@ export class TestModalDialog extends React.Component<TestModalDialogProps, TestM
     this.setState({ testInput: e.target.value });
   };
 
-  public render(): JSX.Element {
+  public override render(): JSX.Element {
     // cspell:disable
     return (
       <Dialog

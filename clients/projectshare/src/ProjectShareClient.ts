@@ -302,7 +302,7 @@ export class ProjectShareClient extends WsgClient {
    * @param excludeApiVersion Pass true to optionally exclude the API version from the URL.
    * @returns URL for the service
    */
-  public async getUrl(requestContext: AuthorizedClientRequestContext, excludeApiVersion?: boolean): Promise<string> {
+  public override async getUrl(requestContext: AuthorizedClientRequestContext, excludeApiVersion?: boolean): Promise<string> {
     requestContext.enter();
     if (this._url)
       return this._url;
@@ -524,7 +524,7 @@ export class ProjectShareClient extends WsgClient {
     try {
       const accessurl = file.accessUrl !== undefined ? file.accessUrl : "";
       await this.uploadBlob(requestContext, accessurl, data);
-      return this.updateFileExistsProperty(requestContext, contextId, file.wsgId);
+      return await this.updateFileExistsProperty(requestContext, contextId, file.wsgId);
     } catch (err) {
       throw err;
     }

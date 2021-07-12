@@ -102,7 +102,7 @@ export class Presentation {
     static getManager(clientId?: string): PresentationManager;
     static getRequestTimeout(): number;
     static initialize(props?: PresentationProps): void;
-    static get initProps(): PresentationPropsDeprecated | PresentationPropsNew | undefined;
+    static get initProps(): PresentationProps | undefined;
     static terminate(): void;
 }
 

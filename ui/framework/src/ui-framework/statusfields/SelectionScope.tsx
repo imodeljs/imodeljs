@@ -47,7 +47,7 @@ class SelectionScopeFieldComponent extends React.Component<SelectionScopeFieldPr
     }
   };
 
-  public render(): React.ReactNode {
+  public override render(): React.ReactNode {
     return (
       <FooterIndicator
         className={classnames("uifw-statusFields-selectionScope", this.props.className)}

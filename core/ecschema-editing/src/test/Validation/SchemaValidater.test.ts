@@ -5,7 +5,7 @@
 
 import { expect } from "chai";
 import { DelayedPromiseWithProps, ECClassModifier, EntityClass, Schema, SchemaContext } from "@bentley/ecschema-metadata";
-import { MutableSchema } from "../../Editing/MutableSchema";
+import { MutableSchema } from "../../Editing/Mutable/MutableSchema";
 import { SchemaValidater } from "../../Validation/SchemaValidater";
 import { TestRuleSet } from "../TestUtils/DiagnosticHelpers";
 

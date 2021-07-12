@@ -68,6 +68,12 @@ Object {
       "type": "Update",
     },
     Object {
+      "parent": Object {
+        "instanceKeys": Array [],
+        "pathFromRoot": Array [],
+        "type": "ECInstancesNode",
+      },
+      "position": 0,
       "target": Object {
         "instanceKeys": Array [],
         "pathFromRoot": Array [],
@@ -115,6 +121,12 @@ Object {
       "type": "Update",
     },
     Object {
+      "parent": Object {
+        "instanceKeys": Array [],
+        "pathFromRoot": Array [],
+        "type": "ECInstancesNode",
+      },
+      "position": 0,
       "target": Object {
         "instanceKeys": Array [],
         "pathFromRoot": Array [],
@@ -206,8 +218,27 @@ Object {
 }
 `;
 
-exports[`PartialHierarchyModification fromJSON deserializes \`NodeDeletionInfo\` from JSON 1`] = `
+exports[`PartialHierarchyModification fromJSON deserializes \`NodeDeletionInfo\` with parent from JSON 1`] = `
 Object {
+  "parent": Object {
+    "instanceKeys": Array [],
+    "pathFromRoot": Array [],
+    "type": "ECInstancesNode",
+  },
+  "position": 0,
+  "target": Object {
+    "instanceKeys": Array [],
+    "pathFromRoot": Array [],
+    "type": "ECInstancesNode",
+  },
+  "type": "Delete",
+}
+`;
+
+exports[`PartialHierarchyModification fromJSON deserializes \`NodeDeletionInfo\` without parent from JSON 1`] = `
+Object {
+  "parent": undefined,
+  "position": 0,
   "target": Object {
     "instanceKeys": Array [],
     "pathFromRoot": Array [],
@@ -275,8 +306,27 @@ Object {
 }
 `;
 
-exports[`PartialHierarchyModification toJSON serializes \`NodeDeletionInfo\` 1`] = `
+exports[`PartialHierarchyModification toJSON serializes \`NodeDeletionInfo\` with parent 1`] = `
 Object {
+  "parent": Object {
+    "instanceKeys": Array [],
+    "pathFromRoot": Array [],
+    "type": "ECInstancesNode",
+  },
+  "position": 123,
+  "target": Object {
+    "instanceKeys": Array [],
+    "pathFromRoot": Array [],
+    "type": "ECInstancesNode",
+  },
+  "type": "Delete",
+}
+`;
+
+exports[`PartialHierarchyModification toJSON serializes \`NodeDeletionInfo\` without parent 1`] = `
+Object {
+  "parent": undefined,
+  "position": 123,
   "target": Object {
     "instanceKeys": Array [],
     "pathFromRoot": Array [],

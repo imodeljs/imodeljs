@@ -24,12 +24,13 @@
     "start:webserver": "cross-env DISABLE_NEW_JSX_TRANSFORM=true SKIP_PREFLIGHT_CHECK=true DISABLE_NEW_ASSET_COPY=true BROWSER=none DISABLE_ESLINT=true TRANSPILE_DEPS=false USE_FAST_SASS=true react-scripts start",
     "start:electron": "electron ./lib/backend/ElectronMain.js",
     "start:web": "node lib/backend/WebMain.js",
+    "test:electron": "electron ./lib/backend/ElectronMain.js",
     "test:chrome": "node ./lib/common/npmCommands.js chrome",
     "test:edge": "node ./lib/common/npmCommands.js edge",
     "test:firefox": "node ./lib/common/npmCommands.js firefox",
     "test:safari": "node ./lib/common/npmCommands.js safari",
     "build:mobile-backend": "tsc 1>&2 && webpack --config ./node_modules/@bentley/webpack-tools/mobile/backend.config.js --env.outdir=./lib/mobile --env.entry=./lib/backend/MobileMain.js --env.bundlename=main ",
-    "test": "",
+    "test": "electron ./lib/backend/ElectronMain.js",
     "cover": ""
   },
   "repository": {},
@@ -74,7 +75,7 @@
     "null-loader": "^0.1.1",
     "rimraf": "^3.0.2",
     "react": "^16.8.0",
-    "typescript": "~4.1.0",
+    "typescript": "~4.3.0",
     "webpack": "4.42.0"
   },
   "homepage": "http://localhost:3000/",

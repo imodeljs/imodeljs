@@ -234,7 +234,7 @@ export class Point3dArrayCarrier extends IndexedReadWriteXYZCollection {
     return undefined;
   }
   /** Adjust index into range by modulo with the length. */
-  public cyclicIndex(i: number): number {
+  public override cyclicIndex(i: number): number {
     return (i % this.length);
   }
 

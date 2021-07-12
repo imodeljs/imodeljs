@@ -23,7 +23,7 @@ export interface TreeBranchProps extends CommonProps {
  * @public
  */
 export class TreeBranch extends React.PureComponent<TreeBranchProps> {
-  public render() {
+  public override render() {
     const className = classnames(
       "core-tree-branch",
       this.props.className);

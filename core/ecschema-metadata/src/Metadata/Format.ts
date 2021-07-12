@@ -23,7 +23,7 @@ import { Unit } from "./Unit";
  * @beta
  */
 export class Format extends SchemaItem {
-  public readonly schemaItemType!: SchemaItemType.Format; // eslint-disable-line
+  public override readonly schemaItemType!: SchemaItemType.Format; // eslint-disable-line
   protected _roundFactor: number;
   protected _type: FormatType; // required; options are decimal, fractional, scientific, station
   protected _precision: number; // required
@@ -198,7 +198,7 @@ export class Format extends SchemaItem {
     }
   }
 
-  public fromJSONSync(formatProps: FormatProps) {
+  public override fromJSONSync(formatProps: FormatProps) {
     super.fromJSONSync(formatProps);
     this.typecheck(formatProps);
     if (undefined === formatProps.composite)
@@ -213,7 +213,7 @@ export class Format extends SchemaItem {
     }
   }
 
-  public async fromJSON(formatProps: FormatProps) {
+  public override async fromJSON(formatProps: FormatProps) {
     await super.fromJSON(formatProps);
     this.typecheck(formatProps);
     if (undefined === formatProps.composite)
@@ -233,7 +233,7 @@ export class Format extends SchemaItem {
    * @param standalone Serialization includes only this object (as opposed to the full schema).
    * @param includeSchemaVersion Include the Schema's version information in the serialized object.
    */
-  public toJSON(standalone: boolean = false, includeSchemaVersion: boolean = false): FormatProps {
+  public override toJSON(standalone: boolean = false, includeSchemaVersion: boolean = false): FormatProps {
     const schemaJson = super.toJSON(standalone, includeSchemaVersion) as any;
     schemaJson.type = formatTypeToString(this.type);
     schemaJson.precision = this.precision;
@@ -281,7 +281,7 @@ export class Format extends SchemaItem {
   }
 
   /** @internal */
-  public async toXml(schemaXml: Document): Promise<Element> {
+  public override async toXml(schemaXml: Document): Promise<Element> {
     const itemElement = await super.toXml(schemaXml);
     itemElement.setAttribute("type", formatTypeToString(this.type).toLowerCase());
     itemElement.setAttribute("precision", this.precision.toString());
@@ -380,14 +380,14 @@ export class Format extends SchemaItem {
  * An abstract class used for schema editing.
  */
 export abstract class MutableFormat extends Format {
-  public abstract addUnit(unit: Unit | InvertedUnit, label?: string): void;
-  public abstract setPrecision(precision: number): void;
-  public abstract setFormatType(formatType: FormatType): void;
-  public abstract setRoundFactor(roundFactor: number): void;
-  public abstract setShowSignOption(signOption: ShowSignOption): void;
-  public abstract setDecimalSeparator(separator: string): void;
-  public abstract setThousandSeparator(separator: string): void;
-  public abstract setUomSeparator(separator: string): void;
-  public abstract setStationSeparator(separator: string): void;
-  public abstract setDisplayLabel(displayLabel: string): void;
+  public abstract override addUnit(unit: Unit | InvertedUnit, label?: string): void;
+  public abstract override setPrecision(precision: number): void;
+  public abstract override setFormatType(formatType: FormatType): void;
+  public abstract override setRoundFactor(roundFactor: number): void;
+  public abstract override setShowSignOption(signOption: ShowSignOption): void;
+  public abstract override setDecimalSeparator(separator: string): void;
+  public abstract override setThousandSeparator(separator: string): void;
+  public abstract override setUomSeparator(separator: string): void;
+  public abstract override setStationSeparator(separator: string): void;
+  public abstract override setDisplayLabel(displayLabel: string): void;
 }

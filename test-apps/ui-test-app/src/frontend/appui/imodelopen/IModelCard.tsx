@@ -36,7 +36,7 @@ export class IModelCard extends React.Component<IModelCardProps, IModelCardState
   };
 
   // called when this component is first loaded
-  public async componentDidMount() {
+  public override async componentDidMount() {
     // we don't get the thumbnail until it's needed.
     if (!this.props.iModel.thumbnail)
       this.startRetrieveThumbnail(this.props.iModel); // eslint-disable-line @typescript-eslint/no-floating-promises
@@ -90,7 +90,7 @@ export class IModelCard extends React.Component<IModelCardProps, IModelCardState
     }
   }
 
-  public render() {
+  public override render() {
     return (
       <div className="imodel-card" >
         <div className="imodel-card-content" >

@@ -69,16 +69,16 @@ class TreeDecoration {
  * @beta
  */
 export class ToggleTileTreeBoundsDecorationTool extends Tool {
-  public static toolId = "ToggleTileTreeBoundsDecoration";
-  public static get minArgs() { return 0; }
-  public static get maxArgs() { return 1; }
+  public static override toolId = "ToggleTileTreeBoundsDecoration";
+  public static override get minArgs() { return 0; }
+  public static override get maxArgs() { return 1; }
 
-  public run(enable?: boolean): boolean {
+  public override run(enable?: boolean): boolean {
     TreeDecoration.toggle(enable);
     return true;
   }
 
-  public parseAndRun(...args: string[]): boolean {
+  public override parseAndRun(...args: string[]): boolean {
     const enable = parseToggle(args[0]);
     if (typeof enable !== "string")
       this.run(enable);

@@ -42,7 +42,7 @@ export class NestedAnimationStage extends FrontstageProvider {
 /** Define a ToolWidget with Buttons to display in the TopLeft zone.
  */
 class FrontstageToolWidget extends React.Component {
-  public render() {
+  public override render() {
     return (
       // eslint-disable-next-line deprecation/deprecation
       <ToolWidget

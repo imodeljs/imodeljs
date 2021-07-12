@@ -104,10 +104,10 @@ export class ImdlReader extends GltfReader {
   }
 
   /** @internal */
-  protected extractReturnToCenter(_extensions: any): number[] | undefined { return undefined; }
+  protected override extractReturnToCenter(_extensions: any): number[] | undefined { return undefined; }
 
   /** @internal */
-  protected createDisplayParams(json: any): DisplayParams | undefined {
+  protected override createDisplayParams(json: any): DisplayParams | undefined {
     const type = JsonUtils.asInt(json.type, DisplayParams.Type.Mesh);
     const lineColor = ColorDef.create(JsonUtils.asInt(json.lineColor));
     const fillColor = ColorDef.create(JsonUtils.asInt(json.fillColor));
@@ -331,7 +331,7 @@ export class ImdlReader extends GltfReader {
     super(props, iModel, modelId, is3d, system, type, isCanceled);
     this._sizeMultiplier = sizeMultiplier;
     this._loadEdges = loadEdges;
-    this._options = options ?? { };
+    this._options = options ?? {};
   }
 
   private static skipFeatureTable(stream: ByteStream): boolean {

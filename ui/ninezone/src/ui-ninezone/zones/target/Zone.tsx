@@ -16,7 +16,7 @@ import { WidgetTarget } from "./Target";
  * @internal
  */
 export class ZoneTarget extends React.PureComponent<MergeTargetProps> {
-  public render() {
+  public override render() {
     return (
       <div
         className={classnames("nz-zones-target-zone", this.props.className)}

@@ -81,7 +81,7 @@ export class KeyinBrowser extends React.PureComponent<KeyinBrowserProps, KeyinBr
   }
 
   /** @internal */
-  public componentDidMount() {
+  public override componentDidMount() {
     this._isMounted = true;
 
     let keyins = this.getToolKeyinMap();
@@ -96,7 +96,7 @@ export class KeyinBrowser extends React.PureComponent<KeyinBrowserProps, KeyinBr
   }
 
   /** @internal */
-  public componentWillUnmount() {
+  public override componentWillUnmount() {
     this._isMounted = false;
   }
 
@@ -304,7 +304,7 @@ export class KeyinBrowser extends React.PureComponent<KeyinBrowserProps, KeyinBr
   };
 
   /** @internal */
-  public render(): React.ReactNode {
+  public override render(): React.ReactNode {
     return (
       <div className="uif-keyinbrowser-div">
         <InputLabel label={this._toolIdLabel}>

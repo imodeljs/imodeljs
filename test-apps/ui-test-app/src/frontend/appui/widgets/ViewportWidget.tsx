@@ -36,12 +36,12 @@ export class ViewportWidget extends React.Component<ViewportWidgetProps, Viewpor
   private _loading = IModelApp.i18n.translate("SampleApp:Test.loading");
   private _viewport: ScreenViewport | undefined;
 
-  public readonly state: Readonly<ViewportWidgetState> = {
+  public override readonly state: Readonly<ViewportWidgetState> = {
     viewId: undefined,
     iModelConnection: undefined,
   };
 
-  public async componentDidMount() {
+  public override async componentDidMount() {
     const externalIModel = new ExternalIModel(this.props.projectName, this.props.imodelName);
     await externalIModel.openIModel();
 
@@ -55,7 +55,7 @@ export class ViewportWidget extends React.Component<ViewportWidgetProps, Viewpor
     ViewSelector.onViewSelectorChangedEvent.addListener(this._handleViewSelectorChangedEvent);
   }
 
-  public componentWillUnmount() {
+  public override componentWillUnmount() {
     ViewSelector.onViewSelectorChangedEvent.removeListener(this._handleViewSelectorChangedEvent);
   }
 
@@ -68,7 +68,7 @@ export class ViewportWidget extends React.Component<ViewportWidgetProps, Viewpor
     }
   };
 
-  public render() {
+  public override render() {
     const divStyle: React.CSSProperties = {
       height: "100%",
     };
@@ -95,12 +95,12 @@ export class IModelViewport extends React.Component<ViewportWidgetProps, Viewpor
   private _loading = IModelApp.i18n.translate("SampleApp:Test.loading");
   private _viewport: ScreenViewport | undefined;
 
-  public readonly state: Readonly<ViewportWidgetState> = {
+  public override readonly state: Readonly<ViewportWidgetState> = {
     viewId: undefined,
     iModelConnection: undefined,
   };
 
-  public async componentDidMount() {
+  public override async componentDidMount() {
     const externalIModel = new ExternalIModel(this.props.projectName, this.props.imodelName);
     await externalIModel.openIModel();
 
@@ -114,7 +114,7 @@ export class IModelViewport extends React.Component<ViewportWidgetProps, Viewpor
     ViewSelector.onViewSelectorChangedEvent.addListener(this._handleViewSelectorChangedEvent);
   }
 
-  public componentWillUnmount() {
+  public override componentWillUnmount() {
     ViewSelector.onViewSelectorChangedEvent.removeListener(this._handleViewSelectorChangedEvent);
   }
 
@@ -127,7 +127,7 @@ export class IModelViewport extends React.Component<ViewportWidgetProps, Viewpor
     }
   };
 
-  public render() {
+  public override render() {
     const divStyle: React.CSSProperties = {
       height: "100%",
     };

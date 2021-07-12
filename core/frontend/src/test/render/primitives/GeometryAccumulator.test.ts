@@ -38,7 +38,7 @@ describe("GeometryAccumulator tests", () => {
   });
 
   it("addPath works as expected", () => {
-    accum = new GeometryAccumulator(iModel, IModelApp.renderSystem);
+    accum = new GeometryAccumulator({ iModel });
 
     const points: Point3d[] = [];
     points.push(new Point3d(0, 0, 0));
@@ -59,7 +59,7 @@ describe("GeometryAccumulator tests", () => {
   });
 
   it("addLoop works as expected", () => {
-    accum = new GeometryAccumulator(iModel, IModelApp.renderSystem);
+    accum = new GeometryAccumulator({ iModel });
 
     const points: Point3d[] = [];
     points.push(new Point3d(0, 0, 0));
@@ -83,7 +83,7 @@ describe("GeometryAccumulator tests", () => {
   });
 
   it("addPolyface works as expected", () => {
-    accum = new GeometryAccumulator(iModel, IModelApp.renderSystem);
+    accum = new GeometryAccumulator({ iModel });
 
     const points: Point3d[] = [];
     points.push(new Point3d(0, 0, 0));
@@ -121,7 +121,7 @@ describe("GeometryAccumulator tests", () => {
   });
 
   it("addGeometry works as expected", () => {
-    accum = new GeometryAccumulator(iModel, IModelApp.renderSystem);
+    accum = new GeometryAccumulator({ iModel });
 
     expect(accum.geometries.isEmpty).to.be.true;
     expect(accum.isEmpty).to.be.true;
@@ -131,7 +131,7 @@ describe("GeometryAccumulator tests", () => {
   });
 
   it("clear works as expected", () => {
-    accum = new GeometryAccumulator(iModel, IModelApp.renderSystem);
+    accum = new GeometryAccumulator({ iModel });
 
     expect(accum.isEmpty).to.be.true;
     accum.addGeometry(new FakeGeometry());
@@ -141,7 +141,7 @@ describe("GeometryAccumulator tests", () => {
   });
 
   it("toMeshBuilderMap works as expected", () => {
-    accum = new GeometryAccumulator(iModel, IModelApp.renderSystem);
+    accum = new GeometryAccumulator({ iModel });
 
     const points: Point3d[] = [];
     points.push(new Point3d(0, 0, 0));
@@ -182,7 +182,7 @@ describe("GeometryAccumulator tests", () => {
   });
 
   it("toMeshes works as expected", () => {
-    accum = new GeometryAccumulator(iModel, IModelApp.renderSystem);
+    accum = new GeometryAccumulator({ iModel });
 
     const points: Point3d[] = [];
     points.push(new Point3d(0, 0, 0));
@@ -223,7 +223,7 @@ describe("GeometryAccumulator tests", () => {
   });
 
   it("saveToGraphicList works as expected", () => {
-    accum = new GeometryAccumulator(iModel, IModelApp.renderSystem);
+    accum = new GeometryAccumulator({ iModel });
 
     const points: Point3d[] = [];
     points.push(new Point3d(0, 0, 0));

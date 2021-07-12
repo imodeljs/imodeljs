@@ -110,7 +110,7 @@ describe("TreeNodeRenderer", () => {
           node={node}
         />);
 
-      const expansionToggle: HTMLElement = container.querySelector(".core-tree-expansionToggle")! as HTMLElement;
+      const expansionToggle: HTMLElement = container.querySelector(".core-tree-expansionToggle")!;
       expansionToggle.click();
 
       treeActionsMock.verifyAll();
@@ -128,7 +128,7 @@ describe("TreeNodeRenderer", () => {
           node={node}
         />);
 
-      const expansionToggle: HTMLElement = container.querySelector(".core-tree-expansionToggle")! as HTMLElement;
+      const expansionToggle: HTMLElement = container.querySelector(".core-tree-expansionToggle")!;
       expansionToggle.click();
 
       treeActionsMock.verifyAll();
@@ -143,7 +143,7 @@ describe("TreeNodeRenderer", () => {
           node={node}
         />);
 
-      const treeNode: HTMLElement = container.querySelector(".core-tree-node")! as HTMLElement;
+      const treeNode: HTMLElement = container.querySelector(".core-tree-node")!;
       treeNode.click();
 
       treeActionsMock.verifyAll();
@@ -158,7 +158,7 @@ describe("TreeNodeRenderer", () => {
           node={node}
         />);
 
-      const treeNode: HTMLElement = container.querySelector(".core-tree-node")! as HTMLElement;
+      const treeNode: HTMLElement = container.querySelector(".core-tree-node")!;
       fireEvent.mouseDown(treeNode);
 
       treeActionsMock.verifyAll();
@@ -173,7 +173,7 @@ describe("TreeNodeRenderer", () => {
           node={node}
         />);
 
-      const treeNode: HTMLElement = container.querySelector(".core-tree-node")! as HTMLElement;
+      const treeNode: HTMLElement = container.querySelector(".core-tree-node")!;
       fireEvent.mouseMove(treeNode);
 
       treeActionsMock.verifyAll();

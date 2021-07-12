@@ -46,7 +46,7 @@ interface InputEditorPopupState {
  */
 export class InputEditorPopup extends React.PureComponent<InputEditorPopupProps, InputEditorPopupState> {
   /** @internal */
-  public readonly state = {
+  public override readonly state = {
     size: new Size(-1, -1),
   };
 
@@ -57,7 +57,7 @@ export class InputEditorPopup extends React.PureComponent<InputEditorPopupProps,
   };
 
   /** @internal */
-  public render() {
+  public override render() {
     const point = PopupManager.getPopupPosition(this.props.el, this.props.pt, this.props.offset, this.state.size);
 
     return (

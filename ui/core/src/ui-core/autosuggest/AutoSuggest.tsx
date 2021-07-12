@@ -101,16 +101,16 @@ export class AutoSuggest extends React.PureComponent<AutoSuggestProps, AutoSugge
   }
 
   /** @internal */
-  public componentDidMount() {
+  public override componentDidMount() {
     this._isMounted = true;
   }
 
   /** @internal */
-  public componentWillUnmount() {
+  public override componentWillUnmount() {
     this._isMounted = false;
   }
 
-  public componentDidUpdate(prevProps: AutoSuggestProps) {
+  public override componentDidUpdate(prevProps: AutoSuggestProps) {
     if (this.props.value !== prevProps.value || this.props.options !== prevProps.options) {
       this.setState((_prevState, props) => ({
         inputValue: this.getLabel(props.value),
@@ -244,7 +244,7 @@ export class AutoSuggest extends React.PureComponent<AutoSuggestProps, AutoSugge
     sectionTitle: "uicore-autosuggest__section-title",
   };
 
-  public render(): JSX.Element {
+  public override render(): JSX.Element {
     const { inputValue, suggestions } = this.state;
     const { value, onChange, placeholder, options, onSuggestionSelected, setFocus, alwaysRenderSuggestions, // eslint-disable-line @typescript-eslint/no-unused-vars
       onPressEnter, onPressEscape, onPressTab, onInputFocus, getLabel, // eslint-disable-line @typescript-eslint/no-unused-vars

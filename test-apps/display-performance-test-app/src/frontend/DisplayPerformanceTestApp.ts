@@ -16,7 +16,7 @@ import DisplayPerfRpcInterface from "../common/DisplayPerfRpcInterface";
 
 /** Prevents the hypermodeling markers from displaying in the viewport and obscuring the image. */
 class MarkerHandler extends SectionMarkerHandler {
-  public isMarkerVisible(_marker: SectionMarker) {
+  public override isMarkerVisible(_marker: SectionMarker) {
     return false;
   }
 }

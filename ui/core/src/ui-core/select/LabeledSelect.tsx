@@ -20,7 +20,7 @@ export interface LabeledSelectProps extends SelectProps, LabeledComponentProps, 
  * @public
  */
 export class LabeledSelect extends React.PureComponent<LabeledSelectProps> {
-  public render(): JSX.Element {
+  public override render(): JSX.Element {
     const { label, status, className, style,
       inputClassName, inputStyle,
       labelClassName, labelStyle,

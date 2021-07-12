@@ -60,7 +60,7 @@ export class ViewList extends SortedArray<ViewSpec> {
     return viewList;
   }
 
-  public clear(): void {
+  public override clear(): void {
     super.clear();
     this._defaultViewId = Id64.invalid;
     this._views.clear();

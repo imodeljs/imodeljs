@@ -16,7 +16,7 @@ import * as relationshipsModule from "./AnalyticalRelationships";
  * @beta
  */
 export class AnalyticalSchema extends Schema {
-  public static get schemaName(): string { return "Analytical"; }
+  public static override get schemaName(): string { return "Analytical"; }
   public static get schemaFilePath(): string { return path.join(KnownLocations.nativeAssetsDir, "ECSchemas", "Domain", "Analytical.ecschema.xml"); }
   public static registerSchema() {
     if (this !== Schemas.getRegisteredSchema(this.schemaName)) {

@@ -80,11 +80,6 @@ export class PropertyRecord {
         return Object.values(this.value.members);
       case PropertyValueFormat.Array:
         return this.value.items;
-      /* istanbul ignore next */
-      default:
-        // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
-        const unhandledFormat: never = this.value!.valueFormat;
-        throw new Error(`Failed getting PropertyRecord children because of unhandled value format: ${unhandledFormat}`);
     }
   }
 

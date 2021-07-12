@@ -308,7 +308,7 @@ export class ClipShape extends ClipPrimitive {
     this.initSecondaryProps(isMask, zLow, zHigh, transform);
   }
   /** Returns true if this ClipShape is marked as invisible. */
-  public get invisible(): boolean { return this._invisible; }
+  public override get invisible(): boolean { return this._invisible; }
   /** Return this transformFromClip, which may be undefined. */
   public get transformFromClip(): Transform | undefined { return this._transformFromClip; }
   /** Return this transformToClip, which may be undefined. */
@@ -340,7 +340,7 @@ export class ClipShape extends ClipPrimitive {
    * * If the ClipShape's associated `UnionOfConvexClipPlaneSets` is defined, do nothing.
    * * If the ClipShape's associated `UnionOfConvexClipPlaneSets` is undefined, generate it from the `ClipShape` and transform.
    */
-  public ensurePlaneSets() {
+  public override ensurePlaneSets() {
     if (this._clipPlanes !== undefined)
       return;
     this._clipPlanes = UnionOfConvexClipPlaneSets.createEmpty();
@@ -367,7 +367,7 @@ export class ClipShape extends ClipPrimitive {
   }
 
   /** emit json object form */
-  public toJSON(): ClipPrimitiveShapeProps {
+  public override toJSON(): ClipPrimitiveShapeProps {
     const shape: ClipPrimitiveShapeProps["shape"] = {
       points: this._polygon.map((pt) => pt.toJSON()),
     };
@@ -474,7 +474,7 @@ export class ClipShape extends ClipPrimitive {
     return true;
   }
   /** Returns a deep copy of this instance of ClipShape, storing in an optional result */
-  public clone(result?: ClipShape): ClipShape {
+  public override clone(result?: ClipShape): ClipShape {
     return ClipShape.createFrom(this, result);
   }
   /** Given the current polygon data, parses clip planes that together form an object, storing the result in the set given, either clipplanes or maskplanes. */
@@ -611,7 +611,7 @@ export class ClipShape extends ClipPrimitive {
    * * Both params default to true to get the full effect of transforming space.
    * @param matrix matrix to apply
    */
-  public multiplyPlanesByMatrix4d(matrix: Matrix4d, invert: boolean = true, transpose: boolean = true): boolean {
+  public override multiplyPlanesByMatrix4d(matrix: Matrix4d, invert: boolean = true, transpose: boolean = true): boolean {
     this.ensurePlaneSets();
     return super.multiplyPlanesByMatrix4d(matrix, invert, transpose);
   }
@@ -619,7 +619,7 @@ export class ClipShape extends ClipPrimitive {
    * * The world to local transform (`transformToClip` is recomputed from the (changed) `transformToClip`
    * * the transform is passed to the base class to be applied to clip plane form of the clipper.
    */
-  public transformInPlace(transform: Transform): boolean {
+  public override transformInPlace(transform: Transform): boolean {
     if (transform.isIdentity)
       return true;
     super.transformInPlace(transform);

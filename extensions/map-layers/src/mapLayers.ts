@@ -70,7 +70,7 @@ class MapLayersExtension extends Extension {
   }
 
   /** Invoked the first time this extension is loaded. */
-  public async onLoad(_args: string[]): Promise<void> {
+  public override async onLoad(_args: string[]): Promise<void> {
     this._i18NNamespace = this.i18n.getNamespace(MapLayersUI.i18nNamespace);
     await this._i18NNamespace!.readFinished;
     UiItemsManager.register(new MapLayersUiItemsProvider(this.i18n));

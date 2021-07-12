@@ -201,11 +201,11 @@ export class FrustumDecorator implements Decorator {
  * @beta
  */
 export class ToggleFrustumSnapshotTool extends Tool {
-  public static toolId = "ToggleFrustumSnapshot";
-  public static get minArgs() { return 0; }
-  public static get maxArgs() { return 2; }
+  public static override toolId = "ToggleFrustumSnapshot";
+  public static override get minArgs() { return 0; }
+  public static override get maxArgs() { return 2; }
 
-  public run(enable?: boolean, showPreloadFrustum?: boolean, showBackgroundIntersecctions?: boolean): boolean {
+  public override run(enable?: boolean, showPreloadFrustum?: boolean, showBackgroundIntersecctions?: boolean): boolean {
     const vp = IModelApp.viewManager.selectedView;
     if (undefined === vp)
       return true;
@@ -225,7 +225,7 @@ export class ToggleFrustumSnapshotTool extends Tool {
     return true;
   }
 
-  public parseAndRun(...args: string[]): boolean {
+  public override parseAndRun(...args: string[]): boolean {
     let showPreload, showBackgroundIntersections, enable;
     for (const arg of args) {
       if (arg === "preload")
@@ -335,11 +335,11 @@ class SelectedViewFrustumDecoration {
  * @beta
  */
 export class ToggleSelectedViewFrustumTool extends Tool {
-  public static toolId = "ToggleSelectedViewFrustum";
-  public static get minArgs() { return 0; }
-  public static get maxArgs() { return 1; }
+  public static override toolId = "ToggleSelectedViewFrustum";
+  public static override get minArgs() { return 0; }
+  public static override get maxArgs() { return 1; }
 
-  public run(enable?: boolean): boolean {
+  public override run(enable?: boolean): boolean {
     const vp = IModelApp.viewManager.selectedView;
     if (undefined === vp || !vp.view.isSpatialView())
       return false;
@@ -355,7 +355,7 @@ export class ToggleSelectedViewFrustumTool extends Tool {
     return true;
   }
 
-  public parseAndRun(...args: string[]): boolean {
+  public override parseAndRun(...args: string[]): boolean {
     const enable = parseToggle(args[0]);
     if (typeof enable !== "string")
       this.run(enable);
@@ -434,11 +434,11 @@ class ShadowFrustumDecoration {
  * @beta
  */
 export class ToggleShadowFrustumTool extends Tool {
-  public static toolId = "ToggleShadowFrustum";
-  public static get minArgs() { return 0; }
-  public static get maxArgs() { return 1; }
+  public static override toolId = "ToggleShadowFrustum";
+  public static override get minArgs() { return 0; }
+  public static override get maxArgs() { return 1; }
 
-  public run(enable?: boolean): boolean {
+  public override run(enable?: boolean): boolean {
     const vp = IModelApp.viewManager.selectedView;
     if (undefined !== vp && vp.view.isSpatialView())
       ShadowFrustumDecoration.toggle(vp, enable);
@@ -446,7 +446,7 @@ export class ToggleShadowFrustumTool extends Tool {
     return true;
   }
 
-  public parseAndRun(...args: string[]): boolean {
+  public override parseAndRun(...args: string[]): boolean {
     const enable = parseToggle(args[0]);
     if (typeof enable !== "string")
       this.run(enable);

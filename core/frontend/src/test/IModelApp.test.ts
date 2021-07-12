@@ -24,20 +24,20 @@ let testVal2: string;
 
 /** class to test immediate tool */
 class TestImmediate extends Tool {
-  public static toolId = "Test.Immediate";
+  public static override toolId = "Test.Immediate";
   constructor(val1: string, val2: string) { testVal1 = val1; testVal2 = val2; super(); }
 }
 
 class AnotherImmediate extends Tool {
-  public static toolId = "Test.AnotherImmediate";
+  public static override toolId = "Test.AnotherImmediate";
 }
 
 class ThirdImmediate extends Tool {
-  public static toolId = "Test.ThirdImmediate";
+  public static override toolId = "Test.ThirdImmediate";
 }
 
 class FourthImmediate extends Tool {
-  public static toolId = "Test.FourthImmediate";
+  public static override toolId = "Test.FourthImmediate";
 }
 
 class TestRotateTool extends RotateViewTool { }
@@ -46,7 +46,7 @@ class TestSelectTool extends SelectionTool { }
 class TestApp extends MockRender.App {
   public static testNamespace?: I18NNamespace;
 
-  public static async startup(opts?: IModelAppOptions): Promise<void> {
+  public static override async startup(opts?: IModelAppOptions): Promise<void> {
     opts = opts ? opts : {};
     opts.accuDraw = new TestAccuDraw();
     opts.i18n = this.supplyI18NOptions();
@@ -63,7 +63,7 @@ class TestApp extends MockRender.App {
     IModelApp.toolAdmin.onInitialized();
 
     // register an anonymous class with the toolId "Null.Tool"
-    const testNull = class extends Tool { public static toolId = "Null.Tool"; public run() { testVal1 = "fromNullTool"; return true; } };
+    const testNull = class extends Tool { public static override toolId = "Null.Tool"; public override run() { testVal1 = "fromNullTool"; return true; } };
     testNull.register(this.testNamespace);
   }
 

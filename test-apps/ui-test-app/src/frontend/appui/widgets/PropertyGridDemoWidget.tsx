@@ -122,7 +122,7 @@ class VerticalPropertyGridWidget extends React.Component {
     return updated;
   };
 
-  public render() {
+  public override render() {
     return (
       <PropertyGrid dataProvider={this._dataProvider} orientation={Orientation.Vertical} isPropertySelectionEnabled={true}
         isPropertyEditingEnabled={true} onPropertyUpdated={this._handlePropertyUpdated} />
@@ -149,7 +149,7 @@ export class HorizontalPropertyGridWidgetControl extends WidgetControl {
     );
   }
 
-  public restoreTransientState() {
+  public override restoreTransientState() {
     this._ref.current && this._ref.current.forceUpdate();
     return true;
   }
@@ -192,7 +192,7 @@ class HorizontalPropertyGridWidget extends React.Component<{ style?: React.CSSPr
     return updated;
   };
 
-  public render() {
+  public override render() {
     return (
       <PropertyGrid dataProvider={this._dataProvider} orientation={Orientation.Horizontal}
         isPropertyEditingEnabled={true} onPropertyUpdated={this._handlePropertyUpdated} style={this.props.style} />
@@ -237,7 +237,7 @@ class HorizontalPropertyGridContent extends React.Component {
     return updated;
   };
 
-  public render(): React.ReactNode {
+  public override render(): React.ReactNode {
     return (
       <PropertyGrid dataProvider={this._dataProvider} orientation={Orientation.Horizontal} isPropertySelectionEnabled={true}
         isPropertyEditingEnabled={true} onPropertyUpdated={this._handlePropertyUpdated} />

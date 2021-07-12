@@ -126,7 +126,7 @@ export class Cone extends SolidPrimitive implements UVSurface, UVSurfaceIsoParam
   /** (Property accessor) test if `other` is an instance of `Cone` */
   public isSameGeometryClass(other: any): boolean { return other instanceof Cone; }
   /** (Property accessor) Test for nearly equal coordinate data. */
-  public isAlmostEqual(other: GeometryQuery): boolean {
+  public override isAlmostEqual(other: GeometryQuery): boolean {
     if (other instanceof Cone) {
       if (this.capped !== other.capped) return false;
       if (!this._localToWorld.isAlmostEqualAllowZRotation(other._localToWorld)) return false;

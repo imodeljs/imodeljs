@@ -31,7 +31,7 @@ export class UnionRegion extends CurveCollection {
   /** collection of Loop and ParityRegion children. */
   protected _children: Array<ParityRegion | Loop>;
   /** Return the array of regions */
-  public get children(): Array<ParityRegion | Loop> { return this._children; }
+  public override get children(): Array<ParityRegion | Loop> { return this._children; }
   /** Constructor -- initialize with no children */
   public constructor() { super(); this._children = []; }
   /** Create a `UnionRegion` with given region children */

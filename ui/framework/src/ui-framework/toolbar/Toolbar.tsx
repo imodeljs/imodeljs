@@ -91,15 +91,15 @@ export class Toolbar extends React.Component<ToolbarProps, State> {
     return this.props.toolbarId ? this.props.toolbarId : "unknown";
   }
 
-  public componentDidMount() {
+  public override componentDidMount() {
     SyncUiEventDispatcher.onSyncUiEvent.addListener(this._handleSyncUiEvent);
   }
 
-  public componentWillUnmount() {
+  public override componentWillUnmount() {
     SyncUiEventDispatcher.onSyncUiEvent.removeListener(this._handleSyncUiEvent);
   }
 
-  public componentDidUpdate(prevProps: ToolbarProps, _prevState: State) {
+  public override componentDidUpdate(prevProps: ToolbarProps, _prevState: State) {
     if (this.props.items !== prevProps.items) {
       // if sync event changed number of displayable buttons layout the toolbar and re-render
       const items = this.generateToolbarItems(this.props.items, new Size(this.state.width, this.state.height));
@@ -278,7 +278,7 @@ export class Toolbar extends React.Component<ToolbarProps, State> {
     return false;
   }
 
-  public render() {
+  public override render() {
     // istanbul ignore next
     if (0 === this.props.items.length || !this.hasVisibleItems(this.props.items)) {
       Logger.logTrace(UiFramework.loggerCategory(this), `--->  nothing to render for ${this._toolbarId} `);

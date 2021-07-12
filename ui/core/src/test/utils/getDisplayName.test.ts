@@ -9,12 +9,12 @@ import { getDisplayName } from "../../ui-core";
 describe("getDisplayName", () => {
   class DisplayNameComponentDisplayName extends React.Component {
     public static displayName = "CustomDisplayName";
-    public render(): React.ReactNode {
+    public override render(): React.ReactNode {
       return "displayName test";
     }
   }
   class NameComponentDisplayName extends React.Component {
-    public render(): React.ReactNode {
+    public override render(): React.ReactNode {
       return "displayName test";
     }
   }

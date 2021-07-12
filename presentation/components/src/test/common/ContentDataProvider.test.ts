@@ -32,13 +32,13 @@ class Provider extends ContentDataProvider {
   constructor(props: ContentDataProviderProps) {
     super(props);
   }
-  public invalidateCache(props: CacheInvalidationProps) { super.invalidateCache(props); }
-  public configureContentDescriptor(descriptor: Readonly<Descriptor>) { return super.configureContentDescriptor(descriptor); } // eslint-disable-line deprecation/deprecation
-  public shouldExcludeFromDescriptor(field: Field) { return super.shouldExcludeFromDescriptor(field); } // eslint-disable-line deprecation/deprecation
-  public shouldConfigureContentDescriptor() { return super.shouldConfigureContentDescriptor(); } // eslint-disable-line deprecation/deprecation
-  public shouldRequestContentForEmptyKeyset() { return super.shouldRequestContentForEmptyKeyset(); }
-  public getDescriptorOverrides() { return super.getDescriptorOverrides(); }
-  public isFieldHidden(field: Field) { return super.isFieldHidden(field); } // eslint-disable-line deprecation/deprecation
+  public override invalidateCache(props: CacheInvalidationProps) { super.invalidateCache(props); }
+  public override configureContentDescriptor(descriptor: Readonly<Descriptor>) { return super.configureContentDescriptor(descriptor); } // eslint-disable-line deprecation/deprecation
+  public override shouldExcludeFromDescriptor(field: Field) { return super.shouldExcludeFromDescriptor(field); } // eslint-disable-line deprecation/deprecation
+  public override shouldConfigureContentDescriptor() { return super.shouldConfigureContentDescriptor(); } // eslint-disable-line deprecation/deprecation
+  public override shouldRequestContentForEmptyKeyset() { return super.shouldRequestContentForEmptyKeyset(); }
+  public override getDescriptorOverrides() { return super.getDescriptorOverrides(); }
+  public override isFieldHidden(field: Field) { return super.isFieldHidden(field); } // eslint-disable-line deprecation/deprecation
 }
 
 describe("ContentDataProvider", () => {
@@ -233,7 +233,7 @@ describe("ContentDataProvider", () => {
     it("excludes fields from result descriptor", () => {
       const source = createRandomDescriptor();
       provider.shouldExcludeFromDescriptor = () => true;
-      const result = provider.configureContentDescriptor(source);
+      const result = provider.configureContentDescriptor(source); // eslint-disable-line deprecation/deprecation
       expect(source.fields.length).to.be.greaterThan(0);
       expect(result.fields.length).to.eq(0);
     });

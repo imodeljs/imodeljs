@@ -34,8 +34,8 @@ export class EllipsoidTerrainProvider extends TerrainMeshProvider {
     super(iModel, modelId);
   }
 
-  public get requiresLoadedContent() { return false; }
-  public constructUrl(_row: number, _column: number, _zoomLevel: number): string { assert(false); return ""; }
+  public override get requiresLoadedContent() { return false; }
+  public override constructUrl(_row: number, _column: number, _zoomLevel: number): string { assert(false); return ""; }
   public isTileAvailable(_quadId: QuadId): boolean { return true; }
   public get maxDepth(): number { return 22; }
   public getChildHeightRange(_quadId: QuadId, _rectangle: MapCartoRectangle, _parent: MapTile): Range1d | undefined { return scratchZeroRange; }
@@ -44,10 +44,10 @@ export class EllipsoidTerrainProvider extends TerrainMeshProvider {
   private getPlanarMesh(tile: MapTile): TerrainMeshPrimitive {
     const projection = tile.getProjection();
     let mesh: TerrainMeshPrimitive;
-    const skirtProps = { wantSkirts: false, northCount: 0, southCount: 0, eastCount: 0, westCount: 0};  // Skirts are explicitly created, no need to preallocate
+    const skirtProps = { wantSkirts: false, northCount: 0, southCount: 0, eastCount: 0, westCount: 0 };  // Skirts are explicitly created, no need to preallocate
 
     if (!this._wantSkirts) {
-      mesh = TerrainMeshPrimitive.create({...skirtProps, pointQParams: QParams3d.fromRange(projection.localRange), pointCount: 4, indexCount: 6, wantNormals: false });
+      mesh = TerrainMeshPrimitive.create({ ...skirtProps, pointQParams: QParams3d.fromRange(projection.localRange), pointCount: 4, indexCount: 6, wantNormals: false });
       for (let v = 0; v < 2; v++)
         for (let u = 0; u < 2; u++) {
           scratchQPoint2d.init(Point2d.create(u, 1 - v, scratchPoint2d), mesh.uvQParams);
@@ -72,8 +72,8 @@ export class EllipsoidTerrainProvider extends TerrainMeshProvider {
             projection.getPoint(u, v, h * skirtHeight, scratch8Points[i]);
             i++;
           }
-      mesh = TerrainMeshPrimitive.create({...skirtProps, pointQParams: QParams3d.fromRange(Range3d.createArray(scratch8Points)), pointCount: 8, indexCount: 30, wantNormals: false });
-      for (let i = 0 ; i < 8; i++) {
+      mesh = TerrainMeshPrimitive.create({ ...skirtProps, pointQParams: QParams3d.fromRange(Range3d.createArray(scratch8Points)), pointCount: 8, indexCount: 30, wantNormals: false });
+      for (let i = 0; i < 8; i++) {
         scratchQPoint2d.init(scratch8Params[i], mesh.uvQParams);
         mesh.addVertex(scratch8Points[i], scratchQPoint2d);
       }
@@ -85,7 +85,7 @@ export class EllipsoidTerrainProvider extends TerrainMeshProvider {
         mesh.addQuad(iThis, iNext, iThis + 1, iNext + 1);
       }
     }
-    assert (mesh.isCompleted);
+    assert(mesh.isCompleted);
     return mesh;
   }
   private getGlobeMesh(tile: MapTile): TerrainMeshPrimitive | undefined {
@@ -150,10 +150,10 @@ export class EllipsoidTerrainProvider extends TerrainMeshProvider {
         mesh.addTriangle(top, base + 1, top + 1);
       }
     }
-    assert (mesh.isCompleted);
+    assert(mesh.isCompleted);
     return mesh;
   }
-  public async getMesh(tile: MapTile, _data: Uint8Array): Promise<TerrainMeshPrimitive | undefined> {
+  public override async getMesh(tile: MapTile, _data: Uint8Array): Promise<TerrainMeshPrimitive | undefined> {
     return tile.isPlanar ? this.getPlanarMesh(tile) : this.getGlobeMesh(tile);
   }
 }

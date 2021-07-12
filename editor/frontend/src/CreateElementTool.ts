@@ -174,13 +174,13 @@ export abstract class CreateElementTool extends PrimitiveTool {
     return IModelApp.toolAdmin.activeSettings.category;
   }
 
-  public get targetModelId(): Id64String {
+  public override get targetModelId(): Id64String {
     if (IModelApp.toolAdmin.activeSettings.model === undefined)
       throw new IModelError(IModelStatus.BadModel, "", Logger.logError);
     return IModelApp.toolAdmin.activeSettings.model;
   }
 
-  public isCompatibleViewport(vp: Viewport | undefined, isSelectedViewChange: boolean): boolean {
+  public override isCompatibleViewport(vp: Viewport | undefined, isSelectedViewChange: boolean): boolean {
     if (IModelApp.toolAdmin.activeSettings.model === undefined)
       return false;
     return super.isCompatibleViewport(vp, isSelectedViewChange);
@@ -225,23 +225,23 @@ export abstract class CreateElementTool extends PrimitiveTool {
     return EventHandled.No;
   }
 
-  public async onDataButtonDown(ev: BeButtonEvent): Promise<EventHandled> {
+  public override async onDataButtonDown(ev: BeButtonEvent): Promise<EventHandled> {
     return this.processDataButton(ev);
   }
 
-  public async onResetButtonUp(_ev: BeButtonEvent): Promise<EventHandled> {
+  public override async onResetButtonUp(_ev: BeButtonEvent): Promise<EventHandled> {
     this.onReinitialize();
     return EventHandled.No;
   }
 
   /** Setup initial tool state, prompts, etc. */
-  public onPostInstall() {
+  public override onPostInstall() {
     super.onPostInstall();
     this.setupAndPromptForNextAction();
   }
 
   /** Restore tool assistance after no longer being suspended by either a [[ViewTool]] or [[InputCollector]]. */
-  public onUnsuspend(): void {
+  public override onUnsuspend(): void {
     this.provideToolAssistance();
   }
 

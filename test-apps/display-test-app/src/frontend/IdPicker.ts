@@ -121,7 +121,7 @@ export abstract class IdPicker extends ToolBarDropDown {
   public get isOpen(): boolean { return "none" !== this._element.style.display; }
   protected _open(): void { this._element.style.display = "block"; }
   protected _close(): void { this._element.style.display = "none"; }
-  public get onViewChanged(): Promise<void> { return this.populate(); }
+  public override get onViewChanged(): Promise<void> { return this.populate(); }
 
   protected showOrHide(element: HTMLElement, show: boolean) { if (element) element.style.display = show ? "block" : "none"; }
 
@@ -229,7 +229,7 @@ export class CategoryPicker extends IdPicker {
   protected get _enabledIds() { return this._vp.view.categorySelector.categories; }
   protected changeDisplay(ids: Id64Arg, enabled: boolean) { this._vp.changeCategoryDisplay(ids, enabled); }
 
-  protected get _comboBoxEntries(): ComboBoxEntry[] {
+  protected override get _comboBoxEntries(): ComboBoxEntry[] {
     const entries = super._comboBoxEntries;
     entries.push({ name: "All SubCategories", value: "Subcategories" });
     return entries;
@@ -279,7 +279,7 @@ export class CategoryPicker extends IdPicker {
       this._vp.changeCategoryDisplay(unusedCategories, false);
   }
 
-  protected show(which: string): void {
+  protected override show(which: string): void {
     if ("Subcategories" === which)
       this._vp.changeCategoryDisplay(this._enabledIds, true, true);
     else
@@ -314,7 +314,7 @@ export class ModelPicker extends IdPicker {
 
   protected get _elementType(): "Model" { return "Model"; }
   protected get _enabledIds() { return (this._vp.view as SpatialViewState).modelSelector.models; }
-  protected get _showIn2d() { return false; }
+  protected override get _showIn2d() { return false; }
   protected changeDisplay(ids: Id64Arg, enabled: boolean) {
     if (enabled)
       this._vp.addViewedModels(ids); // eslint-disable-line @typescript-eslint/no-floating-promises
@@ -424,13 +424,13 @@ export class ModelPicker extends IdPicker {
       ViewManip.fitView(this._vp, true);
   }
 
-  protected get _comboBoxEntries() {
+  protected override get _comboBoxEntries() {
     const entries = super._comboBoxEntries;
     entries.push({ name: "Plan Projections", value: "PlanProjections" });
     return entries;
   }
 
-  protected show(which: string) {
+  protected override show(which: string) {
     if ("PlanProjections" === which) {
       this.toggleAll(false);
       this.toggleIds(this._planProjectionIds, true);

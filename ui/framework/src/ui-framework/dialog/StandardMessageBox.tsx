@@ -40,7 +40,7 @@ interface StandardMessageBoxState {
 export class StandardMessageBox extends React.PureComponent<StandardMessageBoxProps, StandardMessageBoxState> {
 
   /** @internal */
-  public readonly state: Readonly<StandardMessageBoxState>;
+  public override readonly state: Readonly<StandardMessageBoxState>;
 
   constructor(props: StandardMessageBoxProps) {
     super(props);
@@ -49,7 +49,7 @@ export class StandardMessageBox extends React.PureComponent<StandardMessageBoxPr
     };
   }
 
-  public render(): JSX.Element {
+  public override render(): JSX.Element {
     const buttonCluster: DialogButtonDef[] = new Array<DialogButtonDef>();
 
     switch (this.props.messageBoxType) {

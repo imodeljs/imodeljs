@@ -202,7 +202,7 @@ export class StagePanelDef extends WidgetHost {
   }
 
   /** Gets the list of Widgets. */
-  public get widgetDefs(): ReadonlyArray<WidgetDef> {
+  public override get widgetDefs(): ReadonlyArray<WidgetDef> {
     const widgetDefs = [...super.widgetDefs];
     for (const [, panelZone] of this.panelZones) {
       widgetDefs.push(...panelZone.widgetDefs);
@@ -218,7 +218,7 @@ export class StagePanelDef extends WidgetHost {
   }
 
   /** @internal */
-  public updateDynamicWidgetDefs(stageId: string, stageUsage: string, location: ZoneLocation | StagePanelLocation, _section: StagePanelSection | undefined,
+  public override updateDynamicWidgetDefs(stageId: string, stageUsage: string, location: ZoneLocation | StagePanelLocation, _section: StagePanelSection | undefined,
     widgetDefs: WidgetDef[],
   ): void {
     this.panelZones.start.updateDynamicWidgetDefs(stageId, stageUsage, location, StagePanelSection.Start, widgetDefs);

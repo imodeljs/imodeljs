@@ -39,8 +39,8 @@ export class ClassRegistry {
   private static generateProxySchema(domain: string, iModel: IModelDb): typeof Schema {
     const hasBehavior = undefined !== new IModelSchemaLoader(iModel).getSchema(domain).customAttributes?.get("BisCore.SchemaHasBehavior");
     const schemaClass = class extends Schema {
-      public static get schemaName() { return domain; }
-      public static get missingRequiredBehavior() { return hasBehavior; }
+      public static override get schemaName() { return domain; }
+      public static override get missingRequiredBehavior() { return hasBehavior; }
     };
 
     Schemas.registerSchema(schemaClass); // register the class before we return it.
@@ -68,7 +68,7 @@ export class ClassRegistry {
     if (undefined === superclass)
       throw new IModelError(IModelStatus.NotFound, `cannot find superclass for class ${name}`);
 
-    const generatedClass = class extends superclass { public static get className() { return className; } };
+    const generatedClass = class extends superclass { public static override get className() { return className; } };
     // the above line creates an anonymous class. For help debugging, set the "constructor.name" property to be the same as the bisClassName.
     Object.defineProperty(generatedClass, "name", { get: () => className });  // this is the (only) way to change that readonly property.
 

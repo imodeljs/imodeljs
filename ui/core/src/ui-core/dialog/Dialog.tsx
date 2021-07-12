@@ -180,7 +180,7 @@ export class Dialog extends React.Component<DialogProps, DialogState> {
   };
 
   /** @internal */
-  public readonly state: Readonly<DialogState>;
+  public override readonly state: Readonly<DialogState>;
 
   constructor(props: DialogProps) {
     super(props);
@@ -199,14 +199,14 @@ export class Dialog extends React.Component<DialogProps, DialogState> {
     return this._parentDocument.defaultView ?? window;
   }
 
-  public componentWillUnmount(): void {
+  public override componentWillUnmount(): void {
     const parentWindow = this.getParentWindow();
     parentWindow.removeEventListener("pointerup", this._handlePointerUp, true);
     parentWindow.removeEventListener("pointermove", this._handlePointerMove, true);
     this._parentDocument.removeEventListener("keyup", this._handleKeyUp, true);
   }
 
-  public componentDidMount(): void {
+  public override componentDidMount(): void {
     const parentWindow = this.getParentWindow();
     parentWindow.addEventListener("pointerup", this._handlePointerUp, true);
     this._parentDocument.addEventListener("keyup", this._handleKeyUp, true);
@@ -217,7 +217,7 @@ export class Dialog extends React.Component<DialogProps, DialogState> {
       this._parentDocument = containerDiv.ownerDocument;
   };
 
-  public render(): JSX.Element {
+  public override render(): JSX.Element {
     const {
       opened, title, footer, buttonCluster, onClose, onEscape, onOutsideClick, // eslint-disable-line @typescript-eslint/no-unused-vars
       minWidth, minHeight, x, y, width, height, maxHeight, maxWidth,

@@ -40,14 +40,14 @@ export class PointStreamXYZXYZHandlerBase extends PointStreamXYZHandlerBase {
   private _x0?: number;
   private _y0?: number;
   private _z0?: number;
-  public handleXYZ(x: number, y: number, z: number): void {
+  public override handleXYZ(x: number, y: number, z: number): void {
     if (this._x0 !== undefined)
       this.handleXYZXYZ(this._x0, this._y0!, this._z0!, x, y, z);
     this._x0 = x;
     this._y0 = y;
     this._z0 = z;
   }
-  public startChain(_chainData: MultiLineStringDataVariant, _isLeaf: boolean): void {
+  public override startChain(_chainData: MultiLineStringDataVariant, _isLeaf: boolean): void {
     this._x0 = this._y0 = this._z0 = undefined;
   }
   /**
@@ -68,15 +68,15 @@ export class PointStreamXYZXYZHandlerBase extends PointStreamXYZHandlerBase {
 export class PointStreamGrowableXYZArrayCollector extends PointStreamXYZHandlerBase {
   private _pointArrays?: GrowableXYZArray[];
   private _currentData?: GrowableXYZArray;
-  public startChain(_chainData: MultiLineStringDataVariant, _isLeaf: boolean): void {
+  public override startChain(_chainData: MultiLineStringDataVariant, _isLeaf: boolean): void {
     this._currentData = undefined;
   }
-  public handleXYZ(x: number, y: number, z: number): void {
+  public override handleXYZ(x: number, y: number, z: number): void {
     if (!this._currentData)
       this._currentData = new GrowableXYZArray();
     this._currentData.pushXYZ(x, y, z);
   }
-  public endChain(_chainData: MultiLineStringDataVariant, _isLeaf: boolean): void {
+  public override endChain(_chainData: MultiLineStringDataVariant, _isLeaf: boolean): void {
     if (this._currentData !== undefined) {
       if (this._pointArrays === undefined)
         this._pointArrays = [];
@@ -96,7 +96,7 @@ export class PointStreamGrowableXYZArrayCollector extends PointStreamXYZHandlerB
  */
 export class PointStreamRangeCollector extends PointStreamXYZHandlerBase {
   private _range?: Range3d = Range3d.createNull();
-  public handleXYZ(x: number, y: number, z: number): void {
+  public override handleXYZ(x: number, y: number, z: number): void {
     if (!this._range)
       this._range = Range3d.createNull();
     this._range.extendXYZ(x, y, z);

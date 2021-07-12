@@ -40,7 +40,7 @@ export class DistanceExpression implements DistanceExpressionProps {
  */
 export class LinearlyReferencedLocation extends ElementMultiAspect {
   /** @internal */
-  public static get className(): string { return "LinearlyReferencedLocation"; }
+  public static override get className(): string { return "LinearlyReferencedLocation"; }
 }
 
 /** Concrete multi-aspect class carrying 'at' linearly-referenced positions along a Linear-Element.
@@ -48,7 +48,7 @@ export class LinearlyReferencedLocation extends ElementMultiAspect {
  */
 export class LinearlyReferencedAtLocation extends LinearlyReferencedLocation implements LinearlyReferencedAtLocationAspectProps {
   /** @internal */
-  public static get className(): string { return "LinearlyReferencedAtLocation"; }
+  public static override get className(): string { return "LinearlyReferencedAtLocation"; }
 
   public atPosition: DistanceExpression;
   public fromReferent?: LinearlyReferencedAtPositionRefersToReferent;
@@ -86,7 +86,7 @@ export class LinearlyReferencedAtLocation extends LinearlyReferencedLocation imp
  */
 export class LinearlyReferencedFromToLocation extends LinearlyReferencedLocation implements LinearlyReferencedFromToLocationAspectProps {
   /** @internal */
-  public static get className(): string { return "LinearlyReferencedFromToLocation"; }
+  public static override get className(): string { return "LinearlyReferencedFromToLocation"; }
 
   public fromPosition: DistanceExpression;
   public fromPositionFromReferent?: LinearlyReferencedFromPositionRefersToReferent;

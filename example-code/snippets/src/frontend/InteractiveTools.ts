@@ -10,10 +10,10 @@ import {
 } from "@bentley/imodeljs-frontend";
 
 export class SamplePrimitiveTool extends PrimitiveTool {
-  public static toolId = "Sample.Run";
+  public static override toolId = "Sample.Run";
 
   // __PUBLISH_EXTRACT_START__ PrimitiveTool_SelectedViewport
-  public onSelectedViewportChanged(_previous: Viewport | undefined, current: Viewport | undefined): void {
+  public override onSelectedViewportChanged(_previous: Viewport | undefined, current: Viewport | undefined): void {
     if (this.isCompatibleViewport(current, true))
       return;
     this.onRestartTool();
@@ -29,7 +29,7 @@ export class SamplePrimitiveTool extends PrimitiveTool {
   // __PUBLISH_EXTRACT_END__
 
   // __PUBLISH_EXTRACT_START__ PrimitiveTool_Run
-  public run(): boolean {
+  public override run(): boolean {
     const { toolAdmin, viewManager } = IModelApp;
     if (!this.isCompatibleViewport(viewManager.selectedView, false) || !toolAdmin.onInstallTool(this))
       return false;
@@ -42,11 +42,11 @@ export class SamplePrimitiveTool extends PrimitiveTool {
 }
 
 export class SampleSnapTool extends PrimitiveTool {
-  public static toolId = "Sample.Snap";
+  public static override toolId = "Sample.Snap";
   // __PUBLISH_EXTRACT_START__ PrimitiveTool_Snap
   public readonly points: Point3d[] = [];
 
-  public onDynamicFrame(ev: BeButtonEvent, context: DynamicsContext): void {
+  public override onDynamicFrame(ev: BeButtonEvent, context: DynamicsContext): void {
     if (this.points.length < 1)
       return;
 
@@ -59,7 +59,7 @@ export class SampleSnapTool extends PrimitiveTool {
     context.addGraphic(builder.finish()); // Show linestring in view
   }
 
-  public async onDataButtonDown(ev: BeButtonEvent): Promise<EventHandled> {
+  public override async onDataButtonDown(ev: BeButtonEvent): Promise<EventHandled> {
     this.points.push(ev.point.clone()); // Accumulate accepted points, ev.point has been adjusted by AccuSnap and locks
 
     if (!this.isDynamicsStarted)
@@ -68,7 +68,7 @@ export class SampleSnapTool extends PrimitiveTool {
     return EventHandled.No;
   }
 
-  public onPostInstall() {
+  public override onPostInstall() {
     super.onPostInstall();
     IModelApp.accuSnap.enableSnap(true); // Enable AccuSnap so that linestring can be created by snapping to existing geometry
   }
@@ -78,18 +78,18 @@ export class SampleSnapTool extends PrimitiveTool {
 }
 
 export class SampleLocateTool extends PrimitiveTool {
-  public static toolId = "Sample.Locate";
+  public static override toolId = "Sample.Locate";
   public onRestartTool(): void { this.exitTool(); }
 
   // __PUBLISH_EXTRACT_START__ PrimitiveTool_Locate
-  public async filterHit(hit: HitDetail, _out?: LocateResponse): Promise<LocateFilterStatus> {
+  public override async filterHit(hit: HitDetail, _out?: LocateResponse): Promise<LocateFilterStatus> {
     // Check that element is valid for the tool operation, ex. query backend to test class, etc.
     // For this example we'll just test the element's selected status.
     const isSelected = this.iModel.selectionSet.has(hit.sourceId);
     return isSelected ? LocateFilterStatus.Reject : LocateFilterStatus.Accept; // Reject element that is already selected
   }
 
-  public async onDataButtonDown(ev: BeButtonEvent): Promise<EventHandled> {
+  public override async onDataButtonDown(ev: BeButtonEvent): Promise<EventHandled> {
     const hit = await IModelApp.locateManager.doLocate(new LocateResponse(), true, ev.point, ev.viewport, ev.inputSource);
     if (hit !== undefined)
       this.iModel.selectionSet.replace(hit.sourceId); // Replace current selection set with accepted element
@@ -97,7 +97,7 @@ export class SampleLocateTool extends PrimitiveTool {
     return EventHandled.No;
   }
 
-  public onPostInstall() {
+  public override onPostInstall() {
     super.onPostInstall();
     this.initLocateElements(); // Enable AccuSnap locate, set view cursor, add CoordinateLockOverrides to disable unwanted pre-locate point adjustments...
   }
@@ -105,7 +105,7 @@ export class SampleLocateTool extends PrimitiveTool {
 }
 
 export class CreateByPointsTool extends PrimitiveTool {
-  public static toolId = "Create.ByPoints";
+  public static override toolId = "Create.ByPoints";
   // __PUBLISH_EXTRACT_START__ PrimitiveTool_PointsTool
   public readonly points: Point3d[] = [];
 
@@ -126,7 +126,7 @@ export class CreateByPointsTool extends PrimitiveTool {
     hints.sendHints();
   }
 
-  public onDynamicFrame(ev: BeButtonEvent, context: DynamicsContext): void {
+  public override onDynamicFrame(ev: BeButtonEvent, context: DynamicsContext): void {
     if (this.points.length < 1)
       return;
 
@@ -139,7 +139,7 @@ export class CreateByPointsTool extends PrimitiveTool {
     context.addGraphic(builder.finish()); // Show linestring in view
   }
 
-  public async onDataButtonDown(ev: BeButtonEvent): Promise<EventHandled> {
+  public override async onDataButtonDown(ev: BeButtonEvent): Promise<EventHandled> {
     this.points.push(ev.point.clone()); // Accumulate accepted points, ev.point has been adjusted by AccuSnap and locks
     this.setupAndPromptForNextAction();
 
@@ -149,12 +149,12 @@ export class CreateByPointsTool extends PrimitiveTool {
     return EventHandled.No;
   }
 
-  public async onResetButtonUp(_ev: BeButtonEvent): Promise<EventHandled> {
+  public override async onResetButtonUp(_ev: BeButtonEvent): Promise<EventHandled> {
     this.onReinitialize(); // Complete current linestring
     return EventHandled.No;
   }
 
-  public onPostInstall() { super.onPostInstall(); this.setupAndPromptForNextAction(); }
+  public override onPostInstall() { super.onPostInstall(); this.setupAndPromptForNextAction(); }
   // __PUBLISH_EXTRACT_END__
 
   public onRestartTool(): void {

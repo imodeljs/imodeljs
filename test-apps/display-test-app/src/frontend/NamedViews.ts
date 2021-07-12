@@ -37,7 +37,7 @@ export class NamedVSPSList extends SortedArray<NamedViewStatePropsString> {
     return viewList;
   }
 
-  public clear(): void {
+  public override clear(): void {
     super.clear();
   }
 

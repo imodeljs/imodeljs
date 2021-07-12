@@ -353,7 +353,7 @@ describe("GrowableXYArray", () => {
       const distance0 = xyPoints.distanceIndexToPoint(i0, spacePoint);
       const distance1 = xyPoints.getPoint2dAtCheckedPointIndex(i0)!.distance(spacePoint);
       const vectorI0 = xyPoints.vectorXAndYIndex(spacePoint, i0);
-      if (ck.testPointer(vectorI0) && vectorI0 && distance0 !== undefined) {
+      if (ck.testPointer(vectorI0) && distance0 !== undefined) {
         ck.testCoordinate(vectorI0.magnitude(), distance0)!;
         ck.testCoordinate(distance0, distance1);
       }

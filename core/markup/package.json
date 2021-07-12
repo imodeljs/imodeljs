@@ -1,6 +1,6 @@
 {
   "name": "@bentley/imodeljs-markup",
-  "version": "2.19.0-dev.8",
+  "version": "2.19.0-dev.13",
   "description": "iModel.js markup package",
   "main": "lib/imodeljs-markup.js",
   "imodeljsSharedLibrary": true,
@@ -39,11 +39,11 @@
     "@svgdotjs/svg.js": "3.0.13"
   },
   "peerDependencies": {
-    "@bentley/bentleyjs-core": "workspace:^2.19.0-dev.8",
-    "@bentley/geometry-core": "workspace:^2.19.0-dev.8",
-    "@bentley/imodeljs-common": "workspace:^2.19.0-dev.8",
-    "@bentley/imodeljs-frontend": "workspace:^2.19.0-dev.8",
-    "@bentley/imodeljs-i18n": "workspace:^2.19.0-dev.8"
+    "@bentley/bentleyjs-core": "workspace:^2.19.0-dev.13",
+    "@bentley/geometry-core": "workspace:^2.19.0-dev.13",
+    "@bentley/imodeljs-common": "workspace:^2.19.0-dev.13",
+    "@bentley/imodeljs-frontend": "workspace:^2.19.0-dev.13",
+    "@bentley/imodeljs-i18n": "workspace:^2.19.0-dev.13"
   },
   "devDependencies": {
     "@bentley/bentleyjs-core": "workspace:*",
@@ -65,7 +65,7 @@
     "nyc": "^15.1.0",
     "rimraf": "^3.0.2",
     "source-map-loader": "^1.0.0",
-    "typescript": "~4.1.0",
+    "typescript": "~4.3.0",
     "webpack": "4.42.0"
   },
   "nyc": {

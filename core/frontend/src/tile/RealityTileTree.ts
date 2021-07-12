@@ -129,12 +129,12 @@ export class RealityTileTree extends TileTree {
   public get is3d() { return true; }
   public get maxDepth() { return this.loader.maxDepth; }
   public get minDepth() { return this.loader.minDepth; }
-  public get isContentUnbounded() { return this.loader.isContentUnbounded; }
+  public override get isContentUnbounded() { return this.loader.isContentUnbounded; }
   public get isTransparent() { return false; }
 
   protected _selectTiles(args: TileDrawArgs): Tile[] { return this.selectRealityTiles(args, []); }
   public get viewFlagOverrides(): ViewFlagOverrides { return this.loader.viewFlagOverrides; }
-  public get parentsAndChildrenExclusive() { return this.loader.parentsAndChildrenExclusive; }
+  public override get parentsAndChildrenExclusive() { return this.loader.parentsAndChildrenExclusive; }
 
   public createTile(props: TileParams): RealityTile { return new RealityTile(props, this); }
 

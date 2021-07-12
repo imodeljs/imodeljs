@@ -568,7 +568,7 @@ describe("Point3dArray", () => {
       allPoints.push(center.plus2Scaled(vector0, c, vector90, s));
     }
     const plane3d = plane4d.toPlane3dByOriginAndUnitNormal();
-    if (ck.testPointer(plane3d) && plane3d) {
+    if (ck.testPointer(plane3d)) {
       ck.testCoordinate(plane3d.altitudeXYZW(center.x, center.y, center.z, center.w), 0);
       ck.testCoordinate(plane3d.altitudeXYZW(vector0.x, vector0.y, vector0.z, vector0.w), 0);
       ck.testCoordinate(plane3d.altitudeXYZW(vector90.x, vector90.y, vector90.z, vector90.w), 0);

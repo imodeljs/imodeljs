@@ -89,7 +89,7 @@ export class IndexedPolyface extends Polyface {
   /** Test if other is an instance of `IndexedPolyface` */
   public isSameGeometryClass(other: any): boolean { return other instanceof IndexedPolyface; }
   /** Tests for equivalence between two IndexedPolyfaces. */
-  public isAlmostEqual(other: any): boolean {
+  public override isAlmostEqual(other: any): boolean {
     if (other instanceof IndexedPolyface) {
       return this.data.isAlmostEqual(other.data) && NumberArray.isExactEqual(this._facetStart, other._facetStart) &&
         NumberArray.isExactEqual(this._facetToFaceData, other._facetToFaceData);
@@ -496,7 +496,7 @@ export class IndexedPolyface extends Polyface {
   /** create a visitor for this polyface */
   public createVisitor(numWrap: number = 0): PolyfaceVisitor { return IndexedPolyfaceVisitor.create(this, numWrap); }
   /** Return the range of (optionally transformed) points in this mesh. */
-  public range(transform?: Transform, result?: Range3d): Range3d { return this.data.range(result, transform); }
+  public override range(transform?: Transform, result?: Range3d): Range3d { return this.data.range(result, transform); }
   /** Extend `range` with coordinates from this mesh */
   public extendRange(range: Range3d, transform?: Transform): void { this.data.range(range, transform); }
 

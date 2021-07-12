@@ -23,7 +23,7 @@ import { ConvertedPrimitives } from "./valuetypes/ConvertedTypes";
  * @public
  */
 export abstract class DateTimeTypeConverterBase extends TypeConverter implements LessGreaterOperatorProcessor {
-  public convertToString(value?: Primitives.Value) {
+  public override convertToString(value?: Primitives.Value) {
     if (value === undefined)
       return "";
 
@@ -54,7 +54,7 @@ export abstract class DateTimeTypeConverterBase extends TypeConverter implements
   // supported options:
   //    timeDisplay?: TimeDisplay
   //    alternateDateFormat?: AlternateDateFormats
-  public convertToStringWithOptions(value?: Primitives.Value, options?: { [key: string]: any }): string | Promise<string> {
+  public override convertToStringWithOptions(value?: Primitives.Value, options?: { [key: string]: any }): string | Promise<string> {
     if (value === undefined)
       return "";
 
@@ -122,7 +122,7 @@ export abstract class DateTimeTypeConverterBase extends TypeConverter implements
   }
 
   /** Default implementation just calls convertFromString with no options */
-  public convertFromStringWithOptions(value: string, options?: { [key: string]: any }): ConvertedPrimitives.Value | undefined | Promise<ConvertedPrimitives.Value | undefined> {
+  public override convertFromStringWithOptions(value: string, options?: { [key: string]: any }): ConvertedPrimitives.Value | undefined | Promise<ConvertedPrimitives.Value | undefined> {
     if (!value)
       return undefined;
 
@@ -150,7 +150,7 @@ export abstract class DateTimeTypeConverterBase extends TypeConverter implements
     return date instanceof Date && !isNaN(+date);
   }
 
-  public convertFromString(value: string) {
+  public override convertFromString(value: string) {
     if (!value)
       return undefined;
 
@@ -164,17 +164,17 @@ export abstract class DateTimeTypeConverterBase extends TypeConverter implements
 
   protected abstract getTimeFormat(): TimeFormat;
 
-  public get isLessGreaterType(): boolean { return true; }
+  public override get isLessGreaterType(): boolean { return true; }
 
   public sortCompare(valueA: Date, valueB: Date, _ignoreCase?: boolean): number {
     return valueA.valueOf() - valueB.valueOf();
   }
 
-  public isEqualTo(valueA: Date, valueB: Date): boolean {
+  public override isEqualTo(valueA: Date, valueB: Date): boolean {
     return valueA.valueOf() === valueB.valueOf();
   }
 
-  public isNotEqualTo(valueA: Date, valueB: Date): boolean {
+  public override isNotEqualTo(valueA: Date, valueB: Date): boolean {
     return valueA.valueOf() !== valueB.valueOf();
   }
 

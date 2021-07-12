@@ -19,7 +19,7 @@ let flipColor = false;
  * @beta
  */
 export class FlipImageEffect extends AddEffectTool {
-  public static toolId = "FlipImageEffect";
+  public static override toolId = "FlipImageEffect";
 
   protected get effectName() { return "flip"; }
   protected get textureCoordFromPosition() { return true; }
@@ -86,11 +86,11 @@ export class FlipImageEffect extends AddEffectTool {
  * @beta
  */
 export class FlipImageConfig extends Tool {
-  public static toolId = "FlipImageConfig";
-  public static get minArgs() { return 0; }
-  public static get maxArgs() { return 3; }
+  public static override toolId = "FlipImageConfig";
+  public static override get minArgs() { return 0; }
+  public static override get maxArgs() { return 3; }
 
-  public run(horizontal?: boolean, vertical?: boolean, color?: boolean): boolean {
+  public override run(horizontal?: boolean, vertical?: boolean, color?: boolean): boolean {
     flipHorizontal = !!horizontal;
     flipVertical = !!vertical;
     flipColor = !!color;
@@ -99,7 +99,7 @@ export class FlipImageConfig extends Tool {
     return true;
   }
 
-  public parseAndRun(...input: string[]): boolean {
+  public override parseAndRun(...input: string[]): boolean {
     const args = parseArgs(input);
     return this.run(args.getBoolean("h"), args.getBoolean("v"), args.getBoolean("c"));
   }

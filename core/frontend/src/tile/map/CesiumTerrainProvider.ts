@@ -154,7 +154,7 @@ class CesiumTerrainProvider extends TerrainMeshProvider {
   private static _tokenTimeoutInterval = BeDuration.fromSeconds(60 * 30);      // Request a new access token every 30 minutes...
   private _tokenTimeOut: BeTimePoint;
 
-  public forceTileLoad(tile: Tile): boolean {
+  public override forceTileLoad(tile: Tile): boolean {
     // Force loading of the metadata availability tiles as these are required for determining the availability of descendants.
     return undefined !== this._metaDataAvailableLevel && tile.depth === 1 + this._metaDataAvailableLevel && !(tile as MapTile).everLoaded;
   }
@@ -165,7 +165,7 @@ class CesiumTerrainProvider extends TerrainMeshProvider {
     this._tokenTimeOut = BeTimePoint.now().plus(CesiumTerrainProvider._tokenTimeoutInterval);
   }
 
-  public getLogo(): HTMLTableRowElement {
+  public override getLogo(): HTMLTableRowElement {
     return IModelApp.makeLogoCard({ iconSrc: "images/cesium-ion.svg", heading: "Cesium Ion", notice: IModelApp.i18n.translate("iModelJs:BackgroundMap.CesiumWorldTerrainAttribution") });
   }
 
@@ -179,7 +179,7 @@ class CesiumTerrainProvider extends TerrainMeshProvider {
     return this._tileAvailability ? this._tileAvailability.isTileAvailable(quadId.level - 1, quadId.column, quadId.row) : true;
   }
 
-  public async getMesh(tile: MapTile, data: Uint8Array): Promise<TerrainMeshPrimitive | undefined> {
+  public override async getMesh(tile: MapTile, data: Uint8Array): Promise<TerrainMeshPrimitive | undefined> {
     if (BeTimePoint.now().milliseconds > this._tokenTimeOut.milliseconds) {
       const accessTokenAndEndpointUrl = await getCesiumAccessTokenAndEndpointUrl();
       if (!accessTokenAndEndpointUrl.token) {
@@ -307,7 +307,7 @@ class CesiumTerrainProvider extends TerrainMeshProvider {
 
     }
 
-    const mesh = TerrainMeshPrimitive.create({ pointQParams, pointCount, indexCount, wantSkirts: this._wantSkirts, westCount, eastCount, southCount, northCount, wantNormals: undefined !== encodedNormalsBuffer   });
+    const mesh = TerrainMeshPrimitive.create({ pointQParams, pointCount, indexCount, wantSkirts: this._wantSkirts, westCount, eastCount, southCount, northCount, wantNormals: undefined !== encodedNormalsBuffer });
     for (let i = 0; i < indexCount;)
       this.addTriangle(mesh, indices[i++], indices[i++], indices[i++]);
 
@@ -338,7 +338,7 @@ class CesiumTerrainProvider extends TerrainMeshProvider {
       this.generateSkirts(mesh, southIndices, projection, -skirtHeight, heightBuffer, minHeight, heightScale, wantNormals);
       this.generateSkirts(mesh, northIndices, projection, -skirtHeight, heightBuffer, minHeight, heightScale, wantNormals);
     }
-    assert (mesh.isCompleted);
+    assert(mesh.isCompleted);
     return mesh;
   }
 
@@ -351,7 +351,7 @@ class CesiumTerrainProvider extends TerrainMeshProvider {
       const index = indices[i];
       const paramIndex = index * 2;
       const height = minHeight + heightBuffer[index] * heightScale;
-      CesiumTerrainProvider._scratchQPoint2d.setFromScalars(mesh.uvs[paramIndex], mesh.uvs[paramIndex+1]);
+      CesiumTerrainProvider._scratchQPoint2d.setFromScalars(mesh.uvs[paramIndex], mesh.uvs[paramIndex + 1]);
       const uv = mesh.uvQParams.unquantize(CesiumTerrainProvider._scratchQPoint2d.x, CesiumTerrainProvider._scratchQPoint2d.y, CesiumTerrainProvider._scratchPoint2d);
       if (wantNormals && mesh.normals) {
         mesh.addVertex(projection.getPoint(uv.x, uv.y, height + skirtOffset), CesiumTerrainProvider._scratchQPoint2d, mesh.normals[index]);
@@ -365,11 +365,11 @@ class CesiumTerrainProvider extends TerrainMeshProvider {
       }
     }
   }
-  public get requestOptions(): RequestOptions {
+  public override get requestOptions(): RequestOptions {
     return { method: "GET", responseType: "arraybuffer", headers: { authorization: `Bearer ${this._accessToken}` }, accept: "application/vnd.quantized-mesh;" /* extensions=octvertexnormals, */ + "application/octet-stream;q=0.9,*/*;q=0.01" };
   }
 
-  public constructUrl(row: number, column: number, zoomLevel: number): string {
+  public override constructUrl(row: number, column: number, zoomLevel: number): string {
     return this._tileUrlTemplate.replace("{z}", (zoomLevel - 1).toString()).replace("{x}", column.toString()).replace("{y}", row.toString());
   }
 

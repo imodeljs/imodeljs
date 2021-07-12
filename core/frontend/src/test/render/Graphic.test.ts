@@ -28,32 +28,32 @@ class Branch extends GraphicBranch {
     super(ownsEntries);
   }
 
-  public dispose() {
+  public override dispose() {
     this.isDisposed = true;
     super.dispose();
   }
 }
 
 class System extends MockRender.System {
-  public createGraphicList(graphics: RenderGraphic[]) {
+  public override createGraphicList(graphics: RenderGraphic[]) {
     const ret = super.createGraphicList(graphics);
     addIsDisposed(ret);
     return ret;
   }
 
-  public createGraphicBranch(branch: GraphicBranch, transform: Transform, options?: GraphicBranchOptions) {
+  public override createGraphicBranch(branch: GraphicBranch, transform: Transform, options?: GraphicBranchOptions) {
     const ret = super.createGraphicBranch(branch, transform, options);
     addIsDisposed(ret);
     return ret;
   }
 
-  public createBatch(graphic: RenderGraphic, features: PackedFeatureTable, range: ElementAlignedBox3d) {
+  public override createBatch(graphic: RenderGraphic, features: PackedFeatureTable, range: ElementAlignedBox3d) {
     const ret = super.createBatch(graphic, features, range);
     addIsDisposed(ret);
     return ret;
   }
 
-  public createGraphicOwner(graphic: RenderGraphic) {
+  public override createGraphicOwner(graphic: RenderGraphic) {
     const ret = super.createGraphicOwner(graphic);
     addIsDisposed(ret);
     return ret;

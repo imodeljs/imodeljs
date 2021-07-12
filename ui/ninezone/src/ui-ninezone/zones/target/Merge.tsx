@@ -24,7 +24,7 @@ export interface MergeTargetProps extends CommonProps {
  * @beta
  */
 export class MergeTarget extends React.PureComponent<MergeTargetProps> {
-  public render() {
+  public override render() {
     const { className, ...props } = this.props;
     const targetClassName = classnames(
       "nz-zones-target-merge",

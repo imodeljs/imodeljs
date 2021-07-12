@@ -82,7 +82,7 @@ export class ElementTooltip extends React.Component<CommonProps, ElementTooltipS
   private _position?: PointProps;
 
   /** @internal */
-  public readonly state: Readonly<ElementTooltipState> = {
+  public override readonly state: Readonly<ElementTooltipState> = {
     message: "",
     isVisible: false,
     position: {
@@ -95,7 +95,7 @@ export class ElementTooltip extends React.Component<CommonProps, ElementTooltipS
     super(props);
   }
 
-  public render() {
+  public override render() {
     if (!this.state.isVisible)
       return null;
 
@@ -119,11 +119,11 @@ export class ElementTooltip extends React.Component<CommonProps, ElementTooltipS
     );
   }
 
-  public componentDidMount(): void {
+  public override componentDidMount(): void {
     ElementTooltip.onElementTooltipChangedEvent.addListener(this._handleElementTooltipChangedEvent);
   }
 
-  public componentWillUnmount(): void {
+  public override componentWillUnmount(): void {
     ElementTooltip.onElementTooltipChangedEvent.removeListener(this._handleElementTooltipChangedEvent);
   }
 

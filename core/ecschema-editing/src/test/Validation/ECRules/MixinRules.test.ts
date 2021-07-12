@@ -4,9 +4,9 @@
 *--------------------------------------------------------------------------------------------*/
 
 import { expect } from "chai";
-import { DelayedPromiseWithProps, DiagnosticCategory, DiagnosticType, EntityClass, Mixin, Schema, SchemaContext } from "@bentley/ecschema-metadata";
-import { MutableEntityClass } from "../../../Editing/MutableEntityClass";
-import {  } from "../../../Validation/Diagnostic";
+import { DelayedPromiseWithProps, EntityClass, Mixin, Schema, SchemaContext } from "@bentley/ecschema-metadata";
+import { MutableEntityClass } from "../../../Editing/Mutable/MutableEntityClass";
+import { DiagnosticCategory, DiagnosticType } from "../../../Validation/Diagnostic";
 import * as Rules from "../../../Validation/ECRules";
 
 /* eslint-disable deprecation/deprecation */

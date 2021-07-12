@@ -15,7 +15,7 @@ import { TypeConverterManager } from "./TypeConverterManager";
  * @public
  */
 export class HexadecimalTypeConverter extends TypeConverter {
-  public convertToString(value?: Primitives.Hexadecimal) {
+  public override convertToString(value?: Primitives.Hexadecimal) {
     if (value === undefined)
       return "";
 
@@ -24,7 +24,7 @@ export class HexadecimalTypeConverter extends TypeConverter {
     return `0x${hexString.substring(2, hexString.length).toUpperCase()}`;
   }
 
-  public convertFromString(value: string) {
+  public override convertFromString(value: string) {
     if (value.substr(0, 2) !== "0x")
       value = `0x${value}`;
 

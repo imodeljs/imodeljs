@@ -28,7 +28,7 @@ export class BooleanEditor extends React.PureComponent<PropertyEditorProps, Bool
   private _inputElement = React.createRef<HTMLInputElement>();
 
   /** @internal */
-  public readonly state: Readonly<BooleanEditorState> = {
+  public override readonly state: Readonly<BooleanEditorState> = {
     checkboxValue: false,
     isDisabled: false,
   };
@@ -87,18 +87,18 @@ export class BooleanEditor extends React.PureComponent<PropertyEditorProps, Bool
   };
 
   /** @internal */
-  public componentDidMount() {
+  public override componentDidMount() {
     this._isMounted = true;
     this.setStateFromProps(); // eslint-disable-line @typescript-eslint/no-floating-promises
   }
 
   /** @internal */
-  public componentWillUnmount() {
+  public override componentWillUnmount() {
     this._isMounted = false;
   }
 
   /** @internal */
-  public componentDidUpdate(prevProps: PropertyEditorProps) {
+  public override componentDidUpdate(prevProps: PropertyEditorProps) {
     if (this.props.propertyRecord !== prevProps.propertyRecord) {
       this.setStateFromProps(); // eslint-disable-line @typescript-eslint/no-floating-promises
     }
@@ -125,7 +125,7 @@ export class BooleanEditor extends React.PureComponent<PropertyEditorProps, Bool
   }
 
   /** @internal */
-  public render() {
+  public override render() {
     const className = classnames("components-cell-editor", "components-boolean-editor", this.props.className);
     const checked = this.state.checkboxValue;
     const isDisabled = !!this.state.isDisabled;

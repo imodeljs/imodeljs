@@ -38,6 +38,8 @@ import { IntegratedSpiral3d } from "../curve/spiral/IntegratedSpiral3d";
 import { DgnSpiralTypeQueries } from "./BGFBReader";
 import { DirectSpiral3d } from "../curve/spiral/DirectSpiral3d";
 import { TaggedNumericData } from "../polyface/TaggedNumericData";
+import { InterpolationCurve3d } from "../bspline/InterpolationCurve3d";
+import { AkimaCurve3d } from "../bspline/AkimaCurve3d";
 
 /**
  * Context to write to a flatbuffer blob.
@@ -141,6 +143,52 @@ export class BGFBWriter {
     return BGFBAccessors.VariantGeometry.createVariantGeometry(this.builder, BGFBAccessors.VariantGeometryUnion.tagCurveVector, curveVectorOffset, 0);
   }
 
+  public writeInterpolationCurve3dAsFBVariantGeometry(curve: InterpolationCurve3d): number | undefined {
+    const props = curve.cloneProps();
+    const fitPointsOffset = this.writeDoubleArray(curve.copyFitPointsFloat64Array());
+    const knotOffset = props.knots ? this.writeDoubleArray(props.knots) : 0;
+
+      // REMARK: some native or flatbuffer quirk made startTangent a point and endTangent a vector.
+    const startTangentOffset = props.startTangent ?
+      BGFBAccessors.DPoint3d.createDPoint3d(this.builder,
+          XYZ.x(props.startTangent), XYZ.y(props.startTangent), XYZ.z(props.startTangent))
+            : 0;
+    const endTangentOffset = props.endTangent ?
+      BGFBAccessors.DVector3d.createDVector3d(this.builder,
+        XYZ.x(props.endTangent), XYZ.y(props.endTangent), XYZ.z(props.endTangent))
+          : 0;
+      BGFBAccessors.InterpolationCurve.startInterpolationCurve(this.builder);
+    BGFBAccessors.InterpolationCurve.addFitPoints(this.builder, fitPointsOffset);
+    if (props.order)
+      BGFBAccessors.InterpolationCurve.addOrder(this.builder, props.order);
+    if (props.closed)
+      BGFBAccessors.InterpolationCurve.addClosed(this.builder, props.closed);
+    if (props.isChordLenKnots)
+      BGFBAccessors.InterpolationCurve.addIsChordLenKnots(this.builder, props.isChordLenKnots);
+    if (props.isColinearTangents)
+      BGFBAccessors.InterpolationCurve.addIsColinearTangents(this.builder, props.isColinearTangents);
+    if (props.isChordLenKnots)
+      BGFBAccessors.InterpolationCurve.addIsChordLenKnots(this.builder, props.isChordLenKnots);
+    if (props.isNaturalTangents)
+      BGFBAccessors.InterpolationCurve.addIsNaturalTangents(this.builder, props.isNaturalTangents);
+    if (startTangentOffset !== 0)
+      BGFBAccessors.InterpolationCurve.addStartTangent(this.builder, startTangentOffset);
+    if (endTangentOffset !== 0)
+      BGFBAccessors.InterpolationCurve.addEndTangent(this.builder, endTangentOffset);
+    if (knotOffset !== 0)
+      BGFBAccessors.InterpolationCurve.addKnots(this.builder, knotOffset);
+    const headerOffset = BGFBAccessors.InterpolationCurve.endInterpolationCurve(this.builder);
+    return BGFBAccessors.VariantGeometry.createVariantGeometry(this.builder, BGFBAccessors.VariantGeometryUnion.tagInterpolationCurve, headerOffset, 0);
+    }
+
+  public writeAkimaCurve3dAsFBVariantGeometry(curve: AkimaCurve3d): number | undefined {
+    const fitPointsOffset = this.writeDoubleArray(curve.copyFitPointsFloat64Array());
+    BGFBAccessors.AkimaCurve.startAkimaCurve(this.builder);
+    BGFBAccessors.AkimaCurve.addPoints(this.builder, fitPointsOffset);
+    const headerOffset = BGFBAccessors.AkimaCurve.endAkimaCurve(this.builder);
+    return BGFBAccessors.VariantGeometry.createVariantGeometry(this.builder, BGFBAccessors.VariantGeometryUnion.tagAkimaCurve, headerOffset, 0);
+    }
+
   public writeBsplineCurve3dAsFBVariantGeometry(bcurve: BSplineCurve3d): number | undefined {
     const order = bcurve.order;
     const closed = false;   // typescript bcurves are not closed.  There is API to impose wrapping . . .
@@ -220,6 +268,10 @@ export class BGFBWriter {
       return this.writeBsplineCurve3dAsFBVariantGeometry(curvePrimitive);
     } else if (curvePrimitive instanceof BSplineCurve3dH) {
       return this.writeBsplineCurve3dAHsFBVariantGeometry(curvePrimitive);
+    } else if (curvePrimitive instanceof InterpolationCurve3d) {
+      return this.writeInterpolationCurve3dAsFBVariantGeometry(curvePrimitive);
+    } else if (curvePrimitive instanceof AkimaCurve3d) {
+      return this.writeAkimaCurve3dAsFBVariantGeometry(curvePrimitive);
     } else if (curvePrimitive instanceof IntegratedSpiral3d) {
       const placement = curvePrimitive.localToWorld;
       const typeCode = DgnSpiralTypeQueries.stringToTypeCode(curvePrimitive.spiralType, true)!;

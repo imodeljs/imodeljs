@@ -25,7 +25,7 @@ import { RpcConfiguration, RpcDefaultConfiguration } from "./core/RpcConfigurati
 export class TestRpcManager {
   public static initialize(interfaces: RpcInterfaceDefinition[]) {
     const config = class extends RpcDefaultConfiguration {
-      public interfaces: any = () => interfaces;
+      public override interfaces: any = () => interfaces;
     };
 
     for (const def of interfaces)

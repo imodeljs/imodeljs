@@ -78,7 +78,7 @@ export interface ListPickerItemProps extends CommonProps {
  */
 export class ListPickerItem extends React.PureComponent<ListPickerItemProps> {
   /** Renders ListPickerItem */
-  public render() {
+  public override render() {
     const itemClassName = classnames(
       "ListPicker-item",
       this.props.isActive && "is-active",
@@ -129,7 +129,7 @@ export class ExpandableSection extends React.PureComponent<ExpandableSectionProp
   };
 
   /** Renders ExpandableSection */
-  public render() {
+  public override render() {
     const className = classnames(
       "nz-toolbar-item-expandable-group-group",
       this.props.className,
@@ -255,19 +255,19 @@ export class ListPickerBase extends React.PureComponent<ListPickerProps, ListPic
   };
 
   /** @internal */
-  public componentDidMount() {
+  public override componentDidMount() {
     this._isMounted = true;
     FrontstageManager.onToolPanelOpenedEvent.addListener(this._handleToolPanelOpenedEvent);
   }
 
   /** @internal */
-  public componentWillUnmount() {
+  public override componentWillUnmount() {
     this._isMounted = false;
     FrontstageManager.onToolPanelOpenedEvent.addListener(this._handleToolPanelOpenedEvent);
   }
 
   /** Renders ListPickerBase */
-  public render() {
+  public override render() {
     const icon = this.props.iconSpec ? /* istanbul ignore next */ (typeof this.props.iconSpec === "string" ?
       /* istanbul ignore next */ <Icon iconSpec={this.props.iconSpec} /> : <i className="icon uifw-item-svg-icon">{this.props.iconSpec}</i>) :
       <i className="icon icon-list" />;
@@ -517,7 +517,7 @@ export class ListPicker extends React.Component<ListPickerPropsExtended> {
   };
 
   /** Renders ListPicker */
-  public render() {
+  public override render() {
     return (
       <FrameworkVersionSwitch
         v1={

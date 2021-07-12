@@ -18,17 +18,17 @@ export class GenericTool extends PrimitiveTool {
   public userPoint: Point3d | undefined;
   public elementId: string | undefined;
   // ensure toolId is unique by add "uiTestExtension-" prefix
-  public static get toolId() { return "uiTestExtension-GenericTool"; }
+  public static override get toolId() { return "uiTestExtension-GenericTool"; }
   public static get toolStringKey() { return `uiTestExtension:tools.${GenericTool.toolId}.`; }
-  public static iconSpec = `svg:${genericToolSvg}`;
+  public static override iconSpec = `svg:${genericToolSvg}`;
   public static useDefaultPosition = false;
-  public autoLockTarget(): void { } // NOTE: For selecting elements we only care about iModel, so don't lock target model automatically.
+  public override autoLockTarget(): void { } // NOTE: For selecting elements we only care about iModel, so don't lock target model automatically.
   protected wantSelectionClearOnMiss(_ev: BeButtonEvent): boolean { return SelectionMode.Replace === this.getSelectionMode(); }
   protected wantPickableDecorations(): boolean { return false; } // Allow pickable decorations selection to be independent of manipulators...
   protected getSelectionMethod(): SelectionMethod { return SelectionMethod.Pick; }
   protected getSelectionMode(): SelectionMode { return SelectionMode.Replace; }
-  public requireWriteableTarget() { return false; }
-  public async filterHit(_hit: HitDetail, _out?: LocateResponse) { return Promise.resolve(LocateFilterStatus.Accept); }
+  public override requireWriteableTarget() { return false; }
+  public override async filterHit(_hit: HitDetail, _out?: LocateResponse) { return Promise.resolve(LocateFilterStatus.Accept); }
 
   public static getPrompt(name: string): string {
     const key = `tools.${this.toolId}.Prompts.${name}`;
@@ -40,7 +40,7 @@ export class GenericTool extends PrimitiveTool {
     this.exitTool();
   }
 
-  public async onDataButtonUp(ev: BeButtonEvent): Promise<EventHandled> {
+  public override async onDataButtonUp(ev: BeButtonEvent): Promise<EventHandled> {
     const hit = await IModelApp.locateManager.doLocate(new LocateResponse(), true, ev.point, ev.viewport, ev.inputSource);
     if (this.elementId === undefined) {
       if (hit !== undefined) {
@@ -62,7 +62,7 @@ export class GenericTool extends PrimitiveTool {
     return EventHandled.Yes;
   }
 
-  public async onResetButtonUp(_ev: BeButtonEvent): Promise<EventHandled> {
+  public override async onResetButtonUp(_ev: BeButtonEvent): Promise<EventHandled> {
     this.onReinitialize();
     return EventHandled.No;
   }
@@ -79,7 +79,7 @@ export class GenericTool extends PrimitiveTool {
     }
   }
 
-  public onPostInstall(): void {
+  public override onPostInstall(): void {
     super.onPostInstall();
 
     const iModelConnection = UiFramework.getIModelConnection();

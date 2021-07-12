@@ -51,8 +51,8 @@ async function zoomToSelectedElements(vp: Viewport) {
 }
 
 export class ZoomToSelectedElementsTool extends Tool {
-  public static toolId = "ZoomToSelectedElements";
-  public run(_args: any[]): boolean {
+  public static override toolId = "ZoomToSelectedElements";
+  public override run(_args: any[]): boolean {
     const vp = IModelApp.viewManager.selectedView;
     if (undefined !== vp)
       zoomToSelectedElements(vp); // eslint-disable-line @typescript-eslint/no-floating-promises
@@ -62,8 +62,8 @@ export class ZoomToSelectedElementsTool extends Tool {
 }
 
 export class SaveImageTool extends Tool {
-  public static toolId = "SaveImage";
-  public run(_args: any[]): boolean {
+  public static override toolId = "SaveImage";
+  public override run(_args: any[]): boolean {
     const vp = IModelApp.viewManager.selectedView;
     if (undefined !== vp)
       saveImage(vp);
@@ -73,8 +73,8 @@ export class SaveImageTool extends Tool {
 }
 
 export class ModelClipTool extends Tool {
-  public static toolId = "ModelClip";
-  public run(_args: any[]): boolean {
+  public static override toolId = "ModelClip";
+  public override run(_args: any[]): boolean {
     const view = IModelApp.viewManager.selectedView?.view;
     if (!view || !view.isSpatialView() || view.modelSelector.models.size < 2)
       return true;
@@ -105,12 +105,12 @@ export class ModelClipTool extends Tool {
 }
 
 export class MarkupTool extends Tool {
-  public static toolId = "Markup";
+  public static override toolId = "Markup";
   public static savedData?: MarkupData;
-  public static get minArgs() { return 0; }
-  public static get maxArgs() { return 1; }
+  public static override get minArgs() { return 0; }
+  public static override get maxArgs() { return 1; }
 
-  public run(wantSavedData: boolean): boolean {
+  public override run(wantSavedData: boolean): boolean {
     const vp = IModelApp.viewManager.selectedView;
     if (undefined === vp)
       return true;
@@ -138,7 +138,7 @@ export class MarkupTool extends Tool {
     return true;
   }
 
-  public parseAndRun(...args: string[]): boolean {
+  public override parseAndRun(...args: string[]): boolean {
     const wantSavedData = "savedata" === args[0]?.toLowerCase();
     return this.run(wantSavedData);
   }
@@ -475,12 +475,12 @@ export class Viewer extends Window {
     return this._imodel.close();
   }
 
-  public onFocus(): void {
+  public override onFocus(): void {
     this._header.element.classList.add("viewport-header-focused");
     IModelApp.viewManager.setSelectedView(this.viewport);
   }
 
-  public onLoseFocus(): void {
+  public override onLoseFocus(): void {
     this._header.element.classList.remove("viewport-header-focused");
   }
 
@@ -496,7 +496,7 @@ export class Viewer extends Window {
 
   public get windowId(): string { return this.viewport.viewportId.toString(); }
 
-  public onClosing(): void {
+  public override onClosing(): void {
     this.toolBar.dispose();
     if (this._debugWindow) {
       this._debugWindow.dispose();
@@ -506,7 +506,7 @@ export class Viewer extends Window {
     IModelApp.viewManager.dropViewport(this.viewport, true);
   }
 
-  public onClosed(): void {
+  public override onClosed(): void {
     if (undefined === IModelApp.viewManager.selectedView) {
       IModelApp.notifications.outputMessage(new NotifyMessageDetails(OutputMessagePriority.Info, "Closing iModel..."));
       this.closeIModel().then(() => IModelApp.notifications.outputMessage(new NotifyMessageDetails(OutputMessagePriority.Info, "iModel closed."))); // eslint-disable-line @typescript-eslint/no-floating-promises

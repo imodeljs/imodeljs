@@ -34,7 +34,7 @@ export interface StagePanelHeaderProps extends CommonProps {
  * @alpha
  */
 export class StagePanelHeader extends React.PureComponent<StagePanelHeaderProps> {
-  public render() {
+  public override render() {
     const className = classnames("uifw-stagepanelheader",
       this.props.className,
     );

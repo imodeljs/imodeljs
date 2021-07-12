@@ -79,7 +79,7 @@ export interface HttpServerResponse extends Writable {
  * @public
  */
 export abstract class WebAppRpcProtocol extends RpcProtocol {
-  public preserveStreams = true;
+  public override preserveStreams = true;
 
   private _initialized: Promise<void> | undefined;
 
@@ -151,7 +151,7 @@ export abstract class WebAppRpcProtocol extends RpcProtocol {
   public readonly requestType = WebAppRpcRequest;
 
   /** Supplies the status corresponding to a protocol-specific code value. */
-  public getStatus(code: number): RpcRequestStatus {
+  public override getStatus(code: number): RpcRequestStatus {
     switch (code) {
       case 404: return RpcRequestStatus.NotFound;
       case 202: return RpcRequestStatus.Pending;
@@ -166,7 +166,7 @@ export abstract class WebAppRpcProtocol extends RpcProtocol {
   }
 
   /** Supplies the protocol-specific code corresponding to a status value. */
-  public getCode(status: RpcRequestStatus): number {
+  public override getCode(status: RpcRequestStatus): number {
     switch (status) {
       case RpcRequestStatus.NotFound: return 404;
       case RpcRequestStatus.Pending: return 202;

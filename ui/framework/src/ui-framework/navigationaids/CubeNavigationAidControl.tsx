@@ -22,5 +22,5 @@ export class CubeNavigationAidControl extends NavigationAidControl {
     this.reactNode = <CubeNavigationAid iModelConnection={options.imodel} viewport={options.viewport} />;
   }
 
-  public getSize(): string | undefined { return "96px"; }
+  public override getSize(): string | undefined { return "96px"; }
 }

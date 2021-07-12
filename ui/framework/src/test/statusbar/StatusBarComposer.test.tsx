@@ -62,7 +62,7 @@ describe("StatusBarComposer", () => {
   }
 
   class AppStatusBarComponent extends React.PureComponent {
-    public render() {
+    public override render() {
       return <div className="status-bar-component" />;
     }
   }

@@ -449,7 +449,7 @@ describe("BsplineCurve", () => {
     ck.testUndefined(bcurve.getPolePoint4d(100));
     for (; bcurve.getPolePoint3d(n, myPole) !== undefined; n++) {
       const q = bcurve.getPolePoint4d(n, myPoleH);
-      if (ck.testPointer(q) && q) {
+      if (ck.testPointer(q)) {
         const w = myPoleH.w;
         ck.testTrue(myPoleH.isAlmostEqualXYZW(myPole.x * w, myPole.y * w, myPole.z * w, w));
       }
@@ -489,7 +489,7 @@ describe("BsplineCurve", () => {
     ck.testUndefined(bcurve.getPolePoint3d(100));
     for (; bcurve.getPolePoint3d(n, myPole) !== undefined; n++) {
       const q = bcurve.getPolePoint4d(n, myPoleH);
-      if (ck.testPointer(q) && q) {
+      if (ck.testPointer(q)) {
         const w = myPoleH.w;
         ck.testTrue(myPoleH.isAlmostEqualXYZW(myPole.x * w, myPole.y * w, myPole.z * w, w));
       }

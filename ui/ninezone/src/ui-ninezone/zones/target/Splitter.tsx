@@ -26,7 +26,7 @@ export interface SplitterTargetProps extends MergeTargetProps {
  * @beta
  */
 export class SplitterTarget extends React.PureComponent<SplitterTargetProps> {
-  public render() {
+  public override render() {
     const { className, style, ...props } = this.props;
     const targetClassName = classnames("nz-zones-target-splitter",
       className);

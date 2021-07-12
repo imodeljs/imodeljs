@@ -22,7 +22,7 @@ import { ViewState } from "./ViewState";
  */
 export class ModelState extends EntityState implements ModelProps {
   /** @internal */
-  public static get className() { return "Model"; }
+  public static override get className() { return "Model"; }
   public readonly modeledElement: RelatedElement;
   public readonly name: string;
   public parentModel: Id64String;
@@ -39,7 +39,7 @@ export class ModelState extends EntityState implements ModelProps {
   }
 
   /** Add all custom-handled properties of a Model to a json object. */
-  public toJSON(): ModelProps {
+  public override toJSON(): ModelProps {
     const val = super.toJSON() as ModelProps;
     val.modeledElement = this.modeledElement;
     val.parentModel = this.parentModel;
@@ -76,7 +76,7 @@ export class ModelState extends EntityState implements ModelProps {
  */
 export abstract class GeometricModelState extends ModelState implements GeometricModelProps {
   /** @internal */
-  public static get className() { return "GeometricModel"; }
+  public static override get className() { return "GeometricModel"; }
   /** @internal */
   public geometryGuid?: string;
 
@@ -90,12 +90,12 @@ export abstract class GeometricModelState extends ModelState implements Geometri
   /** Returns true if this is a 3d model (a [[GeometricModel3dState]]). */
   public abstract get is3d(): boolean;
   /** @internal */
-  public get asGeometricModel(): GeometricModelState { return this; }
+  public override get asGeometricModel(): GeometricModelState { return this; }
   /** Returns true if this is a 2d model (a [[GeometricModel2dState]]). */
   public get is2d(): boolean { return !this.is3d; }
 
   /** @internal */
-  public get isGeometricModel(): boolean { return true; }
+  public override get isGeometricModel(): boolean { return true; }
   /** @internal */
   public get treeModelId(): Id64String { return this.id; }
 
@@ -134,7 +134,7 @@ export abstract class GeometricModelState extends ModelState implements Geometri
  */
 export class GeometricModel2dState extends GeometricModelState implements GeometricModel2dProps {
   /** @internal */
-  public static get className() { return "GeometricModel2d"; }
+  public static override get className() { return "GeometricModel2d"; }
   /** @internal */
   public readonly globalOrigin: Point2d;
 
@@ -146,9 +146,9 @@ export class GeometricModel2dState extends GeometricModelState implements Geomet
   /** @internal */
   public get is3d(): boolean { return false; }
   /** @internal */
-  public get asGeometricModel2d(): GeometricModel2dState { return this; }
+  public override get asGeometricModel2d(): GeometricModel2dState { return this; }
 
-  public toJSON(): GeometricModel2dProps {
+  public override toJSON(): GeometricModel2dProps {
     const val = super.toJSON() as GeometricModel2dProps;
     val.globalOrigin = this.globalOrigin;
     return val;
@@ -160,7 +160,7 @@ export class GeometricModel2dState extends GeometricModelState implements Geomet
  */
 export class GeometricModel3dState extends GeometricModelState {
   /** @internal */
-  public static get className() { return "GeometricModel3d"; }
+  public static override get className() { return "GeometricModel3d"; }
 
   constructor(props: GeometricModel3dProps, iModel: IModelConnection, state?: GeometricModel3dState) {
     super(props, iModel, state);
@@ -169,7 +169,7 @@ export class GeometricModel3dState extends GeometricModelState {
   }
 
   /** @internal */
-  public toJSON(): GeometricModel3dProps {
+  public override toJSON(): GeometricModel3dProps {
     const val = super.toJSON() as GeometricModel3dProps;
     if (this.isNotSpatiallyLocated)
       val.isNotSpatiallyLocated = true;
@@ -183,7 +183,7 @@ export class GeometricModel3dState extends GeometricModelState {
   /** @internal */
   public get is3d(): boolean { return true; }
   /** @internal */
-  public get asGeometricModel3d(): GeometricModel3dState { return this; }
+  public override get asGeometricModel3d(): GeometricModel3dState { return this; }
 
   /** If true, then the elements in this GeometricModel3dState are expected to be in an XY plane.
    * @note The associated ECProperty was added to the BisCore schema in version 1.0.8
@@ -206,7 +206,7 @@ export class GeometricModel3dState extends GeometricModelState {
  */
 export class SheetModelState extends GeometricModel2dState {
   /** @internal */
-  public static get className() { return "SheetModel"; }
+  public static override get className() { return "SheetModel"; }
 }
 
 /** Represents the front-end state of a [SpatialModel]($backend).
@@ -217,9 +217,9 @@ export class SpatialModelState extends GeometricModel3dState {
   public readonly classifiers?: SpatialClassifiers;
 
   /** @internal */
-  public static get className() { return "SpatialModel"; }
+  public static override get className() { return "SpatialModel"; }
   /** @internal */
-  public get asSpatialModel(): SpatialModelState { return this; }
+  public override get asSpatialModel(): SpatialModelState { return this; }
 
   public constructor(props: ModelProps, iModel: IModelConnection, state?: SpatialModelState) {
     super(props, iModel, state);
@@ -237,7 +237,7 @@ export class SpatialModelState extends GeometricModel3dState {
  */
 export class PhysicalModelState extends SpatialModelState {
   /** @internal */
-  public static get className() { return "PhysicalModel"; }
+  public static override get className() { return "PhysicalModel"; }
 }
 
 /** Represents the front-end state of a [SpatialLocationModel]($backend).
@@ -245,7 +245,7 @@ export class PhysicalModelState extends SpatialModelState {
  */
 export class SpatialLocationModelState extends SpatialModelState {
   /** @internal */
-  public static get className() { return "SpatialLocationModel"; }
+  public static override get className() { return "SpatialLocationModel"; }
 }
 
 /** Represents the front-end state of a [DrawingModel]($backend).
@@ -253,7 +253,7 @@ export class SpatialLocationModelState extends SpatialModelState {
  */
 export class DrawingModelState extends GeometricModel2dState {
   /** @internal */
-  public static get className() { return "DrawingModel"; }
+  public static override get className() { return "DrawingModel"; }
 }
 
 /** Represents the front-end state of a [SectionDrawingModel]($backend).
@@ -261,5 +261,5 @@ export class DrawingModelState extends GeometricModel2dState {
  */
 export class SectionDrawingModelState extends DrawingModelState {
   /** @internal */
-  public static get className() { return "SectionDrawingModel"; }
+  public static override get className() { return "SectionDrawingModel"; }
 }

@@ -2,7 +2,7 @@
   "name": "@bentley/ecschema2ts",
   "description": "Command line tools that takes an ECSchema xml file and outputs a typescript module",
   "license": "MIT",
-  "version": "2.19.0-dev.8",
+  "version": "2.19.0-dev.13",
   "bin": {
     "ecschema2ts": "./bin/index.js"
   },
@@ -51,7 +51,7 @@
     "nyc": "^15.1.0",
     "rimraf": "^3.0.2",
     "source-map-support": "^0.5.6",
-    "typescript": "~4.1.0"
+    "typescript": "~4.3.0"
   },
   "dependencies": {
     "@bentley/backend-itwin-client": "workspace:*",

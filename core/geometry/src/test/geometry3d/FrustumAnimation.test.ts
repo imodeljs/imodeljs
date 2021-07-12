@@ -102,7 +102,7 @@ describe("FrustumAnimation", () => {
         GeometryCoreTestIO.captureGeometry(allGeometry, cornersToLineString(cornerA).clone(), dx, dy, 0);
         GeometryCoreTestIO.captureGeometry(allGeometry, cornersToLineString(cornerB).clone(), dx, dy, 0);
         const context = SmoothTransformBetweenFrusta.create(cornerA, cornerB);
-        if (ck.testPointer(context) && context) {
+        if (ck.testPointer(context)) {
           const g = 0.05;
           const dy1 = dy + 100;
           for (const fraction of [0.0, g, 2.0 * g, 0.25, 0.5, 0.75, 1.0 - 2.0 * g, 1.0 - g, 1.0]) {
@@ -152,7 +152,7 @@ describe("FrustumAnimation", () => {
             const rotationalContext = SmoothTransformBetweenFrusta.create(cornerA, cornerB, true)!;
             // this context slides the midpoint on a line (instead of on the simple rotation path)
             const contextB = SmoothTransformBetweenFrusta.create(cornerA, cornerB, false)!;
-            if (ck.testPointer(rotationalContext) && rotationalContext) {
+            if (ck.testPointer(rotationalContext)) {
               const originA = rotationalContext.localToWorldA.getOrigin();
               const originB = rotationalContext.localToWorldB.getOrigin();
               const projectionA = ray.projectPointToRay(originA);

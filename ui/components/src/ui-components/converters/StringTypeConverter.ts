@@ -37,11 +37,11 @@ export interface StringOperatorProcessor {
  * @public
  */
 export class StringTypeConverter extends TypeConverter implements StringOperatorProcessor {
-  public convertToString(value?: Primitives.String) {
+  public override convertToString(value?: Primitives.String) {
     return value ? value.toString() : "";
   }
 
-  public convertFromString(value: string) {
+  public override convertFromString(value: string) {
     return value;
   }
 
@@ -54,7 +54,7 @@ export class StringTypeConverter extends TypeConverter implements StringOperator
       return valueA.localeCompare(valueB);
   }
 
-  public get isStringType(): boolean { return true; }
+  public override get isStringType(): boolean { return true; }
 
   public startsWith(valueA: string, valueB: string, caseSensitive: boolean): boolean {
     if (!valueA || !valueB || !this.checkArgTypes(valueA, valueB))

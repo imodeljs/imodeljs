@@ -54,7 +54,7 @@ describe("ViewportContentControl", () => {
       this.setIsReady();
     }
 
-    public get viewport(): ScreenViewport | undefined { return viewportMock.object; }
+    public override get viewport(): ScreenViewport | undefined { return viewportMock.object; }
 
   }
   class Frontstage1 extends FrontstageProvider {

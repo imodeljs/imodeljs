@@ -592,7 +592,7 @@ export class BlobDownloader {
           release();
         }
       });
-      return session.ready;
+      return await session.ready;
     } finally {
       unlock();
     }

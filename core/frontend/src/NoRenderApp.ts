@@ -19,24 +19,24 @@ export class NullTarget extends RenderTarget {
   public get renderSystem() { return undefined as any; }
   public get viewRect(): ViewRect { return new ViewRect(); }
   public get wantInvertBlackBackground(): boolean { return false; }
-  public get animationBranches(): AnimationBranchStates | undefined { return undefined; }
-  public set animationBranches(_branches: AnimationBranchStates | undefined) { }
+  public override get animationBranches(): AnimationBranchStates | undefined { return undefined; }
+  public override set animationBranches(_branches: AnimationBranchStates | undefined) { }
   public onDestroy(): void { }
-  public reset(): void { }
+  public override reset(): void { }
   public changeScene(): void { }
   public changeDynamics(): void { }
   public changeDecorations(): void { }
   public changeRenderPlan(): void { }
   public drawFrame(_sceneMilSecElapsed?: number): void { }
-  public overrideFeatureSymbology(): void { }
-  public setHiliteSet(): void { }
-  public setFlashed(): void { }
+  public override overrideFeatureSymbology(): void { }
+  public override setHiliteSet(): void { }
+  public override setFlashed(): void { }
   public setViewRect(): void { }
-  public onResized(): void { }
-  public dispose(): void { }
+  public override onResized(): void { }
+  public override dispose(): void { }
   public updateViewRect(): boolean { return false; }
   public readPixels(): void { }
-  public readImage() { return undefined; }
+  public override readImage() { return undefined; }
   public get screenSpaceEffects(): Iterable<string> { return []; }
   public set screenSpaceEffects(_effects: Iterable<string>) { }
 }

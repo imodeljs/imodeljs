@@ -32,7 +32,7 @@ export interface CheckListBoxItemProps extends CommonProps {
  * @public
  */
 export class CheckListBoxItem extends React.PureComponent<CheckListBoxItemProps> {
-  public render() {
+  public override render() {
     const className = classnames("core-chk-listboxitem-checkbox", this.props.className);
     return (
       <li>
@@ -58,7 +58,7 @@ export function CheckListBoxSeparator() {
  * @public
  */
 export class CheckListBox extends React.PureComponent<CommonProps> {
-  public render() {
+  public override render() {
     const className = classnames("core-chk-listbox", this.props.className);
     return (
       <ul className={className} style={this.props.style}>

@@ -30,7 +30,7 @@ export interface ToolSettingsPopupProps extends CommonProps {
  * @beta
  */
 export class ToolSettingsPopup extends React.PureComponent<ToolSettingsPopupProps> {
-  public render() {
+  public override render() {
     const { className, ...props } = this.props;
     return (
       <Popup

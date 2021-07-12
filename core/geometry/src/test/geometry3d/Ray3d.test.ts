@@ -47,7 +47,7 @@ function createRays(ck: Checker, target?: Ray3d) {
     const pointF1 = ray1.projectPointToRay(pointF);
     ck.testPoint3d(pointF, pointF1, "fraction to point re projects to same point");
     const frame = ray.toRigidZFrame();
-    if (ck.testPointer(frame) && frame) {
+    if (ck.testPointer(frame)) {
       const localPoint = Point3d.create(0.3, 0.8, 5.7);
       const globalPoint = frame.multiplyPoint3d(localPoint);
       const distanceToRay = ray.distance(globalPoint);

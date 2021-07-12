@@ -90,11 +90,11 @@ export class ResizeGrip extends React.PureComponent<ResizeGripProps, ResizeGripS
   private _lastPosition = new Point();
 
   /** @internal */
-  public readonly state: ResizeGripState = {
+  public override readonly state: ResizeGripState = {
     isPointerDown: false,
   };
 
-  public render() {
+  public override render() {
     const className = classnames(
       "nz-widget-rectangular-resizeGrip",
       ResizeDirectionHelpers.getCssClassName(this.props.direction),

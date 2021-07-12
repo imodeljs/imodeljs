@@ -23,7 +23,7 @@ export interface GroupColumnProps extends CommonProps {
  * @alpha
  */
 export class GroupColumn extends React.PureComponent<GroupColumnProps> {
-  public render() {
+  public override render() {
     const className = classnames(
       "nz-toolbar-item-expandable-group-column",
       this.props.className);

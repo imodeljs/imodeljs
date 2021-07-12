@@ -46,7 +46,7 @@ export class ClusterableArray extends GrowableBlockedArray {
   /** load a block, placing data[i] at block[i+1] to allow sort coordinate first.
    * @param data array of numDataPerBlock values.
    */
-  public addBlock(data: number[]) {
+  public override addBlock(data: number[]) {
     const i0 = this.newBlockIndex() + 1;
     const n = Math.min(this.numPerBlock - 1, data.length);
     for (let i = 0; i < n; i++)
@@ -317,7 +317,7 @@ export class ClusterableArray extends GrowableBlockedArray {
    * @param data points to cluster.
    */
   public static clusterPoint3dArray(data: Point3d[], tolerance: number = Geometry.smallMetricDistance):
-  PackedPointsWithIndex {
+    PackedPointsWithIndex {
     const clusterArray = new ClusterableArray(3, 0, data.length);
     data.forEach((p: Point3d) => {
       clusterArray.addDirect(p.x, p.y, p.z);
@@ -376,7 +376,7 @@ export class ClusterableArray extends GrowableBlockedArray {
    * @param data points to cluster.
    */
   public static clusterGrowablePoint3dArray(source: GrowableXYZArray, tolerance: number = Geometry.smallMetricDistance):
-  PackedPointsWithIndex {
+    PackedPointsWithIndex {
     const clusterArray = new ClusterableArray(3, 0, source.length);
     const p = Point3d.create();
     const numSourcePoint = source.length;

@@ -12,8 +12,8 @@ import { assert, expect } from "chai";
 class Overrides extends FeatureSymbology.Overrides {
   public constructor(view?: ViewState) { super(view); }
 
-  public get neverDrawn() { return this._neverDrawn; }
-  public get alwaysDrawn() { return this._alwaysDrawn; }
+  public override get neverDrawn() { return this._neverDrawn; }
+  public override get alwaysDrawn() { return this._alwaysDrawn; }
   public get modelOverrides() { return this._modelOverrides; }
   public get elementOverrides() { return this._elementOverrides; }
   public get subCategoryOverrides() { return this._subCategoryOverrides; }

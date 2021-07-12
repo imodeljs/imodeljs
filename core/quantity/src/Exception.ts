@@ -28,7 +28,7 @@ export enum QuantityStatus {
  * @beta
  */
 export class QuantityError extends BentleyError {
-  public constructor(public readonly errorNumber: number, message?: string) {
+  public constructor(public override readonly errorNumber: number, message?: string) {
     super(errorNumber, message);
   }
 }

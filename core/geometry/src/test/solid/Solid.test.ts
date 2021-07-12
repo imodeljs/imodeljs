@@ -81,7 +81,7 @@ function exerciseSolids(ck: Checker, solids: GeometryQuery[], _name: string) {
         ck.testTrue(s1.isSameGeometryClass(s), "Clone class match");
         ck.testTrue(s1.isAlmostEqual(s), "solid clone matches original");
         const s2 = s.cloneTransformed(scaleTransform);
-        if (ck.testPointer(s2) && s2 && s1.tryTransformInPlace(scaleTransform)) {
+        if (ck.testPointer(s2) && s1.tryTransformInPlace(scaleTransform)) {
           ck.testFalse(s2.isAlmostEqual(s), "scaled is different from original");
           ck.testTrue(s1.isAlmostEqual(s2), "clone transform commute");
           const range2A = Range3d.create();

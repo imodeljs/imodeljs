@@ -15,7 +15,7 @@ interface BlockingPromptProps {
  * Display a message box centered in the view port with lightbox (ghosting background)
  */
 export class BlockingPrompt extends React.Component<BlockingPromptProps> {
-  public render() {
+  public override render() {
     return (
       <div className="blocking-modal-background fade-in-fast">
         <div className="blocking-prompt fade-in">

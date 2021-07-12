@@ -34,13 +34,13 @@ import { mockPresentationManager } from "../_helpers/UiComponents";
  * protected methods of TableDataProvider
  */
 class Provider extends PresentationPropertyDataProvider {
-  public invalidateCache(props: CacheInvalidationProps) { super.invalidateCache(props); }
-  public shouldConfigureContentDescriptor() { return super.shouldConfigureContentDescriptor(); }
-  public isFieldHidden(field: Field) { return super.isFieldHidden(field); }
-  public getDescriptorOverrides() { return super.getDescriptorOverrides(); }
-  public sortCategories(categories: CategoryDescription[]) { return super.sortCategories(categories); }
-  public isFieldFavorite!: (field: Field) => boolean;
-  public sortFields!: (category: CategoryDescription, fields: Field[]) => void;
+  public override invalidateCache(props: CacheInvalidationProps) { super.invalidateCache(props); }
+  public override shouldConfigureContentDescriptor() { return super.shouldConfigureContentDescriptor(); } // eslint-disable-line deprecation/deprecation
+  public override isFieldHidden(field: Field) { return super.isFieldHidden(field); } // eslint-disable-line deprecation/deprecation
+  public override getDescriptorOverrides() { return super.getDescriptorOverrides(); }
+  public override sortCategories(categories: CategoryDescription[]) { return super.sortCategories(categories); }
+  public override isFieldFavorite!: (field: Field) => boolean;
+  public override sortFields!: (category: CategoryDescription, fields: Field[]) => void;
 }
 
 describe("PropertyDataProvider", () => {

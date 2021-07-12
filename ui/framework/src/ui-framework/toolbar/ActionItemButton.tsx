@@ -46,7 +46,7 @@ export class ActionItemButton extends React.Component<ActionItemButtonProps, Bas
   private _componentUnmounting = false;
 
   /** @internal */
-  public readonly state: Readonly<BaseItemState>;
+  public override readonly state: Readonly<BaseItemState>;
 
   constructor(props: ActionItemButtonProps) {
     super(props);
@@ -105,12 +105,12 @@ export class ActionItemButton extends React.Component<ActionItemButtonProps, Bas
   }
 
   /** @internal */
-  public componentDidMount() {
+  public override componentDidMount() {
     SyncUiEventDispatcher.onSyncUiEvent.addListener(this._handleSyncUiEvent);
   }
 
   /** @internal */
-  public componentWillUnmount() {
+  public override componentWillUnmount() {
     this._componentUnmounting = true;
     SyncUiEventDispatcher.onSyncUiEvent.removeListener(this._handleSyncUiEvent);
   }
@@ -123,7 +123,7 @@ export class ActionItemButton extends React.Component<ActionItemButtonProps, Bas
   };
 
   /** @internal */
-  public render(): React.ReactNode {
+  public override render(): React.ReactNode {
     if (!this.state.isVisible)
       return null;
 

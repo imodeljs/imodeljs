@@ -77,7 +77,7 @@ export class TileLoadingIndicator extends React.PureComponent<StatusFieldProps, 
     this._removeOnRenderListener = vp.onRender.addListener(onRenderUpdate, this);
   }
 
-  public componentDidMount() {
+  public override componentDidMount() {
     // istanbul ignore next
     if (!IModelApp.viewManager)
       return;
@@ -95,7 +95,7 @@ export class TileLoadingIndicator extends React.PureComponent<StatusFieldProps, 
     }
   }
 
-  public componentWillUnmount() {
+  public override componentWillUnmount() {
     // istanbul ignore next
     if (!IModelApp.viewManager)
       return;
@@ -110,7 +110,7 @@ export class TileLoadingIndicator extends React.PureComponent<StatusFieldProps, 
   }
 
   /** Renders TileLoadingIndicator */
-  public render() {
+  public override render() {
     const classes = classnames(
       "uifw-tile-loading-bar",
       this.state.enabled && "uifw-tile-loading-bar-visible",

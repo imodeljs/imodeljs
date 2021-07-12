@@ -6,7 +6,7 @@
  * @module OrbitGT
  */
 
-//package orbitgt.spatial.ecrs;
+// package orbitgt.spatial.ecrs;
 
 type int8 = number;
 type int16 = number;
@@ -32,27 +32,27 @@ export class OnlineEngine extends CRSEngine {
     private _onlineRegistry: OnlineRegistry;
 
     /**
-     * Create a new online engine.
-     * @return the new engine.
-     */
+       * Create a new online engine.
+       * @return the new engine.
+       */
     public static async create(): Promise<OnlineEngine> {
-        let engine: OnlineEngine = new OnlineEngine();
+        const engine: OnlineEngine = new OnlineEngine();
         await engine.setOnlineRegistry(OnlineRegistry.openOrbitGT());
         return engine;
     }
 
     /**
-     * Create a new engine.
-     */
+       * Create a new engine.
+       */
     private constructor() {
         super();
         this._onlineRegistry = null;
     }
 
     /**
-     * Set the online registry to the engine.
-     * @param onlineRegistry the registry to add.
-     */
+       * Set the online registry to the engine.
+       * @param onlineRegistry the registry to add.
+       */
     private async setOnlineRegistry(onlineRegistry: OnlineRegistry): Promise<OnlineEngine> {
         this._onlineRegistry = onlineRegistry;
         await this._onlineRegistry.getCRS(4326); // WGS84, lon-lat
@@ -62,13 +62,13 @@ export class OnlineEngine extends CRSEngine {
     }
 
     /**
-     * CRSEngine method.
-     */
-    public async prepareForArea(crs: string, area: Bounds): Promise<Bounds> {
+       * CRSEngine method.
+       */
+    public override async prepareForArea(crs: string, area: Bounds): Promise<Bounds> {
         /* Online registry? */
         if (this._onlineRegistry != null) {
             /* Load the CRS */
-            let areaCRS: CRS = await this._onlineRegistry.getCRS(Numbers.getInteger(crs, 0));
+            const areaCRS: CRS = await this._onlineRegistry.getCRS(Numbers.getInteger(crs, 0));
         }
         /* Download small grid corrections for the area ... */
         /* Return the area */
@@ -76,41 +76,41 @@ export class OnlineEngine extends CRSEngine {
     }
 
     /**
-     * CRSEngine method.
-     */
-    public transformPoint(point: Coordinate, sourceCRS: string, targetCRS: string): Coordinate {
+       * CRSEngine method.
+       */
+    public override transformPoint(point: Coordinate, sourceCRS: string, targetCRS: string): Coordinate {
         if (Registry.getCRS2(sourceCRS) == null)
             return point;
         if (Registry.getCRS2(targetCRS) == null)
             return point;
-        let targetPoint: Coordinate = Coordinate.create();
+        const targetPoint: Coordinate = Coordinate.create();
         Transform.transform(sourceCRS, point, targetCRS, targetPoint);
         return targetPoint;
     }
 
     /**
-     * CRSEngine method.
-     */
-    public isGeocentricCRS(crs: string): boolean {
-        let acrs: CRS = Registry.getCRS2(crs);
+       * CRSEngine method.
+       */
+    public override isGeocentricCRS(crs: string): boolean {
+        const acrs: CRS = Registry.getCRS2(crs);
         if (acrs != null) return acrs.isGeoCentric();
         return false;
     }
 
     /**
-     * CRSEngine method.
-     */
-    public isGeographicCRS(crs: string): boolean {
-        let acrs: CRS = Registry.getCRS2(crs);
+       * CRSEngine method.
+       */
+    public override isGeographicCRS(crs: string): boolean {
+        const acrs: CRS = Registry.getCRS2(crs);
         if (acrs != null) return acrs.isGeoGraphic();
         return false;
     }
 
     /**
-     * CRSEngine method.
-     */
-    public isProjectedCRS(crs: string): boolean {
-        let acrs: CRS = Registry.getCRS2(crs);
+       * CRSEngine method.
+       */
+    public override isProjectedCRS(crs: string): boolean {
+        const acrs: CRS = Registry.getCRS2(crs);
         if (acrs != null) return acrs.isProjected();
         return false;
     }

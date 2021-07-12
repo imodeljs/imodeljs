@@ -53,7 +53,7 @@ export class SliderEditor extends React.PureComponent<PropertyEditorProps, Slide
   private _divElement = React.createRef<HTMLDivElement>();
 
   /** @internal */
-  public readonly state: Readonly<SliderEditorState> = {
+  public override readonly state: Readonly<SliderEditorState> = {
     value: 0,
     min: 0,
     max: 100,
@@ -98,18 +98,18 @@ export class SliderEditor extends React.PureComponent<PropertyEditorProps, Slide
   };
 
   /** @internal */
-  public componentDidMount() {
+  public override componentDidMount() {
     this._isMounted = true;
     this.setStateFromProps(); // eslint-disable-line @typescript-eslint/no-floating-promises
   }
 
   /** @internal */
-  public componentWillUnmount() {
+  public override componentWillUnmount() {
     this._isMounted = false;
   }
 
   /** @internal */
-  public componentDidUpdate(prevProps: PropertyEditorProps) {
+  public override componentDidUpdate(prevProps: PropertyEditorProps) {
     if (this.props.propertyRecord !== prevProps.propertyRecord) {
       this.setStateFromProps(); // eslint-disable-line @typescript-eslint/no-floating-promises
     }
@@ -217,7 +217,7 @@ export class SliderEditor extends React.PureComponent<PropertyEditorProps, Slide
   };
 
   /** @internal */
-  public render(): React.ReactNode {
+  public override render(): React.ReactNode {
     const className = classnames("components-cell-editor", "components-slider-editor", this.props.className);
     const minSize = this.state.size ? this.state.size : 100;
     const style: React.CSSProperties = {

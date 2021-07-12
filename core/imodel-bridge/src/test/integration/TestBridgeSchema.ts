@@ -13,7 +13,7 @@ import * as modelsModule from "./TestBridgeModels";
  * @beta
  */
 export class TestBridgeSchema extends Schema {
-  public static get schemaName(): string { return "TestBridge"; }
+  public static override get schemaName(): string { return "TestBridge"; }
   public static get schemaFilePath(): string {
     return path.join(KnownTestLocations.assetsDir, "TestBridge.ecschema.xml");
   }

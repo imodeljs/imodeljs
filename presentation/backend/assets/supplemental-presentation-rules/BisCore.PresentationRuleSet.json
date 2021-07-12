@@ -241,7 +241,8 @@
           },
           "requiredDirection": "Forward",
           "isPolymorphic": true,
-          "relationshipMeaning": "SameInstance"
+          "relationshipMeaning": "SameInstance",
+          "skipIfDuplicate": true
         },
         {
           "relationships": {
@@ -258,7 +259,8 @@
           },
           "requiredDirection": "Forward",
           "isPolymorphic": true,
-          "relationshipMeaning": "SameInstance"
+          "relationshipMeaning": "SameInstance",
+          "skipIfDuplicate": true
         },
         {
           "relationships": {
@@ -275,7 +277,8 @@
           },
           "requiredDirection": "Forward",
           "isPolymorphic": true,
-          "relationshipMeaning": "RelatedInstance"
+          "relationshipMeaning": "RelatedInstance",
+          "skipIfDuplicate": true
         },
         {
           "relationships": {
@@ -312,7 +315,8 @@
               "autoExpand": true,
               "relationshipMeaning": "RelatedInstance"
             }
-          ]
+          ],
+          "skipIfDuplicate": true
         },
         {
           "relationships": {
@@ -383,7 +387,8 @@
                 }
               ]
             }
-          ]
+          ],
+          "skipIfDuplicate": true
         }
       ]
     },
@@ -429,7 +434,8 @@
               "labelOverride": "@BisCore:Properties.SourceInformation.ElementId@",
               "isDisplayed": true
             }
-          ]
+          ],
+          "skipIfDuplicate": true
         }
       ]
     },
@@ -554,7 +560,8 @@
                 }
               ]
             }
-          ]
+          ],
+          "skipIfDuplicate": true
         }
       ]
     },
@@ -598,7 +605,8 @@
               "handleTargetClassPolymorphically": true,
               "relationshipMeaning": "SameInstance"
             }
-          ]
+          ],
+          "skipIfDuplicate": true
         }
       ]
     },
@@ -642,7 +650,8 @@
               "handleTargetClassPolymorphically": true,
               "relationshipMeaning": "SameInstance"
             }
-          ]
+          ],
+          "skipIfDuplicate": true
         }
       ]
     },
@@ -668,7 +677,8 @@
           },
           "requiredDirection": "Forward",
           "isPolymorphic": true,
-          "relationshipMeaning": "RelatedInstance"
+          "relationshipMeaning": "RelatedInstance",
+          "skipIfDuplicate": true
         }
       ]
     },
@@ -694,7 +704,8 @@
           },
           "requiredDirection": "Forward",
           "isPolymorphic": true,
-          "relationshipMeaning": "RelatedInstance"
+          "relationshipMeaning": "RelatedInstance",
+          "skipIfDuplicate": true
         }
       ]
     },

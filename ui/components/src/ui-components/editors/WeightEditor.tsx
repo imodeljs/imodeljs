@@ -33,7 +33,7 @@ export class WeightEditor extends React.PureComponent<PropertyEditorProps, Weigh
   private _divElement = React.createRef<HTMLDivElement>();
 
   /** @internal */
-  public readonly state: Readonly<WeightEditorState> = {
+  public override readonly state: Readonly<WeightEditorState> = {
     weightValue: 0,
     readonly: false,
   };
@@ -107,18 +107,18 @@ export class WeightEditor extends React.PureComponent<PropertyEditorProps, Weigh
   };
 
   /** @internal */
-  public componentDidMount() {
+  public override componentDidMount() {
     this._isMounted = true;
     this.setStateFromProps(); // eslint-disable-line @typescript-eslint/no-floating-promises
   }
 
   /** @internal */
-  public componentWillUnmount() {
+  public override componentWillUnmount() {
     this._isMounted = false;
   }
 
   /** @internal */
-  public componentDidUpdate(prevProps: PropertyEditorProps) {
+  public override componentDidUpdate(prevProps: PropertyEditorProps) {
     if (this.props.propertyRecord !== prevProps.propertyRecord) {
       this.setStateFromProps(); // eslint-disable-line @typescript-eslint/no-floating-promises
     }
@@ -149,7 +149,7 @@ export class WeightEditor extends React.PureComponent<PropertyEditorProps, Weigh
   }
 
   /** @internal */
-  public render() {
+  public override render() {
     return (
       <div className={classnames("components-weight-editor", this.props.className)} style={this.props.style} ref={this._divElement}>
         <WeightPickerButton ref={(control) => this._control = control}

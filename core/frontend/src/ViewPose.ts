@@ -49,7 +49,7 @@ export class ViewPose3d extends ViewPose {
     this.camera = view.camera.clone();
   }
 
-  public get target() {
+  public override get target() {
     return this.cameraOn ? this.camera.eye.plusScaled(this.rotation.getRow(2), -1.0 * this.camera.focusDist) : this.center;
   }
 

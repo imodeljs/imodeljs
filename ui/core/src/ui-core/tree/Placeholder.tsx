@@ -27,7 +27,7 @@ export interface TreeNodePlaceholderProps extends CommonProps {
  * @public
  */
 export class TreeNodePlaceholder extends React.PureComponent<TreeNodePlaceholderProps> {
-  public render() {
+  public override render() {
     const className = classnames("core-tree-placeholder", this.props.className);
     const offset = this.props.level * LEVEL_OFFSET;
     const min = (this.props.minWidth || 50);

@@ -6,7 +6,7 @@
  * @module OrbitGT
  */
 
-//package orbitgt.system.io;
+// package orbitgt.system.io;
 
 type int8 = number;
 type int16 = number;
@@ -30,8 +30,8 @@ export class ABufferInStream extends InStream {
     private _extent: int32;
 
     /**
-     * Create a new stream.
-     */
+       * Create a new stream.
+       */
     public constructor(buffer: ABuffer, offset: int32, size: int32) {
         super();
         this._buffer = buffer;
@@ -54,9 +54,9 @@ export class ABufferInStream extends InStream {
     }
 
     /**
-     * InStream method override
-     */
-    public read(): int32 {
+       * InStream method override
+       */
+    public override read(): int32 {
         if (this._position >= this._extent) return -1;
         return this._buffer.get(this._position++);
     }

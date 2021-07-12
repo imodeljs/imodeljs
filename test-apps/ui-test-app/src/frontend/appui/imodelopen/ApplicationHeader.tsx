@@ -23,7 +23,7 @@ export class ApplicationHeader extends React.Component<ApplicationHeaderProps> {
     super(props);
   }
 
-  public render(): JSX.Element | undefined {
+  public override render(): JSX.Element | undefined {
     const headerClassName = classnames("fw-application-header", this.props.headerClassName);
     const messageClassName = classnames("fw-application-message", this.props.messageClassName);
 

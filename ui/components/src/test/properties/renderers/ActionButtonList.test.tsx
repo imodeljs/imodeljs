@@ -35,7 +35,7 @@ describe("ActionButtonList", () => {
         actionButtonRenderers={[renderer]}
       />);
 
-    const listElement = actionButtonListRenderer.container.querySelector(".custom-action-button")! as HTMLElement;
+    const listElement = actionButtonListRenderer.container.querySelector(".custom-action-button")!;
     expect(listElement.textContent).to.be.eq("Action button content");
   });
 

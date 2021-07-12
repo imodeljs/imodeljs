@@ -33,7 +33,7 @@ import * as displayStyleMod from "./DisplayStyle";
  * @public
  */
 export class BisCoreSchema extends Schema {
-  public static get schemaName(): string { return "BisCore"; }
+  public static override get schemaName(): string { return "BisCore"; }
   public static get schemaFilePath(): string { return path.join(KnownLocations.nativeAssetsDir, "ECSchemas", "Dgn", `${BisCoreSchema.schemaName}.ecschema.xml`); }
 
   /** @internal */

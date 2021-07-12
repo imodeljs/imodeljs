@@ -28,9 +28,9 @@ import { parseArgs } from "./parseArgs";
  * @beta
  */
 export class InspectElementTool extends PrimitiveTool {
-  public static toolId = "InspectElement";
-  public static get minArgs() { return 0; }
-  public static get maxArgs() { return 6; }
+  public static override toolId = "InspectElement";
+  public static override get minArgs() { return 0; }
+  public static override get maxArgs() { return 6; }
 
   private _options: GeometrySummaryOptions = {};
   private _elementIds?: Id64String[];
@@ -58,15 +58,15 @@ export class InspectElementTool extends PrimitiveTool {
     CoreTools.outputPromptByKey(this._useSelection ? "ElementSet.Prompts.ConfirmSelection" : "ElementSet.Prompts.IdentifyElement");
   }
 
-  public autoLockTarget(): void { }
+  public override autoLockTarget(): void { }
 
-  public requireWriteableTarget(): boolean { return false; }
+  public override requireWriteableTarget(): boolean { return false; }
 
-  public onUnsuspend(): void {
+  public override onUnsuspend(): void {
     this.showPrompt();
   }
 
-  public onPostInstall(): void {
+  public override onPostInstall(): void {
     super.onPostInstall();
 
     if (undefined !== this._elementIds)
@@ -80,7 +80,7 @@ export class InspectElementTool extends PrimitiveTool {
     }
   }
 
-  public async onDataButtonDown(ev: BeButtonEvent): Promise<EventHandled> {
+  public override async onDataButtonDown(ev: BeButtonEvent): Promise<EventHandled> {
     if (this._useSelection) {
       if (undefined !== ev.viewport) {
         const ids: Id64Array = [];
@@ -108,12 +108,12 @@ export class InspectElementTool extends PrimitiveTool {
     return EventHandled.No;
   }
 
-  public async onResetButtonUp(_ev: BeButtonEvent): Promise<EventHandled> {
+  public override async onResetButtonUp(_ev: BeButtonEvent): Promise<EventHandled> {
     this.onReinitialize();
     return EventHandled.No;
   }
 
-  public onReinitialize(): void {
+  public override onReinitialize(): void {
     if (this._useSelection || undefined !== this._elementIds) {
       this.exitTool();
     } else {
@@ -127,7 +127,7 @@ export class InspectElementTool extends PrimitiveTool {
       this.exitTool();
   }
 
-  public async filterHit(hit: HitDetail, _out: LocateResponse): Promise<LocateFilterStatus> {
+  public override async filterHit(hit: HitDetail, _out: LocateResponse): Promise<LocateFilterStatus> {
     return hit.isElementHit ? LocateFilterStatus.Accept : LocateFilterStatus.Reject;
   }
 
@@ -173,7 +173,7 @@ export class InspectElementTool extends PrimitiveTool {
     IModelApp.notifications.outputMessage(messageDetails);
   }
 
-  public parseAndRun(...inputArgs: string[]): boolean {
+  public override parseAndRun(...inputArgs: string[]): boolean {
     const args = parseArgs(inputArgs);
     const ids = args.get("i");
     if (undefined !== ids)

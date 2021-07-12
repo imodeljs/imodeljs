@@ -111,7 +111,7 @@ export class Tree extends React.PureComponent<TreeProps> {
     return status;
   }
 
-  public render() {
+  public override render() {
     const className = classnames(
       "core-tree",
       this.props.className);

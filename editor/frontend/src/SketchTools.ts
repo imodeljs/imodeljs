@@ -62,8 +62,8 @@ export abstract class CreateOrContinuePathTool extends CreateElementTool {
     return EditTools.callCommand(method, ...args) as ReturnType<BasicManipulationCommandIpc[T]>;
   }
 
-  protected get wantAccuSnap(): boolean { return true; }
-  protected get wantDynamics(): boolean { return true; }
+  protected override get wantAccuSnap(): boolean { return true; }
+  protected override get wantDynamics(): boolean { return true; }
 
   protected get allowJoin(): boolean { return this.isControlDown; } // These could be tool settings...
   protected get allowClosure(): boolean { return this.isControlDown; }
@@ -129,7 +129,7 @@ export abstract class CreateOrContinuePathTool extends CreateElementTool {
 
     try {
       this._startedCmd = await this.startCommand();
-      const info = await CreateOrContinuePathTool.callCommand("requestElementGeometry", snap.sourceId, { maxDisplayable: 1, geometry: { curves: true, surfaces: false, solids: false}});
+      const info = await CreateOrContinuePathTool.callCommand("requestElementGeometry", snap.sourceId, { maxDisplayable: 1, geometry: { curves: true, surfaces: false, solids: false } });
       if (undefined === info)
         return;
 
@@ -202,7 +202,7 @@ export abstract class CreateOrContinuePathTool extends CreateElementTool {
         if (curveS.isAlmostEqual(curveE))
           return; // Reject zero length lines, physically closed arcs, linestrings, etc...
 
-        return { path: Path.create(curve), params: entry.geomParams};
+        return { path: Path.create(curve), params: entry.geomParams };
       } else if ("curveCollection" === geom.geometryCategory) {
         const curves = geom as CurveCollection;
         if (!curves.isOpenPath)
@@ -210,12 +210,12 @@ export abstract class CreateOrContinuePathTool extends CreateElementTool {
 
         const path = curves as Path;
         const curveS = path.children[0].startPoint();
-        const curveE = path.children[path.children.length-1].endPoint();
+        const curveE = path.children[path.children.length - 1].endPoint();
 
         if (curveS.isAlmostEqual(curveE))
           return; // Reject physically closed path...
 
-        return { path, params: entry.geomParams};
+        return { path, params: entry.geomParams };
       }
 
       break;
@@ -257,7 +257,7 @@ export abstract class CreateOrContinuePathTool extends CreateElementTool {
     }
 
     const pathS = path.children[0].startPoint();
-    const pathE = path.children[path.children.length-1].endPoint();
+    const pathE = path.children[path.children.length - 1].endPoint();
 
     if (!(curveS.isAlmostEqual(pathS) && curveE.isAlmostEqual(pathE) || curveS.isAlmostEqual(pathE) && curveE.isAlmostEqual(pathS)))
       return false;
@@ -358,7 +358,7 @@ export abstract class CreateOrContinuePathTool extends CreateElementTool {
     return true;
   }
 
-  public onDynamicFrame(ev: BeButtonEvent, context: DynamicsContext): void {
+  public override onDynamicFrame(ev: BeButtonEvent, context: DynamicsContext): void {
     if (this.showConstructionGraphics(ev, context))
       return; // Don't display element graphics...
 
@@ -366,7 +366,7 @@ export abstract class CreateOrContinuePathTool extends CreateElementTool {
       this._graphicsProvider.addGraphic(context);
   }
 
-  public async onMouseMotion(ev: BeButtonEvent): Promise<void> {
+  public override async onMouseMotion(ev: BeButtonEvent): Promise<void> {
     return this.createGraphics(ev);
   }
 
@@ -442,7 +442,7 @@ export abstract class CreateOrContinuePathTool extends CreateElementTool {
     context.addCanvasDecoration({ position, drawDecoration }, true);
   }
 
-  public decorate(context: DecorateContext): void {
+  public override decorate(context: DecorateContext): void {
     if (undefined === this.current)
       return;
 
@@ -452,7 +452,7 @@ export abstract class CreateOrContinuePathTool extends CreateElementTool {
       this.showClosureIndicator(context, this.current.endPoint());
   }
 
-  public async onModifierKeyTransition(_wentDown: boolean, modifier: BeModifierKeys, _event: KeyboardEvent): Promise<EventHandled> {
+  public override async onModifierKeyTransition(_wentDown: boolean, modifier: BeModifierKeys, _event: KeyboardEvent): Promise<EventHandled> {
     if (BeModifierKeys.Control !== modifier)
       return EventHandled.No;
 
@@ -617,7 +617,7 @@ export abstract class CreateOrContinuePathTool extends CreateElementTool {
     hints.sendHints();
   }
 
-  protected setupAndPromptForNextAction(): void {
+  protected override setupAndPromptForNextAction(): void {
     this.setupAccuDraw();
     super.setupAndPromptForNextAction();
   }
@@ -629,13 +629,13 @@ export abstract class CreateOrContinuePathTool extends CreateElementTool {
     return true;
   }
 
-  public async onDataButtonDown(ev: BeButtonEvent): Promise<EventHandled> {
+  public override async onDataButtonDown(ev: BeButtonEvent): Promise<EventHandled> {
     if (!await this.acceptPoint(ev))
       return EventHandled.Yes;
     return super.onDataButtonDown(ev);
   }
 
-  public async onUndoPreviousStep(): Promise<boolean> {
+  public override async onUndoPreviousStep(): Promise<boolean> {
     if (0 === this.accepted.length)
       return false;
 
@@ -648,7 +648,7 @@ export abstract class CreateOrContinuePathTool extends CreateElementTool {
     return true;
   }
 
-  public onCleanup(): void {
+  public override onCleanup(): void {
     this.clearGraphics();
     super.onCleanup();
   }
@@ -656,11 +656,11 @@ export abstract class CreateOrContinuePathTool extends CreateElementTool {
 
 /** @alpha Creates a line string or shape. Uses model and category from ToolAdmin.ActiveSettings. */
 export class CreateLineStringTool extends CreateOrContinuePathTool {
-  public static toolId = "CreateLineString";
-  public static iconSpec = "icon-snaps"; // Need better icon...
+  public static override toolId = "CreateLineString";
+  public static override iconSpec = "icon-snaps"; // Need better icon...
   protected _snapGeomId?: Id64String;
 
-  protected provideToolAssistance(_mainInstrText?: string, _additionalInstr?: ToolAssistanceInstruction[]): void {
+  protected override provideToolAssistance(_mainInstrText?: string, _additionalInstr?: ToolAssistanceInstruction[]): void {
     const nPts = this.accepted.length;
     const mainMsg = CoreTools.translate(0 === nPts ? "ElementSet.Prompts.StartPoint" : (1 === nPts ? "ElementSet.Prompts.EndPoint" : "ElementSet.Inputs.AdditionalPoint"));
     const leftMsg = CoreTools.translate("ElementSet.Inputs.AcceptPoint");
@@ -685,12 +685,12 @@ export class CreateLineStringTool extends CreateOrContinuePathTool {
     IModelApp.notifications.setToolAssistance(instructions);
   }
 
-  protected get wantClosure(): boolean {
+  protected override get wantClosure(): boolean {
     // A linestring can support physical closure when creating a new path...
     return this.allowClosure;
   }
 
-  protected isComplete(ev: BeButtonEvent): boolean {
+  protected override isComplete(ev: BeButtonEvent): boolean {
     // Accept on reset with at least 2 points...
     if (BeButton.Reset === ev.button)
       return (this.accepted.length > 1);
@@ -711,24 +711,24 @@ export class CreateLineStringTool extends CreateOrContinuePathTool {
     return LineString3d.create(pts);
   }
 
-  public testDecorationHit(id: Id64String): boolean {
+  public override testDecorationHit(id: Id64String): boolean {
     return id === this._snapGeomId;
   }
 
-  public async getToolTip(hit: HitDetail): Promise<HTMLElement | string> {
+  public override async getToolTip(hit: HitDetail): Promise<HTMLElement | string> {
     if (this.testDecorationHit(hit.sourceId))
       return this.description;
     return super.getToolTip(hit);
   }
 
-  public getDecorationGeometry(_hit: HitDetail): GeometryStreamProps | undefined {
+  public override getDecorationGeometry(_hit: HitDetail): GeometryStreamProps | undefined {
     if (this.accepted.length < 2)
       return;
     const geom = IModelJson.Writer.toIModelJson(LineString3d.create(this.accepted));
     return geom ? [geom] : undefined;
   }
 
-  public decorate(context: DecorateContext): void {
+  public override decorate(context: DecorateContext): void {
     super.decorate(context);
 
     if (this.accepted.length < 2)
@@ -737,13 +737,13 @@ export class CreateLineStringTool extends CreateOrContinuePathTool {
     if (undefined === this._snapGeomId)
       this._snapGeomId = this.iModel.transientIds.next;
 
-    const builder = context.createGraphic({ type: GraphicType.WorldDecoration, pickable: { id: this._snapGeomId, locateOnly: true }});
+    const builder = context.createGraphic({ type: GraphicType.WorldDecoration, pickable: { id: this._snapGeomId, locateOnly: true } });
     builder.setSymbology(ColorDef.white, ColorDef.white, 1);
     builder.addLineString(this.accepted); // Allow snapping to accepted segments...
     context.addDecorationFromBuilder(builder);
   }
 
-  public async onResetButtonUp(ev: BeButtonEvent): Promise<EventHandled> {
+  public override async onResetButtonUp(ev: BeButtonEvent): Promise<EventHandled> {
     // NOTE: Starting another tool will not create element...require reset or closure...
     if (this.isComplete(ev)) {
       await this.updateCurveAndContinuationData(ev, false, CreateCurvePhase.DefineEnd);
@@ -770,13 +770,13 @@ export enum ArcMethod {
 
 /** @alpha Creates an arc. Uses model and category from ToolAdmin.ActiveSettings. */
 export class CreateArcTool extends CreateOrContinuePathTool {
-  public static toolId = "CreateArc";
-  public static iconSpec = "icon-three-points-circular-arc";
+  public static override toolId = "CreateArc";
+  public static override iconSpec = "icon-three-points-circular-arc";
 
-  public static get minArgs() { return 0; }
-  public static get maxArgs() { return 3; } // method, radius, sweep - zero value unlocks associated "use" toggle...
+  public static override get minArgs() { return 0; }
+  public static override get maxArgs() { return 3; } // method, radius, sweep - zero value unlocks associated "use" toggle...
 
-  protected provideToolAssistance(mainInstrText?: string, additionalInstr?: ToolAssistanceInstruction[]): void {
+  protected override provideToolAssistance(mainInstrText?: string, additionalInstr?: ToolAssistanceInstruction[]): void {
     const nPts = this.accepted.length;
 
     switch (this.method) {
@@ -800,7 +800,7 @@ export class CreateArcTool extends CreateOrContinuePathTool {
     super.provideToolAssistance(mainInstrText, additionalInstr);
   }
 
-  protected setupAccuDraw(): void {
+  protected override setupAccuDraw(): void {
     const nPts = this.accepted.length;
     if (0 === nPts)
       return;
@@ -916,11 +916,11 @@ export class CreateArcTool extends CreateOrContinuePathTool {
   public get sweep(): number { return this.sweepProperty.value; }
   public set sweep(value: number) { this.sweepProperty.value = value; }
 
-  protected isComplete(_ev: BeButtonEvent): boolean {
+  protected override isComplete(_ev: BeButtonEvent): boolean {
     return (3 === this.accepted.length);
   }
 
-  protected get createCurvePhase(): CreateCurvePhase {
+  protected override get createCurvePhase(): CreateCurvePhase {
     switch (this.accepted.length) {
       case 0:
         return ArcMethod.CenterStart === this.method ? CreateCurvePhase.DefineOther : CreateCurvePhase.DefineStart;
@@ -1110,7 +1110,7 @@ export class CreateArcTool extends CreateOrContinuePathTool {
     }
   }
 
-  protected showConstructionGraphics(ev: BeButtonEvent, context: DynamicsContext): boolean {
+  protected override showConstructionGraphics(ev: BeButtonEvent, context: DynamicsContext): boolean {
     if (super.showConstructionGraphics(ev, context))
       return true;
 
@@ -1161,7 +1161,7 @@ export class CreateArcTool extends CreateOrContinuePathTool {
     this.syncToolSettingsProperties([this.sweepProperty.syncItem]);
   }
 
-  public applyToolSettingPropertyChange(updatedValue: DialogPropertySyncItem): boolean {
+  public override applyToolSettingPropertyChange(updatedValue: DialogPropertySyncItem): boolean {
     if (this.methodProperty.name === updatedValue.propertyName) {
       this.methodProperty.value = updatedValue.value.value as number;
       IModelApp.toolAdmin.toolSettingsState.saveToolSettingProperty(this.toolId, this.methodProperty.item);
@@ -1201,7 +1201,7 @@ export class CreateArcTool extends CreateOrContinuePathTool {
     return false;
   }
 
-  public supplyToolSettingsProperties(): DialogItem[] | undefined {
+  public override supplyToolSettingsProperties(): DialogItem[] | undefined {
     const toolSettings = new Array<DialogItem>();
     toolSettings.push(this.methodProperty.toDialogItem({ rowPriority: 1, columnIndex: 0 }));
 
@@ -1223,7 +1223,7 @@ export class CreateArcTool extends CreateOrContinuePathTool {
       this.exitTool();
   }
 
-  public onInstall(): boolean {
+  public override onInstall(): boolean {
     if (!super.onInstall())
       return false;
 
@@ -1262,7 +1262,7 @@ export class CreateArcTool extends CreateOrContinuePathTool {
    *  - `radius=number` Arc radius for start/center or center/start, 0 to define by points.
    *  - `sweep=number` Arc sweep angle in degrees for start/center or center/start, 0 to define by points.
    */
-  public parseAndRun(...inputArgs: string[]): boolean {
+  public override parseAndRun(...inputArgs: string[]): boolean {
     let arcMethod;
     let arcRadius;
     let arcSweep;
@@ -1331,15 +1331,15 @@ export enum CircleMethod {
 
 /** @alpha Creates a circle. Uses model and category from ToolAdmin.ActiveSettings. */
 export class CreateCircleTool extends CreateOrContinuePathTool {
-  public static toolId = "CreateCircle";
-  public static iconSpec = "icon-circle";
+  public static override toolId = "CreateCircle";
+  public static override iconSpec = "icon-circle";
 
-  public static get minArgs() { return 0; }
-  public static get maxArgs() { return 2; } // method, radius - zero value unlocks associated "use" toggle...
+  public static override get minArgs() { return 0; }
+  public static override get maxArgs() { return 2; } // method, radius - zero value unlocks associated "use" toggle...
 
-  protected get createCurvePhase(): CreateCurvePhase { return CreateCurvePhase.DefineOther; } // No join or closure checks...
+  protected override get createCurvePhase(): CreateCurvePhase { return CreateCurvePhase.DefineOther; } // No join or closure checks...
 
-  protected provideToolAssistance(mainInstrText?: string, additionalInstr?: ToolAssistanceInstruction[]): void {
+  protected override provideToolAssistance(mainInstrText?: string, additionalInstr?: ToolAssistanceInstruction[]): void {
     const nPts = this.accepted.length;
 
     switch (this.method) {
@@ -1355,7 +1355,7 @@ export class CreateCircleTool extends CreateOrContinuePathTool {
     super.provideToolAssistance(mainInstrText, additionalInstr);
   }
 
-  protected setupAccuDraw(): void {
+  protected override setupAccuDraw(): void {
     const nPts = this.accepted.length;
     if (0 === nPts)
       return;
@@ -1413,7 +1413,7 @@ export class CreateCircleTool extends CreateOrContinuePathTool {
   public get radius(): number { return this.radiusProperty.value; }
   public set radius(value: number) { this.radiusProperty.value = value; }
 
-  protected isComplete(_ev: BeButtonEvent): boolean {
+  protected override isComplete(_ev: BeButtonEvent): boolean {
     if (CircleMethod.Center === this.method && this.useRadius)
       return (this.accepted.length >= 1); // Could be 2 if radius locked after 1st data point...
     return (2 === this.accepted.length);
@@ -1456,7 +1456,7 @@ export class CreateCircleTool extends CreateOrContinuePathTool {
     return Arc3d.create(center, vector0, vector90);
   }
 
-  protected showConstructionGraphics(ev: BeButtonEvent, context: DynamicsContext): boolean {
+  protected override showConstructionGraphics(ev: BeButtonEvent, context: DynamicsContext): boolean {
     if (super.showConstructionGraphics(ev, context))
       return true;
 
@@ -1487,7 +1487,7 @@ export class CreateCircleTool extends CreateOrContinuePathTool {
     this.syncToolSettingsProperties([this.radiusProperty.syncItem]);
   }
 
-  public applyToolSettingPropertyChange(updatedValue: DialogPropertySyncItem): boolean {
+  public override applyToolSettingPropertyChange(updatedValue: DialogPropertySyncItem): boolean {
     if (this.methodProperty.name === updatedValue.propertyName) {
       this.methodProperty.value = updatedValue.value.value as number;
       IModelApp.toolAdmin.toolSettingsState.saveToolSettingProperty(this.toolId, this.methodProperty.item);
@@ -1512,7 +1512,7 @@ export class CreateCircleTool extends CreateOrContinuePathTool {
     return false;
   }
 
-  public supplyToolSettingsProperties(): DialogItem[] | undefined {
+  public override supplyToolSettingsProperties(): DialogItem[] | undefined {
     const toolSettings = new Array<DialogItem>();
     toolSettings.push(this.methodProperty.toDialogItem({ rowPriority: 1, columnIndex: 0 }));
 
@@ -1530,7 +1530,7 @@ export class CreateCircleTool extends CreateOrContinuePathTool {
       this.exitTool();
   }
 
-  public onReinitialize(): void {
+  public override onReinitialize(): void {
     if (CircleMethod.Center === this.method && this.useRadius) {
       // Don't install a new tool instance, we want to preserve current AccuDraw state...
       this.accepted.length = 0;
@@ -1541,7 +1541,7 @@ export class CreateCircleTool extends CreateOrContinuePathTool {
     super.onReinitialize();
   }
 
-  public onPostInstall(): void {
+  public override onPostInstall(): void {
     super.onPostInstall();
     if (CircleMethod.Center === this.method && this.useRadius) {
       // Start dynamics before 1st data point when placing by center w/locked radius value.
@@ -1552,7 +1552,7 @@ export class CreateCircleTool extends CreateOrContinuePathTool {
     }
   }
 
-  public onInstall(): boolean {
+  public override onInstall(): boolean {
     if (!super.onInstall())
       return false;
 
@@ -1579,7 +1579,7 @@ export class CreateCircleTool extends CreateOrContinuePathTool {
    *  - `method=0|1` How circle will be defined. 0 for center, 1 for edge.
    *  - `radius=number` Circle radius, 0 to define by points.
    */
-  public parseAndRun(...inputArgs: string[]): boolean {
+  public override parseAndRun(...inputArgs: string[]): boolean {
     let circleMethod;
     let circleRadius;
 
@@ -1624,16 +1624,16 @@ export class CreateCircleTool extends CreateOrContinuePathTool {
 
 /** @alpha Creates an ellipse. Uses model and category from ToolAdmin.ActiveSettings. */
 export class CreateEllipseTool extends CreateOrContinuePathTool {
-  public static toolId = "CreateEllipse";
-  public static iconSpec = "icon-ellipse";
+  public static override toolId = "CreateEllipse";
+  public static override iconSpec = "icon-ellipse";
 
-  protected isComplete(_ev: BeButtonEvent): boolean {
+  protected override isComplete(_ev: BeButtonEvent): boolean {
     return (3 === this.accepted.length);
   }
 
-  protected get createCurvePhase(): CreateCurvePhase { return CreateCurvePhase.DefineOther; } // No join or closure checks...
+  protected override get createCurvePhase(): CreateCurvePhase { return CreateCurvePhase.DefineOther; } // No join or closure checks...
 
-  protected provideToolAssistance(mainInstrText?: string, additionalInstr?: ToolAssistanceInstruction[]): void {
+  protected override provideToolAssistance(mainInstrText?: string, additionalInstr?: ToolAssistanceInstruction[]): void {
     const nPts = this.accepted.length;
 
     switch (nPts) {
@@ -1653,7 +1653,7 @@ export class CreateEllipseTool extends CreateOrContinuePathTool {
     super.provideToolAssistance(mainInstrText, additionalInstr);
   }
 
-  protected setupAccuDraw(): void {
+  protected override setupAccuDraw(): void {
     const nPts = this.accepted.length;
     if (0 === nPts)
       return;
@@ -1712,22 +1712,22 @@ export class CreateEllipseTool extends CreateOrContinuePathTool {
 
 /** @alpha Creates a rectangle by corner points. Uses model and category from ToolAdmin.ActiveSettings. */
 export class CreateRectangleTool extends CreateOrContinuePathTool {
-  public static toolId = "CreateRectangle";
-  public static iconSpec = "icon-rectangle";
+  public static override toolId = "CreateRectangle";
+  public static override iconSpec = "icon-rectangle";
 
   protected localToWorld = Transform.createIdentity();
   protected originLocal?: Point3d;
   protected cornerLocal?: Point3d;
 
-  public static get minArgs() { return 0; }
-  public static get maxArgs() { return 1; } // radius - zero value unlocks associated "use" toggle...
+  public static override get minArgs() { return 0; }
+  public static override get maxArgs() { return 1; } // radius - zero value unlocks associated "use" toggle...
 
-  protected provideToolAssistance(mainInstrText?: string, additionalInstr?: ToolAssistanceInstruction[]): void {
+  protected override provideToolAssistance(mainInstrText?: string, additionalInstr?: ToolAssistanceInstruction[]): void {
     mainInstrText = CoreTools.translate(0 === this.accepted.length ? "ElementSet.Prompts.StartCorner" : "ElementSet.Prompts.OppositeCorner");
     super.provideToolAssistance(mainInstrText, additionalInstr);
   }
 
-  protected setupAccuDraw(): void {
+  protected override setupAccuDraw(): void {
     const nPts = this.accepted.length;
     if (0 === nPts)
       return;
@@ -1761,11 +1761,11 @@ export class CreateRectangleTool extends CreateOrContinuePathTool {
   public get radius(): number { return this.radiusProperty.value; }
   public set radius(value: number) { this.radiusProperty.value = value; }
 
-  protected isComplete(_ev: BeButtonEvent): boolean {
+  protected override isComplete(_ev: BeButtonEvent): boolean {
     return (2 === this.accepted.length);
   }
 
-  protected get createCurvePhase(): CreateCurvePhase { return CreateCurvePhase.DefineOther; } // No join or closure checks...
+  protected override get createCurvePhase(): CreateCurvePhase { return CreateCurvePhase.DefineOther; } // No join or closure checks...
 
   protected createNewCurvePrimitive(ev: BeButtonEvent, isDynamics: boolean): CurvePrimitive | undefined {
     const numRequired = (isDynamics ? 1 : 2);
@@ -1798,7 +1798,7 @@ export class CreateRectangleTool extends CreateOrContinuePathTool {
     return LineString3d.create(shapePts);
   }
 
-  protected createNewPath(placement: PlacementProps): JsonGeometryStream | FlatBufferGeometryStream | undefined {
+  protected override createNewPath(placement: PlacementProps): JsonGeometryStream | FlatBufferGeometryStream | undefined {
     if (!this.useRadius || 0.0 === this.radius || undefined === this.originLocal || undefined === this.cornerLocal)
       return super.createNewPath(placement);
 
@@ -1820,7 +1820,7 @@ export class CreateRectangleTool extends CreateOrContinuePathTool {
     this.syncToolSettingsProperties([this.radiusProperty.syncItem]);
   }
 
-  public applyToolSettingPropertyChange(updatedValue: DialogPropertySyncItem): boolean {
+  public override applyToolSettingPropertyChange(updatedValue: DialogPropertySyncItem): boolean {
     if (updatedValue.propertyName === this.useRadiusProperty.name) {
       this.useRadius = updatedValue.value.value as boolean;
       IModelApp.toolAdmin.toolSettingsState.saveToolSettingProperty(this.toolId, this.useRadiusProperty.item);
@@ -1837,7 +1837,7 @@ export class CreateRectangleTool extends CreateOrContinuePathTool {
     return false;
   }
 
-  public supplyToolSettingsProperties(): DialogItem[] | undefined {
+  public override supplyToolSettingsProperties(): DialogItem[] | undefined {
     const toolSettings = new Array<DialogItem>();
 
     // ensure controls are enabled/disabled base on current lock property state
@@ -1854,7 +1854,7 @@ export class CreateRectangleTool extends CreateOrContinuePathTool {
       this.exitTool();
   }
 
-  public onInstall(): boolean {
+  public override onInstall(): boolean {
     if (!super.onInstall())
       return false;
 
@@ -1876,7 +1876,7 @@ export class CreateRectangleTool extends CreateOrContinuePathTool {
   /** The keyin takes the following arguments, all of which are optional:
    *  - `radius=number` Corner radius, 0 for sharp corners.
    */
-  public parseAndRun(...inputArgs: string[]): boolean {
+  public override parseAndRun(...inputArgs: string[]): boolean {
     let cornerRadius;
 
     for (const arg of inputArgs) {

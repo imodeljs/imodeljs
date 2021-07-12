@@ -21,7 +21,7 @@ import { Presentation as PresentationFrontend, PresentationManagerProps as Prese
 
 function initializeRpcInterfaces(interfaces: RpcInterfaceDefinition[]) {
   const config = class extends RpcDefaultConfiguration {
-    public interfaces: any = () => interfaces;
+    public override interfaces: any = () => interfaces;
   };
 
   for (const definition of interfaces)

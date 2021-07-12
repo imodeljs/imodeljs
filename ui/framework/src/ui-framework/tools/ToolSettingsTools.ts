@@ -13,9 +13,9 @@ import { ToolSettingsManager } from "../zones/toolsettings/ToolSettingsManager";
  * @alpha
  */
 export class FocusToolSettings extends Tool {
-  public static toolId = "FocusToolSettings";
+  public static override toolId = "FocusToolSettings";
 
-  public run(): boolean {
+  public override run(): boolean {
     return ToolSettingsManager.focusIntoToolSettings();
   }
 }
@@ -25,12 +25,12 @@ export class FocusToolSettings extends Tool {
  * @alpha
  */
 export class BumpToolSetting extends Tool {
-  public static toolId = "BumpToolSetting";
+  public static override toolId = "BumpToolSetting";
 
   // istanbul ignore next
-  public static get maxArgs() { return 1; }
+  public static override get maxArgs() { return 1; }
 
-  public run(settingIndexStr?: string): boolean {
+  public override run(settingIndexStr?: string): boolean {
     let settingIndex: number | undefined;
     if (settingIndexStr) {
       settingIndex = parseInt(settingIndexStr, 10);
@@ -41,7 +41,7 @@ export class BumpToolSetting extends Tool {
     return true;
   }
 
-  public parseAndRun(...args: string[]): boolean {
+  public override parseAndRun(...args: string[]): boolean {
     return this.run(args[0]);
   }
 }

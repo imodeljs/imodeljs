@@ -110,7 +110,7 @@ class ClassifierTreeReference extends SpatialClassifierTileTreeReference {
   public get classifiers(): SpatialClassifiers { return this._classifiers; }
   public get activeClassifier(): SpatialClassifier | undefined { return this.classifiers.active; }
 
-  public get castsShadows() {
+  public override get castsShadows() {
     return false;
   }
 
@@ -124,7 +124,7 @@ class ClassifierTreeReference extends SpatialClassifierTileTreeReference {
     return this._owner;
   }
 
-  public discloseTileTrees(trees: DisclosedTileTreeSet): void {
+  public override discloseTileTrees(trees: DisclosedTileTreeSet): void {
     // NB: We do NOT call super because we don't use our tree if no classifier is active.
     trees.disclose(this._classifiedTree);
 
@@ -136,7 +136,7 @@ class ClassifierTreeReference extends SpatialClassifierTileTreeReference {
   public get isPlanar() { return BatchType.PlanarClassifier === this._id.type; }
 
   // Add volume classifiers to scene (planar classifiers are added seperately.)
-  public addToScene(context: SceneContext): void {
+  public override addToScene(context: SceneContext): void {
     if (this.isPlanar)
       return;
 

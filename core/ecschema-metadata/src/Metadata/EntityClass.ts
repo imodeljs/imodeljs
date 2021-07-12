@@ -24,7 +24,7 @@ import { Schema } from "./Schema";
  * @beta
  */
 export class EntityClass extends ECClass {
-  public readonly schemaItemType!: SchemaItemType.EntityClass; // eslint-disable-line
+  public override readonly schemaItemType!: SchemaItemType.EntityClass; // eslint-disable-line
   protected _mixins?: LazyLoadedMixin[];
 
   constructor(schema: Schema, name: string, modifier?: ECClassModifier) {
@@ -66,7 +66,7 @@ export class EntityClass extends ECClass {
    * Searches the base class, if one exists, first then any mixins that exist for the property with the name provided.
    * @param name The name of the property to find.
    */
-  public async getInheritedProperty(name: string): Promise<AnyProperty | undefined> {
+  public override async getInheritedProperty(name: string): Promise<AnyProperty | undefined> {
     let inheritedProperty = await super.getInheritedProperty(name);
 
     if (!inheritedProperty && this._mixins) {
@@ -84,7 +84,7 @@ export class EntityClass extends ECClass {
    * Searches the base class, if one exists, first then any mixins that exist for the property with the name provided.
    * @param name The name of the property to find.
    */
-  public getInheritedPropertySync(name: string): Property | undefined {
+  public override getInheritedPropertySync(name: string): Property | undefined {
     const inheritedProperty = super.getInheritedPropertySync(name);
     if (inheritedProperty)
       return inheritedProperty;
@@ -106,7 +106,7 @@ export class EntityClass extends ECClass {
     return undefined;
   }
 
-  protected async buildPropertyCache(result: Property[], existingValues?: Map<string, number>, resetBaseCaches: boolean = false): Promise<void> {
+  protected override async buildPropertyCache(result: Property[], existingValues?: Map<string, number>, resetBaseCaches: boolean = false): Promise<void> {
     if (!existingValues) {
       existingValues = new Map<string, number>();
     }
@@ -125,7 +125,7 @@ export class EntityClass extends ECClass {
     ECClass.mergeProperties(result, existingValues, [...this.properties], true);
   }
 
-  protected buildPropertyCacheSync(result: Property[], existingValues?: Map<string, number>, resetBaseCaches: boolean = false): void {
+  protected override buildPropertyCacheSync(result: Property[], existingValues?: Map<string, number>, resetBaseCaches: boolean = false): void {
     if (!existingValues) {
       existingValues = new Map<string, number>();
     }
@@ -170,7 +170,7 @@ export class EntityClass extends ECClass {
    * @param standalone Serialization includes only this object (as opposed to the full schema).
    * @param includeSchemaVersion Include the Schema's version information in the serialized object.
    */
-  public toJSON(standalone: boolean = false, includeSchemaVersion: boolean = false): EntityClassProps {
+  public override toJSON(standalone: boolean = false, includeSchemaVersion: boolean = false): EntityClassProps {
     const schemaJson = super.toJSON(standalone, includeSchemaVersion) as any;
     if (this.mixins.length > 0)
       schemaJson.mixins = this.mixins.map((mixin) => mixin.fullName);
@@ -178,7 +178,7 @@ export class EntityClass extends ECClass {
   }
 
   /** @internal */
-  public async toXml(schemaXml: Document): Promise<Element> {
+  public override async toXml(schemaXml: Document): Promise<Element> {
     const itemElement = await super.toXml(schemaXml);
 
     for (const mixin of this.getMixinsSync()) {
@@ -190,11 +190,11 @@ export class EntityClass extends ECClass {
     return itemElement;
   }
 
-  public async fromJSON(entityClassProps: EntityClassProps) {
+  public override async fromJSON(entityClassProps: EntityClassProps) {
     this.fromJSONSync(entityClassProps);
   }
 
-  public fromJSONSync(entityClassProps: EntityClassProps) {
+  public override fromJSONSync(entityClassProps: EntityClassProps) {
     super.fromJSONSync(entityClassProps);
 
     if (undefined !== entityClassProps.mixins) {
@@ -221,10 +221,10 @@ export class EntityClass extends ECClass {
  * @internal
  */
 export abstract class MutableEntityClass extends EntityClass {
-  public abstract addMixin(mixin: Mixin): any;
-  public abstract createNavigationProperty(name: string, relationship: string | RelationshipClass, direction: string | StrengthDirection): Promise<NavigationProperty>;
-  public abstract createNavigationPropertySync(name: string, relationship: string | RelationshipClass, direction: string | StrengthDirection): NavigationProperty;
-  public abstract setDisplayLabel(displayLabel: string): void;
+  public abstract override addMixin(mixin: Mixin): any;
+  public abstract override createNavigationProperty(name: string, relationship: string | RelationshipClass, direction: string | StrengthDirection): Promise<NavigationProperty>;
+  public abstract override createNavigationPropertySync(name: string, relationship: string | RelationshipClass, direction: string | StrengthDirection): NavigationProperty;
+  public abstract override setDisplayLabel(displayLabel: string): void;
 }
 
 /** @internal */

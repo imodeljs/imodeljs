@@ -13,20 +13,20 @@ import { SettingsModalFrontstage } from "../frontstage/ModalSettingsStage";
  * @alpha
  */
 export class OpenSettingsTool extends Tool {
-  public static toolId = "OpenSettings";
-  public static iconSpec = "icon-settings";
+  public static override toolId = "OpenSettings";
+  public static override iconSpec = "icon-settings";
 
   // istanbul ignore next
-  public static get minArgs() { return 0; }
+  public static override get minArgs() { return 0; }
   // istanbul ignore next
-  public static get maxArgs() { return 1; }
+  public static override get maxArgs() { return 1; }
 
-  public run(settingCategory?: string): boolean {
+  public override run(settingCategory?: string): boolean {
     SettingsModalFrontstage.showSettingsStage(settingCategory);
     return true;
   }
 
-  public parseAndRun(...args: string[]): boolean {
+  public override parseAndRun(...args: string[]): boolean {
     return this.run(args[0]);
   }
 }

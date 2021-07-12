@@ -34,10 +34,10 @@ export class ArcGISMapLayerImageryProvider extends MapLayerImageryProvider {
     super(settings, false);
   }
 
-  protected get _filterByCartoRange() { return false; }      // Can't trust footprint ranges (USGS Hydro)
+  protected override get _filterByCartoRange() { return false; }      // Can't trust footprint ranges (USGS Hydro)
 
-  public get minimumZoomLevel() { return Math.max(super.minimumZoomLevel, this._minDepthFromLod); }
-  public get maximumZoomLevel() { return this._maxDepthFromLod > 0 ? this._maxDepthFromLod : super.maximumZoomLevel; }
+  public override get minimumZoomLevel() { return Math.max(super.minimumZoomLevel, this._minDepthFromLod); }
+  public override get maximumZoomLevel() { return this._maxDepthFromLod > 0 ? this._maxDepthFromLod : super.maximumZoomLevel; }
 
   public uintToString(uintArray: any) {
     return Buffer.from(uintArray).toJSON();
@@ -54,7 +54,7 @@ export class ArcGISMapLayerImageryProvider extends MapLayerImageryProvider {
     return request(this._requestContext, tileUrl, tileRequestOptions);
   }
 
-  public async loadTile(row: number, column: number, zoomLevel: number): Promise<ImageSource | undefined> {
+  public override async loadTile(row: number, column: number, zoomLevel: number): Promise<ImageSource | undefined> {
 
     if ((this.status === MapLayerImageryProviderStatus.RequireAuth)) {
       return undefined;
@@ -108,7 +108,7 @@ export class ArcGISMapLayerImageryProvider extends MapLayerImageryProvider {
       return undefined;
     }
   }
-  protected _testChildAvailability(tile: ImageryMapTile, resolveChildren: () => void) {
+  protected override _testChildAvailability(tile: ImageryMapTile, resolveChildren: () => void) {
     if (!this._tileMapSupported || tile.quadId.level < Math.max(4, this.minimumZoomLevel)) {
       resolveChildren();
       return;
@@ -162,7 +162,7 @@ export class ArcGISMapLayerImageryProvider extends MapLayerImageryProvider {
     return zeroLod.level === 0 && Math.abs(zeroLod.resolution - 156543.03392800014) < .001;
   }
 
-  public async initialize(): Promise<void> {
+  public override async initialize(): Promise<void> {
     const json = await ArcGisUtilities.getServiceJson(this._settings.url, this.getRequestAuthorization());
     if (json === undefined)
       throw new ServerError(IModelStatus.ValidationFailed, "");
@@ -200,11 +200,11 @@ export class ArcGISMapLayerImageryProvider extends MapLayerImageryProvider {
     }
   }
 
-  public getLogo(_vp: ScreenViewport) {
+  public override getLogo(_vp: ScreenViewport) {
     return IModelApp.makeLogoCard({ heading: "ArcGIS", notice: this._copyrightText });
   }
 
-  public async getToolTip(strings: string[], quadId: QuadId, carto: Cartographic, tree: ImageryMapTileTree): Promise<void> {
+  public override async getToolTip(strings: string[], quadId: QuadId, carto: Cartographic, tree: ImageryMapTileTree): Promise<void> {
     await super.getToolTip(strings, quadId, carto, tree);
     if (!doToolTips)
       return;

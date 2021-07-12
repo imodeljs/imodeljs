@@ -1,6 +1,6 @@
 {
   "name": "@bentley/rpcinterface-full-stack-tests",
-  "version": "2.19.0-dev.8",
+  "version": "2.19.0-dev.13",
   "description": "Test the full iModel.js stack (frontend and backend) using standard RPC interfaces",
   "license": "MIT",
   "scripts": {
@@ -52,6 +52,7 @@
     "@bentley/presentation-common": "workspace:*",
     "@bentley/presentation-frontend": "workspace:*",
     "@bentley/rbac-client": "workspace:*",
+    "@bentley/telemetry-client": "workspace:*",
     "chai": "^4.1.2",
     "chai-as-promised": "^7",
     "dotenv": "^8.2.0",
@@ -77,7 +78,7 @@
     "null-loader": "^0.1.1",
     "rimraf": "^3.0.2",
     "source-map-loader": "^1.0.0",
-    "typescript": "~4.1.0",
+    "typescript": "~4.3.0",
     "webpack": "4.42.0",
     "webpack-cli": "^3.1.0"
   },

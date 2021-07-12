@@ -24,7 +24,7 @@ export interface OutlineProps extends CommonProps {
  * @beta
  */
 export class Outline extends React.PureComponent<OutlineProps> {
-  public render() {
+  public override render() {
     const className = classnames(
       "nz-zones-outline",
       this.props.className);

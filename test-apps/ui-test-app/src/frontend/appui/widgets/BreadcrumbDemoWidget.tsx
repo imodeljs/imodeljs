@@ -39,10 +39,10 @@ interface State {
 }
 
 class BreadcrumbDemoWidget extends React.Component<Props, State> {
-  public readonly state: State = {
+  public override readonly state: State = {
     checked: false,
   };
-  public render() {
+  public override render() {
     const path = new BreadcrumbPath(demoMutableTreeDataProvider);
 
     DragDropLayerManager.registerTypeLayer(TreeDragTypes.Parent, ParentDragLayer); // eslint-disable-line deprecation/deprecation

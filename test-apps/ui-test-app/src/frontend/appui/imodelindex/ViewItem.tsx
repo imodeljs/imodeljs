@@ -78,7 +78,7 @@ export default class ViewItem extends React.Component<ViewItemProps, ViewItemSta
   }
 
   /** Load thumbnail from the iModelConnection if necessary */
-  public async componentDidMount() {
+  public override async componentDidMount() {
     if (this.props.showThumbnail) {
       const thumbnail = await ThumbnailCache.getThumbnail(this.props.iModelConnection, this.props.viewProps);
       if (thumbnail) {
@@ -121,7 +121,7 @@ export default class ViewItem extends React.Component<ViewItemProps, ViewItemSta
     }
   }
 
-  public render() {
+  public override render() {
     const label = this.props.viewProps.userLabel ? this.props.viewProps.userLabel : this.props.viewProps.code.value;
     return (
       <>

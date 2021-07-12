@@ -13,9 +13,9 @@ export abstract class TestCommand extends EditCommand implements TestCommandIpc 
 }
 
 export class TestEditCommand1 extends TestCommand {
-  public static commandId = testCmdIds.cmd1;
+  public static override commandId = testCmdIds.cmd1;
 
-  public async onStart() {
+  public override async onStart() {
     return `${this._str}:1`;
   }
   public async testMethod1(str1: string, str2: string, obj1: TestCmdOjb1) {
@@ -26,9 +26,9 @@ export class TestEditCommand1 extends TestCommand {
 }
 
 export class TestEditCommand2 extends TestCommand {
-  public static commandId = testCmdIds.cmd2;
+  public static override commandId = testCmdIds.cmd2;
 
-  public async onStart() {
+  public override async onStart() {
     return `${this._str}:2`;
   }
 

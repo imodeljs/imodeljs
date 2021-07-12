@@ -32,7 +32,7 @@ export interface UserProfileProps extends CommonProps {
  * @beta
  */
 export class UserProfile extends React.PureComponent<UserProfileProps> {
-  public render() {
+  public override render() {
     const className = classnames(
       "nz-backstage-userProfile",
       this.props.safeAreaInsets && SafeAreaInsetsHelpers.getCssClassNames(this.props.safeAreaInsets),

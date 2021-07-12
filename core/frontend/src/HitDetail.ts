@@ -212,9 +212,9 @@ export class SnapDetail extends HitDetail {
   }
 
   /** Returns `HitDetailType.Snap` */
-  public getHitType(): HitDetailType { return HitDetailType.Snap; }
+  public override getHitType(): HitDetailType { return HitDetailType.Snap; }
   /** Get the snap point if this SnapDetail is *hot*, the pick point otherwise. */
-  public getPoint(): Point3d { return this.isHot ? this.snapPoint : super.getPoint(); }
+  public override getPoint(): Point3d { return this.isHot ? this.snapPoint : super.getPoint(); }
   /** Return true if the pick point was closer than the snap aperture from the generated snap point. */
   public get isHot(): boolean { return this.heat !== SnapHeat.None; }
   /** Determine whether the [[adjustedPoint]] is different than the [[snapPoint]]. This happens, for example, when points are adjusted for grids, acs plane snap, and AccuDraw. */
@@ -254,7 +254,7 @@ export class SnapDetail extends HitDetail {
   }
 
   /** Make a copy of this SnapDetail. */
-  public clone(): SnapDetail {
+  public override clone(): SnapDetail {
     const val = new SnapDetail(this, this.snapMode, this.heat, this.snapPoint);
     val.sprite = this.sprite;
     val.geomType = this.geomType;
@@ -287,7 +287,7 @@ export class SnapDetail extends HitDetail {
     return this.primitive;
   }
 
-  public draw(context: DecorateContext) {
+  public override draw(context: DecorateContext) {
     if (undefined !== this.primitive) {
       let singleSegment = false;
       switch (this.snapMode) {
@@ -341,7 +341,7 @@ export class IntersectDetail extends SnapDetail {
     this.normal = from.normal; // Preserve normal from primary snap location for AccuDraw smart rotation...
   }
 
-  public draw(context: DecorateContext) {
+  public override draw(context: DecorateContext) {
     if (undefined !== this.primitive && undefined !== this.otherPrimitive) {
       const builder = context.createGraphicBuilder(GraphicType.WorldOverlay);
       const outline = context.viewport.hilite.color.adjustedForContrast(context.viewport.view.backgroundColor, 50);

@@ -129,7 +129,7 @@ export class ModelsTab extends React.Component<ModelsProps, ModelsState> {
   }
 
   /** Load document codes when we mount */
-  public async componentDidMount() {
+  public override async componentDidMount() {
 
     this._isMounted = true;
 
@@ -160,7 +160,7 @@ export class ModelsTab extends React.Component<ModelsProps, ModelsState> {
     this.setState((prevState) => ({ initialized: true, models: _models, showToast: !prevState.docCodes }));
   }
 
-  public componentWillUnmount() {
+  public override componentWillUnmount() {
     this._isMounted = false;
 
     if (this._ruleset)
@@ -596,7 +596,7 @@ export class ModelsTab extends React.Component<ModelsProps, ModelsState> {
     );
   }
 
-  public render() {
+  public override render() {
     return (
       <div className="modelstab-container">
         {this.renderContent()}

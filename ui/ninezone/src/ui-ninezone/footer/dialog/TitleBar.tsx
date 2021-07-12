@@ -25,7 +25,7 @@ export interface TitleBarProps extends CommonProps {
  * @beta
  */
 export class TitleBar extends React.PureComponent<TitleBarProps> {
-  public render() {
+  public override render() {
     const className = classnames(
       "nz-footer-dialog-titleBar",
       this.props.className);

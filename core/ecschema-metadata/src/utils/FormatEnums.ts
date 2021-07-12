@@ -41,7 +41,8 @@ export function* getItemNamesFromFormatString(formatString: string): Iterable<st
 
 /** @beta Needs to be moved to quantity  */
 export enum FormatTraits {
-  TrailZeroes = 0x1,
+  // the leading + opts TypeScript out of inferring a union enum
+  TrailZeroes = +0x1,
   KeepSingleZero = 0x2,
   ZeroEmpty = 0x4,
   KeepDecimalPoint = 0x8,

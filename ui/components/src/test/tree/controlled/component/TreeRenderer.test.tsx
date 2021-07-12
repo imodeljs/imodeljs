@@ -256,7 +256,7 @@ describe("TreeRenderer", () => {
 
     expect(renderNode).to.not.be.undefined;
 
-    const treeNode: HTMLElement = renderNode.container.querySelector(".core-tree-node")! as HTMLElement;
+    const treeNode: HTMLElement = renderNode.container.querySelector(".core-tree-node")!;
     fireEvent.keyDown(treeNode, { key: SpecialKey.Space });
     fireEvent.keyUp(treeNode, { key: SpecialKey.Space });
     expect(spyKeyDown).to.be.called;

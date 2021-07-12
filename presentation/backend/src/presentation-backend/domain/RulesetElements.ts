@@ -18,7 +18,7 @@ export class Ruleset extends DefinitionElement {
   /**
    * Name of the `Ruleset` element class.
    */
-  public static get className(): string { return "Ruleset"; }
+  public static override get className(): string { return "Ruleset"; }
 
   /**
    * Generates a unique code for a ruleset

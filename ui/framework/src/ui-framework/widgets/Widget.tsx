@@ -19,7 +19,7 @@ export class Widget extends React.Component<WidgetProps> {
     super(props);
   }
 
-  public render() {
+  public override render() {
     return null;
   }
 

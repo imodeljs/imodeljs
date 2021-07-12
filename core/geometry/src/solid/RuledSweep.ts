@@ -104,7 +104,7 @@ export class RuledSweep extends SolidPrimitive {
   /** Test if `other` is an instance of a `RuledSweep` */
   public isSameGeometryClass(other: any): boolean { return other instanceof RuledSweep; }
   /** test same contour geometry and capping. */
-  public isAlmostEqual(other: GeometryQuery): boolean {
+  public override isAlmostEqual(other: GeometryQuery): boolean {
     if (other instanceof RuledSweep) {
       if (this.capped !== other.capped) return false;
       if (this._contours.length !== other._contours.length) return false;

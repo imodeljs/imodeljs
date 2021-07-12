@@ -29,7 +29,7 @@ export class TableStructValueRenderer extends React.PureComponent<TableSpecificV
   }
 
   /** @internal */
-  public render() {
+  public override render() {
     return (
       <TableValueRenderer
         buttonLabel={this.getButtonLabel(this.props)}

@@ -25,7 +25,7 @@ export interface ZonesProps extends CommonProps {
  * @beta
  */
 export class Zones extends React.PureComponent<ZonesProps> {
-  public render() {
+  public override render() {
     const { isHidden } = this.props;
     const className = classnames(
       "nz-zones-zones",

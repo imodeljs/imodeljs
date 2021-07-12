@@ -96,7 +96,7 @@ export class MockAccessToken extends AccessToken {
     super("");
   }
 
-  public getUserInfo(): UserInfo | undefined {
+  public override getUserInfo(): UserInfo | undefined {
     const id = "596c0d8b-eac2-46a0-aa4a-b590c3314e7c";
     const email = { id: "testuser001@mailinator.com" };
     const profile = { firstName: "test", lastName: "user" };
@@ -105,7 +105,7 @@ export class MockAccessToken extends AccessToken {
     return new UserInfo(id, email, profile, organization, featureTracking);
   }
 
-  public toTokenString() { return ""; }
+  public override toTokenString() { return ""; }
 }
 
 export type RequestBehaviorOptionsList =

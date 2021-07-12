@@ -40,5 +40,5 @@ export abstract class StatusBarWidgetControl extends WidgetControl {
   public abstract getReactNode(args: StatusBarWidgetControlArgs): React.ReactNode;
 
   /** Gets the type of ConfigurableUiControl, which is 'StatusBarWidget' in this case */
-  public getType(): ConfigurableUiControlType { return ConfigurableUiControlType.StatusBarWidget; }
+  public override getType(): ConfigurableUiControlType { return ConfigurableUiControlType.StatusBarWidget; }
 }

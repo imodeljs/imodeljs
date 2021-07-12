@@ -451,6 +451,14 @@ describe("MutableTreeModel", () => {
       treeMock.verifyAll();
       expect(rootNode.numChildren).to.be.eq(childCountBefore - 1);
     });
+
+    it("removes node by index", () => {
+      treeModel = new MutableTreeModel();
+      treeModel.setChildren(undefined, [createTreeModelNodeInput("root1"), createTreeModelNodeInput("root2")], 0);
+
+      treeModel.removeChild(undefined, 0);
+      expect([...treeModel.getChildren(undefined)!]).to.be.deep.equal(["root2"]);
+    });
   });
 
   describe("clearChildren", () => {

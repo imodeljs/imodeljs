@@ -178,7 +178,7 @@ describe("BezierRoots", () => {
       const bezier1 = bezier.clone();
       const deflationRoots = UnivariateBezier.deflateRoots01(bezier);
       if (ck.testPointer(deflationRoots, "deflation produces roots", coffs))
-        for (const r of deflationRoots!) {
+        for (const r of deflationRoots) {
           const fOfR = bezier1.evaluate(r);
           ck.testCoordinate(0, fOfR, "bezier root", r, coffs);
         }

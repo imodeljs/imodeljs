@@ -101,14 +101,14 @@ export class ViewClipTool extends PrimitiveTool {
   };
 
   /** @internal */
-  public requireWriteableTarget(): boolean { return false; }
+  public override requireWriteableTarget(): boolean { return false; }
   /** @internal */
-  public isCompatibleViewport(vp: Viewport | undefined, isSelectedViewChange: boolean): boolean { return (super.isCompatibleViewport(vp, isSelectedViewChange) && undefined !== vp && vp.view.allow3dManipulations()); }
+  public override isCompatibleViewport(vp: Viewport | undefined, isSelectedViewChange: boolean): boolean { return (super.isCompatibleViewport(vp, isSelectedViewChange) && undefined !== vp && vp.view.allow3dManipulations()); }
 
   /** @internal */
-  public onPostInstall(): void { super.onPostInstall(); this.setupAndPromptForNextAction(); }
+  public override onPostInstall(): void { super.onPostInstall(); this.setupAndPromptForNextAction(); }
   /** @internal */
-  public onUnsuspend(): void { this.showPrompt(); }
+  public override onUnsuspend(): void { this.showPrompt(); }
   /** @internal */
   public onRestartTool(): void { this.exitTool(); }
   /** @internal */
@@ -116,7 +116,7 @@ export class ViewClipTool extends PrimitiveTool {
   /** @internal */
   protected setupAndPromptForNextAction(): void { this.showPrompt(); }
   /** @internal */
-  public async onResetButtonUp(_ev: BeButtonEvent): Promise<EventHandled> { this.onReinitialize(); return EventHandled.No; }
+  public override async onResetButtonUp(_ev: BeButtonEvent): Promise<EventHandled> { this.onReinitialize(); return EventHandled.No; }
 
   /** @internal */
   public static getPlaneInwardNormal(orientation: ContextRotationId, viewport: Viewport): Vector3d | undefined {
@@ -432,12 +432,12 @@ export class ViewClipTool extends PrimitiveTool {
  * @public
  */
 export class ViewClipClearTool extends ViewClipTool {
-  public static toolId = "ViewClip.Clear";
-  public static iconSpec = "icon-section-tool";
+  public static override toolId = "ViewClip.Clear";
+  public static override iconSpec = "icon-section-tool";
   /** @internal */
-  public isCompatibleViewport(vp: Viewport | undefined, isSelectedViewChange: boolean): boolean { return (super.isCompatibleViewport(vp, isSelectedViewChange) && undefined !== vp && ViewClipTool.hasClip(vp)); }
+  public override isCompatibleViewport(vp: Viewport | undefined, isSelectedViewChange: boolean): boolean { return (super.isCompatibleViewport(vp, isSelectedViewChange) && undefined !== vp && ViewClipTool.hasClip(vp)); }
   /** @internal */
-  protected showPrompt(): void {
+  protected override showPrompt(): void {
     const mainInstruction = ToolAssistance.createInstruction(this.iconSpec, CoreTools.translate("ViewClip.Clear.Prompts.FirstPoint"));
     IModelApp.notifications.setToolAssistance(ToolAssistance.createInstructions(mainInstruction));
   }
@@ -452,14 +452,14 @@ export class ViewClipClearTool extends ViewClipTool {
   }
 
   /** @internal */
-  public onPostInstall(): void {
+  public override onPostInstall(): void {
     super.onPostInstall();
     if (undefined !== this.targetView)
       this.doClipClear(this.targetView);
   }
 
   /** @internal */
-  public async onDataButtonDown(_ev: BeButtonEvent): Promise<EventHandled> {
+  public override async onDataButtonDown(_ev: BeButtonEvent): Promise<EventHandled> {
     if (undefined === this.targetView)
       return EventHandled.No;
     return this.doClipClear(this.targetView) ? EventHandled.Yes : EventHandled.No;
@@ -470,8 +470,8 @@ export class ViewClipClearTool extends ViewClipTool {
  * @public
  */
 export class ViewClipByPlaneTool extends ViewClipTool {
-  public static toolId = "ViewClip.ByPlane";
-  public static iconSpec = "icon-section-plane";
+  public static override toolId = "ViewClip.ByPlane";
+  public static override iconSpec = "icon-section-plane";
   /** @internal */
   private _orientationValue: DialogItemValue = { value: ContextRotationId.Face };
 
@@ -482,7 +482,7 @@ export class ViewClipByPlaneTool extends ViewClipTool {
   public set orientation(option: ContextRotationId) { this._orientationValue.value = option; }
 
   /** @internal */
-  public supplyToolSettingsProperties(): DialogItem[] | undefined {
+  public override supplyToolSettingsProperties(): DialogItem[] | undefined {
     const initialValue = IModelApp.toolAdmin.toolSettingsState.getInitialToolSettingValue(this.toolId, ViewClipTool._orientationName);
     initialValue && (this._orientationValue = initialValue);
     const toolSettings = new Array<DialogItem>();
@@ -492,7 +492,7 @@ export class ViewClipByPlaneTool extends ViewClipTool {
   }
 
   /** @internal */
-  public applyToolSettingPropertyChange(updatedValue: DialogPropertySyncItem): boolean {
+  public override applyToolSettingPropertyChange(updatedValue: DialogPropertySyncItem): boolean {
     if (updatedValue.propertyName === ViewClipTool._orientationName) {
       this._orientationValue = updatedValue.value;
       if (this._orientationValue) {
@@ -504,7 +504,7 @@ export class ViewClipByPlaneTool extends ViewClipTool {
   }
 
   /** @internal */
-  protected showPrompt(): void {
+  protected override showPrompt(): void {
     const mainInstruction = ToolAssistance.createInstruction(this.iconSpec, CoreTools.translate("ViewClip.ByPlane.Prompts.FirstPoint"));
     const mouseInstructions: ToolAssistanceInstruction[] = [];
     const touchInstructions: ToolAssistanceInstruction[] = [];
@@ -525,13 +525,13 @@ export class ViewClipByPlaneTool extends ViewClipTool {
   }
 
   /** @internal */
-  protected setupAndPromptForNextAction(): void {
+  protected override setupAndPromptForNextAction(): void {
     IModelApp.accuSnap.enableSnap(true);
     super.setupAndPromptForNextAction();
   }
 
   /** @internal */
-  public async onDataButtonDown(ev: BeButtonEvent): Promise<EventHandled> {
+  public override async onDataButtonDown(ev: BeButtonEvent): Promise<EventHandled> {
     if (undefined === this.targetView)
       return EventHandled.No;
     const normal = ViewClipTool.getPlaneInwardNormal(this.orientation, this.targetView);
@@ -551,8 +551,8 @@ export class ViewClipByPlaneTool extends ViewClipTool {
  * @public
  */
 export class ViewClipByShapeTool extends ViewClipTool {
-  public static toolId = "ViewClip.ByShape";
-  public static iconSpec = "icon-section-shape";
+  public static override toolId = "ViewClip.ByShape";
+  public static override iconSpec = "icon-section-shape";
   /** @internal */
   private _orientationValue: DialogItemValue = { value: ContextRotationId.Top };
   /** @internal */
@@ -569,7 +569,7 @@ export class ViewClipByShapeTool extends ViewClipTool {
   public set orientation(option: ContextRotationId) { this._orientationValue.value = option; }
 
   /** @internal */
-  public supplyToolSettingsProperties(): DialogItem[] | undefined {
+  public override supplyToolSettingsProperties(): DialogItem[] | undefined {
     const initialValue = IModelApp.toolAdmin.toolSettingsState.getInitialToolSettingValue(this.toolId, ViewClipTool._orientationName);
     initialValue && (this._orientationValue = initialValue);
     const toolSettings = new Array<DialogItem>();
@@ -578,7 +578,7 @@ export class ViewClipByShapeTool extends ViewClipTool {
   }
 
   /** @internal */
-  public applyToolSettingPropertyChange(updatedValue: DialogPropertySyncItem): boolean {
+  public override applyToolSettingPropertyChange(updatedValue: DialogPropertySyncItem): boolean {
     if (updatedValue.propertyName === ViewClipTool._orientationName) {
       this._orientationValue = updatedValue.value;
       if (!this._orientationValue)
@@ -594,7 +594,7 @@ export class ViewClipByShapeTool extends ViewClipTool {
   }
 
   /** @internal */
-  protected showPrompt(): void {
+  protected override showPrompt(): void {
     let mainMsg = "ViewClip.ByShape.Prompts.";
     switch (this._points.length) {
       case 0:
@@ -635,7 +635,7 @@ export class ViewClipByShapeTool extends ViewClipTool {
   }
 
   /** @internal */
-  protected setupAndPromptForNextAction(): void {
+  protected override setupAndPromptForNextAction(): void {
     IModelApp.accuSnap.enableSnap(true);
     super.setupAndPromptForNextAction();
     if (0 === this._points.length)
@@ -692,12 +692,12 @@ export class ViewClipByShapeTool extends ViewClipTool {
   }
 
   /** @internal */
-  public isValidLocation(ev: BeButtonEvent, isButtonEvent: boolean): boolean {
+  public override isValidLocation(ev: BeButtonEvent, isButtonEvent: boolean): boolean {
     return (this._points.length > 0 ? true : super.isValidLocation(ev, isButtonEvent));
   }
 
   /** @internal */
-  public decorate(context: DecorateContext): void {
+  public override decorate(context: DecorateContext): void {
     if (context.viewport !== this.targetView)
       return;
 
@@ -729,10 +729,10 @@ export class ViewClipByShapeTool extends ViewClipTool {
   }
 
   /** @internal */
-  public async onMouseMotion(ev: BeButtonEvent): Promise<void> { if (this._points.length > 0 && undefined !== ev.viewport) ev.viewport.invalidateDecorations(); }
+  public override async onMouseMotion(ev: BeButtonEvent): Promise<void> { if (this._points.length > 0 && undefined !== ev.viewport) ev.viewport.invalidateDecorations(); }
 
   /** @internal */
-  public async onDataButtonDown(ev: BeButtonEvent): Promise<EventHandled> {
+  public override async onDataButtonDown(ev: BeButtonEvent): Promise<EventHandled> {
     if (undefined === this.targetView)
       return EventHandled.No;
 
@@ -768,7 +768,7 @@ export class ViewClipByShapeTool extends ViewClipTool {
   }
 
   /** @internal */
-  public async onUndoPreviousStep(): Promise<boolean> {
+  public override async onUndoPreviousStep(): Promise<boolean> {
     if (0 === this._points.length)
       return false;
 
@@ -782,13 +782,13 @@ export class ViewClipByShapeTool extends ViewClipTool {
  * @public
  */
 export class ViewClipByRangeTool extends ViewClipTool {
-  public static toolId = "ViewClip.ByRange";
-  public static iconSpec = "icon-section-range";
+  public static override toolId = "ViewClip.ByRange";
+  public static override iconSpec = "icon-section-range";
   /** @internal */
   protected _corner?: Point3d;
 
   /** @internal */
-  protected showPrompt(): void {
+  protected override showPrompt(): void {
     const mainInstruction = ToolAssistance.createInstruction(this.iconSpec, CoreTools.translate(undefined === this._corner ? "ViewClip.ByRange.Prompts.FirstPoint" : "ViewClip.ByRange.Prompts.NextPoint"));
     const mouseInstructions: ToolAssistanceInstruction[] = [];
     const touchInstructions: ToolAssistanceInstruction[] = [];
@@ -810,7 +810,7 @@ export class ViewClipByRangeTool extends ViewClipTool {
   }
 
   /** @internal */
-  protected setupAndPromptForNextAction(): void {
+  protected override setupAndPromptForNextAction(): void {
     IModelApp.accuSnap.enableSnap(true);
     super.setupAndPromptForNextAction();
   }
@@ -830,7 +830,7 @@ export class ViewClipByRangeTool extends ViewClipTool {
   }
 
   /** @internal */
-  public decorate(context: DecorateContext): void {
+  public override decorate(context: DecorateContext): void {
     if (context.viewport !== this.targetView || undefined === this._corner)
       return;
 
@@ -859,10 +859,10 @@ export class ViewClipByRangeTool extends ViewClipTool {
   }
 
   /** @internal */
-  public async onMouseMotion(ev: BeButtonEvent): Promise<void> { if (undefined !== this._corner && undefined !== ev.viewport) ev.viewport.invalidateDecorations(); }
+  public override async onMouseMotion(ev: BeButtonEvent): Promise<void> { if (undefined !== this._corner && undefined !== ev.viewport) ev.viewport.invalidateDecorations(); }
 
   /** @internal */
-  public async onDataButtonDown(ev: BeButtonEvent): Promise<EventHandled> {
+  public override async onDataButtonDown(ev: BeButtonEvent): Promise<EventHandled> {
     if (undefined === this.targetView)
       return EventHandled.No;
 
@@ -886,7 +886,7 @@ export class ViewClipByRangeTool extends ViewClipTool {
   }
 
   /** @internal */
-  public async onUndoPreviousStep(): Promise<boolean> {
+  public override async onUndoPreviousStep(): Promise<boolean> {
     if (undefined === this._corner)
       return false;
     this._corner = undefined;
@@ -899,13 +899,13 @@ export class ViewClipByRangeTool extends ViewClipTool {
  * @public
  */
 export class ViewClipByElementTool extends ViewClipTool {
-  public static toolId = "ViewClip.ByElement";
-  public static iconSpec = "icon-section-element";
+  public static override toolId = "ViewClip.ByElement";
+  public static override iconSpec = "icon-section-element";
 
   constructor(clipEventHandler?: ViewClipEventHandler, protected _alwaysUseRange: boolean = false) { super(clipEventHandler); }
 
   /** @internal */
-  protected showPrompt(): void {
+  protected override showPrompt(): void {
     const mainInstruction = ToolAssistance.createInstruction(this.iconSpec, CoreTools.translate("ViewClip.ByElement.Prompts.FirstPoint"));
     const mouseInstructions: ToolAssistanceInstruction[] = [];
     const touchInstructions: ToolAssistanceInstruction[] = [];
@@ -925,7 +925,7 @@ export class ViewClipByElementTool extends ViewClipTool {
   }
 
   /** @internal */
-  public onPostInstall(): void {
+  public override onPostInstall(): void {
     super.onPostInstall();
     if (undefined !== this.targetView && this.targetView.iModel.selectionSet.isActive) {
       let useSelection = true;
@@ -1008,7 +1008,7 @@ export class ViewClipByElementTool extends ViewClipTool {
   }
 
   /** @internal */
-  public async onDataButtonDown(ev: BeButtonEvent): Promise<EventHandled> {
+  public override async onDataButtonDown(ev: BeButtonEvent): Promise<EventHandled> {
     if (undefined === this.targetView)
       return EventHandled.No;
     const hit = await IModelApp.locateManager.doLocate(new LocateResponse(), true, ev.point, ev.viewport, ev.inputSource);
@@ -1049,9 +1049,9 @@ export abstract class ViewClipModifyTool extends EditManipulator.HandleTool {
     }
   }
 
-  protected get wantAccuSnap(): boolean { return false; }
+  protected override get wantAccuSnap(): boolean { return false; }
 
-  protected init(): void {
+  protected override init(): void {
     super.init();
     AccuDrawHintBuilder.deactivate();
   }
@@ -1101,13 +1101,13 @@ export abstract class ViewClipModifyTool extends EditManipulator.HandleTool {
     context.addDecorationFromBuilder(builder);
   }
 
-  public decorate(context: DecorateContext): void {
+  public override decorate(context: DecorateContext): void {
     if (-1 === this._anchorIndex || context.viewport !== this._clipView)
       return;
     this.drawViewClip(context);
   }
 
-  public async onMouseMotion(ev: BeButtonEvent): Promise<void> {
+  public override async onMouseMotion(ev: BeButtonEvent): Promise<void> {
     if (!this.updateViewClip(ev, false))
       return;
     this._clipView.invalidateDecorations();
@@ -1120,7 +1120,7 @@ export abstract class ViewClipModifyTool extends EditManipulator.HandleTool {
     return true;
   }
 
-  public onCleanup(): void {
+  public override onCleanup(): void {
     if (this._restoreClip && ViewClipTool.hasClip(this._clipView))
       ViewClipTool.setViewClip(this._clipView, this._clip);
 
@@ -1288,7 +1288,7 @@ export class ViewClipDecoration extends EditManipulator.HandleProvider {
   public get clipPlaneSet(): ConvexClipPlaneSet | undefined { return this._clipPlanes; }
   public getControlIndex(id: string): number { return this._controlIds.indexOf(id); }
 
-  protected stop(): void {
+  protected override stop(): void {
     const selectedId = (undefined !== this._clipId && this.iModel.selectionSet.has(this._clipId)) ? this._clipId : undefined;
     this._clipId = undefined; // Invalidate id so that decorator will be dropped...
     super.stop();
@@ -1474,7 +1474,7 @@ export class ViewClipDecoration extends EditManipulator.HandleProvider {
     return false;
   }
 
-  protected clearControls(): void {
+  protected override clearControls(): void {
     this.iModel.selectionSet.remove(this._controlIds); // Remove any selected controls as they won't continue to be displayed...
     super.clearControls();
   }
@@ -1566,7 +1566,7 @@ export class ViewClipDecoration extends EditManipulator.HandleProvider {
     faces.push(cap1);
 
     for (let i: number = 0; i < shapePtsLo.length; i++) {
-      const next = (i === shapePtsLo.length-1 ? 0 : i+1);
+      const next = (i === shapePtsLo.length - 1 ? 0 : i + 1);
       const side = Loop.createPolygon([shapePtsLo[i].clone(), shapePtsLo[next].clone(), shapePtsHi[next].clone(), shapePtsHi[i].clone()]);
       faces.push(side);
     }
@@ -1739,15 +1739,15 @@ export class ViewClipDecoration extends EditManipulator.HandleProvider {
     return true;
   }
 
-  protected async onRightClick(hit: HitDetail, ev: BeButtonEvent): Promise<EventHandled> {
+  protected override async onRightClick(hit: HitDetail, ev: BeButtonEvent): Promise<EventHandled> {
     if (undefined === this._clipEventHandler)
       return EventHandled.No;
     return (this._clipEventHandler.onRightClick(hit, ev) ? EventHandled.Yes : EventHandled.No);
   }
 
-  protected async onTouchTap(hit: HitDetail, ev: BeButtonEvent): Promise<EventHandled> { return (hit.sourceId === this._clipId ? EventHandled.No : super.onTouchTap(hit, ev)); }
+  protected override async onTouchTap(hit: HitDetail, ev: BeButtonEvent): Promise<EventHandled> { return (hit.sourceId === this._clipId ? EventHandled.No : super.onTouchTap(hit, ev)); }
 
-  public onManipulatorEvent(eventType: EditManipulator.EventType): void {
+  public override onManipulatorEvent(eventType: EditManipulator.EventType): void {
     this._suspendDecorator = false;
     super.onManipulatorEvent(eventType);
     if (EditManipulator.EventType.Accept === eventType && undefined !== this._clipEventHandler)
@@ -1756,9 +1756,9 @@ export class ViewClipDecoration extends EditManipulator.HandleProvider {
 
   public testDecorationHit(id: string): boolean { return (id === this._clipId || this._controlIds.includes(id)); }
   public async getDecorationToolTip(hit: HitDetail): Promise<HTMLElement | string> { return (hit.sourceId === this._clipId ? "View Clip" : "Modify View Clip"); }
-  protected updateDecorationListener(_add: boolean): void { super.updateDecorationListener(undefined !== this._clipId); } // Decorator isn't just for resize controls...
+  protected override updateDecorationListener(_add: boolean): void { super.updateDecorationListener(undefined !== this._clipId); } // Decorator isn't just for resize controls...
 
-  public decorate(context: DecorateContext): void {
+  public override decorate(context: DecorateContext): void {
     if (this._suspendDecorator)
       return;
 

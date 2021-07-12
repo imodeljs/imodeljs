@@ -17,7 +17,7 @@ import * as relationshipsModule from "./LinearReferencingRelationships";
  * @beta
  */
 export class LinearReferencingSchema extends Schema {
-  public static get schemaName(): string { return "LinearReferencing"; }
+  public static override get schemaName(): string { return "LinearReferencing"; }
   public static get schemaFilePath(): string { return path.join(KnownLocations.nativeAssetsDir, "ECSchemas", "Domain", "LinearReferencing.ecschema.xml"); }
   public static registerSchema() {
     if (this !== Schemas.getRegisteredSchema(this.schemaName)) {

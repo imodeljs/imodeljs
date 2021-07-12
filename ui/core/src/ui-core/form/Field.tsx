@@ -31,7 +31,7 @@ export class Field extends React.Component<FieldProps> {
     super(props);
   }
 
-  public render() {
+  public override render() {
     return (
       <FormContext.Consumer>
         {(context: FormContextState | undefined) => (

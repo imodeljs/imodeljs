@@ -18,9 +18,9 @@ const loggerCategory = "frontend-devtools.extensionServiceTool";
  * @beta
  */
 export class ExtensionServiceTool extends Tool {
-  public static toolId = "ExtensionService";
-  public static get maxArgs() { return undefined; }
-  public static get minArgs() { return 1; }
+  public static override toolId = "ExtensionService";
+  public static override get maxArgs() { return undefined; }
+  public static override get minArgs() { return 1; }
 
   /** Executes this tool's run method.
    * @param args contains the arguments used by the tool's run method
@@ -30,7 +30,7 @@ export class ExtensionServiceTool extends Tool {
    *   project | asset <contextName>: runs the extension service tool for either a project or asset with specified context name
    *   id <contextName>: adds context Id of <contextName>
    */
-  public parseAndRun(...args: string[]): boolean {
+  public override parseAndRun(...args: string[]): boolean {
     return this.run(args);
   }
 
@@ -41,7 +41,7 @@ export class ExtensionServiceTool extends Tool {
    *   project | asset <contextName>: runs the extension service tool for either a project or asset with specified context name
    *   id <contextName>: adds context Id of <contextName>
    */
-  public run(args: any[]): boolean {
+  public override run(args: any[]): boolean {
     if (!args || args.length < 1 || typeof args[0] !== "string") {
       return false;
     }

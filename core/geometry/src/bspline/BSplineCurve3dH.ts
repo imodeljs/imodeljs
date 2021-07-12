@@ -276,7 +276,7 @@ export class BSplineCurve3dH extends BSplineCurve3dBase {
       result);
   }
   /** test if the curve is almost equal to `other` */
-  public isAlmostEqual(other: any): boolean {
+  public override isAlmostEqual(other: any): boolean {
     if (other instanceof BSplineCurve3dH) {
       return this._bcurve.knots.isAlmostEqual(other._bcurve.knots)
         && Point4dArray.isAlmostEqual(this._bcurve.packedData, other._bcurve.packedData);
@@ -343,7 +343,7 @@ export class BSplineCurve3dH extends BSplineCurve3dBase {
    * @param options StrokeOptions that determine count
    * @param parentStrokeMap evolving parent map.
    */
-  public computeAndAttachRecursiveStrokeCounts(options?: StrokeOptions, parentStrokeMap?: StrokeCountMap) {
+  public override computeAndAttachRecursiveStrokeCounts(options?: StrokeOptions, parentStrokeMap?: StrokeCountMap) {
     const workBezier = this.initializeWorkBezier();
     const numSpan = this.numSpan;
     const myData = StrokeCountMap.createWithCurvePrimitiveAndOptionalParent(this, parentStrokeMap, []);

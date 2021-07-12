@@ -27,7 +27,7 @@ export class IModelSelector extends React.Component<Props, State> {
     this.state = { availableImodels: [] };
   }
 
-  public async componentDidMount() {
+  public override async componentDidMount() {
     const imodels = await MyAppFrontend.getSampleImodels();
     imodels.splice(0, 0, "");
     this.setState({
@@ -63,7 +63,7 @@ export class IModelSelector extends React.Component<Props, State> {
     await this.doOpenIModel(e.currentTarget.value);
   };
 
-  public render() {
+  public override render() {
     let error = null;
     if (this.state.error)
       error = (<div className="Error">{IModelApp.i18n.translate("Sample:controls.notifications.error")}: {this.state.error.message}</div>);

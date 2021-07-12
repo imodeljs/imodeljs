@@ -51,7 +51,7 @@ class ActualItem extends React.PureComponent<ItemProps> implements ToolbarItem {
     }
   }
 
-  public render() {
+  public override render() {
     const className = classnames(
       "nz-toolbar-item-item",
       this.props.isActive && "nz-active",
@@ -89,7 +89,7 @@ class ActualItem extends React.PureComponent<ItemProps> implements ToolbarItem {
  * @beta
  */
 export class Item extends React.PureComponent<ItemProps> {
-  public render() {
+  public override render() {
     const toolbarItemProps = this.props as ToolbarItemProps<ActualItem>;
     return (
       <ActualItem

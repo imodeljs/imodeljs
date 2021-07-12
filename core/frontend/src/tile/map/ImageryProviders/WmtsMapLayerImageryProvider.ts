@@ -20,14 +20,14 @@ export class WmtsMapLayerImageryProvider extends MapLayerImageryProvider {
   private _preferredLayerTileMatrixSet = new Map<string, WmtsCapability.TileMatrixSet>();
   private _preferredLayerStyle = new Map<string, WmtsCapability.Style>();
 
-  public get mutualExclusiveSubLayer(): boolean { return true; }
+  public override get mutualExclusiveSubLayer(): boolean { return true; }
 
   constructor(settings: MapLayerSettings) {
     super(settings, true);
     this._baseUrl = WmsUtilities.getBaseUrl(this._settings.url);
   }
 
-  public async initialize(): Promise<void> {
+  public override async initialize(): Promise<void> {
     try {
       this._capabilities = await WmtsCapabilities.create(this._baseUrl);
       this.initPreferredTileMatrixSet();

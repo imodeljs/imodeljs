@@ -48,7 +48,7 @@ export class ProjectTab extends React.Component<TabProps> {
 
   // {this.props.index === 0 && this.renderIndicator()}
 
-  public render() {
+  public override render() {
     const isActive = this.props.index === this.props.selectedTabIndex!;
     const classes = classnames("tabs-style-linemove", isActive && "tab-active");
     const icon = classnames("icon", this.props.icon);
@@ -112,7 +112,7 @@ export class ProjectTabs extends React.Component<TabsProps, TabsState> {
     });
   }
 
-  public render() {
+  public override render() {
     return (
       <div className="tabs">
         <nav>

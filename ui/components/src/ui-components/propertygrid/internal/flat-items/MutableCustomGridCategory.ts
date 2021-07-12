@@ -57,11 +57,11 @@ export class MutableCustomGridCategory extends MutableFlatPropertyGridItem imple
     return this.depth === 0;
   }
 
-  public get lastInNumberOfCategories(): number {
+  public override get lastInNumberOfCategories(): number {
     return this._lastInNumberOfCategories;
   }
 
-  public set lastInNumberOfCategories(value: number) {
+  public override set lastInNumberOfCategories(value: number) {
     this._lastInNumberOfCategories = value + 2;
   }
 
@@ -81,7 +81,7 @@ export class MutableCustomGridCategory extends MutableFlatPropertyGridItem imple
     return this._children;
   }
 
-  public getVisibleDescendantsAndSelf(): IMutableFlatGridItem[] {
+  public override getVisibleDescendantsAndSelf(): IMutableFlatGridItem[] {
     return [this];
   }
 }

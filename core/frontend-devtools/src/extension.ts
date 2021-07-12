@@ -9,7 +9,7 @@ import { FrontendDevTools } from "./FrontEndDevTools";
  * @internal published to the bentley imjs extension registry
  */
 export class FrontendDevToolsExtension extends Extension {
-  public async onLoad(_args: string[]): Promise<void> {
+  public override async onLoad(_args: string[]): Promise<void> {
     await FrontendDevTools.initialize();
   }
 

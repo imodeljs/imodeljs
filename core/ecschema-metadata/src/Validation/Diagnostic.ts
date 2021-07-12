@@ -180,7 +180,7 @@ export abstract class ClassDiagnostic<ARGS extends any[]> extends SchemaItemDiag
   }
 
   /** Gets the schema where the diagnostic originated. */
-  public get schema(): Schema { return this.ecDefinition.schema; }
+  public override get schema(): Schema { return this.ecDefinition.schema; }
 }
 
 /**

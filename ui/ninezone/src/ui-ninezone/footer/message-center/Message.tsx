@@ -25,7 +25,7 @@ export interface MessageCenterMessageProps extends CommonProps {
  * @beta
  */
 export class MessageCenterMessage extends React.PureComponent<MessageCenterMessageProps> {
-  public render() {
+  public override render() {
     const className = classnames(
       "nz-footer-messageCenter-message",
       this.props.className);

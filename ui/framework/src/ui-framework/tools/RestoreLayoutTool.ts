@@ -16,15 +16,15 @@ import { UiFramework } from "../UiFramework";
  * @alpha
  */
 export class RestoreFrontstageLayoutTool extends Tool {
-  public static toolId = "RestoreFrontstageLayout";
-  public static iconSpec = "icon-view-layouts";
+  public static override toolId = "RestoreFrontstageLayout";
+  public static override iconSpec = "icon-view-layouts";
 
   // istanbul ignore next
-  public static get minArgs() { return 0; }
+  public static override get minArgs() { return 0; }
   // istanbul ignore next
-  public static get maxArgs() { return 1; }
+  public static override get maxArgs() { return 1; }
 
-  public run(frontstageId?: string): boolean {
+  public override run(frontstageId?: string): boolean {
     let frontstageDef: FrontstageDef | undefined;
 
     if (frontstageId) {
@@ -40,7 +40,7 @@ export class RestoreFrontstageLayoutTool extends Tool {
     return true;
   }
 
-  public parseAndRun(...args: string[]): boolean {
+  public override parseAndRun(...args: string[]): boolean {
     return this.run(args[0]);
   }
 }

@@ -45,7 +45,7 @@ export class Tooltip extends React.PureComponent<TooltipProps> {
   private _lastSize = new Size();
   private _tooltip = React.createRef<HTMLDivElement>();
 
-  public render() {
+  public override render() {
     const className = classnames(
       "nz-popup-tooltip",
       this.props.className);
@@ -72,11 +72,11 @@ export class Tooltip extends React.PureComponent<TooltipProps> {
     );
   }
 
-  public componentDidMount() {
+  public override componentDidMount() {
     this.onSizeChanged();
   }
 
-  public componentDidUpdate(): void {
+  public override componentDidUpdate(): void {
     this.onSizeChanged();
   }
 

@@ -15,7 +15,7 @@ import { DefinitionElementProps } from "@bentley/imodeljs-common";
  */
 export class Aggregate extends PhysicalMaterial {
   /** @internal */
-  public static get className(): string { return "Aggregate"; }
+  public static override get className(): string { return "Aggregate"; }
   public constructor(props: DefinitionElementProps, iModel: IModelDb) { super(props, iModel); }
 }
 
@@ -24,7 +24,7 @@ export class Aggregate extends PhysicalMaterial {
  */
 export class Aluminum extends PhysicalMaterial {
   /** @internal */
-  public static get className(): string { return "Aluminum"; }
+  public static override get className(): string { return "Aluminum"; }
   public constructor(props: DefinitionElementProps, iModel: IModelDb) { super(props, iModel); }
 }
 
@@ -33,7 +33,7 @@ export class Aluminum extends PhysicalMaterial {
  */
 export class Asphalt extends PhysicalMaterial {
   /** @internal */
-  public static get className(): string { return "Asphalt"; }
+  public static override get className(): string { return "Asphalt"; }
   public constructor(props: DefinitionElementProps, iModel: IModelDb) { super(props, iModel); }
 }
 
@@ -42,7 +42,7 @@ export class Asphalt extends PhysicalMaterial {
  */
 export class Concrete extends PhysicalMaterial {
   /** @internal */
-  public static get className(): string { return "Concrete"; }
+  public static override get className(): string { return "Concrete"; }
   public constructor(props: DefinitionElementProps, iModel: IModelDb) { super(props, iModel); }
 }
 
@@ -51,6 +51,6 @@ export class Concrete extends PhysicalMaterial {
  */
 export class Steel extends PhysicalMaterial {
   /** @internal */
-  public static get className(): string { return "Steel"; }
+  public static override get className(): string { return "Steel"; }
   public constructor(props: DefinitionElementProps, iModel: IModelDb) { super(props, iModel); }
 }

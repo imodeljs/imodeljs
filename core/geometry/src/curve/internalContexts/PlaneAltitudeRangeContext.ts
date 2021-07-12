@@ -63,22 +63,22 @@ export class PlaneAltitudeRangeContext extends RecurseToCurvesGeometryHandler {
     return context;
   }
 
-  public handleLineSegment3d(segment: LineSegment3d) {
+  public override handleLineSegment3d(segment: LineSegment3d) {
     this.announcePoint(segment.point0Ref);
     this.announcePoint(segment.point1Ref);
   }
 
-  public handleLineString3d(lineString: LineString3d) {
+  public override handleLineString3d(lineString: LineString3d) {
     this.announcePoints(lineString.packedPoints);
   }
 
-  public handleBSplineCurve3d(bcurve: BSplineCurve3d) {
+  public override handleBSplineCurve3d(bcurve: BSplineCurve3d) {
     // ugh.   The point MUST be on the curve -- usual excess-range of poles is not ok.
     const ls = LineString3d.create();
     bcurve.emitStrokes(ls);
     this.handleLineString3d(ls);
   }
-  public handleBSplineCurve3dH(bcurve: BSplineCurve3dH) {
+  public override handleBSplineCurve3dH(bcurve: BSplineCurve3dH) {
     // ugh.   The point MUST be on the curve -- usual excess-range of poles is not ok.
     const ls = LineString3d.create();
     bcurve.emitStrokes(ls);
@@ -87,7 +87,7 @@ export class PlaneAltitudeRangeContext extends RecurseToCurvesGeometryHandler {
 
   private _sineCosinePolynomial?: SineCosinePolynomial;
   private _workPoint?: Point3d;
-  public handleArc3d(g: Arc3d) {
+  public override handleArc3d(g: Arc3d) {
     this._sineCosinePolynomial = g.getPlaneAltitudeSineCosinePolynomial(this.plane, this._sineCosinePolynomial);
     let radians = this._sineCosinePolynomial.referenceMinMaxRadians();
     if (g.sweep.isRadiansInSweep(radians))

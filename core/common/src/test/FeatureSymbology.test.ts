@@ -78,10 +78,10 @@ describe("FeatureAppearance", () => {
       // NB: Not testing material because unclear that it's implemented properly...
     }
 
-    test({ }, { });
+    test({}, {});
     test({ color: ColorDef.from(0, 127, 255).toJSON() }, { rgb: { r: 0, g: 127, b: 255 } });
-    test({ invisible: true }, { });
-    test({ invisible: false }, { });
+    test({ invisible: true }, {});
+    test({ invisible: false }, {});
     test({ weight: 12 }, { weight: 12 });
     test({ transp: 0 }, { transparency: 0 });
     test({ transp: 0.5 }, { transparency: 0.5 });
@@ -92,8 +92,8 @@ describe("FeatureAppearance", () => {
 describe("FeatureOverrides", () => {
   class Overrides extends FeatureOverrides {
     public constructor() { super(); }
-    public get neverDrawn() { return this._neverDrawn; }
-    public get alwaysDrawn() { return this._alwaysDrawn; }
+    public override get neverDrawn() { return this._neverDrawn; }
+    public override get alwaysDrawn() { return this._alwaysDrawn; }
     public get modelOverrides() { return this._modelOverrides; }
     public get elementOverrides() { return this._elementOverrides; }
     public get subCategoryOverrides() { return this._subCategoryOverrides; }
@@ -329,7 +329,7 @@ describe("FeatureAppearanceProvider", () => {
   }
 
   function getAppearance(source: FeatureAppearanceSource, provider: FeatureAppearanceProvider): FeatureAppearance | undefined {
-    return provider.getFeatureAppearance(source, 0, 0, 0, 0, GeometryClass.Primary, 0,  0, BatchType.Primary, 0);
+    return provider.getFeatureAppearance(source, 0, 0, 0, 0, GeometryClass.Primary, 0, 0, BatchType.Primary, 0);
   }
 
   it("Chains providers in expected order", () => {

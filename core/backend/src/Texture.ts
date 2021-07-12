@@ -26,7 +26,7 @@ export interface TextureCreateProps extends Omit<TextureProps, "data"> {
  */
 export class Texture extends DefinitionElement {
   /** @internal */
-  public static get className(): string { return "Texture"; }
+  public static override get className(): string { return "Texture"; }
   public format: ImageSourceFormat;
   public data: Uint8Array;
   /** @deprecated This property conveys no useful information. */
@@ -49,7 +49,7 @@ export class Texture extends DefinitionElement {
   }
 
   /** @internal */
-  public toJSON(): TextureProps {
+  public override toJSON(): TextureProps {
     const val = super.toJSON() as TextureProps;
     val.format = this.format;
     val.data = Base64EncodedString.fromUint8Array(this.data);

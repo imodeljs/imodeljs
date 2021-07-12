@@ -167,7 +167,7 @@ describe("FrameBuilder", () => {
         AxisScaleSelect.LongestRangeDirection,
         AxisScaleSelect.NonUniformRangeContainment]) {
         const localToWorld = FrameBuilder.createLocalToWorldTransformInRange(range, select, 0, 0, 0, 2.0);
-        if (ck.testPointer(localToWorld) && localToWorld) {
+        if (ck.testPointer(localToWorld)) {
           MatrixTests.checkProperties(ck,
             localToWorld.matrix,
             select === AxisScaleSelect.Unit,  // unit axes in range are identity

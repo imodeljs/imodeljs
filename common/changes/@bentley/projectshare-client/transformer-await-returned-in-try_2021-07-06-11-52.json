@@ -1,0 +1,11 @@
+{
+  "changes": [
+    {
+      "packageName": "@bentley/projectshare-client",
+      "comment": "async order change in uploadContentInFile",
+      "type": "none"
+    }
+  ],
+  "packageName": "@bentley/projectshare-client",
+  "email": "MichaelBelousov@users.noreply.github.com"
+}

@@ -606,7 +606,7 @@ export class TestRunner {
     const iModels = [];
     for (const file of files) {
       if (file.endsWith(".bim") || file.endsWith(".ibim")) {
-        const split = file.split("\\"); // ###TODO Use the path API to support non-Windows platforms.
+        const split = file.split(/[^\/\\]+/g);
         const iModel = split[split.length - 1];
         if (iModel)
           iModels.push(iModel);

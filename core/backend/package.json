@@ -1,6 +1,6 @@
 {
   "name": "@bentley/imodeljs-backend",
-  "version": "2.19.0-dev.8",
+  "version": "2.19.0-dev.13",
   "description": "iModel.js backend components",
   "main": "lib/imodeljs-backend.js",
   "typings": "lib/imodeljs-backend",
@@ -55,15 +55,15 @@
     "url": "http://www.bentley.com"
   },
   "peerDependencies": {
-    "@bentley/backend-itwin-client": "workspace:^2.19.0-dev.8",
-    "@bentley/bentleyjs-core": "workspace:^2.19.0-dev.8",
-    "@bentley/ecschema-metadata": "workspace:^2.19.0-dev.8",
-    "@bentley/geometry-core": "workspace:^2.19.0-dev.8",
-    "@bentley/imodelhub-client": "workspace:^2.19.0-dev.8",
-    "@bentley/imodeljs-common": "workspace:^2.19.0-dev.8",
-    "@bentley/itwin-client": "workspace:^2.19.0-dev.8",
-    "@bentley/rbac-client": "workspace:^2.19.0-dev.8",
-    "@bentley/telemetry-client": "workspace:^2.19.0-dev.8"
+    "@bentley/backend-itwin-client": "workspace:^2.19.0-dev.13",
+    "@bentley/bentleyjs-core": "workspace:^2.19.0-dev.13",
+    "@bentley/ecschema-metadata": "workspace:^2.19.0-dev.13",
+    "@bentley/geometry-core": "workspace:^2.19.0-dev.13",
+    "@bentley/imodelhub-client": "workspace:^2.19.0-dev.13",
+    "@bentley/imodeljs-common": "workspace:^2.19.0-dev.13",
+    "@bentley/itwin-client": "workspace:^2.19.0-dev.13",
+    "@bentley/rbac-client": "workspace:^2.19.0-dev.13",
+    "@bentley/telemetry-client": "workspace:^2.19.0-dev.13"
   },
   "//devDependencies": [
     "NOTE: All peerDependencies should also be listed as devDependencies since peerDependencies are not considered by npm install",
@@ -115,13 +115,13 @@
     "sinon": "^9.0.2",
     "source-map-loader": "^1.0.0",
     "source-map-support": "^0.5.6",
-    "typescript": "~4.1.0",
+    "typescript": "~4.3.0",
     "webpack": "4.42.0"
   },
   "dependencies": {
     "@azure/storage-blob": "10.4.0",
     "@bentley/context-registry-client": "workspace:*",
-    "@bentley/imodeljs-native": "2.18.2",
+    "@bentley/imodeljs-native": "2.19.0",
     "@bentley/usage-logging-client": "workspace:*",
     "deep-assign": "^2.0.0",
     "form-data": "^2.3.2",

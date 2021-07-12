@@ -15,7 +15,7 @@ import { EditCommand } from "./EditCommand";
 
 /** @alpha */
 export class BasicManipulationCommand extends EditCommand implements BasicManipulationCommandIpc {
-  public static commandId = editorBuiltInCmdIds.cmdBasicManipulation;
+  public static override commandId = editorBuiltInCmdIds.cmdBasicManipulation;
 
   public constructor(iModel: IModelDb, protected _str: string) { super(iModel); }
 

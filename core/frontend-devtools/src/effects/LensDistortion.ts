@@ -18,7 +18,7 @@ import { parseArgs } from "../tools/parseArgs";
  * @beta
  */
 export class LensDistortionEffect extends AddEffectTool {
-  public static toolId = "LensDistortionEffect";
+  public static override toolId = "LensDistortionEffect";
 
   protected get effectName() { return "lensdistortion"; }
   protected get textureCoordFromPosition() { return true; }
@@ -94,21 +94,21 @@ export class LensDistortionEffect extends AddEffectTool {
  * @beta
  */
 export class LensDistortionConfig extends Tool {
-  public static toolId = "LensDistortionConfig";
-  public static get minArgs() { return 0; }
-  public static get maxArgs() { return 2; }
+  public static override toolId = "LensDistortionConfig";
+  public static override get minArgs() { return 0; }
+  public static override get maxArgs() { return 2; }
 
   public static strength = 0.5;
   public static cylindricalRatio = 0.5;
 
-  public run(strength?: number, ratio?: number): boolean {
+  public override run(strength?: number, ratio?: number): boolean {
     LensDistortionConfig.strength = strength ?? 0.5;
     LensDistortionConfig.cylindricalRatio = ratio ?? 0.5;
     refreshViewportsForEffect("fdt lensdistortion");
     return true;
   }
 
-  public parseAndRun(...input: string[]): boolean {
+  public override parseAndRun(...input: string[]): boolean {
     const args = parseArgs(input);
     return this.run(args.getFloat("s"), args.getFloat("r"));
   }

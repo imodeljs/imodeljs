@@ -275,29 +275,29 @@ class FilterHierarchyByElementIds {
 const ELEMENTS_FILTER = new FilterHierarchyByElementIds();
 
 export class TriggerFilterHierarchyByVisibleElementIdsTool extends Tool {
-  public static toolId = "TriggerFilterHierarchyByVisibleElementIds";
-  public run(): boolean {
+  public static override toolId = "TriggerFilterHierarchyByVisibleElementIds";
+  public override run(): boolean {
     ELEMENTS_FILTER.onTrigger.raiseEvent();
     return true;
   }
-  public static get keyin(): string {
+  public static override get keyin(): string {
     return "visibility widget trigger filter by visible elements";
   }
-  public static get englishKeyin(): string {
+  public static override get englishKeyin(): string {
     return this.keyin;
   }
 }
 
 export class CancelFilterHierarchyByVisibleElementIdsTool extends Tool {
-  public static toolId = "CancelFilterHierarchyByVisibleElementIds";
-  public run(): boolean {
+  public static override toolId = "CancelFilterHierarchyByVisibleElementIds";
+  public override run(): boolean {
     ELEMENTS_FILTER.onCancel.raiseEvent();
     return true;
   }
-  public static get keyin(): string {
+  public static override get keyin(): string {
     return "visibility widget cancel filter by visible elements";
   }
-  public static get englishKeyin(): string {
+  public static override get englishKeyin(): string {
     return this.keyin;
   }
 }

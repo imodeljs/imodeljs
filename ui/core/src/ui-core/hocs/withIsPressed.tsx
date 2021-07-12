@@ -45,7 +45,7 @@ export const withIsPressed = <ComponentProps extends {}>(
       this.props.onIsPressedChange && this.props.onIsPressedChange(isPressed);
     };
 
-    public render() {
+    public override render() {
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const { isPressed, onIsPressedChange, ...props } = this.props; // todo: better solution to rest object of intersected type
       return (

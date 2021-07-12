@@ -87,7 +87,7 @@ export class TreeNode extends React.Component<TreeNodeProps> {
     super(props);
   }
 
-  public render() {
+  public override render() {
     const className = classnames(
       "core-tree-node",
       this.props.isFocused && "is-focused",

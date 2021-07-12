@@ -27,6 +27,19 @@ import { IndexedPolyface, Polyface, PolyfaceVisitor } from "./Polyface";
 import { PolyfaceBuilder } from "./PolyfaceBuilder";
 import { PolyfaceQuery } from "./PolyfaceQuery";
 
+  /**
+   * carrier for a point array with an index into UnionOfConvexClipPlaneSets
+   * @private
+   */
+   class ClipCandidate {
+    public nextConvexSetIndex: number;
+    public points: GrowableXYZArray;
+    public constructor(points: GrowableXYZArray, nextConvexSetIndex: number) {
+      this.nextConvexSetIndex = nextConvexSetIndex;
+      this.points = points;
+    }
+  }
+
 /**
  * A pair of PolyfaceBuilder objects, for use by clippers that emit inside and outside parts.
  * * There are nominally 4 builders:
@@ -115,33 +128,38 @@ export class PolyfaceClip {
     const builderB = destination.builderB;
     const visitor = polyface.createVisitor(0);
     const cache = new GrowableXYZArrayCache();
-    let currentCandidates: GrowableXYZArray[] = [];
-    let nextCandidates: GrowableXYZArray[] = [];
+    const residualPolygons: ClipCandidate[] = [];
+    let candidate: ClipCandidate | undefined;
+    const  outsideParts: GrowableXYZArray[] = [];
 
     const numConvexSet = allClippers.convexSets.length;
     for (visitor.reset(); visitor.moveToNextFacet();) {
-      // !!! currentCandidates and next candidates are empty at this point !!!
-      currentCandidates.push(cache.grabAndFill(visitor.point));
-      for (let convexSetIndex = 0; convexSetIndex < numConvexSet; convexSetIndex++) {
-        const clipper = allClippers.convexSets[convexSetIndex];
-        if (currentCandidates.length === 0)
-          break;
-        // !!! nextCandidates is empty
-        // Each currentCandidate splits into
-        //  a) a part inside the current clipper.  This is saved in builderA, nothing more to do with it
-        //  b) additional parts to be saved in nextCandidates to clipped again with subsequent clippers
-        let candidate;
-        while ((candidate = currentCandidates.pop()) !== undefined) {
-          const insidePart = clipper.clipInsidePushOutside(candidate, nextCandidates, cache);
-          // accepted polygons immediately generate edges on this ConvexSet's planes ...
-          this.addPolygonToBuilderAndDropToCache(insidePart, builderA, cache);
+      residualPolygons.push(new ClipCandidate(cache.grabAndFill(visitor.point), 0));
+      while ((candidate = residualPolygons.pop()) !== undefined) {
+        const convexSetIndex = candidate.nextConvexSetIndex;
+        if (convexSetIndex >= numConvexSet) {
+          // ths remnant polygon is OUT ...
+          this.addPolygonToBuilderAndDropToCache(candidate.points, builderB, cache);
+        } else {
+          const clipper = allClippers.convexSets[convexSetIndex];
+          cache.dropAllToCache(outsideParts);
+          const insidePart = clipper.clipInsidePushOutside(candidate.points, outsideParts, cache);
+          if (insidePart){
+            this.addPolygonToBuilderAndDropToCache(insidePart, builderA, cache);
+          // Keep outside parts active for clip by later facets . . .
+          for (const outsidePolygon of outsideParts) {
+            residualPolygons.push(new ClipCandidate(outsidePolygon, convexSetIndex + 1));
+            }
+            outsideParts.length = 0;
+          } else {
+            // Nothing was insidePart.  The outside parts might be split by intermediate steps -- but all the pieces are there.
+            candidate.nextConvexSetIndex++;
+            residualPolygons.push(candidate);
+          }
         }
-        // currentCandidates is empty
-        // each polygon nextCandidates becomes a candidate for later clippers (or drop out)
-        const q = currentCandidates; currentCandidates = nextCandidates; nextCandidates = q;
       }
-      this.addPolygonArrayToBuilderAndDropToCache(currentCandidates, builderB, cache);
     }
+    cache.dropAllToCache(outsideParts);
     if (destination.buildClosureFaces) {
       for (const clipper of allClippers.convexSets) {
         this.buildClosureFacesForConvexSet(visitor, clipper, destination, cache);

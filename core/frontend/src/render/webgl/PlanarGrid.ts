@@ -34,14 +34,14 @@ class PlanarGridGeometryParams extends IndexedGeometryParams {
     this.uvParams = uvParams;
   }
 }
-export class PlanarGridGeometry extends IndexedGeometry  {
+export class PlanarGridGeometry extends IndexedGeometry {
   public get techniqueId(): TechniqueId { return TechniqueId.PlanarGrid; }
   public getRenderPass(_target: Target): RenderPass { return RenderPass.Translucent; }
   public collectStatistics(_stats: RenderMemory.Statistics): void { }
   public get renderOrder(): RenderOrder { return RenderOrder.UnlitSurface; }
   public readonly uvParams: QBufferHandle2d;
   public readonly props: PlanarGridProps;
-  public get asPlanarGrid(): PlanarGridGeometry | undefined { return this; }
+  public override get asPlanarGrid(): PlanarGridGeometry | undefined { return this; }
 
   private constructor(params: PlanarGridGeometryParams) {
     super(params);
@@ -89,7 +89,7 @@ export class PlanarGridGeometry extends IndexedGeometry  {
       indices[j++] = i + 2;
     }
     const pointBuffer = QBufferHandle3d.create(qPoints.params, qPoints.toTypedArray());
-    const paramBuffer =  QBufferHandle2d.create(qParams.params, qParams.toTypedArray());
+    const paramBuffer = QBufferHandle2d.create(qParams.params, qParams.toTypedArray());
     const indBuffer = BufferHandle.createBuffer(GL.Buffer.Target.ElementArrayBuffer, indices);
     if (!pointBuffer || !paramBuffer || !indBuffer)
       return undefined;

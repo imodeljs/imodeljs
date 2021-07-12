@@ -29,7 +29,7 @@ export class LoadingSpinner extends React.PureComponent<LoadingSpinnerProps> {
     messageOnTop: false,
   };
 
-  public render() {
+  public override render() {
     return (
       <div className="core-ls">
         {(this.props.message && this.props.messageOnTop) && <span className="ls-message-top">{this.props.message}</span>}

@@ -75,7 +75,7 @@ export class ViewDetails {
   /** @internal */
   public constructor(jsonProperties: { viewDetails?: ViewDetailsProps }) {
     if (!jsonProperties.viewDetails)
-      jsonProperties.viewDetails = { };
+      jsonProperties.viewDetails = {};
 
     this._json = jsonProperties.viewDetails;
   }
@@ -206,7 +206,7 @@ export class ViewDetails3d extends ViewDetails {
   /** Returns the internal JSON representation. This is *not* a copy.
    * @internal
    */
-  public getJSON(): Readonly<ViewDetails3dProps> {
+  public override getJSON(): Readonly<ViewDetails3dProps> {
     return this._json3d;
   }
 }

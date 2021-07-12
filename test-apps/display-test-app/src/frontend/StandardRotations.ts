@@ -54,7 +54,7 @@ export class StandardRotations extends ToolBarDropDown {
   protected _open() { this._element.style.display = "block"; }
   protected _close() { this._element.style.display = "none"; }
 
-  public get onViewChanged(): Promise<void> {
+  public override get onViewChanged(): Promise<void> {
     this._parent.style.display = this._vp.view.allow3dManipulations() ? "block" : "none";
     return Promise.resolve();
   }

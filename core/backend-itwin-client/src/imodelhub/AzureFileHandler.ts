@@ -50,7 +50,7 @@ export class BufferedStream extends Transform {
    * @param encoding Encoding type of chunk if chunk is string.
    * @param callback A callback function (optionally with an error argument and data) to be called after the supplied chunk has been processed.
    */
-  public _transform(chunk: any, encoding: string, callback: TransformCallback): void {   // eslint-disable-line
+  public override _transform(chunk: any, encoding: string, callback: TransformCallback): void {   // eslint-disable-line
     if (encoding !== "buffer" && encoding !== "binary")
       throw new TypeError(`Encoding '${encoding}' is not supported.`);
 
@@ -95,7 +95,7 @@ export class BufferedStream extends Transform {
    * This will be called when there is no more written data to be consumed, but before the 'end' event is emitted signaling the end of the Readable stream.
    * @param callback A callback function (optionally with an error argument and data) to be called when remaining data has been flushed.
    */
-  public _flush(callback: TransformCallback): void {   // eslint-disable-line
+  public override _flush(callback: TransformCallback): void {   // eslint-disable-line
     if (!this._buffer) {
       callback();
       return;

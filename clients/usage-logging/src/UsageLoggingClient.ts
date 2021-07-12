@@ -125,8 +125,8 @@ export class FeatureLogEntry {
  * @internal
  */
 export class StartFeatureLogEntry extends FeatureLogEntry {
-  public readonly startTime: Date;
-  public readonly endTime = new Date("0001-01-01T00:00:00Z"); // ULAS spec dictates that start feature usage entries use the default date for endDate
+  public override readonly startTime: Date;
+  public override readonly endTime = new Date("0001-01-01T00:00:00Z"); // ULAS spec dictates that start feature usage entries use the default date for endDate
 
   /**
    * @param featureId
@@ -147,8 +147,8 @@ export class StartFeatureLogEntry extends FeatureLogEntry {
  * @internal
  */
 export class EndFeatureLogEntry extends FeatureLogEntry {
-  public readonly startTime = new Date("0001-01-01T00:00:00Z"); // ULAS spec dictates that end feature usage entries use the default date for startDate
-  public readonly endTime: Date;
+  public override readonly startTime = new Date("0001-01-01T00:00:00Z"); // ULAS spec dictates that end feature usage entries use the default date for startDate
+  public override readonly endTime: Date;
 
   private constructor(featureId: GuidString, hostName: string, usageType: UsageType, contextId?: GuidString, endTime: Date = new Date()) {
     super(featureId, hostName, usageType, contextId);
@@ -201,7 +201,7 @@ export class UsageLoggingClient extends Client {
    */
   protected getUrlSearchKey(): string { return UsageLoggingClient._buddiSearchKey; }
 
-  protected async setupOptionDefaults(options: RequestOptions): Promise<void> {
+  protected override async setupOptionDefaults(options: RequestOptions): Promise<void> {
     await super.setupOptionDefaults(options);
     options.useCorsProxy = true;
   }

@@ -50,7 +50,7 @@ export class IModelOpen extends React.Component<IModelOpenProps, IModelOpenState
     };
   }
 
-  public componentDidMount() {
+  public override componentDidMount() {
     if (this.props.initialIModels && this.props.initialIModels.length > 0) {
       this.setState({
         isLoadingProjects: false,
@@ -149,7 +149,7 @@ export class IModelOpen extends React.Component<IModelOpenProps, IModelOpenState
     IModelApp.notifications.endActivityMessage(endReason);
   };
 
-  public render() {
+  public override render() {
     const contentStyle = classnames("open-content", this.state.isNavigationExpanded && "pinned");
     return (
       <>

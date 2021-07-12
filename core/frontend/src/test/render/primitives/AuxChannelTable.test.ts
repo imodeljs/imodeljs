@@ -12,7 +12,7 @@ describe("AuxChannelTable", () => {
   class System extends MockRender.System {
     public static maxTextureSize = 1024;
 
-    public get maxTextureSize() {
+    public override get maxTextureSize() {
       return System.maxTextureSize;
     }
   }
@@ -79,9 +79,9 @@ describe("AuxChannelTable", () => {
     expect(Array.from(disp.qOrigin)).to.deep.equal([0, 0, 0x8000]);
     // Loss of precision when storing in Float32Array...
     const qScale = Array.from(disp.qScale);
-    expect(Geometry.isSameCoordinate(qScale[0], 0x7fff/0xffff, 1/0.00001)).to.be.true;
+    expect(Geometry.isSameCoordinate(qScale[0], 0x7fff / 0xffff, 1 / 0.00001)).to.be.true;
     expect(qScale[1]).to.equal(0);
-    expect(Geometry.isSameCoordinate(qScale[2], 0x7fff/0xffff, 1/0.00001)).to.be.true;
+    expect(Geometry.isSameCoordinate(qScale[2], 0x7fff / 0xffff, 1 / 0.00001)).to.be.true;
   });
 
   it("lays out a single channel containing multiple data lists", () => {

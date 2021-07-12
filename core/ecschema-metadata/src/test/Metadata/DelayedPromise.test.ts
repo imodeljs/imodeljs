@@ -78,7 +78,7 @@ describe("DelayedPromiseWithProps", () => {
     public realProp = true;
     public get getterProp() { return 5; }
     public classMethod() { return 42; }
-    public overriddenMethod() { return "that"; }
+    public override overriddenMethod() { return "that"; }
   }
 
   it("should contain getters for all added properties", async () => {

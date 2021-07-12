@@ -68,17 +68,17 @@ export enum SelectionProcessing {
  * @public
  */
 export class SelectionTool extends PrimitiveTool {
-  public static hidden = false;
-  public static toolId = "Select";
-  public static iconSpec = "icon-cursor";
+  public static override hidden = false;
+  public static override toolId = "Select";
+  public static override iconSpec = "icon-cursor";
   protected _isSelectByPoints = false;
   protected _isSuspended = false;
   protected readonly _points: Point3d[] = [];
   private _selectionMethodValue: DialogItemValue = { value: SelectionMethod.Pick };
   private _selectionModeValue: DialogItemValue = { value: SelectionMode.Replace };
 
-  public requireWriteableTarget(): boolean { return false; }
-  public autoLockTarget(): void { } // NOTE: For selecting elements we only care about iModel, so don't lock target model automatically.
+  public override requireWriteableTarget(): boolean { return false; }
+  public override autoLockTarget(): void { } // NOTE: For selecting elements we only care about iModel, so don't lock target model automatically.
 
   protected wantSelectionClearOnMiss(_ev: BeButtonEvent): boolean { return SelectionMode.Replace === this.selectionMode; }
   protected wantEditManipulators(): boolean { return SelectionMethod.Pick === this.selectionMethod; }
@@ -455,7 +455,7 @@ export class SelectionTool extends PrimitiveTool {
     return true;
   }
 
-  public async onMouseMotion(ev: BeButtonEvent): Promise<void> {
+  public override async onMouseMotion(ev: BeButtonEvent): Promise<void> {
     if (undefined !== ev.viewport && this._isSelectByPoints)
       ev.viewport.invalidateDecorations();
   }
@@ -470,7 +470,7 @@ export class SelectionTool extends PrimitiveTool {
     return EventHandled.No;
   }
 
-  public async onMouseStartDrag(ev: BeButtonEvent): Promise<EventHandled> {
+  public override async onMouseStartDrag(ev: BeButtonEvent): Promise<EventHandled> {
     IModelApp.accuSnap.clear(); // Need to test hit at start drag location, not current AccuSnap...
     if (EventHandled.Yes === await this.selectDecoration(ev))
       return EventHandled.Yes;
@@ -479,11 +479,11 @@ export class SelectionTool extends PrimitiveTool {
     return this.selectByPointsStart(ev) ? EventHandled.Yes : EventHandled.No;
   }
 
-  public async onMouseEndDrag(ev: BeButtonEvent): Promise<EventHandled> {
+  public override async onMouseEndDrag(ev: BeButtonEvent): Promise<EventHandled> {
     return this.selectByPointsEnd(ev) ? EventHandled.Yes : EventHandled.No;
   }
 
-  public async onDataButtonUp(ev: BeButtonEvent): Promise<EventHandled> {
+  public override async onDataButtonUp(ev: BeButtonEvent): Promise<EventHandled> {
     if (undefined === ev.viewport)
       return EventHandled.No;
 
@@ -525,7 +525,7 @@ export class SelectionTool extends PrimitiveTool {
     return EventHandled.Yes;
   }
 
-  public async onResetButtonUp(ev: BeButtonEvent): Promise<EventHandled> {
+  public override async onResetButtonUp(ev: BeButtonEvent): Promise<EventHandled> {
     if (this._isSelectByPoints) {
       if (undefined !== ev.viewport)
         ev.viewport.invalidateDecorations();
@@ -564,26 +564,26 @@ export class SelectionTool extends PrimitiveTool {
     return EventHandled.Yes;
   }
 
-  public onSuspend(): void { this._isSuspended = true; if (this.wantEditManipulators()) IModelApp.toolAdmin.manipulatorToolEvent.raiseEvent(this, ManipulatorToolEvent.Suspend); }
-  public onUnsuspend(): void { this._isSuspended = false; if (this.wantEditManipulators()) IModelApp.toolAdmin.manipulatorToolEvent.raiseEvent(this, ManipulatorToolEvent.Unsuspend); this.showPrompt(this.selectionMode, this.selectionMethod); }
+  public override onSuspend(): void { this._isSuspended = true; if (this.wantEditManipulators()) IModelApp.toolAdmin.manipulatorToolEvent.raiseEvent(this, ManipulatorToolEvent.Suspend); }
+  public override onUnsuspend(): void { this._isSuspended = false; if (this.wantEditManipulators()) IModelApp.toolAdmin.manipulatorToolEvent.raiseEvent(this, ManipulatorToolEvent.Unsuspend); this.showPrompt(this.selectionMode, this.selectionMethod); }
 
-  public async onTouchMoveStart(ev: BeTouchEvent, startEv: BeTouchEvent): Promise<EventHandled> {
+  public override async onTouchMoveStart(ev: BeTouchEvent, startEv: BeTouchEvent): Promise<EventHandled> {
     if (startEv.isSingleTouch && !this._isSelectByPoints)
       await IModelApp.toolAdmin.convertTouchMoveStartToButtonDownAndMotion(startEv, ev);
     return (this._isSuspended || this._isSelectByPoints) ? EventHandled.Yes : EventHandled.No;
   }
 
-  public async onTouchMove(ev: BeTouchEvent): Promise<void> { if (this._isSelectByPoints) return IModelApp.toolAdmin.convertTouchMoveToMotion(ev); }
-  public async onTouchComplete(ev: BeTouchEvent): Promise<void> { if (this._isSelectByPoints) return IModelApp.toolAdmin.convertTouchEndToButtonUp(ev); }
-  public async onTouchCancel(ev: BeTouchEvent): Promise<void> { if (this._isSelectByPoints) return IModelApp.toolAdmin.convertTouchEndToButtonUp(ev, BeButton.Reset); }
+  public override async onTouchMove(ev: BeTouchEvent): Promise<void> { if (this._isSelectByPoints) return IModelApp.toolAdmin.convertTouchMoveToMotion(ev); }
+  public override async onTouchComplete(ev: BeTouchEvent): Promise<void> { if (this._isSelectByPoints) return IModelApp.toolAdmin.convertTouchEndToButtonUp(ev); }
+  public override async onTouchCancel(ev: BeTouchEvent): Promise<void> { if (this._isSelectByPoints) return IModelApp.toolAdmin.convertTouchEndToButtonUp(ev, BeButton.Reset); }
 
-  public decorate(context: DecorateContext): void { this.selectByPointsDecorate(context); }
+  public override decorate(context: DecorateContext): void { this.selectByPointsDecorate(context); }
 
-  public async onModifierKeyTransition(_wentDown: boolean, modifier: BeModifierKeys, _event: KeyboardEvent): Promise<EventHandled> {
+  public override async onModifierKeyTransition(_wentDown: boolean, modifier: BeModifierKeys, _event: KeyboardEvent): Promise<EventHandled> {
     return (modifier === BeModifierKeys.Shift && this._isSelectByPoints) ? EventHandled.Yes : EventHandled.No;
   }
 
-  public async filterHit(hit: HitDetail, out?: LocateResponse): Promise<LocateFilterStatus> {
+  public override async filterHit(hit: HitDetail, out?: LocateResponse): Promise<LocateFilterStatus> {
     if (!this.wantPickableDecorations() && !hit.isElementHit)
       return LocateFilterStatus.Reject;
 
@@ -600,12 +600,12 @@ export class SelectionTool extends PrimitiveTool {
 
   public onRestartTool(): void { this.exitTool(); }
 
-  public onCleanup(): void {
+  public override onCleanup(): void {
     if (this.wantEditManipulators())
       IModelApp.toolAdmin.manipulatorToolEvent.raiseEvent(this, ManipulatorToolEvent.Stop);
   }
 
-  public onPostInstall(): void {
+  public override onPostInstall(): void {
     super.onPostInstall();
     if (!this.targetView)
       return;
@@ -632,7 +632,7 @@ export class SelectionTool extends PrimitiveTool {
   /** Used to supply DefaultToolSettingProvider with a list of properties to use to generate ToolSettings.  If undefined then no ToolSettings will be displayed
    * @beta
    */
-  public supplyToolSettingsProperties(): DialogItem[] | undefined {
+  public override supplyToolSettingsProperties(): DialogItem[] | undefined {
     if (!this.wantToolSettings())
       return undefined;
 
@@ -658,7 +658,7 @@ export class SelectionTool extends PrimitiveTool {
   /** Used to send changes from UI back to Tool
    * @beta
    */
-  public applyToolSettingPropertyChange(updatedValue: DialogPropertySyncItem): boolean {
+  public override applyToolSettingPropertyChange(updatedValue: DialogPropertySyncItem): boolean {
     let changed = false;
     if (updatedValue.propertyName === SelectionTool._methodsName) {
       const saveWantManipulators = this.wantEditManipulators();

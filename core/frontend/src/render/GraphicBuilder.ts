@@ -138,8 +138,6 @@ export interface GraphicBuilderOptions {
   /** Controls whether normals are generated for surfaces. Normals allow 3d geometry to receive lighting; without them the geometry will be unaffected by lighting.
    * By default, normals are generated only for graphics of type [[GraphicType.Scene]]; or for any type of graphic if [[GraphicBuilder.wantEdges]] is true, because
    * normals are required to prevent z-fighting between surfaces and their edges. This default can be overridden by explicitly specifying `true` or `false`.
-   * @note Currently, no API exists to generate normals for a [Polyface]($geometry-core) that lacks them. Until such an API becomes available, if you want a lit Polyface, you
-   * must both set `wantNormals` to `true` **and** supply a Polyface with precomputed normals to `addPolyface`.
    * @see [[GraphicType]] for a description of whether and how different types of graphics are affected by lighting.
    */
   wantNormals?: boolean;

@@ -76,7 +76,7 @@ export class RotationalSweep extends SolidPrimitive {
   /** Test if `other` is a `RotationalSweep` */
   public isSameGeometryClass(other: any): boolean { return other instanceof RotationalSweep; }
   /** Test for same axis, capping, and swept geometry. */
-  public isAlmostEqual(other: GeometryQuery): boolean {
+  public override isAlmostEqual(other: GeometryQuery): boolean {
     if (other instanceof RotationalSweep) {
       return this._contour.isAlmostEqual(other._contour)
         && this._normalizedAxis.isAlmostEqual(other._normalizedAxis)

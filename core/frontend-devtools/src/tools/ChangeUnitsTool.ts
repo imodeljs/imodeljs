@@ -17,12 +17,12 @@ import { parseToggle } from "./parseToggle";
  * @beta
  */
 export class ChangeUnitsTool extends Tool {
-  public static toolId = "ChangeUnits";
-  public static get minArgs() { return 0; }
-  public static get maxArgs() { return 1; }
+  public static override toolId = "ChangeUnits";
+  public static override get minArgs() { return 0; }
+  public static override get maxArgs() { return 1; }
 
   // support boolean for backwards compatibility
-  public run(useMetric?: boolean): boolean {
+  public override run(useMetric?: boolean): boolean {
     const fmtr = IModelApp.quantityFormatter;
 
     // if no arg then toggle to metric from any non-metric unit system
@@ -37,7 +37,7 @@ export class ChangeUnitsTool extends Tool {
     return true;
   }
 
-  public parseAndRun(...args: string[]): boolean {
+  public override parseAndRun(...args: string[]): boolean {
     const enable = parseToggle(args[0]);
     if (typeof enable !== "string")
       this.run(enable);

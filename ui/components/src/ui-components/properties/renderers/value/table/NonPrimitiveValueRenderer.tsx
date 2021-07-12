@@ -97,7 +97,7 @@ export class TableNonPrimitiveValueRenderer extends React.PureComponent<TableNon
   // }
 
   /** @internal */
-  public render() {
+  public override render() {
     return (
       <UnderlinedButton
         // ref={this._buttonRef}

@@ -32,17 +32,17 @@ export interface PointerCaptorProps extends CommonProps {
  * @internal
  */
 export class PointerCaptor extends React.PureComponent<PointerCaptorProps> {
-  public componentDidMount() {
+  public override componentDidMount() {
     document.addEventListener("pointerup", this._handleDocumentPointerUp);
     document.addEventListener("pointermove", this._handleDocumentPointerMove);
   }
 
-  public componentWillUnmount() {
+  public override componentWillUnmount() {
     document.removeEventListener("pointerup", this._handleDocumentPointerUp);
     document.removeEventListener("pointermove", this._handleDocumentPointerMove);
   }
 
-  public render() {
+  public override render() {
     const className = classnames(
       "nz-base-pointerCaptor",
       this.props.isPointerDown && "nz-captured",

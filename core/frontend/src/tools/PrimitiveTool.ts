@@ -41,7 +41,7 @@ export abstract class PrimitiveTool extends InteractiveTool {
    * @return true if this tool was installed (though it may have exited too)
    * @note If you override this method you **must** call `super.run` and return false if it returns false.
    */
-  public run(..._args: any[]): boolean {
+  public override run(..._args: any[]): boolean {
     const { toolAdmin, viewManager } = IModelApp;
     if (!this.isCompatibleViewport(viewManager.selectedView, false) || !toolAdmin.onInstallTool(this))
       return false;
@@ -54,7 +54,7 @@ export abstract class PrimitiveTool extends InteractiveTool {
   /** Determine whether the supplied Viewport is compatible with this tool.
    * @param vp the Viewport to check
    */
-  public isCompatibleViewport(vp: Viewport | undefined, isSelectedViewChange: boolean): boolean {
+  public override isCompatibleViewport(vp: Viewport | undefined, isSelectedViewChange: boolean): boolean {
     if (undefined === vp)
       return false; // No views are open...
 
@@ -90,7 +90,7 @@ export abstract class PrimitiveTool extends InteractiveTool {
    * outside the project extents, but it will be sufficient to handle most cases and provide good feedback to the user.
    * @return true if ev is acceptable.
    */
-  public isValidLocation(ev: BeButtonEvent, isButtonEvent: boolean): boolean {
+  public override isValidLocation(ev: BeButtonEvent, isButtonEvent: boolean): boolean {
     const vp = ev.viewport;
     if (undefined === vp)
       return false;
@@ -134,7 +134,7 @@ export abstract class PrimitiveTool extends InteractiveTool {
    * @param _previous The previously active view.
    * @param current The new active view.
    */
-  public onSelectedViewportChanged(_previous: Viewport | undefined, current: Viewport | undefined): void {
+  public override onSelectedViewportChanged(_previous: Viewport | undefined, current: Viewport | undefined): void {
     if (this.isCompatibleViewport(current, true))
       return;
     this.onRestartTool();
@@ -155,7 +155,7 @@ export abstract class PrimitiveTool extends InteractiveTool {
   /**
    * Called to reset tool to initial state. PrimitiveTool implements this method to call onRestartTool.
    */
-  public onReinitialize(): void { this.onRestartTool(); }
+  public override onReinitialize(): void { this.onRestartTool(); }
 
   public exitTool(): void { IModelApp.toolAdmin.startDefaultTool(); }
 

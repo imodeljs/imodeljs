@@ -33,7 +33,7 @@ export class NonPrimitivePropertyLabelRenderer extends React.PureComponent<NonPr
       this.props.onExpand();
   };
 
-  public render() {
+  public override render() {
     return (
       <div
         style={PropertyLabelRenderer.getStyle(this.props.offset)}

@@ -101,7 +101,7 @@ export class PresentationPropertyDataProvider extends ContentDataProvider implem
   /**
    * Dispose the presentation property data provider.
    */
-  public dispose() {
+  public override dispose() {
     super.dispose();
     this._onFavoritesChangedRemoveListener();
   }
@@ -109,7 +109,7 @@ export class PresentationPropertyDataProvider extends ContentDataProvider implem
   /**
    * Invalidates cached content and clears categorized data.
    */
-  protected invalidateCache(props: CacheInvalidationProps): void {
+  protected override invalidateCache(props: CacheInvalidationProps): void {
     super.invalidateCache(props);
     if (this.getMemoizedData) {
       this.getMemoizedData.cache.keys.length = 0;
@@ -123,12 +123,12 @@ export class PresentationPropertyDataProvider extends ContentDataProvider implem
    * Tells the data provider to _not_ request descriptor and instead configure
    * content using `getDescriptorOverrides()` call
    */
-  protected shouldConfigureContentDescriptor(): boolean { return false; }
+  protected override shouldConfigureContentDescriptor(): boolean { return false; }
 
   /**
    * Provides content configuration for the property grid
    */
-  protected getDescriptorOverrides(): DescriptorOverrides {
+  protected override getDescriptorOverrides(): DescriptorOverrides {
     return {
       ...super.getDescriptorOverrides(),
       contentFlags: ContentFlags.ShowLabels | ContentFlags.MergeResults,
@@ -138,7 +138,7 @@ export class PresentationPropertyDataProvider extends ContentDataProvider implem
   /**
    * Hides the computed display label field from the list of properties
    */
-  protected isFieldHidden(field: Field) {
+  protected override isFieldHidden(field: Field) {
     return field.name === "/DisplayLabel/";
   }
 
@@ -340,12 +340,12 @@ class PropertyDataBuilder extends PropertyRecordsBuilder {
     };
   }
 
-  public startContent(props: StartContentProps): boolean {
+  public override startContent(props: StartContentProps): boolean {
     this._categoriesCache.initFromDescriptor(props.descriptor);
     return super.startContent(props);
   }
 
-  public finishItem(): void {
+  public override finishItem(): void {
     assert(this._result === undefined);
     const categorizedRecords: { [categoryName: string]: PropertyRecord[] } = {};
     this._categorizedRecords.forEach((recs, categoryName) => {
@@ -476,33 +476,33 @@ class PropertyDataBuilder extends PropertyRecordsBuilder {
     }));
     return favorites;
   }
-  public processFieldHierarchies(props: ProcessFieldHierarchiesProps): void {
+  public override processFieldHierarchies(props: ProcessFieldHierarchiesProps): void {
     super.processFieldHierarchies(props);
     this._favoriteFieldHierarchies = this.createFavoriteFieldsList(props.hierarchies);
     props.hierarchies.push(...this._favoriteFieldHierarchies);
   }
 
-  public startCategory(props: StartCategoryProps): boolean {
+  public override startCategory(props: StartCategoryProps): boolean {
     this._categoriesStack.push(props.category);
     return true;
   }
-  public finishCategory(): void { this._categoriesStack.pop(); }
+  public override finishCategory(): void { this._categoriesStack.pop(); }
 
-  public startStruct(props: StartStructProps): boolean {
+  public override startStruct(props: StartStructProps): boolean {
     if (this.shouldSkipField(props.hierarchy.field, () => !Object.keys(props.rawValues).length))
       return false;
 
     return super.startStruct(props);
   }
 
-  public startArray(props: StartArrayProps): boolean {
+  public override startArray(props: StartArrayProps): boolean {
     if (this.shouldSkipField(props.hierarchy.field, () => !props.rawValues.length))
       return false;
 
     return super.startArray(props);
   }
 
-  public processPrimitiveValue(props: ProcessPrimitiveValueProps): void {
+  public override processPrimitiveValue(props: ProcessPrimitiveValueProps): void {
     if (this.shouldSkipField(props.field, () => (null === props.rawValue || undefined === props.rawValue || "" === props.rawValue)))
       return;
 

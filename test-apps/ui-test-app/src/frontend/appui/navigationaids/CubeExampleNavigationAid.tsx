@@ -17,7 +17,7 @@ export class CubeExampleNavigationAidControl extends NavigationAidControl {
     this.reactNode = <CubeExampleNavigationAid />;
   }
 
-  public getSize(): string | undefined { return "96px"; }
+  public override getSize(): string | undefined { return "96px"; }
 }
 
 /** An example Navigation Aid displaying a 3D cube.
@@ -25,7 +25,7 @@ export class CubeExampleNavigationAidControl extends NavigationAidControl {
 class CubeExampleNavigationAid extends React.Component {
   private _htmlCanvas!: HTMLCanvasElement;
 
-  public render(): React.ReactNode {
+  public override render(): React.ReactNode {
     const canvasStyle: React.CSSProperties = {
       width: "100%",
       height: "100%",
@@ -43,7 +43,7 @@ class CubeExampleNavigationAid extends React.Component {
     event.preventDefault();
   };
 
-  public componentDidMount() {
+  public override componentDidMount() {
     this._draw();
   }
 

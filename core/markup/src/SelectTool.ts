@@ -96,7 +96,7 @@ class StretchHandle extends ModifyHandle {
     this._circle.center(pt.x, pt.y);
   }
 
-  public startDrag(_ev: BeButtonEvent) {
+  public override startDrag(_ev: BeButtonEvent) {
     const handles = this.handles;
     this.startCtm = handles.el.screenCTM().lmultiplyO(MarkupApp.screenToVbMtx());
     this.startBox = handles.el.bbox(); // save starting size so we can preserve aspect ratio
@@ -143,7 +143,7 @@ class RotateHandle extends ModifyHandle {
   private readonly _circle: MarkupElement;
   public location!: Point2d;
 
-  constructor(public handles: Handles) {
+  constructor(public override handles: Handles) {
     super(handles);
     const props = MarkupApp.props.handles;
 
@@ -177,7 +177,7 @@ class VertexHandle extends ModifyHandle {
   private readonly _x: string;
   private readonly _y: string;
 
-  constructor(public handles: Handles, index: number) {
+  constructor(public override handles: Handles, index: number) {
     super(handles);
     const props = MarkupApp.props.handles;
     this._circle = handles.group.circle(props.size).attr(props.vertex).addClass(MarkupApp.vertexHandleClass);
@@ -209,7 +209,7 @@ class MoveHandle extends ModifyHandle {
   private readonly _shape: MarkupElement;
   private readonly _outline?: Polygon;
   private _lastPos?: Point3d;
-  constructor(public handles: Handles, showBBox: boolean) {
+  constructor(public override handles: Handles, showBBox: boolean) {
     super(handles);
     const props = MarkupApp.props.handles;
     const clone = this.handles.el.cloneMarkup();
@@ -233,7 +233,7 @@ class MoveHandle extends ModifyHandle {
     this._shape.addClass(MarkupApp.moveHandleClass);
     this.setMouseHandler(this._shape);
   }
-  public onClick(_ev: BeButtonEvent) {
+  public override onClick(_ev: BeButtonEvent) {
     const el = this.handles.el;
     // eslint-disable-next-line deprecation/deprecation
     if (el instanceof MarkupText || (el instanceof G && el.node.className.baseVal === MarkupApp.boxedTextClass)) // if they click on the move handle of a text element, start the text editor
@@ -246,7 +246,7 @@ class MoveHandle extends ModifyHandle {
       this._outline.plot(this.handles.npcToVbArray(pts).map((pt) => [pt.x, pt.y] as ArrayXY));
     }
   }
-  public startDrag(ev: BeButtonEvent) {
+  public override startDrag(ev: BeButtonEvent) {
     super.startDrag(ev, ev.isShiftKey);
     this._lastPos = MarkupApp.convertVpToVb(ev.viewPoint); // save stating position in viewbox coordinates
   }
@@ -476,8 +476,8 @@ export class MarkupSelected {
  * @public
  */
 export class SelectTool extends MarkupTool {
-  public static toolId = "Markup.Select";
-  public static iconSpec = "icon-cursor";
+  public static override toolId = "Markup.Select";
+  public static override iconSpec = "icon-cursor";
   private _flashedElement?: MarkupElement;
   private readonly _dragging: MarkupElement[] = [];
   private _anchorPt!: Point3d;
@@ -504,11 +504,11 @@ export class SelectTool extends MarkupTool {
     this.cancelDrag();
     this.markup.selected.emptyAll();
   }
-  public onCleanup(): void { this.clearSelect(); }
-  public onPostInstall() { this.initSelect(); super.onPostInstall(); }
-  public onRestartTool(): void { this.initSelect(); }
+  public override onCleanup(): void { this.clearSelect(); }
+  public override onPostInstall() { this.initSelect(); super.onPostInstall(); }
+  public override onRestartTool(): void { this.initSelect(); }
 
-  protected showPrompt(): void {
+  protected override showPrompt(): void {
     const mainInstruction = ToolAssistance.createInstruction(this.iconSpec, IModelApp.i18n.translate(`${MarkupTool.toolKey}Select.Prompts.IdentifyMarkup`));
     const mouseInstructions: ToolAssistanceInstruction[] = [];
     const touchInstructions: ToolAssistanceInstruction[] = [];
@@ -541,7 +541,7 @@ export class SelectTool extends MarkupTool {
     this._dragging.length = 0;
     this.boxSelectInit();
   }
-  public async onResetButtonUp(_ev: BeButtonEvent): Promise<EventHandled> {
+  public override async onResetButtonUp(_ev: BeButtonEvent): Promise<EventHandled> {
     const selected = this.markup.selected;
     const handles = selected.handles;
     if (handles && handles.dragging)
@@ -553,7 +553,7 @@ export class SelectTool extends MarkupTool {
   }
 
   /** Called when there is a mouse "click" (down+up without any motion) */
-  public async onDataButtonUp(ev: BeButtonEvent): Promise<EventHandled> {
+  public override async onDataButtonUp(ev: BeButtonEvent): Promise<EventHandled> {
     const markup = this.markup;
     const selected = markup.selected;
     const handles = selected.handles;
@@ -583,7 +583,7 @@ export class SelectTool extends MarkupTool {
     return EventHandled.Yes;
   }
 
-  public async onTouchTap(ev: BeTouchEvent): Promise<EventHandled> {
+  public override async onTouchTap(ev: BeTouchEvent): Promise<EventHandled> {
     // Allow tap with a second touch point to multiselect (similar functionality to control being held with mouse click).
     if (ev.isSingleTap && 2 === ev.touchEvent.touches.length) {
       const el = this.flashedElement = this.pickElement(ev.viewPoint);
@@ -649,7 +649,7 @@ export class SelectTool extends MarkupTool {
   }
 
   /** called when the mouse moves while the data button is down. */
-  public async onMouseStartDrag(ev: BeButtonEvent): Promise<EventHandled> {
+  public override async onMouseStartDrag(ev: BeButtonEvent): Promise<EventHandled> {
     if (BeButton.Data !== ev.button)
       return EventHandled.No;
 
@@ -682,7 +682,7 @@ export class SelectTool extends MarkupTool {
   }
 
   /** Called whenever the mouse moves while this tool is active. */
-  public async onMouseMotion(ev: BeButtonEvent): Promise<void> {
+  public override async onMouseMotion(ev: BeButtonEvent): Promise<void> {
     const markup = this.markup;
     const handles = markup.selected.handles;
     if (handles && handles.dragging) {
@@ -706,7 +706,7 @@ export class SelectTool extends MarkupTool {
   }
 
   /** Called when the mouse goes up after dragging. */
-  public async onMouseEndDrag(ev: BeButtonEvent): Promise<EventHandled> {
+  public override async onMouseEndDrag(ev: BeButtonEvent): Promise<EventHandled> {
     const markup = this.markup;
     const selected = markup.selected;
     const handles = selected.handles;
@@ -742,7 +742,7 @@ export class SelectTool extends MarkupTool {
   }
 
   /** called when a modifier key is pressed or released. Updates stretch handles, if present */
-  public async onModifierKeyTransition(_wentDown: boolean, modifier: BeModifierKeys, _event: KeyboardEvent): Promise<EventHandled> {
+  public override async onModifierKeyTransition(_wentDown: boolean, modifier: BeModifierKeys, _event: KeyboardEvent): Promise<EventHandled> {
     if (modifier !== BeModifierKeys.Shift) // we only care about the shift key
       return EventHandled.No;
     const selected = this.markup.selected;
@@ -755,7 +755,7 @@ export class SelectTool extends MarkupTool {
   }
 
   /** called whenever a key is pressed while this tool is active. */
-  public async onKeyTransition(wentDown: boolean, key: KeyboardEvent): Promise<EventHandled> {
+  public override async onKeyTransition(wentDown: boolean, key: KeyboardEvent): Promise<EventHandled> {
     if (!wentDown)
       return EventHandled.No;
     const markup = this.markup;

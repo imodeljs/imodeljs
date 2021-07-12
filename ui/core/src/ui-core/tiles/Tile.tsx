@@ -39,7 +39,7 @@ export class Tile extends React.Component<TileProps> {
   };
 
   /** @internal */
-  public render(): JSX.Element {
+  public override render(): JSX.Element {
     const stepType =
       (this.props.stepCount && this.props.stepCount < 13)
         ? Math.floor(this.props.stepNum! * 12 / (this.props.stepCount - 1))

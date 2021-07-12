@@ -121,10 +121,10 @@ export class GroupItemDef extends ActionButtonItemDef {
     return this._itemList.items.length;
   }
 
-  public execute(): void {
+  public override execute(): void {
   }
 
-  public toolbarReactNode(index?: number): React.ReactNode {
+  public override toolbarReactNode(index?: number): React.ReactNode {
     this.resolveItems();
     const key = this.getKey(index);
 
@@ -176,7 +176,7 @@ interface GroupItemState extends BaseItemState {
  */
 export class GroupItem extends React.Component<GroupItemComponentProps, GroupItemState> {
   /** @internal */
-  public readonly state: Readonly<GroupItemState>;
+  public override readonly state: Readonly<GroupItemState>;
   private _componentUnmounting = false;
   private _childSyncIds?: Set<string>;
   private _childRefreshRequired = false;
@@ -232,20 +232,20 @@ export class GroupItem extends React.Component<GroupItemComponentProps, GroupIte
     }
   };
 
-  public componentDidMount() {
+  public override componentDidMount() {
     SyncUiEventDispatcher.onSyncUiEvent.addListener(this._handleSyncUiEvent);
     FrontstageManager.onToolActivatedEvent.addListener(this._handleToolActivatedEvent);
     FrontstageManager.onToolPanelOpenedEvent.addListener(this._handleToolPanelOpenedEvent);
   }
 
-  public componentWillUnmount() {
+  public override componentWillUnmount() {
     this._componentUnmounting = true;
     SyncUiEventDispatcher.onSyncUiEvent.removeListener(this._handleSyncUiEvent);
     FrontstageManager.onToolActivatedEvent.removeListener(this._handleToolActivatedEvent);
     FrontstageManager.onToolPanelOpenedEvent.removeListener(this._handleToolPanelOpenedEvent);
   }
 
-  public shouldComponentUpdate(nextProps: GroupItemComponentProps, nextState: GroupItemState) {
+  public override shouldComponentUpdate(nextProps: GroupItemComponentProps, nextState: GroupItemState) {
     if (!PropsHelper.isShallowEqual(nextState, this.state))
       return true;
     if (!PropsHelper.isShallowEqual(nextProps, this.props))
@@ -319,7 +319,7 @@ export class GroupItem extends React.Component<GroupItemComponentProps, GroupIte
     });
   }
 
-  public componentDidUpdate(prevProps: GroupItemComponentProps, _prevState: GroupItemState) {
+  public override componentDidUpdate(prevProps: GroupItemComponentProps, _prevState: GroupItemState) {
     if (this.props !== prevProps) {
       // istanbul ignore next
       if (this.props.groupItemDef !== prevProps.groupItemDef)
@@ -354,7 +354,7 @@ export class GroupItem extends React.Component<GroupItemComponentProps, GroupIte
     }
   };
 
-  public render(): React.ReactNode {
+  public override render(): React.ReactNode {
     if (!this.state.isVisible)
       return null;
 

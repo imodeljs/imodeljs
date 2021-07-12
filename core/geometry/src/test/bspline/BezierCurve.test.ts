@@ -58,10 +58,10 @@ describe("BsplineCurve", () => {
         const pole3d = bezier.getPolePoint3d(i);
         const pole4d = bezier.getPolePoint4d(i);
         const q = allPoints[i];
-        if (ck.testPointer(pole3d) && pole3d) {
+        if (ck.testPointer(pole3d)) {
           ck.testPoint3d(pole3d, q);
         }
-        if (ck.testPointer(pole4d) && pole4d) {
+        if (ck.testPointer(pole4d)) {
           ck.testPoint4d(pole4d, Point4d.create(q.x, q.y, q.z, 1.0));
         }
       }
@@ -272,7 +272,7 @@ describe("BsplineCurve", () => {
   it("Bspline1dNd", () => {
     const ck = new Checker();
     const bspline = BSpline1dNd.create(4, 3, 2, KnotVector.create([1, 2, 3, 4], 1));
-    if (ck.testPointer(bspline) && bspline) {
+    if (ck.testPointer(bspline)) {
       const point0 = bspline.getPoint3dPole(0)!;
       ck.testExactNumber(0, point0.magnitude());
       const f = new Float64Array(5);

@@ -15,7 +15,7 @@ export interface SpinnerTestDialogState {
 }
 
 export class SpinnerTestDialog extends React.Component<SpinnerTestDialogProps, SpinnerTestDialogState> {
-  public readonly state: Readonly<SpinnerTestDialogState>;
+  public override readonly state: Readonly<SpinnerTestDialogState>;
   private _title = IModelApp.i18n.translate("SampleApp:buttons.spinnerTestDialog");
 
   constructor(props: SpinnerTestDialogProps) {
@@ -25,7 +25,7 @@ export class SpinnerTestDialog extends React.Component<SpinnerTestDialogProps, S
     };
   }
 
-  public render(): JSX.Element {
+  public override render(): JSX.Element {
     return (
       <Dialog
         title={this._title}

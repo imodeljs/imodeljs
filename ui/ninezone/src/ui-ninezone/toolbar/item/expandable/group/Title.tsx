@@ -23,7 +23,7 @@ export interface TitleProps extends CommonProps {
  * @alpha
  */
 export class Title extends React.PureComponent<TitleProps> {
-  public render() {
+  public override render() {
     const className = classnames(
       "nz-toolbar-item-expandable-group-title",
       this.props.className);

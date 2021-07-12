@@ -297,6 +297,38 @@ export class XYZ implements XYAndZ {
   public unitVectorTo(target: XYAndZ, result?: Vector3d): Vector3d | undefined { return this.vectorTo(target, result).normalize(result); }
   /** Freeze this XYZ */
   public freeze(): Readonly<this> { return Object.freeze(this); }
+
+  /** access x part of XYZProps (which may be .x or [0]) */
+  public static x(xyz: XYZProps | undefined, defaultValue: number = 0): number{
+    if (xyz === undefined)
+      return defaultValue;
+    if (Array.isArray(xyz))
+      return xyz[0];
+    if (xyz.x !== undefined)
+      return xyz.x;
+    return defaultValue;
+  }
+  /** access x part of XYZProps (which may be .x or [0]) */
+  public static y(xyz: XYZProps | undefined, defaultValue: number = 0): number{
+    if (xyz === undefined)
+      return defaultValue;
+    if (Array.isArray(xyz))
+      return xyz[1];
+    if (xyz.y !== undefined)
+      return xyz.y;
+    return defaultValue;
+  }
+  /** access x part of XYZProps (which may be .x or [0]) */
+  public static z(xyz: XYZProps | undefined, defaultValue: number = 0): number{
+    if (xyz === undefined)
+      return defaultValue;
+    if (Array.isArray(xyz))
+      return xyz[2];
+    if (xyz.z !== undefined)
+      return xyz.z;
+    return defaultValue;
+  }
+
 }
 /** 3D point with `x`,`y`,`z` as properties
  * @public
@@ -648,7 +680,7 @@ export class Vector3d extends XYZ {
 
   public static fromJSON(json?: XYZProps): Vector3d { const val = new Vector3d(); val.setFromJSON(json); return val; }
   /** Copy contents from another Point3d, Point2d, Vector2d, or Vector3d */
-  public static createFrom(data: XYAndZ | XAndY | Float64Array, result?: Vector3d): Vector3d {
+  public static createFrom(data: XYAndZ | XAndY | Float64Array | number[], result?: Vector3d): Vector3d {
     if (data instanceof Float64Array) {
       let x = 0;
       let y = 0;
@@ -660,6 +692,8 @@ export class Vector3d extends XYZ {
       if (data.length > 2)
         z = data[2];
       return Vector3d.create(x, y, z, result);
+    } else if (Array.isArray(data)) {
+      return Vector3d.create(data[0], data[1], data.length > 2 ? data[2] : 0);
     }
     return Vector3d.create(data.x, data.y, XYZ.hasZ(data) ? data.z : 0.0, result);
   }

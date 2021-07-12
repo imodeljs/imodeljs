@@ -165,6 +165,13 @@ export abstract class IndexedXYZCollection {
   public get points(): Iterable<Point3d> {
     return new PointsIterator(this);
   }
+  /** convert to Point3d[] */
+  public getArray(): Point3d[]{
+    const result = [];
+    for (const p of this.points)
+      result.push(p);
+    return result;
+  }
 }
 /**
  * abstract base class extends IndexedXYZCollection, adding methods to push, peek, and pop, and rewrite.

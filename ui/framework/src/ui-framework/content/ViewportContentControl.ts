@@ -39,14 +39,14 @@ export class ViewportContentControl extends ContentControl implements SupportsVi
   }
 
   /** Gets the type of ConfigurableUiControl, which is 'Viewport' in this case */
-  public getType(): ConfigurableUiControlType { return ConfigurableUiControlType.Viewport; }
+  public override getType(): ConfigurableUiControlType { return ConfigurableUiControlType.Viewport; }
 
   /** Returns true if this control is a Viewport control. */
-  public get isViewport(): boolean { return true; }
+  public override get isViewport(): boolean { return true; }
 
   /** The underlying ScreenViewport */
-  public get viewport(): ScreenViewport | undefined { return this._viewport; }
-  public set viewport(v: ScreenViewport | undefined) {
+  public override get viewport(): ScreenViewport | undefined { return this._viewport; }
+  public override set viewport(v: ScreenViewport | undefined) {
     this._viewport = v;
     this.setIsReady();
   }
@@ -62,15 +62,15 @@ export class ViewportContentControl extends ContentControl implements SupportsVi
 
   /** Returns a promise that resolves when the control is ready for usage.
    */
-  public get isReady(): Promise<void> { return this._isReady; }
+  public override get isReady(): Promise<void> { return this._isReady; }
 
   /** Called when this ContentControl is activated */
-  public onActivated(): void {
+  public override onActivated(): void {
     super.onActivated();
   }
 
   /** Get the NavigationAidControl associated with this ContentControl */
-  public get navigationAidControl(): string {
+  public override get navigationAidControl(): string {
     let navigationAidId = "";
 
     // istanbul ignore else

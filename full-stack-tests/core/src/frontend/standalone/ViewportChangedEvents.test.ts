@@ -234,8 +234,6 @@ describe("Viewport changed events", async () => {
       expectNoChange(() => settings.analysisFraction = settings.analysisFraction);
       mon.expect(ChangeFlag.DisplayStyle, ViewportState.AnalysisFraction, () => settings.analysisFraction = 0.123456);
       mon.expect(ChangeFlag.DisplayStyle, ViewportState.AnalysisFraction | ViewportState.RenderPlan, () => settings.analysisStyle = AnalysisStyle.fromJSON({ displacement: { channelName: "source" } }));
-      // AnalysisStyle is mutable and has no comparison method.
-      mon.expect(ChangeFlag.DisplayStyle, ViewportState.AnalysisFraction | ViewportState.RenderPlan, (() => settings.analysisStyle = settings.analysisStyle));
 
       mon.expect(ChangeFlag.DisplayStyle | ChangeFlag.FeatureOverrideProvider, ViewportState.TimePoint, () => settings.timePoint = 43);
       expectNoChange(() => settings.timePoint = 43);

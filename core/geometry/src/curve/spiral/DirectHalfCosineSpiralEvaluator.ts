@@ -88,7 +88,7 @@ export class DirectHalfCosineSpiralEvaluator extends XYCurveEvaluator {
 
   /** Return the magnitude of the first vector at fractional coordinate. */
 
-  public fractionToTangentMagnitude(fraction: number): number {
+  public override fractionToTangentMagnitude(fraction: number): number {
     return Geometry.hypotenuseXY(this.fractionToDX(fraction), this.fractionToDY(fraction));
 
   }

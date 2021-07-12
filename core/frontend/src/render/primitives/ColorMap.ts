@@ -17,7 +17,7 @@ export class ColorMap extends IndexMap<number> {
 
   public hasColor(color: number): boolean { return -1 !== this.indexOf(color); }
 
-  public insert(color: number): number {
+  public override insert(color: number): number {
     // The table should never contain a mix of opaque and translucent colors.
     if (this.isEmpty)
       this._hasTransparency = ColorMap.isTranslucent(color);

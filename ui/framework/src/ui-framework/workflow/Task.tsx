@@ -46,7 +46,7 @@ export class Task extends ItemDefBase {
     return this.taskId;
   }
 
-  public get isActive(): boolean {
+  public override get isActive(): boolean {
     let isActive = false;
 
     if (WorkflowManager.activeWorkflow && WorkflowManager.activeWorkflow.activeTask === this)
@@ -55,7 +55,7 @@ export class Task extends ItemDefBase {
     return isActive;
   }
 
-  public set isActive(_: boolean) {
+  public override set isActive(_: boolean) {
     // do nothing - needed because subclassing from ItemDefBase
   }
 

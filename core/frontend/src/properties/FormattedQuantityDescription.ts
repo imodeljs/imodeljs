@@ -70,5 +70,5 @@ export abstract class FormattedQuantityDescription extends BaseQuantityDescripti
 
   public abstract get formatterQuantityType(): QuantityType;
 
-  public abstract get parseError(): string;
+  public abstract override get parseError(): string;
 }

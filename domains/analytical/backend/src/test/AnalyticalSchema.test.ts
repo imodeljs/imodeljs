@@ -17,7 +17,7 @@ import {
 import { AnalyticalElement, AnalyticalModel, AnalyticalPartition, AnalyticalSchema } from "../analytical-backend";
 
 class TestAnalyticalSchema extends Schema {
-  public static get schemaName(): string { return "TestAnalytical"; }
+  public static override get schemaName(): string { return "TestAnalytical"; }
   public static get schemaFilePath(): string { return path.join(__dirname, "assets", "TestAnalytical.ecschema.xml"); }
   public static registerSchema() {
     if (this !== Schemas.getRegisteredSchema(this.schemaName)) {
@@ -31,16 +31,16 @@ class TestAnalyticalSchema extends Schema {
 }
 
 class TestAnalyticalPartition extends AnalyticalPartition {
-  public static get className(): string { return "Partition"; }
+  public static override get className(): string { return "Partition"; }
 }
 
 class TestAnalyticalElement extends AnalyticalElement {
-  public static get className(): string { return "Element"; }
+  public static override get className(): string { return "Element"; }
   public constructor(props: GeometricElement3dProps, iModel: IModelDb) { super(props, iModel); }
 }
 
 class TestAnalyticalModel extends AnalyticalModel {
-  public static get className(): string { return "Model"; }
+  public static override get className(): string { return "Model"; }
 }
 
 describe("AnalyticalSchema", () => {

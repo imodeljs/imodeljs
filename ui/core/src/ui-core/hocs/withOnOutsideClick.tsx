@@ -102,7 +102,7 @@ export const withOnOutsideClick = <ComponentProps extends {}>(
       return this.outsideClickContainerDiv?.ownerDocument ?? document;
     }
 
-    public componentDidMount() {
+    public override componentDidMount() {
       const outsideClickParentDocument = this.getParentDocument();
       if (usePointerEvents) {
         outsideClickParentDocument.addEventListener("pointerdown", this.handleDocumentPointerDown, useCapture);
@@ -112,7 +112,7 @@ export const withOnOutsideClick = <ComponentProps extends {}>(
     }
 
     /** @internal */
-    public componentWillUnmount() {
+    public override componentWillUnmount() {
       const outsideClickParentDocument = this.getParentDocument();
       if (usePointerEvents) {
         outsideClickParentDocument.removeEventListener("pointerdown", this.handleDocumentPointerDown, useCapture);
@@ -121,7 +121,7 @@ export const withOnOutsideClick = <ComponentProps extends {}>(
         outsideClickParentDocument.removeEventListener("click", this.handleDocumentClick, useCapture);
     }
 
-    public render() {
+    public override render() {
       const { onOutsideClick, closeOnNestedPopupOutsideClick, ...props } = this.props; // eslint-disable-line @typescript-eslint/no-unused-vars
       return (
         <div ref={this.handleOutsideClickContainerDivSet}>

@@ -32,13 +32,13 @@ export class GraphicsCollectorDrawArgs extends TileDrawArgs {
     this._collector = collector;
   }
 
-  public get frustumPlanes(): FrustumPlanes { return this._planes; }
-  public get worldToViewMap(): Map4d { return this._worldToViewMap; }
-  public drawGraphicsWithType(_graphicType: TileGraphicType, graphics: GraphicBranch) {
+  public override get frustumPlanes(): FrustumPlanes { return this._planes; }
+  public override get worldToViewMap(): Map4d { return this._worldToViewMap; }
+  public override drawGraphicsWithType(_graphicType: TileGraphicType, graphics: GraphicBranch) {
     this._collector.addGraphic(this.context.createBranch(graphics, this.location));
   }
 
-  public drawGraphics(): void {
+  public override drawGraphics(): void {
     if (!this.graphics.isEmpty)
       this._collector.addGraphic(this.context.createBranch(this.graphics, this.location));
   }

@@ -30,7 +30,7 @@ export interface SnapModeProps extends FooterIndicatorProps {
  * @beta
  */
 export class SnapMode extends React.PureComponent<SnapModeProps> {
-  public render() {
+  public override render() {
     const { children, className, icon, indicatorRef, onClick, ...props } = this.props; // eslint-disable-line @typescript-eslint/no-unused-vars
     return (
       <FooterIndicator

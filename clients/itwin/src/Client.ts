@@ -209,7 +209,7 @@ export class UrlDiscoveryClient extends Client {
    * Gets the URL for the discovery service
    * @returns URL of the discovery service.
    */
-  public async getUrl(): Promise<string> {
+  public override async getUrl(): Promise<string> {
     return Config.App.getString(UrlDiscoveryClient.configURL, "https://buddi.bentley.com/WebService");
   }
 

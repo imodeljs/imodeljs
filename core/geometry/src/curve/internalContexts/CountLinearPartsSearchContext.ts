@@ -30,7 +30,7 @@ export class CountLinearPartsSearchContext extends RecursiveCurveProcessorWithSt
     target.announceToCurveProcessor(context);
     return context.numOther > 0;
   }
-  public announceCurvePrimitive(curve: CurvePrimitive, _indexInParent: number): void {
+  public override announceCurvePrimitive(curve: CurvePrimitive, _indexInParent: number): void {
     if (curve instanceof LineSegment3d)
       this.numLineSegment++;
     else if (curve instanceof LineString3d)

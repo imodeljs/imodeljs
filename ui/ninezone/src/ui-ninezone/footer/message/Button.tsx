@@ -25,7 +25,7 @@ export interface MessageButtonProps extends CommonProps {
  * @beta
  */
 export class MessageButton extends React.PureComponent<MessageButtonProps> {
-  public render() {
+  public override render() {
     const className = classnames(
       "nz-footer-message-button",
       this.props.className);

@@ -40,7 +40,7 @@ export class Rule extends Lint.Rules.AbstractRule {
 
 class PreferGetWalker extends Lint.RuleWalker {
   // override
-  public visitMethodDeclaration(node: ts.MethodDeclaration) {
+  public override visitMethodDeclaration(node: ts.MethodDeclaration) {
     if (node.parameters.length !== 0)
       return;
     if (!this.isPublic(node) || this.returnsTypeGuard(node))

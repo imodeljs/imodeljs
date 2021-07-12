@@ -27,7 +27,7 @@ class AttachMapLayerBaseTool extends Tool {
       if (validation.status === MapLayerSourceStatus.Valid || validation.status === MapLayerSourceStatus.RequireAuth) {
 
         if (this._isBase) {
-          vp.displayStyle.changeBaseMapProps({...source, subLayers: validation.subLayers});
+          vp.displayStyle.changeBaseMapProps({ ...source, subLayers: validation.subLayers });
         } else {
           const layerSettings = source.toLayerSettings(validation.subLayers);
           if (layerSettings) {
@@ -56,16 +56,16 @@ class AttachMapLayerBaseTool extends Tool {
 }
 /** Attach a map layer from URL base class. */
 class AttachMapLayerByURLBaseTool extends AttachMapLayerBaseTool {
-  public static get minArgs() { return 1; }
-  public static get maxArgs() { return 4; }
+  public static override get minArgs() { return 1; }
+  public static override get maxArgs() { return 4; }
   constructor(protected _formatId: string) { super(); }
 
-  public run(url: string, name?: string, userName?: string, password?: string): boolean {
+  public override run(url: string, name?: string, userName?: string, password?: string): boolean {
     this.doAttach(MapLayerSource.fromJSON({ url, name: (name ? name : url), formatId: this._formatId, userName, password }));
     return true;
   }
 
-  public parseAndRun(...args: string[]): boolean {
+  public override parseAndRun(...args: string[]): boolean {
     return this.run(args[0], args[1], args[2], args[3]);
   }
 }
@@ -74,12 +74,12 @@ class AttachMapLayerByURLBaseTool extends AttachMapLayerBaseTool {
  * @beta
  */
 export class AttachWmsMapLayerByUrlTool extends AttachMapLayerByURLBaseTool {
-  public static toolId = "AttachWmsMapLayerTool";
+  public static override toolId = "AttachWmsMapLayerTool";
   constructor() { super("WMS"); }
   /** This method runs the tool, attaching a WMS map layer from a given URL.
    * @param args contains url, name, userName, password in array order
    */
-  public parseAndRun(...args: string[]): boolean {
+  public override parseAndRun(...args: string[]): boolean {
     return this.run(WmsUtilities.getBaseUrl(args[0]), args[1], args[2], args[3]);
   }
 }
@@ -88,12 +88,12 @@ export class AttachWmsMapLayerByUrlTool extends AttachMapLayerByURLBaseTool {
  * @beta
  */
 export class AttachWmtsMapLayerByUrlTool extends AttachMapLayerByURLBaseTool {
-  public static toolId = "AttachWmtsMapLayerTool";
+  public static override toolId = "AttachWmtsMapLayerTool";
   constructor() { super("WMTS"); }
   /** This method runs the tool, attaching a WMTS map layer from a given URL.
    * @param args contains url, name, userName, password in array order
    */
-  public parseAndRun(...args: string[]): boolean {
+  public override parseAndRun(...args: string[]): boolean {
     return this.run(WmsUtilities.getBaseUrl(args[0]), args[1], args[2], args[3]);
   }
 }
@@ -102,7 +102,7 @@ export class AttachWmtsMapLayerByUrlTool extends AttachMapLayerByURLBaseTool {
  * @beta
  */
 export class AttachArcGISMapLayerByUrlTool extends AttachMapLayerByURLBaseTool {
-  public static toolId = "AttachArcGISMapLayerTool";
+  public static override toolId = "AttachArcGISMapLayerTool";
   constructor() { super("ArcGIS"); }
 }
 
@@ -110,7 +110,7 @@ export class AttachArcGISMapLayerByUrlTool extends AttachMapLayerByURLBaseTool {
  * @beta
  */
 export class AttachTileURLMapLayerByUrlTool extends AttachMapLayerByURLBaseTool {
-  public static toolId = "AttachTileURLMapLayerTool";
+  public static override toolId = "AttachTileURLMapLayerTool";
   constructor() { super("TileURL"); }
 }
 
@@ -118,14 +118,14 @@ export class AttachTileURLMapLayerByUrlTool extends AttachMapLayerByURLBaseTool 
  * @beta
  */
 export class AttachMapLayerTool extends AttachMapLayerBaseTool {
-  public static toolId = "AttachMapLayerTool";
-  public static get minArgs() { return 1; }
-  public static get maxArgs() { return 1; }
+  public static override toolId = "AttachMapLayerTool";
+  public static override get minArgs() { return 1; }
+  public static override get maxArgs() { return 1; }
 
   /** This method runs the tool, adding a map layer from a specified name in MayLayerSources.json.
    * @param name the name of the map layer to add
    */
-  public run(name: string): boolean {
+  public override run(name: string): boolean {
     const vp = IModelApp.viewManager.selectedView;
     if (vp === undefined)
       return false;
@@ -144,7 +144,7 @@ export class AttachMapLayerTool extends AttachMapLayerBaseTool {
   /** Executes this tool's run method with args[0] containing `name`.
    * @see [[run]]
    */
-  public parseAndRun(...args: string[]): boolean {
+  public override parseAndRun(...args: string[]): boolean {
     return this.run(args[0]);
   }
 }
@@ -152,7 +152,7 @@ export class AttachMapLayerTool extends AttachMapLayerBaseTool {
  * @beta
  */
 export class AttachMapOverlayTool extends AttachMapLayerTool {
-  public static toolId = "AttachMapOverlayTool";
+  public static override toolId = "AttachMapOverlayTool";
   constructor() {
     super();
     this._isBackground = false;
@@ -163,7 +163,7 @@ export class AttachMapOverlayTool extends AttachMapLayerTool {
  * @beta
  */
 export class SetMapBaseTool extends AttachMapLayerTool {
-  public static toolId = "SetMapBaseTool";
+  public static override toolId = "SetMapBaseTool";
   constructor() {
     super();
     this._isBase = true;
@@ -174,14 +174,14 @@ export class SetMapBaseTool extends AttachMapLayerTool {
  * @beta
  */
 export class DetachMapLayersTool extends Tool {
-  public static toolId = "DetachMapLayersTool";
-  public static get minArgs() { return 0; }
-  public static get maxArgs() { return 0; }
-  public parseAndRun(..._args: string[]): boolean {
+  public static override toolId = "DetachMapLayersTool";
+  public static override get minArgs() { return 0; }
+  public static override get maxArgs() { return 0; }
+  public override parseAndRun(..._args: string[]): boolean {
     return this.run();
   }
 
-  public run(): boolean {
+  public override run(): boolean {
     const vp = IModelApp.viewManager.selectedView;
     if (vp === undefined)
       return false;
@@ -201,15 +201,15 @@ function parseLayerIndex(args: string[]) {
  * @beta
  */
 export class MapLayerVisibilityTool extends Tool {
-  public static toolId = "SetMapLayerVisibility";
-  public static get minArgs() { return 1; }
-  public static get maxArgs() { return 2; }
+  public static override toolId = "SetMapLayerVisibility";
+  public static override get minArgs() { return 1; }
+  public static override get maxArgs() { return 2; }
 
   /** This method runs the tool, setting the visibility of a map layer.
    * @param layerIndex the index of the layer to change
    * @param visible a boolean that should be true if the layer should be visible
    */
-  public run(layerIndex: number, enable?: boolean): boolean {
+  public override run(layerIndex: number, enable?: boolean): boolean {
     const vp = IModelApp.viewManager.selectedView;
     if (undefined === vp || !vp.view.isSpatialView())
       return false;
@@ -229,7 +229,7 @@ export class MapLayerVisibilityTool extends Tool {
   /** Executes this tool's run method with args[0] containing `enable` and args[1] containing `layerIndex`.
    * @see [[run]]
    */
-  public parseAndRun(...args: string[]): boolean {
+  public override parseAndRun(...args: string[]): boolean {
     const enable = parseToggle(args[0]);
     const layerIndex = parseLayerIndex(args);
     if (typeof enable !== "string")
@@ -242,14 +242,14 @@ export class MapLayerVisibilityTool extends Tool {
  * @beta
  */
 export class ReorderMapLayers extends Tool {
-  public static toolId = "ReorderMapLayers";
-  public static get minArgs() { return 0; }
-  public static get maxArgs() { return 2; }
+  public static override toolId = "ReorderMapLayers";
+  public static override get minArgs() { return 0; }
+  public static override get maxArgs() { return 2; }
   /** This method runs the tool, reordering the map layers.
    * @param from a numeric value specifying the layer index that is being moved
    * @param from a numeric value specifying the layer index to move that layer to
    */
-  public run(from: number, to: number): boolean {
+  public override run(from: number, to: number): boolean {
     const vp = IModelApp.viewManager.selectedView;
     if (undefined === vp || !vp.view.isSpatialView())
       return false;
@@ -261,7 +261,7 @@ export class ReorderMapLayers extends Tool {
   /** Executes this tool's run method with args[0] containing `from` and args[1] containing `to`.
    * @see [[run]]
    */
-  public parseAndRun(...args: string[]): boolean {
+  public override parseAndRun(...args: string[]): boolean {
     const from = parseInt(args[0], 10);
     const to = parseInt(args[1], 10);
     this.run(from, to);
@@ -274,14 +274,14 @@ export class ReorderMapLayers extends Tool {
  * @beta
  */
 export class MapLayerTransparencyTool extends Tool {
-  public static toolId = "SetMapLayerTransparency";
-  public static get minArgs() { return 1; }
-  public static get maxArgs() { return 2; }
+  public static override toolId = "SetMapLayerTransparency";
+  public static override get minArgs() { return 1; }
+  public static override get maxArgs() { return 2; }
   /** This method runs the tool, setting the transparency of a map layer.
    * @param layerIndex the index of the layer to change
    * @param transparency a numeric value in the range 0.0 (fully opaque) to 1.0 (fully transparent)
    */
-  public run(layerIndex: number, transparency: number): boolean {
+  public override run(layerIndex: number, transparency: number): boolean {
     const vp = IModelApp.viewManager.selectedView;
     if (undefined === vp || !vp.view.isSpatialView())
       return false;
@@ -294,7 +294,7 @@ export class MapLayerTransparencyTool extends Tool {
   /** Executes this tool's run method with args[0] containing `transparency` and args[1] containing `layerIndex`.
    * @see [[run]]
    */
-  public parseAndRun(...args: string[]): boolean {
+  public override parseAndRun(...args: string[]): boolean {
     const transparency = parseFloat(args[0]);
     const layerIndex = parseLayerIndex(args);
     if (transparency >= 0 && transparency <= 1)
@@ -307,15 +307,15 @@ export class MapLayerTransparencyTool extends Tool {
  * @beta
  */
 export class MapLayerSubLayerVisiblityTool extends Tool {
-  public static toolId = "SetMapSubLayerVisibility";
-  public static get minArgs() { return 1; }
-  public static get maxArgs() { return 2; }
+  public static override toolId = "SetMapSubLayerVisibility";
+  public static override get minArgs() { return 1; }
+  public static override get maxArgs() { return 2; }
 
   /** This method runs the tool, setting the visibility of a map sublayer.
    * @param layerIndex the index of the layer to change
    * @param visible a boolean that should be true if the sublayer should be visible
    */
-  public run(layerIndex: number, visible: boolean): boolean {
+  public override run(layerIndex: number, visible: boolean): boolean {
     const vp = IModelApp.viewManager.selectedView;
     if (undefined === vp || !vp.view.isSpatialView())
       return false;
@@ -329,7 +329,7 @@ export class MapLayerSubLayerVisiblityTool extends Tool {
   /** Executes this tool's run method with args[0] containing `transparency` and args[1] containing `layerIndex`.
    * @see [[run]]
    */
-  public parseAndRun(...args: string[]): boolean {
+  public override parseAndRun(...args: string[]): boolean {
     const on = args[0] !== "off";
     const layerIndex = parseLayerIndex(args);
     this.run(layerIndex, on);
@@ -342,14 +342,14 @@ export class MapLayerSubLayerVisiblityTool extends Tool {
  * @beta
  */
 export class MapLayerZoomTool extends Tool {
-  public static toolId = "MapLayerZoom";
-  public static get minArgs() { return 0; }
-  public static get maxArgs() { return 1; }
+  public static override toolId = "MapLayerZoom";
+  public static override get minArgs() { return 0; }
+  public static override get maxArgs() { return 1; }
 
   /** This method runs the tool, changing the viewport so it is zoomed to the range of a map layer.
    * @param layerIndex the index of the layer whose range to zoom to
    */
-  public run(layerIndex: number): boolean {
+  public override run(layerIndex: number): boolean {
     const vp = IModelApp.viewManager.selectedView;
     if (undefined === vp || !vp.view.isSpatialView())
       return false;
@@ -362,7 +362,7 @@ export class MapLayerZoomTool extends Tool {
   /** Executes this tool's run method with args[0] containing `layerIndex`.
    * @see [[run]]
    */
-  public parseAndRun(...args: string[]): boolean {
+  public override parseAndRun(...args: string[]): boolean {
     const layerIndex = parseLayerIndex(args);
     this.run(layerIndex);
 
@@ -374,14 +374,14 @@ export class MapLayerZoomTool extends Tool {
  * @beta
  */
 export class ToggleTerrainTool extends Tool {
-  public static toolId = "ToggleTerrain";
-  public static get minArgs() { return 0; }
-  public static get maxArgs() { return 1; }
+  public static override toolId = "ToggleTerrain";
+  public static override get minArgs() { return 0; }
+  public static override get maxArgs() { return 1; }
 
   /** This method runs the tool, changing whether to apply terrain heights to the map.
    * @param enable whether or not to enable terrain heights on the map
    */
-  public run(enable?: boolean): boolean {
+  public override run(enable?: boolean): boolean {
     const vp = IModelApp.viewManager.selectedView;
     if (undefined === vp || !vp.view.isSpatialView())
       return false;
@@ -396,7 +396,7 @@ export class ToggleTerrainTool extends Tool {
   /** Executes this tool's run method with args[0] containing `enable`.
    * @see [[run]]
    */
-  public parseAndRun(...args: string[]): boolean {
+  public override parseAndRun(...args: string[]): boolean {
     const enable = parseToggle(args[0]);
     if (typeof enable !== "string")
       this.run(enable);
@@ -409,14 +409,14 @@ export class ToggleTerrainTool extends Tool {
  * @beta
  */
 export class MapBaseColorTool extends Tool {
-  public static toolId = "SetMapBaseColorTool";
-  public static get minArgs() { return 3; }
-  public static get maxArgs() { return 3; }
+  public static override toolId = "SetMapBaseColorTool";
+  public static override get minArgs() { return 3; }
+  public static override get maxArgs() { return 3; }
 
   /** This method runs the tool, changing the color of the base map.
    * @param color the color for the base map
    */
-  public run(color: ColorDef) {
+  public override run(color: ColorDef) {
     const vp = IModelApp.viewManager.selectedView;
     if (undefined === vp || !vp.view.isSpatialView())
       return false;
@@ -431,7 +431,7 @@ export class MapBaseColorTool extends Tool {
    * These rgb values will be used to construct the `color` parameter passed to this tool's run method.
    * @see [[run]]
    */
-  public parseAndRun(...args: string[]): boolean {
+  public override parseAndRun(...args: string[]): boolean {
     const red = parseFloat(args[0]), green = parseFloat(args[1]), blue = parseFloat(args[2]);
 
     return (isNaN(red) || red < 0 || red > 255 || isNaN(green) || green < 0 || green > 255 || isNaN(blue) || blue < 0 || blue > 255) ? false : this.run(ColorDef.from(red, green, blue));
@@ -441,14 +441,14 @@ export class MapBaseColorTool extends Tool {
  * @beta
  */
 export class MapBaseTransparencyTool extends Tool {
-  public static toolId = "SetMapBaseTransparencyTool";
-  public static get minArgs() { return 1; }
-  public static get maxArgs() { return 1; }
+  public static override toolId = "SetMapBaseTransparencyTool";
+  public static override get minArgs() { return 1; }
+  public static override get maxArgs() { return 1; }
 
   /** This method runs the tool, changing the transparency of the base map.
    * @param transparency a numeric value in range 0.0 to 1.0 whether 0.0 means fully opaque and 1.0 means fully transparent
    */
-  public run(transparency: number) {
+  public override run(transparency: number) {
     const vp = IModelApp.viewManager.selectedView;
     if (undefined === vp || !vp.view.isSpatialView())
       return false;
@@ -462,7 +462,7 @@ export class MapBaseTransparencyTool extends Tool {
   /** Executes this tool's run method with args[0] containing `transparency`.
    * @see [[run]]
    */
-  public parseAndRun(...args: string[]): boolean {
+  public override parseAndRun(...args: string[]): boolean {
     const transparency = parseFloat(args[0]);
 
     return (isNaN(transparency) || transparency < 0 || transparency > 1) ? false : this.run(transparency);
@@ -473,14 +473,14 @@ export class MapBaseTransparencyTool extends Tool {
  * @beta
  */
 export class MapBaseVisibilityTool extends Tool {
-  public static toolId = "SetMapBaseVisibilityTool";
-  public static get minArgs() { return 1; }
-  public static get maxArgs() { return 1; }
+  public static override toolId = "SetMapBaseVisibilityTool";
+  public static override get minArgs() { return 1; }
+  public static override get maxArgs() { return 1; }
 
   /** This method runs the tool, changing the visibility of the base map.
    * @param visible a boolean which specifies whether or not to make the base map visible
    */
-  public run(visible: boolean) {
+  public override run(visible: boolean) {
     const vp = IModelApp.viewManager.selectedView;
     if (undefined === vp || !vp.view.isSpatialView())
       return false;
@@ -494,7 +494,7 @@ export class MapBaseVisibilityTool extends Tool {
   /** Executes this tool's run method with args[0] containing `visible`.
    * @see [[run]]
    */
-  public parseAndRun(...args: string[]): boolean {
+  public override parseAndRun(...args: string[]): boolean {
     const visible = parseBoolean(args[0]);
 
     return (visible !== undefined ? this.run(visible) : false);

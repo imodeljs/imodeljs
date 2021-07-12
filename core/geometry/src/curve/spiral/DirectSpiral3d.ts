@@ -67,7 +67,7 @@ export class DirectSpiral3d extends TransitionSpiral3d {
   /** Return the nominal distance from inflection to endpoint. */
   public get nominalL1(): number { return this._nominalL1; }
   /** Return the nominal end curvature */
-  public get nominalCurvature1(): number { return TransitionSpiral3d.radiusToCurvature (this._nominalR1); }
+  public get nominalCurvature1(): number { return TransitionSpiral3d.radiusToCurvature(this._nominalR1); }
   /** Return the low level evaluator
    * @internal
    */
@@ -224,7 +224,7 @@ export class DirectSpiral3d extends TransitionSpiral3d {
    * @param nominalR1
    * @param activeInterval
    */
-   public static createItalian(
+  public static createItalian(
     localToWorld: Transform,
     nominalL1: number,
     nominalR1: number,
@@ -253,7 +253,7 @@ export class DirectSpiral3d extends TransitionSpiral3d {
    * @param nominalR1
    * @param activeInterval
    */
-   public static createMXCubicAlongArc(
+  public static createMXCubicAlongArc(
     localToWorld: Transform,
     nominalL1: number,
     nominalR1: number,
@@ -279,7 +279,7 @@ export class DirectSpiral3d extends TransitionSpiral3d {
    * * x ranges up to the x axis distance for which the polish distance series produces f(x)=L
    * * The support class PolishCubicEvaluator has static methods for the distance series and its inversion.
    */
-   public static createPolishCubic(
+  public static createPolishCubic(
     localToWorld: Transform,
     nominalL1: number,
     nominalR1: number,
@@ -429,16 +429,16 @@ export class DirectSpiral3d extends TransitionSpiral3d {
       return this.createDirectHalfCosine(localToWorld, arcLength, radius1, activeInterval);
     if (Geometry.equalStringNoCase(spiralType, "Czech"))
       return this.createCzechCubic(localToWorld, arcLength, radius1, activeInterval);
-      if (Geometry.equalStringNoCase(spiralType, "Italian"))
+    if (Geometry.equalStringNoCase(spiralType, "Italian"))
       return this.createItalian(localToWorld, arcLength, radius1, activeInterval);
     if (Geometry.equalStringNoCase(spiralType, "AustralianRailCorp"))
       return this.createAustralianRail(localToWorld, arcLength, radius1, activeInterval);
     if (Geometry.equalStringNoCase(spiralType, "MXCubicAlongArc"))
-        return this.createMXCubicAlongArc(localToWorld, arcLength, radius1, activeInterval);
+      return this.createMXCubicAlongArc(localToWorld, arcLength, radius1, activeInterval);
     if (Geometry.equalStringNoCase(spiralType, "WesternAustralian"))
-        return this.createWesternAustralian(localToWorld, arcLength, radius1, activeInterval);
+      return this.createWesternAustralian(localToWorld, arcLength, radius1, activeInterval);
     if (Geometry.equalStringNoCase(spiralType, "PolishCubic"))
-        return this.createPolishCubic (localToWorld, arcLength, radius1, activeInterval);
+      return this.createPolishCubic(localToWorld, arcLength, radius1, activeInterval);
     return undefined;
   }
   /** Deep clone of this spiral */
@@ -470,9 +470,9 @@ export class DirectSpiral3d extends TransitionSpiral3d {
     return result;
   }
   /** Return the spiral start point. */
-  public startPoint(): Point3d { return this.activeStrokes.startPoint(); }
+  public override startPoint(): Point3d { return this.activeStrokes.startPoint(); }
   /** return the spiral end point. */
-  public endPoint(): Point3d { return this.activeStrokes.endPoint(); }
+  public override endPoint(): Point3d { return this.activeStrokes.endPoint(); }
   /** test if the local to world transform places the spiral xy plane into `plane` */
   public isInPlane(plane: Plane3dByOriginAndUnitNormal): boolean {
     return plane.isPointInPlane(this.localToWorld.origin as Point3d)
@@ -490,7 +490,7 @@ export class DirectSpiral3d extends TransitionSpiral3d {
   /** Return length of the spiral.
    * * True length is stored at back of uvParams . . .
    */
-  public curveLength() { return this.quickLength(); }
+  public override curveLength() { return this.quickLength(); }
   /** Test if `other` is an instance of `TransitionSpiral3d` */
   public isSameGeometryClass(other: any): boolean { return other instanceof DirectSpiral3d; }
   /** Add strokes from this spiral to `dest`.
@@ -583,7 +583,7 @@ export class DirectSpiral3d extends TransitionSpiral3d {
     this.activeStrokes.extendRange(rangeToExtend, transform);
   }
   /** compare various coordinate quantities */
-  public isAlmostEqual(other: any): boolean {
+  public override isAlmostEqual(other: any): boolean {
     if (other instanceof DirectSpiral3d) {
       return Geometry.isSameCoordinate(this._nominalL1, other._nominalL1)
         && Geometry.isSameCoordinate(this._nominalR1, other._nominalR1)

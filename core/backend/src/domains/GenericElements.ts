@@ -25,7 +25,7 @@ import { SubjectOwnsPartitionElements } from "../NavigationRelationship";
  */
 export abstract class DetailingSymbol extends GraphicalElement2d {
   /** @internal */
-  public static get className(): string { return "DetailingSymbol"; }
+  public static override get className(): string { return "DetailingSymbol"; }
   public constructor(props: GeometricElement2dProps, iModel: IModelDb) {
     super(props, iModel);
   }
@@ -36,7 +36,7 @@ export abstract class DetailingSymbol extends GraphicalElement2d {
  */
 export class TitleText extends DetailingSymbol {
   /** @internal */
-  public static get className(): string { return "TitleText"; }
+  public static override get className(): string { return "TitleText"; }
   public constructor(props: GeometricElement2dProps, iModel: IModelDb) {
     super(props, iModel);
   }
@@ -47,7 +47,7 @@ export class TitleText extends DetailingSymbol {
  */
 export class ViewAttachmentLabel extends DetailingSymbol implements ViewAttachmentLabelProps {
   /** @internal */
-  public static get className(): string { return "ViewAttachmentLabel"; }
+  public static override get className(): string { return "ViewAttachmentLabel"; }
   public constructor(props: ViewAttachmentLabelProps, iModel: IModelDb) {
     super(props, iModel);
   }
@@ -58,7 +58,7 @@ export class ViewAttachmentLabel extends DetailingSymbol implements ViewAttachme
  */
 export abstract class Callout extends DetailingSymbol implements CalloutProps {
   /** @internal */
-  public static get className(): string { return "Callout"; }
+  public static override get className(): string { return "Callout"; }
   public constructor(props: CalloutProps, iModel: IModelDb) {
     super(props, iModel);
   }
@@ -69,7 +69,7 @@ export abstract class Callout extends DetailingSymbol implements CalloutProps {
  */
 export class SectionCallout extends Callout {
   /** @internal */
-  public static get className(): string { return "SectionCallout"; }
+  public static override get className(): string { return "SectionCallout"; }
   public constructor(props: CalloutProps, iModel: IModelDb) {
     super(props, iModel);
   }
@@ -80,7 +80,7 @@ export class SectionCallout extends Callout {
  */
 export class ElevationCallout extends Callout {
   /** @internal */
-  public static get className(): string { return "ElevationCallout"; }
+  public static override get className(): string { return "ElevationCallout"; }
   public constructor(props: CalloutProps, iModel: IModelDb) {
     super(props, iModel);
   }
@@ -91,7 +91,7 @@ export class ElevationCallout extends Callout {
  */
 export class PlanCallout extends Callout {
   /** @internal */
-  public static get className(): string { return "PlanCallout"; }
+  public static override get className(): string { return "PlanCallout"; }
   public constructor(props: CalloutProps, iModel: IModelDb) {
     super(props, iModel);
   }
@@ -102,7 +102,7 @@ export class PlanCallout extends Callout {
  */
 export class DetailCallout extends Callout {
   /** @internal */
-  public static get className(): string { return "DetailCallout"; }
+  public static override get className(): string { return "DetailCallout"; }
   public constructor(props: CalloutProps, iModel: IModelDb) {
     super(props, iModel);
   }
@@ -113,7 +113,7 @@ export class DetailCallout extends Callout {
  */
 export class GenericGraphicalModel3d extends GraphicalModel3d {
   /** @internal */
-  public static get className(): string { return "GraphicalModel3d"; }
+  public static override get className(): string { return "GraphicalModel3d"; }
   public constructor(props: GeometricModel3dProps, iModel: IModelDb) {
     super(props, iModel);
   }
@@ -148,7 +148,7 @@ export class GenericGraphicalModel3d extends GraphicalModel3d {
  */
 export class Graphic3d extends GraphicalElement3d {
   /** @internal */
-  public static get className(): string { return "Graphic3d"; }
+  public static override get className(): string { return "Graphic3d"; }
   public constructor(props: GeometricElement3dProps, iModel: IModelDb) {
     super(props, iModel);
   }
@@ -160,7 +160,7 @@ export class Graphic3d extends GraphicalElement3d {
  */
 export class PhysicalObject extends PhysicalElement {
   /** @internal */
-  public static get className(): string { return "PhysicalObject"; }
+  public static override get className(): string { return "PhysicalObject"; }
   public constructor(props: PhysicalElementProps, iModel: IModelDb) {
     super(props, iModel);
   }
@@ -172,7 +172,7 @@ export class PhysicalObject extends PhysicalElement {
  */
 export class SpatialLocation extends SpatialLocationElement {
   /** @internal */
-  public static get className(): string { return "SpatialLocation"; }
+  public static override get className(): string { return "SpatialLocation"; }
   public constructor(props: GeometricElement3dProps, iModel: IModelDb) {
     super(props, iModel);
   }
@@ -183,7 +183,7 @@ export class SpatialLocation extends SpatialLocationElement {
  */
 export class GroupModel extends GroupInformationModel {
   /** @internal */
-  public static get className(): string { return "GroupModel"; }
+  public static override get className(): string { return "GroupModel"; }
   public constructor(props: ModelProps, iModel: IModelDb) {
     super(props, iModel);
   }
@@ -214,7 +214,7 @@ export class GroupModel extends GroupInformationModel {
  */
 export class Group extends GroupInformationElement {
   /** @internal */
-  public static get className(): string { return "Group"; }
+  public static override get className(): string { return "Group"; }
   public constructor(props: ElementProps, iModel: IModelDb) {
     super(props, iModel);
   }
@@ -226,7 +226,7 @@ export class Group extends GroupInformationElement {
  */
 export class GenericDocument extends Document {
   /** @internal */
-  public static get className(): string { return "Document"; }
+  public static override get className(): string { return "Document"; }
   public constructor(props: ElementProps, iModel: IModelDb) {
     super(props, iModel);
   }
@@ -238,7 +238,7 @@ export class GenericDocument extends Document {
  */
 export class GenericPhysicalMaterial extends PhysicalMaterial {
   /** @internal */
-  public static get className(): string { return "PhysicalMaterial"; }
+  public static override get className(): string { return "PhysicalMaterial"; }
   public constructor(props: DefinitionElementProps, iModel: IModelDb) {
     super(props, iModel);
   }
@@ -250,7 +250,7 @@ export class GenericPhysicalMaterial extends PhysicalMaterial {
  */
 export class GenericPhysicalType extends PhysicalType {
   /** @internal */
-  public static get className(): string { return "PhysicalType"; }
+  public static override get className(): string { return "PhysicalType"; }
   public constructor(props: PhysicalTypeProps, iModel: IModelDb) {
     super(props, iModel);
   }
@@ -262,7 +262,7 @@ export class GenericPhysicalType extends PhysicalType {
  */
 export class GenericGraphicalType2d extends GraphicalType2d {
   /** @internal */
-  public static get className(): string { return "GraphicalType2d"; }
+  public static override get className(): string { return "GraphicalType2d"; }
   public constructor(props: TypeDefinitionElementProps, iModel: IModelDb) {
     super(props, iModel);
   }

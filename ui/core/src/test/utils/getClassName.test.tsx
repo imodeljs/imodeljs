@@ -9,7 +9,7 @@ import { getClassName } from "@bentley/ui-abstract";
 
 describe("getClassName", () => {
   class NamedComponent extends React.Component {
-    public render(): React.ReactNode {
+    public override render(): React.ReactNode {
       expect(getClassName(this)).to.eq("NamedComponent");
       return null;
     }

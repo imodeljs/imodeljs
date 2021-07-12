@@ -30,7 +30,7 @@ export class ImsClientAuthDetail extends ClientAuthDetail {
   /**
    * Returns all known properties as a new object
    */
-  public getProperties(): { [key: string]: any } {
+  public override getProperties(): { [key: string]: any } {
     const properties = super.getProperties();
 
     properties.clientAuthOrgId = this.clientAuthOrgId;
@@ -46,7 +46,7 @@ export class ImsClientAuthDetail extends ClientAuthDetail {
  * @internal
  */
 export class ImsClientAuthIntrospectionManager extends ClientAuthIntrospectionManager {
-  public async getClientAuthDetails(requestContext: AuthorizedClientRequestContext): Promise<ImsClientAuthDetail> {
+  public override async getClientAuthDetails(requestContext: AuthorizedClientRequestContext): Promise<ImsClientAuthDetail> {
     const introspectionResponse = await this.introspectionClient.introspect(requestContext);
     const clientAuthDetail = new ImsClientAuthDetail(introspectionResponse as ImsIntrospectionResponse);
     return clientAuthDetail;

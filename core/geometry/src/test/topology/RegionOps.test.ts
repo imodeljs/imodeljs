@@ -145,7 +145,7 @@ class PolygonBooleanTests {
     let differenceAreaAOnly;
     let intersectionArea;
     const unionRegion = RegionOps.polygonXYAreaUnionLoopsToPolyface(boundary0, boundary1);
-    if (this.ck.testPointer(unionRegion) && unionRegion) {
+    if (this.ck.testPointer(unionRegion)) {
       unionArea = PolyfaceQuery.sumFacetAreas(unionRegion);
       GeometryCoreTestIO.captureGeometry(this.allGeometry, unionRegion, this.x0, this.y0);
     }
@@ -153,7 +153,7 @@ class PolygonBooleanTests {
 
     boolOp = "Intersection";
     const intersectionRegion = RegionOps.polygonXYAreaIntersectLoopsToPolyface(boundary0, boundary1);
-    if (this.ck.testPointer(intersectionRegion) && intersectionRegion) {
+    if (this.ck.testPointer(intersectionRegion)) {
       intersectionArea = PolyfaceQuery.sumFacetAreas(intersectionRegion);
       GeometryCoreTestIO.captureGeometry(this.allGeometry, intersectionRegion, this.x0, this.y0);
     }
@@ -161,7 +161,7 @@ class PolygonBooleanTests {
 
     boolOp = "Difference";
     const differenceRegionAOnly = RegionOps.polygonXYAreaDifferenceLoopsToPolyface(boundary0, boundary1);
-    if (this.ck.testPointer(differenceRegionAOnly) && differenceRegionAOnly) {
+    if (this.ck.testPointer(differenceRegionAOnly)) {
       differenceAreaAOnly = PolyfaceQuery.sumFacetAreas(differenceRegionAOnly);
       GeometryCoreTestIO.captureGeometry(this.allGeometry, differenceRegionAOnly, this.x0, this.y0);
     }
@@ -169,7 +169,7 @@ class PolygonBooleanTests {
 
     boolOp = "Difference";
     const differenceRegionBOnly = RegionOps.polygonXYAreaDifferenceLoopsToPolyface(boundary1, boundary0);
-    if (this.ck.testPointer(differenceRegionBOnly) && differenceRegionBOnly) {
+    if (this.ck.testPointer(differenceRegionBOnly)) {
       differenceAreaBOnly = PolyfaceQuery.sumFacetAreas(differenceRegionBOnly);
       GeometryCoreTestIO.captureGeometry(this.allGeometry, differenceRegionBOnly, this.x0, this.y0);
     }

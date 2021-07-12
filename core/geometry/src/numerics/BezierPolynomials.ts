@@ -337,7 +337,7 @@ export class BezierPolynomialAlgebra {
 export class UnivariateBezier extends BezierCoffs {
   private _order: number;
   /** Query the order of this bezier. */
-  public get order() { return this._order; }
+  public override get order() { return this._order; }
   public constructor(data: number | Float64Array | number[]) {
     super(data);
     this._order = super.order;
@@ -799,7 +799,7 @@ export class Order2Bezier extends BezierCoffs {
    * @param restrictTo01 flag for optional second step to eliminate root outside 0..1.
    * @returns If no roots, return undefined.  If single root, return an array with the root.
    */
-  public roots(targetValue: number, restrictTo01: boolean): number[] | undefined {
+  public override roots(targetValue: number, restrictTo01: boolean): number[] | undefined {
     const x = this.solve(targetValue);
     if (x === undefined)
       return undefined;
@@ -891,7 +891,7 @@ export class Order3Bezier extends BezierCoffs {
    * @param restrictTo01 flag for optional second step to eliminate root outside 0..1.
    * @returns If no roots, return undefined.  If roots exist, return as numeric array.
    */
-  public roots(targetValue: number, restrictTo01: boolean): number[] | undefined {
+  public override roots(targetValue: number, restrictTo01: boolean): number[] | undefined {
     const a0 = this.coffs[0] - targetValue;
     const a1 = this.coffs[1] - targetValue;
     const a2 = this.coffs[2] - targetValue;

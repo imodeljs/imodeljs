@@ -43,11 +43,11 @@ export class MutableCategorizedStructProperty extends MutableCategorizedProperty
     return this._children;
   }
 
-  public getDescendantsAndSelf() {
+  public override getDescendantsAndSelf() {
     return this._renderLabel ? super.getDescendantsAndSelf() : this.getDescendants();
   }
 
-  public getVisibleDescendants(): IMutableFlatGridItem[] {
+  public override getVisibleDescendants(): IMutableFlatGridItem[] {
     const descendants: IMutableFlatGridItem[] = [];
     if (this.isExpanded || !this._renderLabel) {
       // always render children if not rendering the label, otherwise there's no way to expand
@@ -57,7 +57,7 @@ export class MutableCategorizedStructProperty extends MutableCategorizedProperty
     return descendants;
   }
 
-  public getVisibleDescendantsAndSelf() {
+  public override getVisibleDescendantsAndSelf() {
     return this._renderLabel ? super.getVisibleDescendantsAndSelf() : this.getVisibleDescendants();
   }
 }

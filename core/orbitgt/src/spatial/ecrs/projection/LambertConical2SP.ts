@@ -6,7 +6,7 @@
  * @module OrbitGT
  */
 
-//package orbitgt.spatial.ecrs.projection;
+// package orbitgt.spatial.ecrs.projection;
 
 type int8 = number;
 type int16 = number;
@@ -74,9 +74,9 @@ export class LambertConical2SP extends OperationMethod {
     private _rF: float64;
 
     /**
-     * Create a new projection.
-     * @param parameters the values of the parameters.
-     */
+       * Create a new projection.
+       * @param parameters the values of the parameters.
+       */
     public constructor(parameters: ParameterValueList) {
         super(LambertConical2SP.METHOD_CODE, "Lambert Conic Conformal (2SP)", parameters);
         /* Store the parameters */
@@ -89,46 +89,46 @@ export class LambertConical2SP extends OperationMethod {
     }
 
     /**
-     * Get the sign of a number.
-     */
+       * Get the sign of a number.
+       */
     private static sign(v: float64): float64 {
         return (v < 0.0) ? (-1.0) : (1.0);
     }
 
     /**
-     * Get the square of a number.
-     */
+       * Get the square of a number.
+       */
     private static square(v: float64): float64 {
         return (v * v);
     }
 
     /**
-     * Calculate M.
-     */
+       * Calculate M.
+       */
     private static calcM(e: float64, lat: float64): float64 {
         return Math.cos(lat) / Math.sqrt(1.0 - LambertConical2SP.square(e * Math.sin(lat)));
     }
 
     /**
-     * Calculate T.
-     */
+       * Calculate T.
+       */
     private static calcT(e: float64, lat: float64): float64 {
         return Math.tan(Math.PI * 0.25 - lat * 0.5) / Math.pow((1.0 - e * Math.sin(lat)) / (1.0 + e * Math.sin(lat)), e * 0.5);
     }
 
     /**
-     * Calculate R.
-     */
+       * Calculate R.
+       */
     private static calcR(a: float64, F: float64, t: float64, n: float64): float64 {
         if (Math.abs(t) < 1.0e-6) return 0.0;
         return a * F * Math.pow(t, n);
     }
 
     /**
-     * Initialize the projection.
-     * @param ellipsoid the ellipsoid to use.
-     * @return this projection (for convenience).
-     */
+       * Initialize the projection.
+       * @param ellipsoid the ellipsoid to use.
+       * @return this projection (for convenience).
+       */
     public initializeProjection(ellipsoid: Ellipsoid): LambertConical2SP {
         /* Get the ellipsoid parameters */
         this._e = ellipsoid.getE();
@@ -147,79 +147,79 @@ export class LambertConical2SP extends OperationMethod {
     }
 
     /**
-     * Do the projection.
-     * @param lon the longitude (radians).
-     * @param lat the latitude (radians).
-     * @param projected the target projected coordinate (X and Y will be set).
-     */
+       * Do the projection.
+       * @param lon the longitude (radians).
+       * @param lat the latitude (radians).
+       * @param projected the target projected coordinate (X and Y will be set).
+       */
     public toProjection(lon: float64, lat: float64, projected: Coordinate): void {
         /* Make the calculation */
-        let t: float64 = LambertConical2SP.calcT(this._e, lat);
-        let r: float64 = LambertConical2SP.calcR(this._a, this._F, t, this._n);
-        let theta: float64 = this._n * (lon - this._lonF);
-        let E: float64 = this._eF + r * Math.sin(theta);
-        let N: float64 = this._nF + this._rF - r * Math.cos(theta);
+        const t: float64 = LambertConical2SP.calcT(this._e, lat);
+        const r: float64 = LambertConical2SP.calcR(this._a, this._F, t, this._n);
+        const theta: float64 = this._n * (lon - this._lonF);
+        const E: float64 = this._eF + r * Math.sin(theta);
+        const N: float64 = this._nF + this._rF - r * Math.cos(theta);
         /* Save the position */
         projected.setX(E);
         projected.setY(N);
     }
 
     /**
-     * Do the inverse projection.
-     * @param x the easting.
-     * @param y the northing.
-     * @param geographic the target geographic coordinate (X/Lon and Y/Lat will be set) (radians).
-     */
+       * Do the inverse projection.
+       * @param x the easting.
+       * @param y the northing.
+       * @param geographic the target geographic coordinate (X/Lon and Y/Lat will be set) (radians).
+       */
     public toGeoGraphic(x: float64, y: float64, geographic: Coordinate): void {
         /* Get the parameters */
-        let E: float64 = x;
-        let N: float64 = y;
+        const E: float64 = x;
+        const N: float64 = y;
         /* Make the calculation */
-        let r_: float64 = LambertConical2SP.sign(this._n) * Math.sqrt(LambertConical2SP.square(E - this._eF) + LambertConical2SP.square(this._rF - (N - this._nF)));
-        let t_: float64 = Math.pow(r_ / (this._a * this._F), 1.0 / this._n);
-        let theta_: float64 = Math.atan((E - this._eF) / (this._rF - (N - this._nF)));
+        const r_: float64 = LambertConical2SP.sign(this._n) * Math.sqrt(LambertConical2SP.square(E - this._eF) + LambertConical2SP.square(this._rF - (N - this._nF)));
+        const t_: float64 = Math.pow(r_ / (this._a * this._F), 1.0 / this._n);
+        const theta_: float64 = Math.atan((E - this._eF) / (this._rF - (N - this._nF)));
         let lat: float64 = LambertConical2SP.PI * 0.5 - 2.0 * Math.atan(t_);
-        let he: float64 = 0.5 * this._e;
+        const he: float64 = 0.5 * this._e;
         for (let i: number = 0; i < 7; i++) // double-checked iteration count. LER, 24/11/2011
         {
-            let eSin: float64 = this._e * Math.sin(lat);
+            const eSin: float64 = this._e * Math.sin(lat);
             lat = LambertConical2SP.hPI - 2.0 * Math.atan(t_ * Math.pow((1.0 - eSin) / (1.0 + eSin), he)); // recursive formula
         }
-        let lon: float64 = (theta_) / this._n + this._lonF;
+        const lon: float64 = (theta_) / this._n + this._lonF;
         /* Save the position */
         geographic.setX(lon);
         geographic.setY(lat);
     }
 
     /**
-     * OperationMethod method.
-     * @see OperationMethod#initialize
-     */
-    public initialize(operation: Operation): void {
+       * OperationMethod method.
+       * @see OperationMethod#initialize
+       */
+    public override initialize(operation: Operation): void {
         this.initializeProjection(operation.getSourceCRS().getEllipsoid());
     }
 
     /**
-     * OperationMethod interface method.
-     * @see OperationMethod#forward
-     */
+       * OperationMethod interface method.
+       * @see OperationMethod#forward
+       */
     public forward(sourceCRS: CRS, source: Coordinate, targetCRS: CRS, target: Coordinate): void {
         /* Get the parameters */
-        let lon: float64 = source.getX();
-        let lat: float64 = source.getY();
+        const lon: float64 = source.getX();
+        const lat: float64 = source.getY();
         /* Do the projection */
         this.toProjection(lon, lat, target);
         target.setZ(source.getZ()); // Keep the Z value
     }
 
     /**
-     * OperationMethod interface method.
-     * @see OperationMethod#reverse
-     */
+       * OperationMethod interface method.
+       * @see OperationMethod#reverse
+       */
     public reverse(sourceCRS: CRS, source: Coordinate, targetCRS: CRS, target: Coordinate): void {
         /* Get the parameters */
-        let E: float64 = target.getX();
-        let N: float64 = target.getY();
+        const E: float64 = target.getX();
+        const N: float64 = target.getY();
         /* Do the inverse projection */
         this.toGeoGraphic(E, N, source);
         source.setZ(target.getZ()); // Keep the Z value

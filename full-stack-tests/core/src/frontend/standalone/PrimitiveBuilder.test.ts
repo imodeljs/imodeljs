@@ -330,7 +330,7 @@ describe("PrimitiveBuilder", () => {
 
   it("should be able to finish graphics", () => {
     const primBuilder = new PrimitiveBuilder(IModelApp.renderSystem, { type: GraphicType.Scene, viewport });
-    const accum = new GeometryAccumulator(imodel, IModelApp.renderSystem);
+    const accum = new GeometryAccumulator({ iModel: imodel });
 
     const gfParams: GraphicParams = new GraphicParams();
     gfParams.lineColor = ColorDef.white;

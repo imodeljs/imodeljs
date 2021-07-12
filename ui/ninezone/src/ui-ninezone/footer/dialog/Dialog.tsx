@@ -26,7 +26,7 @@ export interface DialogProps extends CommonProps {
  * @beta
  */
 export class Dialog extends React.PureComponent<DialogProps> {
-  public render() {
+  public override render() {
     const className = classnames(
       "nz-footer-dialog-dialog",
       this.props.className);

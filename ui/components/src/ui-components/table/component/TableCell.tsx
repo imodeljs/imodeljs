@@ -44,7 +44,7 @@ export interface TableCellProps extends CommonProps {
  */
 export class TableCell extends React.PureComponent<TableCellProps> {
   /** @internal */
-  public render() {
+  public override render() {
 
     if (this.props.cellEditingProps) {
       return (
@@ -105,7 +105,7 @@ interface TableCellContentState {
  */
 export class TableCellContent extends React.PureComponent<TableCellContentProps, TableCellContentState> {
   /** @internal */
-  public readonly state: TableCellContentState = {
+  public override readonly state: TableCellContentState = {
     content: <div className={this.props.className} style={this.getStyle(this.props.cellItem, this.props.isSelected, this.props.height)} />,
   };
 
@@ -147,7 +147,7 @@ export class TableCellContent extends React.PureComponent<TableCellContentProps,
   }
 
   /** @internal */
-  public async componentDidMount() {
+  public override async componentDidMount() {
     this._isMounted = true;
     const content = await this.renderContent(this.props);
 
@@ -157,12 +157,12 @@ export class TableCellContent extends React.PureComponent<TableCellContentProps,
   }
 
   /** @internal */
-  public componentWillUnmount() {
+  public override componentWillUnmount() {
     this._isMounted = false;
   }
 
   /** @internal */
-  public async componentDidUpdate(prevProps: TableCellContentProps) {
+  public override async componentDidUpdate(prevProps: TableCellContentProps) {
     if (this.doPropsDiffer(prevProps, this.props)) {
       const content = await this.renderContent(this.props);
 
@@ -172,7 +172,7 @@ export class TableCellContent extends React.PureComponent<TableCellContentProps,
   }
 
   /** @internal */
-  public render() {
+  public override render() {
     return this.state.content;
   }
 }
@@ -191,7 +191,7 @@ export interface TableIconCellContentProps {
  */
 export class TableIconCellContent extends React.PureComponent<TableIconCellContentProps> {
   /** @internal */
-  public render() {
+  public override render() {
     return <Icon iconSpec={this.props.iconName} />;
   }
 }

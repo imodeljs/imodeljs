@@ -19,7 +19,7 @@ export interface NotificationsWindowProps extends WindowProps {
 export class NotificationsWindow extends Window {
   private readonly _maxMessages: number;
 
-  public get isCloseable() { return false; }
+  public override get isCloseable() { return false; }
   public get windowId() { return "notifications"; }
 
   public constructor(surface: Surface, props: NotificationsWindowProps) {
@@ -51,15 +51,15 @@ export class NotificationsWindow extends Window {
 export class Notifications extends NotificationManager {
   private _tooltipDiv?: HTMLDivElement;
 
-  public outputPrompt(prompt: string) { showStatus(prompt); }
+  public override outputPrompt(prompt: string) { showStatus(prompt); }
 
   /** Output a message and/or alert to the user. */
-  public outputMessage(message: NotifyMessageDetails) {
+  public override outputMessage(message: NotifyMessageDetails) {
     showError(message.briefMessage);
     Surface.instance.notifications.addMessage(message);
   }
 
-  public async openMessageBox(_mbType: MessageBoxType, message: HTMLElement | string, _icon: MessageBoxIconType): Promise<MessageBoxValue> {
+  public override async openMessageBox(_mbType: MessageBoxType, message: HTMLElement | string, _icon: MessageBoxIconType): Promise<MessageBoxValue> {
     const rootDiv = document.getElementById("root") as HTMLDivElement;
     if (!rootDiv)
       return MessageBoxValue.Cancel;
@@ -91,19 +91,19 @@ export class Notifications extends NotificationManager {
     return promise;
   }
 
-  public get isToolTipSupported() { return true; }
-  public get isToolTipOpen() {
+  public override get isToolTipSupported() { return true; }
+  public override get isToolTipOpen() {
     return undefined !== this._tooltipDiv;
   }
 
-  public clearToolTip(): void {
+  public override clearToolTip(): void {
     if (undefined !== this._tooltipDiv) {
       this._tooltipDiv.remove();
       this._tooltipDiv = undefined;
     }
   }
 
-  protected _showToolTip(parent: HTMLElement, message: HTMLElement | string, pt?: XAndY, _options?: ToolTipOptions): void {
+  protected override _showToolTip(parent: HTMLElement, message: HTMLElement | string, pt?: XAndY, _options?: ToolTipOptions): void {
     this.clearToolTip();
 
     if (undefined === pt) {

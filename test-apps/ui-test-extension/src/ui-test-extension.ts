@@ -50,7 +50,7 @@ export class UiTestExtension extends Extension {
   }
 
   /** Invoked the first time this extension is loaded. */
-  public async onLoad(_args: string[]): Promise<void> {
+  public override async onLoad(_args: string[]): Promise<void> {
     /** Register the localized strings for this extension
      * We'll pass the i18n member to the rest of the classes in the Extension to allow them to translate strings in the UI they implement.
      */

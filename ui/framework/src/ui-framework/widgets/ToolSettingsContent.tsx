@@ -27,11 +27,11 @@ export class ToolSettingsContent extends React.PureComponent<ToolSettingsContent
   private _container = React.createRef<HTMLDivElement>();
   private _measurer = React.createRef<HTMLDivElement>();
 
-  public readonly state: ToolSettingsContentState = {
+  public override readonly state: ToolSettingsContentState = {
     availableContentWidth: 0,
   };
 
-  public render(): React.ReactNode | undefined {
+  public override render(): React.ReactNode | undefined {
     const className = classnames(
       "uifw-tool-settings-content",
       this.props.mode === ToolSettingsWidgetMode.TitleBar && "uifw-title-bar",

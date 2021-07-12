@@ -63,7 +63,7 @@ export class ToolSettingsZone extends React.PureComponent<ToolSettingsZoneProps,
   private _widget = React.createRef<ToolSettings>();
 
   /** @internal */
-  public readonly state: Readonly<ToolSettingsZoneState>;
+  public override readonly state: Readonly<ToolSettingsZoneState>;
 
   constructor(props: ToolSettingsZoneProps) {
     super(props);
@@ -82,15 +82,15 @@ export class ToolSettingsZone extends React.PureComponent<ToolSettingsZoneProps,
     this.setState({ title });
   };
 
-  public componentDidMount(): void {
+  public override componentDidMount(): void {
     FrontstageManager.onToolActivatedEvent.addListener(this._handleToolActivatedEvent);
   }
 
-  public componentWillUnmount(): void {
+  public override componentWillUnmount(): void {
     FrontstageManager.onToolActivatedEvent.removeListener(this._handleToolActivatedEvent);
   }
 
-  public render(): React.ReactNode {
+  public override render(): React.ReactNode {
     const bounds = getFloatingZoneBounds(this.props.zone);
     const zIndexStyle = getFloatingZoneStyle(this.props.zone);
     return (

@@ -24,7 +24,7 @@ export interface ZoneTargetsProps extends CommonProps {
  * @internal
  */
 export class ZoneTargets extends React.Component<ZoneTargetsProps> {
-  public render(): React.ReactNode {
+  public override render(): React.ReactNode {
     switch (this.props.dropTarget) {
       case ZoneTargetType.Merge:
         return (

@@ -33,7 +33,7 @@ interface ToolbarPopupState {
  */
 export class ToolbarPopup extends React.PureComponent<ToolbarPopupProps, ToolbarPopupState> {
   /** @internal */
-  public readonly state = {
+  public override readonly state = {
     size: new Size(-1, -1),
   };
 
@@ -58,7 +58,7 @@ export class ToolbarPopup extends React.PureComponent<ToolbarPopupProps, Toolbar
     }
   }
 
-  public render() {
+  public override render() {
     let point = PopupManager.getPopupPosition(this.props.el, this.props.pt, new Point(), this.state.size);
     const popupRect = CursorPopup.getPopupRect(point, this.props.offset, this.state.size, this.props.relativePosition);
     point = new Point(popupRect.left, popupRect.top);

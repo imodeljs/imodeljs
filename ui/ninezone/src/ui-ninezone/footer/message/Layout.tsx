@@ -27,7 +27,7 @@ export interface MessageLayoutProps extends CommonProps {
  * @beta
  */
 export class MessageLayout extends React.PureComponent<MessageLayoutProps> {
-  public render() {
+  public override render() {
     const className = classnames(
       "nz-footer-message-layout",
       this.props.className);

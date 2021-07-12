@@ -115,7 +115,7 @@ describe("InstanceKeyValueRenderer", () => {
         before(() => {
           class TestTypeConverter extends TypeConverter {
 
-            public convertToStringWithOptions(_value?: Primitives.Value, options?: Record<string, any>) {
+            public override convertToStringWithOptions(_value?: Primitives.Value, options?: Record<string, any>) {
               return options?.value;
             }
 

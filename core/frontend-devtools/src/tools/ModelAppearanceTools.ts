@@ -29,11 +29,11 @@ function changeModelAppearanceOverrides(vp: Viewport | undefined, overrides: Fea
  * @beta
  */
 export class SetModelTransparencyTool extends Tool {
-  public static toolId = "SetModelTransparencyTool";
-  public static get minArgs() { return 1; }
-  public static get maxArgs() { return 2; }
+  public static override toolId = "SetModelTransparencyTool";
+  public static override get minArgs() { return 1; }
+  public static override get maxArgs() { return 2; }
 
-  public run(transparency: number, name: string): boolean {
+  public override run(transparency: number, name: string): boolean {
     const changed = changeModelAppearanceOverrides(IModelApp.viewManager.selectedView, { transparency }, name);
 
     if (changed)
@@ -42,7 +42,7 @@ export class SetModelTransparencyTool extends Tool {
     return changed;
   }
 
-  public parseAndRun(...args: string[]): boolean {
+  public override parseAndRun(...args: string[]): boolean {
     return this.run(parseFloat(args[0]), args[1]);
   }
 }
@@ -51,11 +51,11 @@ export class SetModelTransparencyTool extends Tool {
  * @beta
  */
 export class SetModelLineWeightTool extends Tool {
-  public static toolId = "SetModelLineWeightTool";
-  public static get minArgs() { return 1; }
-  public static get maxArgs() { return 2; }
+  public static override toolId = "SetModelLineWeightTool";
+  public static override get minArgs() { return 1; }
+  public static override get maxArgs() { return 2; }
 
-  public run(weight: number, name: string): boolean {
+  public override run(weight: number, name: string): boolean {
     const changed = changeModelAppearanceOverrides(IModelApp.viewManager.selectedView, { weight }, name);
 
     if (changed)
@@ -64,7 +64,7 @@ export class SetModelLineWeightTool extends Tool {
     return changed;
   }
 
-  public parseAndRun(...args: string[]): boolean {
+  public override parseAndRun(...args: string[]): boolean {
     return this.run(parseFloat(args[0]), args[1]);
   }
 }
@@ -73,12 +73,12 @@ export class SetModelLineWeightTool extends Tool {
  * @beta
  */
 export class SetModelLineCodeTool extends Tool {
-  public static toolId = "SetModelLineCodeTool";
-  public static get minArgs() { return 1; }
-  public static get maxArgs() { return 2; }
+  public static override toolId = "SetModelLineCodeTool";
+  public static override get minArgs() { return 1; }
+  public static override get maxArgs() { return 2; }
   public static linePixels = [LinePixels.Code0, LinePixels.Code1, LinePixels.Code2, LinePixels.Code3, LinePixels.Code4, LinePixels.Code5, LinePixels.Code6, LinePixels.Code7];
 
-  public run(lineCode: number, name: string): boolean {
+  public override run(lineCode: number, name: string): boolean {
     if (lineCode < 0 || lineCode >= SetModelLineCodeTool.linePixels.length)
       return false;
 
@@ -90,7 +90,7 @@ export class SetModelLineCodeTool extends Tool {
     return changed;
   }
 
-  public parseAndRun(...args: string[]): boolean {
+  public override parseAndRun(...args: string[]): boolean {
     return this.run(parseFloat(args[0]), args[1]);
   }
 }
@@ -99,11 +99,11 @@ export class SetModelLineCodeTool extends Tool {
  * @beta
  */
 export class SetModelLocateTool extends Tool {
-  public static toolId = "SetModelLocateTool";
-  public static get minArgs() { return 1; }
-  public static get maxArgs() { return 2; }
+  public static override toolId = "SetModelLocateTool";
+  public static override get minArgs() { return 1; }
+  public static override get maxArgs() { return 2; }
 
-  public run(locate: boolean, name: string): boolean {
+  public override run(locate: boolean, name: string): boolean {
     const nonLocatable = locate ? undefined : true;
     const changed = changeModelAppearanceOverrides(IModelApp.viewManager.selectedView, { nonLocatable }, name);
 
@@ -113,7 +113,7 @@ export class SetModelLocateTool extends Tool {
     return changed;
   }
 
-  public parseAndRun(...args: string[]): boolean {
+  public override parseAndRun(...args: string[]): boolean {
     const locate = parseBoolean(args[0]);
     return locate === undefined ? false : this.run(locate, args[1]);
   }
@@ -123,11 +123,11 @@ export class SetModelLocateTool extends Tool {
  * @beta
  */
 export class SetModelEmphasizedTool extends Tool {
-  public static toolId = "SetModelEmphasizedTool";
-  public static get minArgs() { return 1; }
-  public static get maxArgs() { return 2; }
+  public static override toolId = "SetModelEmphasizedTool";
+  public static override get minArgs() { return 1; }
+  public static override get maxArgs() { return 2; }
 
-  public run(emphasized: true | undefined, name: string): boolean {
+  public override run(emphasized: true | undefined, name: string): boolean {
     const changed = changeModelAppearanceOverrides(IModelApp.viewManager.selectedView, { emphasized }, name);
 
     if (changed)
@@ -136,7 +136,7 @@ export class SetModelEmphasizedTool extends Tool {
     return changed;
   }
 
-  public parseAndRun(...args: string[]): boolean {
+  public override parseAndRun(...args: string[]): boolean {
     const emphasized = parseBoolean(args[0]);
     return emphasized === undefined ? false : this.run(emphasized ? true : undefined, args[1]);
   }
@@ -146,11 +146,11 @@ export class SetModelEmphasizedTool extends Tool {
  * @beta
  */
 export class SetModelIgnoresMaterialsTool extends Tool {
-  public static toolId = "SetModelIgnoresMaterialsTool";
-  public static get minArgs() { return 1; }
-  public static get maxArgs() { return 2; }
+  public static override toolId = "SetModelIgnoresMaterialsTool";
+  public static override get minArgs() { return 1; }
+  public static override get maxArgs() { return 2; }
 
-  public run(ignoresMaterial: true | undefined, name: string): boolean {
+  public override run(ignoresMaterial: true | undefined, name: string): boolean {
     const changed = changeModelAppearanceOverrides(IModelApp.viewManager.selectedView, { ignoresMaterial }, name);
 
     if (changed)
@@ -159,7 +159,7 @@ export class SetModelIgnoresMaterialsTool extends Tool {
     return changed;
   }
 
-  public parseAndRun(...args: string[]): boolean {
+  public override parseAndRun(...args: string[]): boolean {
     const ignoresMaterial = parseBoolean(args[0]);
     return ignoresMaterial === undefined ? false : this.run(ignoresMaterial ? true : undefined, args[1]);
   }
@@ -169,11 +169,11 @@ export class SetModelIgnoresMaterialsTool extends Tool {
  * @beta
  */
 export class SetModelColorTool extends Tool {
-  public static toolId = "SetModelColorTool";
-  public static get minArgs() { return 3; }
-  public static get maxArgs() { return 4; }
+  public static override toolId = "SetModelColorTool";
+  public static override get minArgs() { return 3; }
+  public static override get maxArgs() { return 4; }
 
-  public run(rgb: RgbColorProps, name: string): boolean {
+  public override run(rgb: RgbColorProps, name: string): boolean {
     const changed = changeModelAppearanceOverrides(IModelApp.viewManager.selectedView, { rgb }, name);
 
     if (changed)
@@ -182,7 +182,7 @@ export class SetModelColorTool extends Tool {
     return true;
   }
 
-  public parseAndRun(...args: string[]): boolean {
+  public override parseAndRun(...args: string[]): boolean {
     return this.run({ r: parseFloat(args[0]), g: parseFloat(args[1]), b: parseFloat(args[2]) }, args[3]);
   }
 }
@@ -191,11 +191,11 @@ export class SetModelColorTool extends Tool {
  * @beta
  */
 export class ClearModelAppearanceOverrides extends Tool {
-  public static toolId = "ClearModelAppearanceOverrides";
-  public static get minArgs() { return 0; }
-  public static get maxArgs() { return 1; }
+  public static override toolId = "ClearModelAppearanceOverrides";
+  public static override get minArgs() { return 0; }
+  public static override get maxArgs() { return 1; }
 
-  public run(name?: string): boolean {
+  public override run(name?: string): boolean {
     const vp = IModelApp.viewManager.selectedView;
     if (vp !== undefined && vp.view instanceof SpatialViewState) {
       vp.view.forEachModel((model) => {
@@ -207,7 +207,7 @@ export class ClearModelAppearanceOverrides extends Tool {
     return true;
   }
 
-  public parseAndRun(...args: string[]): boolean {
+  public override parseAndRun(...args: string[]): boolean {
     return this.run(args[0]);
   }
 }

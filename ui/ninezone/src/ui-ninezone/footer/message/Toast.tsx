@@ -90,17 +90,17 @@ export class Toast extends React.PureComponent<ToastProps, ToastState> {
     };
   }
 
-  public componentDidMount(): void {
+  public override componentDidMount(): void {
     this._timer.setOnExecute(() => this.setStage(Stage.AnimatingOut));
     this._timer.delay = this.props.timeout;
     this._timer.start();
   }
 
-  public componentWillUnmount(): void {
+  public override componentWillUnmount(): void {
     this._timer.stop();
   }
 
-  public render() {
+  public override render() {
     const className = classnames(
       "nz-footer-message-toast",
       StageHelpers.getCssClassName(this.state.stage),

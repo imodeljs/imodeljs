@@ -29,7 +29,7 @@ export type AnyEnumerator = Enumerator<string | number>;
  * @beta
  */
 export class Enumeration extends SchemaItem {
-  public readonly schemaItemType!: SchemaItemType.Enumeration; // eslint-disable-line
+  public override readonly schemaItemType!: SchemaItemType.Enumeration; // eslint-disable-line
   protected _type?: PrimitiveType.Integer | PrimitiveType.String;
   protected _isStrict: boolean;
   protected _enumerators: AnyEnumerator[];
@@ -114,7 +114,7 @@ export class Enumeration extends SchemaItem {
    * @param standalone Serialization includes only this object (as opposed to the full schema).
    * @param includeSchemaVersion Include the Schema's version information in the serialized object.
    */
-  public toJSON(standalone: boolean = false, includeSchemaVersion: boolean = false): EnumerationProps {
+  public override toJSON(standalone: boolean = false, includeSchemaVersion: boolean = false): EnumerationProps {
     const schemaJson = super.toJSON(standalone, includeSchemaVersion) as any;
     schemaJson.type = (this.isInt) ? "int" : "string";
     schemaJson.isStrict = this.isStrict;
@@ -130,7 +130,7 @@ export class Enumeration extends SchemaItem {
   }
 
   /** @internal */
-  public async toXml(schemaXml: Document): Promise<Element> {
+  public override async toXml(schemaXml: Document): Promise<Element> {
     const itemElement = await super.toXml(schemaXml);
     if (undefined !== this.type)
       itemElement.setAttribute("backingTypeName", primitiveTypeToString(this.type));
@@ -151,7 +151,7 @@ export class Enumeration extends SchemaItem {
     return itemElement;
   }
 
-  public fromJSONSync(enumerationProps: EnumerationProps) {
+  public override fromJSONSync(enumerationProps: EnumerationProps) {
     super.fromJSONSync(enumerationProps);
     if (undefined === this._type) {
       if (/int/i.test(enumerationProps.type))
@@ -176,7 +176,7 @@ export class Enumeration extends SchemaItem {
     }
   }
 
-  public async fromJSON(enumerationProps: EnumerationProps) {
+  public override async fromJSON(enumerationProps: EnumerationProps) {
     this.fromJSONSync(enumerationProps);
   }
 
@@ -193,7 +193,7 @@ export class Enumeration extends SchemaItem {
  * An abstract class used for schema editing.
  */
 export abstract class MutableEnumeration extends Enumeration {
-  public abstract addEnumerator(enumerator: AnyEnumerator): void;
-  public abstract setIsStrict(isStrict: boolean): void;
-  public abstract setDisplayLabel(displayLabel: string): void;
+  public abstract override addEnumerator(enumerator: AnyEnumerator): void;
+  public abstract override setIsStrict(isStrict: boolean): void;
+  public abstract override setDisplayLabel(displayLabel: string): void;
 }

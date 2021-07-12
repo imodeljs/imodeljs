@@ -19,7 +19,7 @@ import { CategoryOwnsSubCategories } from "./NavigationRelationship";
  */
 export class SubCategory extends DefinitionElement {
   /** @internal */
-  public static get className(): string { return "SubCategory"; }
+  public static override get className(): string { return "SubCategory"; }
   /** The Appearance parameters for this SubCategory */
   public appearance: SubCategoryAppearance;
   /** Optional description of this SubCategory. */
@@ -33,7 +33,7 @@ export class SubCategory extends DefinitionElement {
   }
 
   /** @internal */
-  public toJSON(): SubCategoryProps {
+  public override toJSON(): SubCategoryProps {
     const val = super.toJSON() as SubCategoryProps;
     val.appearance = this.appearance.toJSON();
     if (this.description && this.description.length > 0)
@@ -102,7 +102,7 @@ export class SubCategory extends DefinitionElement {
  */
 export class Category extends DefinitionElement implements CategoryProps {
   /** @internal */
-  public static get className(): string { return "Category"; }
+  public static override get className(): string { return "Category"; }
   public rank: Rank = Rank.User;
   public description?: string;
 
@@ -114,7 +114,7 @@ export class Category extends DefinitionElement implements CategoryProps {
   }
 
   /** @internal */
-  public toJSON(): CategoryProps {
+  public override toJSON(): CategoryProps {
     const val = super.toJSON() as CategoryProps;
     val.rank = this.rank;
     if (this.description && this.description.length > 0)
@@ -141,7 +141,7 @@ export class Category extends DefinitionElement implements CategoryProps {
  */
 export class DrawingCategory extends Category {
   /** @internal */
-  public static get className(): string { return "DrawingCategory"; }
+  public static override get className(): string { return "DrawingCategory"; }
 
   /** Construct a DrawingCategory
    * @param opts  The properties of the new DrawingCategory
@@ -209,7 +209,7 @@ export class DrawingCategory extends Category {
  */
 export class SpatialCategory extends Category {
   /** @internal */
-  public static get className(): string { return "SpatialCategory"; }
+  public static override get className(): string { return "SpatialCategory"; }
   /** Construct a SpatialCategory
    * @param opts  The properties of the new SpatialCategory
    * @param iModel The IModelDb where the SpatialCategory may be inserted.

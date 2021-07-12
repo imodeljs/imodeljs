@@ -14,6 +14,12 @@
       "comments": {}
     },
     {
+      "version": "2.16.9",
+      "tag": "@bentley/backend-application-insights-client_v2.16.9",
+      "date": "Tue, 06 Jul 2021 22:08:34 GMT",
+      "comments": {}
+    },
+    {
       "version": "2.16.8",
       "tag": "@bentley/backend-application-insights-client_v2.16.8",
       "date": "Fri, 02 Jul 2021 17:40:46 GMT",

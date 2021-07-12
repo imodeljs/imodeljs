@@ -36,7 +36,7 @@ export class Tab extends React.Component<TabProps> {
     }
   };
 
-  public render() {
+  public override render() {
     const isActive = this.props.index === this.props.selectedTabIndex!;
     const classes = classnames("tabs-style-linemove", isActive && "tab-active");
     const icon = classnames("icon", this.props.icon);
@@ -75,7 +75,7 @@ export class Tabs extends React.Component<TabsProps, TabsState> {
     this.state = { activeTab: this.props.defaultTab };
   }
 
-  public componentDidUpdate() {
+  public override componentDidUpdate() {
     if (this.props.defaultTab !== this.state.activeTab)
       this.setState((_, props) => ({ activeTab: props.defaultTab }));
   }
@@ -105,7 +105,7 @@ export class Tabs extends React.Component<TabsProps, TabsState> {
     });
   }
 
-  public render() {
+  public override render() {
     return (
       <div className="tabstrip">
         <nav>

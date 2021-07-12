@@ -8,6 +8,7 @@
 
 import { assert } from "@bentley/bentleyjs-core";
 import { IndexedPolyface, Loop, Path, Point3d, Range3d, SolidPrimitive, Transform } from "@bentley/geometry-core";
+import { AnalysisStyleDisplacement } from "@bentley/imodeljs-common";
 import { IModelConnection } from "../../../IModelConnection";
 import { GraphicBranch } from "../../GraphicBranch";
 import { RenderGraphic } from "../../RenderGraphic";
@@ -18,15 +19,16 @@ import { MeshGraphicArgs, MeshList } from "../mesh/MeshPrimitives";
 import { GeometryOptions } from "../Primitives";
 import { GeometryList } from "./GeometryList";
 import { Geometry, PrimitiveGeometryType } from "./GeometryPrimitives";
+import { IModelApp } from "../../../IModelApp";
 
 /** @internal */
 export class GeometryAccumulator {
   private _transform: Transform;
   private _surfacesOnly: boolean;
+  private readonly _analysisDisplacement?: AnalysisStyleDisplacement;
 
   public readonly tileRange: Range3d;
   public readonly geometries: GeometryList = new GeometryList();
-  public readonly checkGlyphBoxes: boolean = false; // #TODO: obviously update when checkGlyphBoxes needs to be mutable
   public readonly iModel: IModelConnection;
   public readonly system: RenderSystem;
 
@@ -35,20 +37,26 @@ export class GeometryAccumulator {
   public get isEmpty(): boolean { return this.geometries.isEmpty; }
   public get haveTransform(): boolean { return !this._transform.isIdentity; }
 
-  public constructor(iModel: IModelConnection, system: RenderSystem, surfacesOnly: boolean = false, transform: Transform = Transform.createIdentity(), tileRange: Range3d = Range3d.createNull()) {
-    this._surfacesOnly = surfacesOnly;
-    this._transform = transform;
-    this.iModel = iModel;
-    this.system = system;
-    this.tileRange = tileRange;
+  public constructor(options: {
+    iModel: IModelConnection;
+    system?: RenderSystem;
+    surfacesOnly?: boolean;
+    transform?: Transform;
+    tileRange?: Range3d;
+    analysisStyleDisplacement?: AnalysisStyleDisplacement;
+  }) {
+    this.iModel = options.iModel;
+    this.system = options.system ?? IModelApp.renderSystem;
+    this.tileRange = options.tileRange ?? Range3d.createNull();
+    this._surfacesOnly = true === options.surfacesOnly;
+    this._transform = options.transform ?? Transform.createIdentity();
+    this._analysisDisplacement = options.analysisStyleDisplacement;
   }
 
-  private getPrimitiveRange(pGeom: PrimitiveGeometryType): Range3d | undefined {
-    const pRange: Range3d = new Range3d();
-    pGeom.range(undefined, pRange);
-    if (pRange.isNull)
-      return undefined;
-    return pRange;
+  private getPrimitiveRange(geom: PrimitiveGeometryType): Range3d | undefined {
+    const range = new Range3d();
+    geom.range(undefined, range);
+    return range.isNull ? undefined : range;
   }
 
   private calculateTransform(transform: Transform, range: Range3d): void {
@@ -57,7 +65,7 @@ export class GeometryAccumulator {
   }
 
   public addLoop(loop: Loop, displayParams: DisplayParams, transform: Transform, disjoint: boolean): boolean {
-    const range: Range3d | undefined = this.getPrimitiveRange(loop);
+    const range = this.getPrimitiveRange(loop);
     if (!range)
       return false;
 
@@ -88,7 +96,7 @@ export class GeometryAccumulator {
   }
 
   public addPath(path: Path, displayParams: DisplayParams, transform: Transform, disjoint: boolean): boolean {
-    const range: Range3d | undefined = this.getPrimitiveRange(path);
+    const range = this.getPrimitiveRange(path);
     if (!range)
       return false;
 
@@ -96,13 +104,28 @@ export class GeometryAccumulator {
     return this.addGeometry(Geometry.createFromPath(path, transform, range, displayParams, disjoint));
   }
 
-  public addPolyface(ipf: IndexedPolyface, displayParams: DisplayParams, transform: Transform): boolean {
-    const range: Range3d | undefined = this.getPrimitiveRange(ipf);
-    if (undefined === range)
+  public addPolyface(pf: IndexedPolyface, displayParams: DisplayParams, transform: Transform): boolean {
+    // Adjust the mesh range based on displacements applied to vertices by analysis style, if applicable.
+    let range;
+    if (this._analysisDisplacement) {
+      const channel = pf.data.auxData?.channels.find((x) => x.name === this._analysisDisplacement!.channelName);
+      const displacementRange = channel?.computeDisplacementRange(this._analysisDisplacement.scale);
+      if (displacementRange && !displacementRange.isNull) {
+        range = Range3d.createNull();
+        const pt = new Point3d();
+        for (let i = 0; i < pf.data.point.length; i++) {
+          pf.data.point.getPoint3dAtUncheckedPointIndex(i, pt);
+          range.extendXYZ(pt.x + displacementRange.low.x, pt.y + displacementRange.low.y, pt.z + displacementRange.low.z);
+          range.extendXYZ(pt.x + displacementRange.high.x, pt.y + displacementRange.high.y, pt.z + displacementRange.high.z);
+        }
+      }
+    }
+
+    if (!range && !(range = this.getPrimitiveRange(pf)))
       return false;
 
     this.calculateTransform(transform, range);
-    return this.addGeometry(Geometry.createFromPolyface(ipf, transform, range, displayParams));
+    return this.addGeometry(Geometry.createFromPolyface(pf, transform, range, displayParams));
   }
 
   public addSolidPrimitive(primitive: SolidPrimitive, displayParams: DisplayParams, transform: Transform): boolean {

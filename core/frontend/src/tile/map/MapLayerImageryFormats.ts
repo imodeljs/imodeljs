@@ -32,18 +32,18 @@ import {
  * @internal
  */
 export class ImageryMapLayerFormat extends MapLayerFormat {
-  public static createMapLayerTree(layerSettings: MapLayerSettings, layerIndex: number, iModel: IModelConnection): MapLayerTileTreeReference | undefined {
+  public static override createMapLayerTree(layerSettings: MapLayerSettings, layerIndex: number, iModel: IModelConnection): MapLayerTileTreeReference | undefined {
     return new ImageryMapLayerTreeReference(layerSettings, layerIndex, iModel);
   }
 }
 
 class WmsMapLayerFormat extends ImageryMapLayerFormat {
-  public static formatId = "WMS";
+  public static override formatId = "WMS";
 
-  public static createImageryProvider(settings: MapLayerSettings): MapLayerImageryProvider | undefined {
+  public static override createImageryProvider(settings: MapLayerSettings): MapLayerImageryProvider | undefined {
     return new WmsMapLayerImageryProvider(settings);
   }
-  public static async validateSource(url: string, credentials?: RequestBasicCredentials, ignoreCache?: boolean): Promise<MapLayerSourceValidation> {
+  public static override async validateSource(url: string, credentials?: RequestBasicCredentials, ignoreCache?: boolean): Promise<MapLayerSourceValidation> {
     try {
       let subLayers: MapSubLayerProps[] | undefined;
       const maxVisibleSubLayers = 50;
@@ -101,13 +101,13 @@ class WmsMapLayerFormat extends ImageryMapLayerFormat {
 }
 
 class WmtsMapLayerFormat extends ImageryMapLayerFormat {
-  public static formatId = "WMTS";
+  public static override formatId = "WMTS";
 
-  public static createImageryProvider(settings: MapLayerSettings): MapLayerImageryProvider | undefined {
+  public static override createImageryProvider(settings: MapLayerSettings): MapLayerImageryProvider | undefined {
     return new WmtsMapLayerImageryProvider(settings);
   }
 
-  public static async validateSource(url: string, credentials?: RequestBasicCredentials, ignoreCache?: boolean): Promise<MapLayerSourceValidation> {
+  public static override async validateSource(url: string, credentials?: RequestBasicCredentials, ignoreCache?: boolean): Promise<MapLayerSourceValidation> {
     try {
       const subLayers: MapSubLayerProps[] = [];
       const capabilities = await WmtsCapabilities.create(url, credentials, ignoreCache);
@@ -149,38 +149,38 @@ class WmtsMapLayerFormat extends ImageryMapLayerFormat {
 }
 
 class ArcGISMapLayerFormat extends ImageryMapLayerFormat {
-  public static formatId = "ArcGIS";
-  public static async validateSource(url: string, credentials?: RequestBasicCredentials, ignoreCache?: boolean): Promise<MapLayerSourceValidation> {
+  public static override formatId = "ArcGIS";
+  public static override async validateSource(url: string, credentials?: RequestBasicCredentials, ignoreCache?: boolean): Promise<MapLayerSourceValidation> {
     return ArcGisUtilities.validateSource(url, credentials, ignoreCache);
   }
-  public static createImageryProvider(settings: MapLayerSettings): MapLayerImageryProvider | undefined {
+  public static override createImageryProvider(settings: MapLayerSettings): MapLayerImageryProvider | undefined {
     return new ArcGISMapLayerImageryProvider(settings);
   }
 }
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 class AzureMapsMapLayerFormat extends ImageryMapLayerFormat {
-  public static formatId = "AzureMaps";
-  public static createImageryProvider(settings: MapLayerSettings): MapLayerImageryProvider | undefined {
+  public static override formatId = "AzureMaps";
+  public static override createImageryProvider(settings: MapLayerSettings): MapLayerImageryProvider | undefined {
     return new AzureMapsLayerImageryProvider(settings);
   }
 }
 class BingMapsMapLayerFormat extends ImageryMapLayerFormat {
-  public static formatId = "BingMaps";
-  public static createImageryProvider(settings: MapLayerSettings): MapLayerImageryProvider | undefined {
+  public static override formatId = "BingMaps";
+  public static override createImageryProvider(settings: MapLayerSettings): MapLayerImageryProvider | undefined {
     return new BingMapsImageryLayerProvider(settings);
   }
 }
 
 class MapBoxImageryMapLayerFormat extends ImageryMapLayerFormat {
-  public static formatId = "MapboxImagery";
-  public static createImageryProvider(settings: MapLayerSettings): MapLayerImageryProvider | undefined {
+  public static override formatId = "MapboxImagery";
+  public static override createImageryProvider(settings: MapLayerSettings): MapLayerImageryProvider | undefined {
     return new MapBoxLayerImageryProvider(settings);
   }
 }
 class TileUrlMapLayerFormat extends ImageryMapLayerFormat {
-  public static formatId = "TileURL";
-  public static createImageryProvider(settings: MapLayerSettings): MapLayerImageryProvider | undefined { return new TileUrlImageryProvider(settings); }
+  public static override formatId = "TileURL";
+  public static override createImageryProvider(settings: MapLayerSettings): MapLayerImageryProvider | undefined { return new TileUrlImageryProvider(settings); }
 }
 
 /** @internal */

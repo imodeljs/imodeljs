@@ -34,7 +34,7 @@ interface ShowHideDialogState<T extends ShowHideID> {
  */
 export class ShowHideDialog<T extends ShowHideID> extends React.PureComponent<ShowHideDialogProps<T>, ShowHideDialogState<T>> {
   /** @internal */
-  public readonly state: ShowHideDialogState<T>;
+  public override readonly state: ShowHideDialogState<T>;
   constructor(props: ShowHideDialogProps<T>) {
     super(props);
     this.state = {
@@ -43,7 +43,7 @@ export class ShowHideDialog<T extends ShowHideID> extends React.PureComponent<Sh
   }
 
   /** @internal */
-  public componentDidUpdate(oldProps: ShowHideDialogProps<T>) {
+  public override componentDidUpdate(oldProps: ShowHideDialogProps<T>) {
     if (this.props.initialHidden && oldProps.initialHidden !== this.props.initialHidden) {
       this.setState((_, props) => ({ hiddenColumns: props.initialHidden || /* istanbul ignore next */[] }));
     }
@@ -77,7 +77,7 @@ export class ShowHideDialog<T extends ShowHideID> extends React.PureComponent<Sh
   };
 
   /** @internal */
-  public render(): React.ReactNode {
+  public override render(): React.ReactNode {
     const { opened, items, initialHidden, onClose, onShowHideChange, ...props } = this.props; // eslint-disable-line @typescript-eslint/no-unused-vars
     return (
       <GlobalDialog

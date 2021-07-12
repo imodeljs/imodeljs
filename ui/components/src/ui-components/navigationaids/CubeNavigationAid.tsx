@@ -133,7 +133,7 @@ interface CubeNavigationAidState {
 export class CubeNavigationAid extends React.Component<CubeNavigationAidProps, CubeNavigationAidState> {
   private _start: Vector2d = Vector2d.createZero();
   /** @internal */
-  public readonly state: Readonly<CubeNavigationAidState> = {
+  public override readonly state: Readonly<CubeNavigationAidState> = {
     dragging: false,
     startRotMatrix: Matrix3d.createIdentity(),
     endRotMatrix: Matrix3d.createIdentity(),
@@ -155,7 +155,7 @@ export class CubeNavigationAid extends React.Component<CubeNavigationAidProps, C
   };
 
   /** @internal */
-  public componentDidMount() {
+  public override componentDidMount() {
     this._mounted = true;
     ViewportComponentEvents.onViewRotationChangeEvent.addListener(this._handleViewRotationChangeEvent);
 
@@ -167,7 +167,7 @@ export class CubeNavigationAid extends React.Component<CubeNavigationAidProps, C
   }
 
   /** @internal */
-  public componentWillUnmount() {
+  public override componentWillUnmount() {
     ViewportComponentEvents.onViewRotationChangeEvent.removeListener(this._handleViewRotationChangeEvent);
     clearTimeout(this._animationFrame);
     this._mounted = false;
@@ -230,7 +230,7 @@ export class CubeNavigationAid extends React.Component<CubeNavigationAidProps, C
     return sum === 3;
   };
 
-  public render(): React.ReactNode {
+  public override render(): React.ReactNode {
     const { animation, startRotMatrix, endRotMatrix } = this.state;
     const visible = CubeNavigationAid._isMatrixFace(endRotMatrix) && animation === 1.0;
     const rotMatrix = CubeNavigationAid._interpolateRotMatrix(startRotMatrix, animation, endRotMatrix);
@@ -566,7 +566,7 @@ export interface NavCubeFaceProps extends React.AllHTMLAttributes<HTMLDivElement
 
 /** @internal */
 export class NavCubeFace extends React.Component<NavCubeFaceProps> {
-  public render(): React.ReactNode {
+  public override render(): React.ReactNode {
     const { face, hoverMap, onFaceCellClick, onFaceCellHoverChange, label } = this.props;
     return (
       <div className="nav-cube-face" data-testid="nav-cube-face">
@@ -613,7 +613,7 @@ interface FaceRowProps extends React.AllHTMLAttributes<HTMLDivElement> {
 }
 
 class FaceRow extends React.Component<FaceRowProps> {
-  public render(): React.ReactNode {
+  public override render(): React.ReactNode {
     const { center, children, ...props } = this.props;
     const classNames = classnames(
       "face-row",
@@ -636,7 +636,7 @@ export interface FaceCellProps extends React.AllHTMLAttributes<HTMLDivElement> {
 /** @internal */
 export class FaceCell extends React.Component<FaceCellProps> {
   private _startMouse: Point2d | undefined;
-  public render(): React.ReactNode {
+  public override render(): React.ReactNode {
     const { center, children, onFaceCellClick, onFaceCellHoverChange, hoverMap, face, vector, ...props } = this.props; // eslint-disable-line @typescript-eslint/no-unused-vars
     const { x, y, z } = vector;
     const n = `${x}-${y}-${z}`;
@@ -740,7 +740,7 @@ interface PointerProps extends React.AllHTMLAttributes<HTMLDivElement> {
 }
 
 class PointerButton extends React.Component<PointerProps> {
-  public render(): React.ReactNode {
+  public override render(): React.ReactNode {
     const { visible, pointerType, onArrowClick, title, ...props } = this.props; // eslint-disable-line @typescript-eslint/no-unused-vars
     const classes = classnames(
       "cube-pointer", "icon",

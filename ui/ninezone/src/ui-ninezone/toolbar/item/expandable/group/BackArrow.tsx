@@ -46,7 +46,7 @@ function BackArrowComponent(props: BackArrowProps) {
  * @alpha
  */
 export class BackArrow extends React.PureComponent<BackArrowProps> {
-  public render() {
+  public override render() {
     return <BackArrowComponent {...this.props} />;
   }
 }

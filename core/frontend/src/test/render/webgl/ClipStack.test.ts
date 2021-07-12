@@ -3,7 +3,7 @@
 * See LICENSE.md in the project root for license terms and full copyright notice.
 *--------------------------------------------------------------------------------------------*/
 import { expect } from "chai";
-import { ClipVector, Point3d, Transform  } from "@bentley/geometry-core";
+import { ClipVector, Point3d, Transform } from "@bentley/geometry-core";
 import { ClipVolume } from "../../../render/webgl/ClipVolume";
 import { ClipStack } from "../../../render/webgl/ClipStack";
 import { RenderSystem } from "../../../render/RenderSystem";
@@ -15,13 +15,13 @@ for (let i = 0; i < 2; i++) {
   if (!useFloat) {
     renderSys = {
       useWebGL2: false,
-      disabledExtensions: [ "OES_texture_float" ],
+      disabledExtensions: ["OES_texture_float"],
     };
   }
 
   function createClipVector(offset = 0): ClipVector {
     const clip = ClipVector.createEmpty();
-    clip.appendShape([ Point3d.create(offset + 1, 1, 0), Point3d.create(offset + 2, 1, 0), Point3d.create(offset + 2, 2, 0), Point3d.create(offset + 1, 2, 0)]);
+    clip.appendShape([Point3d.create(offset + 1, 1, 0), Point3d.create(offset + 2, 1, 0), Point3d.create(offset + 2, 2, 0), Point3d.create(offset + 1, 2, 0)]);
     return clip;
   }
 
@@ -101,17 +101,17 @@ for (let i = 0; i < 2; i++) {
         this.reset();
       }
 
-      protected updateTexture() {
+      protected override updateTexture() {
         this.invoked.updateTexture = true;
         super.updateTexture();
       }
 
-      protected recomputeTexture() {
+      protected override recomputeTexture() {
         this.invoked.recomputeTexture = true;
         super.recomputeTexture();
       }
 
-      protected uploadTexture() {
+      protected override uploadTexture() {
         this.invoked.uploadTexture = true;
         super.uploadTexture();
       }
@@ -123,13 +123,13 @@ for (let i = 0; i < 2; i++) {
       expect(stack.isStackDirty).to.be.false;
 
       let prevClip = stack.stack[0];
-      stack.setViewClip(ClipVector.createEmpty(), { });
+      stack.setViewClip(ClipVector.createEmpty(), {});
       expect(stack.hasClip).to.be.false;
       expect(stack.stack[0]).to.equal(prevClip);
       expect(stack.isStackDirty).to.be.false;
 
       const clipVec = createClipVector();
-      stack.setViewClip(clipVec, { });
+      stack.setViewClip(clipVec, {});
       expect(stack.hasClip).to.be.true;
       expect(stack.stack[0]).not.to.equal(prevClip);
       expect(stack.stack[0]).instanceof(ClipVolume);
@@ -137,24 +137,24 @@ for (let i = 0; i < 2; i++) {
       stack.getTexture();
 
       prevClip = stack.stack[0];
-      stack.setViewClip(clipVec, { });
+      stack.setViewClip(clipVec, {});
       expect(stack.hasClip).to.be.true;
       expect(stack.stack[0]).to.equal(prevClip);
       expect(stack.isStackDirty).to.be.false;
 
-      stack.setViewClip(createClipVector(1), { });
+      stack.setViewClip(createClipVector(1), {});
       expect(stack.hasClip).to.be.true;
       expect(stack.stack[0]).not.to.equal(prevClip);
       expect(stack.isStackDirty).to.be.true;
       stack.getTexture();
 
-      stack.setViewClip(undefined, { });
+      stack.setViewClip(undefined, {});
       expect(stack.hasClip).to.be.false;
       expect(stack.stack[0] instanceof ClipVolume).to.be.false;
       expect(stack.isStackDirty).to.be.true;
       stack.getTexture();
 
-      stack.setViewClip(undefined, { });
+      stack.setViewClip(undefined, {});
       expect(stack.isStackDirty).to.be.false;
     });
 
@@ -171,7 +171,7 @@ for (let i = 0; i < 2; i++) {
       expect(stack.startIndex).to.equal(0);
       expect(stack.endIndex).to.equal(0);
 
-      stack.setViewClip(createClipVector(), { });
+      stack.setViewClip(createClipVector(), {});
       expect(stack.stack.length).to.equal(1);
       expect(stack.hasClip).to.be.true;
       expect(stack.numTotalRows).to.equal(5);
@@ -212,7 +212,7 @@ for (let i = 0; i < 2; i++) {
       expect(stack.hasClip).to.be.false;
 
       stack.wantViewClip = true;
-      stack.setViewClip(undefined, { });
+      stack.setViewClip(undefined, {});
       expect(stack.stack.length).to.equal(1);
       expect(stack.hasClip).to.be.false;
       expect(stack.numTotalRows).to.equal(10);
@@ -221,7 +221,7 @@ for (let i = 0; i < 2; i++) {
       expect(stack.startIndex).to.equal(0);
       expect(stack.endIndex).to.equal(0);
 
-      stack.setViewClip(createClipVector(), { });
+      stack.setViewClip(createClipVector(), {});
       stack.pushClip();
       const texture = stack.texture!;
       expect(texture).not.to.be.undefined;

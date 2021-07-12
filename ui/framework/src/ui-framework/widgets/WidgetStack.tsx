@@ -58,7 +58,7 @@ export interface WidgetStackProps extends CommonProps {
 export class WidgetStack extends React.PureComponent<WidgetStackProps> {
   private _widgetStack = React.createRef<NZ_WidgetStack>();
 
-  public render(): React.ReactNode {
+  public override render(): React.ReactNode {
     const tabCount = this.props.widgets.reduce((acc, widgetId) => {
       const tabs = this.props.widgetTabs[widgetId];
       return acc + tabs.length;
@@ -158,7 +158,7 @@ export interface WidgetStackTabsProps {
  * @internal
  */
 export class WidgetStackTabs extends React.PureComponent<WidgetStackTabsProps> {
-  public render(): React.ReactNode {
+  public override render(): React.ReactNode {
     let renderIndex = -1;
     return this.props.widgets.map((widgetId) => {
       const tabs = this.props.widgetTabs[widgetId];
@@ -218,7 +218,7 @@ export interface WidgetStackTabGroupProps {
 export class WidgetStackTabGroup extends React.PureComponent<WidgetStackTabGroupProps> {
   private _firstTab = React.createRef<Tab>();
 
-  public render(): React.ReactNode {
+  public override render(): React.ReactNode {
     const lastPosition = this.props.draggedWidget ? this.props.draggedWidget.lastPosition : undefined;
     const isWidgetStackOpen = !!this.props.openWidgetId;
     const isWidgetOpen = this.props.openWidgetId === this.props.widgetId;
@@ -310,7 +310,7 @@ export interface WidgetStackTabProps {
  * @internal
  */
 export class WidgetStackTab extends React.PureComponent<WidgetStackTabProps> {
-  public render(): React.ReactNode {
+  public override render(): React.ReactNode {
     return (
       <Tab
         badge={BadgeUtilities.getComponentForBadgeType(this.props.badgeType)}

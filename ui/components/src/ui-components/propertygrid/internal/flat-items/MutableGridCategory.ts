@@ -115,11 +115,11 @@ export class MutableGridCategory extends MutableFlatPropertyGridItem implements 
    * New value is sent down to this items last child
    * @internal
    */
-  public get lastInNumberOfCategories(): number {
+  public override get lastInNumberOfCategories(): number {
     return super.lastInNumberOfCategories;
   }
 
-  public set lastInNumberOfCategories(value: number) {
+  public override set lastInNumberOfCategories(value: number) {
     super.lastInNumberOfCategories = value + 1;
   }
 }

@@ -48,7 +48,7 @@ export class Rule extends Lint.Rules.AbstractRule {
 class NoDirectImportWalker extends Lint.RuleWalker {
 
   // override
-  public visitImportDeclaration(node: ts.ImportDeclaration) {
+  public override visitImportDeclaration(node: ts.ImportDeclaration) {
     const from: string = node.moduleSpecifier.getText().slice(1, -1);
 
     // it is Ok to import scss files from another package - they're not in the index file.

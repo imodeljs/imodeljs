@@ -29,7 +29,7 @@ const FAILURE_STRING_UPDATER_ONLY = `Do not use callback parameter in setState. 
 const getFailureStringForAccessedMember = (accessedMember: string) => `Do not access 'this.${accessedMember}' in setState. Use arguments from callback function instead.`;
 
 export class Rule extends Lint.Rules.AbstractRule {
-  public static metadata: Lint.IRuleMetadata = {
+  public static override metadata: Lint.IRuleMetadata = {
     description: "Requires the setState function to be called with function as the first argument and without 'this.props' nor 'this.state' access within the function.",
     optionExamples: [true],
     options: {

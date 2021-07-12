@@ -27,7 +27,7 @@ export class AppViewManager extends ViewManager {
   /** Get the tooltip for a persistent element.
    * Calls the backend method [Element.getToolTipMessage]($backend), and replaces all instances of `${localizeTag}` with localized string from IModelApp.i18n.
    */
-  public async getElementToolTip(hit: HitDetail): Promise<HTMLElement | string> {
+  public override async getElementToolTip(hit: HitDetail): Promise<HTMLElement | string> {
     const tooltipContainer = document.createElement("div");
     const propertyData = await this._favoritePropertiesDataProvider.getData(hit.iModel, hit.sourceId);
     const hasFavorites = this._favoritePropertiesRenderer.hasFavorites(propertyData);

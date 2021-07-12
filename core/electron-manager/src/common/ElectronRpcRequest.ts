@@ -12,7 +12,7 @@ export class ElectronRpcRequest extends RpcRequest {
   private _fulfillment: RpcRequestFulfillment | undefined = undefined;
 
   /** Convenience access to the protocol of this request. */
-  public readonly protocol: ElectronRpcProtocol = this.client.configuration.protocol as any;
+  public override readonly protocol: ElectronRpcProtocol = this.client.configuration.protocol as any;
 
   /** Sends the request. */
   protected async send() {
@@ -49,7 +49,7 @@ export class ElectronRpcRequest extends RpcRequest {
   }
 
   /** @internal */
-  public dispose() {
+  public override dispose() {
     this.protocol.requests.delete(this.id);
     super.dispose();
   }

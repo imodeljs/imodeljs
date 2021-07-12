@@ -26,13 +26,13 @@ export class AppNotificationManager extends NotificationManager {
 
   /** Output a prompt, given an i18n key.
    */
-  public outputPromptByKey(key: string): void {
+  public override outputPromptByKey(key: string): void {
     this.outputPrompt(UiFramework.i18n.translate(key));
   }
 
   /** Output a prompt to the user. A 'prompt' indicates an action the user should take to proceed.
    */
-  public outputPrompt(prompt: string): void {
+  public override outputPrompt(prompt: string): void {
     MessageManager.outputPrompt(prompt);
 
     const mainInstruction = ToolAssistance.createInstruction("", prompt);
@@ -41,7 +41,7 @@ export class AppNotificationManager extends NotificationManager {
   }
 
   /** Output a message and/or alert to the user. */
-  public outputMessage(message: NotifyMessageDetails): void {
+  public override outputMessage(message: NotifyMessageDetails): void {
     MessageManager.outputMessage(message);
   }
 
@@ -51,7 +51,7 @@ export class AppNotificationManager extends NotificationManager {
    * @param icon         The MessageBox icon type.
    * @return the response from the user.
    */
-  public async openMessageBox(mbType: MessageBoxType, message: HTMLElement | string, icon: MessageBoxIconType): Promise<MessageBoxValue> {
+  public override async openMessageBox(mbType: MessageBoxType, message: HTMLElement | string, icon: MessageBoxIconType): Promise<MessageBoxValue> {
     return MessageManager.openMessageBox(mbType, message, icon);
   }
 
@@ -60,7 +60,7 @@ export class AppNotificationManager extends NotificationManager {
    * @param details  The activity message details.
    * @return true if the message was displayed, false if an invalid priority is specified.
    */
-  public setupActivityMessage(details: ActivityMessageDetails): boolean {
+  public override setupActivityMessage(details: ActivityMessageDetails): boolean {
     return MessageManager.setupActivityMessageDetails(details);
   }
 
@@ -70,7 +70,7 @@ export class AppNotificationManager extends NotificationManager {
    * @param percentComplete  The percentage of completion.
    * @return true if the message was displayed, false if the message could not be displayed.
    */
-  public outputActivityMessage(messageText: HTMLElement | string, percentComplete: number): boolean {
+  public override outputActivityMessage(messageText: HTMLElement | string, percentComplete: number): boolean {
     return MessageManager.setupActivityMessageValues(messageText, percentComplete);
   }
 
@@ -79,7 +79,7 @@ export class AppNotificationManager extends NotificationManager {
    * @param reason       Reason for the end of the Activity Message.
    * @return true if the message was ended successfully, false if the activityMessage could not be ended.
    */
-  public endActivityMessage(reason: ActivityMessageEndReason): boolean {
+  public override endActivityMessage(reason: ActivityMessageEndReason): boolean {
     let result = false;
 
     switch (reason) {
@@ -98,23 +98,23 @@ export class AppNotificationManager extends NotificationManager {
    * @param displayPoint        Point at which to display the Pointer type message.
    * @param relativePosition    Position relative to displayPoint at which to display the Pointer type message.
    */
-  public updatePointerMessage(displayPoint: XAndY, relativePosition: RelativePosition): void {
+  public override updatePointerMessage(displayPoint: XAndY, relativePosition: RelativePosition): void {
     PointerMessage.updateMessage(displayPoint, relativePosition);
   }
 
   /** Hides the Pointer message. */
-  public closePointerMessage(): void {
+  public override closePointerMessage(): void {
     PointerMessage.hideMessage();
   }
 
   /** Return true if _showTooltip has an implementation and will display a tooltip. */
-  public get isToolTipSupported(): boolean { return true; }
+  public override get isToolTipSupported(): boolean { return true; }
 
   /** Return true if the tooltip is currently open. */
-  public get isToolTipOpen(): boolean { return ElementTooltip.isTooltipVisible; }
+  public override get isToolTipOpen(): boolean { return ElementTooltip.isTooltipVisible; }
 
   /** Clear the ToolTip if it is currently open. If not open, does nothing. */
-  public clearToolTip(): void {
+  public override clearToolTip(): void {
     // istanbul ignore else
     if (this.isToolTipOpen)
       ElementTooltip.hideTooltip();
@@ -126,12 +126,12 @@ export class AppNotificationManager extends NotificationManager {
    * @param pt       An optional location, relative to the origin of el, for the ToolTip. If undefined, center of el.
    * @param options  Options that supply additional information about how the ToolTip should function.
    */
-  protected _showToolTip(el: HTMLElement, message: HTMLElement | string, pt?: XAndY, options?: ToolTipOptions): void {
+  protected override _showToolTip(el: HTMLElement, message: HTMLElement | string, pt?: XAndY, options?: ToolTipOptions): void {
     ElementTooltip.showTooltip(el, message, pt, options);
   }
 
   /** Hide a InputField message. */
-  public closeInputFieldMessage(): void {
+  public override closeInputFieldMessage(): void {
     MessageManager.hideInputFieldMessage();
   }
 
@@ -139,7 +139,7 @@ export class AppNotificationManager extends NotificationManager {
    * @param instructions The tool assistance instructions.
    * @public
    */
-  public setToolAssistance(instructions: ToolAssistanceInstructions | undefined) {
+  public override setToolAssistance(instructions: ToolAssistanceInstructions | undefined) {
     MessageManager.outputPrompt(instructions ? instructions.mainInstruction.text : /* istanbul ignore next */ "");
     MessageManager.setToolAssistance(instructions);
   }

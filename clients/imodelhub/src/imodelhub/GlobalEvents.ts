@@ -59,7 +59,7 @@ export abstract class IModelHubGlobalEvent extends IModelHubBaseEvent {
    * @param obj Object instance.
    * @internal
    */
-  public fromJson(obj: any) {
+  public override fromJson(obj: any) {
     super.fromJson(obj);
     this.iModelId = obj.iModelId;
     this.projectId = obj.ProjectId;
@@ -106,7 +106,7 @@ export class ChangeSetCreatedEvent extends IModelHubGlobalEvent {
   /** Construct this event from object instance.
    * @param obj Object instance.
    */
-  public fromJson(obj: any) {
+  public override fromJson(obj: any) {
     super.fromJson(obj);
     this.changeSetId = obj.ChangeSetId;
     this.changeSetIndex = obj.ChangeSetIndex;
@@ -125,7 +125,7 @@ export class NamedVersionCreatedEvent extends IModelHubGlobalEvent {
   /** Construct this event from object instance.
    * @param obj Object instance.
    */
-  public fromJson(obj: any) {
+  public override fromJson(obj: any) {
     super.fromJson(obj);
     this.versionId = obj.VersionId;
     this.versionName = obj.VersionName;
@@ -144,7 +144,7 @@ export class GlobalCheckpointCreatedEvent extends IModelHubGlobalEvent {
   /** Construct this event from object instance.
    * @param obj Object instance.
    */
-  public fromJson(obj: any) {
+  public override fromJson(obj: any) {
     super.fromJson(obj);
     this.changeSetIndex = obj.ChangeSetIndex;
     this.changeSetId = obj.ChangeSetId;
@@ -163,7 +163,7 @@ export class GlobalCheckpointV2CreatedEvent extends IModelHubGlobalEvent {
   /** Construct this event from object instance.
    * @param obj Object instance.
    */
-  public fromJson(obj: any) {
+  public override fromJson(obj: any) {
     super.fromJson(obj);
     this.changeSetIndex = obj.ChangeSetIndex;
     this.changeSetId = obj.ChangeSetId;

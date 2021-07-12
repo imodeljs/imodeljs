@@ -248,7 +248,7 @@ export abstract class Property implements CustomAttributeContainerProps {
     const property = object as Property;
 
     return property !== undefined && property.class !== undefined && property.name !== undefined
-           && property.propertyType !== undefined;
+      && property.propertyType !== undefined;
   }
 }
 
@@ -273,7 +273,7 @@ export abstract class PrimitiveOrEnumPropertyBase extends Property {
   /**
    * Save this PrimitiveOrEnumPropertyBase's properties to an object for serializing to JSON.
    */
-  public toJSON(): PrimitiveOrEnumPropertyBaseProps {
+  public override toJSON(): PrimitiveOrEnumPropertyBaseProps {
     const schemaJson = super.toJSON() as any;
     if (this.extendedTypeName !== undefined)
       schemaJson.extendedTypeName = this.extendedTypeName;
@@ -289,7 +289,7 @@ export abstract class PrimitiveOrEnumPropertyBase extends Property {
   }
 
   /** @internal */
-  public async toXml(schemaXml: Document): Promise<Element> {
+  public override async toXml(schemaXml: Document): Promise<Element> {
     const itemElement = await super.toXml(schemaXml);
     if (undefined !== this.extendedTypeName)
       itemElement.setAttribute("extendedTypeName", this.extendedTypeName);
@@ -305,7 +305,7 @@ export abstract class PrimitiveOrEnumPropertyBase extends Property {
     return itemElement;
   }
 
-  public fromJSONSync(propertyBaseProps: PrimitiveOrEnumPropertyBaseProps) {
+  public override fromJSONSync(propertyBaseProps: PrimitiveOrEnumPropertyBaseProps) {
     super.fromJSONSync(propertyBaseProps);
 
     if (undefined !== propertyBaseProps.minLength) {
@@ -329,7 +329,7 @@ export abstract class PrimitiveOrEnumPropertyBase extends Property {
     }
   }
 
-  public async fromJSON(propertyBaseProps: PrimitiveOrEnumPropertyBaseProps) {
+  public override async fromJSON(propertyBaseProps: PrimitiveOrEnumPropertyBaseProps) {
     this.fromJSONSync(propertyBaseProps);
   }
 }
@@ -342,7 +342,7 @@ export class PrimitiveProperty extends PrimitiveOrEnumPropertyBase {
     super(ecClass, name, PropertyTypeUtils.fromPrimitiveType(primitiveType));
   }
 
-  public fromJSONSync(primitivePropertyProps: PrimitivePropertyProps) {
+  public override fromJSONSync(primitivePropertyProps: PrimitivePropertyProps) {
     super.fromJSONSync(primitivePropertyProps);
     if (undefined !== primitivePropertyProps.typeName) {
       if (this.primitiveType !== parsePrimitiveType(primitivePropertyProps.typeName))
@@ -350,21 +350,21 @@ export class PrimitiveProperty extends PrimitiveOrEnumPropertyBase {
     }
   }
 
-  public async fromJSON(primitivePropertyProps: PrimitivePropertyProps) {
+  public override async fromJSON(primitivePropertyProps: PrimitivePropertyProps) {
     this.fromJSONSync(primitivePropertyProps);
   }
 
   /**
    * Save this PrimitiveProperty's properties to an object for serializing to JSON.
    */
-  public toJSON(): PrimitivePropertyProps {
+  public override toJSON(): PrimitivePropertyProps {
     const schemaJson = super.toJSON() as any;
     schemaJson.typeName = primitiveTypeToString(this.primitiveType);
     return schemaJson;
   }
 
   /** @internal */
-  public async toXml(schemaXml: Document): Promise<Element> {
+  public override async toXml(schemaXml: Document): Promise<Element> {
     const itemElement = await super.toXml(schemaXml);
     itemElement.setAttribute("typeName", primitiveTypeToString(this.primitiveType));
     return itemElement;
@@ -380,7 +380,7 @@ export class EnumerationProperty extends PrimitiveOrEnumPropertyBase {
   /**
    * Save this EnumerationProperty's properties to an object for serializing to JSON.
    */
-  public toJSON(): EnumerationPropertyProps {
+  public override toJSON(): EnumerationPropertyProps {
     const schemaJson = super.toJSON() as any;
     schemaJson.typeName = this.enumeration!.fullName;
     return schemaJson;
@@ -392,7 +392,7 @@ export class EnumerationProperty extends PrimitiveOrEnumPropertyBase {
     this._enumeration = type;
   }
 
-  public fromJSONSync(enumerationPropertyProps: EnumerationPropertyProps) {
+  public override fromJSONSync(enumerationPropertyProps: EnumerationPropertyProps) {
     super.fromJSONSync(enumerationPropertyProps);
     if (undefined !== enumerationPropertyProps.typeName) {
       if (!(this.enumeration!.fullName).match(enumerationPropertyProps.typeName)) // need to match {schema}.{version}.{itemName} on typeName
@@ -411,7 +411,7 @@ export class EnumerationProperty extends PrimitiveOrEnumPropertyBase {
   }
 
   /** @internal */
-  public async toXml(schemaXml: Document): Promise<Element> {
+  public override async toXml(schemaXml: Document): Promise<Element> {
     const itemElement = await super.toXml(schemaXml);
     const enumeration = await this.enumeration;
     const enumerationName = XmlSerializationUtils.createXmlTypedName(this.schema, enumeration!.schema, enumeration!.name);
@@ -419,7 +419,7 @@ export class EnumerationProperty extends PrimitiveOrEnumPropertyBase {
     return itemElement;
   }
 
-  public async fromJSON(enumerationPropertyProps: EnumerationPropertyProps) {
+  public override async fromJSON(enumerationPropertyProps: EnumerationPropertyProps) {
     this.fromJSONSync(enumerationPropertyProps);
   }
 
@@ -439,21 +439,21 @@ export class StructProperty extends Property {
   /**
    * Save this StructProperty's properties to an object for serializing to JSON.
    */
-  public toJSON(): StructPropertyProps {
+  public override toJSON(): StructPropertyProps {
     const schemaJson = super.toJSON() as any;
     schemaJson.typeName = this.structClass.fullName;
     return schemaJson;
   }
 
   /** @internal */
-  public async toXml(schemaXml: Document): Promise<Element> {
+  public override async toXml(schemaXml: Document): Promise<Element> {
     const itemElement = await super.toXml(schemaXml);
     const structClassName = XmlSerializationUtils.createXmlTypedName(this.schema, this.structClass.schema, this.structClass.name);
     itemElement.setAttribute("typeName", structClassName);
     return itemElement;
   }
 
-  public fromJSONSync(structPropertyProps: StructPropertyProps) {
+  public override fromJSONSync(structPropertyProps: StructPropertyProps) {
     super.fromJSONSync(structPropertyProps);
     if (undefined !== structPropertyProps.typeName) {
       if (!this.structClass.key.matchesFullName(structPropertyProps.typeName))
@@ -461,7 +461,7 @@ export class StructProperty extends Property {
     }
   }
 
-  public async fromJSON(structPropertyProps: StructPropertyProps) {
+  public override async fromJSON(structPropertyProps: StructPropertyProps) {
     this.fromJSONSync(structPropertyProps);
   }
 }
@@ -485,7 +485,7 @@ export class NavigationProperty extends Property {
   /**
    * Save this NavigationProperty's properties to an object for serializing to JSON.
    */
-  public toJSON(): NavigationPropertyProps {
+  public override toJSON(): NavigationPropertyProps {
     const schemaJson = super.toJSON() as any;
     schemaJson.relationshipName = this.relationshipClass.fullName;
     schemaJson.direction = strengthDirectionToString(this.direction);
@@ -493,7 +493,7 @@ export class NavigationProperty extends Property {
   }
 
   /** @internal */
-  public async toXml(schemaXml: Document): Promise<Element> {
+  public override async toXml(schemaXml: Document): Promise<Element> {
     const itemElement = await super.toXml(schemaXml);
     const relationshipClass = await this.relationshipClass;
     const relationshipClassName = XmlSerializationUtils.createXmlTypedName(this.schema, relationshipClass.schema, relationshipClass.name);
@@ -539,7 +539,7 @@ const ArrayPropertyMixin = <T extends Constructor<Property>>(Base: T) => {
       this._type = PropertyTypeUtils.asArray(this._type);
     }
 
-    public fromJSONSync(arrayPropertyProps: PrimitiveArrayPropertyProps) {
+    public override fromJSONSync(arrayPropertyProps: PrimitiveArrayPropertyProps) {
       super.fromJSONSync(arrayPropertyProps);
       if (undefined !== arrayPropertyProps.minOccurs) {
         this._minOccurs = arrayPropertyProps.minOccurs;
@@ -550,14 +550,14 @@ const ArrayPropertyMixin = <T extends Constructor<Property>>(Base: T) => {
       }
     }
 
-    public async fromJSON(arrayPropertyProps: PrimitiveArrayPropertyProps) {
+    public override async fromJSON(arrayPropertyProps: PrimitiveArrayPropertyProps) {
       this.fromJSONSync(arrayPropertyProps);
     }
 
     /**
      * Save this ArrayProperty's properties to an object for serializing to JSON.
      */
-    public toJSON(): ArrayPropertyProps {
+    public override toJSON(): ArrayPropertyProps {
       const schemaJson = super.toJSON() as any;
       schemaJson.minOccurs = this.minOccurs;
       if (this.maxOccurs !== undefined)
@@ -566,7 +566,7 @@ const ArrayPropertyMixin = <T extends Constructor<Property>>(Base: T) => {
     }
 
     /** @internal */
-    public async toXml(schemaXml: Document): Promise<Element> {
+    public override async toXml(schemaXml: Document): Promise<Element> {
       const itemElement = await super.toXml(schemaXml);
       itemElement.setAttribute("minOccurs", this.minOccurs.toString());
       if (this.maxOccurs)
@@ -623,5 +623,5 @@ export type AnyProperty = AnyPrimitiveProperty | AnyEnumerationProperty | AnyStr
  * @internal
  */
 export abstract class MutableProperty extends Property {
-  public abstract addCustomAttribute(customAttribute: CustomAttribute): void;
+  public abstract override addCustomAttribute(customAttribute: CustomAttribute): void;
 }

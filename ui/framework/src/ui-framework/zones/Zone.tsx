@@ -124,15 +124,15 @@ export class Zone extends React.Component<ZoneProps> {
     }
   }
 
-  public componentDidMount(): void {
+  public override componentDidMount(): void {
     FrontstageManager.onWidgetStateChangedEvent.addListener(this._handleWidgetStateChangedEvent);
   }
 
-  public componentWillUnmount(): void {
+  public override componentWillUnmount(): void {
     FrontstageManager.onWidgetStateChangedEvent.removeListener(this._handleWidgetStateChangedEvent);
   }
 
-  public render(): React.ReactNode {
+  public override render(): React.ReactNode {
     const { runtimeProps } = this.props;
 
     if (!runtimeProps)

@@ -686,7 +686,7 @@ describe("Map4d", () => {
     ck.testUndefined(Map4d.createTransform(scaleTransform, scaleTransform),
       "confirm Map4d constructor rejects mismatch");
     const scaleMap = Map4d.createTransform(scaleTransform, scaleTransform1);
-    if (ck.testPointer(scaleMap) && scaleMap) {
+    if (ck.testPointer(scaleMap)) {
       ck.testFalse(mapI.isAlmostEqual(scaleMap));
       const scaleMap1 = Map4d.createRefs(scaleMap.transform1.clone(), scaleMap.transform0.clone());
       const reverseMap = scaleMap.clone();
@@ -764,7 +764,7 @@ describe("Map4d", () => {
     const fraction = 0.0048728640349349457;
     const frustum = Map4d.createVectorFrustum(origin, uVector, vVector, wVector, fraction);
     // console.log (prettyPrint (frustum!));
-    if (ck.testPointer(frustum) && frustum) {
+    if (ck.testPointer(frustum)) {
       const product = frustum.transform0.multiplyMatrixMatrix(frustum.transform1);
       ck.testTrue(product.isIdentity(), "vector frustum inverts");
     }

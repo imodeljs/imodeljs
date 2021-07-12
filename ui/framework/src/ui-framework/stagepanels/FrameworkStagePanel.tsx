@@ -54,17 +54,17 @@ export interface FrameworkStagePanelProps {
 export class FrameworkStagePanel extends React.PureComponent<FrameworkStagePanelProps> {
   private _measurer = React.createRef<HTMLDivElement>();
 
-  public componentDidMount(): void {
+  public override componentDidMount(): void {
     this.initializeSize();
     this.setMinMaxSize();
   }
 
-  public componentDidUpdate(): void {
+  public override componentDidUpdate(): void {
     this.initializeSize();
     this.setMinMaxSize();
   }
 
-  public render(): React.ReactNode {
+  public override render(): React.ReactNode {
     const panelStateClassName = classnames(this.props.panelState === StagePanelState.Off && /* istanbul ignore next */ "uifw-stagepanel-off");
     const className = classnames("uifw-stagepanel", panelStateClassName);
     const paneCount = this.props.stagePanelWidgets.length + this.props.panel.panes.length;
@@ -218,7 +218,7 @@ export interface SplitterPaneTargetProps {
 
 /** @internal */
 export class SplitterPaneTarget extends React.PureComponent<SplitterPaneTargetProps> {
-  public render() {
+  public override render() {
     return (
       <NZ_SplitterPaneTarget
         onTargetChanged={this._handleTargetChanged}

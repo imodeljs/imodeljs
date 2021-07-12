@@ -28,7 +28,7 @@ export class ViewportDialog extends React.Component<ViewportDialogProps, Viewpor
   private _loading = IModelApp.i18n.translate("SampleApp:Test.loading");
   private _viewport: ScreenViewport | undefined;
 
-  public readonly state: Readonly<ViewportDialogState>;
+  public override readonly state: Readonly<ViewportDialogState>;
 
   constructor(props: ViewportDialogProps) {
     super(props);
@@ -37,7 +37,7 @@ export class ViewportDialog extends React.Component<ViewportDialogProps, Viewpor
     };
   }
 
-  public async componentDidMount() {
+  public override async componentDidMount() {
     const externalIModel = new ExternalIModel(this.props.projectName, this.props.imodelName);
     await externalIModel.openIModel();
 
@@ -51,7 +51,7 @@ export class ViewportDialog extends React.Component<ViewportDialogProps, Viewpor
     ViewSelector.onViewSelectorChangedEvent.addListener(this._handleViewSelectorChangedEvent);
   }
 
-  public componentWillUnmount() {
+  public override componentWillUnmount() {
     ViewSelector.onViewSelectorChangedEvent.removeListener(this._handleViewSelectorChangedEvent);
   }
 
@@ -64,7 +64,7 @@ export class ViewportDialog extends React.Component<ViewportDialogProps, Viewpor
     }
   };
 
-  public render(): JSX.Element {
+  public override render(): JSX.Element {
 
     /* Demo values */
     const width = 400;

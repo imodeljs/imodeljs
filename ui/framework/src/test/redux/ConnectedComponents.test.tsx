@@ -50,7 +50,7 @@ describe("ConnectedContent", () => {
         }
       };
 
-      public render() {
+      public override render() {
         return <div>
           <button data-testid="testButton" title="test" onClick={this._onClick} />
           <span data-testid="numItemsSelected">{this.props.numItemsSelected}</span>

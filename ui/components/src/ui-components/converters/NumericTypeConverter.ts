@@ -15,7 +15,7 @@ import { TypeConverterManager } from "./TypeConverterManager";
  * @public
  */
 export abstract class NumericTypeConverterBase extends TypeConverter implements LessGreaterOperatorProcessor {
-  public get isLessGreaterType(): boolean { return true; }
+  public override get isLessGreaterType(): boolean { return true; }
 
   public isLessThan(a: Primitives.Numeric, b: Primitives.Numeric): boolean {
     return a < b;
@@ -43,7 +43,7 @@ export abstract class NumericTypeConverterBase extends TypeConverter implements 
  * @public
  */
 export class FloatTypeConverter extends NumericTypeConverterBase {
-  public convertToString(value?: Primitives.Float) {
+  public override convertToString(value?: Primitives.Float) {
     if (value === undefined)
       return "";
 
@@ -67,7 +67,7 @@ export class FloatTypeConverter extends NumericTypeConverterBase {
     return stringValue;
   }
 
-  public convertFromString(value: string): number {
+  public override convertFromString(value: string): number {
     return parseFloat(value);
   }
 }
@@ -80,7 +80,7 @@ TypeConverterManager.registerConverter(StandardTypeNames.Number, FloatTypeConver
  * @public
  */
 export class IntTypeConverter extends NumericTypeConverterBase {
-  public convertToString(value?: Primitives.Int) {
+  public override convertToString(value?: Primitives.Int) {
     if (value === undefined)
       return "";
 
@@ -98,7 +98,7 @@ export class IntTypeConverter extends NumericTypeConverterBase {
     return Math.round(numericValue).toString();
   }
 
-  public convertFromString(value: string): number {
+  public override convertFromString(value: string): number {
     return parseInt(value, 10);
   }
 }

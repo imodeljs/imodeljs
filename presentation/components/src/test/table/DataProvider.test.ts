@@ -33,10 +33,10 @@ import { mockPresentationManager } from "../_helpers/UiComponents";
  * protected methods of PresentationTableDataProvider
  */
 class Provider extends PresentationTableDataProvider {
-  public invalidateCache(props: CacheInvalidationProps) { super.invalidateCache(props); }
-  public shouldConfigureContentDescriptor() { return super.shouldConfigureContentDescriptor(); }
-  public configureContentDescriptor(descriptor: Descriptor) { return super.configureContentDescriptor(descriptor); } // eslint-disable-line deprecation/deprecation
-  public getDescriptorOverrides() { return super.getDescriptorOverrides(); }
+  public override invalidateCache(props: CacheInvalidationProps) { super.invalidateCache(props); }
+  public override shouldConfigureContentDescriptor() { return super.shouldConfigureContentDescriptor(); } // eslint-disable-line deprecation/deprecation
+  public override configureContentDescriptor(descriptor: Descriptor) { return super.configureContentDescriptor(descriptor); } // eslint-disable-line deprecation/deprecation
+  public override getDescriptorOverrides() { return super.getDescriptorOverrides(); }
 }
 
 describe("TableDataProvider", () => {

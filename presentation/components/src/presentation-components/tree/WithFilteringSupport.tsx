@@ -85,7 +85,7 @@ export function DEPRECATED_treeWithFilteringSupport<P extends TreeProps>(TreeCom
 
     public get pendingAsyncs() { return this._asyncsTracker.pendingAsyncs; }
 
-    public componentDidUpdate() {
+    public override componentDidUpdate() {
       if (!normalizeFilter(this.props.filter)) {
         this.setState((prev) => {
           if (prev.inProgress || prev.filteredDataProvider)
@@ -105,7 +105,7 @@ export function DEPRECATED_treeWithFilteringSupport<P extends TreeProps>(TreeCom
       }
     }
 
-    public componentDidMount() {
+    public override componentDidMount() {
       const filter = normalizeFilter(this.props.filter);
       if (filter) {
         this.setState(
@@ -156,7 +156,7 @@ export function DEPRECATED_treeWithFilteringSupport<P extends TreeProps>(TreeCom
       });
     }
 
-    public render() {
+    public override render() {
       const {
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
         filter, dataProvider, onFilterApplied, onMatchesCounted, activeMatchIndex,

@@ -35,10 +35,10 @@ interface State {
 }
 
 export class TableDemoWidget extends React.Component<Props, State> {
-  public readonly state: State = {
+  public override readonly state: State = {
     checked: false,
   };
-  public render() {
+  public override render() {
     DragDropLayerManager.registerTypeLayer(TableDragTypes.Row, RowDragLayer); // eslint-disable-line deprecation/deprecation
 
     let objectTypes: Array<string | symbol> = [];

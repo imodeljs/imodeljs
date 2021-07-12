@@ -59,7 +59,7 @@ export class ReviewToolWidget extends React.Component<ReviewToolWidgetProps, any
     CoreTools.sectionToolGroup,
   ]);
 
-  public render() {
+  public override render() {
     let appButtonCommandItemDef = Backstage.backstageToggleCommand; // eslint-disable-line deprecation/deprecation
     if (this.props.iconSpec) {
       appButtonCommandItemDef = Backstage.getBackstageToggleCommand(this.props.iconSpec); // eslint-disable-line deprecation/deprecation

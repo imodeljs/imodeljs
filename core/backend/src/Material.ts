@@ -19,7 +19,7 @@ import { IModelDb } from "./IModelDb";
  */
 export abstract class PhysicalMaterial extends DefinitionElement {
   /** @internal */
-  public static get className(): string { return "PhysicalMaterial"; }
+  public static override get className(): string { return "PhysicalMaterial"; }
   /** Create a Code for a PhysicalMaterial given a name that is meant to be unique within the scope of the specified DefinitionModel.
    * @param iModel  The IModelDb
    * @param definitionModelId The Id of the DefinitionModel that will contain the PhysicalMaterial and provide the scope for its name.
@@ -52,7 +52,7 @@ export abstract class PhysicalMaterial extends DefinitionElement {
  */
 export class RenderMaterialElement extends DefinitionElement implements RenderMaterialProps {
   /** @internal */
-  public static get className(): string { return "RenderMaterial"; }
+  public static override get className(): string { return "RenderMaterial"; }
 
   /** The name of a palette that can be used to categorize multiple materials. */
   public paletteName: string;
@@ -65,7 +65,7 @@ export class RenderMaterialElement extends DefinitionElement implements RenderMa
     this.description = props.description;
   }
   /** @internal */
-  public toJSON(): RenderMaterialProps {
+  public override toJSON(): RenderMaterialProps {
     const val = super.toJSON() as RenderMaterialProps;
     val.paletteName = this.paletteName;
     val.description = this.description;

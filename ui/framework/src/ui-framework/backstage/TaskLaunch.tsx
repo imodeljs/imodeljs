@@ -39,7 +39,7 @@ export interface TaskLaunchBackstageItemProps extends BackstageItemProps { // es
 export class TaskLaunchBackstageItem extends React.PureComponent<TaskLaunchBackstageItemProps, BackstageItemState> { // eslint-disable-line deprecation/deprecation
 
   /** @internal */
-  public readonly state: Readonly<BackstageItemState>; // eslint-disable-line deprecation/deprecation
+  public override readonly state: Readonly<BackstageItemState>; // eslint-disable-line deprecation/deprecation
   private _componentUnmounting = false;  // used to ensure _handleSyncUiEvent callback is not processed after componentWillUnmount is called
   private _stateSyncIds: string[] = [];  // local version of syncId that are lower cased
 
@@ -56,13 +56,13 @@ export class TaskLaunchBackstageItem extends React.PureComponent<TaskLaunchBacks
     this.state = state;
   }
 
-  public componentDidMount() {
+  public override componentDidMount() {
     if (this.props.stateFunc && this._stateSyncIds.length > 0)
       SyncUiEventDispatcher.onSyncUiEvent.addListener(this._handleSyncUiEvent);
     WorkflowManager.onTaskActivatedEvent.addListener(this._handleTaskActivatedEvent);
   }
 
-  public componentWillUnmount() {
+  public override componentWillUnmount() {
     this._componentUnmounting = true;
     if (this.props.stateFunc && this._stateSyncIds.length > 0)
       SyncUiEventDispatcher.onSyncUiEvent.removeListener(this._handleSyncUiEvent);
@@ -104,7 +104,7 @@ export class TaskLaunchBackstageItem extends React.PureComponent<TaskLaunchBacks
       Logger.logError(UiFramework.loggerCategory(this), `Workflow with id '${this.props.workflowId}' not found`);
   };
 
-  public componentDidUpdate(_prevProps: TaskLaunchBackstageItemProps) {
+  public override componentDidUpdate(_prevProps: TaskLaunchBackstageItemProps) {
     const updatedState = BackstageItemUtilities.getBackstageItemStateFromProps(this.props);
     updatedState.isActive = WorkflowManager.activeTaskId === this.props.taskId && WorkflowManager.activeWorkflowId === this.props.workflowId;
     if (!PropsHelper.isShallowEqual(updatedState, this.state))
@@ -119,7 +119,7 @@ export class TaskLaunchBackstageItem extends React.PureComponent<TaskLaunchBacks
   };
 
   // TODO: add tooltip, subtitle, aria-label? to NZ_BackstageItem
-  public render(): React.ReactNode {
+  public override render(): React.ReactNode {
     return (
       <BackstageItem
         icon={PropsHelper.getIcon(this.state.iconSpec)}

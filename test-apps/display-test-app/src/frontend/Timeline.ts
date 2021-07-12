@@ -215,7 +215,7 @@ class TimelinePanel extends ToolBarDropDown {
     this._element.style.display = "none";
   }
 
-  public get onViewChanged(): Promise<void> {
+  public override get onViewChanged(): Promise<void> {
     // Change the provider before invoking update
     this._provider = this.createProvider();
     if (this._isPlaying)

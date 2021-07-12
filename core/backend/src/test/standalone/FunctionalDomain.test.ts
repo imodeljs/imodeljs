@@ -24,27 +24,27 @@ const updatedLabel = "updated label";
 
 /** test schema for supplying element/model/aspect classes */
 class TestSchema extends FunctionalSchema {
-  public static get schemaName() { return "TestFunctional"; }
+  public static override get schemaName() { return "TestFunctional"; }
 }
 
 /** partition element for testing `Element.onSubModelXxx` methods */
 class TestFuncPartition extends InformationPartitionElement {
-  public static get className() { return "TestFuncPartition"; }
+  public static override get className() { return "TestFuncPartition"; }
 
-  public static onSubModelInsert(arg: OnSubModelPropsArg): void {
+  public static override onSubModelInsert(arg: OnSubModelPropsArg): void {
     super.onSubModelInsert(arg);
     assert.equal(arg.iModel, iModelDb);
     assert.equal(arg.subModelProps.classFullName, TestFuncModel.classFullName);
   }
-  public static onSubModelInserted(arg: OnSubModelIdArg): void {
+  public static override onSubModelInserted(arg: OnSubModelIdArg): void {
     super.onSubModelInserted(arg);
     assert.equal(arg.iModel, iModelDb);
   }
-  public static onSubModelDelete(arg: OnSubModelIdArg): void {
+  public static override onSubModelDelete(arg: OnSubModelIdArg): void {
     super.onSubModelDelete(arg);
     assert.equal(arg.iModel, iModelDb);
   }
-  public static onSubModelDeleted(arg: OnSubModelIdArg): void {
+  public static override onSubModelDeleted(arg: OnSubModelIdArg): void {
     super.onSubModelDeleted(arg);
     assert.equal(arg.iModel, iModelDb);
   }
@@ -52,59 +52,59 @@ class TestFuncPartition extends InformationPartitionElement {
 
 /** for testing `Model.onXxx` methods */
 class TestFuncModel extends FunctionalModel {
-  public static get className() { return "TestFuncModel"; }
+  public static override get className() { return "TestFuncModel"; }
   public static dontDelete = "";
 
-  public static onInsert(arg: OnModelPropsArg): void {
+  public static override onInsert(arg: OnModelPropsArg): void {
     super.onInsert(arg);
     assert.equal(arg.iModel, iModelDb);
     assert.equal(arg.props.classFullName, this.classFullName);
   }
-  public static onInserted(arg: OnModelIdArg): void {
+  public static override onInserted(arg: OnModelIdArg): void {
     super.onInserted(arg);
     assert.equal(arg.iModel, iModelDb);
   }
-  public static onUpdate(arg: OnModelPropsArg): void {
+  public static override onUpdate(arg: OnModelPropsArg): void {
     super.onUpdate(arg);
     assert.equal(arg.iModel, iModelDb);
   }
-  public static onUpdated(arg: OnModelIdArg): void {
+  public static override onUpdated(arg: OnModelIdArg): void {
     super.onUpdated(arg);
     assert.equal(arg.iModel, iModelDb);
   }
-  public static onDelete(arg: OnModelIdArg): void {
+  public static override onDelete(arg: OnModelIdArg): void {
     super.onDelete(arg);
     assert.equal(arg.iModel, iModelDb);
   }
-  public static onDeleted(arg: OnModelIdArg): void {
+  public static override onDeleted(arg: OnModelIdArg): void {
     super.onDeleted(arg);
     assert.equal(arg.iModel, iModelDb);
   }
-  public static onInsertElement(arg: OnElementInModelPropsArg): void {
+  public static override onInsertElement(arg: OnElementInModelPropsArg): void {
     super.onInsertElement(arg);
     assert.equal(arg.iModel, iModelDb);
     if (arg.elementProps.code.value === "badval")
       throw new Error("bad element");
   }
-  public static onInsertedElement(arg: OnElementInModelIdArg): void {
+  public static override onInsertedElement(arg: OnElementInModelIdArg): void {
     super.onInsertedElement(arg);
     assert.equal(arg.iModel, iModelDb);
   }
-  public static onUpdateElement(arg: OnElementInModelPropsArg): void {
+  public static override onUpdateElement(arg: OnElementInModelPropsArg): void {
     super.onUpdateElement(arg);
     assert.equal(arg.iModel, iModelDb);
   }
-  public static onUpdatedElement(arg: OnElementInModelIdArg): void {
+  public static override onUpdatedElement(arg: OnElementInModelIdArg): void {
     super.onUpdatedElement(arg);
     assert.equal(arg.iModel, iModelDb);
   }
-  public static onDeleteElement(arg: OnElementInModelIdArg): void {
+  public static override onDeleteElement(arg: OnElementInModelIdArg): void {
     super.onDeleteElement(arg);
     assert.equal(arg.iModel, iModelDb);
     if (arg.elementId === this.dontDelete)
       throw new Error("dont delete my element");
   }
-  public static onDeletedElement(arg: OnElementInModelIdArg): void {
+  public static override onDeletedElement(arg: OnElementInModelIdArg): void {
     super.onDeletedElement(arg);
     assert.equal(arg.iModel, iModelDb);
   }
@@ -112,76 +112,76 @@ class TestFuncModel extends FunctionalModel {
 
 /** for testing `Element.onXxx` methods */
 class Breakdown extends FunctionalBreakdownElement {
-  public static get className() { return "Breakdown"; }
+  public static override get className() { return "Breakdown"; }
   public static dontDeleteChild = "";
 
-  public static onInsert(arg: OnElementPropsArg): void {
+  public static override onInsert(arg: OnElementPropsArg): void {
     arg.props.userLabel = insertedLabel;
     super.onInsert(arg);
     assert.equal(arg.iModel, iModelDb);
     assert.equal(arg.props.classFullName, this.classFullName);
   }
-  public static onInserted(arg: OnElementIdArg): void {
+  public static override onInserted(arg: OnElementIdArg): void {
     super.onInserted(arg);
     assert.equal(arg.iModel, iModelDb);
   }
-  public static onUpdate(arg: OnElementPropsArg): void {
+  public static override onUpdate(arg: OnElementPropsArg): void {
     arg.props.userLabel = updatedLabel;
     super.onUpdate(arg);
     assert.equal(arg.iModel, iModelDb);
     assert.equal(arg.props.classFullName, this.classFullName);
   }
-  public static onUpdated(arg: OnElementIdArg): void {
+  public static override onUpdated(arg: OnElementIdArg): void {
     super.onUpdated(arg);
     assert.equal(arg.iModel, iModelDb);
   }
-  public static onDelete(arg: OnElementIdArg): void {
+  public static override onDelete(arg: OnElementIdArg): void {
     super.onDelete(arg);
     assert.equal(arg.iModel, iModelDb);
   }
-  public static onDeleted(arg: OnElementIdArg): void {
+  public static override onDeleted(arg: OnElementIdArg): void {
     super.onDeleted(arg);
     assert.equal(arg.iModel, iModelDb);
   }
-  public static onChildDelete(arg: OnChildElementIdArg): void {
+  public static override onChildDelete(arg: OnChildElementIdArg): void {
     super.onChildDelete(arg);
     assert.equal(arg.iModel, iModelDb);
     if (arg.childId === this.dontDeleteChild)
       throw new Error("dont delete my child");
   }
-  public static onChildDeleted(arg: OnChildElementIdArg): void {
+  public static override onChildDeleted(arg: OnChildElementIdArg): void {
     super.onChildDeleted(arg);
     assert.equal(arg.iModel, iModelDb);
   }
-  public static onChildInsert(arg: OnChildElementPropsArg): void {
+  public static override onChildInsert(arg: OnChildElementPropsArg): void {
     super.onChildInsert(arg);
     assert.equal(arg.iModel, iModelDb);
   }
-  public static onChildInserted(arg: OnChildElementIdArg): void {
+  public static override onChildInserted(arg: OnChildElementIdArg): void {
     super.onChildInserted(arg);
     assert.equal(arg.iModel, iModelDb);
   }
-  public static onChildUpdate(arg: OnChildElementPropsArg): void {
+  public static override onChildUpdate(arg: OnChildElementPropsArg): void {
     super.onChildUpdate(arg);
     assert.equal(arg.iModel, iModelDb);
   }
-  public static onChildUpdated(arg: OnChildElementIdArg): void {
+  public static override onChildUpdated(arg: OnChildElementIdArg): void {
     super.onChildUpdated(arg);
     assert.equal(arg.iModel, iModelDb);
   }
-  public static onChildAdd(arg: OnChildElementPropsArg): void {
+  public static override onChildAdd(arg: OnChildElementPropsArg): void {
     super.onChildAdd(arg);
     assert.equal(arg.iModel, iModelDb);
   }
-  public static onChildAdded(arg: OnChildElementIdArg): void {
+  public static override onChildAdded(arg: OnChildElementIdArg): void {
     super.onChildAdded(arg);
     assert.equal(arg.iModel, iModelDb);
   }
-  public static onChildDrop(arg: OnChildElementIdArg): void {
+  public static override onChildDrop(arg: OnChildElementIdArg): void {
     super.onChildDrop(arg);
     assert.equal(arg.iModel, iModelDb);
   }
-  public static onChildDropped(arg: OnChildElementIdArg): void {
+  public static override onChildDropped(arg: OnChildElementIdArg): void {
     super.onChildDropped(arg);
     assert.equal(arg.iModel, iModelDb);
   }
@@ -189,41 +189,41 @@ class Breakdown extends FunctionalBreakdownElement {
 
 /** for testing `ElementAspect.onXxx` methods */
 class TestFuncAspect extends ElementUniqueAspect {
-  public static get className() { return "TestFuncAspect"; }
+  public static override get className() { return "TestFuncAspect"; }
   public static expectedVal = "";
 
-  public static onInsert(arg: OnAspectPropsArg): void {
+  public static override onInsert(arg: OnAspectPropsArg): void {
     super.onInsert(arg);
     assert.equal(arg.iModel, iModelDb);
     assert.equal((arg.props as any).strProp, this.expectedVal);
   }
-  public static onInserted(arg: OnAspectPropsArg): void {
+  public static override onInserted(arg: OnAspectPropsArg): void {
     super.onInserted(arg);
     assert.equal(arg.iModel, iModelDb);
     assert.equal((arg.props as any).strProp, this.expectedVal);
   }
-  public static onUpdate(arg: OnAspectPropsArg): void {
+  public static override onUpdate(arg: OnAspectPropsArg): void {
     super.onUpdate(arg);
     assert.equal(arg.iModel, iModelDb);
     assert.equal((arg.props as any).strProp, this.expectedVal);
   }
-  public static onUpdated(arg: OnAspectPropsArg): void {
+  public static override onUpdated(arg: OnAspectPropsArg): void {
     super.onUpdated(arg);
     assert.equal(arg.iModel, iModelDb);
     assert.equal((arg.props as any).strProp, this.expectedVal);
   }
-  public static onDelete(arg: OnAspectIdArg): void {
+  public static override onDelete(arg: OnAspectIdArg): void {
     super.onDelete(arg);
     assert.equal(arg.iModel, iModelDb);
   }
-  public static onDeleted(arg: OnAspectIdArg): void {
+  public static override onDeleted(arg: OnAspectIdArg): void {
     super.onDeleted(arg);
     assert.equal(arg.iModel, iModelDb);
   }
 }
 
 class Component extends FunctionalComponentElement {
-  public static get className() { return "Component"; }
+  public static override get className() { return "Component"; }
 }
 
 describe("Functional Domain", () => {

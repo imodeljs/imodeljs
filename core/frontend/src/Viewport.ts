@@ -16,7 +16,7 @@ import {
   Range3d, Ray3d, Transform, Vector3d, XAndY, XYAndZ, XYZ,
 } from "@bentley/geometry-core";
 import {
-  BackgroundMapProps, BackgroundMapSettings, Camera, ClipStyle, ColorDef, DisplayStyleSettingsProps, Easing,
+  AnalysisStyle, BackgroundMapProps, BackgroundMapSettings, Camera, ClipStyle, ColorDef, DisplayStyleSettingsProps, Easing,
   ElementProps, FeatureAppearance, Frustum, GlobeMode, GridOrientationType, Hilite, ImageBuffer, Interpolation,
   isPlacement2dProps, LightSettings, MapLayerSettings, Npc, NpcCenter, Placement, Placement2d, Placement3d, PlacementProps,
   SolarShadowSettings, SubCategoryAppearance, SubCategoryOverride, ViewFlags,
@@ -742,13 +742,13 @@ export abstract class Viewport implements IDisposable {
   public get backgroundMap(): MapTileTreeReference | undefined { return this._mapTiledGraphicsProvider?.backgroundMap; }
 
   /** @internal */
-  public get overlayMap(): MapTileTreeReference  | undefined { return this._mapTiledGraphicsProvider?.overlayMap; }
+  public get overlayMap(): MapTileTreeReference | undefined { return this._mapTiledGraphicsProvider?.overlayMap; }
 
   /** @internal */
   public get backgroundDrapeMap(): MapTileTreeReference | undefined { return this._mapTiledGraphicsProvider?.backgroundDrapeMap; }
 
   /** @internal */
-  public getMapLayerImageryProvider(index: number, isOverlay: boolean): MapLayerImageryProvider | undefined  { return this._mapTiledGraphicsProvider?.getMapLayerImageryProvider(index, isOverlay); }
+  public getMapLayerImageryProvider(index: number, isOverlay: boolean): MapLayerImageryProvider | undefined { return this._mapTiledGraphicsProvider?.getMapLayerImageryProvider(index, isOverlay); }
 
   /** Returns true if this Viewport is currently displaying the model with the specified Id. */
   public viewsModel(modelId: Id64String): boolean { return this.view.viewsModel(modelId); }
@@ -2562,6 +2562,39 @@ export abstract class Viewport implements IDisposable {
   public removeScreenSpaceEffects(): void {
     this.screenSpaceEffects = [];
   }
+
+  /** Add an event listener to be invoked whenever the [AnalysisStyle]($common) associated with this viewport changes.
+   * The analysis style may change for any of several reasons:
+   *  - When the viewport's associated [DisplayStyleSettings.analysisStyle]($common).
+   *  - When the viewport's associated [[ViewState.displayStyle]] changes.
+   *  - When the viewport's associated [[ViewState]] changes via [[changeView]].
+   * @param listener Callback accepting the new analysis style, or undefined if there is no analysis style.
+   * @returns A function that can be invoked to remove the event listener.
+   */
+  public addOnAnalysisStyleChangedListener(listener: (newStyle: AnalysisStyle | undefined) => void): () => void {
+    const addSettingsListener = (style: DisplayStyleState) => style.settings.onAnalysisStyleChanged.addListener(listener);
+    let removeSettingsListener = addSettingsListener(this.displayStyle);
+
+    const addStyleListener = (view: ViewState) => view.onDisplayStyleChanged.addListener((style) => {
+      listener(style.settings.analysisStyle);
+      removeSettingsListener();
+      removeSettingsListener = addSettingsListener(view.displayStyle);
+    });
+
+    const removeStyleListener = addStyleListener(this.view);
+
+    const removeViewListener = this.onChangeView.addListener((vp) => {
+      listener(vp.view.displayStyle.settings.analysisStyle);
+      removeStyleListener();
+      addStyleListener(vp.view);
+    });
+
+    return () => {
+      removeSettingsListener();
+      removeStyleListener();
+      removeViewListener();
+    };
+  }
 }
 
 /** An interactive Viewport that exists within an HTMLDivElement. ScreenViewports can receive HTML events.
@@ -2677,13 +2710,13 @@ export class ScreenViewport extends Viewport {
   }
 
   /** @internal */
-  public dispose(): void {
+  public override dispose(): void {
     super.dispose();
     this._decorationCache.clear();
   }
 
   /** @internal */
-  public invalidateScene(): void {
+  public override invalidateScene(): void {
     super.invalidateScene();
 
     // When the scene is invalidated, so are all cached decorations - they will be regenerated.
@@ -2974,7 +3007,7 @@ export class ScreenViewport extends Viewport {
   public get viewRect(): ViewRect { this._viewRange.init(0, 0, this.canvas.clientWidth, this.canvas.clientHeight); return this._viewRange; }
 
   /** @internal */
-  protected addDecorations(decorations: Decorations): void {
+  protected override addDecorations(decorations: Decorations): void {
     // SEE: decorationDiv doc comment
     // eslint-disable-next-line deprecation/deprecation
     ScreenViewport.markAllChildrenForRemoval(this.decorationDiv);
@@ -3002,8 +3035,8 @@ export class ScreenViewport extends Viewport {
     this.canvas.style.cursor = cursor;
   }
 
-  /** @internal override */
-  public synchWithView(options?: ViewChangeOptions | boolean): void {
+  /** @internal */
+  public override synchWithView(options?: ViewChangeOptions | boolean): void {
     options = (undefined === options) ? {} :
       (typeof options !== "boolean") ? options : { noSaveInUndo: !options }; // for backwards compatibility, was "saveInUndo"
 
@@ -3016,7 +3049,7 @@ export class ScreenViewport extends Viewport {
   }
 
   /** @internal */
-  protected validateRenderPlan() {
+  protected override validateRenderPlan() {
     super.validateRenderPlan();
     this._lastPose = this.view.savePose();
   }
@@ -3025,7 +3058,7 @@ export class ScreenViewport extends Viewport {
    * @param view a fully loaded (see discussion at [[ViewState.load]] ) ViewState
    * @param opts options for how the view change operation should work
    */
-  public changeView(view: ViewState, opts?: ViewChangeOptions) {
+  public override changeView(view: ViewState, opts?: ViewChangeOptions) {
     if (view === this.view) // nothing to do
       return;
 
@@ -3280,13 +3313,13 @@ export class OffScreenViewport extends Viewport {
     return vp;
   }
 
-  /** @internal override */
-  public get isAspectRatioLocked(): boolean {
+  /** @internal */
+  public override get isAspectRatioLocked(): boolean {
     return this._isAspectRatioLocked;
   }
 
-  /** @internal override */
-  public get viewRect(): ViewRect {
+  /** @internal */
+  public override get viewRect(): ViewRect {
     return this.target.viewRect;
   }
 

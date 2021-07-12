@@ -27,7 +27,7 @@ export interface NestedToolSettingsProps extends CommonProps {
  * @beta
  */
 export class NestedToolSettings extends React.PureComponent<NestedToolSettingsProps> {
-  public render() {
+  public override render() {
     const className = classnames(
       "nz-widget-toolSettings-nested",
       this.props.className);

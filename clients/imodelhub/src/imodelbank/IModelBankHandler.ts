@@ -29,11 +29,11 @@ export class IModelBankHandler extends IModelBaseHandler {
     }
   }
 
-  protected getUrlSearchKey(): string { assert(false, "Bentley cloud-specific method should be factored out of WsgClient base class"); return ""; }
+  protected override getUrlSearchKey(): string { assert(false, "Bentley cloud-specific method should be factored out of WsgClient base class"); return ""; }
 
-  public baseUrl?: string;
+  public override baseUrl?: string;
 
-  public async getUrl(_requestContext: ClientRequestContext, excludeApiVersion?: boolean): Promise<string> {
+  public override async getUrl(_requestContext: ClientRequestContext, excludeApiVersion?: boolean): Promise<string> {
     if (this._url)
       return this._url;
 

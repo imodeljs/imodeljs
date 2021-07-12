@@ -80,7 +80,7 @@ export abstract class IModelHubEvent extends IModelHubBaseEvent {
    * @param obj Object instance.
    * @internal
    */
-  public fromJson(obj: any) {
+  public override fromJson(obj: any) {
     super.fromJson(obj);
     this.iModelId = this.eventTopic;
   }
@@ -97,7 +97,7 @@ export abstract class BriefcaseEvent extends IModelHubEvent {
    * @param obj Object instance.
    * @internal
    */
-  public fromJson(obj: any) {
+  public override fromJson(obj: any) {
     super.fromJson(obj);
     this.briefcaseId = obj.BriefcaseId;
   }
@@ -120,7 +120,7 @@ export class LockEvent extends BriefcaseEvent {
    * @param obj Object instance.
    * @internal
    */
-  public fromJson(obj: any) {
+  public override fromJson(obj: any) {
     super.fromJson(obj);
     this.lockType = LockType[obj.LockType as keyof typeof LockType];
     this.lockLevel = LockLevel[obj.LockLevel as keyof typeof LockLevel];
@@ -148,7 +148,7 @@ export class ChangeSetPostPushEvent extends BriefcaseEvent {
    * @param obj Object instance.
    * @internal
    */
-  public fromJson(obj: any) {
+  public override fromJson(obj: any) {
     super.fromJson(obj);
     this.changeSetId = obj.ChangeSetId;
     this.changeSetIndex = obj.ChangeSetIndex;
@@ -178,7 +178,7 @@ export class CodeEvent extends BriefcaseEvent {
    * @param obj Object instance.
    * @internal
    */
-  public fromJson(obj: any) {
+  public override fromJson(obj: any) {
     super.fromJson(obj);
     this.codeSpecId = Id64.fromJSON(obj.CodeSpecId);
     this.codeScope = obj.CodeScope;
@@ -220,7 +220,7 @@ export class VersionEvent extends IModelHubEvent {
    * @param obj Object instance.
    * @internal
    */
-  public fromJson(obj: any) {
+  public override fromJson(obj: any) {
     super.fromJson(obj);
     this.versionId = obj.VersionId;
     this.versionName = obj.VersionName;
@@ -243,7 +243,7 @@ export class CheckpointCreatedEvent extends IModelHubEvent {
    * @param obj Object instance.
    * @internal
    */
-  public fromJson(obj: any) {
+  public override fromJson(obj: any) {
     super.fromJson(obj);
     this.changeSetIndex = obj.ChangeSetIndex;
     this.changeSetId = obj.ChangeSetId;
@@ -266,7 +266,7 @@ export class CheckpointV2CreatedEvent extends IModelHubEvent {
    * @param obj Object instance.
    * @internal
    */
-  public fromJson(obj: any) {
+  public override fromJson(obj: any) {
     super.fromJson(obj);
     this.changeSetIndex = obj.ChangeSetIndex;
     this.changeSetId = obj.ChangeSetId;

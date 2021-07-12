@@ -1,6 +1,6 @@
 # Change Log - @bentley/imodeljs-editor-frontend
 
-This log was last generated on Fri, 02 Jul 2021 15:38:31 GMT and should not be manually modified.
+This log was last generated on Tue, 06 Jul 2021 22:08:34 GMT and should not be manually modified.
 
 ## 2.17.1
 Fri, 02 Jul 2021 15:38:31 GMT
@@ -17,6 +17,11 @@ Mon, 28 Jun 2021 16:20:11 GMT
 - Make EditManipulator public
 - Added tools for changing project extents and geolocation.
 - Don't allow undo of changes to project extents or geolocation.
+
+## 2.16.9
+Tue, 06 Jul 2021 22:08:34 GMT
+
+_Version update only_
 
 ## 2.16.8
 Fri, 02 Jul 2021 17:40:46 GMT

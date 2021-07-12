@@ -21,33 +21,33 @@ import connectedIcon from "../icons/connected-query.svg?sprite";
  * @alpha
  */
 export class OpenTraceDialogTool extends Tool {
-  public static toolId = "uiTestExtension-OpenTraceDialogTool";
-  public static iconSpec = IconSpecUtilities.createSvgIconSpec(connectedIcon);
+  public static override toolId = "uiTestExtension-OpenTraceDialogTool";
+  public static override iconSpec = IconSpecUtilities.createSvgIconSpec(connectedIcon);
 
   // istanbul ignore next
-  public static get minArgs() { return 0; }
+  public static override get minArgs() { return 0; }
   // istanbul ignore next
-  public static get maxArgs() { return 0; }
+  public static override get maxArgs() { return 0; }
 
-  public run(): boolean {
+  public override run(): boolean {
     ModalDialogManager.openDialog(<SampleModalDialog />);
     return true;
   }
 
-  public parseAndRun(): boolean {
+  public override parseAndRun(): boolean {
     return this.run();
   }
 
-  public static get flyover(): string {
+  public static override get flyover(): string {
     return TraceUiItemsProvider.translate("trace-tool-connected");
   }
 
   // if supporting localized key-ins return a localized string
-  public static get keyin(): string {
+  public static override get keyin(): string {
     return "trace tool connected";
   }
 
-  public static get englishKeyin(): string {
+  public static override get englishKeyin(): string {
     return "trace tool connected";
   }
 

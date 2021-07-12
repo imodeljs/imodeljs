@@ -37,7 +37,7 @@ class TestTile extends Tile {
   }
 
   public async readContent(): Promise<TileContent> {
-    return { };
+    return {};
   }
 }
 
@@ -101,7 +101,7 @@ class TestRef extends TileTreeReference {
 
   public get treeOwner() { return this._owner; }
 
-  protected get _isLoadingComplete(): boolean {
+  protected override get _isLoadingComplete(): boolean {
     return this.loadingComplete;
   }
 }

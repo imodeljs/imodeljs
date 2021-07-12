@@ -139,7 +139,7 @@ export const withDropTarget = <ComponentProps extends {}, DragDropObject = any>(
     };
   })(class WithDropTarget extends React.Component<any> {
     public rootElement: HTMLDivElement | null = null;
-    public render() {
+    public override render() {
       const {
         dropProps, shallow, // eslint-disable-line @typescript-eslint/no-unused-vars
         connectDropTarget,

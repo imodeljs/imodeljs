@@ -324,7 +324,7 @@ export class FeatureOverridesPanel extends ToolBarDropDown {
     this.open();
   }
 
-  public get onViewChanged(): Promise<void> {
+  public override get onViewChanged(): Promise<void> {
     Provider.remove(this._vp);
     return Promise.resolve();
   }

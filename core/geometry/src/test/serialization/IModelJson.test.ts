@@ -284,7 +284,15 @@ describe("CreateIModelJsonSamples", () => {
             const jsonObject3 = IModelJson.Writer.toIModelJson(geometryQuery1);
             const geometryQuery3 = IModelJson.Reader.parse(jsonObject3);
             if (deepAlmostEqual(geometryQuery1, geometryQuery3)) {
-              console.log(" json round trip warning.  json round trip mismatch but secondary geometry round trip matches ", jsonObject1, jsonObject3);
+              console.log(" json round trip warning.  json round trip mismatch but secondary geometry round trip matches ", currFile);
+              const match0 = currFile.search("indexedMesh.numPerFace."); // The mesh flips to zero-terminated
+              const match1 = currFile.search("cone.imjs");  // cone can change to cylinder
+              if (match0 > 0 || match1 > 0) {
+                console.log("   (This is expected for this file)");
+                } else{
+                console.log("jsonObject1:", prettyPrint(jsonObject1));
+                console.log("jsonObject3:", prettyPrint(jsonObject3));
+              }
             } else {
               ck.announceError("imjs => GeometryQuery =>imjs round trip failure", currFile);
               console.log("jsonObject1:", prettyPrint(jsonObject1));

@@ -114,7 +114,7 @@ export class Popup extends React.Component<PopupProps, PopupState> {
     left: -1,
   };
 
-  public componentDidMount() {
+  public override componentDidMount() {
     if (this.props.isOpen) {
       this._onShow();
     }
@@ -125,7 +125,7 @@ export class Popup extends React.Component<PopupProps, PopupState> {
     return this.state.parentDocument.defaultView ?? window;
   }
 
-  public componentDidUpdate(previousProps: PopupProps) {
+  public override componentDidUpdate(previousProps: PopupProps) {
     if (this.props.target !== previousProps.target) {
       // istanbul ignore next
       {
@@ -162,7 +162,7 @@ export class Popup extends React.Component<PopupProps, PopupState> {
     }
   }
 
-  public componentWillUnmount() {
+  public override componentWillUnmount() {
     this._unBindWindowEvents();
   }
 
@@ -522,7 +522,7 @@ export class Popup extends React.Component<PopupProps, PopupState> {
     return fittedPoint;
   };
 
-  public render() {
+  public override render() {
     const animate = this.props.animate !== undefined ? this.props.animate : true;
     const className = classnames(
       "core-popup",

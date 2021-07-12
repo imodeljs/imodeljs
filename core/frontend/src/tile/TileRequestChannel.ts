@@ -94,7 +94,7 @@ export class TileRequestChannel {
    * @param concurrency The maximum number of requests that can be dispatched and awaiting a response at any given time. Requests beyond this maximum are enqueued for deferred dispatch.
    * @see [[TileRequestChannels.getForHttp]] to create an HTTP-based channel.
    */
-  public constructor(name:  string, concurrency: number) {
+  public constructor(name: string, concurrency: number) {
     this.name = name;
     this._concurrency = concurrency;
   }
@@ -292,12 +292,12 @@ export class TileRequestChannel {
  * use the IModelTileChannel instead.
  */
 class CloudStorageCacheChannel extends TileRequestChannel {
-  public async requestContent(tile: Tile): Promise<TileRequest.Response> {
+  public override async requestContent(tile: Tile): Promise<TileRequest.Response> {
     assert(tile instanceof IModelTile);
     return IModelApp.tileAdmin.requestCachedTileContent(tile);
   }
 
-  public onNoContent(request: TileRequest): boolean {
+  public override onNoContent(request: TileRequest): boolean {
     assert(request.tile instanceof IModelTile);
     request.tile.cacheMiss = true;
     ++this._statistics.totalCacheMisses;
@@ -309,7 +309,7 @@ class CloudStorageCacheChannel extends TileRequestChannel {
 class IModelTileChannel extends TileRequestChannel {
   private readonly _canceled = new Map<IModelConnection, Map<string, Set<string>>>();
 
-  public onActiveRequestCanceled(request: TileRequest): void {
+  public override onActiveRequestCanceled(request: TileRequest): void {
     const tree = request.tile.tree;
     let entry = this._canceled.get(tree.iModel);
     if (!entry)
@@ -322,7 +322,7 @@ class IModelTileChannel extends TileRequestChannel {
     ids.add(request.tile.contentId);
   }
 
-  public processCancellations(): void {
+  public override processCancellations(): void {
     for (const [imodel, entries] of this._canceled) {
       const treeContentIds: TileTreeContentIds[] = [];
       for (const [treeId, tileIds] of entries) {
@@ -338,7 +338,7 @@ class IModelTileChannel extends TileRequestChannel {
     this._canceled.clear();
   }
 
-  public onIModelClosed(imodel: IModelConnection): void {
+  public override onIModelClosed(imodel: IModelConnection): void {
     this._canceled.delete(imodel);
   }
 }
@@ -347,7 +347,7 @@ class IModelTileChannel extends TileRequestChannel {
 class ElementGraphicsChannel extends TileRequestChannel {
   private readonly _canceled = new Map<IModelConnection, string[]>();
 
-  public onActiveRequestCanceled(request: TileRequest): void {
+  public override onActiveRequestCanceled(request: TileRequest): void {
     const imodel = request.tile.tree.iModel;
     let ids = this._canceled.get(imodel);
     if (!ids)
@@ -356,7 +356,7 @@ class ElementGraphicsChannel extends TileRequestChannel {
     ids.push(request.tile.contentId);
   }
 
-  public processCancellations(): void {
+  public override processCancellations(): void {
     for (const [imodel, requestIds] of this._canceled) {
       // eslint-disable-next-line @typescript-eslint/no-floating-promises
       IpcApp.callIpcHost("cancelElementGraphicsRequests", imodel.key, requestIds);
@@ -366,7 +366,7 @@ class ElementGraphicsChannel extends TileRequestChannel {
     this._canceled.clear();
   }
 
-  public onIModelClosed(imodel: IModelConnection): void {
+  public override onIModelClosed(imodel: IModelConnection): void {
     this._canceled.delete(imodel);
   }
 }

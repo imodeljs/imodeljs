@@ -96,7 +96,7 @@ export class Workflow extends ItemDefBase {
 
   /** Determines if the Workflow is active.
    */
-  public get isActive(): boolean {
+  public override get isActive(): boolean {
     let isActive = false;
 
     if (WorkflowManager.activeWorkflow === this)
@@ -105,7 +105,7 @@ export class Workflow extends ItemDefBase {
     return isActive;
   }
 
-  public set isActive(_: boolean) {
+  public override set isActive(_: boolean) {
     // do nothing - needed because subclassing from ItemDefBase
   }
 

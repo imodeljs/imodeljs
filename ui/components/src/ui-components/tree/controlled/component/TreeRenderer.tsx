@@ -176,7 +176,7 @@ export class TreeRenderer extends React.Component<TreeRendererProps> implements 
     }
   };
 
-  public render() {
+  public override render() {
     return (
       <ConditionalAutoSizer width={this.props.width} height={this.props.height}>
         {(size) => <TreeRendererInner ref={this.setTreeRendererRef} {...this.props} {...size} />}

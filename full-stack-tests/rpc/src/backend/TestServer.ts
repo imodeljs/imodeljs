@@ -5,7 +5,7 @@
 import { IModelJsExpressServer } from "@bentley/express-server";
 
 export class TestServer extends IModelJsExpressServer {
-  protected _configureHeaders() {
+  protected override _configureHeaders() {
     super._configureHeaders();
 
     this._app.all("/**", (req, res, next) => {

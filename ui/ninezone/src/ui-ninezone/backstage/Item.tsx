@@ -38,7 +38,7 @@ export interface BackstageItemProps extends CommonProps {
  * @beta
  */
 export class BackstageItem extends React.PureComponent<BackstageItemProps> {
-  public render() {
+  public override render() {
     const className = classnames(
       "nz-backstage-item",
       this.props.isActive && "nz-active",

@@ -34,7 +34,7 @@ interface HeaderWrapperProps extends CommonProps {
 }
 
 class HeaderWrapper extends React.Component<HeaderWrapperProps> {
-  public render(): React.ReactNode {
+  public override render(): React.ReactNode {
     const { type, item, isOver, isDragging, canDrag, canDrop, ...props } = this.props as HeaderWrapperProps; // eslint-disable-line @typescript-eslint/no-unused-vars
 
     let mode = 0;
@@ -69,7 +69,7 @@ export const DragDropHeaderWrapper = withDragSource(withDropTarget(HeaderWrapper
 // Used only internally in ./Table.tsx
 /** @internal */
 export class DragDropHeaderCell extends React.Component<DragDropHeaderCellProps> {
-  public render(): React.ReactNode {
+  public override render(): React.ReactNode {
     const { column } = this.props;
     /* istanbul ignore next */
     const dropTargetProps = {

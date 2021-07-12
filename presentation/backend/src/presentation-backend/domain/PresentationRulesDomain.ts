@@ -11,7 +11,7 @@ import * as RulesetElements from "./RulesetElements";
 
 /** @internal */
 export class PresentationRules extends Schema {
-  public static get schemaName(): string { return "PresentationRules"; }
+  public static override get schemaName(): string { return "PresentationRules"; }
 
   /** Registers this schema and it's elements' classes */
   public static registerSchema() {

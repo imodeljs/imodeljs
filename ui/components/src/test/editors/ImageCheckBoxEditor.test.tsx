@@ -109,7 +109,7 @@ describe("<ImageCheckBoxEditor />", () => {
   });
 
   class MineDataController extends DataControllerBase {
-    public async validateValue(_newValue: PropertyValue, _record: PropertyRecord): Promise<AsyncValueProcessingResult> {
+    public override async validateValue(_newValue: PropertyValue, _record: PropertyRecord): Promise<AsyncValueProcessingResult> {
       return { encounteredError: true, errorMessage: { priority: OutputMessagePriority.Error, briefMessage: "Test"} };
     }
   }

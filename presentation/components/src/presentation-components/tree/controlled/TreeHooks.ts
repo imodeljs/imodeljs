@@ -271,6 +271,7 @@ export function updateTreeModel(
           break;
 
         case "Delete":
+          // eslint-disable-next-line deprecation/deprecation
           const nodeToRemove = model.getNode(createTreeNodeId(modification.target));
           if (nodeToRemove === undefined) {
             break;

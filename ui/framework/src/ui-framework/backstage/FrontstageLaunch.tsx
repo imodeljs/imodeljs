@@ -36,7 +36,7 @@ export interface FrontstageLaunchBackstageItemProps extends BackstageItemProps {
  */
 export class FrontstageLaunchBackstageItem extends React.PureComponent<FrontstageLaunchBackstageItemProps, BackstageItemState> { // eslint-disable-line deprecation/deprecation
   /** @internal */
-  public readonly state: Readonly<BackstageItemState>; // eslint-disable-line deprecation/deprecation
+  public override readonly state: Readonly<BackstageItemState>; // eslint-disable-line deprecation/deprecation
   private _componentUnmounting = false;  // used to ensure _handleSyncUiEvent callback is not processed after componentWillUnmount is called
   private _stateSyncIds: string[] = [];  // local version of syncId that are lower cased
 
@@ -53,13 +53,13 @@ export class FrontstageLaunchBackstageItem extends React.PureComponent<Frontstag
     this.state = state;
   }
 
-  public componentDidMount() {
+  public override componentDidMount() {
     if (this.props.stateFunc && this._stateSyncIds.length > 0)
       SyncUiEventDispatcher.onSyncUiEvent.addListener(this._handleSyncUiEvent);
     FrontstageManager.onFrontstageActivatedEvent.addListener(this._handleFrontstageActivatedEvent);
   }
 
-  public componentWillUnmount() {
+  public override componentWillUnmount() {
     this._componentUnmounting = true;
     /* istanbul ignore else */
     if (this.props.stateFunc && this._stateSyncIds.length > 0)
@@ -94,7 +94,7 @@ export class FrontstageLaunchBackstageItem extends React.PureComponent<Frontstag
       Logger.logError(UiFramework.loggerCategory(this), `Frontstage with id '${this.props.frontstageId}' not found`);
   };
 
-  public componentDidUpdate(_prevProps: FrontstageLaunchBackstageItemProps) {
+  public override componentDidUpdate(_prevProps: FrontstageLaunchBackstageItemProps) {
     const updatedState = BackstageItemUtilities.getBackstageItemStateFromProps(this.props);
     updatedState.isActive = FrontstageManager.activeFrontstageId === this.props.frontstageId;
     if (!PropsHelper.isShallowEqual(updatedState, this.state))
@@ -109,7 +109,7 @@ export class FrontstageLaunchBackstageItem extends React.PureComponent<Frontstag
   };
 
   // TODO: add tooltip, aria-label? to NZ_BackstageItem
-  public render(): React.ReactNode {
+  public override render(): React.ReactNode {
     return (
       <BackstageItem
         icon={PropsHelper.getIcon(this.state.iconSpec)}

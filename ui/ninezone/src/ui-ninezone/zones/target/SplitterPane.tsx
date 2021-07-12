@@ -17,7 +17,7 @@ import { ZoneTarget } from "./Zone";
  * @beta
  */
 export class SplitterPaneTarget extends React.PureComponent<MergeTargetProps> {
-  public render() {
+  public override render() {
     const { className, ...props } = this.props;
     const targetClassName = classnames("nz-zones-target-splitterPane",
       className);

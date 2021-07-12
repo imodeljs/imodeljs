@@ -28,7 +28,7 @@ export class BooleanTypeConverter extends TypeConverter {
       BooleanTypeConverter.sl10nFalse = UiComponents.translate("general.false");
   }
 
-  public convertToString(value?: Primitives.Boolean) {
+  public override convertToString(value?: Primitives.Boolean) {
     if (value === undefined)
       return "";
 
@@ -40,7 +40,7 @@ export class BooleanTypeConverter extends TypeConverter {
     return value ? BooleanTypeConverter.sl10nTrue : BooleanTypeConverter.sl10nFalse;
   }
 
-  public convertFromString(value: string) {
+  public override convertFromString(value: string) {
     BooleanTypeConverter.getLocalizedTrueFalse();
 
     const booleanValue = (0 === value.toLocaleLowerCase().localeCompare(BooleanTypeConverter.sl10nTrue.toLocaleLowerCase()));
@@ -55,7 +55,7 @@ export class BooleanTypeConverter extends TypeConverter {
     return -1;
   }
 
-  public get isBooleanType(): boolean { return true; }
+  public override get isBooleanType(): boolean { return true; }
 }
 
 TypeConverterManager.registerConverter(StandardTypeNames.Boolean, BooleanTypeConverter);

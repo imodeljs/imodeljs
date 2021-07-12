@@ -27,7 +27,7 @@ export interface ProgressProps extends CommonProps, NoChildrenProps {
  * @beta
  */
 export class MessageProgress extends React.PureComponent<ProgressProps> {
-  public render() {
+  public override render() {
     const className = classnames(
       "nz-footer-message-progress",
       StatusHelpers.getCssClassName(this.props.status),

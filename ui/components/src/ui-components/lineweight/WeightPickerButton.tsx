@@ -86,7 +86,7 @@ export class WeightPickerButton extends React.PureComponent<WeightPickerProps, W
     this.props.onLineWeightPick && this.props.onLineWeightPick(weight);
   };
 
-  public componentDidMount() {
+  public override componentDidMount() {
     // eslint-disable-next-line no-console
     // console.log(`WeightPickerButton.componentDidMount focusRef=${this._focusTarget && this._focusTarget.current ? "set" : "unset"}`);
     this.setState({ targetElement: this._target.current });
@@ -188,7 +188,7 @@ export class WeightPickerButton extends React.PureComponent<WeightPickerProps, W
   }
 
   /** @internal */
-  public render() {
+  public override render() {
     const buttonClassNames = classnames(
       "components-weightpicker-button",
       this.props.className,

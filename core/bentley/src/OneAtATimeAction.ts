@@ -83,8 +83,7 @@ export class OneAtATimeAction<T> {
     }
 
     try {
-      await promise;
-      return promise;
+      return await promise;
     } finally {
       // do all of this whether promise was fulfilled or rejected
       this._active = this._pending; // see if there's a pending request waiting

@@ -42,7 +42,7 @@ export class DebugWindow extends Window {
     this._dispose();
   }
 
-  public get isResizable() { return false; }
+  public override get isResizable() { return false; }
   public get windowId() { return this._windowId; }
 
   public toggle(): void {
@@ -70,7 +70,7 @@ export class DebugWindow extends Window {
     }
   }
 
-  public onClosed(): void {
+  public override onClosed(): void {
     this._isOpen = false;
   }
 }

@@ -1,18 +1,18 @@
 # How to Utilize the Performance Tests
 
-## To run a performance test with electron:
+## To run a performance test with electron
 
-* Run the command "npm run start:electron".
+* Run the command "npm run test:electron".
 
-## To run a performance test on a web browser:
+## To run a performance test on a web browser
 
 * Run the command "npm run start:web" to just run the backend. Then, go to a web browser and go to the site http:\\\\localhost:3000 to start the test.
-* Run the command "npm run test:chrome" to run the backend and automatically bring up a Google Chrome browser window to start the test. This will also automatically kill **ALL** Google Chrome browser windows once the test has completed.
-* Run the command "npm run test:edge" to run the backend and automatically bring up an Edge browser window to start the test. This will also automatically kill **ALL** Edge browser windows once the test has completed.
-* Run the command "npm run test:firefox" to run the backend and automatically bring up a FireFox browser window to start the test. This will also automatically kill **ALL** FireFox browser windows once the test has completed.
-* Run the command "npm run test:safari" to run the backend and automatically bring up a Safari browser window to start the test. This will also automatically kill **ALL** Safari browser windows once the test has completed.
+* Run the command "npm run test:chrome" to run the backend and automatically bring up a Google Chrome browser window to start the test. This will also automatically kill the Google Chrome browser windows once the test has completed.
+* Run the command "npm run test:edge" to run the backend and automatically bring up an Edge browser window to start the test.
+* Run the command "npm run test:firefox" to run the backend and automatically bring up a FireFox browser window to start the test.
+* Run the command "npm run test:safari" to run the backend and automatically bring up a Safari browser window to start the test.
 
-## Options available for a performance test run:
+## Options available for a performance test run
 
 These options will work for running with electron or for a browser (though specifying a specific browser when running with electron will have no effect). Always use a double backslash when specifying a file path. All of these options can be specified in any order, and you can use any number of these options.  For example, to specify everything, your command could look like this: "npm run start:web chrome d:\\\\develop\\\\testConfig.json c:\\\\performanceOutput\\\\".
 
@@ -20,6 +20,11 @@ These options will work for running with electron or for a browser (though speci
 * To specify an output path, simply add the output path to the command. For example, run the command "npm run start:web C:\\\\output\\\\performanceData\\\\" to use this as the base path for where the output will be stored. Keep in mind that any outputPath variable specified in your json config file will be assumed to be a subdirectory of the output path specified when you called your command unless it starts with the name of a drive (i.e. C:\\\\, D:\\\\, etc.).
 * To specify a particular browser that you wish to run in, you can add the option "chrome", "edge", or "firefox" to your command. If you are running intending to use a browser for the frontend, this will cause a new browser window to open to http:\\\\localhost:3000 and begin running the performance test once the backend has finished getting started. However, this option will have no effect if you are running in electron.
 * To specify running headlessly with chrome, you can add the option "headless" to your command. For example, run the command "npm run test:chrome headless". This will cause chrome to run headlessly, so no chrome window will appear while the test is running. However, this option will have no affect if you are running in electron, edge, or firefox.
+* To specify running electron **without** opening the debugger automatically, you can add the option "no_debug" to your command. For example, run the command "npm run test:electron no_debug". This will run dpta without bringing the debugger up automatically when electron starts.
+
+## Performance tests on Mac
+
+Performance tests should automatically operate on Mac the same as on a Windows machine. However, it should be noted that, as Safari does not support the GPU timer we are utilizing, performance results when running with Safari will not produce the following data columns in the csv file: GPU Total, Bound By, Effective Total Time, & Effective FPS.
 
 ## Performance tests on iOS (backend running locally)
 

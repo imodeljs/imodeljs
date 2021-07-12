@@ -15,7 +15,7 @@ import { addColumnsToCsvFile, addDataToCsvFile, addEndOfTestToCsvFile, createFil
 /** The backend implementation of DisplayPerfRpcImpl. */
 export default class DisplayPerfRpcImpl extends DisplayPerfRpcInterface {
   private _reporter = new Reporter();
-  public async getDefaultConfigs(): Promise<string> {
+  public override async getDefaultConfigs(): Promise<string> {
     let jsonStr = "";
     let defaultJsonFile;
     if (ProcessDetector.isMobileAppBackend && process.env.DOCS) {
@@ -30,7 +30,7 @@ export default class DisplayPerfRpcImpl extends DisplayPerfRpcInterface {
     }
     let argOutputPath: string | undefined;
     process.argv.forEach((arg, index) => {
-      if (index >= 2 && arg !== "chrome" && arg !== "edge" && arg !== "firefox" && arg !== "safari" && arg !== "headless" && arg.split(".").pop() !== "json") {
+      if (index >= 2 && arg !== "chrome" && arg !== "edge" && arg !== "firefox" && arg !== "safari" && arg !== "headless" && arg !== "no_debug" && arg.split(".").pop() !== "json") {
         while (arg.endsWith("\\") || arg.endsWith("\/"))
           arg = arg.slice(0, -1);
         argOutputPath = `"argOutputPath": "${arg}",`;
@@ -44,7 +44,7 @@ export default class DisplayPerfRpcImpl extends DisplayPerfRpcInterface {
     return jsonStr;
   }
 
-  public async writeExternalFile(outputPath: string, outputName: string, append: boolean, content: string): Promise<void> {
+  public override async writeExternalFile(outputPath: string, outputName: string, append: boolean, content: string): Promise<void> {
     const fileName = this.createFullFilePath(outputPath, outputName);
     if (undefined === fileName)
       return;
@@ -75,11 +75,11 @@ export default class DisplayPerfRpcImpl extends DisplayPerfRpcInterface {
     }
   }
 
-  public async consoleLog(content: string): Promise<void> {
+  public override async consoleLog(content: string): Promise<void> {
     console.log(content); // eslint-disable-line no-console
   }
 
-  public async saveCsv(outputPath: string, outputName: string, rowDataJson: string, csvFormat?: string): Promise<void> {
+  public override async saveCsv(outputPath: string, outputName: string, rowDataJson: string, csvFormat?: string): Promise<void> {
     const rowData = new Map<string, number | string>(JSON.parse(rowDataJson));
     const testName = rowData.get("Test Name") as string;
     rowData.delete("Test Name");
@@ -134,7 +134,7 @@ export default class DisplayPerfRpcImpl extends DisplayPerfRpcInterface {
       return fileName.substring(0, backSlashIndex);
   }
 
-  public async savePng(fileName: string, png: string) {
+  public override async savePng(fileName: string, png: string) {
     let filePath;
     if (ProcessDetector.isMobileAppBackend && process.env.DOCS) {
       filePath = process.env.DOCS;
@@ -148,7 +148,7 @@ export default class DisplayPerfRpcImpl extends DisplayPerfRpcInterface {
     IModelJsFs.writeFileSync(fileName, buf);
   }
 
-  public async finishCsv(output: string, outputPath?: string, outputName?: string, csvFormat?: string) {
+  public override async finishCsv(output: string, outputPath?: string, outputName?: string, csvFormat?: string) {
     if (outputPath !== undefined && outputName !== undefined) {
       let outputFile = this.createFullFilePath(outputPath, outputName);
       outputFile = outputFile ? outputFile : "";
@@ -160,7 +160,7 @@ export default class DisplayPerfRpcImpl extends DisplayPerfRpcInterface {
     }
   }
 
-  public async finishTest() {
+  public override async finishTest() {
     await IModelHost.shutdown();
 
     // Electron only
@@ -196,7 +196,7 @@ export default class DisplayPerfRpcImpl extends DisplayPerfRpcInterface {
     return `${fileName}.sv`;
   }
 
-  public async readExternalSavedViews(bimfileName: string): Promise<string> {
+  public override async readExternalSavedViews(bimfileName: string): Promise<string> {
     const esvFileName = this.createEsvFilename(bimfileName);
     if (!IModelJsFs.existsSync(esvFileName)) {
       return "";
@@ -217,7 +217,7 @@ export default class DisplayPerfRpcImpl extends DisplayPerfRpcInterface {
     return new RegExp(`^${rule.split("*").map(escapeRegex).join(".*")}$`, "i");
   }
 
-  public async getMatchingFiles(rootDir: string, pattern: string): Promise<string> {
+  public override async getMatchingFiles(rootDir: string, pattern: string): Promise<string> {
     const fileNames = JSON.stringify(IModelJsFs.recursiveFindSync(rootDir, this._matchRuleRegex(pattern)));
     return fileNames;
   }

@@ -108,7 +108,7 @@ it("HelloSubdivisionSurface", () => {
   tg1.doubleData = [0.5];
   testGeometryQueryRoundTrip(ck, mesh);
 
-    expect(ck.getNumErrors()).equals(0);
+  expect(ck.getNumErrors()).equals(0);
 });
 it("HelloSpirals", () => {
   const ck = new Checker();
@@ -121,7 +121,14 @@ it("HelloSpirals", () => {
   testGeometryQueryRoundTrip(ck, clothoid);
   expect(ck.getNumErrors()).equals(0);
 });
-
+/**
+ * verify round trip write and read through multiple serialization forms:
+ * * Flatbuffer without signature
+ * * Flatbuffer with signature
+ * * IModelJson
+ * @param ck Checker for executing data checks
+ * @param g single [[GeometryQuery]] or array of [[GeometryQuery]] to go round trip
+ */
 function testGeometryQueryRoundTripGo(ck: Checker, g: GeometryQuery | GeometryQuery[] | undefined) {
   if (!g)
     return;
@@ -132,11 +139,11 @@ function testGeometryQueryRoundTripGo(ck: Checker, g: GeometryQuery | GeometryQu
   if (g instanceof GeometryQuery) {
     const justTheBytes = BentleyGeometryFlatBuffer.geometryToBytes(g);
 
-    if (ck.testType<Uint8Array>(justTheBytes)) {
+    if (ck.testType(justTheBytes, Uint8Array)) {
       const g1 = BentleyGeometryFlatBuffer.bytesToGeometry(justTheBytes);
       if (Array.isArray(g1)) {
         ck.announceError("Unexpected array from flat buffer");
-      } if (ck.testType<GeometryQuery>(g1 as (GeometryQuery | undefined))) {
+      } if (ck.testType(g1 as (GeometryQuery | undefined), GeometryQuery)) {
         if (!ck.testTrue(g.isAlmostEqual(g1 as GeometryQuery))) {
           console.log("input (mismatch): ", prettyPrint(IModelJson.Writer.toIModelJson(g)));
           console.log("OUTPUT (mismatch): ", prettyPrint(IModelJson.Writer.toIModelJson(g1)));
@@ -160,11 +167,11 @@ function testGeometryQueryRoundTripGo(ck: Checker, g: GeometryQuery | GeometryQu
       const g2 = IModelJson.Reader.parse(json);
       if (ck.testDefined(g2, "to json to geometry") && ck.testTrue(g2 instanceof GeometryQuery) && g2 instanceof GeometryQuery) {
         ck.testTrue(g.isAlmostEqual(g2), "imjs round trip", g);
-        }
       }
+    }
   } else if (Array.isArray(g)) {
     const justTheBytes = BentleyGeometryFlatBuffer.geometryToBytes(g);
-    if (ck.testType<Uint8Array>(justTheBytes)) {
+    if (ck.testType(justTheBytes, Uint8Array)) {
       const g1 = BentleyGeometryFlatBuffer.bytesToGeometry(justTheBytes);
       if (!Array.isArray(g1)) {
         ck.announceError("Expected equal length array back from FB");

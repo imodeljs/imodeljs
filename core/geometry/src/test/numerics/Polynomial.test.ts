@@ -251,7 +251,7 @@ describe("Ellipse.Intersection", () => {
           const ellipsePoint = center.plus2Scaled(vectorU, Math.cos(ellipseAngles[i]), vectorV, Math.sin(ellipseAngles[i]));
           const ellipsePointXYZ = ellipsePoint.realPoint();
           if (ck.testPointer(ellipsePointXYZ, "expect real point from ellipse ellipse homogeneous intersection")) {
-            ck.testPoint3d(circlePoint, ellipsePointXYZ!);
+            ck.testPoint3d(circlePoint, ellipsePointXYZ);
           }
         }
       }
@@ -664,7 +664,7 @@ describe("LinearSystems", () => {
   it("ImplicitLine", () => {
     const ck = new Checker();
     const b = 3.0;
-    for (const degrees of [ 0, 30,90, -225]){
+    for (const degrees of [0, 30, 90, -225]) {
       const angle = Angle.createDegrees(degrees);
       const lineA = new ImplicitLineXY(1, angle.cos(), angle.sin());
       const pointsA = lineA.convertToSegmentPoints(b);

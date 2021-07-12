@@ -164,7 +164,7 @@ describe("<TextEditor />", () => {
     });
 
     class MineDataController extends DataControllerBase {
-      public async validateValue(_newValue: PropertyValue, _record: PropertyRecord): Promise<AsyncValueProcessingResult> {
+      public override async validateValue(_newValue: PropertyValue, _record: PropertyRecord): Promise<AsyncValueProcessingResult> {
         return { encounteredError: true, errorMessage: { priority: OutputMessagePriority.Error, briefMessage: "Test"} };
       }
     }
@@ -189,7 +189,7 @@ describe("<TextEditor />", () => {
     });
 
     class MineDataController2 extends DataControllerBase {
-      public async commitValue(_newValue: PropertyValue, _record: PropertyRecord): Promise<AsyncValueProcessingResult> {
+      public override async commitValue(_newValue: PropertyValue, _record: PropertyRecord): Promise<AsyncValueProcessingResult> {
         return { encounteredError: true, errorMessage: { priority: OutputMessagePriority.Error, briefMessage: "Test"} };
       }
     }

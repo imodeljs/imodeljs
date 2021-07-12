@@ -17,7 +17,7 @@ class List extends LRUTileList {
   public get sentinel() { return this._sentinel; }
   public get head() { return this._head; }
   public get tail() { return this._tail; }
-  public get totalBytesUsed() { return this._totalBytesUsed; }
+  public override get totalBytesUsed() { return this._totalBytesUsed; }
 
   public expectOrder(...expected: LRUTileListNode[]): void {
     expect(this.head.previous).to.be.undefined;

@@ -141,7 +141,7 @@ describe("PropertyRenderer", () => {
 
   it("renders value differently if provided with custom propertyValueRendererManager", async () => {
     class RendererManager extends PropertyValueRendererManager {
-      public render({ }) {
+      public override render({ }) {
         return ("Test");
       }
     }

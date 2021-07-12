@@ -93,25 +93,25 @@ export abstract class RecursiveCurveProcessorWithStack extends RecursiveCurvePro
   public leave(): CurveCollection | undefined { return this._stack.pop(); }
 
   /** process error content */
-  public announceUnexpected(_data: AnyCurve, _indexInParent: number) { }
+  public override announceUnexpected(_data: AnyCurve, _indexInParent: number) { }
   /** process a leaf primitive. */
-  public announceCurvePrimitive(_data: CurvePrimitive, _indexInParent = -1): void { }
+  public override announceCurvePrimitive(_data: CurvePrimitive, _indexInParent = -1): void { }
 
   /** announce a path (recurse to children) */
-  public announcePath(data: Path, indexInParent: number = -1): void {
+  public override announcePath(data: Path, indexInParent: number = -1): void {
     this.enter(data);
     super.announcePath(data, indexInParent);
     this.leave();
   }
   /** announce a loop (recurse to children) */
-  public announceLoop(data: Loop, indexInParent: number = -1): void {
+  public override announceLoop(data: Loop, indexInParent: number = -1): void {
     this.enter(data);
     super.announceLoop(data, indexInParent);
     this.leave();
   }
 
   /** announce beginning or end of loops in a parity region */
-  public announceParityRegion(data: ParityRegion, _indexInParent: number = -1): void {
+  public override announceParityRegion(data: ParityRegion, _indexInParent: number = -1): void {
     this.enter(data);
     let i = 0;
     for (const loop of data.children)
@@ -119,7 +119,7 @@ export abstract class RecursiveCurveProcessorWithStack extends RecursiveCurvePro
     this.leave();
   }
   /** announce beginning or end of a parity region */
-  public announceUnionRegion(data: UnionRegion, indexInParent: number = -1): void {
+  public override announceUnionRegion(data: UnionRegion, indexInParent: number = -1): void {
     this.enter(data);
     super.announceUnionRegion(data, indexInParent);
     this.leave();
@@ -132,7 +132,7 @@ export abstract class RecursiveCurveProcessorWithStack extends RecursiveCurvePro
    * @param data the collection
    * @param _indexInParent index where the collection appears in its parent.
    */
-  public announceBagOfCurves(data: BagOfCurves, _indexInParent: number = -1): void {
+  public override announceBagOfCurves(data: BagOfCurves, _indexInParent: number = -1): void {
     this.enter(data);
     let i = 0;
     for (const child of data.children) {

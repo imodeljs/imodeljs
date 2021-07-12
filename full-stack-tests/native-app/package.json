@@ -57,7 +57,7 @@
     "null-loader": "^0.1.1",
     "rimraf": "^3.0.2",
     "source-map-loader": "^1.0.0",
-    "typescript": "~4.1.0",
+    "typescript": "~4.3.0",
     "nyc": "^15.1.0",
     "nock": "^12.0.3",
     "webpack": "4.42.0"

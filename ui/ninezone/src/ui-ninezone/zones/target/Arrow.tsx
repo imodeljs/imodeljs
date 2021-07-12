@@ -24,7 +24,7 @@ export interface ArrowProps extends CommonProps {
  * @internal
  */
 export class Arrow extends React.PureComponent<ArrowProps> {
-  public render() {
+  public override render() {
     const className = classnames(
       "nz-zones-target-arrow",
       `nz-zone-${this.props.zoneIndex}`,

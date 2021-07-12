@@ -44,7 +44,7 @@ export class AnalysisAnimationToolSettings extends React.Component<{}, Animation
     };
   }
 
-  public componentWillUnmount() {
+  public override componentWillUnmount() {
     const activeContentControl = ContentViewManager.getActiveContentControl();
     if (activeContentControl && activeContentControl.viewport) {
       activeContentControl.viewport.analysisFraction = 0;
@@ -149,7 +149,7 @@ export class AnalysisAnimationToolSettings extends React.Component<{}, Animation
     this.setState({ animationDuration });
   };
 
-  public render(): React.ReactNode {
+  public override render(): React.ReactNode {
     return (
       <div>
         <div className="toolSettingsRow">

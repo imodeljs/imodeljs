@@ -44,9 +44,9 @@ export async function deserializeViewState(props: ViewStateProps, iModel: IModel
  */
 export class SaveViewTool extends Tool {
   private _quote = false;
-  public static get minArgs() { return 0; }
-  public static get maxArgs() { return 1; }
-  public static toolId = "SaveView";
+  public static override get minArgs() { return 0; }
+  public static override get maxArgs() { return 1; }
+  public static override toolId = "SaveView";
 
   public parse(inputArgs: string[]) {
     const args = parseArgs(inputArgs);
@@ -59,14 +59,14 @@ export class SaveViewTool extends Tool {
     return true;
   }
 
-  public parseAndRun(...args: string[]): boolean {
+  public override parseAndRun(...args: string[]): boolean {
     if (this.parse(args))
       return this.run();
     else
       return false;
   }
 
-  public run(): boolean {
+  public override run(): boolean {
     const vp = IModelApp.viewManager.selectedView;
     if (undefined === vp) {
       IModelApp.notifications.outputMessage(new NotifyMessageDetails(OutputMessagePriority.Error, "No viewport"));
@@ -93,11 +93,11 @@ export class SaveViewTool extends Tool {
  * @beta
  */
 export class ApplyViewTool extends Tool {
-  public static toolId = "ApplyView";
-  public static get maxArgs() { return 1; }
-  public static get minArgs() { return 1; }
+  public static override toolId = "ApplyView";
+  public static override get maxArgs() { return 1; }
+  public static override get minArgs() { return 1; }
 
-  public run(view?: ViewState): boolean {
+  public override run(view?: ViewState): boolean {
     const vp = IModelApp.viewManager.selectedView;
     if (undefined !== view && undefined !== vp)
       vp.changeView(view);
@@ -105,7 +105,7 @@ export class ApplyViewTool extends Tool {
     return true;
   }
 
-  public parseAndRun(...args: string[]): boolean {
+  public override parseAndRun(...args: string[]): boolean {
     const vp = IModelApp.viewManager.selectedView;
     if (undefined === vp || 0 === args.length)
       return true;
@@ -127,15 +127,15 @@ export class ApplyViewTool extends Tool {
  * @beta
  */
 export class ApplyViewByIdTool extends Tool {
-  public static toolId = "ApplyViewById";
-  public static get minArgs() { return 1; }
-  public static get maxArgs() { return 1; }
+  public static override toolId = "ApplyViewById";
+  public static override get minArgs() { return 1; }
+  public static override get maxArgs() { return 1; }
 
-  public parseAndRun(...args: string[]): boolean {
+  public override parseAndRun(...args: string[]): boolean {
     return this.run(args[0]);
   }
 
-  public run(viewId?: string): boolean {
+  public override run(viewId?: string): boolean {
     if (typeof viewId !== "string")
       return false;
 

@@ -452,17 +452,17 @@ export class Texture2DHandle extends TextureHandle {
   }
 
   /** Create a texture for use as a color attachment for rendering */
-  public static createForAttachment(width: number, height: number, format: GL.Texture.Format, dataType: GL.Texture.DataType) {
+  public static override createForAttachment(width: number, height: number, format: GL.Texture.Format, dataType: GL.Texture.DataType) {
     return this.create(Texture2DCreateParams.createForAttachment(width, height, format, dataType));
   }
 
   /** Create a texture to hold non-image data */
-  public static createForData(width: number, height: number, data: Texture2DData, wantPreserveData = false, wrapMode = GL.Texture.WrapMode.ClampToEdge, format = GL.Texture.Format.Rgba) {
+  public static override createForData(width: number, height: number, data: Texture2DData, wantPreserveData = false, wrapMode = GL.Texture.WrapMode.ClampToEdge, format = GL.Texture.Format.Rgba) {
     return this.create(Texture2DCreateParams.createForData(width, height, data, wantPreserveData, wrapMode, format));
   }
 
   /** Create a texture from a bitmap */
-  public static createForImageBuffer(image: ImageBuffer, type: RenderTexture.Type) {
+  public static override createForImageBuffer(image: ImageBuffer, type: RenderTexture.Type) {
     if (RenderTexture.Type.TileSection !== type && RenderTexture.Type.ThematicGradient !== type)
       assert(isPowerOfTwo(image.width) && isPowerOfTwo(image.height), "###TODO: Resize image dimensions to powers-of-two if necessary");
 
@@ -470,13 +470,13 @@ export class Texture2DHandle extends TextureHandle {
   }
 
   /** Create a 2D texture from an HTMLImageElement. */
-  public static createForImage(image: HTMLImageElement, hasAlpha: boolean, type: RenderTexture.Type) {
+  public static override createForImage(image: HTMLImageElement, hasAlpha: boolean, type: RenderTexture.Type) {
     return this.create(Texture2DCreateParams.createForImage(image, hasAlpha, type));
   }
 
   private static _placeHolderTextureData = new Uint8Array([128, 128, 128]);
 
-  public static createForElement(id: Id64String, imodel: IModelConnection, type: RenderTexture.Type, format: ImageSourceFormat) {
+  public static override createForElement(id: Id64String, imodel: IModelConnection, type: RenderTexture.Type, format: ImageSourceFormat) {
     // set a placeholder texture while we wait for the external texture to load
     const handle = this.createForData(1, 1, this._placeHolderTextureData, undefined, undefined, GL.Texture.Format.Rgb);
 
@@ -642,7 +642,7 @@ export class TextureCubeHandle extends TextureHandle {
   }
 
   /** Create a cube map texture from six HTMLImageElement objects. */
-  public static createForCubeImages(posX: HTMLImageElement, negX: HTMLImageElement, posY: HTMLImageElement, negY: HTMLImageElement, posZ: HTMLImageElement, negZ: HTMLImageElement) {
+  public static override createForCubeImages(posX: HTMLImageElement, negX: HTMLImageElement, posY: HTMLImageElement, negY: HTMLImageElement, posZ: HTMLImageElement, negZ: HTMLImageElement) {
     const params = TextureCubeCreateParams.createForCubeImages(posX, negX, posY, negY, posZ, negZ);
     return params !== undefined ? this.create(params) : undefined;
   }

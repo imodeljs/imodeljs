@@ -41,7 +41,7 @@ export interface SpinnerProps {
  */
 export class Spinner extends React.PureComponent<SpinnerProps> {
 
-  public render() {
+  public override render() {
     let sizeClass: string;
 
     if (this.props.sizeClass)

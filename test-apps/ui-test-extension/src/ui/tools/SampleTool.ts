@@ -35,8 +35,8 @@ enum ToolOptions {
 
 export class SampleTool extends PrimitiveTool {
   // ensure toolId is unique by adding "uiTestExtension-" prefix
-  public static toolId = "uiTestExtension-SampleTool";
-  public static iconSpec = `svg:${sampleToolSvg}`;
+  public static override toolId = "uiTestExtension-SampleTool";
+  public static override iconSpec = `svg:${sampleToolSvg}`;
   public readonly points: Point3d[] = [];
   private _showCoordinatesOnPointerMove = false;
   private _stationFormatterSpec?: FormatterSpec;
@@ -362,9 +362,9 @@ export class SampleTool extends PrimitiveTool {
 
   // -------- end of ToolSettings ----------
 
-  public requireWriteableTarget(): boolean { return false; }
-  public onPostInstall() { super.onPostInstall(); this.setupAndPromptForNextAction(); }
-  public onUnsuspend(): void { this.provideToolAssistance(); }
+  public override requireWriteableTarget(): boolean { return false; }
+  public override onPostInstall() { super.onPostInstall(); this.setupAndPromptForNextAction(); }
+  public override onUnsuspend(): void { this.provideToolAssistance(); }
 
   /** Establish current tool state and initialize drawing aides following onPostInstall, onDataButtonDown, onUndoPreviousStep, or other events that advance or back up the current tool state.
    * Enable snapping or auto-locate for AccuSnap.
@@ -394,7 +394,7 @@ export class SampleTool extends PrimitiveTool {
     IModelApp.notifications.outputMessage(new NotifyMessageDetails(OutputMessagePriority.Info, msg));
   }
 
-  public async onDataButtonDown(ev: BeButtonEvent): Promise<EventHandled> {
+  public override async onDataButtonDown(ev: BeButtonEvent): Promise<EventHandled> {
     // Used to test Cursor Menu
     if (ev.isAltKey) {
       const menuItems: MenuItemProps[] = [];
@@ -416,7 +416,7 @@ export class SampleTool extends PrimitiveTool {
     return EventHandled.No;
   }
 
-  public async onResetButtonUp(_ev: BeButtonEvent): Promise<EventHandled> {
+  public override async onResetButtonUp(_ev: BeButtonEvent): Promise<EventHandled> {
     /* Common reset behavior for primitive tools is calling onReinitialize to restart or exitTool to terminate. */
     this.onReinitialize();
     return EventHandled.No;
@@ -434,7 +434,7 @@ export class SampleTool extends PrimitiveTool {
     this.syncToolSettingsProperties([syncItem, stationSyncItem, surveySyncItem]);
   }
 
-  public async onMouseMotion(ev: BeButtonEvent): Promise<void> {
+  public override async onMouseMotion(ev: BeButtonEvent): Promise<void> {
     if (!this._showCoordinatesOnPointerMove)
       return;
 
@@ -454,7 +454,7 @@ export class SampleTool extends PrimitiveTool {
   }
 
   /** Used to supply DefaultToolSettingProvider with a list of properties to use to generate ToolSettings.  If undefined then no ToolSettings will be displayed */
-  public supplyToolSettingsProperties(): DialogItem[] | undefined {
+  public override supplyToolSettingsProperties(): DialogItem[] | undefined {
     const readonly = true;
     const toolSettings = new Array<DialogItem>();
     toolSettings.push({ value: this._optionsValue, property: this._getEnumAsPicklistDescription(), editorPosition: { rowPriority: 0, columnIndex: 2 } });
@@ -489,7 +489,7 @@ export class SampleTool extends PrimitiveTool {
   }
 
   /** Used to send changes from UI back to Tool */
-  public applyToolSettingPropertyChange(updatedValue: DialogPropertySyncItem): boolean {
+  public override applyToolSettingPropertyChange(updatedValue: DialogPropertySyncItem): boolean {
     if (updatedValue.propertyName === SampleTool._optionsName) {
       if (this._optionsValue.value !== updatedValue.value.value) {
         this.option = updatedValue.value.value as ToolOptions;

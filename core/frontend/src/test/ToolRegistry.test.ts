@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 /*---------------------------------------------------------------------------------------------
 * Copyright (c) Bentley Systems, Incorporated. All rights reserved.
 * See LICENSE.md in the project root for license terms and full copyright notice.
@@ -17,15 +16,15 @@ let lastCommand: string;
 
 /** class to test immediate tool */
 class TestImmediate extends Tool {
-  public static toolId = "Test.Immediate";
-  public run(v1: number, v2: number): boolean {
+  public static override toolId = "Test.Immediate";
+  public override run(v1: number, v2: number): boolean {
     testVal1 = v1;
     testVal2 = v2;
     return true;
   }
-  public static get minArgs() { return 2; }
-  public static get maxArgs() { return 2; }
-  public parseAndRun(v1: string, v2: string): boolean {
+  public static override get minArgs() { return 2; }
+  public static override get maxArgs() { return 2; }
+  public override parseAndRun(v1: string, v2: string): boolean {
     if (arguments.length !== 2)
       return false;
     return this.run(parseInt(v1, 10), parseInt(v2, 10));
@@ -36,7 +35,7 @@ class TestImmediate extends Tool {
 class TestCommandApp extends MockRender.App {
   public static testNamespace?: I18NNamespace;
 
-  public static async startup(): Promise<void> {
+  public static override async startup(): Promise<void> {
     await IModelApp.startup({ i18n: this.supplyI18NOptions() });
     this.testNamespace = IModelApp.i18n.registerNamespace("TestApp");
     TestImmediate.register(this.testNamespace);
@@ -91,7 +90,7 @@ describe("ToolRegistry", () => {
     expect(result.ok).to.be.true;
     if (result.ok) {
       assert.equal(result.args.length, args.length);
-      args.forEach ((parsedArg, index) => assert.equal(parsedArg, result.args[index]));
+      args.forEach((parsedArg, index) => assert.equal(parsedArg, result.args[index]));
       if (undefined !== expectedToolKeyin)
         expect(result.tool.keyin).to.equal(expectedToolKeyin);
     }
@@ -105,7 +104,7 @@ describe("ToolRegistry", () => {
   }
 
   it("Should parse command with quoted arguments", () => {
-    testKeyinArgs(`uccalc test args with "a quoted string" included`, ["test", "args", "with","a quoted string","included"]);
+    testKeyinArgs(`uccalc test args with "a quoted string" included`, ["test", "args", "with", "a quoted string", "included"]);
     testKeyinArgs(`uccalc "a quoted string"`, ["a quoted string"]);
     testKeyinArgs(`uccalc this has "a quoted string"`, ["this", "has", "a quoted string"]);
     testKeyinArgs(`uccalc "a quoted string" is before me`, ["a quoted string", "is", "before", "me"]);
@@ -231,9 +230,9 @@ function showSearchResultsUsingIndexApi(title: string, searchResults?: FuzzySear
 
 function registerTestClass(id: string, keyin: string, ns: I18NNamespace) {
   (class extends Tool {
-    public static toolId = id;
-    public run(): boolean { lastCommand = keyin; return true; }
-    public static get keyin(): string { return keyin; }
+    public static override toolId = id;
+    public override run(): boolean { lastCommand = keyin; return true; }
+    public static override get keyin(): string { return keyin; }
 
   }).register(ns);
 }

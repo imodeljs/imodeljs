@@ -26,7 +26,7 @@ export class PositionPopup extends React.PureComponent<PositionPopupProps> {
     super(props);
   }
 
-  public render() {
+  public override render() {
     const { point, className, style, onSizeKnown, ...props } = this.props; // eslint-disable-line @typescript-eslint/no-unused-vars
 
     const divStyle: React.CSSProperties = {

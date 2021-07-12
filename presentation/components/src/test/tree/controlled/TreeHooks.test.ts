@@ -882,25 +882,41 @@ describe("updateTreeModel", () => {
   describe("node removal", () => {
     it("removes root node", () => {
       const initialTree = createTreeModel(["root1", "root2", "root3"]);
-      const updatedTree = updateTreeModel(initialTree, [{ type: "Delete", target: createNode("root2").key }], {});
+      const updatedTree = updateTreeModel(
+        initialTree,
+        [{ type: "Delete", target: createNode("root2").key, parent: undefined, position: 1 }],
+        {},
+      );
       expectTree(updatedTree!, ["root1", "root3"]);
     });
 
     it("removes child node", () => {
       const initialTree = createTreeModel([{ ["root1"]: ["child1", "child2"] }, "root2"]);
-      const updatedTree = updateTreeModel(initialTree, [{ type: "Delete", target: createNode("child1").key }], {});
+      const updatedTree = updateTreeModel(
+        initialTree,
+        [{ type: "Delete", target: createNode("child1").key, parent: createNode("root1").key, position: 0 }],
+        {},
+      );
       expectTree(updatedTree!, [{ ["root1"]: ["child2"] }, "root2"]);
     });
 
     it("removes children along with removed node", () => {
       const initialTree = createTreeModel([{ ["root1"]: ["child1", "child2"] }, "root2"]);
-      const updatedTree = updateTreeModel(initialTree, [{ type: "Delete", target: createNode("root1").key }], {});
+      const updatedTree = updateTreeModel(
+        initialTree,
+        [{ type: "Delete", target: createNode("root1").key, parent: undefined, position: 0 }],
+        {},
+      );
       expectTree(updatedTree!, ["root2"]);
     });
 
     it("ignores deletion of node that does not exist", () => {
       const initialTree = createTreeModel(["root1", "root2"]);
-      const updatedTree = updateTreeModel(initialTree, [{ type: "Delete", target: createNode("root3").key }], {});
+      const updatedTree = updateTreeModel(
+        initialTree,
+        [{ type: "Delete", target: createNode("root3").key, parent: undefined, position: 2 }],
+        {},
+      );
       expect(updatedTree).to.be.equal(initialTree);
       expectTree(updatedTree!, ["root1", "root2"]);
     });

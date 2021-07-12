@@ -42,7 +42,7 @@ export interface ToolsProps extends CommonProps, NoChildrenProps {
  * @alpha
  */
 export class Tools extends React.PureComponent<ToolsProps> {
-  public render() {
+  public override render() {
     const singleToolbar = (this.props.verticalToolbar !== undefined && this.props.horizontalToolbar === undefined) ||
       (this.props.verticalToolbar === undefined && this.props.horizontalToolbar !== undefined);
     const noGap = singleToolbar && this.props.button === undefined;

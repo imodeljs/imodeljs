@@ -31,7 +31,7 @@ interface PopupTestState {
  * @internal
  */
 export class PopupTestDialog extends React.Component<PopupTestProps, PopupTestState> {
-  public readonly state: Readonly<PopupTestState>;
+  public override readonly state: Readonly<PopupTestState>;
   private _targetTop: HTMLElement | null = null;
   private _targetBottom: HTMLElement | null = null;
   private _targetLeft: HTMLElement | null = null;
@@ -153,7 +153,7 @@ export class PopupTestDialog extends React.Component<PopupTestProps, PopupTestSt
       </div>
     );
   }
-  public render() {
+  public override render() {
     return (
       <Dialog
         title={"Test Popups"}

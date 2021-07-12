@@ -165,9 +165,9 @@ describe("LineString3d", () => {
       n++;
     }
     if (ck.testPointer(ls.fractions))
-      ck.testExactNumber(n, ls.fractions!.length);
+      ck.testExactNumber(n, ls.fractions.length);
     if (ck.testPointer(ls.packedDerivatives))
-      ck.testExactNumber(n, ls.packedDerivatives!.length);
+      ck.testExactNumber(n, ls.packedDerivatives.length);
     if (ck.testPointer(n, ls.packedDerivatives))
       ck.testExactNumber(n, ls.packedDerivatives!.length);
     ck.testExactNumber(n, ls.numPoints());
@@ -411,11 +411,11 @@ describe("LineStringAnnotation", () => {
       const v = Vector3d.create(2 * i, i * i * i);
       ls.addSurfaceNormal(v);
       const vN = ls.surfaceNormalAt(i);
-      if (ck.testPointer(vN) && vN)
+      if (ck.testPointer(vN))
         ck.testVector3d(v, vN);
       ls.addDerivative(v);
       const v1 = ls.derivativeAt(i);
-      if (ck.testPointer(v1) && v1)
+      if (ck.testPointer(v1))
         ck.testVector3d(v, v1);
       if ((i & 0x01) !== 0)
         ls.addUVParam(Point2d.create(0, i));

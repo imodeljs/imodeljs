@@ -685,8 +685,8 @@ abstract class Compositor extends SceneCompositor {
   protected _antialiasSamples: number = 1;
   protected readonly _viewProjectionMatrix = new Matrix4();
 
-  public abstract get currentRenderTargetIndex(): number;
-  public abstract set currentRenderTargetIndex(_index: number);
+  public abstract override get currentRenderTargetIndex(): number;
+  public abstract override set currentRenderTargetIndex(_index: number);
 
   protected abstract clearOpaque(_needComposite: boolean): void;
   protected abstract renderLayers(_commands: RenderCommands, _needComposite: boolean, pass: RenderPass): void;
@@ -1779,7 +1779,7 @@ class MRTFrameBuffers extends FrameBuffers {
   public idsAndZComposite?: FrameBuffer;
   public idsAndAltZComposite?: FrameBuffer;
 
-  public init(textures: Textures, depth: DepthBuffer, depthMs: DepthBuffer | undefined): boolean {
+  public override init(textures: Textures, depth: DepthBuffer, depthMs: DepthBuffer | undefined): boolean {
     if (!super.init(textures, depth, depthMs))
       return false;
 
@@ -1828,7 +1828,7 @@ class MRTFrameBuffers extends FrameBuffers {
       && undefined !== this.opaqueAndCompositeAll;
   }
 
-  public enableVolumeClassifier(textures: Textures, depth: DepthBuffer, volClassDepth: DepthBuffer | undefined, depthMS?: DepthBuffer, volClassDepthMS?: DepthBuffer): void {
+  public override enableVolumeClassifier(textures: Textures, depth: DepthBuffer, volClassDepth: DepthBuffer | undefined, depthMS?: DepthBuffer, volClassDepthMS?: DepthBuffer): void {
     const boundColor = System.instance.frameBufferStack.currentColorBuffer;
     if (undefined === boundColor)
       return;
@@ -1845,7 +1845,7 @@ class MRTFrameBuffers extends FrameBuffers {
     }
   }
 
-  public disableVolumeClassifier(): void {
+  public override disableVolumeClassifier(): void {
     super.disableVolumeClassifier();
     if (undefined !== this.idsAndZ) {
       this.idsAndZ = dispose(this.idsAndZ);
@@ -1855,14 +1855,14 @@ class MRTFrameBuffers extends FrameBuffers {
     }
   }
 
-  public enableMultiSampling(textures: Textures, depth: DepthBuffer, depthMS: DepthBuffer): boolean {
+  public override enableMultiSampling(textures: Textures, depth: DepthBuffer, depthMS: DepthBuffer): boolean {
     super.enableMultiSampling(textures, depth, depthMS);
     this.opaqueAll = dispose(this.opaqueAll);
     this.opaqueAndCompositeAll = dispose(this.opaqueAndCompositeAll);
     return this.initPotentialMSMRTFbos(textures, depth, depthMS);
   }
 
-  public disableMultiSampling(textures: Textures, depth: DepthBuffer): boolean {
+  public override disableMultiSampling(textures: Textures, depth: DepthBuffer): boolean {
     this.opaqueAll = dispose(this.opaqueAll);
     this.opaqueAndCompositeAll = dispose(this.opaqueAndCompositeAll);
     if (!this.initPotentialMSMRTFbos(textures, depth, undefined))
@@ -1870,7 +1870,7 @@ class MRTFrameBuffers extends FrameBuffers {
     return super.disableMultiSampling(textures, depth);
   }
 
-  public get isDisposed(): boolean {
+  public override get isDisposed(): boolean {
     return super.isDisposed
       && undefined === this.opaqueAll
       && undefined === this.opaqueAndCompositeAll
@@ -1883,7 +1883,7 @@ class MRTFrameBuffers extends FrameBuffers {
       && undefined === this.idsAndAltZComposite;
   }
 
-  public dispose(): void {
+  public override dispose(): void {
     super.dispose();
     this.opaqueAll = dispose(this.opaqueAll);
     this.opaqueAndCompositeAll = dispose(this.opaqueAndCompositeAll);
@@ -1902,14 +1902,14 @@ class MRTGeometry extends Geometry {
   public clearTranslucent?: ViewportQuadGeometry;
   public clearPickAndColor?: ViewportQuadGeometry;
 
-  public collectStatistics(stats: RenderMemory.Statistics): void {
+  public override collectStatistics(stats: RenderMemory.Statistics): void {
     super.collectStatistics(stats);
     collectGeometryStatistics(this.copyPickBuffers, stats);
     collectGeometryStatistics(this.clearTranslucent, stats);
     collectGeometryStatistics(this.clearPickAndColor, stats);
   }
 
-  public init(textures: Textures): boolean {
+  public override init(textures: Textures): boolean {
     if (!super.init(textures))
       return false;
 
@@ -1922,14 +1922,14 @@ class MRTGeometry extends Geometry {
     return undefined !== this.copyPickBuffers && undefined !== this.clearTranslucent && undefined !== this.clearPickAndColor;
   }
 
-  public get isDisposed(): boolean {
+  public override get isDisposed(): boolean {
     return super.isDisposed
       && undefined === this.copyPickBuffers
       && undefined === this.clearTranslucent
       && undefined === this.clearPickAndColor;
   }
 
-  public dispose() {
+  public override dispose() {
     super.dispose();
     this.copyPickBuffers = dispose(this.copyPickBuffers);
     this.clearTranslucent = dispose(this.clearTranslucent);
@@ -1957,19 +1957,19 @@ class MRTCompositor extends Compositor {
   private get _fbos(): MRTFrameBuffers { return this._frameBuffers as MRTFrameBuffers; }
   private get _geometry(): MRTGeometry { return this._geom as MRTGeometry; }
 
-  protected enableVolumeClassifierFbos(textures: Textures, depth: DepthBuffer, volClassDepth: DepthBuffer | undefined, depthMS?: DepthBuffer, volClassDepthMS?: DepthBuffer): void {
+  protected override enableVolumeClassifierFbos(textures: Textures, depth: DepthBuffer, volClassDepth: DepthBuffer | undefined, depthMS?: DepthBuffer, volClassDepthMS?: DepthBuffer): void {
     this._fbos.enableVolumeClassifier(textures, depth, volClassDepth, depthMS, volClassDepthMS);
   }
-  protected disableVolumeClassifierFbos(): void { this._fbos.disableVolumeClassifier(); }
+  protected override disableVolumeClassifierFbos(): void { this._fbos.disableVolumeClassifier(); }
 
-  protected enableMultiSampling(): boolean {
+  protected override enableMultiSampling(): boolean {
     if (!super.enableMultiSampling())
       return false;
     assert(undefined !== this._depth && undefined !== this._depthMS);
     return this._fbos.enableMultiSampling(this._textures, this._depth, this._depthMS);
   }
 
-  protected disableMultiSampling(): boolean {
+  protected override disableMultiSampling(): boolean {
     assert(undefined !== this._depth);
     if (!this._fbos.disableMultiSampling(this._textures, this._depth))
       return false;
@@ -2112,7 +2112,7 @@ class MPFrameBuffers extends FrameBuffers {
   public featureIdWithDepth?: FrameBuffer;
   public featureIdWithDepthAltZ?: FrameBuffer;
 
-  public init(textures: Textures, depth: DepthBuffer): boolean {
+  public override init(textures: Textures, depth: DepthBuffer): boolean {
     if (!super.init(textures, depth, undefined))
       return false;
 
@@ -2125,7 +2125,7 @@ class MPFrameBuffers extends FrameBuffers {
     return undefined !== this.accumulation && undefined !== this.revealage && undefined !== this.featureId;
   }
 
-  public enableVolumeClassifier(textures: Textures, depth: DepthBuffer, volClassDepth: DepthBuffer | undefined, depthMS?: DepthBuffer, volClassDepthMS?: DepthBuffer): void {
+  public override enableVolumeClassifier(textures: Textures, depth: DepthBuffer, volClassDepth: DepthBuffer | undefined, depthMS?: DepthBuffer, volClassDepthMS?: DepthBuffer): void {
     super.enableVolumeClassifier(textures, depth, volClassDepth, depthMS, volClassDepthMS);
     if (undefined !== this.featureId) {
       this.featureIdWithDepth = FrameBuffer.create([this.featureId.getColor(0)], depth);
@@ -2133,7 +2133,7 @@ class MPFrameBuffers extends FrameBuffers {
     }
   }
 
-  public disableVolumeClassifier(): void {
+  public override disableVolumeClassifier(): void {
     super.disableVolumeClassifier();
     if (undefined !== this.featureIdWithDepth) {
       this.featureIdWithDepth = dispose(this.featureIdWithDepth);
@@ -2141,7 +2141,7 @@ class MPFrameBuffers extends FrameBuffers {
     }
   }
 
-  public get isDisposed(): boolean {
+  public override get isDisposed(): boolean {
     return super.isDisposed
       && undefined === this.accumulation
       && undefined === this.revealage
@@ -2150,7 +2150,7 @@ class MPFrameBuffers extends FrameBuffers {
       && undefined === this.featureIdWithDepthAltZ;
   }
 
-  public dispose(): void {
+  public override dispose(): void {
     super.dispose();
 
     this.accumulation = dispose(this.accumulation);
@@ -2163,12 +2163,12 @@ class MPFrameBuffers extends FrameBuffers {
 class MPGeometry extends Geometry {
   public copyColor?: SingleTexturedViewportQuadGeometry;
 
-  public collectStatistics(stats: RenderMemory.Statistics): void {
+  public override collectStatistics(stats: RenderMemory.Statistics): void {
     super.collectStatistics(stats);
     collectGeometryStatistics(this.copyColor, stats);
   }
 
-  public init(textures: Textures): boolean {
+  public override init(textures: Textures): boolean {
     if (!super.init(textures))
       return false;
 
@@ -2177,9 +2177,9 @@ class MPGeometry extends Geometry {
     return undefined !== this.copyColor;
   }
 
-  public get isDisposed(): boolean { return super.isDisposed && undefined === this.copyColor; }
+  public override get isDisposed(): boolean { return super.isDisposed && undefined === this.copyColor; }
 
-  public dispose(): void {
+  public override dispose(): void {
     super.dispose();
     this.copyColor = dispose(this.copyColor);
   }
@@ -2201,7 +2201,7 @@ class MPCompositor extends Compositor {
     this._opaqueRenderStateNoZWt.flags.depthMask = false;
   }
 
-  protected getRenderState(pass: RenderPass): RenderState {
+  protected override getRenderState(pass: RenderPass): RenderState {
     switch (pass) {
       case RenderPass.OpaqueLinear:
       case RenderPass.OpaquePlanar:
@@ -2222,10 +2222,10 @@ class MPCompositor extends Compositor {
 
   protected getBackgroundFbo(needComposite: boolean): FrameBuffer { return needComposite ? this._fbos.opaqueAndCompositeColor! : this._fbos.opaqueColor!; }
 
-  protected enableVolumeClassifierFbos(textures: Textures, depth: DepthBuffer, volClassDepth: DepthBuffer | undefined, depthMS?: DepthBuffer, volClassDepthMS?: DepthBuffer): void {
+  protected override enableVolumeClassifierFbos(textures: Textures, depth: DepthBuffer, volClassDepth: DepthBuffer | undefined, depthMS?: DepthBuffer, volClassDepthMS?: DepthBuffer): void {
     this._fbos.enableVolumeClassifier(textures, depth, volClassDepth, depthMS, volClassDepthMS);
   }
-  protected disableVolumeClassifierFbos(): void { this._fbos.disableVolumeClassifier(); }
+  protected override disableVolumeClassifierFbos(): void { this._fbos.disableVolumeClassifier(); }
 
   protected clearOpaque(needComposite: boolean): void {
     const bg = this._scratchBgColor;

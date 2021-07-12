@@ -17,7 +17,7 @@ describe("withDragSource", () => {
     dragProps: DragSourceProps; // eslint-disable-line deprecation/deprecation
     connectDragSource?: ConnectDragSource;
   }> {
-    public render() {
+    public override render() {
       return <div> test </div>;
     }
   }

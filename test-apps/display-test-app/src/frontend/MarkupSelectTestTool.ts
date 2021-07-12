@@ -16,8 +16,8 @@ async function getSvgFile(uri: string): Promise<string> {
 }
 
 export class MarkupSelectTestTool extends SelectTool {
-  public static toolId = "Markup.TestSelect";
-  public async onKeyTransition(wentDown: boolean, key: KeyboardEvent): Promise<EventHandled> {
+  public static override toolId = "Markup.TestSelect";
+  public override async onKeyTransition(wentDown: boolean, key: KeyboardEvent): Promise<EventHandled> {
     if (EventHandled.Yes === await super.onKeyTransition(wentDown, key))
       return EventHandled.Yes;
     if (!wentDown)

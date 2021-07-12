@@ -23,7 +23,7 @@ export interface ToolAssistanceItemProps extends CommonProps {
  * @beta
  */
 export class ToolAssistanceItem extends React.PureComponent<ToolAssistanceItemProps> {
-  public render() {
+  public override render() {
     const className = classnames(
       "nz-footer-toolAssistance-item",
       this.props.className);

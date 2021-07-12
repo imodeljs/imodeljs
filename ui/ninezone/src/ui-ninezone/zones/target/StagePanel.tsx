@@ -28,7 +28,7 @@ export interface StagePanelTargetProps extends MergeTargetProps {
  * @beta
  */
 export class StagePanelTarget extends React.PureComponent<StagePanelTargetProps> {
-  public render() {
+  public override render() {
     const { className, safeAreaInsets, ...props } = this.props;
     const targetClassName = classnames(
       "nz-zones-target-stagePanel",

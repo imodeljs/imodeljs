@@ -82,7 +82,7 @@ export class ContextMenu extends React.PureComponent<ContextMenuProps, ContextMe
   };
 
   /** @internal */
-  public readonly state: Readonly<ContextMenuState>;
+  public override readonly state: Readonly<ContextMenuState>;
   constructor(props: ContextMenuProps) {
     super(props);
     this.state = {
@@ -159,7 +159,7 @@ export class ContextMenu extends React.PureComponent<ContextMenuProps, ContextMe
       this.props.onOutsideClick(event);
   };
 
-  public render(): JSX.Element {
+  public override render(): JSX.Element {
     const {
       opened, direction, onOutsideClick, onSelect, onEsc, autoflip, edgeLimit, hotkeySelect, // eslint-disable-line @typescript-eslint/no-unused-vars
       selectedIndex, floating, parentMenu, parentSubmenu, children, className, ignoreNextKeyUp, // eslint-disable-line @typescript-eslint/no-unused-vars
@@ -297,7 +297,7 @@ export class ContextMenu extends React.PureComponent<ContextMenuProps, ContextMe
   }
 
   /** @internal */
-  public componentDidMount() {
+  public override componentDidMount() {
     const parentWindow = this.getWindow();
     parentWindow.addEventListener("focus", this._handleFocusChange);
     parentWindow.addEventListener("mouseup", this._handleFocusChange);
@@ -309,7 +309,7 @@ export class ContextMenu extends React.PureComponent<ContextMenuProps, ContextMe
   }
 
   /** @internal */
-  public componentWillUnmount() {
+  public override componentWillUnmount() {
     const parentWindow = this.getWindow();
     parentWindow.removeEventListener("focus", this._handleFocusChange);
     parentWindow.removeEventListener("mouseup", this._handleFocusChange);
@@ -443,7 +443,7 @@ export class ContextMenu extends React.PureComponent<ContextMenuProps, ContextMe
     this.setState({ selectedIndex });
   };
 
-  public componentDidUpdate(prevProps: ContextMenuProps) {
+  public override componentDidUpdate(prevProps: ContextMenuProps) {
     if (prevProps.selectedIndex !== this.props.selectedIndex) {
       this.setState((_, props) => ({ selectedIndex: props.selectedIndex! }));
     }

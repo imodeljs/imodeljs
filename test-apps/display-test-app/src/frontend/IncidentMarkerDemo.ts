@@ -31,7 +31,7 @@ class IncidentMarker extends Marker {
   }
 
   // when someone clicks on our marker, open a message box with the severity of the incident.
-  public onMouseButton(ev: BeButtonEvent): boolean {
+  public override onMouseButton(ev: BeButtonEvent): boolean {
     if (ev.button === BeButton.Data && ev.isDown)
       IModelApp.notifications.openMessageBox(MessageBoxType.LargeOk, `severity = ${this.severity}`, MessageBoxIconType.Information); // eslint-disable-line @typescript-eslint/no-floating-promises
     return true;
@@ -58,7 +58,7 @@ class IncidentMarker extends Marker {
    * World decorations for markers are completely optional. If you don't want anything drawn with WorldDecorations, don't follow this example.
    *
    */
-  public addMarker(context: DecorateContext) {
+  public override addMarker(context: DecorateContext) {
     super.addMarker(context);
     const builder = context.createGraphicBuilder(GraphicType.WorldDecoration);
     const ellipse = Arc3d.createScaledXYColumns(this.worldLocation, context.viewport.rotation.transpose(), .2, .2, IncidentMarker._sweep360);
@@ -79,7 +79,7 @@ class IncidentClusterMarker extends Marker {
   // public get wantImage() { return this._isHilited; }
 
   // draw the cluster as a white circle with an outline color based on what's in the cluster
-  public drawFunc(ctx: CanvasRenderingContext2D) {
+  public override drawFunc(ctx: CanvasRenderingContext2D) {
     ctx.beginPath();
     ctx.strokeStyle = this._clusterColor;
     ctx.fillStyle = "white";
@@ -246,8 +246,8 @@ export class IncidentMarkerDemo {
 }
 
 export class IncidentMarkerDemoTool extends Tool {
-  public static toolId = "ToggleIncidentMarkers";
-  public run(_args: any[]): boolean {
+  public static override toolId = "ToggleIncidentMarkers";
+  public override run(_args: any[]): boolean {
     const vp = IModelApp.viewManager.selectedView;
     if (undefined !== vp && vp.view.isSpatialView())
       IncidentMarkerDemo.toggle(vp.view.iModel.projectExtents);

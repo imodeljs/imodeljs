@@ -45,7 +45,7 @@ function testBSplineSurface(ck: Checker, surfaceA: BSplineSurface3dQuery) {
     && frameB0) {
     ck.testTransform(frameA0, frameB0);
     const frameA0Inverse = frameA0.inverse();
-    if (ck.testPointer(frameA0Inverse) && frameA0Inverse) {
+    if (ck.testPointer(frameA0Inverse)) {
       const rangeA2 = Range3d.create();
       surfaceA.extendRange(rangeA2, frameA0Inverse);
       const planeA2 = Plane3dByOriginAndUnitNormal.create(
@@ -140,7 +140,7 @@ describe("BSplineSurface", () => {
   it("BSplineSurface.Hello", () => {
     const ck = new Checker();
     const surfaceA = Sample.createXYGridBsplineSurface(4, 3, 3, 2);
-    if (ck.testPointer(surfaceA) && surfaceA) {
+    if (ck.testPointer(surfaceA)) {
       // test that bogus closure setups get rejected . .
       surfaceA.setWrappable(1, BSplineWrapMode.OpenByAddingControlPoints);
       testBSplineSurface(ck, surfaceA);
@@ -149,11 +149,11 @@ describe("BSplineSurface", () => {
     }
     // A rational surface with unit weigths ... This is just a plane
     const surfaceAH1 = Sample.createWeightedXYGridBsplineSurface(4, 3, 3, 2);
-    if (ck.testPointer(surfaceAH1) && surfaceAH1)
+    if (ck.testPointer(surfaceAH1))
       testBSplineSurface(ck, surfaceAH1);
     // A rational surface with mild bilinear-patch weight variation.  This is NOT planar ...
     const surfaceAHw = Sample.createWeightedXYGridBsplineSurface(4, 3, 3, 2, 1.0, 1.1, 0.9, 1.0);
-    if (ck.testPointer(surfaceAHw) && surfaceAHw)
+    if (ck.testPointer(surfaceAHw))
       testBSplineSurface(ck, surfaceAHw);
 
     ck.checkpoint("BSplineSurface.Hello");
@@ -172,7 +172,7 @@ describe("BSplineSurface", () => {
           4.0, 1.0, // radii
           Math.max(12, orderU + 1), Math.max(6, orderV + 1),    // grid edges
           orderU, orderV);    // order}
-        if (ck.testPointer(bsurf) && bsurf) {
+        if (ck.testPointer(bsurf)) {
 
           ck.testTrue(bsurf.isClosable(0));
           ck.testTrue(bsurf.isClosable(1));
@@ -203,7 +203,7 @@ describe("BSplineSurface", () => {
       Point3d.create(1, 3, 1),
       4.0, 1.0,
       3)]) {
-      if (ck.testPointer(bsurf) && bsurf) {
+      if (ck.testPointer(bsurf)) {
         bsurf.tryTranslateInPlace(dx, dy);
         allGeometry.push(bsurf);
         dx += 10.0;

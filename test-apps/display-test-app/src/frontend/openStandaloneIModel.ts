@@ -8,7 +8,7 @@ import { BriefcaseConnection, IModelConnection, SnapshotConnection } from "@bent
 
 export async function openStandaloneIModel(filename: string, writable: boolean,): Promise<IModelConnection> {
   try {
-    return BriefcaseConnection.openStandalone(filename, writable ? OpenMode.ReadWrite : OpenMode.Readonly, { key: filename });
+    return await BriefcaseConnection.openStandalone(filename, writable ? OpenMode.ReadWrite : OpenMode.Readonly, { key: filename });
   } catch (err) {
     if (writable && err instanceof IModelError && err.errorNumber === IModelStatus.ReadOnly)
       return SnapshotConnection.openFile(filename);

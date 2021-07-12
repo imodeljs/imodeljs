@@ -146,7 +146,7 @@ class UnifiedSelectionPropertyGridWidget extends React.Component<UnifiedSelectio
     );
   };
 
-  public render() {
+  public override render() {
     const actionButtonRenderers = [this._favoriteActionButtonRenderer];
     if (this.props.iModelConnection) {
       const element = <>
@@ -197,15 +197,15 @@ class FavoriteActionButton extends React.Component<FavoriteActionButtonProps> {
 
   private _isMounted = false;
 
-  public componentDidMount() {
+  public override componentDidMount() {
     this._isMounted = true;
   }
 
-  public componentWillUnmount() {
+  public override componentWillUnmount() {
     this._isMounted = false;
   }
 
-  public render() {
+  public override render() {
     return (
       <div onClick={this._onActionButtonClicked}>
         {this.isFavorite() ?

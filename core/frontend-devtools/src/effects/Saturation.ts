@@ -14,7 +14,7 @@ import { AddEffectTool, refreshViewportsForEffect } from "./EffectTools";
  * @beta
  */
 export class SaturationEffect extends AddEffectTool {
-  public static toolId = "SaturationEffect";
+  public static override toolId = "SaturationEffect";
 
   protected get effectName() { return "Saturation"; }
   protected get textureCoordFromPosition() { return true; }
@@ -69,20 +69,20 @@ export class SaturationEffect extends AddEffectTool {
  * @beta
  */
 export class SaturationConfig extends Tool {
-  public static toolId = "SaturationConfig";
-  public static get minArgs() { return 0; }
-  public static get maxArgs() { return 1; }
+  public static override toolId = "SaturationConfig";
+  public static override get minArgs() { return 0; }
+  public static override get maxArgs() { return 1; }
 
   /** Multiplier applied to the saturation of each color in the source image. */
   public static multiplier = 2.0;
 
-  public run(multiplier?: number): boolean {
+  public override run(multiplier?: number): boolean {
     SaturationConfig.multiplier = multiplier ?? 2.0;
     refreshViewportsForEffect("fdt Saturation");
     return true;
   }
 
-  public parseAndRun(...input: string[]): boolean {
+  public override parseAndRun(...input: string[]): boolean {
     const args = parseArgs(input);
     return this.run(args.getFloat("s"));
   }

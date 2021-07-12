@@ -21,7 +21,7 @@ const loggerCategory: string = BackendLoggerCategory.Functional;
 
 /** @public */
 export class FunctionalSchema extends Schema {
-  public static get schemaName(): string { return "Functional"; }
+  public static override get schemaName(): string { return "Functional"; }
   public static get schemaFilePath(): string { return path.join(KnownLocations.nativeAssetsDir, "ECSchemas", "Domain", `${FunctionalSchema.schemaName}.ecschema.xml`); }
   public static registerSchema() {
     if (this !== Schemas.getRegisteredSchema(this.schemaName)) {

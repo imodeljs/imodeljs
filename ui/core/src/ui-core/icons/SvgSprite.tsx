@@ -23,7 +23,7 @@ export interface SvgSpriteProps extends CommonProps {
  * @public
  */
 export class SvgSprite extends React.PureComponent<SvgSpriteProps> {
-  public render() {
+  public override render() {
     const className = classnames(
       "core-icons-svgSprite",
       this.props.className,

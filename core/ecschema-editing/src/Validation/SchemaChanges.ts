@@ -606,7 +606,7 @@ export class ClassChanges extends SchemaItemChanges {
    * to a Map of child changes will which propagate the change to lower levels.
    * @param change The ISchemaChange to add.
    */
-  public addChange(change: ISchemaChange): void {
+  public override addChange(change: ISchemaChange): void {
     super.addChange(change);
 
     if (change.diagnostic.code === SchemaCompareCodes.BaseClassDelta) {
@@ -698,7 +698,7 @@ export class EnumerationChanges extends SchemaItemChanges {
    * to a Map of child changes will which propagate the change to lower levels.
    * @param change The ISchemaChange to add.
    */
-  public addChange(change: ISchemaChange): void {
+  public override addChange(change: ISchemaChange): void {
     super.addChange(change);
 
     if (change.diagnostic.code === SchemaCompareCodes.EnumeratorDelta) {
@@ -855,7 +855,7 @@ export class KindOfQuantityChanges extends SchemaItemChanges {
    * Adds the change to the appropriate change collection.
    * @param change The ISchemaChange to add.
    */
-  public addChange(change: ISchemaChange): void {
+  public override addChange(change: ISchemaChange): void {
     super.addChange(change);
 
     if (change.diagnostic.code === SchemaCompareCodes.PresentationUnitMissing)
@@ -901,7 +901,7 @@ export class FormatChanges extends SchemaItemChanges {
    * Adds the change to the appropriate change collection.
    * @param change The ISchemaChange to add.
    */
-  public addChange(change: ISchemaChange): void {
+  public override addChange(change: ISchemaChange): void {
     super.addChange(change);
 
     if (change.diagnostic.code === SchemaCompareCodes.UnitLabelOverrideDelta) {

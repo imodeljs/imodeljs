@@ -32,7 +32,7 @@ class PromptFieldComponent extends React.Component<PromptFieldProps> {
     super(props);
   }
 
-  public render(): React.ReactNode {
+  public override render(): React.ReactNode {
     return (
       <FooterIndicator
         className={classnames("uifw-statusFields-promptField", this.props.className)}

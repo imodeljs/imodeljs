@@ -165,7 +165,7 @@ export class EdgeArgs {
 export class SilhouetteEdgeArgs extends EdgeArgs {
   public normals?: OctEncodedNormalPair[];
 
-  public init(meshEdges?: MeshEdges) {
+  public override init(meshEdges?: MeshEdges) {
     this.clear();
     if (undefined !== meshEdges && 0 < meshEdges.silhouette.length) {
       this.edges = meshEdges.silhouette;
@@ -175,7 +175,7 @@ export class SilhouetteEdgeArgs extends EdgeArgs {
     return this.isValid;
   }
 
-  public clear() { this.normals = undefined; super.clear(); }
+  public override clear() { this.normals = undefined; super.clear(); }
 }
 
 /** @internal */

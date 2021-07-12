@@ -12,10 +12,15 @@ const dptaElectronMain = async () => {
   // Start the backend
   await initializeBackend();
 
-  if (process.argv.length > 2 && process.argv[2].split(".").pop() === "json")
-    DisplayPerfRpcInterface.jsonFilePath = process.argv[2];
+  let debug = true;
+  process.argv.forEach((arg) => {
+    if (arg.split(".").pop() === "json")
+      DisplayPerfRpcInterface.jsonFilePath = arg;
+    else if (arg === "no_debug")
+      debug = false;
+  });
 
-  const autoOpenDevTools = (undefined === process.env.SVT_NO_DEV_TOOLS);
+  const autoOpenDevTools = (undefined === process.env.SVT_NO_DEV_TOOLS) && debug;
   const maximizeWindow = (undefined === process.env.SVT_NO_MAXIMIZE_WINDOW); // Make max window the default
 
   await ElectronHost.openMainWindow({ width: 1280, height: 800, show: !maximizeWindow });

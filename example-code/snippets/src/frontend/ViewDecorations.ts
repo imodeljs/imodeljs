@@ -113,7 +113,7 @@ class IncidentMarker extends Marker {
       this._amber.lerp(ColorDef.red, (severity - 16) / 14.));
   }
 
-  public onMouseButton(ev: BeButtonEvent): boolean {
+  public override onMouseButton(ev: BeButtonEvent): boolean {
     if (ev.button === BeButton.Data) {
       if (ev.isDown) {
         IModelApp.notifications.openMessageBox(MessageBoxType.LargeOk, `severity = ${this.severity}`, MessageBoxIconType.Information); // eslint-disable-line @typescript-eslint/no-floating-promises
@@ -137,7 +137,7 @@ class IncidentMarker extends Marker {
     this.htmlElement.innerHTML = id.toString(); // just put the id of the incident as text
   }
 
-  public addMarker(context: DecorateContext) {
+  public override addMarker(context: DecorateContext) {
     super.addMarker(context);
     const builder = context.createGraphicBuilder(GraphicType.WorldDecoration);
     const ellipse = Arc3d.createScaledXYColumns(this.worldLocation, context.viewport.rotation.transpose(), .2, .2, IncidentMarker._sweep360);
@@ -155,7 +155,7 @@ class IncidentClusterMarker extends Marker {
   // public get wantImage() { return this._isHilited; }
 
   // draw the cluster as a white circle with an outline color based on what's in the cluster
-  public drawFunc(ctx: CanvasRenderingContext2D) {
+  public override drawFunc(ctx: CanvasRenderingContext2D) {
     ctx.beginPath();
     ctx.strokeStyle = this._clusterColor;
     ctx.fillStyle = "white";

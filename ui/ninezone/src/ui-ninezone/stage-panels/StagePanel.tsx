@@ -79,7 +79,7 @@ export class StagePanel extends React.PureComponent<StagePanelProps> {
   private _lastPosition?: Point;
   private _relativePosition?: Point;
 
-  public render() {
+  public override render() {
     const className = classnames(
       "nz-stagePanels-stagePanel",
       StagePanelTypeHelpers.getCssClassName(this.props.type),

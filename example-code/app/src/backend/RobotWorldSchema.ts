@@ -24,7 +24,7 @@ import * as robots from "./RobotElement";
  * definition. You would then edit the generated TypeScript class to add methods.
  */
 export class RobotWorld extends Schema {
-  public static get schemaName(): string { return "RobotWorld"; }
+  public static override get schemaName(): string { return "RobotWorld"; }
   /** An app must call this to register the RobotWorld schema prior to using it. */
   public static registerSchema() {
 

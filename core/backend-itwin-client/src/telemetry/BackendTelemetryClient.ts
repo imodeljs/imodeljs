@@ -35,7 +35,7 @@ export class BackendTelemetryEvent extends ClientTelemetryEvent {
   /**
    * Returns all known and defined properties as a new object
    */
-  public getProperties(): { [key: string]: any } {
+  public override getProperties(): { [key: string]: any } {
     const properties = super.getProperties();
 
     properties.backendMachineName = this.backendMachineName;

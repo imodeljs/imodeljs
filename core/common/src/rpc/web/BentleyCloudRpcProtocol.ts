@@ -27,10 +27,10 @@ enum AppMode {
  * @public
  */
 export abstract class BentleyCloudRpcProtocol extends WebAppRpcProtocol {
-  public checkToken = true;
+  public override checkToken = true;
 
   /** The name of various HTTP request headers based on client's request context */
-  public serializedClientRequestContextHeaderNames: SerializedClientRequestContext = {
+  public override serializedClientRequestContextHeaderNames: SerializedClientRequestContext = {
     /** The name of the HTTP request id header. */
     id: "X-Correlation-Id",
 
@@ -51,10 +51,10 @@ export abstract class BentleyCloudRpcProtocol extends WebAppRpcProtocol {
   };
 
   /** The name of the RPC protocol version header. */
-  public protocolVersionHeaderName = "X-Protocol-Version";
+  public override protocolVersionHeaderName = "X-Protocol-Version";
 
   /** Returns the operation specified by an OpenAPI-compatible URI path. */
-  public getOperationFromPath(path: string): SerializedRpcOperation {
+  public override getOperationFromPath(path: string): SerializedRpcOperation {
     const url = new URL(path, "https://localhost/");
     const components = url.pathname.split("/");
 
@@ -71,7 +71,7 @@ export abstract class BentleyCloudRpcProtocol extends WebAppRpcProtocol {
   }
 
   /** Supplies the OpenAPI-compatible URI path for an RPC operation. */
-  public supplyPathForOperation(operation: RpcOperation, request: RpcRequest | undefined) {
+  public override supplyPathForOperation(operation: RpcOperation, request: RpcRequest | undefined) {
     const prefix = this.pathPrefix;
     const appTitle = this.info.title;
     const appVersion = this.info.version;
@@ -122,7 +122,7 @@ export abstract class BentleyCloudRpcProtocol extends WebAppRpcProtocol {
    * Inflates the IModelRpcProps from the URL path for each request on the backend.
    * @note This function updates the IModelRpcProps value supplied in the request body.
    */
-  public inflateToken(tokenFromBody: IModelRpcProps, request: SerializedRpcRequest): IModelRpcProps {
+  public override inflateToken(tokenFromBody: IModelRpcProps, request: SerializedRpcRequest): IModelRpcProps {
     const urlPathComponents = request.path.split("/");
 
     const iModelKey = tokenFromBody.key;

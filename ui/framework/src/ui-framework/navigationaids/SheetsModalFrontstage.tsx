@@ -109,7 +109,7 @@ export class CardContainer extends React.Component<CardContainerProps> {
   public static get onCardSelectedEvent(): CardSelectedEvent { return CardContainer._cardSelectedEvent; }
 
   /** @internal */
-  public render() {
+  public override render() {
     return (
       <ScrollView className={this.props.className} style={this.props.style}>
         <FlexWrapContainer>
@@ -211,7 +211,7 @@ export class SheetCard extends React.Component<SheetCardProps, SheetCardState> {
       this.setState({ isPressed: false });
   };
 
-  public render() {
+  public override render() {
     const { label, index, iconSpec } = this.props;
 
     const className = classnames(

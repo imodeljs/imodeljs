@@ -37,7 +37,7 @@ export interface FooterProps extends CommonProps {
  * @beta
  */
 export class Footer extends React.PureComponent<FooterProps> {
-  public render() {
+  public override render() {
     const className = classnames(
       "nz-footer-footer",
       this.props.isInFooterMode && "nz-footer-mode",

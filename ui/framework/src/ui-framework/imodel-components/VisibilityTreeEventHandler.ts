@@ -82,7 +82,7 @@ export class VisibilityTreeEventHandler extends UnifiedSelectionTreeEventHandler
     this.updateCheckboxes(); // eslint-disable-line @typescript-eslint/no-floating-promises
   }
 
-  public dispose() {
+  public override dispose() {
     super.dispose();
     this._listeners.forEach((disposeFunc) => disposeFunc());
   }
@@ -95,7 +95,7 @@ export class VisibilityTreeEventHandler extends UnifiedSelectionTreeEventHandler
     return items.filter((item) => this._selectionPredicate!(this.getNodeKey(item), item));
   }
 
-  public onSelectionModified({ modifications }: TreeSelectionModificationEventArgs) {
+  public override onSelectionModified({ modifications }: TreeSelectionModificationEventArgs) {
     const filteredModification = toRxjsObservable(modifications).pipe(
       map(({ selectedNodeItems, deselectedNodeItems }) => {
         return {
@@ -107,7 +107,7 @@ export class VisibilityTreeEventHandler extends UnifiedSelectionTreeEventHandler
     return super.onSelectionModified({ modifications: filteredModification });
   }
 
-  public onSelectionReplaced({ replacements }: TreeSelectionReplacementEventArgs) {
+  public override onSelectionReplaced({ replacements }: TreeSelectionReplacementEventArgs) {
     const filteredReplacements = toRxjsObservable(replacements).pipe(
       map(({ selectedNodeItems }) => {
         return {
@@ -118,7 +118,7 @@ export class VisibilityTreeEventHandler extends UnifiedSelectionTreeEventHandler
     return super.onSelectionReplaced({ replacements: filteredReplacements });
   }
 
-  public onCheckboxStateChanged(event: TreeCheckboxStateChangeEventArgs) {
+  public override onCheckboxStateChanged(event: TreeCheckboxStateChangeEventArgs) {
     // istanbul ignore if
     if (!this._visibilityHandler)
       return undefined;

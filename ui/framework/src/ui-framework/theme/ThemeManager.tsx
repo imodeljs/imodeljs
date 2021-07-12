@@ -61,11 +61,11 @@ function mapStateToProps(state: any) {
  */
 class ThemeManagerComponent extends React.Component<ThemeProps> {
 
-  public componentDidMount() {
+  public override componentDidMount() {
     this._setTheme(this.props.theme);
   }
 
-  public componentDidUpdate(prevProps: ThemeProps) {
+  public override componentDidUpdate(prevProps: ThemeProps) {
     if (this.props.theme !== prevProps.theme)
       this._setTheme(this.props.theme);
     if (this.props.widgetOpacity !== prevProps.widgetOpacity)
@@ -82,7 +82,7 @@ class ThemeManagerComponent extends React.Component<ThemeProps> {
     document.documentElement.style.setProperty("--buic-widget-opacity", opacity.toString());
   };
 
-  public render(): React.ReactNode {
+  public override render(): React.ReactNode {
     return this.props.children;
   }
 }

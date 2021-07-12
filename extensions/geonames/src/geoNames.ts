@@ -54,7 +54,7 @@ class GeoNameMarker extends Marker {
     // this.htmlElement.innerHTML = props.name; // put the name of the location.
     this.label = props.name;
   }
-  public onMouseButton(ev: BeButtonEvent): boolean {
+  public override onMouseButton(ev: BeButtonEvent): boolean {
     if (InputSource.Mouse === ev.inputSource && ev.isDown && ev.viewport !== undefined && ev.viewport.view instanceof ViewState3d) {
       if (BeButton.Data === ev.button) {
         const evViewport = ev.viewport;
@@ -69,7 +69,7 @@ class GeoNameMarker extends Marker {
 }
 
 class GeoNameMarkerSet extends MarkerSet<GeoNameMarker> {
-  public minimumClusterSize = 5;
+  public override minimumClusterSize = 5;
   protected getClusterMarker(cluster: Cluster<GeoNameMarker>): Marker { return Marker.makeFrom(cluster.markers[0], cluster, cluster.markers[0].image); }
 }
 
@@ -179,15 +179,15 @@ export class GeoNameMarkerManager {
 /** An Immediate Tool that attempts to use the geoLocation API to find the given feature */
 
 abstract class GeoNameTool extends Tool {
-  public static get maxArgs() { return 1; }
-  public static get minArgs() { return 0; }
-  public parseAndRun(..._args: string[]): boolean {
+  public static override get maxArgs() { return 1; }
+  public static override get minArgs() { return 0; }
+  public override parseAndRun(..._args: string[]): boolean {
     return this.run();
   }
 
   public abstract doRunWithViewport(vp: ScreenViewport): void;
 
-  public run(viewport?: ScreenViewport): boolean {
+  public override run(viewport?: ScreenViewport): boolean {
     if (undefined === viewport)
       viewport = IModelApp.viewManager.selectedView;
 
@@ -199,28 +199,28 @@ abstract class GeoNameTool extends Tool {
 }
 
 class GeoNameOnTool extends GeoNameTool {
-  public static toolId = "GeoNamesOnTool";
+  public static override toolId = "GeoNamesOnTool";
   public doRunWithViewport(vp: ScreenViewport): void {
     GeoNameMarkerManager.show(vp).then(() => { }).catch(() => { });
   }
 }
 
 class GeoNameOffTool extends GeoNameTool {
-  public static toolId = "GeoNamesOffTool";
+  public static override toolId = "GeoNamesOffTool";
   public doRunWithViewport(vp: ScreenViewport): void { GeoNameMarkerManager.clear(vp); }
 }
 class GeoNameUpdateTool extends GeoNameTool {
-  public static toolId = "GeoNamesUpdateTool";
+  public static override toolId = "GeoNamesUpdateTool";
   public doRunWithViewport(vp: ScreenViewport): void { GeoNameMarkerManager.update(vp); }
 }
 
 export class GeoNameExtension extends Extension {
   private _i18NNamespace?: I18NNamespace;
-  protected _defaultNs = "geoNames";
+  protected override _defaultNs = "geoNames";
   public static extension: GeoNameExtension | undefined;
 
   /** Invoked the first time this extension is loaded. */
-  public async onLoad(_args: string[]): Promise<void> {
+  public override async onLoad(_args: string[]): Promise<void> {
     // store the extension in the tool prototype.
     GeoNameExtension.extension = this;
 

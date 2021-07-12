@@ -1,0 +1,11 @@
+{
+  "changes": [
+    {
+      "packageName": "@bentley/presentation-common",
+      "comment": "Add `RelatedPropertiesSpecification.skipIfDuplicate` attribute",
+      "type": "none"
+    }
+  ],
+  "packageName": "@bentley/presentation-common",
+  "email": "35135765+grigasp@users.noreply.github.com"
+}

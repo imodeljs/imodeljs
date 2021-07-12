@@ -193,7 +193,7 @@ export namespace RenderSchedule {
         this.value = Math.max(0, Math.min(100, props.value));
     }
 
-    public toJSON(): VisibilityEntryProps {
+    public override toJSON(): VisibilityEntryProps {
       const props = super.toJSON() as VisibilityEntryProps;
       if (100 !== this.value)
         props.value = this.value;
@@ -213,7 +213,7 @@ export namespace RenderSchedule {
         this.value = new RgbColor(props.value.red, props.value.green, props.value.blue);
     }
 
-    public toJSON(): ColorEntryProps {
+    public override toJSON(): ColorEntryProps {
       const props = super.toJSON() as ColorEntryProps;
       if (this.value) {
         props.value = {
@@ -251,9 +251,9 @@ export namespace RenderSchedule {
 
     public toJSON(): TransformComponentsProps {
       return {
-        position: [ this.position.x, this.position.y, this.position.z ],
-        pivot: [ this.pivot.x, this.pivot.y, this.pivot.z ],
-        orientation: [ this.orientation.x, this.orientation.y, this.orientation.z, this.orientation.w ],
+        position: [this.position.x, this.position.y, this.position.z],
+        pivot: [this.pivot.x, this.pivot.y, this.pivot.z],
+        orientation: [this.orientation.x, this.orientation.y, this.orientation.z, this.orientation.w],
       };
     }
   }
@@ -272,7 +272,7 @@ export namespace RenderSchedule {
         this.components = TransformComponents.fromJSON(props.value);
     }
 
-    public toJSON(): TransformEntryProps {
+    public override toJSON(): TransformEntryProps {
       const props = super.toJSON() as TransformEntryProps;
       if (this.components) {
         props.value = this.components.toJSON();
@@ -305,8 +305,8 @@ export namespace RenderSchedule {
 
     public toJSON(): CuttingPlaneProps {
       const props: CuttingPlaneProps = {
-        position: [ this.position.x, this.position.y, this.position.z ],
-        direction: [ this.direction.x, this.direction.y, this.direction.z ],
+        position: [this.position.x, this.position.y, this.position.z],
+        direction: [this.direction.x, this.direction.y, this.direction.z],
       };
 
       if (this.visible)
@@ -330,7 +330,7 @@ export namespace RenderSchedule {
         this.value = new CuttingPlane(props.value);
     }
 
-    public toJSON(): CuttingPlaneEntryProps {
+    public override toJSON(): CuttingPlaneEntryProps {
       const props = super.toJSON() as CuttingPlaneEntryProps;
       if (this.value)
         props.value = this.value.toJSON();
@@ -445,7 +445,7 @@ export namespace RenderSchedule {
   /** A list of [[RenderSchedule.VisibilityEntry]]s within a [[RenderSchedule.Timeline]]. */
   export class VisibilityTimelineEntries extends TimelineEntryList<VisibilityEntry, VisibilityEntryProps, number> {
     /** Returns the visibility value for the entry at the specified position in the list, or 100 (fully-visible) if no such entry exists. */
-    public getValue(index: number): number {
+    public override getValue(index: number): number {
       return super.getValue(index) ?? 100;
     }
   }
@@ -453,7 +453,7 @@ export namespace RenderSchedule {
   /** A list of [[RenderSchedule.TransformEntry]]s within a [[RenderSchedule.Timeline]]. */
   export class TransformTimelineEntries extends TimelineEntryList<TransformEntry, TransformEntryProps, Readonly<Transform>> {
     /** Returns the transform for the entry at the specified position in the list, or an identity transform if no such entry exists. */
-    public getValue(index: number): Readonly<Transform> {
+    public override getValue(index: number): Readonly<Transform> {
       return super.getValue(index) ?? Transform.identity;
     }
   }
@@ -635,7 +635,7 @@ export namespace RenderSchedule {
       return new ElementTimeline(props ?? { elementIds: [], batchId: 0 });
     }
 
-    public toJSON(): ElementTimelineProps {
+    public override toJSON(): ElementTimelineProps {
       return {
         ...super.toJSON(),
         batchId: this.batchId,
@@ -758,7 +758,7 @@ export namespace RenderSchedule {
       return new ModelTimeline(props ?? { elementTimelines: [], modelId: Id64.invalid });
     }
 
-    public toJSON(): ModelTimelineProps {
+    public override toJSON(): ModelTimelineProps {
       return {
         ...super.toJSON(),
         modelId: this.modelId,
@@ -939,8 +939,8 @@ export namespace RenderSchedule {
       let value: CuttingPlaneProps | undefined;
       if (plane) {
         value = {
-          position: [ plane.position.x, plane.position.y, plane.position.z ],
-          direction: [ plane.direction.x, plane.direction.y, plane.direction.z ],
+          position: [plane.position.x, plane.position.y, plane.position.z],
+          direction: [plane.direction.x, plane.direction.y, plane.direction.z],
         };
 
         if (plane.visible)
@@ -960,9 +960,9 @@ export namespace RenderSchedule {
 
       const value: TransformProps = { transform: transform?.toRows() };
       if (components) {
-        value.pivot = [ components.pivot.x, components.pivot.y, components.pivot.z ];
+        value.pivot = [components.pivot.x, components.pivot.y, components.pivot.z];
         value.orientation = components.orientation.toJSON();
-        value.position = [ components.position.x, components.position.y, components.position.z ];
+        value.position = [components.position.x, components.position.y, components.position.z];
       }
 
       this.transform.push({ time, value, interpolation });
@@ -972,7 +972,7 @@ export namespace RenderSchedule {
      * @see [[RenderSchedule.ScriptBuilder.finish]] to obtain the JSON for the entire [[RenderSchedule.Script]].
      */
     public finish(): TimelineProps {
-      const props: TimelineProps = { };
+      const props: TimelineProps = {};
       if (this.visibility?.length)
         props.visibilityTimeline = this.visibility;
 
@@ -1012,7 +1012,7 @@ export namespace RenderSchedule {
     /** Obtain the JSON representation of the [[RenderSchedule.ElementTimeline]] produced by this builder.
      * @see [[RenderSchedule.ScriptBuilder.finish]] to obtain the JSON for the entire [[RenderSchedule.Script]].
      */
-    public finish(): ElementTimelineProps {
+    public override finish(): ElementTimelineProps {
       const props = super.finish() as ElementTimelineProps;
       props.batchId = this.batchId;
       props.elementIds = this.elementIds;
@@ -1063,7 +1063,7 @@ export namespace RenderSchedule {
     /** Obtain the JSON representation of the [[RenderSchedule.ModelTimeline]] produced by this builder.
      * @see [[RenderSchedule.ScriptBuilder.finish]] to obtain the JSON for the entire [[RenderSchedule.Script]].
      */
-    public finish(): ModelTimelineProps {
+    public override finish(): ModelTimelineProps {
       const props = super.finish() as ModelTimelineProps;
       props.modelId = this.modelId;
       if (undefined !== this.realityModelUrl)

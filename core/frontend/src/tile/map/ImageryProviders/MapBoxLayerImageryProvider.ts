@@ -27,8 +27,8 @@ export class MapBoxLayerImageryProvider extends MapLayerImageryProvider {
 
   public get tileWidth(): number { return 256; }
   public get tileHeight(): number { return 256; }
-  public get minimumZoomLevel(): number { return this._zoomMin; }
-  public get maximumZoomLevel(): number { return this._zoomMax; }
+  public override get minimumZoomLevel(): number { return this._zoomMin; }
+  public override get maximumZoomLevel(): number { return this._zoomMax; }
 
   // construct the Url from the desired Tile
   public async constructUrl(row: number, column: number, zoomLevel: number): Promise<string> {
@@ -44,10 +44,10 @@ export class MapBoxLayerImageryProvider extends MapLayerImageryProvider {
     return url;
   }
 
-  public getLogo(_vp: ScreenViewport): HTMLTableRowElement | undefined {
+  public override getLogo(_vp: ScreenViewport): HTMLTableRowElement | undefined {
     return IModelApp.makeLogoCard({ heading: "Mapbox", notice: IModelApp.i18n.translate("iModelJs:BackgroundMap.MapBoxCopyright") });
   }
 
   // no initialization needed for MapBoxImageryProvider.
-  public async initialize(): Promise<void> { }
+  public override async initialize(): Promise<void> { }
 }

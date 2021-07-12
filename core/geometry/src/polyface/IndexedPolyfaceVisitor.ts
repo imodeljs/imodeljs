@@ -233,7 +233,7 @@ export class IndexedPolyfaceSubsetVisitor extends IndexedPolyfaceVisitor {
     return new IndexedPolyfaceSubsetVisitor(polyface, activeFacetIndices.slice(), numWrap);
   }
   /** Advance the iterator to a particular facet in the client polyface */
-  public moveToReadIndex(activeIndex: number): boolean {
+  public override moveToReadIndex(activeIndex: number): boolean {
     if (activeIndex >= 0 && activeIndex <= this._parentFacetIndices.length) {
       this._nextActiveIndex = activeIndex;
       return super.moveToReadIndex(this._parentFacetIndices[activeIndex++]);
@@ -241,7 +241,7 @@ export class IndexedPolyfaceSubsetVisitor extends IndexedPolyfaceVisitor {
     return false;
   }
   /** Advance the iterator to a the 'next' facet in the client polyface */
-  public moveToNextFacet(): boolean {
+  public override moveToNextFacet(): boolean {
     if (this._nextActiveIndex < this._parentFacetIndices.length) {
       const result = this.moveToReadIndex(this._nextActiveIndex);
       if (result) {
@@ -252,7 +252,7 @@ export class IndexedPolyfaceSubsetVisitor extends IndexedPolyfaceVisitor {
     return false;
   }
   /** Reset the iterator to start at the first facet of the polyface. */
-  public reset(): void {
+  public override reset(): void {
     this._nextActiveIndex = 0;
   }
   /** return the parent facet index of the indicated index within the active facets */

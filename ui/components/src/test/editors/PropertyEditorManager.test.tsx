@@ -34,13 +34,13 @@ describe("PropertyEditorManager", () => {
   });
 
   class MinePropertyEditor extends PropertyEditorBase {
-    public get containerHandlesBlur(): boolean {
+    public override get containerHandlesBlur(): boolean {
       return true;
     }
-    public get containerHandlesEscape(): boolean {
+    public override get containerHandlesEscape(): boolean {
       return true;
     }
-    public get containerHandlesEnter(): boolean {
+    public override get containerHandlesEnter(): boolean {
       return true;
     }
     public get reactNode(): React.ReactNode {
@@ -148,11 +148,11 @@ describe("PropertyEditorManager", () => {
   });
 
   class ErrorDataController extends DataControllerBase {
-    public async commitValue(_newValue: PropertyValue, _record: PropertyRecord): Promise<AsyncValueProcessingResult> {
+    public override async commitValue(_newValue: PropertyValue, _record: PropertyRecord): Promise<AsyncValueProcessingResult> {
       return { encounteredError: true };
     }
 
-    public async validateValue(_newValue: PropertyValue, _record: PropertyRecord): Promise<AsyncValueProcessingResult> {
+    public override async validateValue(_newValue: PropertyValue, _record: PropertyRecord): Promise<AsyncValueProcessingResult> {
       return { encounteredError: true };
     }
   }
@@ -171,20 +171,20 @@ describe("PropertyEditorManager", () => {
   });
 
   class PropertyEditorWithEditorParams extends PropertyEditorBase {
-    public get containerHandlesBlur(): boolean {
+    public override get containerHandlesBlur(): boolean {
       return true;
     }
-    public get containerHandlesEscape(): boolean {
+    public override get containerHandlesEscape(): boolean {
       return true;
     }
-    public get containerHandlesEnter(): boolean {
+    public override get containerHandlesEnter(): boolean {
       return true;
     }
     public get reactNode(): React.ReactNode {
       return <TextEditor />;
     }
 
-    public applyEditorParams(property: PropertyDescription, record: PropertyRecord): void {
+    public override applyEditorParams(property: PropertyDescription, record: PropertyRecord): void {
       super.applyEditorParams(property, record);
       if (property.editor && property.editor.params) {
         property.editor.params.forEach((params: PropertyEditorParams) => {

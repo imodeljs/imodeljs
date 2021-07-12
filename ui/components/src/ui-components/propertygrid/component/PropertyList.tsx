@@ -79,7 +79,7 @@ interface PropertyListState {
 export class PropertyList extends React.Component<PropertyListProps, PropertyListState> {
 
   /** @internal */
-  public readonly state: PropertyListState = {};
+  public override readonly state: PropertyListState = {};
 
   constructor(props: PropertyListProps) {
     super(props);
@@ -106,17 +106,17 @@ export class PropertyList extends React.Component<PropertyListProps, PropertyLis
   }
 
   /** @internal */
-  public componentDidMount() {
+  public override componentDidMount() {
     this.afterRender();
   }
 
   /** @internal */
-  public componentDidUpdate() {
+  public override componentDidUpdate() {
     this.afterRender();
   }
 
   /** @internal */
-  public render() {
+  public override render() {
     const propertyListClassName = classnames(
       (this.props.orientation === Orientation.Horizontal) ? "components-property-list--horizontal" : "components-property-list--vertical",
       this.props.className,

@@ -15,7 +15,7 @@ import { CommonProps } from "@bentley/ui-core";
  * @internal
  */
 export class NewDot extends React.PureComponent<CommonProps> {
-  public render() {
+  public override render() {
     const className = classnames(
       "nz-footer-toolAssistance-newDot",
       this.props.className);

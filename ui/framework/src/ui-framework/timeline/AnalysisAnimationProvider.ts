@@ -25,7 +25,7 @@ export class AnalysisAnimationTimelineDataProvider extends BaseTimelineDataProvi
     }
   }
 
-  public async loadTimelineData(): Promise<boolean> {
+  public override async loadTimelineData(): Promise<boolean> {
     // if animationFraction is set pointer should match
     // istanbul ignore else
     if (this._viewport)
@@ -46,7 +46,7 @@ export class AnalysisAnimationTimelineDataProvider extends BaseTimelineDataProvi
     return false;
   }
 
-  public onAnimationFractionChanged = (animationFraction: number) => {
+  public override onAnimationFractionChanged = (animationFraction: number) => {
     this.animationFraction = animationFraction;
     // istanbul ignore next
     if (this._viewport)
@@ -54,7 +54,7 @@ export class AnalysisAnimationTimelineDataProvider extends BaseTimelineDataProvi
   };
 
   // istanbul ignore next
-  public onPlaybackSettingChanged = (settings: PlaybackSettings) => {
+  public override onPlaybackSettingChanged = (settings: PlaybackSettings) => {
     this.updateSettings(settings);
   };
 }

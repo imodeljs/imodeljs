@@ -520,9 +520,9 @@ export class RegionOps {
     } else if (Array.isArray(data)) {
       return this.rectangleEdgeTransform(new Point3dArrayCarrier(data), requireClosurePoint);
     } else if (data instanceof Loop && data.children.length === 1 && data.children[0] instanceof LineString3d) {
-      return this.rectangleEdgeTransform((data.children[0] as LineString3d).packedPoints, true);
+      return this.rectangleEdgeTransform(data.children[0].packedPoints, true);
     } else if (data instanceof Path && data.children.length === 1 && data.children[0] instanceof LineString3d) {
-      return this.rectangleEdgeTransform((data.children[0] as LineString3d).packedPoints, requireClosurePoint);
+      return this.rectangleEdgeTransform(data.children[0].packedPoints, requireClosurePoint);
     } else if (data instanceof CurveChain) {
       if (!data.checkForNonLinearPrimitives()) {
         // const linestring = LineString3d.create();

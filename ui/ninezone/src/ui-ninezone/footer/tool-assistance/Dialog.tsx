@@ -31,7 +31,7 @@ export interface ToolAssistanceDialogProps extends CommonProps {
  * @beta
  */
 export class ToolAssistanceDialog extends React.PureComponent<ToolAssistanceDialogProps> {
-  public render() {
+  public override render() {
     const className = classnames(
       "nz-footer-toolAssistance-dialog",
       this.props.className);

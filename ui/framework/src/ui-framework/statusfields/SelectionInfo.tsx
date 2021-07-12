@@ -31,7 +31,7 @@ class SelectionInfoFieldComponent extends React.Component<SelectionInfoFieldProp
     super(props);
   }
 
-  public render(): React.ReactNode {
+  public override render(): React.ReactNode {
     return (
       <FooterIndicator
         className={classnames("uifw-statusFields-selectionInfo", this.props.className)}

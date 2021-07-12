@@ -19,7 +19,7 @@ enum ColorOptions {
 
 export class TestUiProvider extends DialogLayoutDataProvider {
 
-  public supplyButtonData(): DialogButtonDef[] | undefined {
+  public override supplyButtonData(): DialogButtonDef[] | undefined {
     const buttons: DialogButtonDef[] = [];
     buttons.push({ type: DialogButtonType.OK, onClick: () => { } });
     buttons.push({ type: DialogButtonType.Cancel, onClick: () => { } });
@@ -237,7 +237,7 @@ export class TestUiProvider extends DialogLayoutDataProvider {
     this._stateValue.value = option;
   }
 
-  public supplyDialogItems(): DialogItem[] {
+  public override supplyDialogItems(): DialogItem[] {
     const dialogItems = new Array<DialogItem>();
     dialogItems.push({ value: this._optionsValue, property: TestUiProvider._getEnumAsPicklistDescription(), editorPosition: { rowPriority: 0, columnIndex: 2 } });
     dialogItems.push({ value: this._colorValue, property: TestUiProvider._getColorDescription(), editorPosition: { rowPriority: 0, columnIndex: 4 } });
@@ -267,7 +267,7 @@ export class TestUiProvider extends DialogLayoutDataProvider {
   }
 
   /** Used to send changes from UI */
-  public applyUiPropertyChange = (updatedValue: DialogPropertySyncItem): void => {
+  public override applyUiPropertyChange = (updatedValue: DialogPropertySyncItem): void => {
     if (updatedValue.propertyName === TestUiProvider._useLengthName) {
       this.useLength = updatedValue.value.value as boolean;
       this.showInfoFromUi(updatedValue);

@@ -197,7 +197,7 @@ export class BezierCurve3dH extends BezierCurveBase {
     return result;
   }
   /** test for nearly equal control points */
-  public isAlmostEqual(other: any): boolean {
+  public override isAlmostEqual(other: any): boolean {
     if (other instanceof BezierCurve3dH) {
       return this._polygon.isAlmostEqual(other._polygon);
     }
@@ -218,7 +218,7 @@ export class BezierCurve3dH extends BezierCurveBase {
   public poleProductsXYZW(products: Float64Array, ax: number, ay: number, az: number, aw: number) {
     const n = this.numPoles;
     const data = this._polygon.packedData;
-    for (let i = 0, k = 0; i < n; i++ , k += 4)
+    for (let i = 0, k = 0; i < n; i++, k += 4)
       products[i] = ax * data[k] + ay * data[k + 1] + az * data[k + 2] + aw * data[k + 3];
   }
   /** Find the closest point within the bezier span, using true perpendicular test (but no endpoint test)
@@ -344,7 +344,7 @@ export class BezierCurve3dH extends BezierCurveBase {
       let weight;
       for (let axisIndex = 0; axisIndex < 3; axisIndex++) {
         bezier.zero();
-        for (let i = 0, k = 0; i < order; i++ , k += 4) {
+        for (let i = 0, k = 0; i < order; i++, k += 4) {
           weight = data[k + 3];
           componentCoffs[i] = transform.multiplyComponentXYZW(axisIndex, data[k], data[k + 1], data[k + 2], weight);
           weightCoffs[i] = weight;

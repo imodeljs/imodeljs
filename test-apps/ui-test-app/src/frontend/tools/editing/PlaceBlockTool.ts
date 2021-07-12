@@ -15,8 +15,8 @@ import {
 } from "@bentley/imodeljs-frontend";
 
 export class PlaceBlockTool extends CreateElementTool {
-  public static toolId = "PlaceBlock";
-  public static iconSpec = "icon-cube-faces-bottom";
+  public static override toolId = "PlaceBlock";
+  public static override iconSpec = "icon-cube-faces-bottom";
   protected _startedCmd?: string;
 
   protected readonly _points: Point3d[] = [];
@@ -36,13 +36,13 @@ export class PlaceBlockTool extends CreateElementTool {
   }
 
   protected allowView(vp: Viewport) { return vp.view.isSpatialView() || vp.view.isDrawingView(); }
-  public isCompatibleViewport(vp: Viewport | undefined, isSelectedViewChange: boolean): boolean { return (super.isCompatibleViewport(vp, isSelectedViewChange) && undefined !== vp && this.allowView(vp)); }
+  public override isCompatibleViewport(vp: Viewport | undefined, isSelectedViewChange: boolean): boolean { return (super.isCompatibleViewport(vp, isSelectedViewChange) && undefined !== vp && this.allowView(vp)); }
 
-  public onPostInstall() {
+  public override onPostInstall() {
     super.onPostInstall();
     this.setupAndPromptForNextAction();
   }
-  public onUnsuspend(): void { this.showPrompt(); }
+  public override onUnsuspend(): void { this.showPrompt(); }
 
   protected translate(prompt: string) { return IModelApp.i18n.translate(`SampleApp:tools.PlaceBlock.${prompt}`); }
   protected showPrompt(): void {
@@ -73,7 +73,7 @@ export class PlaceBlockTool extends CreateElementTool {
     IModelApp.notifications.setToolAssistance(instructions);
   }
 
-  protected setupAndPromptForNextAction(): void {
+  protected override setupAndPromptForNextAction(): void {
     IModelApp.accuSnap.enableSnap(true);
     this.showPrompt();
 
@@ -133,7 +133,7 @@ export class PlaceBlockTool extends CreateElementTool {
     return points;
   }
 
-  public decorate(context: DecorateContext): void {
+  public override decorate(context: DecorateContext): void {
     if (context.viewport !== this.targetView)
       return;
 
@@ -164,8 +164,8 @@ export class PlaceBlockTool extends CreateElementTool {
     context.addDecorationFromBuilder(builderAccHid);
   }
 
-  public decorateSuspended(context: DecorateContext): void { if (this._isComplete) this.decorate(context); }
-  public async onMouseMotion(ev: BeButtonEvent): Promise<void> { if (this._points.length > 0 && undefined !== ev.viewport && !this._isComplete) ev.viewport.invalidateDecorations(); }
+  public override decorateSuspended(context: DecorateContext): void { if (this._isComplete) this.decorate(context); }
+  public override async onMouseMotion(ev: BeButtonEvent): Promise<void> { if (this._points.length > 0 && undefined !== ev.viewport && !this._isComplete) ev.viewport.invalidateDecorations(); }
 
   protected async createElement(): Promise<void> {
     assert(this._matrix !== undefined, "should have defined orientation by now");
@@ -205,7 +205,7 @@ export class PlaceBlockTool extends CreateElementTool {
     }
   }
 
-  public async onDataButtonDown(ev: BeButtonEvent): Promise<EventHandled> {
+  public override async onDataButtonDown(ev: BeButtonEvent): Promise<EventHandled> {
     if (undefined === this.targetView)
       return EventHandled.No;
 
@@ -247,12 +247,12 @@ export class PlaceBlockTool extends CreateElementTool {
     return EventHandled.No;
   }
 
-  public async onResetButtonUp(_ev: BeButtonEvent): Promise<EventHandled> {
+  public override async onResetButtonUp(_ev: BeButtonEvent): Promise<EventHandled> {
     this.onReinitialize();
     return EventHandled.No;
   }
 
-  public onReinitialize(): void {
+  public override onReinitialize(): void {
     this._isComplete = false;
     this._points.length = 0;
     this._matrix = undefined;
@@ -260,7 +260,7 @@ export class PlaceBlockTool extends CreateElementTool {
     this.setupAndPromptForNextAction();
   }
 
-  public async onUndoPreviousStep(): Promise<boolean> {
+  public override async onUndoPreviousStep(): Promise<boolean> {
     if (0 === this._points.length || this._isComplete)
       return false;
 

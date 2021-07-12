@@ -83,22 +83,22 @@ export function tableWithUnifiedSelection<P extends TableProps>(TableComponent: 
     // eslint-disable-next-line @typescript-eslint/naming-convention
     private get baseProps(): TableProps { return this.props; }
 
-    public componentDidMount() {
+    public override componentDidMount() {
       const name = `Table_${counter++}`;
       const imodel = this.props.dataProvider.imodel;
       const rulesetId = this.props.dataProvider.rulesetId;
       this._selectionHandler = this.props.selectionHandler
         ? this.props.selectionHandler : new SelectionHandler({ manager: Presentation.selection, name, imodel, rulesetId });
-      this._selectionHandler!.onSelect = this.onSelectionChanged;
+      this._selectionHandler.onSelect = this.onSelectionChanged;
       this.displaySelection();
     }
 
-    public componentWillUnmount() {
+    public override componentWillUnmount() {
       if (this._selectionHandler)
         this._selectionHandler.dispose();
     }
 
-    public componentDidUpdate() {
+    public override componentDidUpdate() {
       this._boundarySelectionLevel = getBoundarySelectionLevelFromProps(this.props);
       if (this._selectionHandler) {
         this._selectionHandler.imodel = this.props.dataProvider.imodel;
@@ -213,7 +213,7 @@ export function tableWithUnifiedSelection<P extends TableProps>(TableComponent: 
       return true;
     };
 
-    public render() {
+    public override render() {
       const {
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
         selectionHandler, selectionLevel, // do not bleed our props

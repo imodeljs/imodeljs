@@ -18,7 +18,7 @@ import { ImsClientAuthIntrospectionManager } from "./ImsClientAuthIntrospectionM
  */
 export class BackendFeatureUsageTelemetryClient extends BackendTelemetryClient {
   private readonly _usageLoggingClient = new UsageLoggingClient();
-  protected readonly _backendMachineName: string;
+  protected override readonly _backendMachineName: string;
 
   public constructor(config: {
     backendMachineName: string;

@@ -143,7 +143,7 @@ export abstract class ElectronIpcTransport<TIn extends IpcTransportMessage = Ipc
 export class FrontendIpcTransport extends ElectronIpcTransport<RpcRequestFulfillment> {
   private _pushTransport?: ElectronPushTransport;
 
-  protected setupPush() {
+  protected override setupPush() {
     const pushTransport = new ElectronPushTransport(this);
     this._pushTransport = pushTransport;
     RpcPushChannel.setup(pushTransport);
@@ -166,7 +166,7 @@ export class FrontendIpcTransport extends ElectronIpcTransport<RpcRequestFulfill
 export class BackendIpcTransport extends ElectronIpcTransport<SerializedRpcRequest, RpcRequestFulfillment> {
   private _browserWindow: any;
 
-  protected setupPush() {
+  protected override setupPush() {
     RpcPushConnection.for = (channel, client) => new ElectronPushConnection(channel, client, this);
     RpcPushChannel.enabled = true;
   }
@@ -188,7 +188,7 @@ export class BackendIpcTransport extends ElectronIpcTransport<SerializedRpcReque
     response.rawResult = raw;
   }
 
-  protected performSend(channel: string, message: any, evt: any) {
+  protected override performSend(channel: string, message: any, evt: any) {
     if (evt) {
       return super.performSend(channel, message, evt);
     }

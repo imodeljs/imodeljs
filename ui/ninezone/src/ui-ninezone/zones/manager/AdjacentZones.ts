@@ -59,7 +59,7 @@ export abstract class AdjacentZonesStrategy {
 
 /** @internal */
 export class LeftZones extends AdjacentZonesStrategy {
-  public getSingleMergedZone(isMergedVertically: boolean): boolean {
+  public override getSingleMergedZone(isMergedVertically: boolean): boolean {
     return !isMergedVertically;
   }
 
@@ -84,11 +84,11 @@ export class LeftZones extends AdjacentZonesStrategy {
 
 /** @internal */
 export class RightZones extends AdjacentZonesStrategy {
-  public getSingleMergedZone(isMergedVertically: boolean): boolean {
+  public override getSingleMergedZone(isMergedVertically: boolean): boolean {
     return !isMergedVertically;
   }
 
-  public reduceToFirstZone(): boolean {
+  public override reduceToFirstZone(): boolean {
     return false;
   }
 
@@ -130,7 +130,7 @@ export class TopZones extends AdjacentZonesStrategy {
 
 /** @internal */
 export class BottomZones extends AdjacentZonesStrategy {
-  public reduceToFirstZone(): boolean {
+  public override reduceToFirstZone(): boolean {
     return false;
   }
 

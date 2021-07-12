@@ -21,7 +21,7 @@ export interface FooterSeparatorProps extends CommonProps, NoChildrenProps {
  * @public
  */
 export class FooterSeparator extends React.PureComponent<FooterSeparatorProps> {
-  public render() {
+  public override render() {
     const className = classnames(
       "nz-footer-separator",
       this.props.className);

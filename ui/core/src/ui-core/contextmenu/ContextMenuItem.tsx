@@ -65,8 +65,8 @@ export class ContextMenuItem extends React.PureComponent<ContextMenuItemProps, C
     super(props);
   }
   /** @internal */
-  public readonly state: Readonly<ContextMenuItemState> = {};
-  public render(): JSX.Element {
+  public override readonly state: Readonly<ContextMenuItemState> = {};
+  public override render(): JSX.Element {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { onClick, className, style, onSelect, icon, disabled, hidden, onHover, isSelected, parentMenu, onHotKeyParsed, badgeType, iconRight,
       hideIconContainer, ...props } = this.props;
@@ -119,11 +119,11 @@ export class ContextMenuItem extends React.PureComponent<ContextMenuItemProps, C
     );
   }
 
-  public componentDidMount() {
+  public override componentDidMount() {
     this._updateHotkey(this.props.children);
   }
 
-  public componentDidUpdate(prevProps: ContextMenuItemProps) {
+  public override componentDidUpdate(prevProps: ContextMenuItemProps) {
     if (this.props.children !== prevProps.children) {
       this._updateHotkey(this.props.children);
     }

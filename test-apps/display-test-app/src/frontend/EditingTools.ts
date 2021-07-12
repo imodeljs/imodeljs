@@ -21,11 +21,11 @@ import { setTitle } from "./Title";
 
 /** If an editing scope is currently in progress, end it; otherwise, begin a new one. */
 export class EditingScopeTool extends Tool {
-  public static toolId = "EditingSession";
-  public static get minArgs() { return 0; }
-  public static get maxArgs() { return 0; }
+  public static override toolId = "EditingSession";
+  public static override get minArgs() { return 0; }
+  public static override get maxArgs() { return 0; }
 
-  public run(): boolean {
+  public override run(): boolean {
     // eslint-disable-next-line @typescript-eslint/no-floating-promises
     this._run();
     return true;
@@ -48,15 +48,15 @@ export class EditingScopeTool extends Tool {
 
 /** Places a line string. Uses model and category from ToolAdmin.ActiveSettings. */
 export class PlaceLineStringTool extends CreateElementTool {
-  public static toolId = "PlaceLineString";
+  public static override toolId = "PlaceLineString";
   private readonly _points: Point3d[] = [];
   private _snapGeomId?: Id64String;
   private _testGeomJson = false;
   private _testGeomParts = false;
   protected _startedCmd?: string;
 
-  protected get wantAccuSnap(): boolean { return true; }
-  protected get wantDynamics(): boolean { return true; }
+  protected override get wantAccuSnap(): boolean { return true; }
+  protected override get wantDynamics(): boolean { return true; }
 
   protected async startCommand(): Promise<string> {
     if (undefined !== this._startedCmd)
@@ -68,7 +68,7 @@ export class PlaceLineStringTool extends CreateElementTool {
     return EditTools.callCommand(method, ...args) as ReturnType<BasicManipulationCommandIpc[T]>;
   }
 
-  protected setupAndPromptForNextAction(): void {
+  protected override setupAndPromptForNextAction(): void {
     const nPts = this._points.length;
 
     if (0 !== nPts) {
@@ -85,7 +85,7 @@ export class PlaceLineStringTool extends CreateElementTool {
     super.setupAndPromptForNextAction();
   }
 
-  protected provideToolAssistance(_mainInstrText?: string, _additionalInstr?: ToolAssistanceInstruction[]): void {
+  protected override provideToolAssistance(_mainInstrText?: string, _additionalInstr?: ToolAssistanceInstruction[]): void {
     const nPts = this._points.length;
     const mainMsg = 0 === nPts ? "ElementSet.Prompts.StartPoint" : (1 === nPts ? "ElementSet.Prompts.EndPoint" : "ElementSet.Inputs.AdditionalPoint");
     const leftMsg = "ElementSet.Inputs.AcceptPoint";
@@ -110,11 +110,11 @@ export class PlaceLineStringTool extends CreateElementTool {
     IModelApp.notifications.setToolAssistance(instructions);
   }
 
-  public testDecorationHit(id: Id64String): boolean {
+  public override testDecorationHit(id: Id64String): boolean {
     return id === this._snapGeomId;
   }
 
-  public getDecorationGeometry(_hit: HitDetail): GeometryStreamProps | undefined {
+  public override getDecorationGeometry(_hit: HitDetail): GeometryStreamProps | undefined {
     if (this._points.length < 2)
       return undefined;
 
@@ -122,7 +122,7 @@ export class PlaceLineStringTool extends CreateElementTool {
     return geom ? [geom] : undefined;
   }
 
-  public decorate(context: DecorateContext): void {
+  public override decorate(context: DecorateContext): void {
     if (this._points.length < 2)
       return;
 
@@ -135,7 +135,7 @@ export class PlaceLineStringTool extends CreateElementTool {
     context.addDecorationFromBuilder(builder);
   }
 
-  public onDynamicFrame(ev: BeButtonEvent, context: DynamicsContext): void {
+  public override onDynamicFrame(ev: BeButtonEvent, context: DynamicsContext): void {
     if (this._points.length < 1)
       return;
 
@@ -146,7 +146,7 @@ export class PlaceLineStringTool extends CreateElementTool {
     context.addGraphic(builder.finish());
   }
 
-  public async onDataButtonDown(ev: BeButtonEvent): Promise<EventHandled> {
+  public override async onDataButtonDown(ev: BeButtonEvent): Promise<EventHandled> {
     this._points.push(ev.point.clone());
     return super.onDataButtonDown(ev);
   }
@@ -228,7 +228,7 @@ export class PlaceLineStringTool extends CreateElementTool {
     }
   }
 
-  public async onResetButtonUp(_ev: BeButtonEvent): Promise<EventHandled> {
+  public override async onResetButtonUp(_ev: BeButtonEvent): Promise<EventHandled> {
     // Accept on reset if we have at least 2 points, starting another tool will reject accepted segments...
     if (this._points.length >= 2)
       await this.createElement();
@@ -237,7 +237,7 @@ export class PlaceLineStringTool extends CreateElementTool {
     return EventHandled.No;
   }
 
-  public async onUndoPreviousStep(): Promise<boolean> {
+  public override async onUndoPreviousStep(): Promise<boolean> {
     if (0 === this._points.length)
       return false;
 

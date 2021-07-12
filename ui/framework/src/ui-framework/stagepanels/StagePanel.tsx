@@ -155,12 +155,12 @@ export class StagePanel extends React.Component<StagePanelProps, StagePanelCompo
     panelDef.initializeFromProps(props, panelLocation);
   }
 
-  public componentDidMount() {
+  public override componentDidMount() {
     FrontstageManager.onPanelStateChangedEvent.addListener(this._handlePanelStateChangedEvent);
     FrontstageManager.onWidgetStateChangedEvent.addListener(this._handleWidgetStateChangedEvent);
   }
 
-  public componentDidUpdate(prevProps: StagePanelProps) {
+  public override componentDidUpdate(prevProps: StagePanelProps) {
     if (prevProps.runtimeProps?.panelDef !== this.props.runtimeProps?.panelDef) {
       this.setState({
         stagePanelWidgets: this._getVisibleStagePanelWidgets(),
@@ -168,12 +168,12 @@ export class StagePanel extends React.Component<StagePanelProps, StagePanelCompo
     }
   }
 
-  public componentWillUnmount() {
+  public override componentWillUnmount() {
     FrontstageManager.onPanelStateChangedEvent.removeListener(this._handlePanelStateChangedEvent);
     FrontstageManager.onWidgetStateChangedEvent.removeListener(this._handleWidgetStateChangedEvent);
   }
 
-  public render(): React.ReactNode {
+  public override render(): React.ReactNode {
     const { applicationData, defaultState, runtimeProps, maxSize, size, ...props } = this.props; // eslint-disable-line @typescript-eslint/no-unused-vars
     if (!runtimeProps)
       return null;

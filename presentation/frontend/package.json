@@ -1,6 +1,6 @@
 {
   "name": "@bentley/presentation-frontend",
-  "version": "2.19.0-dev.8",
+  "version": "2.19.0-dev.13",
   "description": "Frontend of iModel.js Presentation library",
   "main": "lib/presentation-frontend.js",
   "typings": "lib/presentation-frontend",
@@ -40,11 +40,11 @@
     "test:watch": "npm test -- --reporter min --watch-extensions ts --watch"
   },
   "peerDependencies": {
-    "@bentley/bentleyjs-core": "workspace:^2.19.0-dev.8",
-    "@bentley/imodeljs-common": "workspace:^2.19.0-dev.8",
-    "@bentley/imodeljs-frontend": "workspace:^2.19.0-dev.8",
-    "@bentley/imodeljs-i18n": "workspace:^2.19.0-dev.8",
-    "@bentley/presentation-common": "workspace:^2.19.0-dev.8"
+    "@bentley/bentleyjs-core": "workspace:^2.19.0-dev.13",
+    "@bentley/imodeljs-common": "workspace:^2.19.0-dev.13",
+    "@bentley/imodeljs-frontend": "workspace:^2.19.0-dev.13",
+    "@bentley/imodeljs-i18n": "workspace:^2.19.0-dev.13",
+    "@bentley/presentation-common": "workspace:^2.19.0-dev.13"
   },
   "devDependencies": {
     "@bentley/bentleyjs-core": "workspace:*",
@@ -81,7 +81,7 @@
     "sinon": "^9.0.2",
     "sinon-chai": "^3.2.0",
     "typemoq": "^2.1.0",
-    "typescript": "~4.1.0",
+    "typescript": "~4.3.0",
     "xmlhttprequest": "^1.8.0"
   },
   "nyc": {

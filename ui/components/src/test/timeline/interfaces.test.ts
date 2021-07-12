@@ -10,12 +10,12 @@ class TestTimelineDataProvider extends BaseTimelineDataProvider {
   public pointerCallbackCalled = false;
   public settingsCallbackCalled = false;
 
-  public onAnimationFractionChanged = (animationFraction: number) => {
+  public override onAnimationFractionChanged = (animationFraction: number) => {
     this.pointerCallbackCalled = true;
     this.animationFraction = animationFraction;
   };
 
-  public onPlaybackSettingChanged = (settings: PlaybackSettings) => {
+  public override onPlaybackSettingChanged = (settings: PlaybackSettings) => {
     this.settingsCallbackCalled = true;
     this.updateSettings(settings);
   };
@@ -29,7 +29,7 @@ describe("Timeline", () => {
     const testanimationFraction = 0.3;
 
     class Test1TimelineDataProvider extends TestTimelineDataProvider {
-      public async loadTimelineData(): Promise<boolean> {
+      public override async loadTimelineData(): Promise<boolean> {
         this.updateSettings({
           duration,
           loop,
@@ -60,7 +60,7 @@ describe("Timeline", () => {
     const testanimationFraction = 0.3;
 
     class Test2TimelineDataProvider extends TestTimelineDataProvider {
-      public async loadTimelineData(): Promise<boolean> {
+      public override async loadTimelineData(): Promise<boolean> {
         this.updateSettings({
           duration,
           loop,

@@ -183,8 +183,8 @@ class TestUiProvider implements UiItemsProvider {
 export class UiProviderTool extends Tool {
   public static testExtensionLoaded = "";
 
-  public static toolId = "TestUiProvider";
-  public run(_args: any[]): boolean {
+  public static override toolId = "TestUiProvider";
+  public override run(_args: any[]): boolean {
     // load state before ui provide so state is available when rendering on load occurs.
     if (!SampleExtensionStateManager.extensionStateManagerLoaded)
       SampleExtensionStateManager.initialize();
@@ -203,13 +203,13 @@ export class UiProviderTool extends Tool {
 }
 
 export class OpenComponentExamplesPopoutTool extends Tool {
-  public static toolId = "openComponentExamplesChildWindow";
-  public static iconSpec = IconSpecUtilities.createSvgIconSpec(toolIconSvg);
+  public static override toolId = "openComponentExamplesChildWindow";
+  public static override iconSpec = IconSpecUtilities.createSvgIconSpec(toolIconSvg);
 
-  public static get minArgs() { return 0; }
-  public static get maxArgs() { return 0; }
+  public static override get minArgs() { return 0; }
+  public static override get maxArgs() { return 0; }
 
-  public run(): boolean {
+  public override run(): boolean {
     // eslint-disable-next-line @typescript-eslint/no-floating-promises
     this._run();
     return true;
@@ -227,16 +227,16 @@ export class OpenComponentExamplesPopoutTool extends Tool {
       UiFramework.childWindowManager.openChildWindow("ComponentExamples", "Component Examples", <ComponentExamplesPage categories={ComponentExamplesProvider.categories} hideThemeOption />, location, UiFramework.useDefaultPopoutUrl);
   }
 
-  public static get flyover(): string {
+  public static override get flyover(): string {
     return "open examples popout";
   }
 
   // if supporting localized key-ins return a localized string
-  public static get keyin(): string {
+  public static override get keyin(): string {
     return "open examples popout";
   }
 
-  public static get englishKeyin(): string {
+  public static override get englishKeyin(): string {
     return "open examples popout";
   }
 
@@ -249,13 +249,13 @@ export class OpenComponentExamplesPopoutTool extends Tool {
   }
 }
 export class OpenCustomPopoutTool extends Tool {
-  public static toolId = "OpenCustomPopout";
-  public static iconSpec = IconSpecUtilities.createSvgIconSpec(tool2IconSvg);
+  public static override toolId = "OpenCustomPopout";
+  public static override iconSpec = IconSpecUtilities.createSvgIconSpec(tool2IconSvg);
 
-  public static get minArgs() { return 0; }
-  public static get maxArgs() { return 0; }
+  public static override get minArgs() { return 0; }
+  public static override get maxArgs() { return 0; }
 
-  public run(): boolean {
+  public override run(): boolean {
     // eslint-disable-next-line @typescript-eslint/no-floating-promises
     this._run();
     return true;
@@ -271,16 +271,16 @@ export class OpenCustomPopoutTool extends Tool {
     UiFramework.childWindowManager.openChildWindow("CustomPopout", "Custom Popout", <PopupTestPanel />, location /* , UiFramework.useDefaultPopoutUrl*/);
   }
 
-  public static get flyover(): string {
+  public static override get flyover(): string {
     return "open custom popout";
   }
 
   // if supporting localized key-ins return a localized string
-  public static get keyin(): string {
+  public static override get keyin(): string {
     return "open custom popout";
   }
 
-  public static get englishKeyin(): string {
+  public static override get englishKeyin(): string {
     return "open custom popout";
   }
 
@@ -294,13 +294,13 @@ export class OpenCustomPopoutTool extends Tool {
 }
 
 export class OpenViewPopoutTool extends Tool {
-  public static toolId = "OpenViewPopout";
-  public static iconSpec = IconSpecUtilities.createSvgIconSpec(tool3IconSvg);
+  public static override toolId = "OpenViewPopout";
+  public static override iconSpec = IconSpecUtilities.createSvgIconSpec(tool3IconSvg);
 
-  public static get minArgs() { return 0; }
-  public static get maxArgs() { return 0; }
+  public static override get minArgs() { return 0; }
+  public static override get maxArgs() { return 0; }
 
-  public run(): boolean {
+  public override run(): boolean {
     // eslint-disable-next-line @typescript-eslint/no-floating-promises
     this._run();
     return true;
@@ -316,16 +316,16 @@ export class OpenViewPopoutTool extends Tool {
     UiFramework.childWindowManager.openChildWindow("ViewPopout", "View Popout", <PopupTestView />, location);
   }
 
-  public static get flyover(): string {
+  public static override get flyover(): string {
     return "open view popout";
   }
 
   // if supporting localized key-ins return a localized string
-  public static get keyin(): string {
+  public static override get keyin(): string {
     return "open view popout";
   }
 
-  public static get englishKeyin(): string {
+  public static override get englishKeyin(): string {
     return "open view popout";
   }
 

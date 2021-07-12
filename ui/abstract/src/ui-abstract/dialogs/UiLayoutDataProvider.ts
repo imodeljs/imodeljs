@@ -71,7 +71,7 @@ export abstract class UiLayoutDataProvider extends UiDataProvider {
   private _items: ReadonlyArray<DialogItem> | undefined;
 
   /** Applies changes from one or more properties - some dialogs will use this to send a bulk set of changes back to the provider */
-  public processChangesInUi(properties: DialogPropertyItem[]): PropertyChangeResult {
+  public override processChangesInUi(properties: DialogPropertyItem[]): PropertyChangeResult {
     // Default implementation is to just pass each property to applyUiPropertyChange
     properties.forEach((property) => this.applyUiPropertyChange(property));
     return { status: PropertyChangeStatus.Success };

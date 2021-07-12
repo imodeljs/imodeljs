@@ -1288,6 +1288,8 @@ describe("PresentationManager", () => {
           changes: [{
             type: "Delete",
             target: createRandomECInstancesNodeJSON().key,
+            parent: createRandomECInstancesNodeJSON().key,
+            position: 123,
           }],
         };
         setup(addonResponse);

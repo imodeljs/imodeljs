@@ -13,7 +13,7 @@ import { createDnDRenderer } from "../tree/deprecated/hocs/withDragDrop.test";
 
 describe("withDragSource", () => {
   class TestComponent extends React.Component<any> {
-    public render(): React.ReactNode {
+    public override render(): React.ReactNode {
       return <div> test </div>;
     }
   }

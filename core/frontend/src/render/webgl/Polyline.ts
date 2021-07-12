@@ -75,7 +75,7 @@ export class PolylineGeometry extends LUTGeometry {
 
   protected _wantWoWReversal(_target: Target): boolean { return true; }
 
-  public get polylineBuffers(): PolylineBuffers | undefined { return this._buffers; }
+  public override get polylineBuffers(): PolylineBuffers | undefined { return this._buffers; }
 
   private _computeEdgePass(target: Target, colorInfo: ColorInfo): RenderPass {
     const vf = target.currentViewFlags;
@@ -102,19 +102,19 @@ export class PolylineGeometry extends LUTGeometry {
 
   public get techniqueId(): TechniqueId { return TechniqueId.Polyline; }
   public get isPlanar(): boolean { return this._isPlanar; }
-  public get isEdge(): boolean { return this.isAnyEdge; }
-  public get qOrigin(): Float32Array { return this.lut.qOrigin; }
-  public get qScale(): Float32Array { return this.lut.qScale; }
+  public override get isEdge(): boolean { return this.isAnyEdge; }
+  public override get qOrigin(): Float32Array { return this.lut.qOrigin; }
+  public override get qScale(): Float32Array { return this.lut.qScale; }
   public get numRgbaPerVertex(): number { return this.lut.numRgbaPerVertex; }
-  public get hasFeatures() { return this._hasFeatures; }
+  public override get hasFeatures() { return this._hasFeatures; }
 
-  protected _getLineWeight(params: ShaderProgramParams): number {
+  protected override _getLineWeight(params: ShaderProgramParams): number {
     return this.isEdge ? params.target.computeEdgeWeight(params.renderPass, this.lineWeight) : this.lineWeight;
   }
-  protected _getLineCode(params: ShaderProgramParams): number {
+  protected override _getLineCode(params: ShaderProgramParams): number {
     return this.isEdge ? params.target.computeEdgeLineCode(params.renderPass, this.lineCode) : this.lineCode;
   }
-  public getColor(target: Target): ColorInfo {
+  public override getColor(target: Target): ColorInfo {
     return this.isEdge ? target.computeEdgeColor(this.lut.colorInfo) : this.lut.colorInfo;
   }
 

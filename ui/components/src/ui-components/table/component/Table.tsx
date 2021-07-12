@@ -266,7 +266,7 @@ interface TableRowRendererProps {
 
 /** ReactDataGrid requires a class component for the RowRenderer because it sets a ref to it. */
 class TableRowRenderer extends React.Component<TableRowRendererProps> {
-  public render() {
+  public override render() {
     const creatorFn = this.props.rowRendererCreator();
     return creatorFn(this.props);
   }
@@ -308,7 +308,7 @@ export class Table extends React.Component<TableProps, TableState> {
   private _filterRowShown = false;
 
   /** @internal */
-  public readonly state = initialState;
+  public override readonly state = initialState;
 
   /** @internal */
   constructor(props: TableProps) {
@@ -390,7 +390,7 @@ export class Table extends React.Component<TableProps, TableState> {
   }
 
   /** @internal */
-  public componentDidUpdate(previousProps: TableProps, previousState: TableState) {
+  public override componentDidUpdate(previousProps: TableProps, previousState: TableState) {
     this._rowSelectionHandler.selectionMode = this.props.selectionMode ? this.props.selectionMode : SelectionMode.Single;
     this._cellSelectionHandler.selectionMode = this.props.selectionMode ? this.props.selectionMode : SelectionMode.Single;
 
@@ -429,7 +429,7 @@ export class Table extends React.Component<TableProps, TableState> {
   }
 
   /** @internal */
-  public componentDidMount() {
+  public override componentDidMount() {
     let gridContainer: HTMLDivElement | null = null;
 
     this._isMounted = true;
@@ -448,7 +448,7 @@ export class Table extends React.Component<TableProps, TableState> {
   }
 
   /** @internal */
-  public componentWillUnmount() {
+  public override componentWillUnmount() {
     this._isMounted = false;
     this._disposableListeners.dispose();
   }
@@ -1360,7 +1360,7 @@ export class Table extends React.Component<TableProps, TableState> {
   };
 
   /** @internal */
-  public shouldComponentUpdate(_props: TableProps): boolean {
+  public override shouldComponentUpdate(_props: TableProps): boolean {
     return true;
   }
 
@@ -1673,7 +1673,7 @@ export class Table extends React.Component<TableProps, TableState> {
   private _onKeyUp = (e: React.KeyboardEvent) => this._onKeyboardEvent(e, false);
 
   /** @internal */
-  public render() {
+  public override render() {
     const rowRenderer = <TableRowRenderer rowRendererCreator={() => this._createRowRenderer()} />;
 
     const visibleColumns = this._getVisibleColumns();
@@ -1780,7 +1780,7 @@ export interface TableRowProps extends CommonProps {
 export class TableRow extends React.Component<TableRowProps> {
 
   /** @internal */
-  public render() {
+  public override render() {
     const { cells, isSelected, ...props } = this.props;
     return (
       <ReactDataGrid.Row {...props} row={cells} isSelected={isSelected} />

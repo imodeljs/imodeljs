@@ -30,7 +30,7 @@ export interface GlobalDialogState {
 export class GlobalDialog extends React.Component<GlobalDialogProps, GlobalDialogState> {
   private _container?: HTMLDivElement;
 
-  public readonly state: GlobalDialogState = {
+  public override readonly state: GlobalDialogState = {
     parentDocument: null,
   };
 
@@ -56,14 +56,14 @@ export class GlobalDialog extends React.Component<GlobalDialogProps, GlobalDialo
     }
   };
 
-  public componentWillUnmount() {
+  public override componentWillUnmount() {
     // istanbul ignore else
     if (this._container && this._container.parentElement) { // cleanup
       this._container.parentElement.removeChild(this._container);
     }
   }
 
-  public render(): React.ReactNode {
+  public override render(): React.ReactNode {
     const { identifier, ...props } = this.props; // eslint-disable-line @typescript-eslint/no-unused-vars
     return (
       <div ref={this._handleRefSet}>

@@ -15,7 +15,7 @@ import { RobotWorld } from "./RobotWorldSchema";
  * In this example, a "robot" is represented as a circle in the X-Y plane.
  */
 export class Robot extends SpatialLocationElement {
-  public static get className(): string { return "Robot"; }
+  public static override get className(): string { return "Robot"; }
   //  Define the properties added by this subclass
   public radius: number = 0.1;                     // The girth of the robot
 

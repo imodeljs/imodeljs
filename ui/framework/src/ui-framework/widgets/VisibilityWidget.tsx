@@ -93,12 +93,12 @@ export class VisibilityComponent extends React.Component<VisibilityComponentProp
       viewport: this.props.activeViewport, showAll: new BeUiEvent<void>(), hideAll: new BeUiEvent<void>(),
     };
   }
-  public async componentDidMount() {
+  public override async componentDidMount() {
     IModelApp.viewManager.onSelectedViewportChanged.addListener(this._onViewportChangedHandler);
   }
 
   /** Remove listeners */
-  public componentWillUnmount() {
+  public override componentWillUnmount() {
     IModelApp.viewManager.onSelectedViewportChanged.removeListener(this._onViewportChangedHandler);
   }
 
@@ -185,7 +185,7 @@ export class VisibilityComponent extends React.Component<VisibilityComponentProp
     </div>);
   }
 
-  public render() {
+  public override render() {
     const { iModelConnection } = this.props;
     if (!iModelConnection)
       return (<span>{UiFramework.translate("visibilityWidget.noImodelConnection")}</span>);
@@ -249,12 +249,12 @@ export class VisibilityWidget extends WidgetControl {
       this.reactNode = <IModelConnectedVisibilityComponent activeViewport={IModelApp.viewManager.selectedView} activeTreeRef={this._activeTreeRef} enableHierarchiesPreloading={options.enableHierarchiesPreloading} config={options.config} />;
   }
 
-  public saveTransientState(): void {
+  public override saveTransientState(): void {
     if (this._activeTreeRef.current)
       this._maintainScrollPosition = new ScrollPositionMaintainer(this._activeTreeRef.current);
   }
 
-  public restoreTransientState(): boolean {
+  public override restoreTransientState(): boolean {
     if (this._maintainScrollPosition) {
       this._maintainScrollPosition.dispose();
       this._maintainScrollPosition = undefined;

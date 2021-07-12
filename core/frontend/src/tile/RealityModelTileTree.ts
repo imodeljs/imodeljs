@@ -351,9 +351,9 @@ class RealityModelTileLoader extends RealityTileLoader {
   public get maxDepth(): number { return 32; }  // Can be removed when element tile selector is working.
   public get minDepth(): number { return 0; }
   public get priority(): TileLoadPriority { return TileLoadPriority.Context; }
-  public getBatchIdMap(): BatchedTileIdMap | undefined { return this._batchedIdMap; }
+  public override getBatchIdMap(): BatchedTileIdMap | undefined { return this._batchedIdMap; }
   public get clipLowResolutionTiles(): boolean { return true; }
-  public get viewFlagOverrides(): ViewFlagOverrides { return this._viewFlagOverrides; }
+  public override get viewFlagOverrides(): ViewFlagOverrides { return this._viewFlagOverrides; }
 
   public async loadChildren(tile: RealityTile): Promise<Tile[] | undefined> {
     const props = await this.getChildrenProps(tile);
@@ -422,7 +422,7 @@ class RealityModelTileLoader extends RealityTileLoader {
 
     tilesetJson.children[childIndex] = await expandSubTree(foundChild, this.tree.client);
 
-    return new FindChildResult(thisParentId,  tilesetJson.children[childIndex], transformToRoot);
+    return new FindChildResult(thisParentId, tilesetJson.children[childIndex], transformToRoot);
   }
 }
 
@@ -441,7 +441,7 @@ export class RealityModelTileTree extends RealityTileTree {
       this.iModel.expandDisplayedExtents(worldContentRange);
     }
   }
-  public get isContentUnbounded() { return this._isContentUnbounded; }
+  public override get isContentUnbounded() { return this._isContentUnbounded; }
 }
 
 /** @internal */
@@ -510,12 +510,12 @@ export namespace RealityModelTileTree {
 
     public get planarClassifierTreeRef() { return this._classifier && this._classifier.activeClassifier && this._classifier.isPlanar ? this._classifier : undefined; }
 
-    public unionFitRange(union: Range3d): void {
+    public override unionFitRange(union: Range3d): void {
       const contentRange = this.computeWorldContentRange();
       if (!contentRange.isNull && contentRange.diagonal().magnitude() < Constant.earthRadiusWGS84.equator)
         union.extendRange(contentRange);
     }
-    public get isGlobal() {
+    public override get isGlobal() {
       if (undefined === this._isGlobal) {
         const range = this.computeWorldContentRange();
         if (!range.isNull)
@@ -524,7 +524,7 @@ export namespace RealityModelTileTree {
       return this._isGlobal === undefined ? false : this._isGlobal;
     }
 
-    public addToScene(context: SceneContext): void {
+    public override addToScene(context: SceneContext): void {
       // NB: The classifier must be added first, so we can find it when adding our own tiles.
       if (this._classifier && this._classifier.activeClassifier)
         this._classifier.addToScene(context);
@@ -545,7 +545,7 @@ export namespace RealityModelTileTree {
       context.addPlanarClassifier(this.modelId, classifierTree, planarClipMask);
     }
 
-    public discloseTileTrees(trees: DisclosedTileTreeSet): void {
+    public override discloseTileTrees(trees: DisclosedTileTreeSet): void {
       super.discloseTileTrees(trees);
 
       if (undefined !== this._classifier)
@@ -557,7 +557,7 @@ export namespace RealityModelTileTree {
       if (undefined !== this._planarClipMask)
         this._planarClipMask.discloseTileTrees(trees);
     }
-    public collectStatistics(stats: RenderMemory.Statistics): void {
+    public override collectStatistics(stats: RenderMemory.Statistics): void {
       super.collectStatistics(stats);
 
       const tree = undefined !== this._classifier ? this._classifier.treeOwner.tileTree : undefined;
@@ -657,15 +657,15 @@ class RealityTreeReference extends RealityModelTileTree.Reference {
     return realityTreeSupplier.getOwner(treeId, this._iModel);
   }
 
-  public get castsShadows() {
+  public override get castsShadows() {
     return true;
   }
 
-  protected get _isLoadingComplete(): boolean {
+  protected override get _isLoadingComplete(): boolean {
     return !this._mapDrapeTree || this._mapDrapeTree.isLoadingComplete;
   }
 
-  public createDrawArgs(context: SceneContext): TileDrawArgs | undefined {
+  public override createDrawArgs(context: SceneContext): TileDrawArgs | undefined {
     // For global reality models (OSM Building layer only) - offset the reality model by the BIM elevation bias.  This would not be necessary
     // if iModels had their elevation set correctly but unfortunately many GCS erroneously report Sea (Geoid) elevation rather than
     // Geodetic.
@@ -684,9 +684,9 @@ class RealityTreeReference extends RealityModelTileTree.Reference {
     return drawArgs;
   }
 
-  public addToScene(context: SceneContext): void {
+  public override addToScene(context: SceneContext): void {
     const tree = this.treeOwner.tileTree as RealityTileTree;
-    if (undefined !== tree && context.viewport.iModel.isGeoLocated &&  (tree.loader as RealityModelTileLoader).doDrapeBackgroundMap) {
+    if (undefined !== tree && context.viewport.iModel.isGeoLocated && (tree.loader as RealityModelTileLoader).doDrapeBackgroundMap) {
       // NB: We save this off strictly so that discloseTileTrees() can find it...better option?
       this._mapDrapeTree = context.viewport.backgroundDrapeMap;
       context.addBackgroundDrapedModel(this, undefined);
@@ -695,7 +695,7 @@ class RealityTreeReference extends RealityModelTileTree.Reference {
     super.addToScene(context);
   }
 
-  public async getToolTip(hit: HitDetail): Promise<HTMLElement | string | undefined> {
+  public override async getToolTip(hit: HitDetail): Promise<HTMLElement | string | undefined> {
     const tree = this.treeOwner.tileTree;
     if (undefined === tree || hit.iModel !== tree.iModel)
       return undefined;
@@ -742,7 +742,7 @@ class RealityTreeReference extends RealityModelTileTree.Reference {
     return div;
   }
 
-  public addLogoCards(cards: HTMLTableElement, _vp: ScreenViewport): void {
+  public override addLogoCards(cards: HTMLTableElement, _vp: ScreenViewport): void {
     if (this._url === getCesiumOSMBuildingsUrl()) {
       cards.appendChild(IModelApp.makeLogoCard({ heading: "OpenStreetMap", notice: `&copy;<a href=\"https://www.openstreetmap.org/copyright\">OpenStreetMap</a> ${IModelApp.i18n.translate("iModelJs:BackgroundMap:OpenStreetMapContributors")}` }));
     }

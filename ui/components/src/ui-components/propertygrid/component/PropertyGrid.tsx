@@ -79,7 +79,7 @@ export class PropertyGrid extends React.Component<PropertyGridProps, PropertyGri
   }
 
   /** @internal */
-  public componentDidMount() {
+  public override componentDidMount() {
     this._isMounted = true;
     this._dataChangesListenerDisposeFunc = this.props.dataProvider.onDataChanged.addListener(this._onPropertyDataChanged);
 
@@ -88,7 +88,7 @@ export class PropertyGrid extends React.Component<PropertyGridProps, PropertyGri
   }
 
   /** @internal */
-  public componentWillUnmount() {
+  public override componentWillUnmount() {
     // istanbul ignore else
     if (this._dataChangesListenerDisposeFunc) {
       this._dataChangesListenerDisposeFunc();
@@ -97,7 +97,7 @@ export class PropertyGrid extends React.Component<PropertyGridProps, PropertyGri
     this._isMounted = false;
   }
 
-  public componentDidUpdate(prevProps: PropertyGridProps) {
+  public override componentDidUpdate(prevProps: PropertyGridProps) {
     if (this.props.dataProvider !== prevProps.dataProvider) {
       // istanbul ignore else
       if (this._dataChangesListenerDisposeFunc)
@@ -201,7 +201,7 @@ export class PropertyGrid extends React.Component<PropertyGridProps, PropertyGri
   }
 
   /** @internal */
-  public render() {
+  public override render() {
     if (this.state.loadStart) {
       return (
         <div className="components-property-grid-loader">

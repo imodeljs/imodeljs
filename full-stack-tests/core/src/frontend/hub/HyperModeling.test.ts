@@ -245,8 +245,8 @@ describe("HyperModeling (#integration)", () => {
 
       // Activating/deactivating markers is a no-op
       class Handler extends SectionMarkerHandler {
-        public async activateMarker(_marker: SectionMarker, _decorator: HyperModelingDecorator) { return true; }
-        public async deactivateMarker(_marker: SectionMarker, _decorator: HyperModelingDecorator) { }
+        public override async activateMarker(_marker: SectionMarker, _decorator: HyperModelingDecorator) { return true; }
+        public override async deactivateMarker(_marker: SectionMarker, _decorator: HyperModelingDecorator) { }
       }
 
       HyperModeling.updateConfiguration({ markerHandler: new Handler() });
@@ -360,9 +360,9 @@ describe("HyperModeling (#integration)", () => {
       class Handler extends SectionMarkerHandler {
         public static visible = true;
 
-        public async activateMarker(_marker: SectionMarker, _decorator: HyperModelingDecorator) { return true; }
-        public async deactivateMarker(_marker: SectionMarker, _decorator: HyperModelingDecorator) { }
-        public isMarkerVisible(_marker: SectionMarker, _dec: HyperModelingDecorator, _config: SectionMarkerConfig): boolean {
+        public override async activateMarker(_marker: SectionMarker, _decorator: HyperModelingDecorator) { return true; }
+        public override async deactivateMarker(_marker: SectionMarker, _decorator: HyperModelingDecorator) { }
+        public override isMarkerVisible(_marker: SectionMarker, _dec: HyperModelingDecorator, _config: SectionMarkerConfig): boolean {
           return super.isMarkerVisible(_marker, _dec, _config) && Handler.visible;
         }
       }
@@ -433,13 +433,13 @@ describe("HyperModeling (#integration)", () => {
       private _activateCalled = false;
       private _deactivateCalled = false;
 
-      public async activateMarker(_marker: SectionMarker, _dec: HyperModelingDecorator): Promise<boolean> {
+      public override async activateMarker(_marker: SectionMarker, _dec: HyperModelingDecorator): Promise<boolean> {
         expect(this._activateCalled).to.be.false;
         this._activateCalled = true;
         return this.allowActivate;
       }
 
-      public async deactivateMarker(_marker: SectionMarker, _dec: HyperModelingDecorator): Promise<void> {
+      public override async deactivateMarker(_marker: SectionMarker, _dec: HyperModelingDecorator): Promise<void> {
         expect(this._deactivateCalled).to.be.false;
         this._deactivateCalled = true;
       }

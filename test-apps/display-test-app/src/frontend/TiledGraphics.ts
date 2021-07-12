@@ -19,13 +19,13 @@ class ExternalTreeRef extends TileTreeReference {
     this._ovrs = ovrs;
   }
 
-  public get castsShadows() {
+  public override get castsShadows() {
     return this._ref.castsShadows;
   }
 
   public get treeOwner() { return this._ref.treeOwner; }
 
-  public addToScene(context: SceneContext): void {
+  public override addToScene(context: SceneContext): void {
     const tree = this.treeOwner.load();
     if (undefined === tree)
       return;

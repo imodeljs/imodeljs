@@ -63,7 +63,7 @@ export class LoadingPrompt extends React.PureComponent<LoadingPromptProps> {
     status: "",
   };
 
-  public render() {
+  public override render() {
     // eslint-disable-next-line deprecation/deprecation
     const isDeterminate = this.props.isDeterminate || this.props.isDeterministic;
 

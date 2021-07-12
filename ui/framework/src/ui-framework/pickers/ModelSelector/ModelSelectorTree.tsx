@@ -49,7 +49,7 @@ export class CategoryModelTree extends React.Component<CategoryModelTreeProps, C
   }
 
   /** @internal */
-  public componentDidMount() {
+  public override componentDidMount() {
     this._isMounted = true;
     if (this.props.activeView) {
       this.props.activeView.onViewedModelsChanged.addListener(
@@ -62,7 +62,7 @@ export class CategoryModelTree extends React.Component<CategoryModelTreeProps, C
   }
 
   /** @internal */
-  public componentDidUpdate(
+  public override componentDidUpdate(
     prevProps: CategoryModelTreeProps,
     _prevState: CategoryModelTreeState,
   ) {
@@ -85,7 +85,7 @@ export class CategoryModelTree extends React.Component<CategoryModelTreeProps, C
   }
 
   /** @internal */
-  public componentWillUnmount() {
+  public override componentWillUnmount() {
     this._isMounted = false;
   }
 
@@ -273,7 +273,7 @@ export class CategoryModelTree extends React.Component<CategoryModelTreeProps, C
   }
 
   /** @internal */
-  public render() {
+  public override render() {
     const listClassName = classnames("uifw-modelselector", "show");
     return (
       <div className={listClassName}>

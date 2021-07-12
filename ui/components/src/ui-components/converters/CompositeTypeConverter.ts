@@ -15,7 +15,7 @@ import { TypeConverterManager } from "./TypeConverterManager";
  * @public
  */
 export class CompositeTypeConverter extends TypeConverter {
-  public convertToString(value?: Primitives.Composite): string | Promise<string> {
+  public override convertToString(value?: Primitives.Composite): string | Promise<string> {
     if (value === undefined)
       return "";
     return createDisplayValue(value);

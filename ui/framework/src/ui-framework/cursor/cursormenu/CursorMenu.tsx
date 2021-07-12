@@ -33,7 +33,7 @@ export class CursorPopupMenu extends React.PureComponent<CommonProps, CursorPopu
   private _hostChildWindowId?: string;
 
   /** @internal */
-  public readonly state: CursorPopupMenuState = {
+  public override readonly state: CursorPopupMenuState = {
     menuX: 0,
     menuY: 0,
     menuVisible: false,
@@ -56,11 +56,11 @@ export class CursorPopupMenu extends React.PureComponent<CommonProps, CursorPopu
     }
   };
 
-  public componentDidMount() {
+  public override componentDidMount() {
     SyncUiEventDispatcher.onSyncUiEvent.addListener(this._handleSyncUiEvent);
   }
 
-  public componentWillUnmount() {
+  public override componentWillUnmount() {
     this._componentUnmounting = true;
     SyncUiEventDispatcher.onSyncUiEvent.removeListener(this._handleSyncUiEvent);
   }
@@ -72,7 +72,7 @@ export class CursorPopupMenu extends React.PureComponent<CommonProps, CursorPopu
     Logger.logInfo(UiFramework.loggerCategory(UiFramework), `Cursor Menu for ${this._hostChildWindowId ?? "main"} window`);
   };
 
-  public render(): React.ReactNode {
+  public override render(): React.ReactNode {
     const { menuX, menuY, items, menuVisible } = this.state;
     const onClose = this._hideContextMenu;
 

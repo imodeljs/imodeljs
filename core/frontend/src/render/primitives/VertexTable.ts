@@ -950,10 +950,10 @@ class TexturedMeshBuilder extends MeshBuilder {
     assert(undefined !== args.textureUv);
   }
 
-  public get numRgbaPerVertex() { return 4; }
-  public get uvParams() { return this._qparams; }
+  public override get numRgbaPerVertex() { return 4; }
+  public override get uvParams() { return this._qparams; }
 
-  public appendVertex(vertIndex: number) {
+  public override appendVertex(vertIndex: number) {
     this.appendPosition(vertIndex);
     this.appendNormal(vertIndex);
     this.appendFeatureIndex(vertIndex);
@@ -976,7 +976,7 @@ class TexturedLitMeshBuilder extends TexturedMeshBuilder {
     assert(undefined !== args.normals);
   }
 
-  protected appendNormal(vertIndex: number) { this.append16(this.args.normals![vertIndex].value); }
+  protected override appendNormal(vertIndex: number) { this.append16(this.args.normals![vertIndex].value); }
 }
 
 /** 16 bytes. The last 2 bytes are unused; the 2 immediately preceding it hold the oct-encoded normal value. */
@@ -986,9 +986,9 @@ class LitMeshBuilder extends MeshBuilder {
     assert(undefined !== args.normals);
   }
 
-  public get numRgbaPerVertex() { return 4; }
+  public override get numRgbaPerVertex() { return 4; }
 
-  public appendVertex(vertIndex: number) {
+  public override appendVertex(vertIndex: number) {
     super.appendVertex(vertIndex);
     this.append16(this.args.normals![vertIndex].value);
     this.advance(2); // 2 unused bytes

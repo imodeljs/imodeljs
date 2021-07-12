@@ -8,7 +8,7 @@
 
 import { assert } from "@bentley/bentleyjs-core";
 import {
-  CurveChain, IndexedPolyface, Loop, Path, Point3d, PolyfaceBuilder, Range3d, SolidPrimitive, StrokeOptions, SweepContour, Transform,
+  CurveChain, IndexedPolyface, Loop, Path, Point3d, PolyfaceBuilder, PolyfaceQuery, Range3d, SolidPrimitive, StrokeOptions, SweepContour, Transform,
 } from "@bentley/geometry-core";
 import { DisplayParams } from "../DisplayParams";
 import { PolyfacePrimitive, PolyfacePrimitiveList } from "../Polyface";
@@ -223,7 +223,7 @@ export class PrimitivePolyfaceGeometry extends Geometry {
   }
 
   protected _getPolyfaces(facetOptions: StrokeOptions): PolyfacePrimitiveList | undefined {
-    if (!this.hasTexture) { // clear parameters
+    if (!this.hasTexture) {
       if (this.polyface.data.param)
         this.polyface.data.param.clear();
 
@@ -238,7 +238,7 @@ export class PrimitivePolyfaceGeometry extends Geometry {
       if (this.polyface.data.normalIndex)
         this.polyface.data.normalIndex = [];
     } else if (!this.polyface.data.normal || 0 === this.polyface.data.normal.length) {
-      // ###TODO: Currently no support for generating normals in TypeScript.
+      PolyfaceQuery.buildAverageNormals(this.polyface);
     }
 
     assert(this.transform.isIdentity);

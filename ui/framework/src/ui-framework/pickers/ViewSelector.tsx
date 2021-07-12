@@ -118,7 +118,7 @@ export class ViewSelector extends React.Component<ViewSelectorProps, ViewSelecto
     };
   }
 
-  public async componentDidMount() {
+  public override async componentDidMount() {
     this._isMounted = true;
     if (this.props.listenForShowUpdates)
       this._removeShowUpdateListener = ViewSelector._onViewSelectorShowUpdateEvent.addListener(this._handleViewSelectorShowUpdateEvent);
@@ -126,13 +126,13 @@ export class ViewSelector extends React.Component<ViewSelectorProps, ViewSelecto
     await this.loadViews();
   }
 
-  public async componentDidUpdate(prevProps: ViewSelectorProps) {
+  public override async componentDidUpdate(prevProps: ViewSelectorProps) {
     if (this.props.imodel !== prevProps.imodel) {
       await this.loadViews();
     }
   }
 
-  public componentWillUnmount() {
+  public override componentWillUnmount() {
     this._isMounted = false;
     // istanbul ignore else
     if (this._removeShowUpdateListener)
@@ -328,7 +328,7 @@ export class ViewSelector extends React.Component<ViewSelectorProps, ViewSelecto
   /**
    *  Renders ViewSelector component
    */
-  public render() {
+  public override render() {
     if (!this.state.initialized)
       return null;
 

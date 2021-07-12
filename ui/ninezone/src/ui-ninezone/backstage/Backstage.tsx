@@ -46,15 +46,15 @@ export class Backstage extends React.PureComponent<BackstageProps> {
     showOverlay: true,
   };
 
-  public componentDidMount(): void {
+  public override componentDidMount(): void {
     document.addEventListener("keydown", this._onEsc, false);
   }
 
-  public componentWillUnmount() {
+  public override componentWillUnmount() {
     document.removeEventListener("keydown", this._onEsc, false);
   }
 
-  public render() {
+  public override render() {
     const overlayClassName = classnames(
       "nz-backstage-backstage_overlay",
       this.props.isOpen && "nz-open",

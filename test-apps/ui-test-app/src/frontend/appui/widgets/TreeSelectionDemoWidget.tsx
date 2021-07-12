@@ -46,7 +46,7 @@ class DemoTreeEventsHandler extends TreeEventHandler {
     this._removeModelChangedListener = this.modelSource.onModelChanged.addListener(this.onModelChanged);
   }
 
-  public dispose() {
+  public override dispose() {
     this._removeModelChangedListener();
     super.dispose();
   }
@@ -76,7 +76,7 @@ class DemoTreeEventsHandler extends TreeEventHandler {
     }
   }
 
-  public onSelectionModified({ modifications }: TreeSelectionModificationEventArgs): Subscription | undefined {
+  public override onSelectionModified({ modifications }: TreeSelectionModificationEventArgs): Subscription | undefined {
     // call base to handle selection
     const baseHandling = super.onSelectionModified({ modifications });
     // additionally handle checkboxes
@@ -102,7 +102,7 @@ class DemoTreeEventsHandler extends TreeEventHandler {
   }
 
   /** Replaces currently selected nodes until event is handled, handler is disposed or another selection replaced event occurs. */
-  public onSelectionReplaced({ replacements }: TreeSelectionReplacementEventArgs): Subscription | undefined {
+  public override onSelectionReplaced({ replacements }: TreeSelectionReplacementEventArgs): Subscription | undefined {
     // call base to handle selection
     const baseHandling = super.onSelectionReplaced({ replacements });
     // additionally handle checkboxes
@@ -131,7 +131,7 @@ class DemoTreeEventsHandler extends TreeEventHandler {
   }
 
   /** Changes nodes checkbox states. */
-  public onCheckboxStateChanged({ stateChanges }: TreeCheckboxStateChangeEventArgs): Subscription | undefined {
+  public override onCheckboxStateChanged({ stateChanges }: TreeCheckboxStateChangeEventArgs): Subscription | undefined {
     // call base to handle checkboxes
     const baseHandling = super.onCheckboxStateChanged({ stateChanges });
     // additionally handle selection

@@ -35,7 +35,7 @@ interface GlobalContextMenuState {
 export class GlobalContextMenu extends React.PureComponent<GlobalContextMenuProps, GlobalContextMenuState> {
   private _container?: HTMLDivElement;
 
-  public readonly state: GlobalContextMenuState = {
+  public override readonly state: GlobalContextMenuState = {
     parentDocument: null,
   };
 
@@ -43,7 +43,7 @@ export class GlobalContextMenu extends React.PureComponent<GlobalContextMenuProp
     super(props);
   }
 
-  public componentWillUnmount() {
+  public override componentWillUnmount() {
     // istanbul ignore else
     if (this._container && this._container.parentElement) { // cleanup
       this._container.parentElement.removeChild(this._container);
@@ -68,7 +68,7 @@ export class GlobalContextMenu extends React.PureComponent<GlobalContextMenuProp
     }
   };
 
-  public render(): React.ReactNode {
+  public override render(): React.ReactNode {
     const { x, y, identifier, contextMenuComponent, ...props } = this.props; // eslint-disable-line @typescript-eslint/no-unused-vars
     const positioningStyle: React.CSSProperties = {
       left: x,

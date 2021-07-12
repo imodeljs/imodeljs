@@ -13,7 +13,7 @@ class Item extends React.Component implements ToolbarItem {
   public panel = document.createElement("div");
   public history = document.createElement("div");
 
-  public render() {
+  public override render() {
     return <div></div>;
   }
 }
@@ -65,7 +65,7 @@ describe("<Toolbar />", () => {
 });
 
 class ExpandableItem extends React.Component<ToolbarItemProps<Item>> {
-  public render() {
+  public override render() {
     return <Item ref={this.props.toolbarItemRef} />;
   }
 }
@@ -74,11 +74,11 @@ class ExpandableItem extends React.Component<ToolbarItemProps<Item>> {
 const BadItem = () => <div></div>;
 
 class SwitchItem extends React.Component<{}, { isExpandable: boolean }> {
-  public readonly state = {
+  public override readonly state = {
     isExpandable: false,
   };
 
-  public render() {
+  public override render() {
     if (this.state.isExpandable)
       return <ExpandableItem {...this.props} />;
     return <BadItem />;

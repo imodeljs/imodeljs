@@ -188,7 +188,7 @@ describe("Triangulation", () => {
         if (Checker.noisy.squareWaves)
           console.log(name, "Rotation angle ", degrees, " numPhase", numPhase);
         const graph = Triangulator.createTriangulatedGraphFromSingleLoop(points);
-        if (ck.testType<HalfEdgeGraph>(graph)){
+        if (ck.testType(graph, HalfEdgeGraph)) {
           const pfA = PolyfaceBuilder.graphToPolyface(graph);
           Triangulator.flipTriangles(graph);
 
@@ -204,7 +204,7 @@ describe("Triangulation", () => {
 
           ls1.tryTranslateInPlace(x0, y0);
           GeometryCoreTestIO.captureGeometry(allGeometry, [ls1, ls, pfA, pfB], x0, y0);
-          }
+        }
         y0 += 3 + 4 * numPhase;
       }
       x0 += 100.0;
@@ -555,17 +555,17 @@ describe("Triangulation", () => {
         GeometryCoreTestIO.captureCloneGeometry(allGeometry, pointsB, x0, y0);
         Triangulator.clearAndEnableDebugGraphCapture(true);
         const graph = Triangulator.createTriangulatedGraphFromSingleLoop(pointsB)!;
-        if (ck.testDefined(graph, "unexpected empty graph from triangulation") && graph){
+        if (ck.testDefined(graph, "unexpected empty graph from triangulation") && graph) {
           const faceSummary = HalfEdgeGraphSearch.collectFaceAreaSummary(graph, false);
           ck.testExactNumber(1, faceSummary.numNegative, "Exactly one outer loop after triangulation");
           ck.testExactNumber(0, faceSummary.numZero, " no slivers");
           ck.testExactNumber(expectedTriangleCount, faceSummary.numPositive, "triangle count");
           ck.testCoordinate(polygonArea, faceSummary.positiveSum, "positive area sum");
           const pfA = PolyfaceBuilder.graphToPolyface(graph);
-          GeometryCoreTestIO.captureCloneGeometry (allGeometry, pfA, ex, y0 + 1.5 * dy, 0);
+          GeometryCoreTestIO.captureCloneGeometry(allGeometry, pfA, ex, y0 + 1.5 * dy, 0);
           Triangulator.flipTriangles(graph);
           const pfB = PolyfaceBuilder.graphToPolyface(graph);
-          GeometryCoreTestIO.captureCloneGeometry (allGeometry, pfB, ex, y0 + 3.0 * dy, 0);
+          GeometryCoreTestIO.captureCloneGeometry(allGeometry, pfB, ex, y0 + 3.0 * dy, 0);
         } else {
           const badGraph = Triangulator.claimDebugGraph();
           GraphChecker.captureAnnotatedGraph(allGeometry, badGraph, ex, y0 + 2.0 * dy);
@@ -782,13 +782,13 @@ describe("Triangulation", () => {
         GraphChecker.verifyMaskAroundFaces(ck, graph, HalfEdgeMask.EXTERIOR);
         const polyface = PolyfaceBuilder.graphToPolyface(graph);
         GeometryCoreTestIO.captureGeometry(allGeometry, polyface, dx, dy + 20);
-        }
+      }
 
       const graph1 = Triangulator.createTriangulatedGraphFromLoops([points]);
       if (graph1) {
         const polyface1 = PolyfaceBuilder.graphToPolyface(graph1);
         GeometryCoreTestIO.captureGeometry(allGeometry, polyface1, dx, dy + 30);
-        }
+      }
       dx += 20;
     }
     GeometryCoreTestIO.saveGeometry(allGeometry, "Triangulation", "PinchedTriangulation");

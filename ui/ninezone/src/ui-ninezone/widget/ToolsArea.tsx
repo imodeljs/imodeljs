@@ -35,7 +35,7 @@ export interface ToolsAreaProps extends CommonProps, NoChildrenProps {
  * @alpha
  */
 export class ToolsArea extends React.PureComponent<ToolsAreaProps> {
-  public render() {
+  public override render() {
     const button = React.isValidElement(this.props.button) ? React.cloneElement(this.props.button, { small: true }) : null;  // ensure button is small
     const className = classnames(
       "nz-tools-widget",

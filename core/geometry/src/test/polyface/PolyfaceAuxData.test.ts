@@ -135,7 +135,7 @@ describe("PolyfaceAuxData", () => {
     const auxDataA = beam.data.auxData;
     ck.testFalse(PolyfaceAuxData.isAlmostEqual(auxDataA, undefined));
     ck.testFalse(PolyfaceAuxData.isAlmostEqual(undefined, auxDataA));
-    if (ck.testPointer(auxDataA) && auxDataA) {
+    if (ck.testPointer(auxDataA)) {
       const auxDataB = beam.data.auxData!.clone();
       ck.testTrue(auxDataA.isAlmostEqual(auxDataB), "cloned PpolyfaceAuxData");
       ck.testFalse(auxDataA.isAlmostEqual(beam1.data.auxData!, 1.0e-9));

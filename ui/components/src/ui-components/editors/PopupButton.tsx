@@ -59,19 +59,19 @@ export class PopupButton extends React.PureComponent<PopupButtonProps, PopupButt
   private _buttonRef = React.createRef<HTMLDivElement>();
 
   /** @internal */
-  public readonly state: Readonly<PopupButtonState> = {
+  public override readonly state: Readonly<PopupButtonState> = {
     showPopup: false,
   };
 
   /** @internal */
-  public componentDidMount() {
+  public override componentDidMount() {
     if (this.props.setFocus && this._buttonRef.current)
       this._buttonRef.current.focus();
     this._buttonRef.current?.addEventListener("keydown", this._handleKeyDown);
   }
 
   /** @internal */
-  public componentWillUnmount() {
+  public override componentWillUnmount() {
     // istanbul ignore next
     if (this._buttonRef.current)
       this._buttonRef.current.removeEventListener("keydown", this._handleKeyDown);
@@ -112,7 +112,7 @@ export class PopupButton extends React.PureComponent<PopupButtonProps, PopupButt
   };
 
   /** @internal */
-  public render(): React.ReactNode {
+  public override render(): React.ReactNode {
     const showArrow = this.props.showArrow ?? false;
     const showShadow = this.props.showShadow ?? false;
     const moveFocus = this.props.moveFocus ?? true;

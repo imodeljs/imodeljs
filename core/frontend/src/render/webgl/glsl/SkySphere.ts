@@ -185,7 +185,7 @@ export function createSkySphereProgram(context: WebGLContext, isGradient: boolea
         if (plan.backgroundMapOn) {
           let clr = geom.skyColor;
           if (-1 === geom.typeAndExponents[0]) // 2-color gradient
-            clr = geom.zenithColor;
+            clr =  geom.nadirColor;
           if (plan.isGlobeMode3D) {
             modulateColor(clr, plan.globalViewTransition, scratch3Floats);
             uniform.setUniform3fv(scratch3Floats);

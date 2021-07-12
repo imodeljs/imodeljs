@@ -33,7 +33,7 @@ export abstract class BasePointTypeConverter extends TypeConverter {
     return TypeConverterManager.getConverter(this.componentConverterName).convertToString(value);
   }
 
-  public convertToString(value?: Primitives.Point) {
+  public override convertToString(value?: Primitives.Point) {
     if (!value)
       return "";
 
@@ -54,7 +54,7 @@ export abstract class BasePointTypeConverter extends TypeConverter {
     return components.join(", ");
   }
 
-  public convertFromString(value: string) {
+  public override convertFromString(value: string) {
     return this.constructPoint(value.split(","));
   }
   protected abstract constructPoint(_values: Primitives.Point): ConvertedPrimitives.Point | undefined;

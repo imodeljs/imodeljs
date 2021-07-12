@@ -82,7 +82,7 @@ export class PresentationError extends BentleyError {
    * method to create a string representation of the error.
    */
   // eslint-disable-next-line @typescript-eslint/naming-convention
-  protected _initName(): string {
+  protected override _initName(): string {
     let value = PresentationStatus[this.errorNumber];
     if (!value)
       value = `Unknown Error (${this.errorNumber})`;

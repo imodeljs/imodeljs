@@ -43,7 +43,7 @@ export interface FrameworkZoneProps extends CommonProps {
  * @internal
  */
 export class FrameworkZone extends React.PureComponent<FrameworkZoneProps> {
-  public render(): React.ReactNode {
+  public override render(): React.ReactNode {
     const zIndexStyle = getFloatingZoneStyle(this.props.zone);
     const floatingBounds = getFloatingZoneBounds(this.props.zone);
     return (

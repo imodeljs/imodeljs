@@ -152,7 +152,7 @@ export class Sphere extends SolidPrimitive implements UVSurface {
   /** Test if `other` is a `Sphere` */
   public isSameGeometryClass(other: any): boolean { return other instanceof Sphere; }
   /** Test for same geometry in `other` */
-  public isAlmostEqual(other: GeometryQuery): boolean {
+  public override isAlmostEqual(other: GeometryQuery): boolean {
     if (other instanceof Sphere) {
       if (this.capped !== other.capped) return false;
       if (!this._localToWorld.isAlmostEqual(other._localToWorld)) return false;

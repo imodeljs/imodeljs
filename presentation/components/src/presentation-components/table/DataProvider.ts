@@ -156,7 +156,7 @@ export class PresentationTableDataProvider extends ContentDataProvider implement
     this.invalidateCache({ descriptorConfiguration: true, content: true });
   }
 
-  protected invalidateCache(props: CacheInvalidationProps): void {
+  protected override invalidateCache(props: CacheInvalidationProps): void {
     super.invalidateCache(props);
 
     if (props.descriptor) {
@@ -186,12 +186,12 @@ export class PresentationTableDataProvider extends ContentDataProvider implement
    * Tells the data provider to _not_ request descriptor and instead configure
    * content using `getDescriptorOverrides()` call
    */
-  protected shouldConfigureContentDescriptor(): boolean { return false; }
+  protected override shouldConfigureContentDescriptor(): boolean { return false; }
 
   /**
    * Provides content configuration for the property grid
    */
-  protected getDescriptorOverrides(): DescriptorOverrides {
+  protected override getDescriptorOverrides(): DescriptorOverrides {
     const overrides = super.getDescriptorOverrides();
     if (this._sortColumnKey && this._sortDirection !== UiSortDirection.NoSort) {
       overrides.sorting = {
@@ -429,7 +429,7 @@ class CellsBuilder extends PropertyRecordsBuilder {
     return this._cells;
   }
 
-  public processFieldHierarchies(props: ProcessFieldHierarchiesProps): void {
+  public override processFieldHierarchies(props: ProcessFieldHierarchiesProps): void {
     props.hierarchies.forEach((hierarchy) => {
       const mergedCellsCount = this._mergedCellCounts[hierarchy.field.name];
       if (mergedCellsCount) {
@@ -462,7 +462,7 @@ class CellsBuilder extends PropertyRecordsBuilder {
     };
   }
 
-  public startItem(props: StartItemProps): boolean {
+  public override startItem(props: StartItemProps): boolean {
     this._cells = [];
     return super.startItem(props);
   }

@@ -31,7 +31,7 @@ export interface UserProfileBackstageItemProps extends CommonProps {
  */
 export class UserProfileBackstageItem extends React.PureComponent<UserProfileBackstageItemProps> {
 
-  public render(): React.ReactNode | undefined {
+  public override render(): React.ReactNode | undefined {
     let content: React.ReactNode = null;
 
     const userInfo = this.props.userInfo;

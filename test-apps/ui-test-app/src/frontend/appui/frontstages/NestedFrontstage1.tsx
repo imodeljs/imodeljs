@@ -128,7 +128,7 @@ class FrontstageToolWidget extends React.Component {
     />
   );
 
-  public render() {
+  public override render() {
     return (
       <ToolWidget // eslint-disable-line deprecation/deprecation
         appButton={NestedFrontstage.backToPreviousFrontstageCommand}
@@ -167,7 +167,7 @@ class FrontstageNavigationWidget extends React.Component {
     />
   );
 
-  public render() {
+  public override render() {
     return (
       // eslint-disable-next-line deprecation/deprecation
       <NavigationWidget

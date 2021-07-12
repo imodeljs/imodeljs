@@ -31,7 +31,7 @@ import { ThematicSensors } from "./ThematicSensors";
 export abstract class Graphic extends RenderGraphic implements WebGLDisposable {
   public abstract addCommands(_commands: RenderCommands): void;
   public abstract get isDisposed(): boolean;
-  public get isPickable(): boolean { return false; }
+  public abstract get isPickable(): boolean;
   public addHiliteCommands(_commands: RenderCommands, _pass: RenderPass): void { assert(false); }
   public toPrimitive(): Primitive | undefined { return undefined; }
 }
@@ -59,13 +59,13 @@ export class GraphicOwner extends Graphic {
   public addCommands(commands: RenderCommands): void {
     this._graphic.addCommands(commands);
   }
-  public get isPickable(): boolean {
+  public override get isPickable(): boolean {
     return this._graphic.isPickable;
   }
-  public addHiliteCommands(commands: RenderCommands, pass: RenderPass): void {
+  public override addHiliteCommands(commands: RenderCommands, pass: RenderPass): void {
     this._graphic.addHiliteCommands(commands, pass);
   }
-  public toPrimitive(): Primitive | undefined {
+  public override toPrimitive(): Primitive | undefined {
     return this._graphic.toPrimitive();
   }
 }
@@ -123,7 +123,7 @@ export class Batch extends Graphic {
     this.graphic = graphic;
     this.featureTable = features;
     this.range = range;
-    this._options = options ?? { };
+    this._options = options ?? {};
   }
 
   private _isDisposed = false;
@@ -160,7 +160,7 @@ export class Batch extends Graphic {
     commands.addBatch(this);
   }
 
-  public get isPickable(): boolean {
+  public override get isPickable(): boolean {
     return true;
   }
 
@@ -259,7 +259,7 @@ export class Branch extends Graphic {
     this.branch.dispose();
   }
 
-  public get isPickable(): boolean {
+  public override get isPickable(): boolean {
     return this.branch.entries.some((gf) => (gf as Graphic).isPickable);
   }
 
@@ -271,7 +271,7 @@ export class Branch extends Graphic {
     commands.addBranch(this);
   }
 
-  public addHiliteCommands(commands: RenderCommands, pass: RenderPass): void {
+  public override addHiliteCommands(commands: RenderCommands, pass: RenderPass): void {
     commands.addHiliteBranch(this, pass);
   }
 }
@@ -299,6 +299,10 @@ export class GraphicsArray extends Graphic {
 
   public get isDisposed(): boolean { return 0 === this.graphics.length; }
 
+  public override get isPickable(): boolean {
+    return this.graphics.some((x) => (x as Graphic).isPickable);
+  }
+
   public dispose() {
     for (const graphic of this.graphics)
       dispose(graphic);
@@ -311,7 +315,7 @@ export class GraphicsArray extends Graphic {
     }
   }
 
-  public addHiliteCommands(commands: RenderCommands, pass: RenderPass): void {
+  public override addHiliteCommands(commands: RenderCommands, pass: RenderPass): void {
     for (const graphic of this.graphics) {
       (graphic as Graphic).addHiliteCommands(commands, pass);
     }

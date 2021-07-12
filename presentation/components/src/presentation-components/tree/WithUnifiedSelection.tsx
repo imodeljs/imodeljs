@@ -80,21 +80,21 @@ export function DEPRECATED_treeWithUnifiedSelection<P extends TreeProps>(TreeCom
 
     public get imodel() { return this.props.dataProvider.imodel; }
 
-    public componentDidMount() {
+    public override componentDidMount() {
       const name = `Tree_${counter++}`;
       const imodel = this.props.dataProvider.imodel;
       const rulesetId = this.props.dataProvider.rulesetId;
       this._selectionHandler = this.props.selectionHandler
         ? this.props.selectionHandler : new SelectionHandler({ manager: Presentation.selection, name, imodel, rulesetId });
-      this._selectionHandler!.onSelect = this.onSelectionChanged;
+      this._selectionHandler.onSelect = this.onSelectionChanged;
     }
 
-    public componentWillUnmount() {
+    public override componentWillUnmount() {
       if (this._selectionHandler)
         this._selectionHandler.dispose();
     }
 
-    public componentDidUpdate() {
+    public override componentDidUpdate() {
       if (this._selectionHandler) {
         this._selectionHandler.imodel = this.props.dataProvider.imodel;
         this._selectionHandler.rulesetId = this.props.dataProvider.rulesetId;
@@ -174,7 +174,7 @@ export function DEPRECATED_treeWithUnifiedSelection<P extends TreeProps>(TreeCom
       }
     };
 
-    public render() {
+    public override render() {
       const {
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
         forwardedRef, selectionHandler, // do not bleed our props

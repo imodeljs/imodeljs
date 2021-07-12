@@ -71,14 +71,14 @@ async function init() {
 /** A FileNameResolver for resolving test iModel files from core/backend */
 class BackendTestAssetResolver extends FileNameResolver {
   /** Resolve a base file name to a full path file name in the core/backend/lib/test/assets/ directory. */
-  public tryResolveFileName(inFileName: string): string {
+  public override tryResolveFileName(inFileName: string): string {
     if (path.isAbsolute(inFileName)) {
       return inFileName;
     }
     return path.join(__dirname, "../../../../core/backend/lib/test/assets/", inFileName);
   }
   /** Resolve a key (for testing FileNameResolver) */
-  public tryResolveKey(fileKey: string): string | undefined {
+  public override tryResolveKey(fileKey: string): string | undefined {
     switch (fileKey) {
       case "test-key": return this.tryResolveFileName("test.bim");
       case "test2-key": return this.tryResolveFileName("test2.bim");

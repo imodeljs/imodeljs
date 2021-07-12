@@ -51,7 +51,7 @@ describe("DrawingNavigationAid", () => {
 
   const viewManager = moq.Mock.ofType<ViewManager>();
   class ScreenViewportMock extends ScreenViewport {
-    public static create(_parentDiv: HTMLDivElement, _view: ViewState): ScreenViewport {
+    public static override create(_parentDiv: HTMLDivElement, _view: ViewState): ScreenViewport {
       const vpMock = moq.Mock.ofType<ScreenViewport>();
       vpMock.setup((x) => x.view).returns(() => viewState.object);
       return vpMock.object;

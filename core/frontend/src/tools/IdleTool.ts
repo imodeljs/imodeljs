@@ -31,10 +31,10 @@ import { DefaultViewTouchTool, FitViewTool, ViewHandleType, ViewManip } from "./
  * @public
  */
 export class IdleTool extends InteractiveTool {
-  public static toolId = "Idle";
-  public static hidden = true;
+  public static override toolId = "Idle";
+  public static override hidden = true;
 
-  public async onMouseStartDrag(ev: BeButtonEvent): Promise<EventHandled> {
+  public override async onMouseStartDrag(ev: BeButtonEvent): Promise<EventHandled> {
     if (!ev.viewport)
       return EventHandled.No;
 
@@ -84,7 +84,7 @@ export class IdleTool extends InteractiveTool {
     return EventHandled.Yes;
   }
 
-  public async onMiddleButtonUp(ev: BeButtonEvent): Promise<EventHandled> {
+  public override async onMiddleButtonUp(ev: BeButtonEvent): Promise<EventHandled> {
     if (!ev.viewport)
       return EventHandled.No;
 
@@ -100,14 +100,14 @@ export class IdleTool extends InteractiveTool {
     return EventHandled.Yes;
   }
 
-  public async onMouseWheel(ev: BeWheelEvent) { return IModelApp.toolAdmin.processWheelEvent(ev, true); }
+  public override async onMouseWheel(ev: BeWheelEvent) { return IModelApp.toolAdmin.processWheelEvent(ev, true); }
 
-  public async onTouchMoveStart(ev: BeTouchEvent, startEv: BeTouchEvent): Promise<EventHandled> {
+  public override async onTouchMoveStart(ev: BeTouchEvent, startEv: BeTouchEvent): Promise<EventHandled> {
     const tool = new DefaultViewTouchTool(startEv, ev);
     return tool.run() ? EventHandled.Yes : EventHandled.No;
   }
 
-  public async onTouchTap(ev: BeTouchEvent): Promise<EventHandled> {
+  public override async onTouchTap(ev: BeTouchEvent): Promise<EventHandled> {
     if (ev.isSingleTap) {
       // Send data down/up for single finger tap.
       IModelApp.toolAdmin.convertTouchTapToButtonDownAndUp(ev, BeButton.Data); // eslint-disable-line @typescript-eslint/no-floating-promises
@@ -125,5 +125,5 @@ export class IdleTool extends InteractiveTool {
   }
 
   public exitTool(): void { }
-  public run() { return true; }
+  public override run() { return true; }
 }

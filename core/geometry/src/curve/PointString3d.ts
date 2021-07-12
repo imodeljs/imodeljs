@@ -166,7 +166,7 @@ export class PointString3d extends GeometryQuery implements BeJSONFunctions {
     rangeToExtend.extendArray(this._points, transform);
   }
   /** Return true if corresponding points are almost equal. */
-  public isAlmostEqual(other: GeometryQuery): boolean {
+  public override isAlmostEqual(other: GeometryQuery): boolean {
     if (!(other instanceof PointString3d))
       return false;
     return Point3dArray.isAlmostEqual(this._points, other._points);

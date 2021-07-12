@@ -1648,6 +1648,8 @@ describe("PresentationRpcImpl", () => {
           changes: [{
             type: "Delete",
             target: createRandomECInstancesNode().key,
+            parent: createRandomECInstancesNode().key,
+            position: 123,
           }],
         };
         const rpcOptions: HierarchyCompareRpcOptions = {
@@ -1678,6 +1680,8 @@ describe("PresentationRpcImpl", () => {
           changes: [{
             type: "Delete",
             target: createRandomECInstancesNode().key,
+            parent: createRandomECInstancesNode().key,
+            position: 123,
           }],
         };
         const rpcOptions: HierarchyCompareRpcOptions = {
@@ -1715,6 +1719,8 @@ describe("PresentationRpcImpl", () => {
           changes: [{
             type: "Delete",
             target: createRandomECInstancesNode().key,
+            parent: createRandomECInstancesNode().key,
+            position: 123,
           }],
         };
         const rpcOptions: HierarchyCompareRpcOptions = {
@@ -1747,6 +1753,8 @@ describe("PresentationRpcImpl", () => {
           changes: [{
             type: "Delete",
             target: createRandomECInstancesNode().key,
+            parent: createRandomECInstancesNode().key,
+            position: 123,
           }],
         };
         const rpcOptions: HierarchyCompareRpcOptions = {
@@ -1782,6 +1790,8 @@ describe("PresentationRpcImpl", () => {
           changes: [{
             type: "Delete",
             target: createRandomECInstancesNode().key,
+            parent: createRandomECInstancesNode().key,
+            position: 123,
           }],
         };
         const rpcOptions: HierarchyCompareRpcOptions = {

@@ -23,7 +23,7 @@ export interface BadgeProps extends CommonProps {
  * @internal
  */
 export class Badge extends React.PureComponent<BadgeProps> {
-  public render(): JSX.Element {
+  public override render(): JSX.Element {
     return (
       <div className={classnames("core-badge", this.props.className)} style={this.props.style}>
         <SvgSprite src={this.props.svg} />

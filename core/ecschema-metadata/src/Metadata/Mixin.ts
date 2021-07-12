@@ -24,7 +24,7 @@ import { Schema } from "./Schema";
  * @beta
  */
 export class Mixin extends ECClass {
-  public readonly schemaItemType!: SchemaItemType.Mixin; // eslint-disable-line
+  public override readonly schemaItemType!: SchemaItemType.Mixin; // eslint-disable-line
   protected _appliesTo?: LazyLoadedEntityClass;
 
   public get appliesTo(): LazyLoadedEntityClass | undefined {
@@ -61,7 +61,7 @@ export class Mixin extends ECClass {
    * @param standalone Serialization includes only this object (as opposed to the full schema).
    * @param includeSchemaVersion Include the Schema's version information in the serialized object.
    */
-  public toJSON(standalone: boolean = false, includeSchemaVersion: boolean = false): MixinProps {
+  public override toJSON(standalone: boolean = false, includeSchemaVersion: boolean = false): MixinProps {
     const schemaJson = super.toJSON(standalone, includeSchemaVersion) as any;
     if (undefined !== this.appliesTo) {
       schemaJson.appliesTo = this.appliesTo.fullName;
@@ -70,7 +70,7 @@ export class Mixin extends ECClass {
   }
 
   /** @internal */
-  public async toXml(schemaXml: Document): Promise<Element> {
+  public override async toXml(schemaXml: Document): Promise<Element> {
     const itemElement = await super.toXml(schemaXml);
 
     // When CustomAttributes are added, there must be a check to see if the ECCustomAttributes
@@ -97,7 +97,7 @@ export class Mixin extends ECClass {
     return itemElement;
   }
 
-  public fromJSONSync(mixinProps: MixinProps) {
+  public override fromJSONSync(mixinProps: MixinProps) {
     super.fromJSONSync(mixinProps);
     const entityClassSchemaItemKey = this.schema.getSchemaItemKey(mixinProps.appliesTo);
     if (!entityClassSchemaItemKey)
@@ -111,7 +111,7 @@ export class Mixin extends ECClass {
       });
   }
 
-  public async fromJSON(mixinProps: MixinProps) {
+  public override async fromJSON(mixinProps: MixinProps) {
     this.fromJSONSync(mixinProps);
   }
 
@@ -131,8 +131,8 @@ export class Mixin extends ECClass {
  * An abstract class used for schema editing.
  */
 export abstract class MutableMixin extends Mixin {
-  public abstract setAppliesTo(entityClass: LazyLoadedEntityClass): void;
-  public abstract createNavigationProperty(name: string, relationship: string | RelationshipClass, direction: string | StrengthDirection): Promise<NavigationProperty>;
-  public abstract createNavigationPropertySync(name: string, relationship: string | RelationshipClass, direction: string | StrengthDirection): NavigationProperty;
-  public abstract setDisplayLabel(displayLabel: string): void;
+  public abstract override setAppliesTo(entityClass: LazyLoadedEntityClass): void;
+  public abstract override createNavigationProperty(name: string, relationship: string | RelationshipClass, direction: string | StrengthDirection): Promise<NavigationProperty>;
+  public abstract override createNavigationPropertySync(name: string, relationship: string | RelationshipClass, direction: string | StrengthDirection): NavigationProperty;
+  public abstract override setDisplayLabel(displayLabel: string): void;
 }

@@ -8,13 +8,11 @@ import { AnyProperty, Constant, CustomAttributeClass, ECClass, EntityClass, Enum
   InvertedUnit, KindOfQuantity, Mixin, Phenomenon, PrimitiveType, PropertyCategory, RelationshipClass,
   RelationshipConstraint, RelationshipEnd, Schema, SchemaContext, StructClass, Unit, UnitSystem,
 } from "@bentley/ecschema-metadata";
-import { MutableClass } from "../../Editing/MutableClass";
+import { MutableClass } from "../../Editing/Mutable/MutableClass";
 import { MutableProperty } from "@bentley/ecschema-metadata/src/Metadata/Property";
 import { DiagnosticCategory } from "../../Validation/Diagnostic";
 import { SchemaValidationVisitor } from "../../Validation/SchemaValidationVisitor";
-import {
-  ApplySuppressionSet, EmptyRuleSet, IgnoreSuppressionSet, TestDiagnostics, TestReporter, TestRuleSet, TestRuleSetB,
-} from "../TestUtils/DiagnosticHelpers";
+import { ApplySuppressionSet, EmptyRuleSet, IgnoreSuppressionSet, TestDiagnostics, TestReporter, TestRuleSet, TestRuleSetB } from "../TestUtils/DiagnosticHelpers";
 
 import sinon = require("sinon");
 

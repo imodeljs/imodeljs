@@ -32,13 +32,13 @@ export class TestWidget extends WidgetControl {
 
 /** @internal */
 export class TestWidgetElement extends React.Component {
-  public componentDidMount() {
+  public override componentDidMount() {
   }
 
-  public componentWillUnmount() {
+  public override componentWillUnmount() {
   }
 
-  public render() {
+  public override render() {
     return <div />;
   }
 }

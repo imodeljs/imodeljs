@@ -81,7 +81,7 @@ export class PropertyView extends React.Component<PropertyViewProps, PropertyVie
   }
 
   /** @internal */
-  public render() {
+  public override render() {
     const ratio = this.props.columnRatio ? this.props.columnRatio : 0.25;
     // eslint-disable-next-line deprecation/deprecation
     const needElementSeparator = this.props.orientation === Orientation.Horizontal && !!this.props.onColumnRatioChanged;

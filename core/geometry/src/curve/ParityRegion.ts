@@ -31,7 +31,7 @@ export class ParityRegion extends CurveCollection {
   /** Array of loops in this parity region. */
   protected _children: Loop[];
   /** Return the array of loops in this parity region. */
-  public get children(): Loop[] { return this._children; }
+  public override get children(): Loop[] { return this._children; }
   /** Construct parity region with empty loop array */
   public constructor() { super(); this._children = []; }
   /**
@@ -77,7 +77,7 @@ export class ParityRegion extends CurveCollection {
     return processor.announceParityRegion(this, indexInParent);
   }
   /** Return a deep copy. */
-  public clone(): ParityRegion {
+  public override clone(): ParityRegion {
     const clone = new ParityRegion();
     let child;
     for (child of this.children) {

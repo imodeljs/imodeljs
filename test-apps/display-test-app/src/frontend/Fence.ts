@@ -13,9 +13,9 @@ import { ColorDef, GeometryContainmentRequestProps } from "@bentley/imodeljs-com
  * Use EDIT on clip tools dialog to re-display clip decoration after classification.
  */
 export class FenceClassifySelectedTool extends Tool {
-  public static toolId = "Fence.ClassifySelected";
-  public static get minArgs() { return 0; }
-  public static get maxArgs() { return 1; }
+  public static override toolId = "Fence.ClassifySelected";
+  public static override get minArgs() { return 0; }
+  public static override get maxArgs() { return 1; }
 
   public async doClassify(vp: ScreenViewport, candidates: Id64Array, clip: ClipVector, allowOverlaps: boolean): Promise<void> {
     const requestProps: GeometryContainmentRequestProps = {
@@ -53,7 +53,7 @@ export class FenceClassifySelectedTool extends Tool {
     EmphasizeElements.getOrCreate(vp).defaultAppearance = EmphasizeElements.getOrCreate(vp).createDefaultAppearance();
   }
 
-  public run(insideOnly?: true | undefined): boolean {
+  public override run(insideOnly?: true | undefined): boolean {
     const vp = IModelApp.viewManager.selectedView;
     if (undefined === vp)
       return false;
@@ -74,7 +74,7 @@ export class FenceClassifySelectedTool extends Tool {
     return true;
   }
 
-  public parseAndRun(...args: string[]): boolean {
+  public override parseAndRun(...args: string[]): boolean {
     const insideOnly = (undefined !== args[0] && "inside" === args[0].toLowerCase()) ? true : undefined;
     this.run(insideOnly);
     return true;

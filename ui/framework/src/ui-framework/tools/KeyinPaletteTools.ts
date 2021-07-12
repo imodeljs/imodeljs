@@ -15,20 +15,20 @@ import { Tool } from "@bentley/imodeljs-frontend";
  * @alpha
  */
 export class ClearKeyinPaletteHistoryTool extends Tool {
-  public static toolId = "ClearKeyinPaletteHistory";
-  public static iconSpec = "icon-remove";
+  public static override toolId = "ClearKeyinPaletteHistory";
+  public static override iconSpec = "icon-remove";
 
   // istanbul ignore next
-  public static get minArgs() { return 0; }
+  public static override get minArgs() { return 0; }
   // istanbul ignore next
-  public static get maxArgs() { return 0; }
+  public static override get maxArgs() { return 0; }
 
-  public run(): boolean {
+  public override run(): boolean {
     clearKeyinPaletteHistory();
     return true;
   }
 
-  public parseAndRun(): boolean {
+  public override parseAndRun(): boolean {
     return this.run();
   }
 }

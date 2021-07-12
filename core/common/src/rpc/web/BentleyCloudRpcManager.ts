@@ -41,7 +41,7 @@ export abstract class BentleyCloudRpcConfiguration extends RpcConfiguration {
   };
 
   /** The protocol of the configuration. */
-  public abstract readonly protocol: BentleyCloudRpcProtocol;
+  public abstract override readonly protocol: BentleyCloudRpcProtocol;
 }
 
 /** Coordinates usage of RPC interfaces for Bentley cloud deployments.
@@ -60,14 +60,14 @@ export class BentleyCloudRpcManager extends RpcManager {
 
   private static performInitialization(params: BentleyCloudRpcParams, interfaces: RpcInterfaceDefinition[], routing: RpcRoutingToken = RpcRoutingToken.default): BentleyCloudRpcConfiguration {
     const protocol = class extends (params.protocol || BentleyCloudRpcProtocol) {
-      public pathPrefix = params.uriPrefix || "";
+      public override pathPrefix = params.uriPrefix || "";
       public info = params.info;
     };
 
     const config = class extends BentleyCloudRpcConfiguration {
       public interfaces = () => interfaces;
       public protocol: BentleyCloudRpcProtocol = new protocol(this);
-      public routing = routing;
+      public override routing = routing;
     };
 
     for (const def of interfaces) {

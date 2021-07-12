@@ -20,7 +20,7 @@ export class AccudrawSettingsPageComponent extends React.Component {
     FrameworkAccuDraw.displayNotifications = !FrameworkAccuDraw.displayNotifications;
   };
 
-  public render(): React.ReactNode {
+  public override render(): React.ReactNode {
     return (
       <div className="uifw-settings">
         <SettingsItem title={this._accuDrawNotificationsTitle} description={this._accuDrawNotificationsDescription}

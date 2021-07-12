@@ -25,7 +25,7 @@ export interface MessageHyperlinkProps extends CommonProps {
  * @beta
  */
 export class MessageHyperlink extends React.PureComponent<MessageHyperlinkProps> {
-  public render() {
+  public override render() {
     const className = classnames(
       "nz-footer-message-hyperlink",
       this.props.className);

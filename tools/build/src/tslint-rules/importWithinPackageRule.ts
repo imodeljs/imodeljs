@@ -23,7 +23,7 @@ class NoImportsBeyondPackageWalker extends Lint.RuleWalker {
   constructor(sourceFile: ts.SourceFile, options: Lint.IOptions) {
     super(sourceFile, options);
   }
-  public visitImportDeclaration(node: ts.ImportDeclaration) {
+  public override visitImportDeclaration(node: ts.ImportDeclaration) {
     const from: string = node.moduleSpecifier.getText().slice(1, -1);
     const pathComponents: string[] = from.split("/");
     const parPaths = getParentCount(pathComponents);

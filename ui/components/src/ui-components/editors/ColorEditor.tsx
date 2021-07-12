@@ -34,7 +34,7 @@ export class ColorEditor extends React.PureComponent<PropertyEditorProps, ColorE
   private _buttonElement: React.RefObject<HTMLButtonElement> = React.createRef();
 
   /** @internal */
-  public readonly state: Readonly<ColorEditorState> = {
+  public override readonly state: Readonly<ColorEditorState> = {
     colorValue: 0,
     readonly: false,
     numColumns: 4,
@@ -90,12 +90,12 @@ export class ColorEditor extends React.PureComponent<PropertyEditorProps, ColorE
   };
 
   /** @internal */
-  public componentDidMount() {
+  public override componentDidMount() {
     this.setStateFromProps(); // eslint-disable-line @typescript-eslint/no-floating-promises
   }
 
   /** @internal */
-  public componentDidUpdate(prevProps: PropertyEditorProps) {
+  public override componentDidUpdate(prevProps: PropertyEditorProps) {
     if (this.props.propertyRecord !== prevProps.propertyRecord) {
       this.setStateFromProps(); // eslint-disable-line @typescript-eslint/no-floating-promises
     }
@@ -136,7 +136,7 @@ export class ColorEditor extends React.PureComponent<PropertyEditorProps, ColorE
   }
 
   /** @internal */
-  public render() {
+  public override render() {
     const colorDef = ColorDef.create(this.state.colorValue);
     return (
       <div className={classnames("components-color-editor", this.props.className)} style={this.props.style}>

@@ -267,47 +267,94 @@ describe("SparseTree", () => {
   });
 
   describe("removeChild", () => {
-    it("removes root node", () => {
-      const rootNodes = createRandomMutableTreeModelNodes(3);
-      sparseTree.setChildren(undefined, rootNodes, 0);
-      sparseTree.removeChild(undefined, rootNodes[1].id);
-      const children = sparseTree.getChildren(undefined)!;
-      expect(children.getLength()).to.be.eq(2);
-      verifyNodes(children, [rootNodes[0], rootNodes[2]]);
+    describe("by child id", () => {
+      it("removes root node", () => {
+        const rootNodes = createRandomMutableTreeModelNodes(3);
+        sparseTree.setChildren(undefined, rootNodes, 0);
+        sparseTree.removeChild(undefined, rootNodes[1].id);
+        const children = sparseTree.getChildren(undefined)!;
+        expect(children.getLength()).to.be.eq(2);
+        verifyNodes(children, [rootNodes[0], rootNodes[2]]);
+      });
+
+      it("removes child node", () => {
+        const childNodes = createRandomMutableTreeModelNodes(3);
+        sparseTree.setChildren(undefined, [rootNode], 0);
+        sparseTree.setChildren(rootNode.id, childNodes, 0);
+        sparseTree.removeChild(rootNode.id, childNodes[1].id);
+        const children = sparseTree.getChildren(rootNode.id)!;
+        expect(children.getLength()).to.be.eq(2);
+        verifyNodes(children, [childNodes[0], childNodes[2]]);
+      });
+
+      it("does not remove child if it is not found", () => {
+        sparseTree.setChildren(undefined, [rootNode], 0);
+        sparseTree.removeChild(undefined, "nonExisting");
+        const children = sparseTree.getChildren(undefined)!;
+        expect(children.getLength()).to.be.eq(1);
+        verifyNodes(children, [rootNode]);
+      });
+
+      it("does not throw when parent does not have children", () => {
+        sparseTree.setChildren(undefined, [rootNode], 0);
+        sparseTree.removeChild(rootNode.id, "childId");
+        const children = sparseTree.getChildren(rootNode.id);
+        expect(children).to.be.undefined;
+      });
+
+      it("removes child subtree", () => {
+        const childNodes = createRandomMutableTreeModelNodes();
+        sparseTree.setChildren(undefined, [rootNode], 0);
+        sparseTree.setChildren(rootNode.id, childNodes, 0);
+        sparseTree.removeChild(undefined, rootNode.id);
+        const children = sparseTree.getChildren(rootNode.id);
+        expect(children).to.be.undefined;
+      });
     });
 
-    it("removes child node", () => {
-      const childNodes = createRandomMutableTreeModelNodes(3);
-      sparseTree.setChildren(undefined, [rootNode], 0);
-      sparseTree.setChildren(rootNode.id, childNodes, 0);
-      sparseTree.removeChild(rootNode.id, childNodes[1].id);
-      const children = sparseTree.getChildren(rootNode.id)!;
-      expect(children.getLength()).to.be.eq(2);
-      verifyNodes(children, [childNodes[0], childNodes[2]]);
-    });
+    describe("by child index", () => {
+      it("removes root node", () => {
+        const rootNodes = createRandomMutableTreeModelNodes(3);
+        sparseTree.setChildren(undefined, rootNodes, 0);
+        sparseTree.removeChild(undefined, 1);
+        const children = sparseTree.getChildren(undefined)!;
+        expect(children.getLength()).to.be.eq(2);
+        verifyNodes(children, [rootNodes[0], rootNodes[2]]);
+      });
 
-    it("does not remove child if it is not found", () => {
-      sparseTree.setChildren(undefined, [rootNode], 0);
-      sparseTree.removeChild(undefined, "nonExisting");
-      const children = sparseTree.getChildren(undefined)!;
-      expect(children.getLength()).to.be.eq(1);
-      verifyNodes(children, [rootNode]);
-    });
+      it("removes child node", () => {
+        const childNodes = createRandomMutableTreeModelNodes(3);
+        sparseTree.setChildren(undefined, [rootNode], 0);
+        sparseTree.setChildren(rootNode.id, childNodes, 0);
+        sparseTree.removeChild(rootNode.id, 1);
+        const children = sparseTree.getChildren(rootNode.id)!;
+        expect(children.getLength()).to.be.eq(2);
+        verifyNodes(children, [childNodes[0], childNodes[2]]);
+      });
 
-    it("tries to remove child for parent with does not have children", () => {
-      sparseTree.setChildren(undefined, [rootNode], 0);
-      sparseTree.removeChild(rootNode.id, "childId");
-      const children = sparseTree.getChildren(rootNode.id);
-      expect(children).to.be.undefined;
-    });
+      it("does not remove child if it is not found", () => {
+        sparseTree.setChildren(undefined, [rootNode], 0);
+        sparseTree.removeChild(undefined, 123);
+        const children = sparseTree.getChildren(undefined)!;
+        expect(children.getLength()).to.be.eq(1);
+        verifyNodes(children, [rootNode]);
+      });
 
-    it("removes child subtree", () => {
-      const childNodes = createRandomMutableTreeModelNodes();
-      sparseTree.setChildren(undefined, [rootNode], 0);
-      sparseTree.setChildren(rootNode.id, childNodes, 0);
-      sparseTree.removeChild(undefined, rootNode.id);
-      const children = sparseTree.getChildren(rootNode.id);
-      expect(children).to.be.undefined;
+      it("does not throw when parent does not have children", () => {
+        sparseTree.setChildren(undefined, [rootNode], 0);
+        sparseTree.removeChild(rootNode.id, 0);
+        const children = sparseTree.getChildren(rootNode.id);
+        expect(children).to.be.undefined;
+      });
+
+      it("removes child subtree", () => {
+        const childNodes = createRandomMutableTreeModelNodes();
+        sparseTree.setChildren(undefined, [rootNode], 0);
+        sparseTree.setChildren(rootNode.id, childNodes, 0);
+        sparseTree.removeChild(undefined, 0);
+        const children = sparseTree.getChildren(rootNode.id);
+        expect(children).to.be.undefined;
+      });
     });
   });
 
@@ -536,6 +583,15 @@ describe("SparseArray", () => {
       sparseArray.remove(7);
       expect(sparseArray.getLength()).to.be.eq(7);
       expect(sparseArray.get(0)).to.be.eq(testItems[0].value);
+    });
+
+    it("does nothing when attempting to remove at position past the end", () => {
+      sparseArray.insert(0, 0);
+      sparseArray.insert(1, 1);
+      sparseArray.remove(2);
+      expect(sparseArray.getLength()).to.be.eq(2);
+      expect(sparseArray.get(0)).to.be.eq(0);
+      expect(sparseArray.get(1)).to.be.eq(1);
     });
   });
 

@@ -38,7 +38,7 @@ export class CoordinateXYZ extends GeometryQuery {
   }
 
   /** return the range of the point */
-  public range(): Range3d { return Range3d.create(this._xyz); }
+  public override range(): Range3d { return Range3d.create(this._xyz); }
 
   /** extend `rangeToExtend` to include this point (optionally transformed) */
   public extendRange(rangeToExtend: Range3d, transform?: Transform): void {
@@ -79,7 +79,7 @@ export class CoordinateXYZ extends GeometryQuery {
    * *  base implementation is complete for classes with children and no properties.
    * *  classes with both children and properties must implement for properties, call super for children.
    */
-  public isAlmostEqual(other: GeometryQuery): boolean {
+  public override isAlmostEqual(other: GeometryQuery): boolean {
     return (other instanceof CoordinateXYZ) && this._xyz.isAlmostEqual(other._xyz);
   }
   /** Second step of double dispatch:  call `handler.handleCoordinateXYZ(this)` */

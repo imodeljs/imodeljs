@@ -14,7 +14,7 @@ import { SchemaItem } from "./SchemaItem";
 
 /** @beta */
 export class Phenomenon extends SchemaItem {
-  public readonly schemaItemType!: SchemaItemType.Phenomenon; // eslint-disable-line
+  public override readonly schemaItemType!: SchemaItemType.Phenomenon; // eslint-disable-line
   protected _definition: string; // Contains a combination of Phenomena names which form this Phenomenon. Each Phenomena name is separated by a * and may have an exponent, specified using parentheses
 
   constructor(schema: Schema, name: string) {
@@ -30,20 +30,20 @@ export class Phenomenon extends SchemaItem {
    * @param standalone Serialization includes only this object (as opposed to the full schema).
    * @param includeSchemaVersion Include the Schema's version information in the serialized object.
    */
-  public toJSON(standalone: boolean = false, includeSchemaVersion: boolean = false): PhenomenonProps {
+  public override toJSON(standalone: boolean = false, includeSchemaVersion: boolean = false): PhenomenonProps {
     const schemaJson = super.toJSON(standalone, includeSchemaVersion) as any;
     schemaJson.definition = this.definition;
     return schemaJson;
   }
 
   /** @internal */
-  public async toXml(schemaXml: Document): Promise<Element> {
+  public override async toXml(schemaXml: Document): Promise<Element> {
     const itemElement = await super.toXml(schemaXml);
     itemElement.setAttribute("definition", this.definition);
     return itemElement;
   }
 
-  public fromJSONSync(phenomenonProps: PhenomenonProps) {
+  public override fromJSONSync(phenomenonProps: PhenomenonProps) {
     super.fromJSONSync(phenomenonProps);
     if (this._definition !== "" && phenomenonProps.definition.toLowerCase() !== this._definition.toLowerCase())
       throw new ECObjectsError(ECObjectsStatus.InvalidECJson, `The Phenomenon ${this.name} has an invalid 'definition' attribute.`);
@@ -51,7 +51,7 @@ export class Phenomenon extends SchemaItem {
       this._definition = phenomenonProps.definition;
   }
 
-  public async fromJSON(phenomenonProps: PhenomenonProps) {
+  public override async fromJSON(phenomenonProps: PhenomenonProps) {
     this.fromJSONSync(phenomenonProps);
   }
 
@@ -65,6 +65,6 @@ export class Phenomenon extends SchemaItem {
  * An abstract class used for schema editing.
  */
 export abstract class MutablePhenomenon extends Phenomenon {
-  public abstract setDefinition(definition: string): Promise<void>;
-  public abstract setDisplayLabel(displayLabel: string): void;
+  public abstract override setDefinition(definition: string): Promise<void>;
+  public abstract override setDisplayLabel(displayLabel: string): void;
 }

@@ -168,7 +168,7 @@ export class SnowDecorator implements Decorator {
   private updateParticles(elapsedSeconds: number): void {
     // Determine if someone changed the desired number of particles.
     const particleDiscrepancy = this._params.numParticles - this._particles.length;
-    if (particleDiscrepancy > 0 ) {
+    if (particleDiscrepancy > 0) {
       // Birth new particles up to the new maximum.
       for (let i = 0; i < particleDiscrepancy; i++)
         this._particles.push(this.emit(true));
@@ -240,9 +240,9 @@ export class SnowDecorator implements Decorator {
  * @beta
  */
 export class SnowEffect extends Tool {
-  public static toolId = "SnowEffect";
+  public static override toolId = "SnowEffect";
 
-  public run(enable?: boolean): boolean {
+  public override run(enable?: boolean): boolean {
     const vp = IModelApp.viewManager.selectedView;
     if (vp)
       SnowDecorator.toggle(vp, enable); // eslint-disable-line @typescript-eslint/no-floating-promises
@@ -250,7 +250,7 @@ export class SnowEffect extends Tool {
     return true;
   }
 
-  public parseAndRun(...args: string[]): boolean {
+  public override parseAndRun(...args: string[]): boolean {
     const enable = parseToggle(args[0]);
     if (typeof enable !== "string")
       this.run(enable);

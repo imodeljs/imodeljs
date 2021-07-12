@@ -130,7 +130,7 @@ export class PropertyGridEventsRelatedPropsSupplier extends React.Component<Prop
   }
 
   /** @internal */
-  public render() {
+  public override render() {
     const renderContext: PropertyGridEventsRelatedProps = {
       isPropertyHoverEnabled: this.props.isPropertyHoverEnabled,
       isPropertySelectionEnabled: this.props.isPropertySelectionEnabled,

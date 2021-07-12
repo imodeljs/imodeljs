@@ -35,7 +35,7 @@ export interface MessageCenterDialogProps extends CommonProps {
  * @beta
  */
 export class MessageCenterDialog extends React.PureComponent<MessageCenterDialogProps> {
-  public render() {
+  public override render() {
     const className = classnames(
       "nz-footer-messageCenter-dialog",
       this.props.className);

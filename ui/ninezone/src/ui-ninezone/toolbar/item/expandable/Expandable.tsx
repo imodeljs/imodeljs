@@ -30,7 +30,7 @@ export interface ExpandableItemProps extends CommonProps {
 class ActualItem extends React.PureComponent<ExpandableItemProps> implements ToolbarItem {
   public readonly panel = document.createElement("div");
 
-  public render() {
+  public override render() {
     const className = classnames(
       "nz-toolbar-item-expandable-expandable",
       this.props.isActive && "nz-active",
@@ -59,7 +59,7 @@ class ActualItem extends React.PureComponent<ExpandableItemProps> implements Too
  * @beta
  */
 export class ExpandableItem extends React.PureComponent<ExpandableItemProps> {
-  public render() {
+  public override render() {
     const toolbarItemProps = this.props as ToolbarItemProps<ActualItem>;
     return (
       <ActualItem

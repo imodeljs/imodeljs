@@ -14,7 +14,7 @@ import { SchemaItem } from "./SchemaItem";
  * @beta
  */
 export class UnitSystem extends SchemaItem {
-  public readonly schemaItemType!: SchemaItemType.UnitSystem; // eslint-disable-line
+  public override readonly schemaItemType!: SchemaItemType.UnitSystem; // eslint-disable-line
 
   constructor(schema: Schema, name: string) {
     super(schema, name);
@@ -27,5 +27,5 @@ export class UnitSystem extends SchemaItem {
  * Used for schema editing.
  */
 export abstract class MutableUnitSystem extends UnitSystem {
-  public abstract setDisplayLabel(displayLabel: string): void;
+  public abstract override setDisplayLabel(displayLabel: string): void;
 }

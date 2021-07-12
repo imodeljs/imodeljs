@@ -59,13 +59,13 @@ export class ModelSelectorWidget extends React.Component<ModelSelectorWidgetProp
   }
 
   /** @internal */
-  public async componentDidMount() {
+  public override async componentDidMount() {
     this._isMounted = true;
     await this.initialize();
   }
 
   /** @internal */
-  public componentWillUnmount() {
+  public override componentWillUnmount() {
     this._isMounted = false;
   }
 
@@ -298,7 +298,7 @@ export class ModelSelectorWidget extends React.Component<ModelSelectorWidgetProp
   }
 
   /** @internal */
-  public render() {
+  public override render() {
     return (
       <div className="uifw-widget-picker" data-testid="model-selector-widget">
         {!this.state.activeRuleset && (

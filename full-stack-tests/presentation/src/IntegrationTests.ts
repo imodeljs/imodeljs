@@ -58,7 +58,7 @@ class IntegrationTestsApp extends NoRenderApp {
     return { urlTemplate };
   }
 
-  public static async startup(opts?: IModelAppOptions): Promise<void> {
+  public static override async startup(opts?: IModelAppOptions): Promise<void> {
     await NoRenderApp.startup({ ...opts, i18n: this.supplyI18NOptions() });
     cpx.copySync(`assets/**/*`, "lib/assets");
     copyBentleyBackendAssets("lib/assets");

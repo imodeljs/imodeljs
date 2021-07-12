@@ -174,7 +174,7 @@ export class FilteringInput extends React.PureComponent<FilteringInputProps, Fil
   };
 
   /** @internal */
-  public componentDidUpdate(prevProps: FilteringInputProps) {
+  public override componentDidUpdate(prevProps: FilteringInputProps) {
     if (FilteringInput.isDeprecatedProps(prevProps) && FilteringInput.isDeprecatedProps(this.props)) {
       // eslint-disable-next-line deprecation/deprecation
       if (prevProps.filteringInProgress !== this.props.filteringInProgress) {
@@ -215,7 +215,7 @@ export class FilteringInput extends React.PureComponent<FilteringInputProps, Fil
     return props.status;
   }
 
-  public render() {
+  public override render() {
     const status = this.getStatus(this.props);
 
     return (

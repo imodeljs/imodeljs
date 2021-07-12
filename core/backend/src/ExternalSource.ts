@@ -29,14 +29,14 @@ export class ExternalSource extends InformationReferenceElement {
   /** The version of the iModel Connecter that processed this ExternalSource. */
   public connectorVersion?: string;
   /** @internal */
-  public static get className(): string { return "ExternalSource"; }
+  public static override get className(): string { return "ExternalSource"; }
   /** @internal */
   public constructor(props: ExternalSourceProps, iModel: IModelDb) {
     super(props, iModel);
     if (props.repository) this.repository = new ExternalSourceIsInRepository(RelatedElement.idFromJson(props.repository));
   }
   /** @internal */
-  public toJSON(): ExternalSourceProps { // This override only specializes the return type
+  public override toJSON(): ExternalSourceProps { // This override only specializes the return type
     return super.toJSON() as ExternalSourceProps; // Entity.toJSON takes care of auto-handled properties
   }
   /** The [[CodeSpec]] for ExternalSource elements is not automatically created, so this method ensures that it exists. */
@@ -79,7 +79,7 @@ export class ExternalSourceAttachment extends InformationReferenceElement {
   /** The scale of the attached [[ExternalSource]] relative to the ExternalSource that attaches it. */
   public scale?: Point3d;
   /** @internal */
-  public static get className(): string { return "ExternalSourceAttachment"; }
+  public static override get className(): string { return "ExternalSourceAttachment"; }
   /** @internal */
   public constructor(props: ExternalSourceAttachmentProps, iModel: IModelDb) {
     super(props, iModel);
@@ -88,7 +88,7 @@ export class ExternalSourceAttachment extends InformationReferenceElement {
     if (props.scale) this.scale = Point3d.fromJSON(props.scale);
   }
   /** @internal */
-  public toJSON(): ExternalSourceAttachmentProps { // This override only specializes the return type
+  public override toJSON(): ExternalSourceAttachmentProps { // This override only specializes the return type
     return super.toJSON() as ExternalSourceAttachmentProps; // Entity.toJSON takes care of auto-handled properties
   }
   /** The [[CodeSpec]] for ExternalSourceAttachment elements is not automatically created, so this method ensures that it exists. */
@@ -118,7 +118,7 @@ export class ExternalSourceAttachment extends InformationReferenceElement {
  */
 export class ExternalSourceGroup extends ExternalSource {
   /** @internal */
-  public static get className(): string { return "ExternalSourceGroup"; }
+  public static override get className(): string { return "ExternalSourceGroup"; }
   /** @internal */
   public constructor(props: ExternalSourceProps, iModel: IModelDb) {
     super(props, iModel);
@@ -133,13 +133,13 @@ export class SynchronizationConfigLink extends UrlLink {
   /** Date/Time of last successful run of this synchronization configuration */
   public lastSuccessfulRun?: string;
   /** @internal */
-  public static get className(): string { return "SynchronizationConfigLink"; }
+  public static override get className(): string { return "SynchronizationConfigLink"; }
   /** @internal */
   public constructor(props: SynchronizationConfigLinkProps, iModel: IModelDb) {
     super(props, iModel);
   }
   /** @internal */
-  public toJSON(): SynchronizationConfigLinkProps { // This override only specializes the return type
+  public override toJSON(): SynchronizationConfigLinkProps { // This override only specializes the return type
     return super.toJSON() as SynchronizationConfigLinkProps; // Entity.toJSON takes care of auto-handled properties
   }
 }

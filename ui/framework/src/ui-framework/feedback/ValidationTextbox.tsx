@@ -60,7 +60,7 @@ export class ValidationTextbox extends React.PureComponent<ValidationTextboxProp
   }
 
   /** @internal */
-  public render(): React.ReactNode {
+  public override render(): React.ReactNode {
     const sizeStyle: React.CSSProperties = {
       width: this.props.size ? `${this.props.size.toString()}em` : "12em",
     };

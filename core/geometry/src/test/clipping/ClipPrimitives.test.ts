@@ -497,7 +497,7 @@ describe("ClipPrimitive", () => {
     const areaRestriction = (originalRange.high.x - originalRange.low.x) * (originalRange.high.y - originalRange.low.y);
 
     const convexSetUnion = clipShape.fetchClipPlanesRef();
-    if (ck.testPointer(convexSetUnion) && convexSetUnion !== undefined) {
+    if (ck.testPointer(convexSetUnion)) {
       // Let us check the area and range of these convex sets put together
       const unionRange = Range3d.create();
       let unionArea = 0;
@@ -539,7 +539,7 @@ describe("ClipPrimitive", () => {
       }
 
       const polygonGraph = Triangulator.createTriangulatedGraphFromSingleLoop(polygon);
-      if (ck.testDefined (polygonGraph) && polygonGraph){
+      if (ck.testDefined(polygonGraph) && polygonGraph) {
         Triangulator.flipTriangles(polygonGraph);
 
         polygonGraph.announceFaceLoops((_graph: HalfEdgeGraph, edge: HalfEdge): boolean => {
@@ -554,8 +554,8 @@ describe("ClipPrimitive", () => {
           return true;
         });
       }
-    ck.testCoordinate(clippedPolygonArea, clipShapeArea, "Polygon that completely encompasses clipShape should have same area as clipShape after clipping.");
-}
+      ck.testCoordinate(clippedPolygonArea, clipShapeArea, "Polygon that completely encompasses clipShape should have same area as clipShape after clipping.");
+    }
     ck.checkpoint();
     expect(ck.getNumErrors()).equals(0);
   });
@@ -570,7 +570,7 @@ describe("ClipPrimitive", () => {
 
     for (const polygon of clippedPolygons) {
       const polygonGraph = Triangulator.createTriangulatedGraphFromSingleLoop(polygon);
-      if (ck.testType <HalfEdgeGraph> (polygonGraph)){
+      if (ck.testType(polygonGraph, HalfEdgeGraph)) {
         Triangulator.flipTriangles(polygonGraph);
 
         polygonGraph.announceFaceLoops((_graph: HalfEdgeGraph, edge: HalfEdge): boolean => {
@@ -597,7 +597,7 @@ describe("ClipPrimitive", () => {
       const prim1 = prim0.clone();
       const json2 = prim0.toJSON();
       const prim2 = ClipPrimitive.fromJSON(json2);
-      if (ck.testPointer(prim2) && prim2) {
+      if (ck.testPointer(prim2)) {
         ck.testTrue(clipPrimitivesAreEqual(prim0, prim2), "JSON round trip");
       }
 

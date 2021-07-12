@@ -77,11 +77,11 @@ const dialogItems: DialogItem[] = [item1, item2, buttonGroupItem];
 
 class TestDynamicUiDataProvider extends UiLayoutDataProvider {
   /** Applies change of a single property - this is the default method used when property editors are dynamically generated. */
-  public applyUiPropertyChange = (_updatedValue: DialogPropertySyncItem): void => {
+  public override applyUiPropertyChange = (_updatedValue: DialogPropertySyncItem): void => {
   };
 
   /** Called by UI to request available properties that can be bound to user supplied UI components (See Tool1UiProvider for example). */
-  public supplyDialogItems(): DialogItem[] | undefined {
+  public override supplyDialogItems(): DialogItem[] | undefined {
     return dialogItems;
   }
 }
@@ -144,22 +144,22 @@ describe("UiLayoutDataProvider", () => {
 
 class TestDialogDynamicUiDataProvider extends DialogLayoutDataProvider {
   /** Applies change of a single property - this is the default method used when property editors are dynamically generated. */
-  public applyUiPropertyChange = (_updatedValue: DialogPropertySyncItem): void => {
+  public override applyUiPropertyChange = (_updatedValue: DialogPropertySyncItem): void => {
   };
 
   /** Called by UI to request available properties that can be bound to user supplied UI components (See Tool1UiProvider for example). */
-  public supplyDialogItems(): DialogItem[] | undefined {
+  public override supplyDialogItems(): DialogItem[] | undefined {
     return dialogItems;
   }
 }
 
 class EmptyDialogDynamicUiDataProvider extends DialogLayoutDataProvider {
   /** Applies change of a single property - this is the default method used when property editors are dynamically generated. */
-  public applyUiPropertyChange = (_updatedValue: DialogPropertySyncItem): void => {
+  public override applyUiPropertyChange = (_updatedValue: DialogPropertySyncItem): void => {
   };
 
   /** Called by UI to request available properties that can be bound to user supplied UI components (See Tool1UiProvider for example). */
-  public supplyDialogItems(): DialogItem[] | undefined {
+  public override supplyDialogItems(): DialogItem[] | undefined {
     return undefined;
   }
 }

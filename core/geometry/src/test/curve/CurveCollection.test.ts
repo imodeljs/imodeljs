@@ -55,10 +55,10 @@ function verifyCurveCollection(ck: Checker, collection: CurveCollection) {
     ck.testCoordinate(length0, length2, "path2.sumLengths");
   }
   const path3 = collection.cloneTransformed(scaleTransform);
-  if (ck.testPointer(path3) && path3) {
+  if (ck.testPointer(path3)) {
     if (!ck.testBoolean(false, path3.isAlmostEqual(collection), "cloneTransform not almostEqual")) {
       const path3A = collection.cloneTransformed(scaleTransform);
-      if (ck.testPointer(path3A) && path3A) {
+      if (ck.testPointer(path3A)) {
         ck.testBoolean(false, path3A.isAlmostEqual(collection), "cloneTransform not almostEqual");
       }
     }
@@ -329,7 +329,7 @@ describe("ConsolidateAdjacentPrimitives", () => {
         const xyz = range.localToWorld(xyzLocal)!;
         const detail = c.closestPoint(xyz);
         GeometryCoreTestIO.createAndCaptureXYCircle(allGeometry, xyz, 0.2, x0, 0, 0);
-        if (ck.testType<CurveLocationDetail>(detail) && detail) {
+        if (ck.testType(detail, CurveLocationDetail) && detail) {
           GeometryCoreTestIO.captureCloneGeometry(allGeometry, [xyz, detail.point], x0, 0, 0);
           // verify that the close point is closer than a small test set on its own primitive.
           //  (This does not confirm that the correct primitive was chosen)

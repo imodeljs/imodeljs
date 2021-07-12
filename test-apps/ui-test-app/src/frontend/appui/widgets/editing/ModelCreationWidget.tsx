@@ -77,7 +77,7 @@ export class ModelCreationComponent extends React.Component<{}, ModelCreationCom
     }
   }
 
-  public render() {
+  public override render() {
     return (
       <div>
         <h2>Create Model</h2>

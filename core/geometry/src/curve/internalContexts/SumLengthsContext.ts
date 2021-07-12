@@ -22,7 +22,7 @@ export class SumLengthsContext extends RecursiveCurveProcessor {
     target.announceToCurveProcessor(context);
     return context._sum;
   }
-  public announceCurvePrimitive(curvePrimitive: CurvePrimitive, _indexInParent: number): void {
+  public override announceCurvePrimitive(curvePrimitive: CurvePrimitive, _indexInParent: number): void {
     this._sum += curvePrimitive.curveLength();
   }
 }

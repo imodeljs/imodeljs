@@ -44,7 +44,7 @@ export class NavigationWidgetDef extends ToolbarWidgetDefBase {
     this.widgetBaseName = `[${activeStageName}]NavigationWidget`;
   }
 
-  public get reactNode(): React.ReactNode {
+  public override get reactNode(): React.ReactNode {
     // istanbul ignore else
     if (!this._reactNode)
       this._reactNode = <NavigationWidgetWithDef navigationWidgetDef={this} />;
@@ -54,7 +54,7 @@ export class NavigationWidgetDef extends ToolbarWidgetDefBase {
 
   /** @deprecated use reactNode */
   // istanbul ignore next
-  public get reactElement(): React.ReactNode {
+  public override get reactElement(): React.ReactNode {
     return this.reactNode;
   }
 
@@ -123,7 +123,7 @@ interface NavigationWidgetState {
 export class NavigationWidget extends React.Component<NavigationWidgetPropsEx, NavigationWidgetState> { // eslint-disable-line deprecation/deprecation
 
   /** @internal */
-  public readonly state: Readonly<NavigationWidgetState>;
+  public override readonly state: Readonly<NavigationWidgetState>;
 
   constructor(props: NavigationWidgetPropsEx) { // eslint-disable-line deprecation/deprecation
     super(props);
@@ -132,13 +132,13 @@ export class NavigationWidget extends React.Component<NavigationWidgetPropsEx, N
   }
 
   /** Adds listeners */
-  public componentDidMount() {
+  public override componentDidMount() {
     FrontstageManager.onContentControlActivatedEvent.addListener(this._handleContentControlActivated);
     ViewportComponentEvents.onViewClassFullNameChangedEvent.addListener(this._handleViewClassFullNameChange);
   }
 
   /** Removes listeners */
-  public componentWillUnmount() {
+  public override componentWillUnmount() {
     FrontstageManager.onContentControlActivatedEvent.removeListener(this._handleContentControlActivated);
     ViewportComponentEvents.onViewClassFullNameChangedEvent.removeListener(this._handleViewClassFullNameChange);
   }
@@ -162,13 +162,13 @@ export class NavigationWidget extends React.Component<NavigationWidgetPropsEx, N
     });
   };
 
-  public componentDidUpdate(prevProps: NavigationWidgetPropsEx, _prevState: NavigationWidgetState) { // eslint-disable-line deprecation/deprecation
+  public override componentDidUpdate(prevProps: NavigationWidgetPropsEx, _prevState: NavigationWidgetState) { // eslint-disable-line deprecation/deprecation
     if (this.props !== prevProps) {
       this.setState((_, props) => ({ navigationWidgetDef: new NavigationWidgetDef(props) })); // eslint-disable-line deprecation/deprecation
     }
   }
 
-  public render(): React.ReactNode {
+  public override render(): React.ReactNode {
     return (
       <NavigationWidgetWithDef
         className={this.props.className}
@@ -219,20 +219,20 @@ class NavigationWidgetWithDef extends React.Component<Props, NavigationWidgetWit
     this.setState({ cornerItem: navigationAid });
   };
 
-  public componentDidMount() {
+  public override componentDidMount() {
     FrontstageManager.onNavigationAidActivatedEvent.addListener(this._handleNavigationAidActivatedEvent);
   }
 
-  public componentWillUnmount() {
+  public override componentWillUnmount() {
     FrontstageManager.onNavigationAidActivatedEvent.removeListener(this._handleNavigationAidActivatedEvent);
   }
 
-  public componentDidUpdate(prevProps: Props) {
+  public override componentDidUpdate(prevProps: Props) {
     if (this.props !== prevProps)
       this.reloadToolbars();
   }
 
-  public render(): React.ReactNode {
+  public override render(): React.ReactNode {
     return (
       <NZ_ToolsWidget isNavigation
         className={this.props.className}

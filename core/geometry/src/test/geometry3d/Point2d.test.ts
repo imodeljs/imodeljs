@@ -157,7 +157,7 @@ describe("Point2d", () => {
         const vectorIJV = vectorI.vectorTo(vectorJ);
         const unitIJV = vectorI.unitVectorTo(vectorJ);
         ck.testVector2d(vectorIJ, vectorIJV, "vectorTo between points, vectors");
-        if (ck.testPointer(unitIJV) && unitIJV) {
+        if (ck.testPointer(unitIJV)) {
           ck.testParallel2d(unitIJV, vectorIJ);
           ck.testCoordinate(unitIJV.dotProduct(vectorIJV), vectorI.distance(vectorJ));
         }
@@ -184,7 +184,7 @@ describe("Point2d", () => {
         ck.testPerpendicular2d(vectorJ, perpVector, "projection vector");
 
         const rotateI90 = vectorI.rotate90CCWXY(vectorJ);
-        if (ck.testPointer(rotateI90) && rotateI90) {
+        if (ck.testPointer(rotateI90)) {
           ck.testPerpendicular2d(vectorI, rotateI90);
         }
       }

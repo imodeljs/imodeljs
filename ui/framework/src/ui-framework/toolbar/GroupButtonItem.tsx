@@ -71,7 +71,7 @@ interface ToolbarGroupItemState {
  */
 export class ToolbarGroupItem extends React.Component<ToolbarGroupItemComponentProps, ToolbarGroupItemState> {
   /** @internal */
-  public readonly state: Readonly<ToolbarGroupItemState>;
+  public override readonly state: Readonly<ToolbarGroupItemState>;
   private _trayIndex = 0;
   private _closeOnPanelOpened = true;
   private _ref = React.createRef<HTMLDivElement>();
@@ -88,12 +88,12 @@ export class ToolbarGroupItem extends React.Component<ToolbarGroupItemComponentP
     };
   }
 
-  public componentDidMount() {
+  public override componentDidMount() {
     FrontstageManager.onToolActivatedEvent.addListener(this._handleToolActivatedEvent);
     FrontstageManager.onToolPanelOpenedEvent.addListener(this._handleToolPanelOpenedEvent);
   }
 
-  public componentWillUnmount() {
+  public override componentWillUnmount() {
     FrontstageManager.onToolActivatedEvent.removeListener(this._handleToolActivatedEvent);
     FrontstageManager.onToolPanelOpenedEvent.removeListener(this._handleToolPanelOpenedEvent);
   }
@@ -156,7 +156,7 @@ export class ToolbarGroupItem extends React.Component<ToolbarGroupItemComponentP
     });
   }
 
-  public componentDidUpdate(prevProps: ToolbarGroupItemComponentProps, _prevState: ToolbarGroupItemState) {
+  public override componentDidUpdate(prevProps: ToolbarGroupItemComponentProps, _prevState: ToolbarGroupItemState) {
     if (!PropsHelper.isShallowEqual(this.props, prevProps)) {
       // istanbul ignore else
       if (this.props.groupItem !== prevProps.groupItem)
@@ -183,7 +183,7 @@ export class ToolbarGroupItem extends React.Component<ToolbarGroupItemComponentP
     return tray;
   }
 
-  public render(): React.ReactNode {
+  public override render(): React.ReactNode {
     if (!this.state.isVisible)
       return null;
 

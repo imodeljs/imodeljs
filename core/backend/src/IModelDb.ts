@@ -126,7 +126,7 @@ export abstract class IModelDb extends IModel {
   public get isReadonly(): boolean { return this.openMode === OpenMode.Readonly; }
 
   /** The Guid that identifies this iModel. */
-  public get iModelId(): GuidString { return super.iModelId!; } // GuidString | undefined for the IModel superclass, but required for all IModelDb subclasses
+  public override get iModelId(): GuidString { return super.iModelId!; } // GuidString | undefined for the IModel superclass, but required for all IModelDb subclasses
 
   private _nativeDb?: IModelJsNative.DgnDb;
   /** @internal*/
@@ -2129,7 +2129,7 @@ export class BriefcaseDb extends IModelDb {
   public readonly txns = new TxnManager(this);
 
   /** override superclass method */
-  public get isBriefcase(): boolean { return true; }
+  public override get isBriefcase(): boolean { return true; }
 
   /* the BriefcaseId of the briefcase opened with this BriefcaseDb */
   public readonly briefcaseId: number;
@@ -2154,16 +2154,16 @@ export class BriefcaseDb extends IModelDb {
    */
   public static readonly onOpened = new BeEvent<(_requestContext: ClientRequestContext, _imodelDb: BriefcaseDb) => void>();
 
-  public static findByKey(key: string): BriefcaseDb {
+  public static override findByKey(key: string): BriefcaseDb {
     return super.findByKey(key) as BriefcaseDb;
   }
 
-  public static tryFindByKey(key: string): BriefcaseDb | undefined {
+  public static override tryFindByKey(key: string): BriefcaseDb | undefined {
     const db = super.tryFindByKey(key);
     return db?.isBriefcaseDb() ? db : undefined;
   }
 
-  public abandonChanges(): void {
+  public override abandonChanges(): void {
     if (this.allowLocalChanges)
       this.concurrencyControl.abandonRequest();
 
@@ -2171,13 +2171,13 @@ export class BriefcaseDb extends IModelDb {
   }
 
   /** The Guid that identifies the *context* that owns this iModel. */
-  public get contextId(): GuidString { return super.contextId!; } // GuidString | undefined for the superclass, but required for BriefcaseDb
+  public override get contextId(): GuidString { return super.contextId!; } // GuidString | undefined for the superclass, but required for BriefcaseDb
 
   /** Id of the last ChangeSet that was applied to this iModel.
    * @note An empty string indicates the first version.
    */
-  public get changeSetId(): string { return super.changeSetId!; } // string | undefined for the superclass, but required for BriefcaseDb
-  public set changeSetId(csId: string) { this._changeSetId = csId; }
+  public override get changeSetId(): string { return super.changeSetId!; } // string | undefined for the superclass, but required for BriefcaseDb
+  public override set changeSetId(csId: string) { this._changeSetId = csId; }
 
   /** Get the ConcurrencyControl for this iModel.
    * The concurrency control is used available *only* if the briefcase has been setup to synchronize changes with iModelHub (i.e., syncMode = SyncMode.PullAndPush),
@@ -2198,7 +2198,7 @@ export class BriefcaseDb extends IModelDb {
    * @param description Optional description of the changes
    * @throws [[IModelError]] if there is a problem saving changes or if there are pending, un-processed lock or code requests.
    */
-  public saveChanges(description?: string): void {
+  public override saveChanges(description?: string): void {
     if (this.allowLocalChanges)
       this.concurrencyControl.onSaveChanges();
 
@@ -2297,7 +2297,7 @@ export class BriefcaseDb extends IModelDb {
   }
 
   /** @internal */
-  public beforeClose() {
+  public override beforeClose() {
     super.beforeClose();
     if (this.allowLocalChanges)
       this.concurrencyControl.onClose();
@@ -2397,7 +2397,7 @@ export class BriefcaseDb extends IModelDb {
  * @public
  */
 export class SnapshotDb extends IModelDb {
-  public get isSnapshot(): boolean { return true; }
+  public override get isSnapshot(): boolean { return true; }
   /** @beta */
   public get isV2Checkpoint(): boolean { return this._isV2Checkpoint; }
   private _isV2Checkpoint: boolean;
@@ -2415,11 +2415,11 @@ export class SnapshotDb extends IModelDb {
     this._isV2Checkpoint = false;
   }
 
-  public static findByKey(key: string): SnapshotDb {
+  public static override findByKey(key: string): SnapshotDb {
     return super.findByKey(key) as SnapshotDb;
   }
 
-  public static tryFindByKey(key: string): SnapshotDb | undefined {
+  public static override tryFindByKey(key: string): SnapshotDb | undefined {
     const db = super.tryFindByKey(key);
     return db?.isSnapshotDb() ? db : undefined;
   }
@@ -2544,7 +2544,7 @@ export class SnapshotDb extends IModelDb {
    * @throws [[IModelError]] If the db is not a checkpoint.
    * @internal
    */
-  public async reattachDaemon(requestContext: AuthorizedClientRequestContext): Promise<void> {
+  public override async reattachDaemon(requestContext: AuthorizedClientRequestContext): Promise<void> {
     if (!this._isV2Checkpoint)
       return;
     if (this._reattachDueTimestamp && this._reattachDueTimestamp <= Date.now()) {
@@ -2560,7 +2560,7 @@ export class SnapshotDb extends IModelDb {
   }
 
   /** @internal */
-  public beforeClose(): void {
+  public override beforeClose(): void {
     super.beforeClose();
 
     if (this._createClassViewsOnClose) { // check for flag set during create
@@ -2591,7 +2591,7 @@ export class SnapshotDb extends IModelDb {
  * @public
  */
 export class StandaloneDb extends IModelDb {
-  public get isStandalone(): boolean { return true; }
+  public override get isStandalone(): boolean { return true; }
   /** Manages local changes to this briefcase. */
   public readonly txns: TxnManager;
   /** The full path to the standalone iModel file.
@@ -2599,17 +2599,17 @@ export class StandaloneDb extends IModelDb {
    */
   public get filePath(): string { return this.pathName; }
 
-  public static findByKey(key: string): StandaloneDb {
+  public static override findByKey(key: string): StandaloneDb {
     return super.findByKey(key) as StandaloneDb;
   }
 
-  public static tryFindByKey(key: string): StandaloneDb | undefined {
+  public static override tryFindByKey(key: string): StandaloneDb | undefined {
     const db = super.tryFindByKey(key);
     return db?.isStandaloneDb() ? db : undefined;
   }
 
   /** This property is always undefined as a StandaloneDb does not accept nor generate changesets. */
-  public get changeSetId() { return undefined; } // string | undefined for the superclass, but always undefined for StandaloneDb
+  public override get changeSetId() { return undefined; } // string | undefined for the superclass, but always undefined for StandaloneDb
 
   private constructor(nativeDb: IModelJsNative.DgnDb, key: string) {
     const openMode = nativeDb.isReadonly() ? OpenMode.Readonly : OpenMode.ReadWrite;

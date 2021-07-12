@@ -74,7 +74,7 @@ export class ModalDialogRenderer extends React.PureComponent<CommonProps> {
     super(props);
   }
 
-  public render(): React.ReactNode {
+  public override render(): React.ReactNode {
     return (
       <DialogRendererBase {...this.props} dialogManager={ModalDialogManager.dialogManager} />
     );

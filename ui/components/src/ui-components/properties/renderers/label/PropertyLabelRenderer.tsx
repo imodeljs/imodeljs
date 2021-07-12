@@ -34,7 +34,7 @@ export class PropertyLabelRenderer extends React.PureComponent<PropertyLabelRend
     };
   }
 
-  public render() {
+  public override render() {
     const title = this.props.tooltip ?? (typeof this.props.children == "string" ? this.props.children : /* istanbul ignore next */ undefined);
     return (
       <>

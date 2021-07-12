@@ -22,7 +22,7 @@ export interface GroupToolExpanderProps extends Omit<GroupToolProps, "isActive" 
  * @alpha
  */
 export class GroupToolExpander extends React.PureComponent<GroupToolExpanderProps> {
-  public render() {
+  public override render() {
     const { className, ...props } = this.props;
 
     const expanderClassName = classnames(

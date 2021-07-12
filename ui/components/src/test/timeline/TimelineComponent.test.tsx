@@ -20,7 +20,7 @@ class TestTimelineDataProvider extends BaseTimelineDataProvider {
   public forwardCallbackCalled = false;
   public backwardCallbackCalled = false;
 
-  public onAnimationFractionChanged = (animationFraction: number) => {
+  public override onAnimationFractionChanged = (animationFraction: number) => {
     this.pointerCallbackCalled = true;
     this.animationFraction = animationFraction;
   };
@@ -30,7 +30,7 @@ class TestTimelineDataProvider extends BaseTimelineDataProvider {
     this.backwardCallbackCalled = !forward;
   };
 
-  public onPlaybackSettingChanged = (settings: PlaybackSettings) => {
+  public override onPlaybackSettingChanged = (settings: PlaybackSettings) => {
     this.settingsCallbackCalled = true;
     this.updateSettings(settings);
   };

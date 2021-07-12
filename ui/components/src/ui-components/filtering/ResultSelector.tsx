@@ -106,19 +106,19 @@ export class ResultSelector extends React.PureComponent<ResultSelectorProps, Res
   };
 
   /** @internal */
-  public componentDidMount() {
+  public override componentDidMount() {
     this.props.onSelectedChanged(this.props.resultCount ? 1 : 0);
   }
 
   /** @internal */
-  public componentDidUpdate(prevProps: ResultSelectorProps) {
+  public override componentDidUpdate(prevProps: ResultSelectorProps) {
     if (this.props.resultCount !== prevProps.resultCount) {
       this.props.onSelectedChanged(this.props.resultCount ? 1 : 0);
     }
   }
 
   /** @internal */
-  public render() {
+  public override render() {
     return (
       <span className={classnames("components-result-selector", this.props.className)} style={this.props.style}>
         <button className={classnames("components-result-selector-button", "icon", "icon-chevron-left")}

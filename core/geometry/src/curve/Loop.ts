@@ -27,7 +27,7 @@ export class Loop extends CurveChain {
   public readonly curveCollectionType = "loop";
 
   /** tag value that can be set to true for user code to mark inner and outer loops. */
-  public isInner: boolean = false;
+  public override isInner: boolean = false;
   /** test if `other` is a `Loop` */
   public isSameGeometryClass(other: GeometryQuery): boolean { return other instanceof Loop; }
   /** Test if `other` is an instance of `Loop` */

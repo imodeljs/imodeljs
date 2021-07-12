@@ -10,7 +10,7 @@ import { AccessToken, AuthorizedClientRequestContext } from "@bentley/itwin-clie
 
 class MockAccessToken extends AccessToken {
   public constructor() { super(""); }
-  public toTokenString() { return ""; }
+  public override toTokenString() { return ""; }
 }
 
 const clientConfig: BackendAuthorizationClientConfiguration = {

@@ -28,7 +28,7 @@ export interface ToolbarIconProps extends ToolbarButtonProps {
  * @alpha
  */
 export class ToolbarIcon extends React.PureComponent<ToolbarIconProps> {
-  public render() {
+  public override render() {
     const { className, small, ...props } = this.props;
     const buttonClassName = classnames(
       "nz-toolbar-button-icon",

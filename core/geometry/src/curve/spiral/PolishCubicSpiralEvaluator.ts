@@ -35,8 +35,8 @@ export class PolishCubicEvaluator extends CubicEvaluator {
   }
 
   /** Compute the czech cubic constant. */
-  public static computeCubicM(length1: number, radius1: number): number  {
-      return 1.0 / (6.0 * length1 * radius1);
+  public static computeCubicM(length1: number, radius1: number): number {
+    return 1.0 / (6.0 * length1 * radius1);
   }
 
   public static create(length1: number, radius1: number): PolishCubicEvaluator | undefined {
@@ -49,7 +49,7 @@ export class PolishCubicEvaluator extends CubicEvaluator {
     return new PolishCubicEvaluator(length1, radius1, xMax, m);
   }
 
-  public scaleInPlace(scaleFactor: number) {
+  public override scaleInPlace(scaleFactor: number) {
     this.nominalLength1 *= scaleFactor;
     this.nominalRadius1 *= scaleFactor;
     super.scaleInPlace(scaleFactor);
@@ -66,49 +66,49 @@ export class PolishCubicEvaluator extends CubicEvaluator {
   }
 
   /** Compute the coefficient of x^4 in the x-to-distance series expansion */
-  public static computeX4SeriesCoefficient(length1: number, radius1: number): number  {
+  public static computeX4SeriesCoefficient(length1: number, radius1: number): number {
     return 1.0 / (4.0 * length1 * length1 * radius1 * radius1);
   }
-/**
- * Evaluate a series approximation of distance along the true curve.
- * @param x distance along x axis
- * @param radius1 nominal end radius
- * @param length1 nominal length along curve
- * @returns
- */
+  /**
+   * Evaluate a series approximation of distance along the true curve.
+   * @param x distance along x axis
+   * @param radius1 nominal end radius
+   * @param length1 nominal length along curve
+   * @returns
+   */
   public static xToApproximateDistance(x: number, radius1: number, length1: number): number {
-                 // C31 * ( 1 + 1 / 10 * E31 - 1 / 72 * E31^2 + 1 / 208 * E31^3 - 5 / 2176 * E31^4 )
-  const  a4 = this.computeX4SeriesCoefficient(length1, radius1);
-  const  ax2 = a4 * x * x;
-  const ax3 = ax2 * x;
-  const ax4 = ax3 * x;
-  const s0 =  x * (1.0 + ax4 * (0.1 + ax4 * (-1.0 / 72.0 + ax4 * (1.0 / 208.0 - 5.0 * ax4 / 2176.0))));
-  return s0;
+    // C31 * ( 1 + 1 / 10 * E31 - 1 / 72 * E31^2 + 1 / 208 * E31^3 - 5 / 2176 * E31^4 )
+    const a4 = this.computeX4SeriesCoefficient(length1, radius1);
+    const ax2 = a4 * x * x;
+    const ax3 = ax2 * x;
+    const ax4 = ax3 * x;
+    const s0 = x * (1.0 + ax4 * (0.1 + ax4 * (-1.0 / 72.0 + ax4 * (1.0 / 208.0 - 5.0 * ax4 / 2176.0))));
+    return s0;
   }
 
-/**
- * Evaluate the derivative of the x-to-distance series.
- * @param x distance along x axis
- * @param radius1 nominal end radius
- * @param length1 nominal length along curve
- * @returns
- */
- public static xToApproximateDistanceDerivative(x: number, radius1: number, length1: number): number {
-  // C31 * ( 1 + 1 / 10 * E31 - 1 / 72 * E31^2 + 1 / 208 * E31^3 - 5 / 2176 * E31^4 )
-const  a4 = this.computeX4SeriesCoefficient(length1, radius1);
-const  ax2 = a4 * x * x;
-const ax3 = ax2 * x;
-const ax4 = ax3 * x;
-   // derivative notes ..
-   // take away leading x -- this reduces each power by 1
-   // multiply each coefficient by its original power:
-   //  0.1==>0.5
-   // 1/72==> 9/72 = 1/8
-   // 1/208==>13/208=1/16
-   // 1/2176==>17/2176= 1/128
-const ds =  (1.0 + ax4 * (0.5 + ax4 * (-1.0 / 8.0 + ax4 * (1.0 / 16.0 - 5.0 * ax4 / 128.0))));
-return ds;
-}
+  /**
+   * Evaluate the derivative of the x-to-distance series.
+   * @param x distance along x axis
+   * @param radius1 nominal end radius
+   * @param length1 nominal length along curve
+   * @returns
+   */
+  public static xToApproximateDistanceDerivative(x: number, radius1: number, length1: number): number {
+    // C31 * ( 1 + 1 / 10 * E31 - 1 / 72 * E31^2 + 1 / 208 * E31^3 - 5 / 2176 * E31^4 )
+    const a4 = this.computeX4SeriesCoefficient(length1, radius1);
+    const ax2 = a4 * x * x;
+    const ax3 = ax2 * x;
+    const ax4 = ax3 * x;
+    // derivative notes ..
+    // take away leading x -- this reduces each power by 1
+    // multiply each coefficient by its original power:
+    //  0.1==>0.5
+    // 1/72==> 9/72 = 1/8
+    // 1/208==>13/208=1/16
+    // 1/2176==>17/2176= 1/128
+    const ds = (1.0 + ax4 * (0.5 + ax4 * (-1.0 / 8.0 + ax4 * (1.0 / 16.0 - 5.0 * ax4 / 128.0))));
+    return ds;
+  }
 
   /** Invert the xToApproximateDistance function. */
   public static approximateDistanceAlongToX(s: number, radius1: number, length1: number): number | undefined {

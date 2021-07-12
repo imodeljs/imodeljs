@@ -39,7 +39,7 @@ describe("Property", () => {
       super(testClass, name, type);
     }
 
-    public addCustomAttribute(customAttribute: CustomAttribute) {
+    public override addCustomAttribute(customAttribute: CustomAttribute) {
       super.addCustomAttribute(customAttribute);
     }
   }

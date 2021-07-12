@@ -22,7 +22,7 @@ export interface TabSeparatorProps extends CommonProps, NoChildrenProps {
  * @alpha
  */
 export class TabSeparator extends React.PureComponent<TabSeparatorProps> {
-  public render() {
+  public override render() {
     const className = classnames(
       "nz-widget-rectangular-tab-separator",
       this.props.isHorizontal && "nz-horizontal",

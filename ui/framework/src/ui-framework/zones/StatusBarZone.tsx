@@ -37,7 +37,7 @@ export interface StatusBarZoneProps extends CommonProps {
  * @internal
  */
 export class StatusBarZone extends React.PureComponent<StatusBarZoneProps> {
-  public render(): React.ReactNode {
+  public override render(): React.ReactNode {
     const bounds = getFloatingZoneBounds(this.props.zoneProps);
     return (
       <SafeAreaContext.Consumer>

@@ -46,7 +46,7 @@ export abstract class SquareCasing extends QuadCasing {
   public center(): Point3d {
     return new Point3d(this.width / 2.0, this.width / 2.0, this.thickness / 2.0);
   }
-  public abstract name(): string;
+  public abstract override name(): string;
 }
 
 export class SmallSquareCasing extends SquareCasing {
@@ -76,7 +76,7 @@ export class RectangleCasing extends QuadCasing {
 }
 
 export class RectangularMagnetCasing extends QuadCasing {
-  public readonly thickness: number = Casings.MagnetThickness;
+  public override readonly thickness: number = Casings.MagnetThickness;
   public size(): Point3d {
     return new Point3d(Casings.MagnetLength, Casings.MagnetThickness, Casings.MagnetThickness);
   }

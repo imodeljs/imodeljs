@@ -21,7 +21,7 @@ import { SettingsAdmin, SettingsMapResult, SettingsResult, SettingsStatus } from
 export class ConnectSettingsClient extends Client implements SettingsAdmin {
   public static readonly searchKey: string = "ProductSettingsService.RP";
   public static readonly apiVersion: string = "v1.0";
-  protected _url?: string;
+  protected override _url?: string;
 
   /** Creates an instance of ConnectSettingsClient.
    */
@@ -33,7 +33,7 @@ export class ConnectSettingsClient extends Client implements SettingsAdmin {
   /** @internal */
   protected getUrlSearchKey(): string { assert(false, "Bentley cloud-specific method should be factored out of WsgClient base class"); return ""; }
 
-  protected async setupOptionDefaults(options: RequestOptions): Promise<void> {
+  protected override async setupOptionDefaults(options: RequestOptions): Promise<void> {
     await super.setupOptionDefaults(options);
   }
 
@@ -44,7 +44,7 @@ export class ConnectSettingsClient extends Client implements SettingsAdmin {
    * @param excludeApiVersion Pass true to optionally exclude the API version from the URL.
    * @returns URL for the service
    */
-  public async getUrl(requestContext: ClientRequestContext, excludeApiVersion?: boolean): Promise<string> {
+  public override async getUrl(requestContext: ClientRequestContext, excludeApiVersion?: boolean): Promise<string> {
     if (this._url)
       return this._url;
 

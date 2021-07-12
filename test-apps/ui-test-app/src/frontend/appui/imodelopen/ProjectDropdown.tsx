@@ -130,7 +130,7 @@ export class ProjectDropdown extends React.Component<ProjectDropdownProps, Proje
     );
   }
 
-  public render() {
+  public override render() {
     const splitterClassName = classnames("pp-splitter icon icon-chevron-down", this.state.isDropdownOpen && "opened");
     return (
       <div className="pp">

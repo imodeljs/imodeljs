@@ -28,7 +28,7 @@ export interface StatusMessageProps extends CommonProps {
  * @beta
  */
 export class Message extends React.PureComponent<StatusMessageProps> {
-  public render() {
+  public override render() {
     const className = classnames(
       "nz-footer-message-message",
       StatusHelpers.getCssClassName(this.props.status),

@@ -20,7 +20,7 @@ const multiSnapModes = [
 const multiSnapMode = -1;
 
 function changeSnapModes(value: SnapMode): void {
-  if (multiSnapMode !== value) {
+  if (multiSnapMode !== (value as number)) {
     DisplayTestApp.setActiveSnapMode(value);
   } else {
     DisplayTestApp.setActiveSnapModes(multiSnapModes);

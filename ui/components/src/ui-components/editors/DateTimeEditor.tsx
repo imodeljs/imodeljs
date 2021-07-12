@@ -48,7 +48,7 @@ export class DateTimeEditor extends React.PureComponent<DateTimeEditorProps, Dat
   private _divElement = React.createRef<HTMLDivElement>();
 
   /** @internal */
-  public readonly state: Readonly<DateTimeEditorState> = {
+  public override readonly state: Readonly<DateTimeEditorState> = {
     value: new Date(),
     editInUtc: false,
   };
@@ -119,18 +119,18 @@ export class DateTimeEditor extends React.PureComponent<DateTimeEditorProps, Dat
   };
 
   /** @internal */
-  public componentDidMount() {
+  public override componentDidMount() {
     this._isMounted = true;
     this.setStateFromProps(); // eslint-disable-line @typescript-eslint/no-floating-promises
   }
 
   /** @internal */
-  public componentWillUnmount() {
+  public override componentWillUnmount() {
     this._isMounted = false;
   }
 
   /** @internal */
-  public componentDidUpdate(prevProps: PropertyEditorProps) {
+  public override componentDidUpdate(prevProps: PropertyEditorProps) {
     if (this.props.propertyRecord !== prevProps.propertyRecord) {
       this.setStateFromProps(); // eslint-disable-line @typescript-eslint/no-floating-promises
     }
@@ -267,7 +267,7 @@ export class DateTimeEditor extends React.PureComponent<DateTimeEditorProps, Dat
   };
 
   /** @internal */
-  public render(): React.ReactNode {
+  public override render(): React.ReactNode {
     const date = this.state.editInUtc ? adjustDateToTimezone(this.state.value, 0) : this.state.value;
     const timeSpec: TimeSpec = {
       hours: date.getHours(),
@@ -310,7 +310,7 @@ export class ShortDateTimePropertyEditor extends PropertyEditorBase {
     return <DateTimeEditor showTime={false} />;
   }
   // istanbul ignore next
-  public get containerHandlesTab(): boolean {
+  public override get containerHandlesTab(): boolean {
     return false;
   }
 }
@@ -324,7 +324,7 @@ export class DateTimePropertyEditor extends PropertyEditorBase {
     return <DateTimeEditor showTime={true} />;
   }
   // istanbul ignore next
-  public get containerHandlesTab(): boolean {
+  public override get containerHandlesTab(): boolean {
     return false;
   }
 }

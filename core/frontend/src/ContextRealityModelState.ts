@@ -28,7 +28,7 @@ async function getAccessToken(): Promise<AccessToken | undefined> {
     return undefined; // Not signed in
 
   try {
-    return IModelApp.authorizationClient.getAccessToken();
+    return await IModelApp.authorizationClient.getAccessToken();
   } catch (_) {
     return undefined;
   }

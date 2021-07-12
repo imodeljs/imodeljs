@@ -20,7 +20,7 @@ export class ColumnDragLayer extends React.Component<DragLayerProps> { // eslint
     super(props);
   }
 
-  public render(): React.ReactNode {
+  public override render(): React.ReactNode {
     if (this.props.args === undefined)
       return null;
 

@@ -73,7 +73,7 @@ export class NumericFilter extends React.Component<NumericFilterProps> {
     this.props.onChange({ filterTerm: (filters.length > 0 ? filters : null), column: this.props.column });
   };
 
-  public render() {
+  public override render() {
     const inputKey = `header-filter-${this.props.column.key}`;
     const columnStyle: React.CSSProperties = {
       float: "left",

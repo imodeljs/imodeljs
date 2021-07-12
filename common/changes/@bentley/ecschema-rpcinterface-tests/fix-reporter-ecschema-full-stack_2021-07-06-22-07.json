@@ -1,0 +1,11 @@
+{
+  "changes": [
+    {
+      "packageName": "@bentley/ecschema-rpcinterface-tests",
+      "comment": "Update mocha output file to be named the same as the package.",
+      "type": "none"
+    }
+  ],
+  "packageName": "@bentley/ecschema-rpcinterface-tests",
+  "email": "31107829+calebmshafer@users.noreply.github.com"
+}

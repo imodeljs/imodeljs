@@ -591,13 +591,13 @@ export class RenderCommands implements Iterable<DrawCommands> {
     } else if (batch.graphic instanceof GraphicsArray) {
       const ga = batch.graphic;
       if (ga.graphics[0] instanceof MeshGraphic) {
-        const mg = ga.graphics[0] as MeshGraphic;
+        const mg = ga.graphics[0];
         if (SurfaceType.VolumeClassifier === mg.surfaceType)
           pass = RenderPass.HiliteClassification;
       } else if (ga.graphics[0] instanceof Branch) {
-        const b = ga.graphics[0] as Branch;
+        const b = ga.graphics[0];
         if (b.branch.entries.length > 0 && b.branch.entries[0] instanceof MeshGraphic) {
-          const mg = b.branch.entries[0] as MeshGraphic;
+          const mg = b.branch.entries[0];
           if (SurfaceType.VolumeClassifier === mg.surfaceType)
             pass = RenderPass.HiliteClassification;
         }

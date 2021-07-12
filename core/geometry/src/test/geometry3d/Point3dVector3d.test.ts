@@ -70,7 +70,7 @@ export class MatrixTests {
           Vector3d.create(e, e, 3.0),
         ]) {
           const triad = Matrix3d.createRigidHeadsUp(vector);
-          if (ck.testPointer(triad) && triad) {
+          if (ck.testPointer(triad)) {
             MatrixTests.checkProperties(ck, triad, undefined, true, true, true,
               vector.isAlmostEqual(Vector3d.unitZ()));
             ck.testParallel(vector, triad.columnZ());

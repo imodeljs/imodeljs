@@ -1,6 +1,6 @@
 {
   "name": "@bentley/imodelhub-client-tests",
-  "version": "2.19.0-dev.8",
+  "version": "2.19.0-dev.13",
   "main": "lib/imodelhub-client-tests.js",
   "description": "Tests the iModelHub client",
   "license": "MIT",
@@ -66,7 +66,7 @@
     "internal-tools": "workspace:*",
     "nyc": "^15.1.0",
     "rimraf": "^3.0.2",
-    "typescript": "~4.1.0"
+    "typescript": "~4.3.0"
   },
   "nyc": {
     "extends": "./node_modules/@bentley/build-tools/.nycrc"

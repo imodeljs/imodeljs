@@ -17,7 +17,7 @@ class AsyncValuesTypeConverter extends TypeConverter {
   public sortCompare(_lhs: Primitives.Value, _rhs: Primitives.Value, _ignoreCase?: boolean) {
     return 0;
   }
-  public async convertToString(value?: Primitives.Value) {
+  public override async convertToString(value?: Primitives.Value) {
     return value ? value.toString() : "";
   }
 }

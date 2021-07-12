@@ -43,7 +43,7 @@ export class FooterPopup extends React.PureComponent<FooterPopupProps> {
     contentType: FooterPopupContentType.Dialog,
   };
 
-  public render() {
+  public override render() {
     const { className, contentType, ...props } = this.props;
     return (
       <Popup

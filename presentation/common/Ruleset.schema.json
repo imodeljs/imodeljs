@@ -1453,6 +1453,10 @@
             "Forward"
           ],
           "type": "string"
+        },
+        "skipIfDuplicate": {
+          "description": "Should this related properties specification be ignored if it duplicates another higher priority specification for the same relationship.",
+          "type": "boolean"
         }
       },
       "type": "object"
@@ -2780,6 +2784,10 @@
             "SameInstance"
           ],
           "type": "string"
+        },
+        "skipIfDuplicate": {
+          "description": "Should this related properties specification be ignored if it duplicates another higher priority specification for the same relationship.",
+          "type": "boolean"
         }
       },
       "required": [

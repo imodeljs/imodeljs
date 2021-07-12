@@ -55,7 +55,7 @@ export class ContextSubMenu extends React.Component<ContextSubMenuProps, Context
   };
 
   /** @internal */
-  public readonly state: Readonly<ContextSubMenuState>;
+  public override readonly state: Readonly<ContextSubMenuState>;
   constructor(props: ContextSubMenuProps) {
     super(props);
     this.state = {
@@ -64,7 +64,7 @@ export class ContextSubMenu extends React.Component<ContextSubMenuProps, Context
     };
   }
 
-  public render(): JSX.Element {
+  public override render(): JSX.Element {
     const {
       label,
       opened, direction, onOutsideClick, onEsc, autoflip, edgeLimit, selectedIndex, floating, parentMenu, parentSubmenu, // eslint-disable-line @typescript-eslint/no-unused-vars
@@ -126,18 +126,18 @@ export class ContextSubMenu extends React.Component<ContextSubMenuProps, Context
     );
   }
 
-  public componentDidMount() {
+  public override componentDidMount() {
     document.addEventListener("click", this._handleClickGlobal);
     this._updateHotkey(this.props.label);
 
     this.checkRenderDirection();
   }
 
-  public componentWillUnmount() {
+  public override componentWillUnmount() {
     document.removeEventListener("click", this._handleClickGlobal);
   }
 
-  public componentDidUpdate(prevProps: ContextSubMenuProps, prevState: ContextSubMenuState) {
+  public override componentDidUpdate(prevProps: ContextSubMenuProps, prevState: ContextSubMenuState) {
     const direction = this.props.direction!;
     if ((this.state.opened !== prevState.opened && direction !== this.state.direction) || prevProps.direction !== direction)
       this.checkRenderDirection();

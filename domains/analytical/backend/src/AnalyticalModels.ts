@@ -13,5 +13,5 @@ import { GeometricModel3d } from "@bentley/imodeljs-backend";
  */
 export abstract class AnalyticalModel extends GeometricModel3d {
   /** @internal */
-  public static get className(): string { return "AnalyticalModel"; }
+  public static override get className(): string { return "AnalyticalModel"; }
 }

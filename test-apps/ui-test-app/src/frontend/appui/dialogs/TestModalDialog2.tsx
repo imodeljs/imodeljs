@@ -25,7 +25,7 @@ export interface TestModalDialog2State {
 }
 
 export class TestModalDialog2 extends React.Component<TestModalDialog2Props, TestModalDialog2State> {
-  public readonly state: Readonly<TestModalDialog2State>;
+  public override readonly state: Readonly<TestModalDialog2State>;
 
   constructor(props: TestModalDialog2Props) {
     super(props);
@@ -61,7 +61,7 @@ export class TestModalDialog2 extends React.Component<TestModalDialog2Props, Tes
     IModelApp.notifications.outputMessage(new NotifyMessageDetails(OutputMessagePriority.Info, msg));
   };
 
-  public render(): JSX.Element {
+  public override render(): JSX.Element {
 
     return (
       <Dialog

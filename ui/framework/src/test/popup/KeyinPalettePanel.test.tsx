@@ -178,8 +178,8 @@ describe("<KeyinPalettePanel>", () => {
   describe("Filters out unavailable History keyins", () => {
 
     class TestImmediate extends Tool {
-      public static toolId = "Test.Immediate";
-      public run(): boolean {
+      public static override toolId = "Test.Immediate";
+      public override run(): boolean {
         return true;
       }
     }

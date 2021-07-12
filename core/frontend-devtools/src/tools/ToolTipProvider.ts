@@ -56,16 +56,16 @@ class DebugToolTipProvider implements ToolTipProvider {
  * @beta
  */
 export class ToggleToolTipsTool extends Tool {
-  public static toolId = "ToggleToolTips";
-  public static get minArgs() { return 0; }
-  public static get maxArgs() { return 1; }
+  public static override toolId = "ToggleToolTips";
+  public static override get minArgs() { return 0; }
+  public static override get maxArgs() { return 1; }
 
-  public run(enable?: boolean): boolean {
+  public override run(enable?: boolean): boolean {
     DebugToolTipProvider.setEnabled(enable);
     return true;
   }
 
-  public parseAndRun(...args: string[]): boolean {
+  public override parseAndRun(...args: string[]): boolean {
     const enable = parseToggle(args[0]);
     if (typeof enable !== "string")
       this.run(enable);

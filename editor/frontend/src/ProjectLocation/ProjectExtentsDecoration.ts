@@ -118,7 +118,7 @@ export class ProjectExtentsClipDecoration extends EditManipulator.HandleProvider
     this.iModel.selectionSet.replace(this._clipId!); // Always select decoration on create...
   }
 
-  protected stop(): void {
+  protected override stop(): void {
     const selectedId = (undefined !== this._clipId && this.iModel.selectionSet.has(this._clipId)) ? this._clipId : undefined;
     this._clipId = undefined; // Invalidate id so that decorator will be dropped...
     super.stop();
@@ -272,7 +272,7 @@ export class ProjectExtentsClipDecoration extends EditManipulator.HandleProvider
     return this.createClipShapeControls();
   }
 
-  protected clearControls(): void {
+  protected override clearControls(): void {
     this.iModel.selectionSet.remove(this._controlIds); // Remove any selected controls as they won't continue to be displayed...
     super.clearControls();
   }
@@ -293,11 +293,11 @@ export class ProjectExtentsClipDecoration extends EditManipulator.HandleProvider
     return this._suspendDecorator;
   }
 
-  protected async onRightClick(_hit: HitDetail, _ev: BeButtonEvent): Promise<EventHandled> { return EventHandled.No; }
+  protected override async onRightClick(_hit: HitDetail, _ev: BeButtonEvent): Promise<EventHandled> { return EventHandled.No; }
 
-  protected async onTouchTap(hit: HitDetail, ev: BeButtonEvent): Promise<EventHandled> { return (hit.sourceId === this._clipId ? EventHandled.No : super.onTouchTap(hit, ev)); }
+  protected override async onTouchTap(hit: HitDetail, ev: BeButtonEvent): Promise<EventHandled> { return (hit.sourceId === this._clipId ? EventHandled.No : super.onTouchTap(hit, ev)); }
 
-  public async onDecorationButtonEvent(hit: HitDetail, ev: BeButtonEvent): Promise<EventHandled> {
+  public override async onDecorationButtonEvent(hit: HitDetail, ev: BeButtonEvent): Promise<EventHandled> {
     if (hit.sourceId === this._monumentId) {
       if (BeButton.Data === ev.button && !ev.isDown && !ev.isDragging)
         ProjectGeolocationPointTool.startTool();
@@ -313,7 +313,7 @@ export class ProjectExtentsClipDecoration extends EditManipulator.HandleProvider
     return super.onDecorationButtonEvent(hit, ev);
   }
 
-  public onManipulatorEvent(eventType: EditManipulator.EventType): void {
+  public override onManipulatorEvent(eventType: EditManipulator.EventType): void {
     if (EditManipulator.EventType.Accept === eventType)
       this.onChanged.raiseEvent(this.iModel, ProjectLocationChanged.Extents);
     this._suspendDecorator = false;
@@ -334,7 +334,7 @@ export class ProjectExtentsClipDecoration extends EditManipulator.HandleProvider
         const formattedPointX = quantityFormatter.formatQuantity(pointAdjusted.x, coordFormatterSpec);
         const formattedPointY = quantityFormatter.formatQuantity(pointAdjusted.y, coordFormatterSpec);
         const formattedPointZ = quantityFormatter.formatQuantity(pointAdjusted.z, coordFormatterSpec);
-        toolTipHtml += `${translateCoreMeasureBold("Coordinate")+formattedPointX}, ${formattedPointY}, ${formattedPointZ}<br>`;
+        toolTipHtml += `${translateCoreMeasureBold("Coordinate") + formattedPointX}, ${formattedPointY}, ${formattedPointZ}<br>`;
       }
 
       const latLongFormatterSpec = quantityFormatter.findFormatterSpecByQuantityType(QuantityType.LatLong);
@@ -345,8 +345,8 @@ export class ProjectExtentsClipDecoration extends EditManipulator.HandleProvider
         const formattedHeight = quantityFormatter.formatQuantity(cartographic.height, coordFormatterSpec);
         const latDir = CoreTools.translate(cartographic.latitude < 0 ? "Measure.Labels.S" : "Measure.Labels.N");
         const longDir = CoreTools.translate(cartographic.longitude < 0 ? "Measure.Labels.W" : "Measure.Labels.E");
-        toolTipHtml += `${translateCoreMeasureBold("LatLong")+formattedLat+latDir}, ${formattedLong}${longDir}<br>`;
-        toolTipHtml += `${translateCoreMeasureBold("Altitude")+formattedHeight}<br>`;
+        toolTipHtml += `${translateCoreMeasureBold("LatLong") + formattedLat + latDir}, ${formattedLong}${longDir}<br>`;
+        toolTipHtml += `${translateCoreMeasureBold("Altitude") + formattedHeight}<br>`;
       }
 
     } else if (hit.sourceId === this._northId) {
@@ -355,7 +355,7 @@ export class ProjectExtentsClipDecoration extends EditManipulator.HandleProvider
       const angleFormatterSpec = quantityFormatter.findFormatterSpecByQuantityType(QuantityType.Angle);
       if (undefined !== angleFormatterSpec) {
         const formattedAngle = quantityFormatter.formatQuantity(this.getClockwiseAngleToNorth().radians, angleFormatterSpec);
-        toolTipHtml += `${translateMessageBold("Angle")+formattedAngle}<br>`;
+        toolTipHtml += `${translateMessageBold("Angle") + formattedAngle}<br>`;
       }
 
     } else if (hit.sourceId === this._clipId) {
@@ -367,9 +367,9 @@ export class ProjectExtentsClipDecoration extends EditManipulator.HandleProvider
         const formattedLength = quantityFormatter.formatQuantity(this._clipRange.xLength(), distanceFormatterSpec);
         const formattedWidth = quantityFormatter.formatQuantity(this._clipRange.yLength(), distanceFormatterSpec);
         const formattedHeight = quantityFormatter.formatQuantity(this._clipRange.zLength(), distanceFormatterSpec);
-        toolTipHtml += `${translateMessageBold("Length")+formattedLength}<br>`;
-        toolTipHtml += `${translateMessageBold("Width")+formattedWidth}<br>`;
-        toolTipHtml += `${translateMessageBold("Height")+formattedHeight}<br>`;
+        toolTipHtml += `${translateMessageBold("Length") + formattedLength}<br>`;
+        toolTipHtml += `${translateMessageBold("Width") + formattedWidth}<br>`;
+        toolTipHtml += `${translateMessageBold("Height") + formattedHeight}<br>`;
       }
 
     } else {
@@ -406,16 +406,16 @@ export class ProjectExtentsClipDecoration extends EditManipulator.HandleProvider
               const heightPt = ("zLow" === arrowControl.name ? this._clipRange.low : this._clipRange.high);
               const cartographic = this.iModel.spatialToCartographicFromEcef(heightPt);
               const formattedAltitude = quantityFormatter.formatQuantity(cartographic.height, coordFormatterSpec);
-              toolTipHtml += `${translateCoreMeasureBold("Altitude")+formattedAltitude}<br>`;
+              toolTipHtml += `${translateCoreMeasureBold("Altitude") + formattedAltitude}<br>`;
             }
           }
 
           const formattedLength = quantityFormatter.formatQuantity(arrowLength, distanceFormatterSpec);
-          toolTipHtml += `${translateMessageBold(arrowLabel)+formattedLength}<br>`;
+          toolTipHtml += `${translateMessageBold(arrowLabel) + formattedLength}<br>`;
 
           if (0.0 !== arrowLengthMax) {
             const formattedMaxLength = quantityFormatter.formatQuantity(arrowLengthMax, distanceFormatterSpec);
-            toolTipHtml += `${translateMessageBold("MaxExtent")+formattedMaxLength}<br>`;
+            toolTipHtml += `${translateMessageBold("MaxExtent") + formattedMaxLength}<br>`;
           }
         }
       }
@@ -426,7 +426,7 @@ export class ProjectExtentsClipDecoration extends EditManipulator.HandleProvider
   }
 
   public testDecorationHit(id: string): boolean { return (id === this._monumentId || id === this._northId || id === this._clipId || this._controlIds.includes(id)); }
-  protected updateDecorationListener(_add: boolean): void { super.updateDecorationListener(undefined !== this._clipId); } // Decorator isn't just for resize controls...
+  protected override updateDecorationListener(_add: boolean): void { super.updateDecorationListener(undefined !== this._clipId); } // Decorator isn't just for resize controls...
 
   public getMonumentPoint(): Point3d {
     const origin = Point3d.createZero();
@@ -604,7 +604,7 @@ export class ProjectExtentsClipDecoration extends EditManipulator.HandleProvider
     context.addCanvasDecoration({ position, drawDecoration });
   }
 
-  public decorate(context: DecorateContext): void {
+  public override decorate(context: DecorateContext): void {
     if (this._suspendDecorator)
       return;
 
@@ -884,9 +884,9 @@ export class ProjectExtentsClipDecoration extends EditManipulator.HandleProvider
  * @beta
  */
 export class ProjectLocationShowTool extends Tool {
-  public static toolId = "ProjectLocation.Show";
+  public static override toolId = "ProjectLocation.Show";
 
-  public run(): boolean {
+  public override run(): boolean {
     const vp = IModelApp.viewManager.selectedView;
     if (undefined === vp || !ProjectExtentsClipDecoration.show(vp))
       return false;
@@ -899,9 +899,9 @@ export class ProjectLocationShowTool extends Tool {
  * @beta
  */
 export class ProjectLocationHideTool extends Tool {
-  public static toolId = "ProjectLocation.Hide";
+  public static override toolId = "ProjectLocation.Hide";
 
-  public run(): boolean {
+  public override run(): boolean {
     ProjectExtentsClipDecoration.hide();
     IModelApp.toolAdmin.startDefaultTool();
     return true;
@@ -912,9 +912,9 @@ export class ProjectLocationHideTool extends Tool {
  * @beta
  */
 export class ProjectLocationCancelTool extends Tool {
-  public static toolId = "ProjectLocation.Cancel";
+  public static override toolId = "ProjectLocation.Cancel";
 
-  public run(): boolean {
+  public override run(): boolean {
     ProjectExtentsClipDecoration.clear();
     IModelApp.toolAdmin.startDefaultTool();
     return true;
@@ -927,7 +927,7 @@ export class ProjectLocationCancelTool extends Tool {
  * @beta
  */
 export class ProjectLocationSaveTool extends Tool {
-  public static toolId = "ProjectLocation.Save";
+  public static override toolId = "ProjectLocation.Save";
 
   public static callCommand<T extends keyof BasicManipulationCommandIpc>(method: T, ...args: Parameters<BasicManipulationCommandIpc[T]>): ReturnType<BasicManipulationCommandIpc[T]> {
     return EditTools.callCommand(method, ...args) as ReturnType<BasicManipulationCommandIpc[T]>;
@@ -971,7 +971,7 @@ export class ProjectLocationSaveTool extends Tool {
     IModelApp.toolAdmin.startDefaultTool();
   }
 
-  public run(): boolean {
+  public override run(): boolean {
     const deco = ProjectExtentsClipDecoration.get();
     if (undefined === deco) {
       IModelApp.notifications.outputMessage(new NotifyMessageDetails(OutputMessagePriority.Info, translateMessage("NotActive")));

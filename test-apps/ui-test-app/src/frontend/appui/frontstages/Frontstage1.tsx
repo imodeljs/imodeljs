@@ -330,7 +330,7 @@ class FrontstageToolWidget extends React.Component {
     />
   );
 
-  public render() {
+  public override render() {
     return (
       <ToolWidget
         appButton={AppTools.backstageToggleCommand}
@@ -369,7 +369,7 @@ class FrontstageNavigationWidget extends React.Component {
     />
   );
 
-  public render() {
+  public override render() {
     return (
       <NavigationWidget
         navigationAidId="StandardRotationNavigationAid"

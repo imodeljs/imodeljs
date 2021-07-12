@@ -74,13 +74,13 @@ describe("Vector3d", () => {
     const axis = Vector3d.create(-1, 3, 6);
     const theta = Angle.createDegrees(20);
     const vectorA1 = Vector3d.createRotateVectorAroundVector(vectorA, axis, theta);
-    if (ck.testPointer(vectorA1) && vectorA1) {
+    if (ck.testPointer(vectorA1)) {
       const theta1 = vectorA.planarAngleTo(vectorA1, axis);
       ck.testAngleNoShift(theta, theta1);
     }
 
     const vectorA2 = Vector3d.createRotateVectorAroundVector(vectorA, axis);
-    if (ck.testPointer(vectorA2) && vectorA2) {
+    if (ck.testPointer(vectorA2)) {
       const theta1 = vectorA.planarAngleTo(vectorA2, axis);
       ck.testAngleNoShift(theta1, Angle.createDegrees(90));
     }

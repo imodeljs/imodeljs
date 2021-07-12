@@ -463,8 +463,8 @@ class RulesetDrivenIdsProvider extends ContentDataProvider {
     super({ imodel, ruleset: rulesetId, displayType });
     this.keys = new KeySet(inputKeys);
   }
-  protected shouldConfigureContentDescriptor() { return false; }
-  protected getDescriptorOverrides(): DescriptorOverrides {
+  protected override shouldConfigureContentDescriptor() { return false; }
+  protected override getDescriptorOverrides(): DescriptorOverrides {
     return {
       displayType: this.displayType,
       contentFlags: ContentFlags.KeysOnly,

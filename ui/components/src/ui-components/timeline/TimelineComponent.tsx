@@ -115,14 +115,14 @@ export class TimelineComponent extends React.Component<TimelineComponentProps, T
     }
   }
 
-  public componentWillUnmount() {
+  public override componentWillUnmount() {
     if (this._removeListener)
       this._removeListener();
     window.cancelAnimationFrame(this._requestFrame);
     this._unmounted = true;
   }
 
-  public shouldComponentUpdate(nextProps: TimelineComponentProps, nextState: TimelineComponentState) {
+  public override shouldComponentUpdate(nextProps: TimelineComponentProps, nextState: TimelineComponentState) {
     let result = false;
 
     // istanbul ignore next
@@ -137,7 +137,7 @@ export class TimelineComponent extends React.Component<TimelineComponentProps, T
     return result;
   }
 
-  public componentDidUpdate(prevProps: TimelineComponentProps) {
+  public override componentDidUpdate(prevProps: TimelineComponentProps) {
     // istanbul ignore else
     if (this.props.initialDuration !== prevProps.initialDuration) {
       this._setDuration(this.props.initialDuration ? this.props.initialDuration : /* istanbul ignore next */ 0);
@@ -429,7 +429,7 @@ export class TimelineComponent extends React.Component<TimelineComponentProps, T
     );
   };
 
-  public render() {
+  public override render() {
     const { startDate, endDate, showDuration } = this.props;
     const { currentDuration, totalDuration, minimized } = this.state;
     const currentDate = this._currentDate();

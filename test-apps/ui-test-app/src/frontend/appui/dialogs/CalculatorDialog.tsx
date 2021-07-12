@@ -16,7 +16,7 @@ export interface CalculatorDialogState {
 }
 
 export class CalculatorDialog extends React.Component<CalculatorDialogProps, CalculatorDialogState> {
-  public readonly state: Readonly<CalculatorDialogState>;
+  public override readonly state: Readonly<CalculatorDialogState>;
 
   constructor(props: CalculatorDialogProps) {
     super(props);
@@ -25,7 +25,7 @@ export class CalculatorDialog extends React.Component<CalculatorDialogProps, Cal
     };
   }
 
-  public render(): JSX.Element {
+  public override render(): JSX.Element {
     return (
       <Dialog
         title={"Calculator"}
@@ -52,7 +52,7 @@ export class CalculatorDialog extends React.Component<CalculatorDialogProps, Cal
     });
   };
 
-  public componentDidUpdate(oldProps: CalculatorDialogProps) {
+  public override componentDidUpdate(oldProps: CalculatorDialogProps) {
     if (oldProps.opened !== this.props.opened) {
       this.setState((_, props) => ({ opened: props.opened }));
     }

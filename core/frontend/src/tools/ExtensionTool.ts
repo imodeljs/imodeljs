@@ -18,15 +18,15 @@ const loggerCategory = "imodeljs-frontend.Extension";
 export class ExtensionTool extends Tool {
   private static _isListenerAdded = false;
 
-  public static toolId = "Extension";
-  public static get maxArgs() { return undefined; }
-  public static get minArgs() { return 1; }
+  public static override toolId = "Extension";
+  public static override get maxArgs() { return undefined; }
+  public static override get minArgs() { return 1; }
 
-  public parseAndRun(...args: string[]): boolean {
+  public override parseAndRun(...args: string[]): boolean {
     return this.run(args);
   }
 
-  public run(args: any[]): boolean {
+  public override run(args: any[]): boolean {
     if (!ExtensionTool._isListenerAdded) {
       IModelApp.extensionAdmin.onExtensionLoaded.addListener(ExtensionTool.showLoadSuccess);
       ExtensionTool._isListenerAdded = true;

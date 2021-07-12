@@ -18,7 +18,7 @@ import { Point3d, Vector3d, XYZ } from "./Point3dVector3d";
 import { PointStringDeepXYZArrayCollector, VariantPointDataStream } from "./PointStreaming";
 import { Range3d } from "./Range";
 import { Transform } from "./Transform";
-import { XAndY, XYAndZ } from "./XYZProps";
+import { XAndY, XYAndZ, XYZProps } from "./XYZProps";
 
 /**
  * The `NumberArray` class contains static methods that act on arrays of numbers.
@@ -141,6 +141,14 @@ export class NumberArray {
       result.push(low + (i / numInterval) * delta);
     }
     result.push(high);
+    return result;
+  }
+
+  /** copy numbers from variant sources to number[]. */
+  public static create(source: number[] | Float64Array): number[] {
+    const result: number[] = [];
+    for (const q of source)
+      result.push(q);
     return result;
   }
 
@@ -675,10 +683,23 @@ export class Point3dArray {
    * Return an array containing clones of the Point3d data[]
    * @param data source data
    */
-  public static clonePoint3dArray(data: XYAndZ[]): Point3d[] {
-    return data.map((p: XYAndZ) => Point3d.create(p.x, p.y, p.z));
+  public static clonePoint3dArray(data: XYZProps[] | Float64Array): Point3d[] {
+    const result: Point3d[] = [];
+    if (data.length === 0)
+      return result;
+    if (data instanceof Float64Array) {
+      for (let i = 0; i + 2 < data.length; i += 3)
+        result.push(Point3d.create(data[i], data[i + 1], data[i + 2]));
+      return result;
+    }
+    for (const p of data) {
+      if (Array.isArray(p))
+        result.push(Point3d.create (p[0], p[1], p[2]));
+      else
+        result.push(Point3d.create(p.x, p.y, p.z));
+    }
+    return result;
   }
-
   /**
    * Return an array containing Point2d with xy parts of each Point3d
    * @param data source data
@@ -712,11 +733,46 @@ export class Point3dArray {
    * return similarly-structured array, array of arrays, etc, with the lowest level point data specifically structured as arrays of 3 numbers `[1,2,3]`
    * @param data point data with various leaf forms such as `[1,2,3]`, `{x:1,y:2,z:3}`, `Point3d`
    */
-  public static cloneDeepJSONNumberArrays(data: MultiLineStringDataVariant): any[] {
+  public static cloneDeepJSONNumberArrays(data: MultiLineStringDataVariant): number[][] {
     const collector = new PointStringDeepXYZArrayCollector(this.xyzToArray);
     VariantPointDataStream.streamXYZ(data, collector);
     return collector.claimResult();
   }
+  /**
+   * clone an array of [[XYZProps]] data, specifically as arrays of 3 numbers
+   */
+  public static cloneXYZPropsAsNumberArray(data: XYZProps[]): number[][] {
+     // data is an array ... each member is either Point3d or [x,y,z]
+    const result = [];
+    for (const p of data) {
+      if (p instanceof Point3d) {
+        result.push([p.x, p.y, p.z]);
+      } else if (Array.isArray(p)) {
+        result.push([p[0], p[1], p.length > 2 ? p[2] : 0.0]);
+      }
+    }
+    return result;
+  }
+  /**
+   * clone an array of [[XYZProps]] data, specifically as flattened array of number
+   */
+  public static cloneXYZPropsAsFloat64Array(data: XYZProps[]): Float64Array {
+    const result = new Float64Array(data.length * 3);
+    let i = 0;
+    for (const p of data) {
+      if (p instanceof Point3d){
+      result[i++] = p.x;
+      result[i++] = p.y;
+        result[i++] = p.z;
+      } else if (Array.isArray (p)){
+        result[i++] = p[0];
+        result[i++] = p[1];
+        result[i++] = p.length > 2 ? p[2] : 0.0;    // allow missing z
+      }
+    }
+    return result;
+ }
+
   /**
    * return similarly-structured array, array of arrays, etc, with the lowest level point data specifically structured as `Point3d`.
    * @param data point data with various leaf forms such as `[1,2,3]`, `{x:1,y:2,z:3}`, `Point3d`

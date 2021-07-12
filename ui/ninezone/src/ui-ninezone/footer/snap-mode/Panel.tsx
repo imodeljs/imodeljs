@@ -28,7 +28,7 @@ export interface SnapModePanelProps extends CommonProps {
  * @beta
  */
 export class SnapModePanel extends React.PureComponent<SnapModePanelProps> {
-  public render() {
+  public override render() {
     const className = classnames(
       "nz-footer-snapMode-panel",
       this.props.className);

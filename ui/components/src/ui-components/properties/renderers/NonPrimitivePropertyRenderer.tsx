@@ -36,7 +36,7 @@ interface NonPrimitivePropertyRendererState {
  */
 export class NonPrimitivePropertyRenderer extends React.Component<NonPrimitivePropertyRendererProps, NonPrimitivePropertyRendererState> {
   /** @internal */
-  public readonly state: NonPrimitivePropertyRendererState = {
+  public override readonly state: NonPrimitivePropertyRendererState = {
     /** If it's not collapsible, that means it's expanded by default and can't be collapsed */
     isExpanded: !this.props.isCollapsible || this.props.propertyRecord.autoExpand,
   };
@@ -109,7 +109,7 @@ export class NonPrimitivePropertyRenderer extends React.Component<NonPrimitivePr
   };
 
   /** @internal */
-  public render() {
+  public override render() {
     let items: PropertyRecord[] = this.props.propertyRecord.getChildrenRecords();
     if (this.props.propertyRecord.value.valueFormat === PropertyValueFormat.Array)
       items = this.overrideArrayChildrenNames(items);

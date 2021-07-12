@@ -32,7 +32,7 @@ export class KeyboardShortcutMenuEvent extends UiEvent<KeyboardShortcutMenuState
 export class KeyboardShortcutMenu extends React.PureComponent<CommonProps, KeyboardShortcutMenuState> {
 
   /** @internal */
-  public readonly state: KeyboardShortcutMenuState = {
+  public override readonly state: KeyboardShortcutMenuState = {
     menuVisible: false,
     menuX: 0,
     menuY: 0,
@@ -41,11 +41,11 @@ export class KeyboardShortcutMenu extends React.PureComponent<CommonProps, Keybo
   /** Get KeyboardShortcut Menu Event. */
   public static readonly onKeyboardShortcutMenuEvent = new KeyboardShortcutMenuEvent();
 
-  public componentDidMount() {
+  public override componentDidMount() {
     KeyboardShortcutMenu.onKeyboardShortcutMenuEvent.addListener(this._handleKeyboardShortcutMenuEvent);
   }
 
-  public componentWillUnmount() {
+  public override componentWillUnmount() {
     KeyboardShortcutMenu.onKeyboardShortcutMenuEvent.removeListener(this._handleKeyboardShortcutMenuEvent);
   }
 
@@ -53,7 +53,7 @@ export class KeyboardShortcutMenu extends React.PureComponent<CommonProps, Keybo
     this.setState(state);
   };
 
-  public render(): React.ReactNode {
+  public override render(): React.ReactNode {
     const { shortcuts, menuX, menuY, menuVisible } = this.state;
     const onClose = this._hideContextMenu;
 

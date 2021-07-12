@@ -30,7 +30,7 @@ export class IModelHubClient extends IModelClient {
    * Get the handler for permissions.
    * @internal
    */
-  public get permissions(): PermissionHandler {
+  public override get permissions(): PermissionHandler {
     return new PermissionHandler(this._handler);
   }
 }

@@ -68,7 +68,7 @@ export class ImageCheckBox extends React.PureComponent<ImageCheckBoxProps> {
   };
 
   /** @internal */
-  public render() {
+  public override render() {
     const checkBoxClass = classnames("core-image-checkbox", this.props.className);
     const imageClass = classnames("image", this.props.border && "image-checkbox-border");
     const iconSpec = this.props.checked ? this.props.imageOn : this.props.imageOff;

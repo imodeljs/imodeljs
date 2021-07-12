@@ -44,7 +44,7 @@ export class AutoCompleteFilter extends React.Component<AutoCompleteFilterProps,
     };
   }
 
-  public componentDidUpdate(props: AutoCompleteFilterProps) {
+  public override componentDidUpdate(props: AutoCompleteFilterProps) {
     const options = this._getOptions(props);
     if (!_.isEqual(options, this.state.options))
       this.setState({ options });
@@ -68,7 +68,7 @@ export class AutoCompleteFilter extends React.Component<AutoCompleteFilterProps,
     this.props.onChange({ filterTerm: filters, column: this.props.column });
   };
 
-  public render() {
+  public override render() {
     return (
       <ThemedSelect
         name={`filter-${this.props.column.key}`}

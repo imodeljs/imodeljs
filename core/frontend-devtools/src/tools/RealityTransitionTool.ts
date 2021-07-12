@@ -17,13 +17,13 @@ enum FadeMode { X, Y, Z, Transparent }
  * @beta
  */
 export class RealityTransitionTool extends Tool {
-  public static get minArgs() { return 0; }
-  public static get maxArgs() { return 1; }
-  public static toolId = "RealityTransition";
+  public static override get minArgs() { return 0; }
+  public static override get maxArgs() { return 1; }
+  public static override toolId = "RealityTransition";
   /** This method runs the tool, applying a transition in X, Y, Z, or transparency.
    * @param fadeMode whether to apply the transition in X, Y, Z, or transparency
    */
-  public run(fadeMode: FadeMode = FadeMode.X): boolean {
+  public override run(fadeMode: FadeMode = FadeMode.X): boolean {
     const vp = IModelApp.viewManager.selectedView;
     if (undefined === vp)
       return true;
@@ -95,7 +95,7 @@ export class RealityTransitionTool extends Tool {
    * @param args the first entry of this array contains either "x", "y", "z", or "transparent", indicating the type of transition to apply.
    * @see [[run]]
    */
-  public parseAndRun(...args: string[]): boolean {
+  public override parseAndRun(...args: string[]): boolean {
     const transitionNames = [
       "x",
       "y",

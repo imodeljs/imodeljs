@@ -44,10 +44,10 @@ interface RowWrapperState {
 /** @internal */
 export class DragDropRowWrapper extends React.Component<RowWrapperProps, RowWrapperState> {
   private _root: HTMLDivElement | null = null;
-  public readonly state: RowWrapperState = {
+  public override readonly state: RowWrapperState = {
     hoverMode: HoverMode.Above,
   };
-  public render(): React.ReactElement<any> {
+  public override render(): React.ReactElement<any> {
     const { isDragging, isOver, canDrop, children } = this.props as RowWrapperProps;
     const mode = this.state.hoverMode;
     const classes = classnames("components-table-drop-target", {
@@ -66,13 +66,13 @@ export class DragDropRowWrapper extends React.Component<RowWrapperProps, RowWrap
     );
   }
 
-  public componentDidMount() {
+  public override componentDidMount() {
     // istanbul ignore next
     if (this.props.onRender)
       this.props.onRender();
   }
 
-  public componentDidUpdate() {
+  public override componentDidUpdate() {
     // istanbul ignore next
     if (this.props.onRender)
       this.props.onRender();
@@ -174,7 +174,7 @@ export function DragDropRow<DragDropObject extends BreadcrumbDetailsDragDropType
       };
       return dropProps;
     }
-    public render(): React.ReactElement<any> {
+    public override render(): React.ReactElement<any> {
       // eslint-disable-next-line @typescript-eslint/naming-convention
       const DDRow = withDropTarget<RowWrapperProps & WithDragSourceProps<DragDropObject>, DragDropObject>( // eslint-disable-line deprecation/deprecation
         withDragSource<RowWrapperProps, DragDropObject>(DragDropRowWrapper)); // eslint-disable-line deprecation/deprecation

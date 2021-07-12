@@ -48,14 +48,14 @@ export class SearchBox extends React.Component<SearchBoxProps, SearchBoxState> {
   private _timeoutId: number = 0;
 
   /** @internal */
-  public readonly state: Readonly<SearchBoxState> = { value: this.props.initialValue || "" };
+  public override readonly state: Readonly<SearchBoxState> = { value: this.props.initialValue || "" };
 
   constructor(props: SearchBoxProps) {
     super(props);
   }
 
   /** @internal */
-  public render(): React.ReactNode {
+  public override render(): React.ReactNode {
     const searchClassName = classnames("core-searchbox", this.props.className);
     const emptyString = this.state.value === "";
     const iconClassName = classnames(
@@ -151,7 +151,7 @@ export class SearchBox extends React.Component<SearchBoxProps, SearchBoxState> {
     }
   };
 
-  public componentWillUnmount() {
+  public override componentWillUnmount() {
     this._unsetTimeout();
   }
 

@@ -43,7 +43,7 @@ export function openBlankViewport(options?: BlankViewportOptions): ScreenViewpor
   class BlankViewport extends ScreenViewport {
     public ownedIModel?: BlankConnection;
 
-    public dispose(): void {
+    public override dispose(): void {
       document.body.removeChild(this.parentDiv);
       super.dispose();
       this.ownedIModel?.closeSync();

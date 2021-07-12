@@ -53,6 +53,7 @@ export class Primitive extends Graphic {
   }
 
   public get isDisposed(): boolean { return this.cachedGeometry.isDisposed; }
+  public get isPickable() { return false; }
 
   public dispose() {
     dispose(this.cachedGeometry);
@@ -84,7 +85,7 @@ export class Primitive extends Graphic {
 
   public addCommands(commands: RenderCommands): void { commands.addPrimitive(this); }
 
-  public addHiliteCommands(commands: RenderCommands, pass: RenderPass): void {
+  public override addHiliteCommands(commands: RenderCommands, pass: RenderPass): void {
     // Edges do not contribute to hilite pass.
     // Note that IsEdge() does not imply geom->ToEdge() => true...polylines can be edges too...
     if (!this.isEdge)
@@ -98,7 +99,7 @@ export class Primitive extends Graphic {
   public get renderOrder(): RenderOrder { return this.cachedGeometry.renderOrder; }
   public get hasMaterialAtlas(): boolean { return this.cachedGeometry.hasMaterialAtlas; }
 
-  public toPrimitive(): Primitive { return this; }
+  public override toPrimitive(): Primitive { return this; }
 
   private static _drawParams?: DrawParams;
 
@@ -121,7 +122,7 @@ export class Primitive extends Graphic {
 export class SkyCubePrimitive extends Primitive {
   public constructor(cachedGeom: CachedGeometry) { super(cachedGeom); }
 
-  public draw(shader: ShaderProgramExecutor): void {
+  public override draw(shader: ShaderProgramExecutor): void {
     // Alter viewport to maintain square aspect ratio of skybox images even as viewRect resizes
     const vh = shader.target.viewRect.height;
     const vw = shader.target.viewRect.width;
@@ -143,7 +144,7 @@ export class SkySpherePrimitive extends Primitive {
     assert(cachedGeom instanceof SkySphereViewportQuadGeometry);
   }
 
-  public draw(shader: ShaderProgramExecutor): void {
+  public override draw(shader: ShaderProgramExecutor): void {
     (this.cachedGeometry as SkySphereViewportQuadGeometry).initWorldPos(shader.target);
     super.draw(shader); // Draw the skybox sphere
   }

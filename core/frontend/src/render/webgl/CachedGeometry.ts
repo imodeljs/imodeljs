@@ -184,8 +184,8 @@ export abstract class LUTGeometry extends CachedGeometry {
 
   // The texture containing the vertex data.
   public abstract get lut(): VertexLUT;
-  public get asLUT() { return this; }
-  public get viewIndependentOrigin() { return this._viewIndependentOrigin; }
+  public override get asLUT() { return this; }
+  public override get viewIndependentOrigin() { return this._viewIndependentOrigin; }
 
   protected abstract _draw(_numInstances: number, _instanceBuffersContainer?: BuffersContainer): void;
   public draw(): void { this._draw(0); }
@@ -196,7 +196,7 @@ export abstract class LUTGeometry extends CachedGeometry {
 
   public get qOrigin(): Float32Array { return this.lut.qOrigin; }
   public get qScale(): Float32Array { return this.lut.qScale; }
-  public get hasAnimation() { return this.lut.hasAnimation; }
+  public override get hasAnimation() { return this.lut.hasAnimation; }
 
   protected constructor(viewIndependentOrigin?: Point3d) {
     super();
@@ -715,9 +715,9 @@ export class SkySphereViewportQuadGeometry extends ViewportQuadGeometry {
     return new SkySphereViewportQuadGeometry(params, skybox, technique);
   }
 
-  public get isDisposed(): boolean { return super.isDisposed && this._worldPosBuff.isDisposed; }
+  public override get isDisposed(): boolean { return super.isDisposed && this._worldPosBuff.isDisposed; }
 
-  public dispose() {
+  public override dispose() {
     super.dispose();
     dispose(this._worldPosBuff);
   }

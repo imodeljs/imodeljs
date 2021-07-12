@@ -21,6 +21,7 @@
     "noUnusedLocals": false,
     "noUnusedParameters": true,
     "noImplicitReturns": true,
+    "noImplicitOverride": true,
     "noFallthroughCasesInSwitch": false,
     "experimentalDecorators": true,
     "skipLibCheck": true,

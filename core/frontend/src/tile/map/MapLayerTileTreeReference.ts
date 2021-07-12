@@ -19,7 +19,7 @@ export abstract class MapLayerTileTreeReference extends TileTreeReference {
   protected get _imageryProvider(): MapLayerImageryProvider | undefined { return undefined; } // We don't use MapTileTreeReference TreeSupplier...
   public set layerSettings(layerSettings: MapLayerSettings) { this._layerSettings = layerSettings; }
   public get layerSettings(): MapLayerSettings { return this._layerSettings; }
-  public async getToolTip(hit: HitDetail): Promise<HTMLElement | string | undefined> {
+  public override async getToolTip(hit: HitDetail): Promise<HTMLElement | string | undefined> {
     const tree = this.treeOwner.tileTree;
     if (undefined === tree || hit.iModel !== tree.iModel || tree.modelId !== hit.sourceId)
       return undefined;

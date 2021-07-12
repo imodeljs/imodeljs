@@ -13,5 +13,5 @@ import { ElementRefersToElements } from "@bentley/imodeljs-backend";
  */
 export class AnalyticalSimulatesSpatialElement extends ElementRefersToElements {
   /** @internal */
-  public static get className(): string { return "AnalyticalSimulatesSpatialElement"; }
+  public static override get className(): string { return "AnalyticalSimulatesSpatialElement"; }
 }

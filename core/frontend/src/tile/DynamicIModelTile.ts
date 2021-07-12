@@ -328,7 +328,7 @@ class GraphicsTile extends Tile {
     this.tolerance = 10 ** toleranceLog10;
   }
 
-  public computeLoadPriority(_viewports: Iterable<Viewport>): number {
+  public override computeLoadPriority(_viewports: Iterable<Viewport>): number {
     // We want the element's graphics to be updated as soon as possible
     return 0;
   }

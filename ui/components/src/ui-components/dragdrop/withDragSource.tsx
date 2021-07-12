@@ -147,7 +147,7 @@ export const withDragSource = <ComponentProps extends {}, DragDropObject = any>(
     };
   })(class DragSourceWrapper extends React.Component<any, WithDragSourceState> {
     public rootElement: HTMLDivElement | null = null;
-    public readonly state: WithDragSourceState = {
+    public override readonly state: WithDragSourceState = {
       ctrlKey: false,
       altKey: false,
     };
@@ -156,7 +156,7 @@ export const withDragSource = <ComponentProps extends {}, DragDropObject = any>(
       ctrlDropEffect: DropEffects.Copy, // eslint-disable-line deprecation/deprecation
       altDropEffect: DropEffects.Link, // eslint-disable-line deprecation/deprecation
     };
-    public render() {
+    public override render() {
       const {
         dragProps, connectDragSource, connectDragPreview, // eslint-disable-line @typescript-eslint/no-unused-vars
         isDragging, canDrag, item, type,
@@ -187,14 +187,14 @@ export const withDragSource = <ComponentProps extends {}, DragDropObject = any>(
         { dropEffect },
       );
     }
-    public componentDidMount() {
+    public override componentDidMount() {
       if (this.props.connectDragPreview) {
         this.props.connectDragPreview(getEmptyImage() as any, { captureDraggingState: true });
       }
       window.addEventListener("keydown", this.handleKeyChange);
       window.addEventListener("keyup", this.handleKeyChange);
     }
-    public componentWillUnmount() {
+    public override componentWillUnmount() {
       window.removeEventListener("keydown", this.handleKeyChange);
       window.removeEventListener("keyup", this.handleKeyChange);
     }

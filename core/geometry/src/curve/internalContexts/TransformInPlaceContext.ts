@@ -23,7 +23,7 @@ export class TransformInPlaceContext extends RecursiveCurveProcessor {
     target.announceToCurveProcessor(context);
     return context.numFail === 0;
   }
-  public announceCurvePrimitive(curvePrimitive: CurvePrimitive, _indexInParent: number): void {
+  public override announceCurvePrimitive(curvePrimitive: CurvePrimitive, _indexInParent: number): void {
     if (!curvePrimitive.tryTransformInPlace(this.transform))
       this.numFail++;
     else

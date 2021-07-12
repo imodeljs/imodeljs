@@ -1,0 +1,11 @@
+{
+  "changes": [
+    {
+      "packageName": "@bentley/geometry-core",
+      "comment": "Handle imjs and flatbuffer inputs with numPerFace blocking",
+      "type": "none"
+    }
+  ],
+  "packageName": "@bentley/geometry-core",
+  "email": "69321059+EarlinLutz@users.noreply.github.com"
+}

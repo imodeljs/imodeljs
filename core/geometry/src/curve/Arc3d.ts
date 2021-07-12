@@ -109,7 +109,7 @@ export class Arc3d extends CurvePrimitive implements BeJSONFunctions {
   /**
    * An Arc3d extends along its complete elliptic arc
    */
-  public get isExtensibleFractionSpace(): boolean { return true; }
+  public override get isExtensibleFractionSpace(): boolean { return true; }
 
   // constructor copies the pointers !!!
   private constructor(center: Point3d, matrix: Matrix3d, sweep: AngleSweep) {
@@ -286,7 +286,7 @@ export class Arc3d extends CurvePrimitive implements BeJSONFunctions {
     return LineString3d.create(pointA, pointB, pointC);
   }
   /** The arc has simple proportional arc length if and only if it is a circular arc. */
-  public getFractionToDistanceScale(): number | undefined {
+  public override getFractionToDistanceScale(): number | undefined {
     const radius = this.circularRadius();
     if (radius !== undefined)
       return Math.abs(radius * this._sweep.sweepRadians);
@@ -401,18 +401,18 @@ export class Arc3d extends CurvePrimitive implements BeJSONFunctions {
    * Return the start point tof the arc.
    * @param result optional preallocated result
    */
-  public startPoint(result?: Point3d): Point3d { return this.fractionToPoint(0.0, result); }
+  public override startPoint(result?: Point3d): Point3d { return this.fractionToPoint(0.0, result); }
 
   /**
    * Return the end point tof the arc.
    * @param result optional preallocated result
    */
-  public endPoint(result?: Point3d): Point3d { return this.fractionToPoint(1.0, result); }
+  public override endPoint(result?: Point3d): Point3d { return this.fractionToPoint(1.0, result); }
   /** * If this is a circular arc, return the simple length derived from radius and sweep.
    * * Otherwise (i.e. if this elliptical) fall through to CurvePrimitive base implementation which
    *     Uses quadrature.
    */
-  public curveLength(): number {
+  public override curveLength(): number {
     return this.curveLengthBetweenFractions(0, 1);
   }
   // !! misspelled Gauss in the published static !!!   Declare it ok.
@@ -424,7 +424,7 @@ export class Arc3d extends CurvePrimitive implements BeJSONFunctions {
   /** * If this is a circular arc, return the simple length derived from radius and sweep.
    * * Otherwise (i.e. if this elliptical) fall through CurvePrimitive integrator.
    */
-  public curveLengthBetweenFractions(fraction0: number, fraction1: number): number {
+  public override curveLengthBetweenFractions(fraction0: number, fraction1: number): number {
     const simpleLength = this.getFractionToDistanceScale();
     if (simpleLength !== undefined)
       return simpleLength * Math.abs(fraction1 - fraction0);
@@ -485,7 +485,7 @@ export class Arc3d extends CurvePrimitive implements BeJSONFunctions {
    * * A zero length line generates `CurveSearchStatus.error`
    * * Nonzero length line generates `CurveSearchStatus.success` or `CurveSearchStatus.stoppedAtBoundary`
    */
-  public moveSignedDistanceFromFraction(startFraction: number, signedDistance: number, allowExtension: false, result?: CurveLocationDetail): CurveLocationDetail {
+  public override moveSignedDistanceFromFraction(startFraction: number, signedDistance: number, allowExtension: false, result?: CurveLocationDetail): CurveLocationDetail {
     if (!this.isCircular) // suppress extension !!!
       return super.moveSignedDistanceFromFractionGeneric(startFraction, signedDistance, allowExtension, result);
     const totalLength = this.curveLength();
@@ -534,7 +534,7 @@ export class Arc3d extends CurvePrimitive implements BeJSONFunctions {
    * @param extend if true, consider projections to the complete ellipse.   If false, consider only endpoints and projections within the arc sweep.
    * @param result optional preallocated result.
    */
-  public closestPoint(spacePoint: Point3d, extend: VariantCurveExtendParameter, result?: CurveLocationDetail): CurveLocationDetail {
+  public override closestPoint(spacePoint: Point3d, extend: VariantCurveExtendParameter, result?: CurveLocationDetail): CurveLocationDetail {
     result = CurveLocationDetail.create(this, result);
     const allRadians = this.allPerpendicularAngles(spacePoint, true, true);
     let extend0 = CurveExtendOptions.resolveVariantCurveExtendParameterToCurveExtendMode(extend, 0);
@@ -632,7 +632,7 @@ export class Arc3d extends CurvePrimitive implements BeJSONFunctions {
    * @param plane plane to intersect
    * @param result array of locations on the curve.
    */
-  public appendPlaneIntersectionPoints(plane: PlaneAltitudeEvaluator, result: CurveLocationDetail[]): number {
+  public override appendPlaneIntersectionPoints(plane: PlaneAltitudeEvaluator, result: CurveLocationDetail[]): number {
     const constCoff = plane.altitude(this._center);
     const coffs = this._matrix.coffs;
     const cosCoff = plane.velocityXYZ(coffs[0], coffs[3], coffs[6]);
@@ -835,7 +835,7 @@ export class Arc3d extends CurvePrimitive implements BeJSONFunctions {
   /**
    * Test if this arc is almost equal to another GeometryQuery object
    */
-  public isAlmostEqual(otherGeometry: GeometryQuery): boolean {
+  public override isAlmostEqual(otherGeometry: GeometryQuery): boolean {
     if (otherGeometry instanceof Arc3d) {
       const other = otherGeometry;
       return this._center.isAlmostEqual(other._center)
@@ -881,7 +881,7 @@ export class Arc3d extends CurvePrimitive implements BeJSONFunctions {
    * @param fractionA [in] start fraction
    * @param fractionB [in] end fraction
    */
-  public clonePartialCurve(fractionA: number, fractionB: number): CurvePrimitive | undefined {
+  public override clonePartialCurve(fractionA: number, fractionB: number): CurvePrimitive | undefined {
     if (fractionB < fractionA) {
       const arcA = this.clonePartialCurve(fractionB, fractionA);
       if (arcA)
@@ -918,7 +918,7 @@ export class Arc3d extends CurvePrimitive implements BeJSONFunctions {
    * @param announce(optional) function to be called announcing fractional intervals"  ` announce(fraction0, fraction1, curvePrimitive)`
    * @returns true if any "in" segments are announced.
    */
-  public announceClipIntervals(clipper: Clipper, announce?: AnnounceNumberNumberCurvePrimitive): boolean {
+  public override announceClipIntervals(clipper: Clipper, announce?: AnnounceNumberNumberCurvePrimitive): boolean {
     return clipper.announceClippedArcIntervals(this, announce);
   }
   /** Compute the center and vectors of another arc as local coordinates within this arc's frame. */

@@ -108,7 +108,7 @@ export class PointerMessage extends React.Component<PointerMessageProps, Pointer
     });
   }
 
-  public readonly state: Readonly<PointerMessageState> = {
+  public override readonly state: Readonly<PointerMessageState> = {
     message: "",
     isVisible: false,
     position: {
@@ -125,7 +125,7 @@ export class PointerMessage extends React.Component<PointerMessageProps, Pointer
     width: 0,
   };
 
-  public render(): React.ReactNode {
+  public override render(): React.ReactNode {
     if (!this.state.isVisible)
       return null;
 
@@ -156,12 +156,12 @@ export class PointerMessage extends React.Component<PointerMessageProps, Pointer
     );
   }
 
-  public componentDidMount(): void {
+  public override componentDidMount(): void {
     PointerMessage.onPointerMessageChangedEvent.addListener(this._handlePointerMessageChangedEvent);
     PointerMessage._onPointerMessagePositionChangedEvent.addListener(this._handlePointerMessagePositionChangedEvent);
   }
 
-  public componentWillUnmount(): void {
+  public override componentWillUnmount(): void {
     PointerMessage.onPointerMessageChangedEvent.removeListener(this._handlePointerMessageChangedEvent);
     PointerMessage._onPointerMessagePositionChangedEvent.removeListener(this._handlePointerMessagePositionChangedEvent);
   }

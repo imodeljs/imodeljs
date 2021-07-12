@@ -46,12 +46,12 @@ export class ShadowField extends React.Component<StatusFieldProps, ShadowFieldSt
     setImmediate(() => this.setStateFromActiveContent(args.activeContentControl));
   };
 
-  public componentDidMount() {
+  public override componentDidMount() {
     FrontstageManager.onContentControlActivatedEvent.addListener(this._handleContentControlActivatedEvent);
     this.setStateFromActiveContent(ContentViewManager.getActiveContentControl());
   }
 
-  public componentWillUnmount() {
+  public override componentWillUnmount() {
     FrontstageManager.onContentControlActivatedEvent.removeListener(this._handleContentControlActivatedEvent);
   }
 
@@ -77,7 +77,7 @@ export class ShadowField extends React.Component<StatusFieldProps, ShadowFieldSt
     }
   };
 
-  public render(): React.ReactNode {
+  public override render(): React.ReactNode {
     if (!this.state.viewport)
       return null;
 

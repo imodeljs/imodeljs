@@ -33,7 +33,7 @@ describe("TileAdmin", () => {
 
     const mobileLimits = TileAdmin.mobileGpuMemoryLimits;
     const desktopLimits = TileAdmin.nonMobileGpuMemoryLimits;
-    const keys: Array<"relaxed" | "default" | "aggressive"> = [ "relaxed", "default", "aggressive" ];
+    const keys: Array<"relaxed" | "default" | "aggressive"> = ["relaxed", "default", "aggressive"];
 
     it("defaults to 'default' on mobile", () => {
       expectAdmin(true, undefined, "default", mobileLimits.default);
@@ -44,20 +44,20 @@ describe("TileAdmin", () => {
     });
 
     it("can be specified at initialization", () => {
-      for (const isMobile of [ true, false ]) {
+      for (const isMobile of [true, false]) {
         const limits = isMobile ? mobileLimits : desktopLimits;
         for (const key of keys)
           expectAdmin(isMobile, key, key, limits[key]);
 
         expectAdmin(isMobile, "none", "none", undefined);
 
-        for (const numBytes of [ 0, 1024, 1024 * 1024, 1024 * 1024 * 1024 * 4 ])
+        for (const numBytes of [0, 1024, 1024 * 1024, 1024 * 1024 * 1024 * 4])
           expectAdmin(isMobile, numBytes, numBytes, numBytes);
       }
     });
 
     it("can be changed after initialization", () => {
-      for (const isMobile of [ true, false ]) {
+      for (const isMobile of [true, false]) {
         const limits = isMobile ? mobileLimits : desktopLimits;
         const admin = expectAdmin(isMobile, "default", "default", limits.default);
 
@@ -69,7 +69,7 @@ describe("TileAdmin", () => {
         admin.gpuMemoryLimit = "none";
         expectLimits(admin, "none", undefined);
 
-        for (const numBytes of [ 0, 1024, 1024 * 1024, 1024 * 1024 * 1024 * 4 ]) {
+        for (const numBytes of [0, 1024, 1024 * 1024, 1024 * 1024 * 1024 * 4]) {
           admin.gpuMemoryLimit = numBytes;
           expectLimits(admin, numBytes, numBytes);
         }
@@ -142,7 +142,7 @@ describe("TileAdmin", () => {
         return { graphic: new TestGraphic(this._contentSize), isLeaf: true };
       }
 
-      public freeMemory(): void {
+      public override freeMemory(): void {
         if (!this.retainMemory)
           super.freeMemory();
       }
@@ -365,7 +365,7 @@ describe("TileAdmin", () => {
       tiles[1].visible = tiles[4].visible = false;
       await render(viewport);
 
-      expectSelectedTiles(viewport, [ tiles[0], tiles[2], tiles[3] ]);
+      expectSelectedTiles(viewport, [tiles[0], tiles[2], tiles[3]]);
       expect(admin.totalTileContentBytes).to.equal(1 + 2 + 3 + 4);
       admin.freeMemory();
       expect(admin.totalTileContentBytes).to.equal(1 + 2 + 3 + 4);
@@ -399,12 +399,12 @@ describe("TileAdmin", () => {
 
       tiles[0].visible = tiles[4].visible = false;
       await render(viewport);
-      expectSelectedTiles(viewport, [ tiles[1], tiles[2], tiles[3] ]);
+      expectSelectedTiles(viewport, [tiles[1], tiles[2], tiles[3]]);
       expect(admin.totalTileContentBytes).to.equal(1110);
 
       tiles[2].visible = tiles[3].visible = false;
       await render(viewport);
-      expectSelectedTiles(viewport, [ tiles[1] ]);
+      expectSelectedTiles(viewport, [tiles[1]]);
       expect(admin.totalTileContentBytes).to.equal(10);
 
       tiles[1].visible = false;
@@ -495,7 +495,7 @@ describe("TileAdmin", () => {
     it("manages memory across multiple viewports", async () => {
       const admin = IModelApp.tileAdmin;
       admin.gpuMemoryLimit = 0;
-      const trees = [ new TestTree(1, imodel1), new TestTree(10, imodel1), new TestTree(100, imodel1) ];
+      const trees = [new TestTree(1, imodel1), new TestTree(10, imodel1), new TestTree(100, imodel1)];
       const tiles = trees.map((x) => x.rootTile);
 
       const vp1 = createViewport(imodel1);
@@ -513,8 +513,8 @@ describe("TileAdmin", () => {
       await render(vp1);
       await render(vp2);
 
-      expectSelectedTiles(vp1, [ tiles[0], tiles[1] ]);
-      expectSelectedTiles(vp2, [ tiles[1], tiles[2] ]);
+      expectSelectedTiles(vp1, [tiles[0], tiles[1]]);
+      expectSelectedTiles(vp2, [tiles[1], tiles[2]]);
       expect(admin.totalTileContentBytes).to.equal(111);
 
       for (const tile of tiles)
@@ -522,7 +522,7 @@ describe("TileAdmin", () => {
 
       await render(vp1);
       expectSelectedTiles(vp1, []);
-      expectSelectedTiles(vp2, [ tiles[1], tiles[2] ]);
+      expectSelectedTiles(vp2, [tiles[1], tiles[2]]);
       expect(admin.totalTileContentBytes).to.equal(110);
       expect(isLinked(tiles[0])).to.be.false;
       expect(isLinked(tiles[1])).to.be.true;

@@ -29,8 +29,8 @@ function testIntersectionsXYZ(
         const fB = intersections.dataB[i].fraction;
         const cpA = intersections.dataA[i].curve;
         const cpB = intersections.dataB[i].curve;
-        if (ck.testPointer(cpA) && cpA
-          && ck.testPointer(cpB) && cpB) {
+        if (ck.testPointer(cpA)
+          && ck.testPointer(cpB)) {
           ck.testPoint3d(cpA.fractionToPoint(fA), intersections.dataA[i].point);
           ck.testPoint3d(cpB.fractionToPoint(fB), intersections.dataB[i].point);
         }

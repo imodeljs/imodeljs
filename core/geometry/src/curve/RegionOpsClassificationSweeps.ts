@@ -97,12 +97,12 @@ class RegionOpsBinaryBooleanSweepCallbacks extends RegionOpsFaceToFaceSearchCall
     this._faceSelectFunction = acceptFaceFunction;
   }
   /** Mark this face as exterior */
-  public startComponent(node: HalfEdge): boolean { node.setMaskAroundFace(this._exteriorMask); return true; }
+  public override startComponent(node: HalfEdge): boolean { node.setMaskAroundFace(this._exteriorMask); return true; }
   /**
    * * If necessary, toggle a term state.
    * * if indicated, mark this face exterior.
    */
-  public enterFace(_facePathStack: HalfEdge[], node: HalfEdge): boolean {
+  public override enterFace(_facePathStack: HalfEdge[], node: HalfEdge): boolean {
     const thisFaceIndex = node.edgeTag;
     if (node.edgeTag === 1 || node.edgeTag === 2)
       this._inComponent[thisFaceIndex] = !this._inComponent[thisFaceIndex];
@@ -113,7 +113,7 @@ class RegionOpsBinaryBooleanSweepCallbacks extends RegionOpsFaceToFaceSearchCall
   /**
    * * If necessary, toggle a term state.
    */
-  public leaveFace(_facePathStack: HalfEdge[], node: HalfEdge): boolean {
+  public override leaveFace(_facePathStack: HalfEdge[], node: HalfEdge): boolean {
     const thisFaceIndex = node.edgeTag;
     if (node.edgeTag === 1 || node.edgeTag === 2)
       this._inComponent[thisFaceIndex] = !this._inComponent[thisFaceIndex];

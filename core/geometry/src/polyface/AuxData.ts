@@ -14,7 +14,7 @@ import { Matrix3d } from "../geometry3d/Matrix3d";
 import { Point3d } from "../geometry3d/Point3dVector3d";
 import { NumberArray } from "../geometry3d/PointHelpers";
 // import { Geometry } from "./Geometry";
-import { Range1d } from "../geometry3d/Range";
+import { Range1d, Range3d } from "../geometry3d/Range";
 
 /** The types of data that can be represented by an [[AuxChannelData]]. Each type of data contributes differently to the
  * animation applied by an [AnalysisStyle]($common) and responds differently when the host [[PolyfaceAuxData]] is transformed.
@@ -146,6 +146,25 @@ export class AuxChannel {
       range.extendArray(data.values);
 
     return range;
+  }
+
+  /** Compute the range of this channel's displacement values, if [[dataType]] is [[AuxChannelDataType.Vector]].
+   * @param scale Scale by which to multiply each displacement.
+   * @param result Preallocated object in which to store result.
+   * @returns The range encompassing all this channel's displacements scaled by `scale`; or a null range if this channel does not contain displacements.
+   */
+  public computeDisplacementRange(scale = 1, result?: Range3d): Range3d {
+    result = Range3d.createNull(result);
+
+    if (AuxChannelDataType.Vector === this.dataType) {
+      for (const data of this.data) {
+        const v = data.values;
+        for (let i = 0; i < v.length; i += 3)
+          result.extendXYZ(v[i] * scale, v[i + 1] * scale, v[i + 2] * scale);
+      }
+    }
+
+    return result;
   }
 }
 

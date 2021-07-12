@@ -38,7 +38,7 @@ export interface ZoneProps extends CommonProps {
  * @beta
  */
 export class Zone extends React.PureComponent<ZoneProps> {
-  public render() {
+  public override render() {
     const className = classnames(
       "nz-zones-zone",
       this.props.isFloating && "nz-floating",

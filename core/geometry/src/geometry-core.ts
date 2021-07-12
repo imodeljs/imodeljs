@@ -62,7 +62,8 @@
 /**
  * @docs-group-description Bspline
  * A bspline curve or surface is used for curved freeform geometry defined by controls points (sometimes called poles).
- * * BSplineCurve --  a curve in XYZ coordinates
+ * * BSplineCurve --  a curve defined by control points (which are not on the curve)
+ * * InterpolationCurve -- a curve defined by passthrough points, with "good" visual properties
  * * BSplineSurfaceXYZ -- a surface with XYZ
  * * BsplineSurfaceXYZW -- a surface with weighted (rational) XYZ coordinates
  * * KnotVector -- vector of breakpoints in bspline definitions.
@@ -206,6 +207,7 @@ export * from "./curve/RegionMomentsXY";
 export * from "./curve/RegionOps";
 export * from "./curve/internalContexts/PolygonOffsetContext";
 export * from "./curve/PointString3d";
+export * from "./curve/ProxyCurve";
 export * from "./curve/StrokeOptions";
 export * from "./curve/spiral/TransitionSpiral3d";
 export * from "./curve/spiral/IntegratedSpiral3d";
@@ -221,6 +223,7 @@ export * from "./solid/SolidPrimitive";
 export * from "./solid/Sphere";
 export * from "./solid/SweepContour";
 export * from "./solid/TorusPipe";
+export * from "./bspline/AkimaCurve3d";
 export * from "./bspline/Bezier1dNd";
 export * from "./bspline/BezierCurveBase";
 export * from "./bspline/BezierCurve3d";
@@ -229,6 +232,7 @@ export * from "./bspline/BSplineCurve";
 export * from "./bspline/BSpline1dNd";
 export * from "./bspline/BSplineCurve3dH";
 export * from "./bspline/BSplineSurface";
+export * from "./bspline/InterpolationCurve3d";
 export * from "./bspline/KnotVector";
 export * from "./polyface/AuxData";
 export * from "./polyface/BoxTopology";

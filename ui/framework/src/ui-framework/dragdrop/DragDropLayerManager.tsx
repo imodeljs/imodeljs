@@ -102,12 +102,12 @@ export class DragDropLayerRendererComponent extends React.Component<DragDropLaye
     super(props);
   }
 
-  public componentDidMount() {
+  public override componentDidMount() {
     window.addEventListener("dragstart", this._handleDragStart);
     window.addEventListener("dragend", this._handleDragEnd);
   }
 
-  public componentWillUnmount() {
+  public override componentWillUnmount() {
     window.removeEventListener("dragstart", this._handleDragStart);
     window.removeEventListener("dragend", this._handleDragEnd);
   }
@@ -123,7 +123,7 @@ export class DragDropLayerRendererComponent extends React.Component<DragDropLaye
   };
 
   // istanbul ignore next
-  public render(): React.ReactNode {
+  public override render(): React.ReactNode {
     // eslint-disable-next-line deprecation/deprecation
     if (this.props.itemType !== DragDropLayerManager.getType()) { // A drag of a new type has been triggered.
       DragDropLayerManager.setType(this.props.itemType); // eslint-disable-line deprecation/deprecation

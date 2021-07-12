@@ -48,7 +48,7 @@ export class MXCubicAlongArcEvaluator extends CubicEvaluator {
     return new MXCubicAlongArcEvaluator(length1, radius1, xMax, m);
   }
 
-  public scaleInPlace(scaleFactor: number) {
+  public override scaleInPlace(scaleFactor: number) {
     this.nominalLength1 *= scaleFactor;
     this.nominalRadius1 *= scaleFactor;
     super.scaleInPlace(scaleFactor);
@@ -73,6 +73,6 @@ export class MXCubicAlongArcEvaluator extends CubicEvaluator {
     const l2 = nominalLength1 * nominalLength1;
     const r2 = nominalRadius1 * nominalRadius1;
     const xx = nominalDistanceAlong * nominalDistanceAlong;
-    return nominalDistanceAlong * (1.0 -  xx * xx / (40.0 * r2 * l2));
+    return nominalDistanceAlong * (1.0 - xx * xx / (40.0 * r2 * l2));
   }
 }

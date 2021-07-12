@@ -51,12 +51,12 @@ export class Splitter extends React.PureComponent<SplitterProps, SplitterState> 
     };
   }
 
-  public componentDidMount() {
+  public override componentDidMount() {
     document.addEventListener("pointerup", this._handleDocumentPointerUp);
     document.addEventListener("pointermove", this._handleDocumentPointerMove);
   }
 
-  public componentDidUpdate(prevProps: SplitterProps) {
+  public override componentDidUpdate(prevProps: SplitterProps) {
     const prevCount = React.Children.count(prevProps.children);
     const count = React.Children.count(this.props.children);
     if (prevCount !== count) {
@@ -64,12 +64,12 @@ export class Splitter extends React.PureComponent<SplitterProps, SplitterState> 
     }
   }
 
-  public componentWillUnmount() {
+  public override componentWillUnmount() {
     document.removeEventListener("pointerup", this._handleDocumentPointerUp);
     document.removeEventListener("pointermove", this._handleDocumentPointerMove);
   }
 
-  public render() {
+  public override render() {
     const className = classnames(
       "nz-stagePanels-splitter",
       this.props.isVertical && "nz-vertical",

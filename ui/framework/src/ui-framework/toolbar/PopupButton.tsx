@@ -125,13 +125,13 @@ export class PopupButton extends React.Component<PopupButtonProps, BaseItemState
     }
   };
 
-  public componentDidMount() {
+  public override componentDidMount() {
     this._isMounted = true;
     SyncUiEventDispatcher.onSyncUiEvent.addListener(this._handleSyncUiEvent);
     FrontstageManager.onToolPanelOpenedEvent.addListener(this._handleToolPanelOpenedEvent);
   }
 
-  public componentWillUnmount() {
+  public override componentWillUnmount() {
     this._isMounted = false;
     this._componentUnmounting = true;
     SyncUiEventDispatcher.onSyncUiEvent.removeListener(this._handleSyncUiEvent);
@@ -153,7 +153,7 @@ export class PopupButton extends React.Component<PopupButtonProps, BaseItemState
   };
 
   /** Renders PopupButton */
-  public render() {
+  public override render() {
     if (!this.state.isVisible)
       return null;
 

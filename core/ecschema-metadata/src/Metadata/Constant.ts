@@ -22,7 +22,7 @@ import { SchemaItem } from "./SchemaItem";
  * @beta
  */
 export class Constant extends SchemaItem {
-  public readonly schemaItemType!: SchemaItemType.Constant; // eslint-disable-line
+  public override readonly schemaItemType!: SchemaItemType.Constant; // eslint-disable-line
   protected _phenomenon?: LazyLoadedPhenomenon;
   protected _definition: string;
   protected _numerator: number;
@@ -46,7 +46,7 @@ export class Constant extends SchemaItem {
    * @param standalone Serialization includes only this object (as opposed to the full schema).
    * @param includeSchemaVersion Include the Schema's version information in the serialized object.
    */
-  public toJSON(standalone: boolean, includeSchemaVersion: boolean): ConstantProps {
+  public override toJSON(standalone: boolean, includeSchemaVersion: boolean): ConstantProps {
     const schemaJson = super.toJSON(standalone, includeSchemaVersion) as any;
     if (this.phenomenon !== undefined)
       schemaJson.phenomenon = this.phenomenon.fullName;
@@ -58,7 +58,7 @@ export class Constant extends SchemaItem {
   }
 
   /** @internal */
-  public async toXml(schemaXml: Document): Promise<Element> {
+  public override async toXml(schemaXml: Document): Promise<Element> {
     const itemElement = await super.toXml(schemaXml);
     itemElement.setAttribute("definition", this.definition);
     if (undefined !== this.numerator)
@@ -75,7 +75,7 @@ export class Constant extends SchemaItem {
     return itemElement;
   }
 
-  public fromJSONSync(constantProps: ConstantProps) {
+  public override fromJSONSync(constantProps: ConstantProps) {
     super.fromJSONSync(constantProps);
 
     const schemaItemKey = this.schema.getSchemaItemKey(constantProps.phenomenon);
@@ -105,7 +105,7 @@ export class Constant extends SchemaItem {
     }
   }
 
-  public async fromJSON(constantProps: ConstantProps) {
+  public override async fromJSON(constantProps: ConstantProps) {
     this.fromJSONSync(constantProps);
   }
 
@@ -143,9 +143,9 @@ export class Constant extends SchemaItem {
  * An abstract class used for schema editing.
  */
 export abstract class MutableConstant extends Constant {
-  public abstract setPhenomenon(phenomenon: LazyLoadedPhenomenon): void;
-  public abstract setDefinition(definition: string): void;
-  public abstract setNumerator(numerator: number): void;
-  public abstract setDenominator(denominator: number): void;
-  public abstract setDisplayLabel(displayLabel: string): void;
+  public abstract override setPhenomenon(phenomenon: LazyLoadedPhenomenon): void;
+  public abstract override setDefinition(definition: string): void;
+  public abstract override setNumerator(numerator: number): void;
+  public abstract override setDenominator(denominator: number): void;
+  public abstract override setDisplayLabel(displayLabel: string): void;
 }

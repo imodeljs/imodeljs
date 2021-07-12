@@ -39,7 +39,7 @@ interface ConditionalFieldState {
  */
 export class ConditionalField extends React.PureComponent<ConditionalFieldProps, ConditionalFieldState> {
   /** @internal */
-  public readonly state: ConditionalFieldState;
+  public override readonly state: ConditionalFieldState;
 
   constructor(props: ConditionalFieldProps) {
     super(props);
@@ -55,18 +55,18 @@ export class ConditionalField extends React.PureComponent<ConditionalFieldProps,
     }
   };
 
-  public componentDidMount() {
+  public override componentDidMount() {
     this._resolveBooleanValue();
   }
 
-  public componentDidUpdate(prevProps: ConditionalFieldProps) {
+  public override componentDidUpdate(prevProps: ConditionalFieldProps) {
     if (!_.isEqual(prevProps, this.props))
       this._resolveBooleanValue();
   }
 
   private _hasNoChildren = (children: any) => React.Children.count(children) === 0;
 
-  public render(): React.ReactNode {
+  public override render(): React.ReactNode {
     const {
       // do not bleed our props
       children, eventIds, boolFunc, defaultValue, // eslint-disable-line @typescript-eslint/no-unused-vars

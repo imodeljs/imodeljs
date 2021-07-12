@@ -26,7 +26,7 @@ export interface ItemsProps extends CommonProps {
  * @alpha
  */
 export class Items extends React.PureComponent<ItemsProps> {
-  public render() {
+  public override render() {
     const className = classnames(
       "nz-toolbar-items",
       OrthogonalDirectionHelpers.getCssClassName(this.props.direction),

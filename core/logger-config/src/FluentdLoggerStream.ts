@@ -99,14 +99,14 @@ export class FluentdLoggerStream extends Writable {
   }
 
   // eslint-disable-next-line @typescript-eslint/naming-convention
-  public _writev(chunks: Array<{ chunk: any, encoding: string }>, callback: (err?: Error) => void): void {
+  public override _writev(chunks: Array<{ chunk: any, encoding: string }>, callback: (err?: Error) => void): void {
     for (const entry of chunks) {
       this._write(entry.chunk, entry.encoding, callback);
     }
   }
 
   // eslint-disable-next-line @typescript-eslint/naming-convention
-  public _write(chunk: any, encoding: string, callback: (err?: Error) => void): void {
+  public override _write(chunk: any, encoding: string, callback: (err?: Error) => void): void {
     // we create a domain to catch errors from the socket. Major errors like CONNECTION not made is sent to bunyan
     const fluentdDomain: domain.Domain = domain.create();
     fluentdDomain.on("error", (errEvent: Error) => {

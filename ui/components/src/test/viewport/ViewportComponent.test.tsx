@@ -104,7 +104,7 @@ describe("ViewportComponent", () => {
   const viewManager = moq.Mock.ofType<ViewManager>();
   viewManager.setup((x) => x.selectedView).returns(() => viewportMock.object);
   class ScreenViewportMock extends ScreenViewport {
-    public static create(_parentDiv: HTMLDivElement, _view: ViewState): ScreenViewport {
+    public static override create(_parentDiv: HTMLDivElement, _view: ViewState): ScreenViewport {
       return viewportMock.object;
     }
   }

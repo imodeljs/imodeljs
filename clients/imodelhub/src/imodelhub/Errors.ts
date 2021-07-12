@@ -86,7 +86,7 @@ export class IModelHubError extends WsgError {
    * @returns Parsed error.
    * @internal
    */
-  public static parse(response: any, log = true): ResponseError {
+  public static override parse(response: any, log = true): ResponseError {
     const wsgError = super.parse(response, false);
     if (wsgError instanceof WsgError && wsgError.name && wsgError.name.startsWith(IModelHubError._idPrefix)) {
       const errorId = IModelHubError.getErrorId(wsgError.name);
@@ -113,7 +113,7 @@ export class IModelHubError extends WsgError {
    * @param response Response returned by request
    * @internal
    */
-  public static shouldRetry(error: any, response: any): boolean {
+  public static override shouldRetry(error: any, response: any): boolean {
     if (response === undefined || response === null) {
       return super.shouldRetry(error, response);
     }
@@ -162,7 +162,7 @@ export class IModelHubError extends WsgError {
    * Logs this error.
    * @internal
    */
-  public log(): void {
+  public override log(): void {
     (this.getLogLevel())(loggerCategory, this.logMessage(), this.getMetaData());
   }
 }
@@ -178,7 +178,7 @@ export class IModelHubClientError extends IModelHubError {
    * @returns Created error.
    * @internal
    */
-  public static fromId(id: IModelHubStatus, message: string): IModelHubClientError {
+  public static override fromId(id: IModelHubStatus, message: string): IModelHubClientError {
     const error = new IModelHubClientError(id, message);
     error.log();
     return error;

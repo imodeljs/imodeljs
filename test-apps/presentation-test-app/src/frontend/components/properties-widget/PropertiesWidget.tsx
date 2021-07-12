@@ -302,7 +302,7 @@ function CopyActionButton() {
 }
 
 class AutoExpandingPropertyDataProvider extends PresentationPropertyDataProvider {
-  public async getData(): Promise<PropertyData> {
+  public override async getData(): Promise<PropertyData> {
     const result = await super.getData();
     this.expandCategories(result.categories);
     return result;

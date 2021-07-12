@@ -17,11 +17,11 @@ import { Markup, MarkupApp } from "./Markup";
 export abstract class MarkupTool extends PrimitiveTool {
   public markup!: Markup;
   public static toolKey = "MarkupTools:tools.Markup.";
-  public requireWriteableTarget(): boolean { return false; }
-  public isCompatibleViewport(vp: Viewport | undefined, isSelectedViewChange: boolean): boolean { return (super.isCompatibleViewport(vp, isSelectedViewChange) && undefined !== vp && vp === IModelApp.toolAdmin.markupView); }
-  public onInstall(): boolean { if (undefined === MarkupApp.markup) return false; this.markup = MarkupApp.markup; return super.onInstall(); }
-  public onPostInstall() { super.onPostInstall(); this.setupAndPromptForNextAction(); }
-  public onUnsuspend(): void { this.showPrompt(); }
+  public override requireWriteableTarget(): boolean { return false; }
+  public override isCompatibleViewport(vp: Viewport | undefined, isSelectedViewChange: boolean): boolean { return (super.isCompatibleViewport(vp, isSelectedViewChange) && undefined !== vp && vp === IModelApp.toolAdmin.markupView); }
+  public override onInstall(): boolean { if (undefined === MarkupApp.markup) return false; this.markup = MarkupApp.markup; return super.onInstall(); }
+  public override onPostInstall() { super.onPostInstall(); this.setupAndPromptForNextAction(); }
+  public override onUnsuspend(): void { this.showPrompt(); }
   public onRestartTool(): void { this.exitTool(); }
 
   protected showPrompt(): void { }
@@ -31,24 +31,24 @@ export abstract class MarkupTool extends PrimitiveTool {
   }
   protected outputMarkupPrompt(msg: string) { IModelApp.notifications.outputPromptByKey(MarkupTool.toolKey + msg); }
 
-  public async onTouchMoveStart(ev: BeTouchEvent, startEv: BeTouchEvent): Promise<EventHandled> {
+  public override async onTouchMoveStart(ev: BeTouchEvent, startEv: BeTouchEvent): Promise<EventHandled> {
     if (startEv.isSingleTouch)
       await IModelApp.toolAdmin.convertTouchMoveStartToButtonDownAndMotion(startEv, ev);
     return EventHandled.Yes; // View tools are not allowed during redlining; use touch events to create markup and don't pass event to IdleTool...
   }
 
-  public async onTouchMove(ev: BeTouchEvent): Promise<void> { return IModelApp.toolAdmin.convertTouchMoveToMotion(ev); }
-  public async onTouchComplete(ev: BeTouchEvent): Promise<void> { return IModelApp.toolAdmin.convertTouchEndToButtonUp(ev); }
-  public async onTouchCancel(ev: BeTouchEvent): Promise<void> { return IModelApp.toolAdmin.convertTouchEndToButtonUp(ev, BeButton.Reset); }
+  public override async onTouchMove(ev: BeTouchEvent): Promise<void> { return IModelApp.toolAdmin.convertTouchMoveToMotion(ev); }
+  public override async onTouchComplete(ev: BeTouchEvent): Promise<void> { return IModelApp.toolAdmin.convertTouchEndToButtonUp(ev); }
+  public override async onTouchCancel(ev: BeTouchEvent): Promise<void> { return IModelApp.toolAdmin.convertTouchEndToButtonUp(ev, BeButton.Reset); }
 
-  public async undoPreviousStep(): Promise<boolean> {
+  public override async undoPreviousStep(): Promise<boolean> {
     if (await this.onUndoPreviousStep()) // first see if this tool has an "oops" operation.
       return true; // yes, we're done
     this.markup.undo.doUndo(); // otherwise undo the last change by previous tools
     return true;
   }
 
-  public async redoPreviousStep(): Promise<boolean> {
+  public override async redoPreviousStep(): Promise<boolean> {
     if (await this.onRedoPreviousStep())
       return true;
     this.markup.undo.doRedo();

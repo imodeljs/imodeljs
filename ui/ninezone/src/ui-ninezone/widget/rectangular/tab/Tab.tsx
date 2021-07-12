@@ -101,7 +101,7 @@ export class Tab extends React.PureComponent<TabProps> {
     return this._tab.current.getBoundingClientRect();
   }
 
-  public render() {
+  public override render() {
     const className = classnames(
       "nz-widget-rectangular-tab-tab",
       this.props.isProtruding && "nz-protruding",

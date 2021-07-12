@@ -32,7 +32,7 @@ export class LoadingBar extends React.PureComponent<LoadingBarProps> {
     barHeight: 4,
   };
 
-  public render() {
+  public override render() {
     const percent = `${percentInRange(this.props.percent)}%`;
     const containerClass = classnames(this.props.className, "core-lb");
     return (

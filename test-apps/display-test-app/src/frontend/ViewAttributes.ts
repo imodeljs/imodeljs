@@ -917,7 +917,7 @@ export class ViewAttributesPanel extends ToolBarDropDown {
     if (undefined !== this._attributes)
       this._attributes.displayStylePickerInput = this._displayStylePickerInput;
   }
-  public get onViewChanged(): Promise<void> {
+  public override get onViewChanged(): Promise<void> {
     return this.populate();
   }
 

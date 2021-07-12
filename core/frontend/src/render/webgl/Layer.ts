@@ -29,6 +29,10 @@ abstract class GraphicWrapper extends Graphic {
     return this.graphic.isDisposed;
   }
 
+  public override get isPickable(): boolean {
+    return this.graphic.isPickable;
+  }
+
   public collectStatistics(stats: RenderMemory.Statistics): void {
     this.graphic.collectStatistics(stats);
   }
@@ -61,7 +65,7 @@ export class Layer extends GraphicWrapper {
     commands.addLayerCommands(this);
   }
 
-  public addHiliteCommands(commands: RenderCommands, pass: RenderPass): void {
+  public override addHiliteCommands(commands: RenderCommands, pass: RenderPass): void {
     commands.addHiliteLayerCommands(this.graphic, pass);
   }
 }
@@ -90,7 +94,7 @@ export class LayerContainer extends GraphicWrapper {
     commands.processLayers(this);
   }
 
-  public addHiliteCommands(commands: RenderCommands, pass: RenderPass): void {
+  public override addHiliteCommands(commands: RenderCommands, pass: RenderPass): void {
     commands.addHiliteLayerCommands(this.graphic, pass);
   }
 }

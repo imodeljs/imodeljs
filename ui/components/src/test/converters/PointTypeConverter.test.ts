@@ -203,19 +203,19 @@ describe("Point3dTypeConverter", () => {
 
 class TestSyncComponentConverter extends TypeConverter {
   public static NAME = "test-sync-component-converter";
-  public convertToString(value?: Primitives.Value) { return `_${(value ?? "").toString()}_`; }
+  public override convertToString(value?: Primitives.Value) { return `_${(value ?? "").toString()}_`; }
   public sortCompare() { return 0; }
 }
 
 class TestAsyncComponentConverter extends TypeConverter {
   public static NAME = "test-async-component-converter";
-  public async convertToString(value?: Primitives.Value) { return `_${(value ?? "").toString()}_`; }
+  public override async convertToString(value?: Primitives.Value) { return `_${(value ?? "").toString()}_`; }
   public sortCompare(): number { return 0; }
 }
 
 class TestPartialAsyncComponentConverter extends TypeConverter {
   public static NAME = "test-partial-async-component-converter";
-  public convertToString(value?: Primitives.Value) {
+  public override convertToString(value?: Primitives.Value) {
     const result = `_${(value ?? "").toString()}_`;
     return (value && value.toString() === "100") ? Promise.resolve(result) : result;
   }

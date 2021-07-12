@@ -22,12 +22,12 @@ import { FrontstageManager } from "../../frontstage/FrontstageManager";
 
 /** ToolSettingsUiDataProvider keeps tool data in sync with UI display */
 class ToolSettingsUiDataProvider extends UiLayoutDataProvider {
-  public supplyDialogItems(): DialogItem[] | undefined {
+  public override supplyDialogItems(): DialogItem[] | undefined {
     return ToolSettingsManager.toolSettingsProperties;
   }
 
   // send property changes from UI back to tool
-  public applyUiPropertyChange = (syncItem: DialogPropertySyncItem) => {
+  public override applyUiPropertyChange = (syncItem: DialogPropertySyncItem) => {
     // istanbul ignore next
     IModelApp.toolAdmin.activeTool && IModelApp.toolAdmin.activeTool.applyToolSettingPropertyChange(syncItem);
   };
@@ -62,19 +62,19 @@ export class DefaultToolSettingsProvider extends ToolUiProvider {
     FrontstageManager.onToolSettingsReloadEvent.emit();
   }
 
-  public reloadPropertiesFromTool(): void {
+  public override reloadPropertiesFromTool(): void {
     // trigger the items to be reloaded from the active tool
     this.uiDataProvider.reloadDialogItems(false);
     this.updateToolSettingsNodes();
   }
 
   // called when tool is activated to repopulate tool settings.
-  public onInitialize(): void {
+  public override onInitialize(): void {
     this.reloadPropertiesFromTool();
   }
 
   // called to process ToolSettingsManager.onSyncToolSettingsProperties event
-  public syncToolSettingsProperties(args: SyncToolSettingsPropertiesEventArgs): void {
+  public override syncToolSettingsProperties(args: SyncToolSettingsPropertiesEventArgs): void {
     this.uiDataProvider.fireSyncPropertiesEvent(args.syncProperties);
   }
 }

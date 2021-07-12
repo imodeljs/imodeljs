@@ -36,10 +36,10 @@ export class WebAppRpcRequest extends RpcRequest {
   public static maxUrlComponentSize = 1024;
 
   /** The HTTP method for this request. */
-  public method: HttpMethod_T;
+  public override method: HttpMethod_T;
 
   /** Convenience access to the protocol of this request. */
-  public readonly protocol: WebAppRpcProtocol = this.client.configuration.protocol as any;
+  public override readonly protocol: WebAppRpcProtocol = this.client.configuration.protocol as any;
 
   /** Standardized access to metadata about the request (useful for purposes such as logging). */
   public metadata = { status: 0, message: "" };
@@ -139,7 +139,7 @@ export class WebAppRpcRequest extends RpcRequest {
     return this._response;
   }
 
-  protected isHeaderAvailable(name: string): boolean {
+  protected override isHeaderAvailable(name: string): boolean {
     const allowed = this.protocol.allowedHeaders;
     return allowed.has("*") || allowed.has(name);
   }
@@ -167,7 +167,7 @@ export class WebAppRpcRequest extends RpcRequest {
     });
   }
 
-  protected computeRetryAfter(attempts: number): number {
+  protected override computeRetryAfter(attempts: number): number {
     const retryAfter = this._response && this._response.headers.get("Retry-After");
     if (retryAfter) {
       this.resetTransientFaultCount();
@@ -188,7 +188,7 @@ export class WebAppRpcRequest extends RpcRequest {
     return super.computeRetryAfter(attempts);
   }
 
-  protected handleUnknownResponse(code: number) {
+  protected override handleUnknownResponse(code: number) {
     if (this.protocol.isTimeout(code)) {
       this.reject(new ServerTimeoutError("Request timeout."));
     } else {

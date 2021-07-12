@@ -19,7 +19,7 @@ import { Schema } from "./Schema";
  * @beta
  */
 export class CustomAttributeClass extends ECClass {
-  public readonly schemaItemType!: SchemaItemType.CustomAttributeClass; // eslint-disable-line
+  public override readonly schemaItemType!: SchemaItemType.CustomAttributeClass; // eslint-disable-line
   protected _containerType?: CustomAttributeContainerType;
 
   public get containerType(): CustomAttributeContainerType {
@@ -38,20 +38,20 @@ export class CustomAttributeClass extends ECClass {
    * @param standalone Serialization includes only this object (as opposed to the full schema).
    * @param includeSchemaVersion Include the Schema's version information in the serialized object.
    */
-  public toJSON(standalone: boolean = false, includeSchemaVersion: boolean = false): CustomAttributeClassProps {
+  public override toJSON(standalone: boolean = false, includeSchemaVersion: boolean = false): CustomAttributeClassProps {
     const schemaJson = super.toJSON(standalone, includeSchemaVersion) as any;
     schemaJson.appliesTo = containerTypeToString(this.containerType);
     return schemaJson as CustomAttributeClassProps;
   }
 
   /** @internal */
-  public async toXml(schemaXml: Document): Promise<Element> {
+  public override async toXml(schemaXml: Document): Promise<Element> {
     const itemElement = await super.toXml(schemaXml);
     itemElement.setAttribute("appliesTo", containerTypeToString(this.containerType));
     return itemElement;
   }
 
-  public fromJSONSync(customAttributeProps: CustomAttributeClassProps) {
+  public override fromJSONSync(customAttributeProps: CustomAttributeClassProps) {
     super.fromJSONSync(customAttributeProps);
     const containerType = parseCustomAttributeContainerType(customAttributeProps.appliesTo);
     if (undefined === containerType)
@@ -59,7 +59,7 @@ export class CustomAttributeClass extends ECClass {
     this._containerType = containerType;
   }
 
-  public async fromJSON(customAttributeProps: CustomAttributeClassProps) {
+  public override async fromJSON(customAttributeProps: CustomAttributeClassProps) {
     this.fromJSONSync(customAttributeProps);
   }
 
@@ -75,6 +75,6 @@ export class CustomAttributeClass extends ECClass {
  * An abstract class used for Schema editing.
  */
 export abstract class MutableCAClass extends CustomAttributeClass {
-  public abstract setContainerType(containerType: CustomAttributeContainerType): void;
-  public abstract setDisplayLabel(displayLabel: string): void;
+  public abstract override setContainerType(containerType: CustomAttributeContainerType): void;
+  public abstract override setDisplayLabel(displayLabel: string): void;
 }

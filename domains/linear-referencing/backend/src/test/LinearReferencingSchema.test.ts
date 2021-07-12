@@ -18,7 +18,7 @@ import {
 } from "../linear-referencing-backend";
 
 class TestLinearReferencingSchema extends Schema {
-  public static get schemaName(): string { return "TestLinearReferencing"; }
+  public static override get schemaName(): string { return "TestLinearReferencing"; }
   public static get schemaFilePath(): string { return path.join(__dirname, "assets", "TestLinearReferencing.ecschema.xml"); }
   public static registerSchema() {
     if (this !== Schemas.getRegisteredSchema(this.schemaName)) {
@@ -31,7 +31,7 @@ class TestLinearReferencingSchema extends Schema {
 }
 
 class TestLinearlyLocatedAttribution extends LinearlyLocatedAttribution implements LinearlyLocatedSingleFromTo {
-  public static get className(): string { return "TestLinearlyLocatedAttribution"; }
+  public static override get className(): string { return "TestLinearlyLocatedAttribution"; }
 
   public constructor(props: LinearlyLocatedAttributionProps, iModel: IModelDb) {
     super(props, iModel);

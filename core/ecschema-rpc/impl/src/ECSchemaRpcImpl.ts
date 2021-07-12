@@ -48,7 +48,7 @@ export class ECSchemaRpcImpl extends ECSchemaRpcInterface {
    * @param tokenProps        The iModelToken props that hold the information which iModel is used.
    * @returns                 An array of SchemaKeyProps.
    */
-  public async getSchemaKeys(tokenProps: IModelRpcProps): Promise<SchemaKeyProps[]> {
+  public override async getSchemaKeys(tokenProps: IModelRpcProps): Promise<SchemaKeyProps[]> {
     ClientRequestContext.current.enter();
 
     const schemaKeyProps: SchemaKeyProps[] = [];
@@ -62,7 +62,7 @@ export class ECSchemaRpcImpl extends ECSchemaRpcInterface {
       const read = Number(schemaDefinitionRow.read);
       const write = Number(schemaDefinitionRow.write);
       const minor = Number(schemaDefinitionRow.minor);
-      schemaKeyProps.push({name: schemaFullName, read, write, minor});
+      schemaKeyProps.push({ name: schemaFullName, read, write, minor });
     }
     return schemaKeyProps;
   }
@@ -74,7 +74,7 @@ export class ECSchemaRpcImpl extends ECSchemaRpcInterface {
    * @param schemaName        The name of the schema that shall be returned.
    * @returns                 The SchemaProps.
    */
-  public async getSchemaJSON(tokenProps: IModelRpcProps, schemaName: string): Promise<SchemaProps> {
+  public override async getSchemaJSON(tokenProps: IModelRpcProps, schemaName: string): Promise<SchemaProps> {
     ClientRequestContext.current.enter();
 
     if (schemaName === undefined || schemaName.length < 1) {

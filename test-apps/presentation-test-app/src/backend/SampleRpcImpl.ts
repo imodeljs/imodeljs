@@ -17,7 +17,7 @@ export default class SampleRpcImpl extends SampleRpcInterface {
     return "assets";
   }
 
-  public async getSampleImodels(): Promise<string[]> {
+  public override async getSampleImodels(): Promise<string[]> {
     const dir = path.join(this.getAssetsDir(), "sample_documents");
     const files = fs.readdirSync(dir);
     return files
@@ -25,7 +25,7 @@ export default class SampleRpcImpl extends SampleRpcInterface {
       .map((name) => path.resolve(dir, name));
   }
 
-  public async getAvailableRulesets(): Promise<string[]> {
+  public override async getAvailableRulesets(): Promise<string[]> {
     const extensions = [".PresentationRuleSet.xml", ".PresentationRuleSet.json"];
     const dir = path.join(this.getAssetsDir(), "presentation_rules");
     const files = fs.readdirSync(dir);

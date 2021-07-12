@@ -34,16 +34,16 @@ export class ScrollableToolSettings extends React.PureComponent<ScrollableToolSe
   public static readonly INDICATOR_HEIGHT = 20;
   private _content = React.createRef<HTMLDivElement>();
 
-  public readonly state: ScrollableToolSettingsState = {
+  public override readonly state: ScrollableToolSettingsState = {
     isBottomIndicatorVisible: false,
     isTopIndicatorVisible: false,
   };
 
-  public componentDidMount() {
+  public override componentDidMount() {
     this._updateScrollIndicatorVisibility();
   }
 
-  public render() {
+  public override render() {
     const className = classnames(
       "nz-widget-toolSettings-scrollable",
       this.props.className);

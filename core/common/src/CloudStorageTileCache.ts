@@ -73,7 +73,7 @@ export class CloudStorageTileCache extends CloudStorageCache<TileContentIdentifi
     return `tiles/${id.treeId}/${version}/${id.contentId}`;
   }
 
-  protected formContainerKey(id: TileContentIdentifier): string {
+  protected override formContainerKey(id: TileContentIdentifier): string {
     if (this.provider === CloudStorageProvider.AliCloud) {
       return this.formContainerName(id) + this.formResourceName(id);
     }

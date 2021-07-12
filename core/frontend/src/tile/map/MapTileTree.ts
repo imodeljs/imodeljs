@@ -134,11 +134,11 @@ export class MapTileTree extends RealityTileTree {
     this.imageryTrees.length = 0;
     this._layerSettings.clear();
   }
-  public get isTransparent() {
+  public override get isTransparent() {
     return this.mapTransparent || this.baseTransparent;
   }
 
-  public get maxDepth() {
+  public override get maxDepth() {
     let maxDepth = this.loader.maxDepth;
     this.imageryTrees?.forEach((imageryTree) => maxDepth = Math.max(maxDepth, imageryTree.maxDepth));
 
@@ -167,7 +167,7 @@ export class MapTileTree extends RealityTileTree {
   public static maxGlobeDisplayDepth = 8;
   public static minDisplayableDepth = 3;
   public get mapLoader() { return this.loader as MapTileLoader; }
-  public getBaseRealityDepth(sceneContext: SceneContext) {
+  public override getBaseRealityDepth(sceneContext: SceneContext) {
     // If the view has ever had global scope then preload low level (global) tiles.
     return (sceneContext.viewport.view.maxGlobalScopeFactor > 1) ? MapTileTree.minDisplayableDepth : -1;
   }
@@ -427,7 +427,7 @@ class MapTreeSupplier implements TileTreeSupplier {
                       cmp = compareBooleans(lhs.applyTerrain, rhs.applyTerrain);
                       if (0 === cmp) {
                         if (lhs.applyTerrain) {
-                        // Terrain-only settings.
+                          // Terrain-only settings.
                           cmp = compareStrings(lhs.terrainProviderName, rhs.terrainProviderName);
                           if (0 === cmp) {
                             cmp = compareNumbers(lhs.terrainHeightOrigin, rhs.terrainHeightOrigin);
@@ -438,7 +438,7 @@ class MapTreeSupplier implements TileTreeSupplier {
                             }
                           }
                         } else {
-                        // Non-Terrain (flat) settings.
+                          // Non-Terrain (flat) settings.
                           cmp = compareNumbers(lhs.mapGroundBias, rhs.mapGroundBias);
                           if (0 === cmp)
                             cmp = compareBooleans(lhs.useDepthBuffer, rhs.useDepthBuffer);
@@ -550,12 +550,12 @@ export class MapTileTreeReference extends TileTreeReference {
     if (this._settings.planarClipMask && this._settings.planarClipMask.isValid)
       this._planarClipMask = PlanarClipMaskState.create(this._settings.planarClipMask);
   }
-  public get isGlobal() { return true; }
+  public override get isGlobal() { return true; }
   public get baseColor(): ColorDef | undefined { return this._baseColor; }
-  public get planarclipMaskPriority(): number { return PlanarClipMaskPriority.BackgroundMap; }
+  public override get planarclipMaskPriority(): number { return PlanarClipMaskPriority.BackgroundMap; }
 
   /** Terrain  tiles do not contribute to the range used by "fit view". */
-  public unionFitRange(_range: Range3d): void { }
+  public override unionFitRange(_range: Range3d): void { }
   public get settings(): BackgroundMapSettings { return this._settings; }
   public set settings(settings: BackgroundMapSettings) {
     this._settings = settings;
@@ -610,11 +610,11 @@ export class MapTileTreeReference extends TileTreeReference {
       tree.clearLayers();
   }
 
-  public get castsShadows() {
+  public override get castsShadows() {
     return false;
   }
 
-  protected get _isLoadingComplete(): boolean {
+  protected override get _isLoadingComplete(): boolean {
     // Wait until drape tree is fully loaded too.
     for (const drapeTree of this._imageryTrees)
       if (!drapeTree.isLoadingComplete)
@@ -693,7 +693,7 @@ export class MapTileTreeReference extends TileTreeReference {
   }
 
   /** Adds this reference's graphics to the scene. By default this invokes [[TileTree.drawScene]] on the referenced TileTree, if it is loaded. */
-  public addToScene(context: SceneContext): void {
+  public override addToScene(context: SceneContext): void {
     if (!context.viewFlags.backgroundMap)
       return;
 
@@ -718,7 +718,7 @@ export class MapTileTreeReference extends TileTreeReference {
     tree.clearImageryLayers();
   }
 
-  public createDrawArgs(context: SceneContext): TileDrawArgs | undefined {
+  public override createDrawArgs(context: SceneContext): TileDrawArgs | undefined {
     const args = super.createDrawArgs(context);
     if (undefined === args)
       return undefined;
@@ -726,15 +726,15 @@ export class MapTileTreeReference extends TileTreeReference {
     return new RealityTileDrawArgs(args, args.worldToViewMap, args.frustumPlanes);
   }
 
-  protected getViewFlagOverrides(_tree: TileTree) {
+  protected override getViewFlagOverrides(_tree: TileTree) {
     return createViewFlagOverrides(false, this._settings.applyTerrain ? undefined : false);
   }
 
-  protected getSymbologyOverrides(_tree: TileTree) {
+  protected override getSymbologyOverrides(_tree: TileTree) {
     return this._symbologyOverrides;
   }
 
-  public discloseTileTrees(trees: DisclosedTileTreeSet): void {
+  public override discloseTileTrees(trees: DisclosedTileTreeSet): void {
     super.discloseTileTrees(trees);
     this._imageryTrees.forEach((imageryTree) => trees.disclose(imageryTree));
     if (this._planarClipMask)
@@ -756,7 +756,7 @@ export class MapTileTreeReference extends TileTreeReference {
     return imageryTree === undefined ? imageryTree : imageryTree.layerSettings;
   }
 
-  public async getToolTip(hit: HitDetail): Promise<HTMLElement | string | undefined> {
+  public override async getToolTip(hit: HitDetail): Promise<HTMLElement | string | undefined> {
     const tree = this.treeOwner.tileTree as MapTileTree;
     // eslint-disable-next-line @typescript-eslint/unbound-method
     if (undefined === tree || hit.iModel !== tree.iModel || tree.modelId !== hit.modelId || !hit.viewport || !hit.viewport.view.is3d)
@@ -799,7 +799,7 @@ export class MapTileTreeReference extends TileTreeReference {
   }
 
   /** Add logo cards to logo div. */
-  public addLogoCards(cards: HTMLTableElement, vp: ScreenViewport): void {
+  public override addLogoCards(cards: HTMLTableElement, vp: ScreenViewport): void {
     const tree = this.treeOwner.tileTree as MapTileTree;
     let logo;
     if (tree) {

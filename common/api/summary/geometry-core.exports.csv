@@ -1,6 +1,9 @@
 sep=;
 Release Tag;API Item
 internal;class AbstractNewtonIterator
+public;AkimaCurve3d 
+public;AkimaCurve3dOptions
+public;AkimaCurve3dProps
 internal;AnalyticRoots
 public;Angle 
 public;AngleProps =
@@ -12,7 +15,7 @@ public;AnnounceDrapePanel = (linestring: GrowableXYZArray, segmentIndex: number,
 public;AnnounceNumberNumber = (a0: number, a1: number) => void
 public;AnnounceNumberNumberCurvePrimitive = (a0: number, a1: number, cp: CurvePrimitive) => void
 public;AnyCurve = CurvePrimitive | CurveCollection
-public;AnyCurvePrimitive = Arc3d | LineSegment3d | LineString3d | BSplineCurve3d | BezierCurve3d | DirectSpiral3d | IntegratedSpiral3d | CurveChainWithDistanceIndex
+public;AnyCurvePrimitive = Arc3d | LineSegment3d | LineString3d | BSplineCurve3d | BezierCurve3d | DirectSpiral3d | IntegratedSpiral3d | CurveChainWithDistanceIndex | InterpolationCurve3d | AkimaCurve3d
 public;AnyGeometryQuery = Polyface | CurvePrimitive | CurveCollection | SolidPrimitive | CoordinateXYZ | PointString3d | BSpline2dNd
 public;AnyRegion = Loop | ParityRegion | UnionRegion
 public;AnySolidPrimitive = Box | Cone | Sphere | LinearSweep | RotationalSweep | RuledSweep | TorusPipe
@@ -97,7 +100,7 @@ public;CurveLocationDetailArrayPair
 public;CurveLocationDetailPair
 public;class CurvePrimitive 
 public;CurvePrimitiveMutator = (primitiveA: CurvePrimitive, primitiveB: CurvePrimitive) => CurvePrimitive | undefined
-public;CurvePrimitiveType = "arc" | "lineSegment" | "lineString" | "bsplineCurve" | "bezierCurve" | "transitionSpiral" | "curveChainWithDistanceIndex"
+public;CurvePrimitiveType = "arc" | "lineSegment" | "lineString" | "bsplineCurve" | "bezierCurve" | "transitionSpiral" | "curveChainWithDistanceIndex" | "interpolationCurve" | "akimaCurve"
 public;CurveSearchStatus
 internal;CutLoop
 internal;CutLoopMergeContext
@@ -146,6 +149,9 @@ public;IndexedXYZCollectionPolygonOps
 public;IntegratedSpiral3d 
 public;IntegratedSpiralTypeName = "clothoid" | "bloss" | "biquadratic" | "cosine" | "sine"
 internal;interpolateColor(color0: number, fraction: number, color1: number): number
+public;InterpolationCurve3d 
+public;InterpolationCurve3dOptions
+public;InterpolationCurve3dProps
 public;InverseMatrixState
 public;IStrokeHandler
 public;JointOptions
@@ -214,6 +220,7 @@ public;PolygonOps
 internal;PolygonWireOffsetContext
 public;PolylineOps
 internal;PowerPolynomial
+public;class ProxyCurve 
 internal;Quadrature
 public;Range1d 
 internal;Range1dArray

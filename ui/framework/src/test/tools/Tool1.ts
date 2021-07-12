@@ -8,23 +8,23 @@ import { BeButtonEvent, EventHandled, IModelApp, PrimitiveTool } from "@bentley/
 
 /** @internal */
 export class Tool1 extends PrimitiveTool {
-  public static toolId = "Tool1";
+  public static override toolId = "Tool1";
   public readonly points: Point3d[] = [];
 
-  public requireWriteableTarget(): boolean { return false; }
-  public onPostInstall() { super.onPostInstall(); this.setupAndPromptForNextAction(); }
+  public override requireWriteableTarget(): boolean { return false; }
+  public override onPostInstall() { super.onPostInstall(); this.setupAndPromptForNextAction(); }
 
   public setupAndPromptForNextAction(): void {
     IModelApp.notifications.outputPromptByKey("SampleApp:tools.Tool1.Prompts.GetPoint");
   }
 
-  public async onDataButtonDown(ev: BeButtonEvent): Promise<EventHandled> {
+  public override async onDataButtonDown(ev: BeButtonEvent): Promise<EventHandled> {
     this.points.push(ev.point.clone());
     this.setupAndPromptForNextAction();
     return EventHandled.No;
   }
 
-  public async onResetButtonUp(_ev: BeButtonEvent): Promise<EventHandled> {
+  public override async onResetButtonUp(_ev: BeButtonEvent): Promise<EventHandled> {
     IModelApp.toolAdmin.startDefaultTool();
     return EventHandled.No;
   }

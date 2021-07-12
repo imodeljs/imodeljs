@@ -1,0 +1,11 @@
+{
+  "changes": [
+    {
+      "packageName": "@bentley/presentation-backend",
+      "comment": "Set `RelatedPropertiesSpecification.skipIfDuplicate` attribute to all specifications in default BisCore ruleset to allow overriding them.",
+      "type": "none"
+    }
+  ],
+  "packageName": "@bentley/presentation-backend",
+  "email": "35135765+grigasp@users.noreply.github.com"
+}

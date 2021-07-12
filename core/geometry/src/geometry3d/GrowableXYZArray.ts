@@ -578,7 +578,7 @@ export class GrowableXYZArray extends IndexedReadWriteXYZCollection {
     }
   }
 
-/** multiply each point by the transform, replace values. */
+  /** multiply each point by the transform, replace values. */
   public tryTransformInverseInPlace(transform: Transform): boolean {
     const data = this._data;
     const nDouble = this.float64Length;
@@ -618,7 +618,7 @@ export class GrowableXYZArray extends IndexedReadWriteXYZCollection {
     }
   }
   /** get range of points. */
-  public getRange(transform?: Transform): Range3d {
+  public override getRange(transform?: Transform): Range3d {
     const range = Range3d.createNull();
     this.extendRange(range, transform);
     return range;

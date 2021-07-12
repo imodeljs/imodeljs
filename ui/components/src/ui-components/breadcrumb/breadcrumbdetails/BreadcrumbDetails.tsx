@@ -55,7 +55,7 @@ export class BreadcrumbDetails extends React.Component<BreadcrumbDetailsProps, B
   private _tree!: BeInspireTree<TreeNodeItem>;
   private _mounted: boolean = false;
 
-  public readonly state: BreadcrumbDetailsState;
+  public override readonly state: BreadcrumbDetailsState;
 
   /** @internal */
   constructor(props: BreadcrumbDetailsProps) {
@@ -67,7 +67,7 @@ export class BreadcrumbDetails extends React.Component<BreadcrumbDetailsProps, B
   }
 
   /** @internal */
-  public componentDidMount() {
+  public override componentDidMount() {
     this._mounted = true;
     /* istanbul ignore next */
     if (this.props.onRender)
@@ -81,7 +81,7 @@ export class BreadcrumbDetails extends React.Component<BreadcrumbDetailsProps, B
   }
 
   /** @internal */
-  public componentWillUnmount() {
+  public override componentWillUnmount() {
     this._mounted = false;
     this._tree.removeAllListeners();
     const dataProvider = this.props.path.getDataProvider();
@@ -91,7 +91,7 @@ export class BreadcrumbDetails extends React.Component<BreadcrumbDetailsProps, B
   }
 
   /** @internal */
-  public componentDidUpdate(prevProps: BreadcrumbDetailsProps) {
+  public override componentDidUpdate(prevProps: BreadcrumbDetailsProps) {
     /* istanbul ignore next */
     if (this.props.onRender)
       this.props.onRender();
@@ -112,7 +112,7 @@ export class BreadcrumbDetails extends React.Component<BreadcrumbDetailsProps, B
   }
 
   /** @internal */
-  public shouldComponentUpdate(nextProps: BreadcrumbDetailsProps, nextState: BreadcrumbDetailsState): boolean {
+  public override shouldComponentUpdate(nextProps: BreadcrumbDetailsProps, nextState: BreadcrumbDetailsState): boolean {
     if (this.state.modelReady !== nextState.modelReady) {
       // always render when state.modelReady changes
       return true;
@@ -224,7 +224,7 @@ export class BreadcrumbDetails extends React.Component<BreadcrumbDetailsProps, B
   };
 
   /** @internal */
-  public render(): React.ReactNode {
+  public override render(): React.ReactNode {
     const node = this.props.path.getCurrentNode();
     if (node) {
       const iNode = this._tree.node(node.id);

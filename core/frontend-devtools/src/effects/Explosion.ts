@@ -199,10 +199,10 @@ class ParticleSystem {
  * @beta
  */
 export class ExplosionEffect extends Tool {
-  public static toolId = "ExplosionEffect";
+  public static override toolId = "ExplosionEffect";
 
   /** This method runs the tool, applying an explosion particle effect. */
-  public run(): boolean {
+  public override run(): boolean {
     const vp = IModelApp.viewManager.selectedView;
     if (vp)
       ParticleSystem.addDecorator(vp.iModel); // eslint-disable-line @typescript-eslint/no-floating-promises

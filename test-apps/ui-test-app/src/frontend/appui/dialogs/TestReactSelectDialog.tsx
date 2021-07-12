@@ -48,7 +48,7 @@ interface TestReactSelectDialogState {
 }
 
 export class TestReactSelectDialog extends React.Component<TestReactSelectDialogProps, TestReactSelectDialogState> {
-  public readonly state: Readonly<TestReactSelectDialogState>;
+  public override readonly state: Readonly<TestReactSelectDialogState>;
   constructor(props: TestReactSelectDialogProps) {
     super(props);
     this.state = {
@@ -58,7 +58,7 @@ export class TestReactSelectDialog extends React.Component<TestReactSelectDialog
       overlay: true,
     };
   }
-  public render(): JSX.Element {
+  public override render(): JSX.Element {
     return (<Dialog
       title={"React-Select Modal Dialog"}
       opened={this.state.opened}

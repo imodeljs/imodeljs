@@ -36,7 +36,7 @@ const scratchQPoint2d = new QPoint2d(), scratchQPoint2d1 = new QPoint2d();
  * It may be worthwhile to pack the data into buffers...
  * @internal.
  */
-export class TerrainMeshPrimitive  extends RealityMeshPrimitive {
+export class TerrainMeshPrimitive extends RealityMeshPrimitive {
   private _currPointCount = 0;
   private _currIndexCount = 0;
 
@@ -51,15 +51,17 @@ export class TerrainMeshPrimitive  extends RealityMeshPrimitive {
     let totalIndices = props.indexCount;
     let totalPoints = props.pointCount;
     if (props.wantSkirts) {
-      totalIndices += 6 * (Math.max(0, props.northCount - 1)  + Math.max(0, props.southCount - 1) + Math.max(0, props.eastCount - 1) + Math.max(0, props.westCount - 1));
+      totalIndices += 6 * (Math.max(0, props.northCount - 1) + Math.max(0, props.southCount - 1) + Math.max(0, props.eastCount - 1) + Math.max(0, props.westCount - 1));
       totalPoints += (props.northCount + props.southCount + props.eastCount + props.westCount);
     }
-    const realityMeshProps = { indices: new Uint16Array(totalIndices),  pointQParams: props.pointQParams, points: new Uint16Array(3 * totalPoints),
-      uvQParams: QParams2d.fromZeroToOne(), uvs: new Uint16Array(2 * totalPoints), normals: props.wantNormals ? new Uint16Array(totalPoints) : undefined, featureID: 0 };
+    const realityMeshProps = {
+      indices: new Uint16Array(totalIndices), pointQParams: props.pointQParams, points: new Uint16Array(3 * totalPoints),
+      uvQParams: QParams2d.fromZeroToOne(), uvs: new Uint16Array(2 * totalPoints), normals: props.wantNormals ? new Uint16Array(totalPoints) : undefined, featureID: 0,
+    };
     return new TerrainMeshPrimitive(realityMeshProps, totalPoints, totalIndices);
   }
 
-  public collectStatistics(stats: RenderMemory.Statistics): void {
+  public override collectStatistics(stats: RenderMemory.Statistics): void {
     stats.addTerrain(this.bytesUsed);
   }
 
@@ -132,7 +134,7 @@ export class TerrainMeshPrimitive  extends RealityMeshPrimitive {
       const triangleRange = Range2d.createNull(TerrainMeshPrimitive._scratchTriangleRange);
       for (const index of triangleIndices) {
         const paramIndex = 2 * index;
-        triangleRange.extendXY(this.uvs[paramIndex], this.uvs[paramIndex+1]);
+        triangleRange.extendXY(this.uvs[paramIndex], this.uvs[paramIndex + 1]);
       }
 
       if (uvRange.intersectsRange(triangleRange)) {
@@ -158,7 +160,7 @@ export class TerrainMeshPrimitive  extends RealityMeshPrimitive {
       let normal: number | undefined;
       if (parentIndex < parentPointCount) {
         const pointIndex = 3 * parentIndex;
-        scratchQPoint3d.setFromScalars(parentPoints[pointIndex], parentPoints[pointIndex+1], parentPoints[pointIndex+2]);
+        scratchQPoint3d.setFromScalars(parentPoints[pointIndex], parentPoints[pointIndex + 1], parentPoints[pointIndex + 2]);
         const paramIndex = 2 * parentIndex;
         scratchQPoint2d.setFromScalars(parentParams[paramIndex], parentParams[paramIndex + 1]);
         if (parentNormals)
@@ -168,14 +170,14 @@ export class TerrainMeshPrimitive  extends RealityMeshPrimitive {
         addedPoints[addedIndex].clone(scratchQPoint3d);
         addedParams[addedIndex].clone(scratchQPoint2d);
         if (addedNormals.length)
-          normal =  addedNormals[addedIndex];
+          normal = addedNormals[addedIndex];
       }
       mesh.addQuantizedVertex(scratchQPoint3d, scratchQPoint2d, normal);
       zRange.extendX(scratchQPoint3d.z);
     }
     mesh.addIndices(indexMap.indices);
 
-    assert (mesh.isCompleted);
+    assert(mesh.isCompleted);
     const qParams = this.pointQParams;
     const heightRange = Range1d.createXX(Quantization.unquantize(zRange.low, qParams.origin.z, qParams.scale.z), Quantization.unquantize(zRange.high, qParams.origin.z, qParams.scale.z));
     return { heightRange, mesh };
@@ -238,7 +240,7 @@ export class TerrainMeshPrimitive  extends RealityMeshPrimitive {
         const fraction = (clipValue - values[i]) / (values[next] - values[i]);
 
         clipOutput.push(parentPointCount + addedPoints.length);
-        addedPoints.push(interpolateQPoint3d(getPoint(index, scratchQPoint3d),  getPoint(nextIndex, scratchQPoint3d1), fraction));
+        addedPoints.push(interpolateQPoint3d(getPoint(index, scratchQPoint3d), getPoint(nextIndex, scratchQPoint3d1), fraction));
         addedParams.push(interpolateQPoint2d(getParam(index, scratchQPoint2d), getParam(nextIndex, scratchQPoint2d1), fraction));
         if (parentNormals)
           addedNormals.push(interpolateOctEncodedNormal(getNormal(index)!, getNormal(nextIndex)!, fraction));

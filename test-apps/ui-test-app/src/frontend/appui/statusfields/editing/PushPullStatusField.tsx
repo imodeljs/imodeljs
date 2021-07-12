@@ -157,7 +157,7 @@ export class PushPullStatusField extends React.Component<StatusFieldProps, PushP
   private get mustPush(): boolean { return this.state.mustPush; }
   private get mustPull(): boolean { return this.state.changesOnServer.length !== 0; }
 
-  public render() {
+  public override render() {
     if (UiFramework.getIModelConnection() === undefined)
       return <div />;
 

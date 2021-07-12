@@ -32,7 +32,7 @@ export class ToolButton extends React.Component<ToolButtonProps, BaseItemState> 
   private _label: string | StringGetter | ConditionalStringValue = "";
 
   /** @internal */
-  public readonly state: Readonly<BaseItemState>;
+  public override readonly state: Readonly<BaseItemState>;
 
   constructor(props: ToolItemProps) {
     super(props);
@@ -83,11 +83,11 @@ export class ToolButton extends React.Component<ToolButtonProps, BaseItemState> 
     }
   };
 
-  public componentDidMount() {
+  public override componentDidMount() {
     SyncUiEventDispatcher.onSyncUiEvent.addListener(this._handleSyncUiEvent);
   }
 
-  public componentWillUnmount() {
+  public override componentWillUnmount() {
     this._componentUnmounting = true;
     SyncUiEventDispatcher.onSyncUiEvent.removeListener(this._handleSyncUiEvent);
   }
@@ -107,7 +107,7 @@ export class ToolButton extends React.Component<ToolButtonProps, BaseItemState> 
     return PropsHelper.getStringFromSpec(this._label);
   }
 
-  public render(): React.ReactNode {
+  public override render(): React.ReactNode {
     if (!this.state.isVisible)
       return null;
 

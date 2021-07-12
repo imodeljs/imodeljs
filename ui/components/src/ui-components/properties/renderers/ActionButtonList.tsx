@@ -37,7 +37,7 @@ export class ActionButtonList extends React.PureComponent<ActionButtonListProps>
   }
 
   /** @internal */
-  public render() {
+  public override render() {
     return (
       <div className={this.getClassName(this.props.orientation)}>
         {this.props.actionButtonRenderers.map((renderer, index) =>

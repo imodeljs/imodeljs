@@ -17,7 +17,7 @@ export interface OutlineProps {
 
 /** @internal */
 export class Outline extends React.PureComponent<OutlineProps> {
-  public render(): React.ReactNode {
+  public override render(): React.ReactNode {
     if (!this.props.bounds)
       return null;
     return (

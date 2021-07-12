@@ -23,7 +23,7 @@ import { UnitSystem } from "./UnitSystem";
  * @beta
  */
 export class InvertedUnit extends SchemaItem {
-  public readonly schemaItemType!: SchemaItemType.InvertedUnit; // eslint-disable-line
+  public override readonly schemaItemType!: SchemaItemType.InvertedUnit; // eslint-disable-line
   protected _invertsUnit?: LazyLoadedUnit; // required
   protected _unitSystem?: LazyLoadedUnitSystem; // required
 
@@ -40,7 +40,7 @@ export class InvertedUnit extends SchemaItem {
    * @param standalone Serialization includes only this object (as opposed to the full schema).
    * @param includeSchemaVersion Include the Schema's version information in the serialized object.
    */
-  public toJSON(standalone: boolean = false, includeSchemaVersion: boolean = false): InvertedUnitProps {
+  public override toJSON(standalone: boolean = false, includeSchemaVersion: boolean = false): InvertedUnitProps {
     const schemaJson = super.toJSON(standalone, includeSchemaVersion) as any;
     schemaJson.invertsUnit = this.invertsUnit!.fullName;
     schemaJson.unitSystem = this.unitSystem!.fullName;
@@ -48,7 +48,7 @@ export class InvertedUnit extends SchemaItem {
   }
 
   /** @internal */
-  public async toXml(schemaXml: Document): Promise<Element> {
+  public override async toXml(schemaXml: Document): Promise<Element> {
     const itemElement = await super.toXml(schemaXml);
 
     const unitSystem = await this.unitSystem;
@@ -66,7 +66,7 @@ export class InvertedUnit extends SchemaItem {
     return itemElement;
   }
 
-  public fromJSONSync(invertedUnitProps: InvertedUnitProps) {
+  public override fromJSONSync(invertedUnitProps: InvertedUnitProps) {
     super.fromJSONSync(invertedUnitProps);
     const unitSchemaItemKey = this.schema.getSchemaItemKey(invertedUnitProps.invertsUnit);
     this._invertsUnit = new DelayedPromiseWithProps<SchemaItemKey, Unit>(unitSchemaItemKey,
@@ -89,7 +89,7 @@ export class InvertedUnit extends SchemaItem {
       });
   }
 
-  public async fromJSON(invertedUnitProps: InvertedUnitProps) {
+  public override async fromJSON(invertedUnitProps: InvertedUnitProps) {
     this.fromJSONSync(invertedUnitProps);
   }
 
@@ -115,7 +115,7 @@ export class InvertedUnit extends SchemaItem {
  * An abstract class used for schema editing.
  */
 export abstract class MutableInvertedUnit extends InvertedUnit {
-  public abstract setInvertsUnit(invertsUnit: LazyLoadedUnit): void;
-  public abstract setUnitSystem(unitSystem: LazyLoadedUnitSystem): void;
-  public abstract setDisplayLabel(displayLabel: string): void;
+  public abstract override setInvertsUnit(invertsUnit: LazyLoadedUnit): void;
+  public abstract override setUnitSystem(unitSystem: LazyLoadedUnitSystem): void;
+  public abstract override setDisplayLabel(displayLabel: string): void;
 }

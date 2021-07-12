@@ -414,7 +414,7 @@ export class ReactNumericInput extends React.Component<ReactNumericInputProps, R
    * call some of the callbacks, validate etc.
    */
   // eslint-disable-next-line deprecation/deprecation
-  public componentDidUpdate(prevProps: ReactNumericInputProps, prevState: ReactNumericInputState): void {
+  public override componentDidUpdate(prevProps: ReactNumericInputProps, prevState: ReactNumericInputState): void {
     if (!this.refsInput)
       return;
 
@@ -458,7 +458,7 @@ export class ReactNumericInput extends React.Component<ReactNumericInputProps, R
   /**
    * This is used to clear the timer if any
    */
-  public componentWillUnmount(): void {
+  public override componentWillUnmount(): void {
     this._isUnmounted = true;
     this._stop();
   }
@@ -466,7 +466,7 @@ export class ReactNumericInput extends React.Component<ReactNumericInputProps, R
   /**
    * Adds getValueAsNumber and setValue methods to the input DOM element.
    */
-  public componentDidMount(): void {
+  public override componentDidMount(): void {
     if (!this.refsInput)
       return;
 
@@ -820,7 +820,7 @@ export class ReactNumericInput extends React.Component<ReactNumericInputProps, R
    * Renders an input wrapped in relative span and up/down buttons
    * @return {Element}
    */
-  public render(): JSX.Element {
+  public override render(): JSX.Element {
     const state = this.state;
     const css: { [key: string]: any } = {};
 

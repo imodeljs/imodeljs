@@ -48,7 +48,7 @@ export interface OsmBuildingDisplayOptions {
  */
 export abstract class DisplayStyleState extends ElementState implements DisplayStyleProps {
   /** @internal */
-  public static get className() { return "DisplayStyle"; }
+  public static override get className() { return "DisplayStyle"; }
   private _scheduleState?: RenderScheduleState;
   private _ellipsoidMapGeometry: BackgroundMapGeometry | undefined;
   private _attachedRealityModelPlanarClipMasks = new Map<Id64String, PlanarClipMaskState>();
@@ -730,7 +730,7 @@ export abstract class DisplayStyleState extends ElementState implements DisplayS
  */
 export class DisplayStyle2dState extends DisplayStyleState {
   /** @internal */
-  public static get className() { return "DisplayStyle2d"; }
+  public static override get className() { return "DisplayStyle2d"; }
   private readonly _settings: DisplayStyleSettings;
 
   public get settings(): DisplayStyleSettings { return this._settings; }
@@ -868,7 +868,7 @@ export class SkyGradient extends SkyBox {
     this.skyColor = (undefined !== sky.skyColor) ? ColorDef.fromJSON(sky.skyColor) : ColorDef.from(143, 205, 255);
   }
 
-  public toJSON(): SkyBoxProps {
+  public override toJSON(): SkyBoxProps {
     const val = super.toJSON();
 
     val.twoColor = this.twoColor ? true : undefined;
@@ -911,7 +911,7 @@ export class SkySphere extends SkyBox {
     return undefined !== textureId && Id64.isValid(textureId) ? new SkySphere(textureId, json.display) : undefined;
   }
 
-  public toJSON(): SkyBoxProps {
+  public override toJSON(): SkyBoxProps {
     const val = super.toJSON();
     val.image = {
       type: SkyBoxImageType.Spherical,
@@ -974,7 +974,7 @@ export class SkyCube extends SkyBox implements SkyCubeProps {
     return this.create(Id64.fromJSON(json.front), Id64.fromJSON(json.back), Id64.fromJSON(json.top), Id64.fromJSON(json.bottom), Id64.fromJSON(json.right), Id64.fromJSON(json.left), skyboxJson.display);
   }
 
-  public toJSON(): SkyBoxProps {
+  public override toJSON(): SkyBoxProps {
     const val = super.toJSON();
     val.image = {
       type: SkyBoxImageType.Cube,
@@ -1073,7 +1073,7 @@ function isSameSkyBox(a: SkyBoxProps | undefined, b: SkyBoxProps | undefined): b
  */
 export class DisplayStyle3dState extends DisplayStyleState {
   /** @internal */
-  public static get className() { return "DisplayStyle3d"; }
+  public static override get className() { return "DisplayStyle3d"; }
   private _skyBoxParams?: SkyBox.CreateParams;
   private _skyBoxParamsLoaded?: boolean;
   private _environment?: Environment;
@@ -1163,7 +1163,7 @@ export class DisplayStyle3dState extends DisplayStyleState {
   }
 
   /** @internal */
-  protected registerSettingsEventListeners(): void {
+  protected override registerSettingsEventListeners(): void {
     super.registerSettingsEventListeners();
 
     this.settings.onEnvironmentChanged.addListener((env) => {

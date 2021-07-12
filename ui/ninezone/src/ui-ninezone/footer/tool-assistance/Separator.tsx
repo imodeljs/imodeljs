@@ -23,7 +23,7 @@ export interface ToolAssistanceSeparatorProps extends CommonProps {
  * @beta
  */
 export class ToolAssistanceSeparator extends React.PureComponent<ToolAssistanceSeparatorProps> {
-  public render() {
+  public override render() {
     const className = classnames(
       "nz-footer-toolAssistance-separator",
       this.props.className);

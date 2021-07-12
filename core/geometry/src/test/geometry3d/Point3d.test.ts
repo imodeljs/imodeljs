@@ -122,7 +122,7 @@ describe("Point3d", () => {
         const vectorIJV = vectorI.vectorTo(vectorJ);
         const unitIJV = vectorI.unitVectorTo(vectorJ);
         ck.testVector3d(vectorIJ, vectorIJV, "vectorTo between points, vectors");
-        if (ck.testPointer(unitIJV) && unitIJV) {
+        if (ck.testPointer(unitIJV)) {
           ck.testParallel(unitIJV, vectorIJ);
           ck.testCoordinate(unitIJV.dotProduct(vectorIJV), vectorI.distance(vectorJ));
         }
@@ -144,7 +144,7 @@ describe("Point3d", () => {
         ck.testPerpendicular(vectorJ, perpVector, "projection vector");
 
         const rotateI90 = vectorI.rotate90Towards(vectorJ);
-        if (ck.testPointer(rotateI90) && rotateI90) {
+        if (ck.testPointer(rotateI90)) {
           ck.testPerpendicular(vectorI, rotateI90);
           const cross = vectorI.crossProduct(rotateI90);
           ck.testParallel(cross, vectorIJcross);

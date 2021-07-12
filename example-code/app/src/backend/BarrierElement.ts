@@ -15,7 +15,7 @@ import { RobotWorld } from "./RobotWorldSchema";
  */
 export class Barrier extends SpatialLocationElement {
   /** @internal */
-  public static get className(): string { return "Barrier"; }
+  public static override get className(): string { return "Barrier"; }
   //  Define the properties added by this subclass
   public length: number = 1.0;                    // The length of the barrier
   public angle: number = 0.0;                     // The orientation angle of the barrier

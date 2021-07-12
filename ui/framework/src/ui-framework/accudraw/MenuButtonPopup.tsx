@@ -26,7 +26,7 @@ interface MenuButtonPopupState {
  */
 export class MenuButtonPopup extends React.PureComponent<MenuButtonPopupProps, MenuButtonPopupState> {
   /** @internal */
-  public readonly state = {
+  public override readonly state = {
     size: new Size(-1, -1),
   };
 
@@ -37,7 +37,7 @@ export class MenuButtonPopup extends React.PureComponent<MenuButtonPopupProps, M
   };
 
   /** @internal */
-  public render() {
+  public override render() {
     const point = PopupManager.getPopupPosition(this.props.el, this.props.pt, this.props.offset, this.state.size);
 
     return (

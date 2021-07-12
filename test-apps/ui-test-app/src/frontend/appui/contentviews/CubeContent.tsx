@@ -17,7 +17,7 @@ class CubeContentControl extends ContentControl {
   }
 
   /** Get the NavigationAidControl associated with this ContentControl */
-  public get navigationAidControl(): string {
+  public override get navigationAidControl(): string {
     return "CubeNavigationAid";
   }
 }
@@ -28,11 +28,11 @@ interface CubeContentState {
 
 class CubeContent extends React.Component<{}, CubeContentState> {
 
-  public readonly state: CubeContentState = {
+  public override readonly state: CubeContentState = {
     rotMatrix: Matrix3d.createIdentity(),
   };
 
-  public render(): React.ReactNode {
+  public override render(): React.ReactNode {
     return (
       <div className={"example-cube-container"}>
         <Cube
@@ -42,11 +42,11 @@ class CubeContent extends React.Component<{}, CubeContentState> {
     );
   }
 
-  public componentDidMount() {
+  public override componentDidMount() {
     ViewportComponentEvents.onCubeRotationChangeEvent.addListener(this._handleCubeRotationChangeEvent);
   }
 
-  public componentWillUnmount() {
+  public override componentWillUnmount() {
     ViewportComponentEvents.onCubeRotationChangeEvent.removeListener(this._handleCubeRotationChangeEvent);
   }
 

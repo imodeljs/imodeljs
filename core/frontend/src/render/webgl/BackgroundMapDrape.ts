@@ -53,9 +53,9 @@ export class BackgroundMapDrape extends TextureDrape {
     this._mapTree = mapTree;
   }
 
-  public get isDisposed(): boolean { return super.isDisposed && undefined === this._fbo; }
+  public override get isDisposed(): boolean { return super.isDisposed && undefined === this._fbo; }
 
-  public dispose() {
+  public override dispose() {
     super.dispose();
     this._fbo = dispose(this._fbo);
   }

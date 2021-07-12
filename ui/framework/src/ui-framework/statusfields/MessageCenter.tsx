@@ -51,7 +51,7 @@ export class MessageCenterField extends React.Component<MessageCenterFieldProps,
   private _unloadMessagesUpdatedHandler?: () => void;
   private _removeOpenMessagesCenterHandler?: () => void;
 
-  public readonly state: Readonly<MessageCenterState> = {
+  public override readonly state: Readonly<MessageCenterState> = {
     activeTab: MessageCenterActiveTab.AllMessages,
     target: null,
     messageCount: MessageManager.messages.length,
@@ -65,13 +65,13 @@ export class MessageCenterField extends React.Component<MessageCenterFieldProps,
   }
 
   /** @internal */
-  public componentDidMount() {
+  public override componentDidMount() {
     this._unloadMessagesUpdatedHandler = MessageManager.onMessagesUpdatedEvent.addListener(this._handleMessagesUpdatedEvent, this);
     this._removeOpenMessagesCenterHandler = MessageManager.onOpenMessageCenterEvent.addListener(this._handleOpenMessageCenterEvent, this);
   }
 
   /** @internal */
-  public componentWillUnmount() {
+  public override componentWillUnmount() {
     // istanbul ignore else
     if (this._unloadMessagesUpdatedHandler) {
       this._unloadMessagesUpdatedHandler();
@@ -94,7 +94,7 @@ export class MessageCenterField extends React.Component<MessageCenterFieldProps,
     this.setOpenWidget(this._className);
   };
 
-  public render(): React.ReactNode {
+  public override render(): React.ReactNode {
     const tooltip = `${this.state.messageCount} ${this._title}`;
     const footerMessages = (
       <>

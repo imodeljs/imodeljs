@@ -40,12 +40,12 @@ export class LineWeightSwatch extends React.PureComponent<LineWeightSwatchProps>
     super(props);
   }
 
-  public componentDidMount() {
+  public override componentDidMount() {
     // eslint-disable-next-line no-console
     // console.log(`LineWeightSwatchProps.componentDidMount setFocusRef=${this.props.setFocusRef} focusRef=${this.props.focusRef && this.props.focusRef.current ? "set" : "unset"}`);
   }
 
-  public render() {
+  public override render() {
     const {
       onClick, colorDef, weight, hideLabel, className, // do not pass on color swatch specific props
       // eslint-disable-next-line comma-dangle

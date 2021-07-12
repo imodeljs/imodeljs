@@ -1,6 +1,6 @@
 {
   "name": "@bentley/imodeljs-common",
-  "version": "2.19.0-dev.8",
+  "version": "2.19.0-dev.13",
   "description": "iModel.js components common to frontend and backend",
   "main": "lib/imodeljs-common.js",
   "typings": "lib/imodeljs-common",
@@ -37,11 +37,11 @@
     "semver": "^5.5.0"
   },
   "peerDependencies": {
-    "@bentley/bentleyjs-core": "workspace:^2.19.0-dev.8",
-    "@bentley/geometry-core": "workspace:^2.19.0-dev.8",
-    "@bentley/imodelhub-client": "workspace:^2.19.0-dev.8",
-    "@bentley/itwin-client": "workspace:^2.19.0-dev.8",
-    "@bentley/rbac-client": "workspace:^2.19.0-dev.8"
+    "@bentley/bentleyjs-core": "workspace:^2.19.0-dev.13",
+    "@bentley/geometry-core": "workspace:^2.19.0-dev.13",
+    "@bentley/imodelhub-client": "workspace:^2.19.0-dev.13",
+    "@bentley/itwin-client": "workspace:^2.19.0-dev.13",
+    "@bentley/rbac-client": "workspace:^2.19.0-dev.13"
   },
   "devDependencies": {
     "@bentley/bentleyjs-core": "workspace:*",
@@ -63,7 +63,7 @@
     "mocha": "^8.3.2",
     "nyc": "^15.1.0",
     "rimraf": "^3.0.2",
-    "typescript": "~4.1.0"
+    "typescript": "~4.3.0"
   },
   "nyc": {
     "extends": "./node_modules/@bentley/build-tools/.nycrc",

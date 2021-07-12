@@ -65,12 +65,12 @@ export class CursorPopup extends React.Component<CursorPopupProps, CursorPopupSt
     };
   }
 
-  public componentDidMount() {
+  public override componentDidMount() {
     this._isMounted = true;
     CursorPopupManager.onCursorPopupFadeOutEvent.addListener(this._handleCursorPopupFadeOutEvent);
   }
 
-  public componentWillUnmount() {
+  public override componentWillUnmount() {
     this._isMounted = false;
     CursorPopupManager.onCursorPopupFadeOutEvent.removeListener(this._handleCursorPopupFadeOutEvent);
   }
@@ -164,7 +164,7 @@ export class CursorPopup extends React.Component<CursorPopupProps, CursorPopupSt
   }
 
   /** @internal */
-  public render() {
+  public override render() {
     const popupRect = CursorPopup.getPopupRect(this.props.pt, this.props.offset, this.state.size, this.props.relativePosition);
 
     const positioningStyle: React.CSSProperties = {

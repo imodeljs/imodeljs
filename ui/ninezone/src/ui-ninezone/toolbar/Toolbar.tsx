@@ -76,17 +76,17 @@ export class PanelsProvider extends React.PureComponent<PanelsProviderProps> {
     }
   }
 
-  public componentDidMount() {
+  public override componentDidMount() {
     this.appendPanels();
     this._update = true;
   }
 
-  public componentDidUpdate() {
+  public override componentDidUpdate() {
     this.appendPanels();
     this._update = true;
   }
 
-  public render() {
+  public override render() {
     const flattened = flattenChildren(this.props.items);
     const itemsArray = React.Children.toArray(flattened);
     this._refs = [];
@@ -149,11 +149,11 @@ export class Toolbar extends React.PureComponent<ToolbarProps, ToolbarState> {
   };
 
   /** @internal */
-  public readonly state = {
+  public override readonly state = {
     panels: null,
   };
 
-  public render() {
+  public override render() {
     return (
       <ToolbarDirectionContext.Provider value={this.props.expandsTo!}>
         <PanelsProvider

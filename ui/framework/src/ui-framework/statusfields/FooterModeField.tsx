@@ -28,7 +28,7 @@ export interface FooterModeFieldProps extends StatusFieldProps {
  */
 export class FooterModeField extends React.PureComponent<FooterModeFieldProps> {
 
-  public render(): React.ReactNode {
+  public override render(): React.ReactNode {
     const { children, ...otherProps } = this.props as any;
 
     return (

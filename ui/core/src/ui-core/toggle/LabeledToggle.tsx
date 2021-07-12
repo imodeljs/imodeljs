@@ -27,7 +27,7 @@ export interface LabeledToggleProps extends ToggleProps {
  * @public
  */
 export class LabeledToggle extends React.PureComponent<LabeledToggleProps> {
-  public render(): JSX.Element {
+  public override render(): JSX.Element {
     const { label, labelClassName, className, style, ...props } = this.props;
 
     return (

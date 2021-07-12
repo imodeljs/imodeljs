@@ -86,7 +86,7 @@ class GeometryCheck {
 
   public testTrigForm(a: number, cosCoff: number, sinCoff: number): void {
     const rootA = Geometry.solveTrigForm(a, cosCoff, sinCoff);
-    if (this.ck.testPointer && rootA !== undefined) {
+    if (rootA !== undefined && this.ck.testPointer(rootA)) {
       let xy;
       for (xy of rootA) {
         this.ck.testCoordinate(0.0, a + cosCoff * xy.x + sinCoff * xy.y, "trig root");

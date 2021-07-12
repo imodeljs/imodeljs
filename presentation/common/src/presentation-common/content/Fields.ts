@@ -266,7 +266,7 @@ export class PropertiesField extends Field {
     this.properties = properties;
   }
 
-  public clone() {
+  public override clone() {
     const clone = new PropertiesField(
       this.category,
       this.name,
@@ -283,7 +283,7 @@ export class PropertiesField extends Field {
   }
 
   /** Serialize this object to JSON */
-  public toJSON(): PropertiesFieldJSON {
+  public override toJSON(): PropertiesFieldJSON {
     return {
       ...super.toJSON(),
       properties: this.properties.map((p) => Property.toJSON(p)),
@@ -291,13 +291,13 @@ export class PropertiesField extends Field {
   }
 
   /** Deserialize [[PropertiesField]] from JSON */
-  public static fromJSON(json: PropertiesFieldJSON | undefined, categories: CategoryDescription[]): PropertiesField | undefined;
+  public static override fromJSON(json: PropertiesFieldJSON | undefined, categories: CategoryDescription[]): PropertiesField | undefined;
   /**
    * Deserialize [[PropertiesField]] from JSON
    * @deprecated Use an overload that takes a list of categories
    */
-  public static fromJSON(json: PropertiesFieldJSON | string | undefined): PropertiesField | undefined;
-  public static fromJSON(json: PropertiesFieldJSON | string | undefined, categories?: CategoryDescription[]): PropertiesField | undefined {
+  public static override fromJSON(json: PropertiesFieldJSON | string | undefined): PropertiesField | undefined;
+  public static override fromJSON(json: PropertiesFieldJSON | string | undefined, categories?: CategoryDescription[]): PropertiesField | undefined {
     if (!json)
       return undefined;
     if (typeof json === "string") {
@@ -315,7 +315,7 @@ export class PropertiesField extends Field {
    * Get descriptor for this field.
    * @public
    */
-  public getFieldDescriptor(): FieldDescriptor {
+  public override getFieldDescriptor(): FieldDescriptor {
     const pathFromPropertyToSelectClass = new Array<RelatedClassInfo>();
     let currAncestor = this.parent;
     while (currAncestor) {
@@ -391,7 +391,7 @@ export class NestedContentField extends Field {
     this.actualPrimaryClassIds = [];
   }
 
-  public clone() {
+  public override clone() {
     const clone = new NestedContentField(
       this.category,
       this.name,
@@ -422,7 +422,7 @@ export class NestedContentField extends Field {
   }
 
   /** Serialize this object to JSON */
-  public toJSON(): NestedContentFieldJSON {
+  public override toJSON(): NestedContentFieldJSON {
     return {
       ...super.toJSON(),
       contentClassInfo: this.contentClassInfo,
@@ -435,13 +435,13 @@ export class NestedContentField extends Field {
   }
 
   /** Deserialize [[NestedContentField]] from JSON */
-  public static fromJSON(json: NestedContentFieldJSON | undefined, categories: CategoryDescription[]): NestedContentField | undefined;
+  public static override fromJSON(json: NestedContentFieldJSON | undefined, categories: CategoryDescription[]): NestedContentField | undefined;
   /**
    * Deserialize [[NestedContentField]] from JSON
    * @deprecated Use an overload that takes a list of categories
    */
-  public static fromJSON(json: NestedContentFieldJSON | string | undefined): NestedContentField | undefined;
-  public static fromJSON(json: NestedContentFieldJSON | string | undefined, categories?: CategoryDescription[]): NestedContentField | undefined {
+  public static override fromJSON(json: NestedContentFieldJSON | string | undefined): NestedContentField | undefined;
+  public static override fromJSON(json: NestedContentFieldJSON | string | undefined, categories?: CategoryDescription[]): NestedContentField | undefined {
     if (!json)
       return undefined;
     if (typeof json === "string") {
@@ -462,14 +462,14 @@ export class NestedContentField extends Field {
   }
 
   /** @internal */
-  public resetParentship(): void {
+  public override resetParentship(): void {
     super.resetParentship();
     for (const nestedField of this.nestedFields)
       nestedField.resetParentship();
   }
 
   /** @internal */
-  public rebuildParentship(parentField?: NestedContentField): void {
+  public override rebuildParentship(parentField?: NestedContentField): void {
     super.rebuildParentship(parentField);
     for (const nestedField of this.nestedFields)
       nestedField.rebuildParentship(this);

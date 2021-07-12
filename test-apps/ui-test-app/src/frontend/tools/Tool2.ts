@@ -11,13 +11,13 @@ import {
 import { IconSpecUtilities } from "@bentley/ui-abstract";
 
 export class Tool2 extends PrimitiveTool {
-  public static toolId = "Tool2";
-  public static iconSpec = IconSpecUtilities.createSvgIconSpec(placeholderSvg);
+  public static override toolId = "Tool2";
+  public static override iconSpec = IconSpecUtilities.createSvgIconSpec(placeholderSvg);
   public readonly points: Point3d[] = [];
 
-  public requireWriteableTarget(): boolean { return false; }
-  public onPostInstall() { super.onPostInstall(); this.setupAndPromptForNextAction(); }
-  public onUnsuspend(): void { this.provideToolAssistance(); }
+  public override requireWriteableTarget(): boolean { return false; }
+  public override onPostInstall() { super.onPostInstall(); this.setupAndPromptForNextAction(); }
+  public override onUnsuspend(): void { this.provideToolAssistance(); }
 
   /** Establish current tool state and initialize drawing aides following onPostInstall, onDataButtonDown, onUndoPreviousStep, or other events that advance or back up the current tool state.
    * Enable snapping or auto-locate for AccuSnap.
@@ -71,13 +71,13 @@ export class Tool2 extends PrimitiveTool {
     IModelApp.notifications.setToolAssistance(instructions);
   }
 
-  public async onDataButtonDown(ev: BeButtonEvent): Promise<EventHandled> {
+  public override async onDataButtonDown(ev: BeButtonEvent): Promise<EventHandled> {
     this.points.push(ev.point.clone());
     this.setupAndPromptForNextAction();
     return EventHandled.No;
   }
 
-  public async onResetButtonUp(_ev: BeButtonEvent): Promise<EventHandled> {
+  public override async onResetButtonUp(_ev: BeButtonEvent): Promise<EventHandled> {
     /* Common reset behavior for primitive tools is calling onReinitialize to restart or exitTool to terminate. */
     this.onReinitialize();
     return EventHandled.No;

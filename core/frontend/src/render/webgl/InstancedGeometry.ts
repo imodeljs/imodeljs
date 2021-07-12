@@ -187,31 +187,31 @@ export class InstancedGeometry extends CachedGeometry {
   public getRtcModelTransform(modelMatrix: Transform) { return this._buffers.getRtcModelTransform(modelMatrix); }
   public getRtcOnlyTransform() { return this._buffers.getRtcOnlyTransform(); }
 
-  public get asInstanced() { return this; }
-  public get asLUT() { return this._repr.asLUT; }
-  public get asMesh() { return this._repr.asMesh; }
-  public get asSurface() { return this._repr.asSurface; }
-  public get asEdge() { return this._repr.asEdge; }
-  public get asSilhouette() { return this._repr.asSilhouette; }
+  public override get asInstanced() { return this; }
+  public override get asLUT() { return this._repr.asLUT; }
+  public override get asMesh() { return this._repr.asMesh; }
+  public override get asSurface() { return this._repr.asSurface; }
+  public override get asEdge() { return this._repr.asEdge; }
+  public override get asSilhouette() { return this._repr.asSilhouette; }
 
   public get renderOrder() { return this._repr.renderOrder; }
-  public get isLitSurface() { return this._repr.isLitSurface; }
-  public get hasBakedLighting() { return this._repr.hasBakedLighting; }
-  public get hasAnimation() { return this._repr.hasAnimation; }
+  public override get isLitSurface() { return this._repr.isLitSurface; }
+  public override get hasBakedLighting() { return this._repr.hasBakedLighting; }
+  public override get hasAnimation() { return this._repr.hasAnimation; }
   public get qOrigin() { return this._repr.qOrigin; }
   public get qScale() { return this._repr.qScale; }
-  public get materialInfo() { return this._repr.materialInfo; }
-  public get polylineBuffers() { return this._repr.polylineBuffers; }
-  public get isEdge() { return this._repr.isEdge; }
-  public get hasFeatures() { return this._buffers.hasFeatures; }
+  public override get materialInfo() { return this._repr.materialInfo; }
+  public override get polylineBuffers() { return this._repr.polylineBuffers; }
+  public override get isEdge() { return this._repr.isEdge; }
+  public override get hasFeatures() { return this._buffers.hasFeatures; }
   public get techniqueId(): TechniqueId { return this._repr.techniqueId; }
-  public get supportsThematicDisplay() { return this._repr.supportsThematicDisplay; }
+  public override get supportsThematicDisplay() { return this._repr.supportsThematicDisplay; }
 
   public getRenderPass(target: Target) { return this._repr.getRenderPass(target); }
-  public wantWoWReversal(params: ShaderProgramParams) { return this._repr.wantWoWReversal(params); }
-  public getLineCode(params: ShaderProgramParams) { return this._repr.getLineCode(params); }
-  public getLineWeight(params: ShaderProgramParams) { return this._repr.getLineWeight(params); }
-  public wantMonochrome(target: Target) { return this._repr.wantMonochrome(target); }
+  public override wantWoWReversal(params: ShaderProgramParams) { return this._repr.wantWoWReversal(params); }
+  public override getLineCode(params: ShaderProgramParams) { return this._repr.getLineCode(params); }
+  public override getLineWeight(params: ShaderProgramParams) { return this._repr.getLineWeight(params); }
+  public override wantMonochrome(target: Target) { return this._repr.wantMonochrome(target); }
 
   public get rtcCenter(): Point3d { return this._buffers.rtcCenter; }
 
@@ -263,7 +263,7 @@ export class InstancedGeometry extends CachedGeometry {
     this._repr.drawInstanced(this.numInstances, this._buffersContainer);
   }
 
-  public computeRange(output?: Range3d): Range3d {
+  public override computeRange(output?: Range3d): Range3d {
     if (undefined === this._range) {
       this._range = new Range3d();
       const reprRange = this._repr.computeRange();

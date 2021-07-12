@@ -272,13 +272,13 @@ export class Triangulator {
    * * The loop may be either CCW or CW -- CCW order will be used for triangles.
    * * To triangulate a polygon with holes, use createTriangulatedGraphFromLoops
    */
-  public static createTriangulatedGraphFromSingleLoop(data: XAndY[] | GrowableXYZArray): HalfEdgeGraph | undefined{
+  public static createTriangulatedGraphFromSingleLoop(data: XAndY[] | GrowableXYZArray): HalfEdgeGraph | undefined {
     const graph = new HalfEdgeGraph();
     const startingNode = Triangulator.createFaceLoopFromCoordinates(graph, data, true, true);
 
     if (!startingNode || graph.countNodes() < 6) return graph;
 
-    if (Triangulator.triangulateSingleFace(graph, startingNode)){
+    if (Triangulator.triangulateSingleFace(graph, startingNode)) {
       Triangulator.flipTriangles(graph);
       return graph;
     }
@@ -520,7 +520,7 @@ export class Triangulator {
         continue;
       }
       if (++numCandidate > maxCandidate) {
-        Triangulator.setDebugGraph (graph);
+        Triangulator.setDebugGraph(graph);
         return false;
       }
       if (Triangulator.isEar(ear)) {
@@ -545,7 +545,7 @@ export class Triangulator {
     }
     return true;  // um .. I'm not sure what this state is.
   }
-    /** @internal  */
+  /** @internal  */
   private static sDebugGraph: HalfEdgeGraph | undefined;
   /** @internal */
   private static sEnableDebugGraphCapture = false;
@@ -591,7 +591,7 @@ export class Triangulator {
     Plane3dByOriginAndUnitNormal.createXYPlane(),
     Plane3dByOriginAndUnitNormal.createXYPlane(),
   ];
-/** Check whether a polygon node forms a valid ear with adjacent nodes */
+  /** Check whether a polygon node forms a valid ear with adjacent nodes */
   private static isEar(ear: HalfEdge) {
     const a = ear.facePredecessor;
     const b = ear;
@@ -609,8 +609,8 @@ export class Triangulator {
     const earRange = this._earRange;
     const edgeRange = this._edgeRange;
     const edgeInterval = this._edgeInterval;
-    Range2d.createXYXYXY (a.x, a.y, b.x, b.y, c.x, c.y, earRange);
-    earRange.expandInPlace (Geometry.smallMetricDistance);
+    Range2d.createXYXYXY(a.x, a.y, b.x, b.y, c.x, c.y, earRange);
+    earRange.expandInPlace(Geometry.smallMetricDistance);
     let p = c;
     const zeroPlus = 1.0e-8;
     const zeroMinus = -zeroPlus;
@@ -619,7 +619,7 @@ export class Triangulator {
     const clipTolerance = 1.0e-10 * area;
     while (p !== a) {
       const q = p.faceSuccessor;
-      Range2d.createXYXY (p.x, p.y, q.x, q.y, edgeRange);
+      Range2d.createXYXY(p.x, p.y, q.x, q.y, edgeRange);
       if (earRange.intersectsRange(edgeRange)) {
         // Does pq impinge on the triangle?
         Range1d.createXX(zeroMinus, onePlus, edgeInterval);
@@ -646,9 +646,9 @@ export class Triangulator {
           }
         }
       }
-    p = p.faceSuccessor;
+      p = p.faceSuccessor;
     }
-  return true;
+    return true;
   }
   /** link holeLoopNodes[1], holeLoopNodes[2] etc into the outer loop, producing a single-ring polygon without holes
    *
@@ -766,9 +766,9 @@ export class Triangulator {
       (bx - px) * (cy - py) - (cx - px) * (by - py) >= 0;
   }
   private static nodeInTriangle(a: HalfEdge, b: HalfEdge, c: HalfEdge, p: HalfEdge) {
-  return Triangulator.signedTolerancedCCWTriangleArea (a,b,p) > 0
-  && Triangulator.signedTolerancedCCWTriangleArea (b,c,p) > 0.0
-  && Triangulator.signedTolerancedCCWTriangleArea (c,a,p) > 0.0;
+    return Triangulator.signedTolerancedCCWTriangleArea(a, b, p) > 0
+      && Triangulator.signedTolerancedCCWTriangleArea(b, c, p) > 0.0
+      && Triangulator.signedTolerancedCCWTriangleArea(c, a, p) > 0.0;
   }
   /** signed area of a triangle
    * EDL 2/21 This is negative of usual CCW area.  Beware in callers !!!
@@ -780,20 +780,20 @@ export class Triangulator {
 
   /** signed area of a triangle, with small positive corrected to zero by relTol
   */
- private static signedTolerancedCCWTriangleArea(p: HalfEdge, q: HalfEdge, r: HalfEdge, relTol: number = 1.0e-12) {
-  const ux = q.x - p.x;
-  const uy = q.y - p.y;
-  const vx = r.x - p.x;
-  const vy = r.y - p.y;
-   const area = 0.5 * (ux * vy - uy * vx);
-  if (area < 0.0)
+  private static signedTolerancedCCWTriangleArea(p: HalfEdge, q: HalfEdge, r: HalfEdge, relTol: number = 1.0e-12) {
+    const ux = q.x - p.x;
+    const uy = q.y - p.y;
+    const vx = r.x - p.x;
+    const vy = r.y - p.y;
+    const area = 0.5 * (ux * vy - uy * vx);
+    if (area < 0.0)
+      return area;
+    const uu = ux * ux + uy * uy;
+    const vv = vx * vx + vy * vy;
+    if (area < relTol * (uu + vv))
+      return 0.0;
     return area;
-  const uu = ux * ux + uy * uy;
-  const vv = vx * vx + vy * vy;
-  if (area < relTol * (uu + vv))
-    return 0.0;
-  return area;
-}
+  }
 
   /** check if two points are equal */
   private static isAlmostEqualXAndYXY(p1: XAndY, x: number, y: number) {
@@ -983,12 +983,12 @@ class AssembleXYZXYZChains extends PointStreamXYZXYZHandlerBase {
     this._graph = graph;
     this._id = id;
   }
-  public startChain(chainData: MultiLineStringDataVariant, isLeaf: boolean): void {
+  public override startChain(chainData: MultiLineStringDataVariant, isLeaf: boolean): void {
     super.startChain(chainData, isLeaf);
     this._baseNode = undefined;
     this._nodeB = undefined;
   }
-  public handleXYZXYZ(x0: number, y0: number, z0: number, x1: number, y1: number, z1: number) {
+  public override handleXYZXYZ(x0: number, y0: number, z0: number, x1: number, y1: number, z1: number) {
     this._nodeC = this._graph.createEdgeXYZXYZ(x0, y0, z0, this._id, x1, y1, z1, this._id);
     if (this._baseNode === undefined) {
       this._baseNode = this._nodeC;
@@ -998,7 +998,7 @@ class AssembleXYZXYZChains extends PointStreamXYZXYZHandlerBase {
       this._nodeB = this._nodeC.faceSuccessor;
     }
   }
-  public endChain(chainData: MultiLineStringDataVariant, isLeaf: boolean): void {
+  public override endChain(chainData: MultiLineStringDataVariant, isLeaf: boolean): void {
     super.endChain(chainData, isLeaf);
     if (this._baseNode !== undefined) {
       if (this._seeds === undefined)

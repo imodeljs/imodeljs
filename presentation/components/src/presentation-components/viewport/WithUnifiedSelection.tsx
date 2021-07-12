@@ -50,25 +50,25 @@ export function viewWithUnifiedSelection<P extends ViewportProps>(ViewportCompon
 
     public get imodel() { return this.props.imodel; }
 
-    public componentDidMount() {
+    public override componentDidMount() {
       this.viewportSelectionHandler = this.props.selectionHandler ?? new ViewportSelectionHandler({ imodel: this.props.imodel });
       this.viewportSelectionHandler.applyCurrentSelection(); // eslint-disable-line @typescript-eslint/no-floating-promises
     }
 
-    public componentWillUnmount() {
+    public override componentWillUnmount() {
       if (this.viewportSelectionHandler) {
         this.viewportSelectionHandler.dispose();
         this.viewportSelectionHandler = undefined;
       }
     }
 
-    public componentDidUpdate() {
+    public override componentDidUpdate() {
       if (this.viewportSelectionHandler) {
         this.viewportSelectionHandler.imodel = this.props.imodel;
       }
     }
 
-    public render() {
+    public override render() {
       const {
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
         ruleset, selectionHandler, // do not bleed our props

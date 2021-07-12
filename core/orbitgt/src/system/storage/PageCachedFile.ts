@@ -6,7 +6,7 @@
  * @module OrbitGT
  */
 
-//package orbitgt.system.storage;
+// package orbitgt.system.storage;
 
 type int8 = number;
 type int16 = number;
@@ -63,47 +63,46 @@ export class PageCachedFile extends FileStorage {
 	/**
 	 * FileStorage method.
 	 */
-	public close(): void {
+	public override close(): void {
 		this._fileStorage.close(); // deep close
 	}
 
 	/**
 	 * FileStorage method.
 	 */
-	public async getFileLength(fileName: string): Promise<ALong> {
+	public override async getFileLength(fileName: string): Promise<ALong> {
 		return this._fileSize;
 	}
 
 	/**
 	 * FileStorage method.
 	 */
-	public async readFileParts(fileName: string, ranges: AList<FileRange>): Promise<AList<FileContent>> {
+	public override async readFileParts(fileName: string, ranges: AList<FileRange>): Promise<AList<FileContent>> {
 		/* Define the set of pages we need to fulfill the request */
-		let pageMap: StringMap<ABuffer> = new StringMap<ABuffer>();
+		const pageMap: StringMap<ABuffer> = new StringMap<ABuffer>();
 		/* Create a list of missing pages */
-		let missingPages: AList<FileRange> = new AList<FileRange>();
-		let missingKeys: AList<string> = new AList<string>();
+		const missingPages: AList<FileRange> = new AList<FileRange>();
+		const missingKeys: AList<string> = new AList<string>();
 		for (let r: number = 0; r < ranges.size(); r++) {
 			/* Scan the needed pages of the next range */
-			let range: FileRange = ranges.get(r);
-			let page0: int32 = range.offset.divInt(this._pageSize).toInt();
-			let page1: int32 = range.offset.addInt(range.size - 1).divInt(this._pageSize).toInt() + 1; // exclusive
+			const range: FileRange = ranges.get(r);
+			const page0: int32 = range.offset.divInt(this._pageSize).toInt();
+			const page1: int32 = range.offset.addInt(range.size - 1).divInt(this._pageSize).toInt() + 1; // exclusive
 			for (let i: number = page0; i < page1; i++) {
 				/* Try to get the page from the cache */
-				let pageKey: string = ("" + i);
-				let page: ABuffer = this._contentCache.findEntry(pageKey);
+				const pageKey: string = (`${i}`);
+				const page: ABuffer = this._contentCache.findEntry(pageKey);
 				if (page == null) {
 					/* Do not request the same page twice */
 					if (missingKeys.contains(pageKey) == false) {
 						/* Add a request to read the missing page */
-						let pageOffset0: ALong = ALong.fromInt(this._pageSize).mulInt(i);
-						let pageOffset1: ALong = ALong.min(pageOffset0.addInt(this._pageSize), this._fileSize);
-						let pageSize: int32 = pageOffset1.sub(pageOffset0).toInt();
+						const pageOffset0: ALong = ALong.fromInt(this._pageSize).mulInt(i);
+						const pageOffset1: ALong = ALong.min(pageOffset0.addInt(this._pageSize), this._fileSize);
+						const pageSize: int32 = pageOffset1.sub(pageOffset0).toInt();
 						missingPages.add(new FileRange(pageOffset0, pageSize));
 						missingKeys.add(pageKey);
 					}
-				}
-				else {
+				} else {
 					/* Keep */
 					pageMap.set(pageKey, page);
 				}
@@ -112,46 +111,46 @@ export class PageCachedFile extends FileStorage {
 		/* Do we have to load missing pages? */
 		if (missingPages.size() > 0) {
 			/* Load all missing pages with one call to the storage */
-			Message.log("Requesting " + missingPages.size() + " missing cache pages for '" + this._fileName + "'");
-			let loadedPages: AList<FileContent> = await this._fileStorage.readFileParts(fileName, missingPages);
+			Message.log(`Requesting ${missingPages.size()} missing cache pages for '${this._fileName}'`);
+			const loadedPages: AList<FileContent> = await this._fileStorage.readFileParts(fileName, missingPages);
 			/* Add to the cache for reuse */
 			for (let i: number = 0; i < loadedPages.size(); i++) {
-				let pageKey: string = missingKeys.get(i);
-				let pageContent: FileContent = loadedPages.get(i);
+				const pageKey: string = missingKeys.get(i);
+				const pageContent: FileContent = loadedPages.get(i);
 				this._contentCache.addEntry(pageKey, pageContent.content);
 				pageMap.set(pageKey, pageContent.content);
 			}
 		}
 		/* Create the responses from the cached content */
-		let responseList: AList<FileContent> = new AList<FileContent>();
+		const responseList: AList<FileContent> = new AList<FileContent>();
 		for (let r: number = 0; r < ranges.size(); r++) {
 			/* Create the response for the next range */
-			let range: FileRange = ranges.get(r);
-			let rangeExtent: ALong = range.offset.addInt(range.size);
-			let response: ABuffer = new ABuffer(range.size);
+			const range: FileRange = ranges.get(r);
+			const rangeExtent: ALong = range.offset.addInt(range.size);
+			const response: ABuffer = new ABuffer(range.size);
 			let responseOffset: int32 = 0;
 			this._requestCount++;
 			this._requestSize += range.size;
 			/* Scan the needed pages */
-			let page0: int32 = range.offset.divInt(this._pageSize).toInt();
-			let page1: int32 = range.offset.addInt(range.size - 1).divInt(this._pageSize).toInt() + 1; // exclusive
+			const page0: int32 = range.offset.divInt(this._pageSize).toInt();
+			const page1: int32 = range.offset.addInt(range.size - 1).divInt(this._pageSize).toInt() + 1; // exclusive
 			for (let i: number = page0; i < page1; i++) {
 				/* Get the next page from the cache */
-				let pageKey: string = ("" + i);
-				let page: ABuffer = pageMap.get(pageKey);
-				ASystem.assertNot(page == null, "Missing cache page " + pageKey);
+				const pageKey: string = (`${i}`);
+				const page: ABuffer = pageMap.get(pageKey);
+				ASystem.assertNot(page == null, `Missing cache page ${pageKey}`);
 				/* Get the extent of the page */
-				let pageOffset0: ALong = ALong.fromInt(this._pageSize).mulInt(i);
-				let pageOffset1: ALong = ALong.min(pageOffset0.addInt(this._pageSize), this._fileSize);
+				const pageOffset0: ALong = ALong.fromInt(this._pageSize).mulInt(i);
+				const pageOffset1: ALong = ALong.min(pageOffset0.addInt(this._pageSize), this._fileSize);
 				/* Copy the overlapping part of the page to the response */
-				let currentOffset: ALong = range.offset.addInt(responseOffset);
-				let copyOffset: int32 = currentOffset.sub(pageOffset0).toInt();
-				let copySize: int32 = ALong.min(pageOffset1, rangeExtent).sub(currentOffset).toInt();
+				const currentOffset: ALong = range.offset.addInt(responseOffset);
+				const copyOffset: int32 = currentOffset.sub(pageOffset0).toInt();
+				const copySize: int32 = ALong.min(pageOffset1, rangeExtent).sub(currentOffset).toInt();
 				ABuffer.arrayCopy(page, copyOffset, response, responseOffset, copySize);
 				responseOffset += copySize;
 			}
 			/* Add the response to the list */
-			ASystem.assertNot(responseOffset != range.size, "Expected " + range.size + " response size, not " + responseOffset);
+			ASystem.assertNot(responseOffset != range.size, `Expected ${range.size} response size, not ${responseOffset}`);
 			responseList.add(new FileContent(range.offset, response));
 		}
 		return responseList;
@@ -160,23 +159,23 @@ export class PageCachedFile extends FileStorage {
 	/**
 	 * FileStorage method.
 	 */
-	public async readFilePart(fileName: string, offset: ALong, size: int32): Promise<ABuffer> {
-		let ranges: AList<FileRange> = new AList<FileRange>();
+	public override async readFilePart(fileName: string, offset: ALong, size: int32): Promise<ABuffer> {
+		const ranges: AList<FileRange> = new AList<FileRange>();
 		ranges.add(new FileRange(offset, size));
-		let reponses: AList<FileContent> = await this.readFileParts(fileName, ranges);
-		let reponse: FileContent = reponses.get(0);
+		const reponses: AList<FileContent> = await this.readFileParts(fileName, ranges);
+		const reponse: FileContent = reponses.get(0);
 		return reponse.content;
 	}
 
 	/**
 	 * FileStorage method.
 	 */
-	public printStatistics(clear: boolean): void {
-		Message.log("Page cache of file '" + this._fileName + "':");
-		Message.log("Request count is " + this._requestCount);
-		Message.log("Request size is " + this._requestSize);
-		Message.log("Cache hit count is " + this._contentCache.hitCount);
-		Message.log("Cache miss count is " + this._contentCache.missCount);
+	public override printStatistics(clear: boolean): void {
+		Message.log(`Page cache of file '${this._fileName}':`);
+		Message.log(`Request count is ${this._requestCount}`);
+		Message.log(`Request size is ${this._requestSize}`);
+		Message.log(`Cache hit count is ${this._contentCache.hitCount}`);
+		Message.log(`Cache miss count is ${this._contentCache.missCount}`);
 		if (clear) this._contentCache.hitCount = 0;
 		if (clear) this._contentCache.missCount = 0;
 		this._fileStorage.printStatistics(clear);

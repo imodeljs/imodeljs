@@ -145,7 +145,7 @@ export function withBreadcrumbDetailsDragDrop<P extends BreadcrumbDetailsProps, 
       );
     };
 
-    public render() {
+    public override render() {
       const { dragProps, dropProps, renderContent, ...breadcrumbProps } = this.props as any; // eslint-disable-line @typescript-eslint/no-unused-vars
       return (
         <BreadcrumbComponent {...breadcrumbProps}

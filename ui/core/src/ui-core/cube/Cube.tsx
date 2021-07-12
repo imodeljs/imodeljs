@@ -37,7 +37,7 @@ export interface CubeProps extends React.AllHTMLAttributes<HTMLDivElement>, Comm
  * @public
  */
 export class Cube extends React.PureComponent<CubeProps> {
-  public render(): React.ReactNode {
+  public override render(): React.ReactNode {
     const { faces, rotMatrix, className, ...props } = this.props;
     return (
       <div className={classnames("core-cube-css3d", className)} data-testid="core-cube" {...props}>
@@ -67,7 +67,7 @@ export interface CubeFaceProps extends React.AllHTMLAttributes<HTMLDivElement> {
 /** @internal */
 export class CubeFace extends React.Component<CubeFaceProps> {
   private _faceWidth: number = 0;
-  public render(): React.ReactNode {
+  public override render(): React.ReactNode {
     const { rotMatrix, face, style, children, ...props } = this.props;
     if (face === Face.None)
       return null;

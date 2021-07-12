@@ -216,10 +216,11 @@ export class Sample {
   public static createUnitCircle(numPoints: number): Point3d[] {
     const points: Point3d[] = [];
     const dTheta = Geometry.safeDivideFraction(Math.PI * 2, numPoints - 1, 0.0);
-    for (let i = 0; i < numPoints; i++) {
+    for (let i = 0; i + 1 < numPoints; i++) {
       const theta = i * dTheta;
       points.push(Point3d.create(Math.cos(theta), Math.sin(theta), 0.0));
     }
+    points.push(points[0].clone());
     return points;
   }
   /** Create points for an L shaped polygon

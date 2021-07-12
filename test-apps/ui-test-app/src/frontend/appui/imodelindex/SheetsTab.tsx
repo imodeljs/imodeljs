@@ -49,11 +49,11 @@ export class SheetsTab extends React.Component<SheetsProps, SheetsState> {
     this.state = { detailsView: false, filter: "", showPrompt: false, percent: 0, selectedViews: [], isOpenDisabled: true };
   }
 
-  public componentDidMount() {
+  public override componentDidMount() {
     this._updateHeaderContent();
   }
 
-  public componentWillUnmount(): void {
+  public override componentWillUnmount(): void {
     this._timer.stop();
   }
 
@@ -123,7 +123,7 @@ export class SheetsTab extends React.Component<SheetsProps, SheetsState> {
     );
   }
 
-  public render() {
+  public override render() {
     const label = UiFramework.translate("iModelIndex.enteriModel");
     return (
       <div className="viewstab-container">

@@ -22,5 +22,5 @@ export class DrawingNavigationAidControl extends NavigationAidControl {
     this.reactNode = <DrawingNavigationAid iModelConnection={options.imodel} viewport={options.viewport} />;
   }
 
-  public getSize(): string | undefined { return "96px"; }
+  public override getSize(): string | undefined { return "96px"; }
 }

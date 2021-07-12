@@ -45,7 +45,7 @@ export class ExampleForm extends React.Component {
     ModalDialogManager.closeDialog();
   }
 
-  public render() {
+  public override render() {
     const fields: FieldDefinitions = {
       SiteUrl: {
         label: this._siteUrlLabel,

@@ -53,6 +53,7 @@ rush.json       @calebmshafer @pmconne @wgoehrig
 /common/**/ecschema-locaters/                     @calebmshafer @ColinKerr @wgoehrig
 /common/**/ecschema-metadata.*                    @calebmshafer @ColinKerr @wgoehrig
 /common/**/ecschema-metadata/                     @calebmshafer @ColinKerr @wgoehrig
+/common/**/ecschema-rpcinterface-tests/           @calebmshafer @ColinKerr @wgoehrig
 /common/**/ecschema2ts.*                          @calebmshafer @ColinKerr @wgoehrig
 /common/**/ecschema2ts/                           @calebmshafer @ColinKerr @wgoehrig
 /common/**/electron-manager.*                     @wgoehrig @ramanujam-raman
@@ -150,6 +151,7 @@ rush.json       @calebmshafer @pmconne @wgoehrig
 /extensions/map-layers                @bsteinbk @mdastous-bentley
 
 /full-stack-tests/core                @imodeljs/admins
+/full-stack-tests/ecschema-rpc-interface @calebmshafer @ColinKerr @wgoehrig
 /full-stack-tests/imodelhub-client    @amikoliunas @Animagne
 /full-stack-tests/native-app    @calebmshafer @khanaffan @ramanujam-raman
 /full-stack-tests/presentation  @imodeljs/presentation

@@ -37,7 +37,7 @@ export class ObservableSet<T> extends Set<T> {
   }
 
   /** @internal */
-  public delete(item: T): boolean {
+  public override delete(item: T): boolean {
     const ret = super.delete(item);
     if (ret)
       this.onDeleted.raiseEvent(item);
@@ -46,7 +46,7 @@ export class ObservableSet<T> extends Set<T> {
   }
 
   /** @internal */
-  public clear(): void {
+  public override clear(): void {
     if (0 !== this.size) {
       super.clear();
       this.onCleared.raiseEvent();

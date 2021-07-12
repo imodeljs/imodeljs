@@ -942,7 +942,7 @@ describe("CurveClips", () => {
       ClipPlane.createNormalAndPointXYZXYZ(0.2, 0, 1, 0, 0, 0)!]) {
       const clipped = clipPlane.intersectRange(range, true);
       GeometryCoreTestIO.captureRangeEdges(allGeometry, range, 0, dy, 0);
-      if (ck.testPointer(clipped) && clipped) {
+      if (ck.testPointer(clipped)) {
         testPolygonClippedToRange(ck, range, clipped);
         GeometryCoreTestIO.captureGeometry(allGeometry, Loop.create(LineString3d.create(clipped)), 0, dy, 0);
       }

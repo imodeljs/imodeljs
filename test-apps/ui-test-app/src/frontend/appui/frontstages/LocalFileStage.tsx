@@ -77,7 +77,7 @@ export class LocalFileOpenFrontstage extends FrontstageProvider {
 /** Define a ToolWidget with Buttons to display in the TopLeft zone.
  */
 class FrontstageToolWidget extends React.Component {
-  public render() {
+  public override render() {
     return (
       // eslint-disable-next-line deprecation/deprecation
       <ToolWidget
@@ -101,11 +101,11 @@ interface LocalFilePageState {
 class LocalFilePage extends React.Component<LocalFilePageProps, LocalFilePageState> {
   private _input: HTMLInputElement | null = null;
 
-  public readonly state: Readonly<LocalFilePageState> = {
+  public override readonly state: Readonly<LocalFilePageState> = {
     iModelConnection: undefined,
   };
 
-  public componentDidMount() {
+  public override componentDidMount() {
     if (!this.state.iModelConnection) {
       if (ElectronApp.isValid) {
         this._handleElectronFileOpen(); // eslint-disable-line @typescript-eslint/no-floating-promises
@@ -178,7 +178,7 @@ class LocalFilePage extends React.Component<LocalFilePageProps, LocalFilePageSta
       this.props.onViewsSelected(this.state.iModelConnection, idsSelected);
   };
 
-  public render() {
+  public override render() {
     if (!this.state.iModelConnection) {
       const title = UiFramework.i18n.translate("SampleApp:localFileStage.localFile");
 

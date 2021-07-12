@@ -57,7 +57,7 @@ export class NineZoneNestedStagePanelsManager extends NestedStagePanelsManager {
     };
   }
 
-  public getPanelsManager<TProps extends NestedStagePanelsManagerProps>(id: NestedStagePanelsId<TProps>): NineZoneStagePanelsManager {
+  public override getPanelsManager<TProps extends NestedStagePanelsManagerProps>(id: NestedStagePanelsId<TProps>): NineZoneStagePanelsManager {
     if (!this._nzManagers)
       this._nzManagers = new Map();
     let manager = this._nzManagers.get(id);

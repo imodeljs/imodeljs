@@ -84,7 +84,7 @@ export class IModelTile extends Tile {
 
   public get sizeMultiplier(): number | undefined { return this._sizeMultiplier; }
   public get hasSizeMultiplier() { return undefined !== this.sizeMultiplier; }
-  public get maximumSize(): number {
+  public override get maximumSize(): number {
     return super.maximumSize * (this.sizeMultiplier ?? 1.0);
   }
 
@@ -116,7 +116,7 @@ export class IModelTile extends Tile {
 
     const tree = this.iModelTree;
     const mult = this.hasSizeMultiplier ? this.sizeMultiplier : undefined;
-    const reader = ImdlReader.create(streamBuffer, tree.iModel, tree.modelId, tree.is3d, system, tree.batchType, tree.hasEdges, isCanceled, mult,  { tileId: this.contentId });
+    const reader = ImdlReader.create(streamBuffer, tree.iModel, tree.modelId, tree.is3d, system, tree.batchType, tree.hasEdges, isCanceled, mult, { tileId: this.contentId });
     if (undefined !== reader) {
       try {
         content = await reader.read();
@@ -128,7 +128,7 @@ export class IModelTile extends Tile {
     return content;
   }
 
-  public setContent(content: IModelTileContent): void {
+  public override setContent(content: IModelTileContent): void {
     super.setContent(content);
 
     this._emptySubRangeMask = content.emptySubRangeMask;
@@ -166,11 +166,11 @@ export class IModelTile extends Tile {
     }
   }
 
-  protected get rangeGraphicColor(): ColorDef {
+  protected override get rangeGraphicColor(): ColorDef {
     return this.hasSizeMultiplier ? ColorDef.red : super.rangeGraphicColor;
   }
 
-  protected addRangeGraphic(builder: GraphicBuilder, type: TileBoundingBoxes): void {
+  protected override addRangeGraphic(builder: GraphicBuilder, type: TileBoundingBoxes): void {
     if (TileBoundingBoxes.ChildVolumes !== type) {
       super.addRangeGraphic(builder, type);
       return;

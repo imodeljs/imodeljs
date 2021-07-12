@@ -193,7 +193,7 @@ export class Form extends React.Component<FormProps, FormState> {
       });
   };
 
-  public render() {
+  public override render() {
     const { submitSuccess, errorMsg } = this.state;
     const { fields, submitButtonLabel } = this.props;
     const context: FormContextState = { ...this.state, setValues: this._setValues };

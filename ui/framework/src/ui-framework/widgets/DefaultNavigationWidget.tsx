@@ -47,7 +47,7 @@ export class DefaultNavigationWidget extends React.Component<DefaultNavigationPr
     CoreTools.toggleCameraViewCommand,
   ]);
 
-  public render() {
+  public override render() {
     const horizontalToolbarItems = new ItemList();
     if (this.props.prefixHorizontalItems) horizontalToolbarItems.addItems(this.props.prefixHorizontalItems);
     // istanbul ignore else

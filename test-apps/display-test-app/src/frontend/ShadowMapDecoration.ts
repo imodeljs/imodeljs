@@ -100,11 +100,11 @@ class ShadowMapDecoration {
 
 /** Decorates all other viewports with the tiles selected for drawing the selected viewport's shadow map. */
 export class ToggleShadowMapTilesTool extends Tool {
-  public static toolId = "ToggleShadowMapTiles";
-  public static get minArgs() { return 0; }
-  public static get maxArgs() { return 1; }
+  public static override toolId = "ToggleShadowMapTiles";
+  public static override get minArgs() { return 0; }
+  public static override get maxArgs() { return 1; }
 
-  public run(enable?: boolean): boolean {
+  public override run(enable?: boolean): boolean {
     const vp = IModelApp.viewManager.selectedView;
     if (undefined !== vp && vp.view.isSpatialView())
       ShadowMapDecoration.toggle(vp, enable);
@@ -112,7 +112,7 @@ export class ToggleShadowMapTilesTool extends Tool {
     return true;
   }
 
-  public parseAndRun(...args: string[]): boolean {
+  public override parseAndRun(...args: string[]): boolean {
     const enable = parseToggle(args[0]);
     if (typeof enable !== "string")
       this.run(enable);

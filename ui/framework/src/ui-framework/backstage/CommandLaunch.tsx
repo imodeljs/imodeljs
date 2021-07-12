@@ -37,7 +37,7 @@ export interface CommandLaunchBackstageItemProps extends BackstageItemProps, Com
 export class CommandLaunchBackstageItem extends React.PureComponent<CommandLaunchBackstageItemProps, BackstageItemState> { // eslint-disable-line deprecation/deprecation
 
   /** @internal */
-  public readonly state: Readonly<BackstageItemState>; // eslint-disable-line deprecation/deprecation
+  public override readonly state: Readonly<BackstageItemState>; // eslint-disable-line deprecation/deprecation
   private _componentUnmounting = false;  // used to ensure _handleSyncUiEvent callback is not processed after componentWillUnmount is called
   private _stateSyncIds: string[] = [];  // local version of syncId that are lower cased
 
@@ -50,12 +50,12 @@ export class CommandLaunchBackstageItem extends React.PureComponent<CommandLaunc
     this.state = BackstageItemUtilities.getBackstageItemStateFromProps(props);
   }
 
-  public componentDidMount() {
+  public override componentDidMount() {
     if (this.props.stateFunc && this._stateSyncIds.length > 0)
       SyncUiEventDispatcher.onSyncUiEvent.addListener(this._handleSyncUiEvent);
   }
 
-  public componentWillUnmount() {
+  public override componentWillUnmount() {
     this._componentUnmounting = true;
     /* istanbul ignore else */
     if (this.props.stateFunc && this._stateSyncIds.length > 0)
@@ -93,14 +93,14 @@ export class CommandLaunchBackstageItem extends React.PureComponent<CommandLaunc
 
   // deprecated class
   // istanbul ignore next
-  public componentDidUpdate(_prevProps: CommandLaunchBackstageItemProps) {
+  public override componentDidUpdate(_prevProps: CommandLaunchBackstageItemProps) {
     const updatedState = BackstageItemUtilities.getBackstageItemStateFromProps(this.props);
     if (!PropsHelper.isShallowEqual(updatedState, this.state))
       this.setState((_prevState) => updatedState);
   }
 
   // TODO: add tooltip, subtitle, aria-label? to NZ_BackstageItem
-  public render(): React.ReactNode {
+  public override render(): React.ReactNode {
     return (
       <BackstageItem
         icon={PropsHelper.getIcon(this.state.iconSpec)}

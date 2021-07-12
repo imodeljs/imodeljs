@@ -191,7 +191,7 @@ class FrontstageToolWidget extends React.Component {
     return items;
   }
 
-  public render() {
+  public override render() {
     return (
       <ToolWidget
         appButton={AppTools.backstageToggleCommand}
@@ -205,7 +205,7 @@ class FrontstageToolWidget extends React.Component {
 /** Define a NavigationWidget with Buttons to display in the TopRight zone.
  */
 class FrontstageNavigationWidget extends React.Component {
-  public render() {
+  public override render() {
     const horizontalItems = new ItemList([
       CoreTools.fitViewCommand,
       CoreTools.windowAreaCommand,

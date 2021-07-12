@@ -126,7 +126,7 @@ class OrbitGtRootTile extends Tile {
   public async requestContent(_isCanceled: () => boolean): Promise<TileRequest.Response> { return undefined; }
   public get channel() { return IModelApp.tileAdmin.channels.getForHttp("itwinjs-orbitgit"); }
   public async readContent(_data: TileRequest.ResponseData, _system: RenderSystem, _isCanceled?: () => boolean): Promise<TileContent> { return {}; }
-  public freeMemory(): void { }
+  public override freeMemory(): void { }
 
   constructor(params: TileParams, tree: TileTree) { super(params, tree); }
 }
@@ -226,11 +226,11 @@ export class OrbitGtTileTree extends TileTree {
     this.rootTile = new OrbitGtRootTile(this._tileParams, this);
   }
 
-  public async getEcefTransform(): Promise<Transform | undefined> {
+  public override async getEcefTransform(): Promise<Transform | undefined> {
     return this._ecefTransform;
   }
 
-  public dispose(): void {
+  public override dispose(): void {
     if (this.isDisposed)
       return;
 
@@ -243,7 +243,7 @@ export class OrbitGtTileTree extends TileTree {
 
   protected _selectTiles(_args: TileDrawArgs): Tile[] { return []; }
   public get is3d(): boolean { return true; }
-  public get isContentUnbounded(): boolean { return false; }
+  public override get isContentUnbounded(): boolean { return false; }
   public get maxDepth(): number | undefined { return undefined; }
 
   private _doPrune(olderThan: BeTimePoint) {
@@ -259,7 +259,7 @@ export class OrbitGtTileTree extends TileTree {
     this._doPrune(olderThan);
   }
 
-  public collectStatistics(stats: RenderMemory.Statistics): void {
+  public override collectStatistics(stats: RenderMemory.Statistics): void {
     for (const tileGraphic of this._tileGraphics)
       tileGraphic[1].graphic.collectStatistics(stats);
   }
@@ -415,7 +415,7 @@ export namespace OrbitGtTileTree {
  */
 class OrbitGtTreeReference extends RealityModelTileTree.Reference {
   public readonly treeOwner: TileTreeOwner;
-  public get castsShadows() { return false; }
+  public override get castsShadows() { return false; }
 
   public constructor(props: OrbitGtTileTree.ReferenceProps) {
     super(props);
@@ -424,7 +424,7 @@ class OrbitGtTreeReference extends RealityModelTileTree.Reference {
     this.treeOwner = orbitGtTreeSupplier.getOwner(ogtTreeId, props.iModel);
   }
 
-  public async getToolTip(hit: HitDetail): Promise<HTMLElement | string | undefined> {
+  public override async getToolTip(hit: HitDetail): Promise<HTMLElement | string | undefined> {
     const tree = this.treeOwner.tileTree;
     if (undefined === tree || hit.iModel !== tree.iModel)
       return undefined;

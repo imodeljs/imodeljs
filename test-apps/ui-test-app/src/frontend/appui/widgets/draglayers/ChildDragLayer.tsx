@@ -8,7 +8,7 @@ import * as React from "react";
 import { DragLayerProps } from "@bentley/ui-components";
 
 export class ChildDragLayer extends React.Component<DragLayerProps> { // eslint-disable-line deprecation/deprecation
-  public render(): React.ReactNode {
+  public override render(): React.ReactNode {
     const args = this.props.args!;
     const pos = args.clientOffset;
     const spos = args.sourceClientOffset || { x: -1000, y: -1000 };

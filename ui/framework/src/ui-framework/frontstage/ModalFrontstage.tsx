@@ -47,7 +47,7 @@ export class ModalFrontstage extends React.Component<ModalFrontstageProps> {
     this.props.closeModal();
   };
 
-  public render() {
+  public override render() {
     const classNames = classnames(
       "uifw-modal-frontstage",
       this.props.isOpen && "uifw-modal-open",

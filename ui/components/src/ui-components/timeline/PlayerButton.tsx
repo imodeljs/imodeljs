@@ -18,7 +18,7 @@ export class PlayerButton extends React.PureComponent<any> {
       this.props.onClick();
   };
 
-  public render() {
+  public override render() {
     const { icon, title } = this.props;
     return (
       <button data-testid={this.props.className} className={classnames("player-button", this.props.className)} onClick={this._onClick} title={title}>
@@ -54,7 +54,7 @@ export class PlayButton extends React.Component<PlayerButtonProps, PlayButtonSta
   }
 
   /** @internal */
-  public componentDidUpdate() {
+  public override componentDidUpdate() {
     if (this.props.isPlaying !== this.state.isPlaying) {
       this.setState((_, props) => ({ isPlaying: props.isPlaying }));
     }
@@ -76,7 +76,7 @@ export class PlayButton extends React.Component<PlayerButtonProps, PlayButtonSta
     }
   };
 
-  public render() {
+  public override render() {
     const { tooltip } = this.props;
     const iconClassName = this.state.isPlaying ? "icon icon-media-controls-pause" : "icon icon-media-controls-play";
     let title = tooltip;

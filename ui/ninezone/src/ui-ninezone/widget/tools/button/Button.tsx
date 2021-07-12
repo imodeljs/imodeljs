@@ -34,7 +34,7 @@ export interface ToolbarButtonProps extends CommonProps {
  * @alpha
  */
 export class ToolbarButton extends React.PureComponent<ToolbarButtonProps> {
-  public render() {
+  public override render() {
     const className = classnames(
       "nz-toolbar-button-button",
       this.props.className);

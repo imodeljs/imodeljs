@@ -241,7 +241,7 @@ export class BeTouchEvent extends BeButtonEvent implements BeTouchEventProps {
     this.touchEvent = props.touchEvent;
   }
 
-  public setFrom(src: BeTouchEvent): this {
+  public override setFrom(src: BeTouchEvent): this {
     super.setFrom(src);
     this.touchEvent = src.touchEvent;
     this.tapCount = src.tapCount;
@@ -303,7 +303,7 @@ export class BeWheelEvent extends BeButtonEvent implements BeWheelEventProps {
     this.wheelDelta = (props && props.wheelDelta !== undefined) ? props.wheelDelta : 0;
     this.time = (props && props.time) ? props.time : Date.now();
   }
-  public setFrom(src: BeWheelEvent): this {
+  public override setFrom(src: BeWheelEvent): this {
     super.setFrom(src);
     this.wheelDelta = src.wheelDelta;
     this.time = src.time;
@@ -717,7 +717,7 @@ export abstract class InteractiveTool extends Tool {
  * @public
  */
 export abstract class InputCollector extends InteractiveTool {
-  public run(..._args: any[]): boolean {
+  public override run(..._args: any[]): boolean {
     const toolAdmin = IModelApp.toolAdmin;
     // An input collector can only suspend a primitive tool, don't install if a viewing tool is active...
     if (undefined !== toolAdmin.viewTool || !toolAdmin.onInstallTool(this))
@@ -731,7 +731,7 @@ export abstract class InputCollector extends InteractiveTool {
   public exitTool(): void {
     IModelApp.toolAdmin.exitInputCollector();
   }
-  public async onResetButtonUp(_ev: BeButtonEvent): Promise<EventHandled> {
+  public override async onResetButtonUp(_ev: BeButtonEvent): Promise<EventHandled> {
     this.exitTool();
     return EventHandled.Yes;
   }

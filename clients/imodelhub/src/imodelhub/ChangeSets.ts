@@ -191,7 +191,7 @@ export class ChangeSetQuery extends StringIdQuery {
   }
 
   /** @internal */
-  protected checkValue(id: string) {
+  protected override checkValue(id: string) {
     ArgumentCheck.validChangeSetId("id", id);
   }
 

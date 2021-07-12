@@ -26,7 +26,7 @@ export abstract class MobileRpcConfiguration extends RpcConfiguration {
     checkPlatform: () => typeof (process) !== "undefined" && (process.platform as any) === "ios",
   };
 
-  public abstract protocol: MobileRpcProtocol;
+  public abstract override protocol: MobileRpcProtocol;
   private static _args: any;
   private static getArgs(): any {
     if (typeof window !== "object" || typeof window.location !== "object" || typeof window.location.hash !== "string") {

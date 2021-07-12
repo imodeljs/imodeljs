@@ -38,7 +38,7 @@ export interface ExpandableBlockProps extends CommonProps {
  */
 export class ExpandableBlock extends React.PureComponent<ExpandableBlockProps> {
 
-  public render() {
+  public override render() {
     const cName = classnames(
       "uicore-expandable-blocks-block",
       this.props.caption && "with-caption",

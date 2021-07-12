@@ -32,7 +32,7 @@ export class SampleStatusField extends React.Component<StatusFieldProps, SampleS
     this._className = this.constructor.name;
   }
 
-  public render() {
+  public override render() {
     const isOpen = this.props.openWidget === this._className;
 
     return (

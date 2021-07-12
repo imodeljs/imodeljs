@@ -135,13 +135,13 @@ class ClassifierMRTFrameBuffers extends ClassifierFrameBuffers {
     this._clearGeom = geom;
   }
 
-  public get isDisposed(): boolean {
+  public override get isDisposed(): boolean {
     return super.isDisposed
       && this._fbo.isDisposed
       && this._clearGeom.isDisposed;
   }
 
-  public dispose(): void {
+  public override dispose(): void {
     dispose(this._fbo);
     dispose(this._clearGeom);
     super.dispose();
@@ -174,13 +174,13 @@ class ClassifierMPFrameBuffers extends ClassifierFrameBuffers {
     this._feature = feature;
   }
 
-  public get isDisposed(): boolean {
+  public override get isDisposed(): boolean {
     return super.isDisposed
       && this._color.isDisposed
       && this._feature.isDisposed;
   }
 
-  public dispose(): void {
+  public override dispose(): void {
     dispose(this._color);
     dispose(this._feature);
     super.dispose();
@@ -612,7 +612,7 @@ export class PlanarClassifier extends RenderPlanarClassifier implements RenderMe
     if (this._maskGraphics.length > 0 && this._maskBuffer) {
       if (this._planarClipMaskOverrides)
         target.overrideFeatureSymbology(this._planarClipMaskOverrides);
-      if (this._planarClipMask && this._planarClipMask.settings.transparency !== undefined &&  this._planarClipMask.settings.transparency > 0.0)
+      if (this._planarClipMask && this._planarClipMask.settings.transparency !== undefined && this._planarClipMask.settings.transparency > 0.0)
         this._anyTranslucent = true;
 
       this._maskBuffer.draw(getDrawCommands(this._maskGraphics), target);

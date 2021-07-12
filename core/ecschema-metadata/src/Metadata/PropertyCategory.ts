@@ -15,7 +15,7 @@ import { SchemaItem } from "./SchemaItem";
  * @beta
  */
 export class PropertyCategory extends SchemaItem {
-  public readonly schemaItemType!: SchemaItemType.PropertyCategory; // eslint-disable-line
+  public override readonly schemaItemType!: SchemaItemType.PropertyCategory; // eslint-disable-line
   protected _priority: number;
 
   public get priority() { return this._priority; }
@@ -31,25 +31,25 @@ export class PropertyCategory extends SchemaItem {
    * @param standalone Serialization includes only this object (as opposed to the full schema).
    * @param includeSchemaVersion Include the Schema's version information in the serialized object.
    */
-  public toJSON(standalone: boolean = false, includeSchemaVersion: boolean = false): PropertyCategoryProps {
+  public override toJSON(standalone: boolean = false, includeSchemaVersion: boolean = false): PropertyCategoryProps {
     const schemaJson = super.toJSON(standalone, includeSchemaVersion) as any;
     schemaJson.priority = this.priority;
     return schemaJson;
   }
 
   /** @internal */
-  public async toXml(schemaXml: Document): Promise<Element> {
+  public override async toXml(schemaXml: Document): Promise<Element> {
     const itemElement = await super.toXml(schemaXml);
     itemElement.setAttribute("priority", this.priority.toString());
     return itemElement;
   }
 
-  public fromJSONSync(propertyCategoryProps: PropertyCategoryProps) {
+  public override fromJSONSync(propertyCategoryProps: PropertyCategoryProps) {
     super.fromJSONSync(propertyCategoryProps);
     this._priority = propertyCategoryProps.priority;
   }
 
-  public async fromJSON(propertyCategoryProps: PropertyCategoryProps) {
+  public override async fromJSON(propertyCategoryProps: PropertyCategoryProps) {
     this.fromJSONSync(propertyCategoryProps);
   }
   /**
@@ -66,6 +66,6 @@ export class PropertyCategory extends SchemaItem {
  * An abstract class used for schema editing.
  */
 export abstract class MutablePropertyCategory extends PropertyCategory {
-  public abstract setPriority(priority: number): void;
-  public abstract setDisplayLabel(displayLabel: string): void;
+  public abstract override setPriority(priority: number): void;
+  public abstract override setDisplayLabel(displayLabel: string): void;
 }

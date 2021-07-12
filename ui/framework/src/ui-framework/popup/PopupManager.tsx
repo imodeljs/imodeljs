@@ -324,16 +324,16 @@ interface PopupRendererState {
  */
 export class PopupRenderer extends React.Component<{}, PopupRendererState> {
   /** @internal */
-  public readonly state: PopupRendererState = {
+  public override readonly state: PopupRendererState = {
     parentDocument: null,
     popups: PopupManager.popups,
   };
 
-  public componentDidMount(): void {
+  public override componentDidMount(): void {
     PopupManager.onPopupsChangedEvent.addListener(this._handlePopupsChangedEvent);
   }
 
-  public componentWillUnmount(): void {
+  public override componentWillUnmount(): void {
     PopupManager.onPopupsChangedEvent.removeListener(this._handlePopupsChangedEvent);
   }
 
@@ -341,7 +341,7 @@ export class PopupRenderer extends React.Component<{}, PopupRendererState> {
     this.setState({ parentDocument: popupDiv?.ownerDocument ?? null });
   };
 
-  public render(): React.ReactNode {
+  public override render(): React.ReactNode {
     if (PopupManager.popupCount <= 0)
       return null;
 

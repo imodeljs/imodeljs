@@ -15,7 +15,7 @@ import { CommonProps } from "@bentley/ui-core";
  * @beta
  */
 export class BackstageSeparator extends React.PureComponent<CommonProps> {
-  public render() {
+  public override render() {
     const className = classnames(
       "nz-backstage-separator",
       this.props.className);

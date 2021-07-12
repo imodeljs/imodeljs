@@ -99,7 +99,7 @@ export const SampleAppActions = {
 };
 
 class SampleAppAccuSnap extends AccuSnap {
-  public getActiveSnapModes(): SnapMode[] {
+  public override getActiveSnapModes(): SnapMode[] {
     const snaps: SnapMode[] = [];
     if (SampleAppIModelApp.store.getState().frameworkState) {
       const snapMode = SampleAppIModelApp.store.getState().frameworkState.configurableUiState.snapMode;
@@ -601,7 +601,7 @@ class SampleAppViewer extends React.Component<any, { authorized: boolean, uiSett
     Logger.logInfo(SampleAppIModelApp.loggerCategory(this), `Modal Frontstage close: title=${args.modalFrontstage.title} totalTime=${args.totalTime} engagementTime=${args.engagementTime} idleTime=${args.idleTime}`);
   };
 
-  public componentDidMount() {
+  public override componentDidMount() {
     const oidcClient = IModelApp.authorizationClient;
     if (isFrontendAuthorizationClient(oidcClient))
       oidcClient.onUserStateChanged.addListener(this._onUserStateChanged);
@@ -609,7 +609,7 @@ class SampleAppViewer extends React.Component<any, { authorized: boolean, uiSett
     FrontstageManager.onModalFrontstageClosedEvent.addListener(this._handleModalFrontstageClosedEvent);
   }
 
-  public componentWillUnmount() {
+  public override componentWillUnmount() {
     const oidcClient = IModelApp.authorizationClient;
     if (isFrontendAuthorizationClient(oidcClient))
       oidcClient.onUserStateChanged.removeListener(this._onUserStateChanged);
@@ -617,7 +617,7 @@ class SampleAppViewer extends React.Component<any, { authorized: boolean, uiSett
     FrontstageManager.onModalFrontstageClosedEvent.removeListener(this._handleModalFrontstageClosedEvent);
   }
 
-  public render(): JSX.Element {
+  public override render(): JSX.Element {
     return (
       <Provider store={SampleAppIModelApp.store} >
         <ThemeManager>

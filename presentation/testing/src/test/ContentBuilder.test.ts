@@ -89,8 +89,8 @@ class DataProvider extends EmptyDataProvider {
     { title: "Item", height: 15, width: 16 },
     { title: "Circle", radius: 13 },
   ];
-  public getContentSetSize = async () => this.values.length;
-  public getContent = async () => getContent(this.values, this.descriptor);
+  public override getContentSetSize = async () => this.values.length;
+  public override getContent = async () => getContent(this.values, this.descriptor);
 }
 
 async function getEmptyContent(props: { descriptor: Readonly<Descriptor> }) {

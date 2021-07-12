@@ -25,7 +25,7 @@ export interface PanelProps extends CommonProps {
 export class Panel extends React.PureComponent<PanelProps> {
   private static _groupPanelClassName = "nz-toolbar-item-expandable-group-panel";
 
-  public render() {
+  public override render() {
     const className = classnames(
       Panel._groupPanelClassName,
       this.props.className);

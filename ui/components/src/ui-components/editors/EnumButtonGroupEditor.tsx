@@ -34,7 +34,7 @@ export class EnumButtonGroupEditor extends React.Component<PropertyEditorProps, 
   private _divElement = React.createRef<HTMLDivElement>();
 
   /** @internal */
-  public readonly state: Readonly<EnumButtonGroupEditorState> = {
+  public override readonly state: Readonly<EnumButtonGroupEditorState> = {
     selectValue: "",
     enumIcons: [],
     choices: [],
@@ -69,12 +69,12 @@ export class EnumButtonGroupEditor extends React.Component<PropertyEditorProps, 
   }
 
   /** @internal */
-  public componentDidMount() {
+  public override componentDidMount() {
     this.setStateFromProps(); // eslint-disable-line @typescript-eslint/no-floating-promises
   }
 
   /** @internal */
-  public componentDidUpdate(prevProps: PropertyEditorProps) {
+  public override componentDidUpdate(prevProps: PropertyEditorProps) {
     if (this.props.propertyRecord !== prevProps.propertyRecord) {
       this.setStateFromProps(); // eslint-disable-line @typescript-eslint/no-floating-promises
     }
@@ -182,7 +182,7 @@ export class EnumButtonGroupEditor extends React.Component<PropertyEditorProps, 
   }
 
   /** @internal */
-  public render() {
+  public override render() {
     return (
       <div className={classnames("components-enumbuttongroup-editor", this.props.className)} style={this.props.style} ref={this._divElement}>
         {this.state.choices && this.state.enumIcons.length && this.state.choices.map((choice: EnumerationChoice, index: number) => this.getButton(choice, index))}

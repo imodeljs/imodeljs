@@ -101,7 +101,7 @@ export class AlphaSlider extends React.PureComponent<AlphaSliderProps> {
   };
 
   /** @internal */
-  public componentWillUnmount() {
+  public override componentWillUnmount() {
     this._unbindEventListeners();
   }
 
@@ -163,7 +163,7 @@ export class AlphaSlider extends React.PureComponent<AlphaSliderProps> {
   }
 
   /** @internal */
-  public render(): React.ReactNode {
+  public override render(): React.ReactNode {
     const containerClasses = classnames(
       this.props.isHorizontal ? "components-alpha-container-horizontal" : "components-alpha-container-vertical",
       this.props.className,

@@ -34,11 +34,11 @@ function parseToggle(arg: string | undefined): string | boolean | undefined {
 }
 
 class HyperModelingTool extends Tool {
-  public static toolId = "HyperModeling";
-  public static get minArgs() { return 0; }
-  public static get maxArgs() { return 1; }
+  public static override toolId = "HyperModeling";
+  public static override get minArgs() { return 0; }
+  public static override get maxArgs() { return 1; }
 
-  public run(enable?: boolean, vp?: ScreenViewport): boolean {
+  public override run(enable?: boolean, vp?: ScreenViewport): boolean {
     vp = vp ?? IModelApp.viewManager.selectedView;
     if (vp)
       HyperModeling.startOrStop(vp, enable); // eslint-disable-line @typescript-eslint/no-floating-promises
@@ -46,7 +46,7 @@ class HyperModelingTool extends Tool {
     return true;
   }
 
-  public parseAndRun(...args: string[]): boolean {
+  public override parseAndRun(...args: string[]): boolean {
     const enable = parseToggle(args[0]);
     return typeof enable !== "string" && this.run(enable);
   }
@@ -62,11 +62,11 @@ type Writeable<T> = { -readonly [P in keyof T]: T[P] };
  *  - boundaries: Whether to display clip volumes as boundary shapes for debugging purposes. Default: 0.
  */
 class SectionGraphicsConfigTool extends Tool {
-  public static toolId = "HyperModeling.Graphics.Config";
-  public static get minArgs() { return 0; }
-  public static get maxArgs() { return 4; }
+  public static override toolId = "HyperModeling.Graphics.Config";
+  public static override get minArgs() { return 0; }
+  public static override get maxArgs() { return 4; }
 
-  public run(config?: SectionGraphicsConfig): boolean {
+  public override run(config?: SectionGraphicsConfig): boolean {
     if (!config) {
       config = {
         ignoreClip: false,
@@ -80,7 +80,7 @@ class SectionGraphicsConfigTool extends Tool {
     return true;
   }
 
-  public parseAndRun(...args: string[]): boolean {
+  public override parseAndRun(...args: string[]): boolean {
     if (0 === args.length)
       return this.run(); // restore defaults...
 
@@ -116,18 +116,18 @@ class SectionGraphicsConfigTool extends Tool {
 }
 
 abstract class SectionMarkerConfigTool extends Tool {
-  public static get minArgs() { return 0; }
-  public static get maxArgs() { return 3; }
+  public static override get minArgs() { return 0; }
+  public static override get maxArgs() { return 3; }
 
   protected abstract update(config: SectionMarkerConfig): void;
 
-  public run(config?: SectionMarkerConfig): boolean {
+  public override run(config?: SectionMarkerConfig): boolean {
     config = config ?? { ignoreModelSelector: false, ignoreCategorySelector: false, hiddenSectionTypes: [] };
     this.update(config);
     return true;
   }
 
-  public parseAndRun(...args: string[]): boolean {
+  public override parseAndRun(...args: string[]): boolean {
     if (0 === args.length)
       return this.run(); // restore defaults...
 
@@ -179,7 +179,7 @@ abstract class SectionMarkerConfigTool extends Tool {
 }
 
 class SectionMarkerDefaultConfigTool extends SectionMarkerConfigTool {
-  public static toolId = "HyperModeling.Marker.Default.Config";
+  public static override toolId = "HyperModeling.Marker.Default.Config";
 
   protected update(config: SectionMarkerConfig): void {
     HyperModeling.updateConfiguration({ markers: config });
@@ -187,7 +187,7 @@ class SectionMarkerDefaultConfigTool extends SectionMarkerConfigTool {
 }
 
 class SectionMarkerDecoratorConfigTool extends SectionMarkerConfigTool {
-  public static toolId = "HyperModeling.Marker.Config";
+  public static override toolId = "HyperModeling.Marker.Config";
 
   protected update(config: SectionMarkerConfig): void {
     const vp = IModelApp.viewManager.selectedView;

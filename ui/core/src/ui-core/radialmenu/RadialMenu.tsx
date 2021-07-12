@@ -59,7 +59,7 @@ export class RadialMenu extends React.Component<RadialMenuProps, RadialMenuState
   };
 
   /** @internal */
-  public readonly state: Readonly<RadialMenuState> = {
+  public override readonly state: Readonly<RadialMenuState> = {
     sectors: [],
   };
 
@@ -67,7 +67,7 @@ export class RadialMenu extends React.Component<RadialMenuProps, RadialMenuState
     super(props);
   }
 
-  public render(): JSX.Element {
+  public override render(): JSX.Element {
     const width = 2 * (this.props.outerRadius + 1);
     let x = this.props.left, y = this.props.top;
 
@@ -120,7 +120,7 @@ export class RadialMenu extends React.Component<RadialMenuProps, RadialMenuState
     );
   }
 
-  public componentDidMount() {
+  public override componentDidMount() {
     this._generateAnnularSectors();
 
     setTimeout(() => {
@@ -129,12 +129,12 @@ export class RadialMenu extends React.Component<RadialMenuProps, RadialMenuState
     });
   }
 
-  public componentWillUnmount() {
+  public override componentWillUnmount() {
     window.removeEventListener("keyup", this._handleKeyUp);
     window.removeEventListener("mouseup", this._handleClick);
   }
 
-  public componentDidUpdate(prevProps: RadialMenuProps) {
+  public override componentDidUpdate(prevProps: RadialMenuProps) {
     if (prevProps.innerRadius !== this.props.innerRadius || prevProps.outerRadius !== this.props.outerRadius) {
       this._generateAnnularSectors();
     }
@@ -201,13 +201,13 @@ interface RadialButtonState {
 export class RadialButton extends React.Component<RadialButtonProps, RadialButtonState> {
 
   /** @internal */
-  public readonly state: Readonly<RadialButtonState> = { hover: this.props.selected || false };
+  public override readonly state: Readonly<RadialButtonState> = { hover: this.props.selected || false };
 
   constructor(props: RadialButtonProps) {
     super(props);
   }
 
-  public render(): JSX.Element {
+  public override render(): JSX.Element {
     const sector = this.props.annularSector;
     let p = new Point();
     let size = 0;

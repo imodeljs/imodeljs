@@ -171,12 +171,12 @@ export class TransformGraphicsProvider {
 
 /** @alpha Base class for applying a transform to element placements. */
 export abstract class TransformElementsTool extends ElementSetTool {
-  protected get allowSelectionSet(): boolean { return true; }
-  protected get allowGroups(): boolean { return true; }
-  protected get allowDragSelect(): boolean { return true; }
-  protected get controlKeyContinuesSelection(): boolean { return true; }
-  protected get wantAccuSnap(): boolean { return true; }
-  protected get wantDynamics(): boolean { return true; }
+  protected override get allowSelectionSet(): boolean { return true; }
+  protected override get allowGroups(): boolean { return true; }
+  protected override get allowDragSelect(): boolean { return true; }
+  protected override get controlKeyContinuesSelection(): boolean { return true; }
+  protected override get wantAccuSnap(): boolean { return true; }
+  protected override get wantDynamics(): boolean { return true; }
   protected get wantMakeCopy(): boolean { return false; } // For testing repeat vs. restart...
   protected _graphicsProvider?: TransformGraphicsProvider;
   protected _startedCmd?: string;
@@ -212,11 +212,11 @@ export abstract class TransformElementsTool extends ElementSetTool {
     this._graphicsProvider = undefined;
   }
 
-  protected async onAgendaModified(): Promise<void> {
+  protected override async onAgendaModified(): Promise<void> {
     await this.createAgendaGraphics(true);
   }
 
-  protected async initAgendaDynamics(): Promise<boolean> {
+  protected override async initAgendaDynamics(): Promise<boolean> {
     await this.createAgendaGraphics(false);
     return super.initAgendaDynamics();
   }
@@ -226,7 +226,7 @@ export abstract class TransformElementsTool extends ElementSetTool {
       this._graphicsProvider.addGraphics(transform, context);
   }
 
-  public onDynamicFrame(ev: BeButtonEvent, context: DynamicsContext): void {
+  public override onDynamicFrame(ev: BeButtonEvent, context: DynamicsContext): void {
     const transform = this.calculateTransform(ev);
     if (undefined === transform)
       return;
@@ -265,7 +265,7 @@ export abstract class TransformElementsTool extends ElementSetTool {
     }
   }
 
-  public async processAgenda(ev: BeButtonEvent): Promise<void> {
+  public override async processAgenda(ev: BeButtonEvent): Promise<void> {
     const transform = this.calculateTransform(ev);
     if (undefined === transform)
       return;
@@ -273,13 +273,13 @@ export abstract class TransformElementsTool extends ElementSetTool {
     this.updateAnchorLocation(transform);
   }
 
-  public async onProcessComplete(): Promise<void> {
+  public override async onProcessComplete(): Promise<void> {
     if (this.wantMakeCopy)
       return; // TODO: Update agenda to hold copies, replace current selection set with copies, etc...
     return super.onProcessComplete();
   }
 
-  public onCleanup(): void {
+  public override onCleanup(): void {
     // eslint-disable-next-line @typescript-eslint/no-floating-promises
     this.clearAgendaGraphics();
     super.onCleanup();
@@ -288,8 +288,8 @@ export abstract class TransformElementsTool extends ElementSetTool {
 
 /** @alpha Move elements by applying translation to placement. */
 export class MoveElementsTool extends TransformElementsTool {
-  public static toolId = "MoveElements";
-  public static iconSpec = "icon-move";
+  public static override toolId = "MoveElements";
+  public static override iconSpec = "icon-move";
 
   protected calculateTransform(ev: BeButtonEvent): Transform | undefined {
     if (undefined === this.anchorPoint)
@@ -297,7 +297,7 @@ export class MoveElementsTool extends TransformElementsTool {
     return Transform.createTranslation(ev.point.minus(this.anchorPoint));
   }
 
-  protected provideToolAssistance(_mainInstrText?: string, _additionalInstr?: ToolAssistanceInstruction[]): void {
+  protected override provideToolAssistance(_mainInstrText?: string, _additionalInstr?: ToolAssistanceInstruction[]): void {
     let mainMsg;
     if (!this.isSelectByPoints && !this.wantAdditionalElements)
       mainMsg = CoreTools.translate(this.wantAdditionalInput ? "ElementSet.Prompts.StartPoint" : "ElementSet.Prompts.EndPoint");
@@ -326,15 +326,15 @@ export enum RotateAbout {
 
 /** @alpha Rotate elements by applying transform to placement. */
 export class RotateElementsTool extends TransformElementsTool {
-  public static toolId = "RotateElements";
-  public static iconSpec = "icon-rotate";
+  public static override toolId = "RotateElements";
+  public static override iconSpec = "icon-rotate";
 
   protected xAxisPoint?: Point3d;
   protected havePivotPoint = false;
   protected haveFinalPoint = false;
 
-  public static get minArgs() { return 0; }
-  public static get maxArgs() { return 3; }
+  public static override get minArgs() { return 0; }
+  public static override get maxArgs() { return 3; }
 
   private static methodMessage(str: string) { return EditTools.translate(`RotateElements.Method.${str}`); }
   private static getMethodChoices = (): EnumerationChoice[] => {
@@ -385,7 +385,7 @@ export class RotateElementsTool extends TransformElementsTool {
   public get rotateAngle(): number { return this.angleProperty.value; }
   public set rotateAngle(value: number) { this.angleProperty.value = value; }
 
-  protected get requireAcceptForSelectionSetDynamics(): boolean { return RotateMethod.ByAngle !== this.rotateMethod; }
+  protected override get requireAcceptForSelectionSetDynamics(): boolean { return RotateMethod.ByAngle !== this.rotateMethod; }
 
   protected calculateTransform(ev: BeButtonEvent): Transform | undefined {
     if (undefined === ev.viewport)
@@ -461,7 +461,7 @@ export class RotateElementsTool extends TransformElementsTool {
     return Transform.createFixedPointAndMatrix(this.anchorPoint, matrix);
   }
 
-  protected transformAgendaDynamics(transform: Transform, context: DynamicsContext): void {
+  protected override transformAgendaDynamics(transform: Transform, context: DynamicsContext): void {
     if (RotateAbout.Point === this.rotateAbout)
       return super.transformAgendaDynamics(transform, context);
 
@@ -481,7 +481,7 @@ export class RotateElementsTool extends TransformElementsTool {
     }
   }
 
-  protected async transformAgenda(transform: Transform): Promise<void> {
+  protected override async transformAgenda(transform: Transform): Promise<void> {
     if (RotateAbout.Point === this.rotateAbout)
       return super.transformAgenda(transform);
 
@@ -494,7 +494,7 @@ export class RotateElementsTool extends TransformElementsTool {
     }
   }
 
-  public onDynamicFrame(ev: BeButtonEvent, context: DynamicsContext): void {
+  public override onDynamicFrame(ev: BeButtonEvent, context: DynamicsContext): void {
     const transform = this.calculateTransform(ev);
     if (undefined !== transform)
       return this.transformAgendaDynamics(transform, context);
@@ -508,14 +508,14 @@ export class RotateElementsTool extends TransformElementsTool {
     context.addGraphic(builder.finish());
   }
 
-  protected get wantAdditionalInput(): boolean {
+  protected override get wantAdditionalInput(): boolean {
     if (RotateMethod.ByAngle === this.rotateMethod)
       return super.wantAdditionalInput;
 
     return !this.haveFinalPoint;
   }
 
-  protected wantProcessAgenda(ev: BeButtonEvent): boolean {
+  protected override wantProcessAgenda(ev: BeButtonEvent): boolean {
     if (RotateMethod.ByAngle === this.rotateMethod)
       return super.wantProcessAgenda(ev);
 
@@ -529,7 +529,7 @@ export class RotateElementsTool extends TransformElementsTool {
     return super.wantProcessAgenda(ev);
   }
 
-  protected setupAndPromptForNextAction(): void {
+  protected override setupAndPromptForNextAction(): void {
     super.setupAndPromptForNextAction();
 
     if (RotateMethod.ByAngle === this.rotateMethod)
@@ -545,7 +545,7 @@ export class RotateElementsTool extends TransformElementsTool {
     hints.sendHints();
   }
 
-  protected provideToolAssistance(_mainInstrText?: string, _additionalInstr?: ToolAssistanceInstruction[]): void {
+  protected override provideToolAssistance(_mainInstrText?: string, _additionalInstr?: ToolAssistanceInstruction[]): void {
     let mainMsg;
     if (RotateMethod.ByAngle === this.rotateMethod) {
       if (!this.isSelectByPoints && !this.wantAdditionalElements && this.wantAdditionalInput)
@@ -563,7 +563,7 @@ export class RotateElementsTool extends TransformElementsTool {
     super.provideToolAssistance(mainMsg);
   }
 
-  public applyToolSettingPropertyChange(updatedValue: DialogPropertySyncItem): boolean {
+  public override applyToolSettingPropertyChange(updatedValue: DialogPropertySyncItem): boolean {
     if (this.methodProperty.name === updatedValue.propertyName) {
       this.methodProperty.value = updatedValue.value.value as number;
       IModelApp.toolAdmin.toolSettingsState.saveToolSettingProperty(this.toolId, this.methodProperty.item);
@@ -581,7 +581,7 @@ export class RotateElementsTool extends TransformElementsTool {
     return false;
   }
 
-  public supplyToolSettingsProperties(): DialogItem[] | undefined {
+  public override supplyToolSettingsProperties(): DialogItem[] | undefined {
     const toolSettings = new Array<DialogItem>();
 
     toolSettings.push(this.methodProperty.toDialogItem({ rowPriority: 1, columnIndex: 2 }));
@@ -599,7 +599,7 @@ export class RotateElementsTool extends TransformElementsTool {
       this.exitTool();
   }
 
-  public onInstall(): boolean {
+  public override onInstall(): boolean {
     if (!super.onInstall())
       return false;
 
@@ -624,7 +624,7 @@ export class RotateElementsTool extends TransformElementsTool {
    *  - `about=0|1|2` Location to rotate about. 0 for point, 1 for placement origin, and 2 for center of range.
    *  - `angle=number` Rotation angle in degrees when not defining angle by points.
    */
-  public parseAndRun(...inputArgs: string[]): boolean {
+  public override parseAndRun(...inputArgs: string[]): boolean {
     let rotateMethod;
     let rotateAbout;
     let rotateAngle;

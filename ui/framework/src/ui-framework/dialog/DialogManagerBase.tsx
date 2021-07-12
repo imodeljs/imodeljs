@@ -128,7 +128,7 @@ interface DialogRendererState {
  */
 export class DialogRendererBase extends React.PureComponent<DialogRendererProps, DialogRendererState> {
   /** @internal */
-  public readonly state: DialogRendererState = {
+  public override readonly state: DialogRendererState = {
     parentDocument: null,
   };
 
@@ -136,7 +136,7 @@ export class DialogRendererBase extends React.PureComponent<DialogRendererProps,
     this.setState({ parentDocument: popupDiv?.ownerDocument ?? null });
   };
 
-  public render(): React.ReactNode {
+  public override render(): React.ReactNode {
     if (this.props.dialogManager.dialogCount <= 0)
       return null;
 
@@ -156,11 +156,11 @@ export class DialogRendererBase extends React.PureComponent<DialogRendererProps,
     );
   }
 
-  public componentDidMount(): void {
+  public override componentDidMount(): void {
     this.props.dialogManager.onDialogChangedEvent.addListener(this._handleDialogChangedEvent);
   }
 
-  public componentWillUnmount(): void {
+  public override componentWillUnmount(): void {
     this.props.dialogManager.onDialogChangedEvent.removeListener(this._handleDialogChangedEvent);
   }
 

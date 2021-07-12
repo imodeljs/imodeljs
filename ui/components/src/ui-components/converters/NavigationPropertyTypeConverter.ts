@@ -16,7 +16,7 @@ import { TypeConverterManager } from "./TypeConverterManager";
  * @public
  */
 export class NavigationPropertyTypeConverter extends TypeConverter {
-  public convertPropertyToString(propertyDescription: PropertyDescription, value?: Primitives.Value) {
+  public override convertPropertyToString(propertyDescription: PropertyDescription, value?: Primitives.Value) {
     return value === undefined ? "" : propertyDescription.displayLabel;
   }
 

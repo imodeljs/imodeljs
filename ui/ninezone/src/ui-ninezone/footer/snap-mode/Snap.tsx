@@ -29,7 +29,7 @@ export interface SnapProps extends CommonProps {
  * @beta
  */
 export class Snap extends React.PureComponent<SnapProps> {
-  public render() {
+  public override render() {
     const dialogClassName = classnames(
       "nz-footer-snapMode-snap",
       this.props.isActive && "nz-active",

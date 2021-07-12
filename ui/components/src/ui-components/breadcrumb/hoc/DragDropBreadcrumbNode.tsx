@@ -25,7 +25,7 @@ export interface DragDropBreadcrumbNodeProps extends React.AllHTMLAttributes<HTM
 // Used internally in ./Breadcrumb.tsx
 /** @internal */
 export class DragDropBreadcrumbNodeComponent extends React.Component<DragDropBreadcrumbNodeProps> {
-  public render() {
+  public override render() {
     const { isOver, isDragging, canDrag, canDrop, ...props } = this.props as DragDropBreadcrumbNodeProps; // eslint-disable-line @typescript-eslint/no-unused-vars
     const classes = classnames(
       "components-breadcrumb-drop-target",

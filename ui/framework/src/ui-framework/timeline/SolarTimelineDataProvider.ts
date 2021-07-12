@@ -40,23 +40,23 @@ export class SolarTimelineDataProvider extends BaseSolarDataProvider {
     this.onTimeChanged(this.timeOfDay);
   }
 
-  public get shouldShowTimeline() {
+  public override get shouldShowTimeline() {
     const style = this._displayStyle3d;
     return undefined !== style && style.viewFlags.shadows;
   }
 
-  public onTimeChanged = (time: Date) => {
+  public override onTimeChanged = (time: Date) => {
     if (this._viewport && this._viewport.view.is3d()) {
       this._viewport.view.displayStyle.setSunTime(time.getTime());
     }
   };
 
-  public get shadowColor(): ColorDef {
+  public override get shadowColor(): ColorDef {
     const style = this._displayStyle3d;
     return style ? style.settings.solarShadows.color.toColorDef() : ColorDef.create(ColorByName.gray);
   }
 
-  public set shadowColor(color: ColorDef) {
+  public override set shadowColor(color: ColorDef) {
     const displayStyle = this._displayStyle3d;
     if (!displayStyle)
       return;

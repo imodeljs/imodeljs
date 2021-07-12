@@ -278,7 +278,7 @@ export class CssProperties {
 export type CursorType = "nwse-resize" | "nesw-resize" | "ew-resize" | "ns-resize" | "grabbing";
 
 // @internal (undocumented)
-export const CursorTypeContext: React.Context<"nwse-resize" | "nesw-resize" | "ew-resize" | "ns-resize" | "grabbing" | undefined>;
+export const CursorTypeContext: React.Context<CursorType | undefined>;
 
 // @beta
 export class Dialog extends React.PureComponent<DialogProps> {
@@ -385,10 +385,10 @@ export interface DockedToolSettingsState {
 export function dockWidgetContainer(state: NineZoneState, widgetTabId: string, idIsContainerId?: boolean): NineZoneState | undefined;
 
 // @internal (undocumented)
-export const DraggedPanelSideContext: React.Context<"left" | "right" | "top" | "bottom" | undefined>;
+export const DraggedPanelSideContext: React.Context<PanelSide | undefined>;
 
 // @internal (undocumented)
-export const DraggedResizeHandleContext: React.Context<"left" | "right" | "top" | "bottom" | "topLeft" | "topRight" | "bottomLeft" | "bottomRight" | undefined>;
+export const DraggedResizeHandleContext: React.Context<FloatingWidgetResizeHandle | undefined>;
 
 // @internal (undocumented)
 export const DraggedTabContext: React.Context<boolean>;
@@ -1552,7 +1552,7 @@ export interface PanelSetSizeAction {
 export type PanelSide = VerticalPanelSide | HorizontalPanelSide;
 
 // @internal (undocumented)
-export const PanelSideContext: React.Context<"left" | "right" | "top" | "bottom" | undefined>;
+export const PanelSideContext: React.Context<PanelSide | undefined>;
 
 // @internal (undocumented)
 export const panelSides: [LeftPanelSide, RightPanelSide, TopPanelSide, BottomPanelSide];
@@ -3599,7 +3599,7 @@ export interface WithContainInProps {
 }
 
 // @beta
-export const withDragInteraction: <P extends {}, C>(Component: (((props: P) => React.ReactElement<any, string | ((props: any) => React.ReactElement<any, string | any | (new (props: any) => React.Component<any, any, any>)> | null) | (new (props: any) => React.Component<any, any, any>)> | null) & C) | ((new (props: P) => React.Component<P, any, any>) & C)) => (props: JSX.LibraryManagedAttributes<C, P & WithDragInteractionProps>) => JSX.Element;
+export const withDragInteraction: <P extends {}, C>(Component: React.JSXElementConstructor<P> & C) => (props: JSX.LibraryManagedAttributes<C, P & WithDragInteractionProps>) => JSX.Element;
 
 // @beta
 export interface WithDragInteractionProps {

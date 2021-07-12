@@ -71,7 +71,7 @@ class TestNestedFrontstage extends FrontstageProvider {
 }
 
 class FrontstageToolWidget extends React.Component {
-  public render() {
+  public override render() {
     return (
       <ToolWidget // eslint-disable-line deprecation/deprecation
         appButton={NestedFrontstage.backToPreviousFrontstageCommand}
@@ -81,8 +81,8 @@ class FrontstageToolWidget extends React.Component {
 }
 
 class TestFrontstageDef extends FrontstageDef {
-  protected _onActivated(): void { }
-  protected _onDeactivated(): void { }
+  protected override _onActivated(): void { }
+  protected override _onDeactivated(): void { }
 }
 
 describe("NestedFrontstage", () => {

@@ -23,7 +23,7 @@ export interface BackButtonProps extends OmitChildrenProp<ToolbarIconProps>, NoC
  * @alpha
  */
 export class BackButton extends React.PureComponent<BackButtonProps> {
-  public render() {
+  public override render() {
     const { className, ...props } = this.props;
     const buttonClassName = classnames(
       "nz-toolbar-button-back",

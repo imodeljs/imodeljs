@@ -138,19 +138,19 @@ export abstract class BezierCurveBase extends CurvePrimitive {
     return sum;
   }
   /** Return the start point.  (first control point) */
-  public startPoint(): Point3d {
+  public override startPoint(): Point3d {
     const result = this.getPolePoint3d(0)!;   // ASSUME non-trivial pole set -- if null comes back, it bubbles out
     return result;
   }
   /** Return the end point.  (last control point) */
-  public endPoint(): Point3d {
+  public override endPoint(): Point3d {
     const result = this.getPolePoint3d(this.order - 1)!;    // ASSUME non-trivial pole set
     return result;
   }
   /** Return the control polygon length as a quick length estimate. */
   public quickLength(): number { return this.polygonLength(); }
   /** Concrete classes must implement extendRange . . .  */
-  public abstract extendRange(rangeToExtend: Range3d, transform?: Transform): void;
+  public abstract override extendRange(rangeToExtend: Range3d, transform?: Transform): void;
   /**
    * 1D bezier coefficients for use in range computations.
    * @internal

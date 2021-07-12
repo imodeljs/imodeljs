@@ -27,7 +27,7 @@ export interface GroupProps extends CommonProps, NoChildrenProps {
  * @alpha
  */
 export class Group extends React.PureComponent<GroupProps> {
-  public render() {
+  public override render() {
     const className = classnames(
       "nz-toolbar-item-expandable-group-group",
       this.props.className);

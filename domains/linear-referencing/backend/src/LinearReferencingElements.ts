@@ -24,7 +24,7 @@ import {
  */
 export abstract class LinearlyLocatedAttribution extends SpatialLocationElement implements LinearlyLocatedAttributionProps, LinearlyLocatedBase {
   /** @internal */
-  public static get className(): string { return "LinearlyLocatedAttribution"; }
+  public static override get className(): string { return "LinearlyLocatedAttribution"; }
 
   public attributedElement?: ILinearlyLocatedAttributesElement;
 
@@ -43,7 +43,7 @@ export abstract class LinearlyLocatedAttribution extends SpatialLocationElement 
  */
 export abstract class LinearLocationElement extends SpatialLocationElement implements LinearlyLocatedBase {
   /** @internal */
-  public static get className(): string { return "LinearLocationElement"; }
+  public static override get className(): string { return "LinearLocationElement"; }
 
   public constructor(props: GeometricElement3dProps, iModel: IModelDb) {
     super(props, iModel);
@@ -59,7 +59,7 @@ export abstract class LinearLocationElement extends SpatialLocationElement imple
  */
 export class LinearLocation extends LinearLocationElement {
   /** @internal */
-  public static get className(): string { return "LinearLocation"; }
+  public static override get className(): string { return "LinearLocation"; }
   public constructor(props: GeometricElement3dProps, iModel: IModelDb) {
     super(props, iModel);
   }
@@ -119,7 +119,7 @@ export class LinearLocation extends LinearLocationElement {
  */
 export abstract class LinearPhysicalElement extends PhysicalElement {
   /** @internal */
-  public static get className(): string { return "LinearPhysicalElement"; }
+  public static override get className(): string { return "LinearPhysicalElement"; }
 
   public constructor(props: PhysicalElementProps, iModel: IModelDb) {
     super(props, iModel);
@@ -131,7 +131,7 @@ export abstract class LinearPhysicalElement extends PhysicalElement {
  */
 export abstract class ReferentElement extends SpatialLocationElement implements ReferentElementProps, LinearlyLocatedBase {
   /** @internal */
-  public static get className(): string { return "ReferentElement"; }
+  public static override get className(): string { return "ReferentElement"; }
 
   public referencedElement?: IReferentReferencesElement;
 
@@ -150,7 +150,7 @@ export abstract class ReferentElement extends SpatialLocationElement implements 
  */
 export class Referent extends ReferentElement {
   /** @internal */
-  public static get className(): string { return "Referent"; }
+  public static override get className(): string { return "Referent"; }
   public constructor(props: ReferentElementProps, iModel: IModelDb) {
     super(props, iModel);
   }
@@ -197,7 +197,7 @@ class AtAndFromToECSQLGenImpl extends ECSQLGenImpl {
       "coalesce(AtLocation.AtPosition.DistanceAlongFromStart, FromToLocation.ToPosition.DistanceAlongFromStart) StopDistanceAlong, " +
       "coalesce(AtLocation.ECInstanceId, FromToLocation.ECInstanceId) LocationAspectId ";
   }
-  public selectDistinct(): boolean {
+  public override selectDistinct(): boolean {
     return true;
   }
   public genFromJoin(): string {

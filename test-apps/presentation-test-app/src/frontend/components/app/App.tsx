@@ -237,21 +237,21 @@ export default class App extends React.Component<{}, State> {
     }
   }
 
-  public componentDidMount() {
+  public override componentDidMount() {
     this.loadAppSettings();
     this.afterRender();
     this._selectionListener = Presentation.selection.selectionChange.addListener(this._onSelectionChanged);
   }
 
-  public componentDidUpdate() {
+  public override componentDidUpdate() {
     this.afterRender();
   }
 
-  public componentWillUnmount() {
+  public override componentWillUnmount() {
     Presentation.selection.selectionChange.removeListener(this._selectionListener);
   }
 
-  public render() {
+  public override render() {
     let imodelComponents = null;
     if (this.state.imodel)
       imodelComponents = this.renderIModelComponents(this.state.imodel, this.state.currentRulesetId);

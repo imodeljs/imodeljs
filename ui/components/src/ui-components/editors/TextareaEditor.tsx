@@ -42,7 +42,7 @@ export class TextareaEditor extends React.PureComponent<PropertyEditorProps, Tex
   private _divElement = React.createRef<HTMLDivElement>();
 
   /** @internal */
-  public readonly state: Readonly<TextareaEditorState> = {
+  public override readonly state: Readonly<TextareaEditorState> = {
     inputValue: "",
     readonly: false,
     rows: DEFAULT_ROWS,
@@ -84,18 +84,18 @@ export class TextareaEditor extends React.PureComponent<PropertyEditorProps, Tex
   };
 
   /** @internal */
-  public componentDidMount() {
+  public override componentDidMount() {
     this._isMounted = true;
     this.setStateFromProps(); // eslint-disable-line @typescript-eslint/no-floating-promises
   }
 
   /** @internal */
-  public componentWillUnmount() {
+  public override componentWillUnmount() {
     this._isMounted = false;
   }
 
   /** @internal */
-  public componentDidUpdate(prevProps: PropertyEditorProps) {
+  public override componentDidUpdate(prevProps: PropertyEditorProps) {
     if (this.props.propertyRecord !== prevProps.propertyRecord) {
       this.setStateFromProps(); // eslint-disable-line @typescript-eslint/no-floating-promises
     }
@@ -164,7 +164,7 @@ export class TextareaEditor extends React.PureComponent<PropertyEditorProps, Tex
   // }
 
   /** @internal */
-  public render(): React.ReactNode {
+  public override render(): React.ReactNode {
     const className = classnames("components-cell-editor", "components-textarea-editor", this.props.className);
     const minSize = this.state.size ? this.state.size : 8;
     const style: React.CSSProperties = {
@@ -210,15 +210,15 @@ export class TextareaEditor extends React.PureComponent<PropertyEditorProps, Tex
  */
 export class TextareaPropertyEditor extends PropertyEditorBase {
   // istanbul ignore next
-  public get containerHandlesBlur(): boolean {
+  public override get containerHandlesBlur(): boolean {
     return false;
   }
   // istanbul ignore next
-  public get containerHandlesEnter(): boolean {
+  public override get containerHandlesEnter(): boolean {
     return false;
   }
   // istanbul ignore next
-  public get containerHandlesTab(): boolean {
+  public override get containerHandlesTab(): boolean {
     return false;
   }
 

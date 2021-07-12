@@ -32,7 +32,7 @@ export class WmsMapLayerImageryProvider extends MapLayerImageryProvider {
     this._baseUrl = WmsUtilities.getBaseUrl(this._settings.url);
   }
 
-  public async initialize(): Promise<void> {
+  public override async initialize(): Promise<void> {
     try {
       this._capabilities = await WmsCapabilities.create(this._baseUrl);
       if (undefined !== this._capabilities) {
@@ -113,7 +113,7 @@ export class WmsMapLayerImageryProvider extends MapLayerImageryProvider {
     return `${this._baseUrl}?SERVICE=WMS&VERSION=1.3.0&REQUEST=GetMap&FORMAT=image%2Fpng&TRANSPARENT=${this.transparentBackgroundString}&LAYERS=${layerString}&WIDTH=${this.tileSize}&HEIGHT=${this.tileSize}&CRS=EPSG%3A3857&STYLES=&BBOX=${bboxString}`;
   }
 
-  public async getToolTip(strings: string[], quadId: QuadId, carto: Cartographic, tree: ImageryMapTileTree): Promise<void> {
+  public override async getToolTip(strings: string[], quadId: QuadId, carto: Cartographic, tree: ImageryMapTileTree): Promise<void> {
     await super.getToolTip(strings, quadId, carto, tree);
     const infoFormats = this._capabilities?.featureInfoFormats;
     if (!doToolTips || undefined === infoFormats)

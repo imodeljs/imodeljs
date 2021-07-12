@@ -52,7 +52,7 @@ class SnapModeFieldComponent extends React.Component<SnapModeFieldProps, SnapMod
   private _indicator = React.createRef<HTMLDivElement>();
   private _title = UiFramework.translate("snapModeField.snapMode");
 
-  public readonly state: SnapModeFieldState = {
+  public override readonly state: SnapModeFieldState = {
     target: null,
   };
 
@@ -79,7 +79,7 @@ class SnapModeFieldComponent extends React.Component<SnapModeFieldProps, SnapMod
   }
 
   /** Standard React render method. */
-  public render(): React.ReactNode {
+  public override render(): React.ReactNode {
     return (
       <>
         <div ref={this._handleTargetRef}

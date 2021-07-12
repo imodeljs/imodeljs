@@ -57,7 +57,7 @@ export class StandardRotationNavigationAid extends React.Component<CommonProps, 
   private _title = UiFramework.translate("standardRotationNavigationAid.title");
 
   /** @internal */
-  public readonly state: Readonly<StandardRotationNavigationAidState>;
+  public override readonly state: Readonly<StandardRotationNavigationAidState>;
 
   constructor(props: any) {
     super(props);
@@ -96,7 +96,7 @@ export class StandardRotationNavigationAid extends React.Component<CommonProps, 
     };
   }
 
-  public render(): React.ReactNode {
+  public override render(): React.ReactNode {
     const className = classnames(
       "uifw-standard-rotation-navigation",
       this.props.className,

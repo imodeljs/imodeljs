@@ -75,7 +75,7 @@ function GroupToolComponent(props: GroupToolProps) {
  * @alpha
  */
 export class GroupTool extends React.PureComponent<GroupToolProps> {
-  public render() {
+  public override render() {
     return <GroupToolComponent {...this.props} />;
   }
 }

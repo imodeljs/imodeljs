@@ -54,7 +54,7 @@ describe("ToolSettingsZone", () => {
   }
 
   class Tool1Settings extends React.Component {
-    public render(): React.ReactNode {
+    public override render(): React.ReactNode {
       return (
         <div>
           <table>

@@ -16,7 +16,7 @@ export interface TestRadialMenuState {
 }
 
 export class TestRadialMenu extends React.Component<TestRadialMenuProps, TestRadialMenuState> {
-  public readonly state: Readonly<TestRadialMenuState>;
+  public override readonly state: Readonly<TestRadialMenuState>;
 
   constructor(props: TestRadialMenuProps) {
     super(props);
@@ -36,7 +36,7 @@ export class TestRadialMenu extends React.Component<TestRadialMenuProps, TestRad
     };
   }
 
-  public render(): JSX.Element {
+  public override render(): JSX.Element {
     return (
       <RadialMenu
         left={"50%"}
@@ -64,7 +64,7 @@ export class TestRadialMenu extends React.Component<TestRadialMenuProps, TestRad
     });
   };
 
-  public componentDidUpdate(prevProps: TestRadialMenuProps) {
+  public override componentDidUpdate(prevProps: TestRadialMenuProps) {
     if (prevProps.opened !== this.props.opened) {
       this.setState((_, props) => ({ opened: props.opened }));
     }

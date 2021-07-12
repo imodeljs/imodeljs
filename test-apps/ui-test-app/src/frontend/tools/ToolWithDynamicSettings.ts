@@ -38,7 +38,7 @@ const cities: MajorCities[] = [
 ];
 
 export class ToolWithDynamicSettings extends PrimitiveTool {
-  public static toolId = "ToolWithDynamicSettings";
+  public static override toolId = "ToolWithDynamicSettings";
   public points: Point3d[] = [];
 
   // ------------- State List ---------------
@@ -96,13 +96,13 @@ export class ToolWithDynamicSettings extends PrimitiveTool {
 
   // -------- end of ToolSettings ----------
 
-  public requireWriteableTarget(): boolean { return false; }
-  public onPostInstall() {
+  public override requireWriteableTarget(): boolean { return false; }
+  public override onPostInstall() {
     super.onPostInstall();
     this.setupAndPromptForNextAction();
     this.points = [];
   }
-  public onUnsuspend(): void { this.provideToolAssistance(); }
+  public override onUnsuspend(): void { this.provideToolAssistance(); }
 
   /** Establish current tool state and initialize drawing aides following onPostInstall, onDataButtonDown, onUndoPreviousStep, or other events that advance or back up the current tool state.
    * Enable snapping or auto-locate for AccuSnap.
@@ -131,12 +131,12 @@ export class ToolWithDynamicSettings extends PrimitiveTool {
     IModelApp.notifications.setToolAssistance(instructions);
   }
 
-  public async onDataButtonDown(_ev: BeButtonEvent): Promise<EventHandled> {
+  public override async onDataButtonDown(_ev: BeButtonEvent): Promise<EventHandled> {
     this.setupAndPromptForNextAction();
     return EventHandled.No;
   }
 
-  public async onResetButtonUp(_ev: BeButtonEvent): Promise<EventHandled> {
+  public override async onResetButtonUp(_ev: BeButtonEvent): Promise<EventHandled> {
     /* Common reset behavior for primitive tools is calling onReinitialize to restart or exitTool to terminate. */
     this.onReinitialize();
     return EventHandled.No;
@@ -149,7 +149,7 @@ export class ToolWithDynamicSettings extends PrimitiveTool {
   }
 
   /** Used to supply DefaultToolSettingProvider with a list of properties to use to generate ToolSettings.  If undefined then no ToolSettings will be displayed */
-  public supplyToolSettingsProperties(): DialogItem[] | undefined {
+  public override supplyToolSettingsProperties(): DialogItem[] | undefined {
     const toolSettings = new Array<DialogItem>();
     toolSettings.push({ value: this._stateValue, property: ToolWithDynamicSettings.getStateDescription(), editorPosition: { rowPriority: 1, columnIndex: 1 } });
     if (this.state > 0 && this.state < cities.length) {
@@ -160,7 +160,7 @@ export class ToolWithDynamicSettings extends PrimitiveTool {
   }
 
   /** Called from UI to update properties in tool */
-  public applyToolSettingPropertyChange(updatedValue: DialogPropertySyncItem): boolean {
+  public override applyToolSettingPropertyChange(updatedValue: DialogPropertySyncItem): boolean {
     if (updatedValue.propertyName === ToolWithDynamicSettings._statePropertyName) {
       const newStateValue = updatedValue.value.value as number;
       if (this.state !== newStateValue) {

@@ -22,7 +22,7 @@ export interface InputLabelProps extends LabeledComponentProps, MessagedComponen
  * @public
  */
 export class InputLabel extends React.PureComponent<InputLabelProps> {
-  public render(): JSX.Element {
+  public override render(): JSX.Element {
     const { label, status, className, style,
       labelClassName, labelStyle,
       message, messageClassName, messageStyle } = this.props;

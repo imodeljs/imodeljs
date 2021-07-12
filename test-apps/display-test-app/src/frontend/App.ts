@@ -47,8 +47,8 @@ import { FrameStatsTool } from "./FrameStatsTool";
 class DisplayTestAppAccuSnap extends AccuSnap {
   private readonly _activeSnaps: SnapMode[] = [SnapMode.NearestKeypoint];
 
-  public get keypointDivisor() { return 2; }
-  public getActiveSnapModes(): SnapMode[] { return this._activeSnaps; }
+  public override get keypointDivisor() { return 2; }
+  public override getActiveSnapModes(): SnapMode[] { return this._activeSnaps; }
   public setActiveSnapModes(snaps: SnapMode[]): void {
     this._activeSnaps.length = snaps.length;
     for (let i = 0; i < snaps.length; i++)
@@ -58,7 +58,7 @@ class DisplayTestAppAccuSnap extends AccuSnap {
 
 class DisplayTestAppToolAdmin extends ToolAdmin {
   /** Process shortcut key events */
-  public processShortcutKey(keyEvent: KeyboardEvent, wentDown: boolean): boolean {
+  public override processShortcutKey(keyEvent: KeyboardEvent, wentDown: boolean): boolean {
     if (wentDown && AccuDrawHintBuilder.isEnabled)
       return AccuDrawShortcuts.processShortcutKey(keyEvent);
     return false;
@@ -66,8 +66,8 @@ class DisplayTestAppToolAdmin extends ToolAdmin {
 }
 
 class SVTSelectionTool extends SelectionTool {
-  public static toolId = "SVTSelect";
-  protected initSelectTool() {
+  public static override toolId = "SVTSelect";
+  protected override initSelectTool() {
     super.initSelectTool();
 
     // ###TODO Want to do this only if version comparison enabled, but meh.
@@ -82,10 +82,10 @@ export class DtaIpc {
 }
 
 class RefreshTilesTool extends Tool {
-  public static toolId = "RefreshTiles";
-  public static get maxArgs() { return undefined; }
+  public static override toolId = "RefreshTiles";
+  public static override get maxArgs() { return undefined; }
 
-  public run(changedModelIds?: string[]): boolean {
+  public override run(changedModelIds?: string[]): boolean {
     if (undefined !== changedModelIds && 0 === changedModelIds.length)
       changedModelIds = undefined;
 
@@ -93,17 +93,17 @@ class RefreshTilesTool extends Tool {
     return true;
   }
 
-  public parseAndRun(...args: string[]): boolean {
+  public override parseAndRun(...args: string[]): boolean {
     return this.run(args);
   }
 }
 
 class PurgeTileTreesTool extends Tool {
-  public static toolId = "PurgeTileTrees";
-  public static get minArgs() { return 0; }
-  public static get maxArgs() { return undefined; }
+  public static override toolId = "PurgeTileTrees";
+  public static override get minArgs() { return 0; }
+  public static override get maxArgs() { return undefined; }
 
-  public run(modelIds?: string[]): boolean {
+  public override run(modelIds?: string[]): boolean {
     const vp = IModelApp.viewManager.selectedView;
     if (undefined === vp)
       return true;
@@ -118,15 +118,15 @@ class PurgeTileTreesTool extends Tool {
     return true;
   }
 
-  public parseAndRun(...args: string[]): boolean {
+  public override parseAndRun(...args: string[]): boolean {
     return this.run(args);
   }
 }
 
 class ShutDownTool extends Tool {
-  public static toolId = "ShutDown";
+  public static override toolId = "ShutDown";
 
-  public run(_args: any[]): boolean {
+  public override run(_args: any[]): boolean {
     DisplayTestApp.surface.closeAllViewers();
     if (ElectronApp.isValid)
       ElectronApp.shutdown();// eslint-disable-line @typescript-eslint/no-floating-promises

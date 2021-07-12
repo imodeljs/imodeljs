@@ -15,7 +15,7 @@ export class MobileRpcRequest extends RpcRequest {
   private _fulfillment: RpcRequestFulfillment | undefined = undefined;
 
   /** Convenience access to the protocol of this request. */
-  public readonly protocol: MobileRpcProtocol = this.client.configuration.protocol as any;
+  public override readonly protocol: MobileRpcProtocol = this.client.configuration.protocol as any;
 
   /** Sends the request. */
   protected async send(): Promise<number> {

@@ -150,7 +150,7 @@ export class Stacked extends React.PureComponent<StackedProps> {
     return this._widget.current.getBoundingClientRect();
   }
 
-  public render() {
+  public override render() {
     const className = classnames(
       "nz-widget-stacked",
       !this.props.isOpen && "nz-closed",

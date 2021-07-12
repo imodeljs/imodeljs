@@ -72,8 +72,8 @@ export class PathDecorationTest {
 }
 
 export class PathDecorationTestTool extends Tool {
-  public static toolId = "TogglePathDecoration";
-  public run(_args: any[]): boolean {
+  public static override toolId = "TogglePathDecoration";
+  public override run(_args: any[]): boolean {
     const vp = IModelApp.viewManager.selectedView;
     if (undefined !== vp)
       PathDecorationTest.toggle(vp.view.iModel.projectExtents);

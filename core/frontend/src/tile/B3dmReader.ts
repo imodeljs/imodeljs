@@ -141,7 +141,7 @@ export class B3dmReader extends GltfReader {
     return this.readGltfAndCreateGraphics(this._isLeaf, featureTable, this._range, this._transformToRoot, this._pseudoRtcBias);
   }
 
-  protected readBatchTable(mesh: Mesh, json: any) {
+  protected override readBatchTable(mesh: Mesh, json: any) {
     if (mesh.features !== undefined) {
       if (this._batchTableLength > 0 && undefined !== this._batchTableJson && undefined !== json.attributes) {
         const view = this.getBufferView(json.attributes, "_BATCHID");

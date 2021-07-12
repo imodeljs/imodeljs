@@ -44,8 +44,8 @@ export namespace EditManipulator {
    * @see [[EditManipulator.HandleProvider]]
    */
   export abstract class HandleTool extends InputCollector {
-    public static toolId = "Select.Manipulator"; // Doesn't matter, not included in tool registry...
-    public static hidden = true;
+    public static override toolId = "Select.Manipulator"; // Doesn't matter, not included in tool registry...
+    public static override hidden = true;
     public readonly manipulator: HandleProvider;
 
     public constructor(manipulator: HandleProvider) {
@@ -93,25 +93,25 @@ export namespace EditManipulator {
       return EventHandled.Yes;
     }
 
-    public async onDataButtonDown(ev: BeButtonEvent): Promise<EventHandled> {
+    public override async onDataButtonDown(ev: BeButtonEvent): Promise<EventHandled> {
       if (!this.accept(ev))
         return EventHandled.No;
 
       return this.onComplete(ev, EventType.Accept);
     }
 
-    public async onResetButtonUp(ev: BeButtonEvent): Promise<EventHandled> {
+    public override async onResetButtonUp(ev: BeButtonEvent): Promise<EventHandled> {
       if (!this.cancel(ev))
         return EventHandled.No;
 
       return this.onComplete(ev, EventType.Cancel);
     }
 
-    public async onTouchMove(ev: BeTouchEvent): Promise<void> { return IModelApp.toolAdmin.convertTouchMoveToMotion(ev); }
-    public async onTouchComplete(ev: BeTouchEvent): Promise<void> { return IModelApp.toolAdmin.convertTouchEndToButtonUp(ev); }
-    public async onTouchCancel(ev: BeTouchEvent): Promise<void> { return IModelApp.toolAdmin.convertTouchEndToButtonUp(ev, BeButton.Reset); }
+    public override async onTouchMove(ev: BeTouchEvent): Promise<void> { return IModelApp.toolAdmin.convertTouchMoveToMotion(ev); }
+    public override async onTouchComplete(ev: BeTouchEvent): Promise<void> { return IModelApp.toolAdmin.convertTouchEndToButtonUp(ev); }
+    public override async onTouchCancel(ev: BeTouchEvent): Promise<void> { return IModelApp.toolAdmin.convertTouchEndToButtonUp(ev, BeButton.Reset); }
 
-    public onPostInstall(): void {
+    public override onPostInstall(): void {
       super.onPostInstall();
       this.init();
     }

@@ -365,7 +365,7 @@ describe("PopupManager", () => {
           this._sourceValue.value = option;
         }
 
-        public applyUiPropertyChange = (updatedValue: DialogPropertySyncItem): void => {
+        public override applyUiPropertyChange = (updatedValue: DialogPropertySyncItem): void => {
           if (updatedValue.propertyName === TestUiDataProvider._sourcePropertyName) {
             this.source = updatedValue.value.value ? updatedValue.value.value as string : "";
             spyChange(this.source);
@@ -373,7 +373,7 @@ describe("PopupManager", () => {
         };
 
         /** Called by UI to inform data provider of changes.  */
-        public processChangesInUi(properties: DialogPropertyItem[]): PropertyChangeResult {
+        public override processChangesInUi(properties: DialogPropertyItem[]): PropertyChangeResult {
           if (properties.length > 0) {
             for (const prop of properties) {
               this.applyUiPropertyChange(prop);
@@ -383,7 +383,7 @@ describe("PopupManager", () => {
         }
 
         /** Used Called by UI to request available properties when UI is manually created. */
-        public supplyDialogItems(): DialogItem[] | undefined {
+        public override supplyDialogItems(): DialogItem[] | undefined {
           return [
             { value: this._sourceValue, property: TestUiDataProvider._getSourceDescription(), editorPosition: { rowPriority: 1, columnIndex: 1 } },
           ];

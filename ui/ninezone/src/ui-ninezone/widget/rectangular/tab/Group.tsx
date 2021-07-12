@@ -65,7 +65,7 @@ export interface TabGroupProps extends CommonProps {
  * @alpha
  */
 export class TabGroup extends React.PureComponent<TabGroupProps> {
-  public render() {
+  public override render() {
     const className = classnames(
       "nz-widget-rectangular-tab-group",
       this.props.isCollapsed && "nz-collapsed",

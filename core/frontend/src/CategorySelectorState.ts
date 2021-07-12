@@ -21,7 +21,7 @@ import { IModelConnection } from "./IModelConnection";
  */
 export class CategorySelectorState extends ElementState {
   /** @internal */
-  public static get className() { return "CategorySelector"; }
+  public static override get className() { return "CategorySelector"; }
 
   private readonly _categories = new ObservableSet<string>();
 
@@ -46,7 +46,7 @@ export class CategorySelectorState extends ElementState {
     return this._categories;
   }
 
-  public toJSON(): CategorySelectorProps {
+  public override toJSON(): CategorySelectorProps {
     const val = super.toJSON() as CategorySelectorProps;
     val.categories = [];
     this.categories.forEach((cat) => val.categories.push(cat));

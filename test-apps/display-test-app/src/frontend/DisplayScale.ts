@@ -23,11 +23,11 @@ class DisplayScaleTransformProvider implements ModelDisplayTransformProvider {
 
 /** Apply a display transform to all currently displayed models. */
 export class ApplyModelDisplayScaleTool extends Tool {
-  public static toolId = "ApplyModelDisplayScale";
-  public static get minArgs() { return 0; }
-  public static get maxArgs() { return 3; }
+  public static override toolId = "ApplyModelDisplayScale";
+  public static override get minArgs() { return 0; }
+  public static override get maxArgs() { return 3; }
 
-  public run(scale: Point3d): boolean {
+  public override run(scale: Point3d): boolean {
     const vp = IModelApp.viewManager.selectedView;
     if (!vp)
       return false;
@@ -73,7 +73,7 @@ export class ApplyModelDisplayScaleTool extends Tool {
     return true;
   }
 
-  public parseAndRun(...input: string[]): boolean {
+  public override parseAndRun(...input: string[]): boolean {
     const args = parseArgs(input);
     const scale = new Point3d(args.getFloat("x") ?? 1.0, args.getFloat("y") ?? 1.0, args.getFloat("z") ?? 1.0);
     return this.run(scale);

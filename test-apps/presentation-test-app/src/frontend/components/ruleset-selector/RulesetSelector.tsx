@@ -19,7 +19,7 @@ export class RulesetSelector extends React.Component<RulesetSelectorProps, Rules
     super(props);
     this.state = {};
   }
-  public componentDidMount() {
+  public override componentDidMount() {
     // eslint-disable-next-line @typescript-eslint/no-floating-promises
     this.initAvailableRulesets();
   }
@@ -31,7 +31,7 @@ export class RulesetSelector extends React.Component<RulesetSelectorProps, Rules
   private onSelectedRulesetIdChanged = (e: React.ChangeEvent<HTMLSelectElement>) => {
     this.props.onRulesetSelected(e.target.value);
   };
-  public render() {
+  public override render() {
     if (!this.state.availableRulesets)
       return (<div className="RulesetSelector">{IModelApp.i18n.translate("Sample:controls.notifications.loading")}</div>);
     if (0 === this.state.availableRulesets.length)

@@ -27,9 +27,9 @@ class AspectRatioSkewDecorator {
           knots: [0, 0, 0, 1, 1, 1],
           order: 3,
           points: [
-            [ l.x, l.y, c.z ],
-            [ c.x, h.y, c.z ],
-            [ h.x, c.y, c.z ],
+            [l.x, l.y, c.z],
+            [c.x, h.y, c.z],
+            [h.x, c.y, c.z],
           ],
         },
       }],
@@ -74,11 +74,11 @@ class AspectRatioSkewDecorator {
 export class ToggleAspectRatioSkewDecoratorTool extends Tool {
   private _applyAspectRatioSkew = true;
 
-  public static toolId = "ToggleAspectRatioSkewDecorator";
-  public static get minArgs() { return 0; }
-  public static get maxArgs() { return 1; }
+  public static override toolId = "ToggleAspectRatioSkewDecorator";
+  public static override get minArgs() { return 0; }
+  public static override get maxArgs() { return 1; }
 
-  public run(): boolean {
+  public override run(): boolean {
     const iModel = IModelApp.viewManager.selectedView?.iModel;
     if (iModel)
       AspectRatioSkewDecorator.toggle(iModel, this._applyAspectRatioSkew);
@@ -86,7 +86,7 @@ export class ToggleAspectRatioSkewDecoratorTool extends Tool {
     return true;
   }
 
-  public parseAndRun(...args: string[]): boolean {
+  public override parseAndRun(...args: string[]): boolean {
     const parsedArgs = parseArgs(args);
     this._applyAspectRatioSkew = parsedArgs.getBoolean("a") ?? true;
     return this.run();

@@ -14,7 +14,7 @@ import { parseToggle } from "./parseToggle";
  * @beta
  */
 export abstract class RenderSystemDebugControlTool extends Tool {
-  public run(_args: any[]): boolean {
+  public override run(_args: any[]): boolean {
     const control = IModelApp.renderSystem.debugControl;
     if (undefined !== control)
       this.execute(control);
@@ -29,7 +29,7 @@ export abstract class RenderSystemDebugControlTool extends Tool {
  * @beta
  */
 export class LoseWebGLContextTool extends RenderSystemDebugControlTool {
-  public static toolId = "LoseWebGLContext";
+  public static override toolId = "LoseWebGLContext";
   public execute(control: RenderSystemDebugControl): void {
     control.loseContext();
   }
@@ -39,7 +39,7 @@ export class LoseWebGLContextTool extends RenderSystemDebugControlTool {
  * @beta
  */
 export class ToggleWiremeshTool extends RenderSystemDebugControlTool {
-  public static toolId = "ToggleWiremesh";
+  public static override toolId = "ToggleWiremesh";
   public execute(control: RenderSystemDebugControl): void {
     control.drawSurfacesAsWiremesh = !control.drawSurfacesAsWiremesh;
   }
@@ -50,7 +50,7 @@ export class ToggleWiremeshTool extends RenderSystemDebugControlTool {
  * @beta
  */
 export class CompileShadersTool extends RenderSystemDebugControlTool {
-  public static toolId = "CompileShaders";
+  public static override toolId = "CompileShaders";
   public execute(control: RenderSystemDebugControl): void {
     const compiled = control.compileAllShaders();
     IModelApp.notifications.outputMessage(new NotifyMessageDetails(compiled ? OutputMessagePriority.Info : OutputMessagePriority.Error, `${compiled ? "No" : "Some"} compilation errors occurred.`));
@@ -62,9 +62,9 @@ export class CompileShadersTool extends RenderSystemDebugControlTool {
  * @beta
  */
 export class ToggleDPIForLODTool extends RenderSystemDebugControlTool {
-  public static toolId = "ToggleDPIForLOD";
-  public static get minArgs() { return 0; }
-  public static get maxArgs() { return 1; }
+  public static override toolId = "ToggleDPIForLOD";
+  public static override get minArgs() { return 0; }
+  public static override get maxArgs() { return 1; }
 
   private _enable?: boolean;
 
@@ -74,7 +74,7 @@ export class ToggleDPIForLODTool extends RenderSystemDebugControlTool {
     IModelApp.viewManager.invalidateViewportScenes();
   }
 
-  public parseAndRun(...args: string[]): boolean {
+  public override parseAndRun(...args: string[]): boolean {
     const enable = parseToggle(args[0]);
     if (typeof enable !== "string") {
       this._enable = enable;

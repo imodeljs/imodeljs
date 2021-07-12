@@ -646,7 +646,7 @@ export class CurveCurveIntersectXY extends NullGeometryHandler {
     let f1;
     const intervalTolerance = 1.0e-5;
     const df = 1.0 / strokeCountA;
-    for (let i = 1; i <= strokeCountA; i++ , f0 = f1, this._xyzwA0.setFrom(this._xyzwA1)) {
+    for (let i = 1; i <= strokeCountA; i++, f0 = f1, this._xyzwA0.setFrom(this._xyzwA1)) {
       f1 = i * df;
       bezierA.fractionToPoint4d(f1, this._xyzwA1);
       Point4d.createPlanePointPointZ(this._xyzwA0, this._xyzwA1, this._xyzwPlane);
@@ -802,7 +802,7 @@ export class CurveCurveIntersectXY extends NullGeometryHandler {
       const pointA0 = CurveCurveIntersectXY._workPointA0;
       const pointA1 = CurveCurveIntersectXY._workPointA1;
       lsA.pointAt(0, pointA0);
-      for (let iA = 1; iA < numA; iA++ , pointA0.setFrom(pointA1), fA0 = fA1) {
+      for (let iA = 1; iA < numA; iA++, pointA0.setFrom(pointA1), fA0 = fA1) {
         lsA.pointAt(iA, pointA1);
         fA1 = iA * dfA;
         this.dispatchSegmentBsplineCurve(
@@ -825,7 +825,7 @@ export class CurveCurveIntersectXY extends NullGeometryHandler {
       let fB1;
       fB0 = 0.0;
       lsB.pointAt(0, pointB0);
-      for (let ib = 1; ib < numB; ib++ , pointB0.setFrom(pointB1), fB0 = fB1) {
+      for (let ib = 1; ib < numB; ib++, pointB0.setFrom(pointB1), fB0 = fB1) {
         lsB.pointAt(ib, pointB1);
         fB1 = ib * dfB;
         this.dispatchSegmentSegment(
@@ -847,7 +847,7 @@ export class CurveCurveIntersectXY extends NullGeometryHandler {
       let fB1;
       fB0 = 0.0;
       lsB.pointAt(0, pointB0);
-      for (let ib = 1; ib < numB; ib++ , pointB0.setFrom(pointB1), fB0 = fB1) {
+      for (let ib = 1; ib < numB; ib++, pointB0.setFrom(pointB1), fB0 = fB1) {
         lsB.pointAt(ib, pointB1);
         fB1 = ib * dfB;
         this.dispatchSegmentArc(
@@ -870,7 +870,7 @@ export class CurveCurveIntersectXY extends NullGeometryHandler {
     transform.multiplyPoint3d(pointB1, this._workPointB1);
   }
   /** double dispatch handler for strongly typed segment.. */
-  public handleLineSegment3d(segmentA: LineSegment3d): any {
+  public override handleLineSegment3d(segmentA: LineSegment3d): any {
     if (this._geometryB instanceof LineSegment3d) {
       const segmentB = this._geometryB;
       this.dispatchSegmentSegment(
@@ -891,7 +891,7 @@ export class CurveCurveIntersectXY extends NullGeometryHandler {
   }
 
   /** double dispatch handler for strongly typed linestring.. */
-  public handleLineString3d(lsA: LineString3d): any {
+  public override handleLineString3d(lsA: LineString3d): any {
     if (this._geometryB instanceof LineString3d) {
       const lsB = this._geometryB;
       const pointA0 = CurveCurveIntersectXY._workPointAA0;
@@ -911,12 +911,12 @@ export class CurveCurveIntersectXY extends NullGeometryHandler {
         const extendA = this._extendA;
         const extendB = this._extendB;
         lsA.pointAt(0, pointA0);
-        for (let ia = 1; ia < numA; ia++ , pointA0.setFrom(pointA1), fA0 = fA1) {
+        for (let ia = 1; ia < numA; ia++, pointA0.setFrom(pointA1), fA0 = fA1) {
           fA1 = ia * dfA;
           fB0 = 0.0;
           lsA.pointAt(ia, pointA1);
           lsB.pointAt(0, pointB0);
-          for (let ib = 1; ib < numB; ib++ , pointB0.setFrom(pointB1), fB0 = fB1) {
+          for (let ib = 1; ib < numB; ib++, pointB0.setFrom(pointB1), fB0 = fB1) {
             lsB.pointAt(ib, pointB1);
             fB1 = ib * dfB;
             this.dispatchSegmentSegment(
@@ -936,7 +936,7 @@ export class CurveCurveIntersectXY extends NullGeometryHandler {
     return undefined;
   }
   /** double dispatch handler for strongly typed arc .. */
-  public handleArc3d(arc0: Arc3d): any {
+  public override handleArc3d(arc0: Arc3d): any {
     if (this._geometryB instanceof LineSegment3d) {
       this.dispatchSegmentArc(
         this._geometryB, this._extendB, this._geometryB.point0Ref, 0.0, this._geometryB.point1Ref, 1.0, this._extendB,
@@ -951,7 +951,7 @@ export class CurveCurveIntersectXY extends NullGeometryHandler {
     return undefined;
   }
   /** double dispatch handler for strongly typed bspline curve .. */
-  public handleBSplineCurve3d(curve: BSplineCurve3d): any {
+  public override handleBSplineCurve3d(curve: BSplineCurve3d): any {
     if (this._geometryB instanceof LineSegment3d) {
       this.dispatchSegmentBsplineCurve(
         this._geometryB, this._extendB, this._geometryB.point0Ref, 0.0, this._geometryB.point1Ref, 1.0, this._extendB,
@@ -966,7 +966,7 @@ export class CurveCurveIntersectXY extends NullGeometryHandler {
     return undefined;
   }
   /** double dispatch handler for strongly typed homogeneous bspline curve .. */
-  public handleBSplineCurve3dH(_curve: BSplineCurve3dH): any {
+  public override handleBSplineCurve3dH(_curve: BSplineCurve3dH): any {
     /* NEEDS WORK -- make "dispatch" methods tolerant of both 3d and 3dH ..."easy" if both present BezierCurve3dH span loaders
     if (this._geometryB instanceof LineSegment3d) {
       this.dispatchSegmentBsplineCurve(

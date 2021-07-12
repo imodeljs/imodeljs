@@ -55,7 +55,7 @@ export function DEPRECATED_withTreeDragDrop<P extends TreeProps, DragDropObject 
     private createTreeDropProps(): DropTargetProps<DragDropObject> {
       if (!this.props.dropProps)
         return {};
-      const { onDropTargetOver, onDropTargetDrop, canDropTargetDrop, objectTypes } = this.props.dropProps! as DropTargetProps;
+      const { onDropTargetOver, onDropTargetDrop, canDropTargetDrop, objectTypes } = this.props.dropProps as DropTargetProps;
       const dropProps: DropTargetProps<DragDropObject> = {
         onDropTargetOver: (args: DropTargetArguments<DragDropObject>) => {
           // istanbul ignore else
@@ -179,7 +179,7 @@ export function DEPRECATED_withTreeDragDrop<P extends TreeProps, DragDropObject 
       );
     };
 
-    public render() {
+    public override render() {
       const { dragProps, dropProps, renderNode, ...treeProps } = this.props as any; // eslint-disable-line @typescript-eslint/no-unused-vars
       return (
         <DropTree {...treeProps}

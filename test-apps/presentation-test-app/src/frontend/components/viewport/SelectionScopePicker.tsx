@@ -21,7 +21,7 @@ export default class SelectionScopePicker extends React.Component<SelectionScope
       activeScopeId: (typeof Presentation.selection.scopes.activeScope === "string") ? Presentation.selection.scopes.activeScope : Presentation.selection.scopes.activeScope?.id,
     };
   }
-  public componentDidMount() {
+  public override componentDidMount() {
     this.initAvailableSelectionScopes(); // eslint-disable-line @typescript-eslint/no-floating-promises
   }
   private async initAvailableSelectionScopes() {
@@ -32,7 +32,7 @@ export default class SelectionScopePicker extends React.Component<SelectionScope
     scopes.push({ id: "functional-top-assembly", label: "Functional Top Assembly", description: "Selected associated functional top assembly" });
     this.setState({ availableSelectionScopes: scopes });
   }
-  public componentDidUpdate(prevProps: SelectionScopePickerProps, _prevState: SelectionScopePickerState) {
+  public override componentDidUpdate(prevProps: SelectionScopePickerProps, _prevState: SelectionScopePickerState) {
     if (this.props.imodel !== prevProps.imodel) {
       this.setState({ availableSelectionScopes: undefined });
       this.initAvailableSelectionScopes(); // eslint-disable-line @typescript-eslint/no-floating-promises
@@ -43,7 +43,7 @@ export default class SelectionScopePicker extends React.Component<SelectionScope
     Presentation.selection.scopes.activeScope = e.target.value;
     this.setState({ activeScopeId: e.target.value });
   };
-  public render() {
+  public override render() {
     if (!this.state.availableSelectionScopes || 0 === this.state.availableSelectionScopes.length)
       return null;
     return (

@@ -59,12 +59,12 @@ class TileLoadTimer {
  * @beta
  */
 export class MeasureTileLoadTimeTool extends Tool {
-  public static toolId = "MeasureTileLoadTime";
+  public static override toolId = "MeasureTileLoadTime";
 
   /** This method runs the tool, unloading all tile trees, then starts a timer that stops when all tile trees and tiles required for the view are ready. It will then output the elapsed time to notifications manager.
    * @param _args this parameter is unused
    */
-  public run(_args: any[]): boolean {
+  public override run(_args: any[]): boolean {
     const vp = IModelApp.viewManager.selectedView;
     if (undefined !== vp)
       new TileLoadTimer(vp);

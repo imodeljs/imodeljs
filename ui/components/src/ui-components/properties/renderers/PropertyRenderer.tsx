@@ -92,7 +92,7 @@ interface PropertyRendererState {
  */
 export class PropertyRenderer extends React.Component<PropertyRendererProps, PropertyRendererState> {
   /** @internal */
-  public readonly state: Readonly<PropertyRendererState> = {
+  public override readonly state: Readonly<PropertyRendererState> = {
     displayValue: UiComponents.translate("general.loading"),
   };
 
@@ -140,12 +140,12 @@ export class PropertyRenderer extends React.Component<PropertyRendererProps, Pro
   }
 
   /** @internal */
-  public componentDidMount() {
+  public override componentDidMount() {
     this.updateDisplayValue(this.props);
   }
 
   /** @internal */
-  public componentDidUpdate(prevProps: PropertyRendererProps) {
+  public override componentDidUpdate(prevProps: PropertyRendererProps) {
     if (prevProps.propertyRecord !== this.props.propertyRecord ||
       prevProps.isEditing !== this.props.isEditing ||
       prevProps.orientation !== this.props.orientation)
@@ -153,7 +153,7 @@ export class PropertyRenderer extends React.Component<PropertyRendererProps, Pro
   }
 
   /** @internal */
-  public render() {
+  public override render() {
     const { children, propertyValueRendererManager, isEditing, onEditCommit, onEditCancel, ...props } = this.props; // eslint-disable-line @typescript-eslint/no-unused-vars
     const primitiveRendererProps: PrimitiveRendererProps = {
       ...props,

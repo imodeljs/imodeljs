@@ -7,7 +7,7 @@ import { RpcConfiguration, RpcDefaultConfiguration, RpcInterfaceDefinition } fro
 export class TestRpcManager {
   public static initializeClient(interfaces: RpcInterfaceDefinition[]) {
     const config = class extends RpcDefaultConfiguration {
-      public interfaces: any = () => interfaces;
+      public override interfaces: any = () => interfaces;
     };
 
     for (const def of interfaces)

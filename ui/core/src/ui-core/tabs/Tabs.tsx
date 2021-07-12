@@ -98,13 +98,13 @@ export class Tabs extends React.PureComponent<MainTabsProps, TabsState> {
   }
 
   /** @internal */
-  public componentDidMount() {
+  public override componentDidMount() {
     this._itemKeyboardNavigator.itemCount = this.props.labels.length;
     this._itemKeyboardNavigator.orientation = this.props.orientation;
   }
 
   /** @internal */
-  public componentDidUpdate(prevProps: MainTabsProps) {
+  public override componentDidUpdate(prevProps: MainTabsProps) {
     if (prevProps.labels !== this.props.labels)
       this._itemKeyboardNavigator.itemCount = this.props.labels.length;
 
@@ -161,7 +161,7 @@ export class Tabs extends React.PureComponent<MainTabsProps, TabsState> {
   };
 
   /** @internal */
-  public render(): JSX.Element {
+  public override render(): JSX.Element {
     const ulClassNames = classnames(
       this.props.mainClassName,
       this.props.green && "uicore-tabs-green",

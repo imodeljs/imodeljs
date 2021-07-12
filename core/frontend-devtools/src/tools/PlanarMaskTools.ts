@@ -17,11 +17,11 @@ import {
  * @beta
  */
 export class SetMapHigherPriorityMasking extends Tool {
-  public static toolId = "SetMapHigherPriorityMask";
-  public static get minArgs() { return 0; }
-  public static get maxArgs() { return 1; }
+  public static override toolId = "SetMapHigherPriorityMask";
+  public static override get minArgs() { return 0; }
+  public static override get maxArgs() { return 1; }
 
-  public run(transparency?: number): boolean {
+  public override run(transparency?: number): boolean {
     const vp = IModelApp.viewManager.selectedView;
     if (undefined === vp)
       return false;
@@ -31,9 +31,9 @@ export class SetMapHigherPriorityMasking extends Tool {
     return true;
   }
 
-  public parseAndRun(...args: string[]): boolean {
-    const transparency =  parseFloat(args[0]);
-    return this.run( (transparency !== undefined && transparency  < 1.0) ? transparency : undefined);
+  public override parseAndRun(...args: string[]): boolean {
+    const transparency = parseFloat(args[0]);
+    return this.run((transparency !== undefined && transparency < 1.0) ? transparency : undefined);
   }
 }
 
@@ -41,11 +41,11 @@ export class SetMapHigherPriorityMasking extends Tool {
  * @beta
  */
 export class UnmaskMapTool extends Tool {
-  public static toolId = "UnmaskMap";
-  public static get minArgs() { return 0; }
-  public static get maxArgs() { return 0; }
+  public static override toolId = "UnmaskMap";
+  public static override get minArgs() { return 0; }
+  public static override get maxArgs() { return 0; }
 
-  public run(): boolean {
+  public override run(): boolean {
     const vp = IModelApp.viewManager.selectedView;
     if (undefined === vp)
       return false;
@@ -54,7 +54,7 @@ export class UnmaskMapTool extends Tool {
     vp.invalidateRenderPlan();
     return true;
   }
-  public parseAndRun(..._args: string[]): boolean {
+  public override parseAndRun(..._args: string[]): boolean {
     return this.run();
   }
 }
@@ -70,10 +70,10 @@ export abstract class PlanarMaskBaseTool extends PrimitiveTool {
   protected _useSelection: boolean = false;
   protected _targetMaskModel?: Id64String | ContextRealityModelState;
 
-  public requireWriteableTarget(): boolean { return false; }
-  public onPostInstall() { super.onPostInstall(); this.setupAndPromptForNextAction(); }
+  public override requireWriteableTarget(): boolean { return false; }
+  public override onPostInstall() { super.onPostInstall(); this.setupAndPromptForNextAction(); }
 
-  public onUnsuspend(): void { this.showPrompt(); }
+  public override onUnsuspend(): void { this.showPrompt(); }
   private setupAndPromptForNextAction(): void {
     this._useSelection = (undefined !== this.targetView && this.iModel.selectionSet.isActive);
     this.initLocateElements(!this._useSelection || (this.targetModelRequired() && !this._targetMaskModel));
@@ -90,7 +90,7 @@ export abstract class PlanarMaskBaseTool extends PrimitiveTool {
     this._acceptedElementIds.clear();
     this._acceptedModelIds.clear();
   }
-  public exitTool() {
+  public override exitTool() {
     super.exitTool();
     this._transparency = undefined;
   }
@@ -103,19 +103,19 @@ export abstract class PlanarMaskBaseTool extends PrimitiveTool {
       this.exitTool();
   }
 
-  public parseAndRun(...args: string[]): boolean {
-    const transparency =  parseFloat(args[0]);
-    this._transparency = (transparency !== undefined && transparency  < 1.0) ? transparency : undefined;
+  public override parseAndRun(...args: string[]): boolean {
+    const transparency = parseFloat(args[0]);
+    this._transparency = (transparency !== undefined && transparency < 1.0) ? transparency : undefined;
     return this.run();
   }
 
-  public onCleanup(): void {
+  public override onCleanup(): void {
     if (0 !== this._acceptedElementIds.size)
       this.iModel.hilited.setHilite(this._acceptedElementIds, false);
     this.clearIds();
   }
 
-  public async filterHit(hit: HitDetail, _out?: LocateResponse): Promise<LocateFilterStatus> {
+  public override async filterHit(hit: HitDetail, _out?: LocateResponse): Promise<LocateFilterStatus> {
     if (!hit.modelId)
       return LocateFilterStatus.Reject;
 
@@ -129,7 +129,7 @@ export abstract class PlanarMaskBaseTool extends PrimitiveTool {
       return (hit.isElementHit && !hit.isModelHit && !this._acceptedElementIds.has(hit.sourceId)) ? LocateFilterStatus.Accept : LocateFilterStatus.Reject;
   }
 
-  public async onDataButtonDown(ev: BeButtonEvent): Promise<EventHandled> {
+  public override async onDataButtonDown(ev: BeButtonEvent): Promise<EventHandled> {
     const hit = await IModelApp.locateManager.doLocate(new LocateResponse(), true, ev.point, ev.viewport, ev.inputSource);
     const vp = IModelApp.viewManager.selectedView;
     if (undefined === vp)
@@ -192,10 +192,10 @@ export abstract class PlanarMaskBaseTool extends PrimitiveTool {
  * @beta
  */
 export class MaskBackgroundMapByElementTool extends PlanarMaskBaseTool {
-  public static toolId = "MaskBackgroundMapByElement";
-  public static get minArgs() { return 0; }
-  public static get maxArgs() { return 1; }
-  protected targetModelRequired() { return false; }
+  public static override toolId = "MaskBackgroundMapByElement";
+  public static override get minArgs() { return 0; }
+  public static override get maxArgs() { return 1; }
+  protected override targetModelRequired() { return false; }
   protected showPrompt(): void {
     IModelApp.notifications.outputPromptByKey(`FrontendDevTools:tools.MaskBackgroundMapByElement.Prompts.${this._useSelection ? "AcceptSelection" : "IdentifyMaskElement"}`);
   }
@@ -208,10 +208,10 @@ export class MaskBackgroundMapByElementTool extends PlanarMaskBaseTool {
  * @beta
  */
 export class MaskBackgroundMapByExcludedElementTool extends PlanarMaskBaseTool {
-  public static toolId = "MaskBackgroundMapByExcludedElement";
-  public static get minArgs() { return 0; }
-  public static get maxArgs() { return 1; }
-  protected targetModelRequired() { return false; }
+  public static override toolId = "MaskBackgroundMapByExcludedElement";
+  public static override get minArgs() { return 0; }
+  public static override get maxArgs() { return 1; }
+  protected override targetModelRequired() { return false; }
   protected showPrompt(): void {
     IModelApp.notifications.outputPromptByKey(`FrontendDevTools:tools.MaskBackgroundMapByExcludedElement.Prompts.${this._useSelection ? "AcceptSelection" : "IdentifyMaskElement"}`);
   }
@@ -225,11 +225,11 @@ export class MaskBackgroundMapByExcludedElementTool extends PlanarMaskBaseTool {
  * @beta
  */
 export class MaskBackgroundMapBySubCategoryTool extends PlanarMaskBaseTool {
-  public static toolId = "MaskBackgroundMapBySubCategory";
-  public static get minArgs() { return 0; }
-  public static get maxArgs() { return 1; }
-  protected targetModelRequired() { return false; }
-  protected allowSelection(): boolean { return false; }   // Need picking to get subcategory.
+  public static override toolId = "MaskBackgroundMapBySubCategory";
+  public static override get minArgs() { return 0; }
+  public static override get maxArgs() { return 1; }
+  protected override targetModelRequired() { return false; }
+  protected override allowSelection(): boolean { return false; }   // Need picking to get subcategory.
   protected showPrompt(): void {
     IModelApp.notifications.outputPromptByKey("FrontendDevTools:tools.MaskBackgroundMapBySubCategory.Prompts.IdentifyMaskSubCategory");
   }
@@ -243,10 +243,10 @@ export class MaskBackgroundMapBySubCategoryTool extends PlanarMaskBaseTool {
  * @beta
  */
 export class MaskBackgroundMapByModelTool extends PlanarMaskBaseTool {
-  public static toolId = "MaskBackgroundMapByModel";
-  public static get minArgs() { return 0; }
-  public static get maxArgs() { return 1; }
-  protected targetModelRequired() { return false; }
+  public static override toolId = "MaskBackgroundMapByModel";
+  public static override get minArgs() { return 0; }
+  public static override get maxArgs() { return 1; }
+  protected override targetModelRequired() { return false; }
   protected showPrompt(): void {
     IModelApp.notifications.outputPromptByKey(`FrontendDevTools:tools.MaskBackgroundMapByModel.Prompts.${this._useSelection ? "AcceptSelection" : "IdentifyMaskModel"}`);
   }
@@ -260,13 +260,13 @@ export class MaskBackgroundMapByModelTool extends PlanarMaskBaseTool {
  * @beta
  */
 export class MaskRealityModelByElementTool extends PlanarMaskBaseTool {
-  public static toolId = "MaskRealityModelByElement";
-  public static get minArgs() { return 0; }
-  public static get maxArgs() { return 1; }
-  protected targetModelRequired() { return true; }
+  public static override toolId = "MaskRealityModelByElement";
+  public static override get minArgs() { return 0; }
+  public static override get maxArgs() { return 1; }
+  protected override targetModelRequired() { return true; }
 
   protected showPrompt(): void {
-    const key = `FrontendDevTools:tools.MaskRealityModelByElement.Prompts.${  this._targetMaskModel === undefined ? "IdentifyRealityModel" : (this._useSelection ? "AcceptSelection" : "IdentifyMaskElement")}`;
+    const key = `FrontendDevTools:tools.MaskRealityModelByElement.Prompts.${this._targetMaskModel === undefined ? "IdentifyRealityModel" : (this._useSelection ? "AcceptSelection" : "IdentifyMaskElement")}`;
     IModelApp.notifications.outputPromptByKey(key);
   }
   protected createToolInstance(): PlanarMaskBaseTool { return new MaskRealityModelByElementTool(); }
@@ -279,10 +279,10 @@ export class MaskRealityModelByElementTool extends PlanarMaskBaseTool {
  * @beta
  */
 export class MaskRealityModelByExcludedElementTool extends PlanarMaskBaseTool {
-  public static toolId = "MaskRealityModelByExcludedElement";
-  public static get minArgs() { return 0; }
-  public static get maxArgs() { return 1; }
-  protected targetModelRequired() { return true; }
+  public static override toolId = "MaskRealityModelByExcludedElement";
+  public static override get minArgs() { return 0; }
+  public static override get maxArgs() { return 1; }
+  protected override targetModelRequired() { return true; }
 
   protected showPrompt(): void {
     const key = `FrontendDevTools:tools.MaskRealityModelByExcludedElement.Prompts.${this._targetMaskModel === undefined ? "IdentifyRealityModel" : (this._useSelection ? "AcceptSelection" : "IdentifyMaskElement")}`;
@@ -299,11 +299,11 @@ export class MaskRealityModelByExcludedElementTool extends PlanarMaskBaseTool {
  */
 
 export class MaskRealityModelByModelTool extends PlanarMaskBaseTool {
-  public static toolId = "MaskRealityModelByModel";
-  public static get minArgs() { return 0; }
-  public static get maxArgs() { return 1; }
+  public static override toolId = "MaskRealityModelByModel";
+  public static override get minArgs() { return 0; }
+  public static override get maxArgs() { return 1; }
 
-  protected targetModelRequired() { return true; }
+  protected override targetModelRequired() { return true; }
 
   protected showPrompt(): void {
     const key = `FrontendDevTools:tools.MaskRealityModelByModel.Prompts.${this._targetMaskModel === undefined ? "IdentifyRealityModel" : (this._useSelection ? "AcceptSelection" : "IdentifyMaskModel")}`;
@@ -319,14 +319,14 @@ export class MaskRealityModelByModelTool extends PlanarMaskBaseTool {
  * @beta
  */
 export class MaskRealityModelBySubCategoryTool extends PlanarMaskBaseTool {
-  public static toolId = "MaskRealityModelBySubCategory";
-  public static get minArgs() { return 0; }
-  public static get maxArgs() { return 1; }
-  protected targetModelRequired() { return true; }
-  protected allowSelection(): boolean { return false; }   // Need picking to get subcategory.
+  public static override toolId = "MaskRealityModelBySubCategory";
+  public static override get minArgs() { return 0; }
+  public static override get maxArgs() { return 1; }
+  protected override targetModelRequired() { return true; }
+  protected override allowSelection(): boolean { return false; }   // Need picking to get subcategory.
 
   protected showPrompt(): void {
-    const key = `FrontendDevTools:tools.MaskRealityModelByModel.Prompts.${  this._targetMaskModel === undefined ? "IdentifyRealityModel" : "IdentifyMaskSubCategory"}`;
+    const key = `FrontendDevTools:tools.MaskRealityModelByModel.Prompts.${this._targetMaskModel === undefined ? "IdentifyRealityModel" : "IdentifyMaskSubCategory"}`;
     IModelApp.notifications.outputPromptByKey(key);
   }
   protected createToolInstance(): PlanarMaskBaseTool { return new MaskRealityModelBySubCategoryTool(); }
@@ -339,11 +339,11 @@ export class MaskRealityModelBySubCategoryTool extends PlanarMaskBaseTool {
  * @beta
  */
 export class SetHigherPriorityRealityModelMasking extends PlanarMaskBaseTool {
-  public static toolId = "SetHigherPriorityRealityModelMasking";
-  public static get minArgs() { return 0; }
-  public static get maxArgs() { return 2; }
-  protected targetModelRequired() { return true; }
-  protected elementRequired() { return false; }
+  public static override toolId = "SetHigherPriorityRealityModelMasking";
+  public static override get minArgs() { return 0; }
+  public static override get maxArgs() { return 2; }
+  protected override targetModelRequired() { return true; }
+  protected override elementRequired() { return false; }
   private _priority = 0;
 
   protected showPrompt(): void {
@@ -355,7 +355,7 @@ export class SetHigherPriorityRealityModelMasking extends PlanarMaskBaseTool {
     this.setRealityModelMask(vp, PlanarClipMaskSettings.createByPriority(basePriority + this._priority, this._transparency)!);
   }
 
-  public parseAndRun(...args: string[]): boolean {
+  public override parseAndRun(...args: string[]): boolean {
     super.parseAndRun(...args);
     const priority = parseInt(args[0], 10);
     this._priority = (priority === undefined || isNaN(priority)) ? 0 : priority;
@@ -367,8 +367,8 @@ export class SetHigherPriorityRealityModelMasking extends PlanarMaskBaseTool {
  * @beta
  */
 export class UnmaskRealityModelTool extends PlanarMaskBaseTool {
-  public static toolId = "UnmaskRealityModel";
-  protected targetModelRequired() { return true; }
+  public static override toolId = "UnmaskRealityModel";
+  protected override targetModelRequired() { return true; }
 
   protected showPrompt(): void {
     IModelApp.notifications.outputPromptByKey("FrontendDevTools:tools.UnmaskRealityModel.Prompts.IdentifyRealityModel");
@@ -378,7 +378,7 @@ export class UnmaskRealityModelTool extends PlanarMaskBaseTool {
     const settings = PlanarClipMaskSettings.createForElementsOrSubCategories(PlanarClipMaskMode.IncludeSubCategories, this._acceptedSubCategoryIds, this._acceptedModelIds);
     this.setRealityModelMask(vp, settings);
   }
-  public async onDataButtonDown(ev: BeButtonEvent): Promise<EventHandled> {
+  public override async onDataButtonDown(ev: BeButtonEvent): Promise<EventHandled> {
     const hit = await IModelApp.locateManager.doLocate(new LocateResponse(), true, ev.point, ev.viewport, ev.inputSource);
     if (hit?.modelId) {
       const model = hit.viewport.displayStyle.contextRealityModelStates.find((x) => x.modelId === hit.modelId);

@@ -115,18 +115,18 @@ export class IconEditor extends React.PureComponent<PropertyEditorProps, IconEdi
   };
 
   /** @internal */
-  public componentDidMount() {
+  public override componentDidMount() {
     this._isMounted = true;
     this.setStateFromProps(); // eslint-disable-line @typescript-eslint/no-floating-promises
   }
 
   /** @internal */
-  public componentWillUnmount() {
+  public override componentWillUnmount() {
     this._isMounted = false;
   }
 
   /** @internal */
-  public componentDidUpdate(prevProps: PropertyEditorProps) {
+  public override componentDidUpdate(prevProps: PropertyEditorProps) {
     if (this.props.propertyRecord !== prevProps.propertyRecord) {
       this.setStateFromProps(); // eslint-disable-line @typescript-eslint/no-floating-promises
     }
@@ -157,7 +157,7 @@ export class IconEditor extends React.PureComponent<PropertyEditorProps, IconEdi
   }
 
   /** @internal */
-  public render() {
+  public override render() {
     const { icon, icons, numColumns } = this.state;
     return (
       <div className={classnames("components-icon-editor", this.props.className)} style={this.props.style} ref={this._divElement}>

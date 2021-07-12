@@ -194,7 +194,7 @@ class RootTile extends Tile {
     this.loadChildren();
   }
 
-  public dispose(): void {
+  public override dispose(): void {
     this.transition(disposedState);
     super.dispose();
   }
@@ -349,13 +349,13 @@ export class IModelTileTree extends TileTree {
   /** Exposed chiefly for tests. */
   public get staticBranch(): IModelTile { return this._rootTile.staticBranch; }
   public get is3d() { return this._options.is3d; }
-  public get isContentUnbounded() { return false; }
+  public override get isContentUnbounded() { return false; }
   public get viewFlagOverrides() { return viewFlagOverrides; }
 
   public get batchType(): BatchType { return this._options.batchType; }
   public get hasEdges(): boolean { return this._options.edgesRequired; }
 
-  public get loadPriority(): TileLoadPriority {
+  public override get loadPriority(): TileLoadPriority {
     // If the model has been modified, we want to prioritize keeping its graphics up to date.
     return this.tileState === "dynamic" ? TileLoadPriority.Dynamic : super.loadPriority;
   }

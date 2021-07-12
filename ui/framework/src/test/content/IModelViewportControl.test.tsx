@@ -44,7 +44,7 @@ describe("IModelViewportControl", () => {
   });
 
   class TestViewportContentControl extends IModelViewportControl {
-    public static get id() {
+    public static override get id() {
       return "TestApp.IModelViewport";
     }
 
@@ -53,17 +53,17 @@ describe("IModelViewportControl", () => {
       this.setIsReady();
     }
 
-    protected _getViewOverlay = (_viewport: ScreenViewport): React.ReactNode => {
+    protected override _getViewOverlay = (_viewport: ScreenViewport): React.ReactNode => {
       return <div data-testid="ViewOverlay">ViewOverlay</div>;
     };
 
-    protected initializeReactNode() {
+    protected override initializeReactNode() {
       this._reactNode = <div data-testid="MainContent">
         {this._getViewOverlay(this.viewport!)}
       </div >;
     }
 
-    public get viewport(): ScreenViewport | undefined { return viewportMock.object; }
+    public override get viewport(): ScreenViewport | undefined { return viewportMock.object; }
   }
 
   class Frontstage1 extends FrontstageProvider {

@@ -147,7 +147,7 @@ export class BingMapsImageryLayerProvider extends MapLayerImageryProvider {
     return matchingAttributions;
   }
 
-  public getLogo(vp: ScreenViewport): HTMLTableRowElement | undefined {
+  public override getLogo(vp: ScreenViewport): HTMLTableRowElement | undefined {
     const tiles = IModelApp.tileAdmin.getTilesForViewport(vp)?.selected;
     const matchingAttributions = this.getMatchingAttributions(tiles);
     const copyrights: string[] = [];
@@ -164,7 +164,7 @@ export class BingMapsImageryLayerProvider extends MapLayerImageryProvider {
   }
 
   // initializes the BingImageryProvider by reading the templateUrl, logo image, and attribution list.
-  public async initialize(): Promise<void> {
+  public override async initialize(): Promise<void> {
     // get the template url
     // NEEDSWORK - should get bing key from server. Currently coming from iModelApp defaultMapLayerOptions
     const bingRequestUrl = this._urlBase.replace("{bingKey}", this._settings.accessKey ? this._settings.accessKey.value : "");

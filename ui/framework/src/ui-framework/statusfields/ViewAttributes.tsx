@@ -42,7 +42,7 @@ export class ViewAttributesStatusField extends React.Component<StatusFieldProps,
     this._className = this.constructor.name;
   }
 
-  public componentDidMount() {
+  public override componentDidMount() {
     this.updateState();
   }
 
@@ -119,7 +119,7 @@ export class ViewAttributesStatusField extends React.Component<StatusFieldProps,
     return <div className="uifw-view-attributes-contents">{items}</div>;
   }
 
-  public render() {
+  public override render() {
     const isOpen = this.props.openWidget === this._className;
 
     return (

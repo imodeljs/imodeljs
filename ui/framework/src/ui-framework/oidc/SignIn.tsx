@@ -43,7 +43,7 @@ export class SignIn extends React.PureComponent<SignInProps> {
     super(props);
   }
 
-  public componentDidMount() {
+  public override componentDidMount() {
     const oidcClient = IModelApp.authorizationClient;
     // istanbul ignore if
     if (isFrontendAuthorizationClient(oidcClient))
@@ -63,7 +63,7 @@ export class SignIn extends React.PureComponent<SignInProps> {
       this.props.onSignedIn();
   }
 
-  public componentWillUnmount() {
+  public override componentWillUnmount() {
     // istanbul ignore next
     if (this._oidcClient)
       this._oidcClient.onUserStateChanged.removeListener(this._onUserStateChanged);
@@ -79,7 +79,7 @@ export class SignIn extends React.PureComponent<SignInProps> {
       this.props.onStartSignIn();
   };
 
-  public render() {
+  public override render() {
 
     /*
      * Note: In the case of electron, the signin happens in a disconnected web browser. We therefore show

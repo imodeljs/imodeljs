@@ -600,7 +600,7 @@ export abstract class ElementSetTool extends PrimitiveTool {
   }
 
   /** Called from [[ElementSetTool.doLocate]] as well as auto-locate to accept or reject elements under the cursor. */
-  public async filterHit(hit: HitDetail, out?: LocateResponse): Promise<LocateFilterStatus> {
+  public override async filterHit(hit: HitDetail, out?: LocateResponse): Promise<LocateFilterStatus> {
     // Support deselect using control key and don't show "not" cursor over an already selected element...
     if (undefined !== this._agenda && this._agenda.find(hit.sourceId)) {
       const status = (this.isControlDown || !this.controlKeyInvertsSelection) ? LocateFilterStatus.Accept : LocateFilterStatus.Reject;
@@ -721,30 +721,30 @@ export abstract class ElementSetTool extends PrimitiveTool {
   }
 
   /** Show graphics for when drag selection is active. */
-  public decorate(context: DecorateContext): void { this.selectByPointsDecorate(context); }
+  public override decorate(context: DecorateContext): void { this.selectByPointsDecorate(context); }
 
   /** Make sure drag selection graphics are updated when mouse moves. */
-  public async onMouseMotion(ev: BeButtonEvent): Promise<void> {
+  public override async onMouseMotion(ev: BeButtonEvent): Promise<void> {
     if (undefined !== ev.viewport && this.isSelectByPoints)
       ev.viewport.invalidateDecorations();
   }
 
   /** Support initiating drag selection on mouse start drag event when [[ElementSetTool.allowDragSelect]] is true. */
-  public async onMouseStartDrag(ev: BeButtonEvent): Promise<EventHandled> {
+  public override async onMouseStartDrag(ev: BeButtonEvent): Promise<EventHandled> {
     if (await this.selectByPointsStart(ev))
       return EventHandled.Yes;
     return super.onMouseStartDrag(ev);
   }
 
   /** Support completing active drag selection on mouse end drag event and update [[ElementSetTool.agenda]]. */
-  public async onMouseEndDrag(ev: BeButtonEvent): Promise<EventHandled> {
+  public override async onMouseEndDrag(ev: BeButtonEvent): Promise<EventHandled> {
     if (await this.selectByPointsEnd(ev))
       return EventHandled.Yes;
     return super.onMouseEndDrag(ev);
   }
 
   /** Update prompts, cursor, graphics, etc. as appropriate on ctrl and shift key transitions. */
-  public async onModifierKeyTransition(_wentDown: boolean, modifier: BeModifierKeys, _event: KeyboardEvent): Promise<EventHandled> {
+  public override async onModifierKeyTransition(_wentDown: boolean, modifier: BeModifierKeys, _event: KeyboardEvent): Promise<EventHandled> {
     if (this.isSelectionSetModify)
       return EventHandled.No;
 
@@ -810,11 +810,11 @@ export abstract class ElementSetTool extends PrimitiveTool {
     return this.chooseNextHit(ev);
   }
 
-  public async onResetButtonUp(ev: BeButtonEvent): Promise<EventHandled> {
+  public override async onResetButtonUp(ev: BeButtonEvent): Promise<EventHandled> {
     return this.processResetButton(ev);
   }
 
-  public async onResetButtonDown(ev: BeButtonEvent): Promise<EventHandled> {
+  public override async onResetButtonDown(ev: BeButtonEvent): Promise<EventHandled> {
     return this.processResetButton(ev);
   }
 
@@ -891,11 +891,11 @@ export abstract class ElementSetTool extends PrimitiveTool {
     return EventHandled.Yes;
   }
 
-  public async onDataButtonUp(ev: BeButtonEvent): Promise<EventHandled> {
+  public override async onDataButtonUp(ev: BeButtonEvent): Promise<EventHandled> {
     return this.processDataButton(ev);
   }
 
-  public async onDataButtonDown(ev: BeButtonEvent): Promise<EventHandled> {
+  public override async onDataButtonDown(ev: BeButtonEvent): Promise<EventHandled> {
     return this.processDataButton(ev);
   }
 
@@ -910,7 +910,7 @@ export abstract class ElementSetTool extends PrimitiveTool {
    * @note Tools should not modify [[ElementSetTool.agenda]] in this method, it should merely serve as a convenient place
    * to update information, such as element graphics once dynamics has started, ex. [[ElementSetTool.chooseNextHit]].
   */
-  protected async onAgendaModified(): Promise<void> {}
+  protected async onAgendaModified(): Promise<void> { }
 
   /** Sub-classes can override to continue with current [[ElementSetTool.agenda]] or restart after processing has completed. */
   protected async onProcessComplete(): Promise<void> { this.onReinitialize(); }
@@ -943,7 +943,7 @@ export abstract class ElementSetTool extends PrimitiveTool {
   }
 
   /** Setup initial element state, prompts, check [[SelectionSet]], etc. */
-  public onPostInstall() {
+  public override onPostInstall() {
     super.onPostInstall();
     this.setPreferredElementSource();
     this.setupAndPromptForNextAction();
@@ -953,7 +953,7 @@ export abstract class ElementSetTool extends PrimitiveTool {
   }
 
   /** Make sure elements from [[ElemenetSetTool.agenda]] that aren't also from [[SelectionSet]] aren't left hilited. */
-  public onCleanup(): void {
+  public override onCleanup(): void {
     super.onCleanup();
     if (undefined !== this._agenda)
       this._agenda.clear();
@@ -962,7 +962,7 @@ export abstract class ElementSetTool extends PrimitiveTool {
   /** Exit and start default tool when [[ElementSetTool.isSelectionSetModify]] is true to allow [[SelectionSet]] to be modified,
    * or call [[PrimitiveTool.onRestartTool]] to install a new tool instance.
    */
-  public onReinitialize(): void {
+  public override onReinitialize(): void {
     if (this.isSelectionSetModify) {
       this.exitTool();
       return;
@@ -971,7 +971,7 @@ export abstract class ElementSetTool extends PrimitiveTool {
   }
 
   /** Restore tool assistance after no longer being suspended by either a [[ViewTool]] or [[InputCollector]]. */
-  public onUnsuspend(): void {
+  public override onUnsuspend(): void {
     this.provideToolAssistance();
   }
 

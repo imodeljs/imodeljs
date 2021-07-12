@@ -341,7 +341,7 @@ class BriefcaseDbBuilder extends IModelDbBuilder {
     await this._pushChanges(comment, changesType);
   }
 
-  protected _onChangeChannel(newParentId: Id64String) {
+  protected override _onChangeChannel(newParentId: Id64String) {
     super._onChangeChannel(newParentId);
     assert(this._imodel instanceof BriefcaseDb);
     assert(!this._imodel.concurrencyControl.hasPendingRequests);

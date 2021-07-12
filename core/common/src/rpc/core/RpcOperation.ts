@@ -134,7 +134,7 @@ export namespace RpcOperation { // eslint-disable-line no-redeclare
   export function allowResponseCaching(control: RpcResponseCacheControl = RpcResponseCacheControl.Immutable) {
     return <T extends RpcInterface>(target: T, propertyKey: string, descriptor: PropertyDescriptor) => {
       descriptor.value[OPERATION] = new RpcOperation(target.constructor as any, propertyKey, new class extends RpcOperationPolicy {
-        public allowResponseCaching = () => control;
+        public override allowResponseCaching = () => control;
       }());
     };
   }
@@ -143,7 +143,7 @@ export namespace RpcOperation { // eslint-disable-line no-redeclare
   export function setRoutingProps(handler: RpcRequestTokenSupplier_T) {
     return <T extends RpcInterface>(target: T, propertyKey: string, descriptor: PropertyDescriptor) => {
       descriptor.value[OPERATION] = new RpcOperation(target.constructor as any, propertyKey, new class extends RpcOperationPolicy {
-        public token = handler;
+        public override token = handler;
       }());
     };
   }

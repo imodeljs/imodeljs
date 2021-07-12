@@ -201,7 +201,7 @@ export class ClassificationsPanel extends ToolBarDropDown {
     this._element.style.display = "block";
   }
   protected _close(): void { this._element.style.display = "none"; }
-  public get onViewChanged(): Promise<void> { return this.populate(); }
+  public override get onViewChanged(): Promise<void> { return this.populate(); }
 
   private updateModelComboBox(modelId: string): void {
     if (undefined !== this._modelComboBox)

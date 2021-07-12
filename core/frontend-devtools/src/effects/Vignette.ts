@@ -15,7 +15,7 @@ import { AddEffectTool, refreshViewportsForEffect } from "./EffectTools";
  * @beta
  */
 export class VignetteEffect extends AddEffectTool {
-  public static toolId = "VignetteEffect";
+  public static override toolId = "VignetteEffect";
 
   protected get effectName() { return "Vignette"; }
   protected get textureCoordFromPosition() { return true; }
@@ -80,14 +80,14 @@ export class VignetteEffect extends AddEffectTool {
  * @beta
  */
 export class VignetteConfig extends Tool {
-  public static toolId = "VignetteConfig";
-  public static get minArgs() { return 0; }
-  public static get maxArgs() { return 4; }
+  public static override toolId = "VignetteConfig";
+  public static override get minArgs() { return 0; }
+  public static override get maxArgs() { return 4; }
 
   /** Size of the vignette in the form (width/2, height/2). e.g., to make the vignette start fading in halfway between the center and edges of
    * UV space, use (0.25, 0.25).
    */
-  public static readonly size = new Float32Array([ 0.25, 0.25 ]);
+  public static readonly size = new Float32Array([0.25, 0.25]);
 
   /** How round the vignette will be, from 0.0 (perfectly rectangular) to 1.0 (perfectly round). */
   public static roundness = 1.0;
@@ -97,7 +97,7 @@ export class VignetteConfig extends Tool {
    */
   public static smoothness = 0.5;
 
-  public run(width?: number, height?: number, roundness?: number, smoothness?: number): boolean {
+  public override run(width?: number, height?: number, roundness?: number, smoothness?: number): boolean {
     const config = VignetteConfig;
     config.size[0] = width ?? config.size[0];
     config.size[1] = height ?? config.size[1];
@@ -108,7 +108,7 @@ export class VignetteConfig extends Tool {
     return true;
   }
 
-  public parseAndRun(...input: string[]): boolean {
+  public override parseAndRun(...input: string[]): boolean {
     const args = parseArgs(input);
     return this.run(args.getFloat("w"), args.getFloat("h"), args.getFloat("r"), args.getFloat("s"));
   }

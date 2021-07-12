@@ -31,7 +31,7 @@ export interface StagePanelsProps extends CommonProps {
  * @beta
  */
 export class StagePanels extends React.PureComponent<StagePanelsProps> {
-  public render() {
+  public override render() {
     const className = classnames(
       "nz-stagePanels-stagePanels",
       this.props.className);

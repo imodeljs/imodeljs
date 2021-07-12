@@ -6,7 +6,7 @@
  * @module OrbitGT
  */
 
-//package orbitgt.spatial.ecrs.projection;
+// package orbitgt.spatial.ecrs.projection;
 
 type int8 = number;
 type int16 = number;
@@ -40,9 +40,9 @@ export class KrovakObliqueConformalConicEN extends OperationMethod {
     private projection: KrovakObliqueConformalConic;
 
     /**
-     * Create a new projection.
-     * @param parameters the values of the parameters.
-     */
+       * Create a new projection.
+       * @param parameters the values of the parameters.
+       */
     public constructor(parameters: ParameterValueList) {
         super(KrovakObliqueConformalConicEN.METHOD_CODE, "Krovak Oblique Conic Conformal East-North", parameters);
         /* Create the projection */
@@ -50,41 +50,41 @@ export class KrovakObliqueConformalConicEN extends OperationMethod {
     }
 
     /**
-     * OperationMethod method.
-     * @see OperationMethod#initialize
-     */
-    public initialize(operation: Operation): void {
+       * OperationMethod method.
+       * @see OperationMethod#initialize
+       */
+    public override initialize(operation: Operation): void {
         /* Prepare the projection */
         this.projection.initialize(operation);
     }
 
     /**
-     * OperationMethod interface method.
-     * @see OperationMethod#forward
-     */
+       * OperationMethod interface method.
+       * @see OperationMethod#forward
+       */
     public forward(sourceCRS: CRS, source: Coordinate, targetCRS: CRS, target: Coordinate): void {
         /* Do the forward projection */
         this.projection.forward(sourceCRS, source, targetCRS, target);
         /* Get the original position */
-        let E: float64 = target.getX();
-        let N: float64 = target.getY();
+        const E: float64 = target.getX();
+        const N: float64 = target.getY();
         /* Swap */
         target.setX(-N);
         target.setY(-E);
     }
 
     /**
-     * OperationMethod interface method.
-     * @see OperationMethod#reverse
-     */
+       * OperationMethod interface method.
+       * @see OperationMethod#reverse
+       */
     public reverse(sourceCRS: CRS, source: Coordinate, targetCRS: CRS, target: Coordinate): void {
         /* Get the swapped position */
-        let N: float64 = -target.getX();
-        let E: float64 = -target.getY();
+        const N: float64 = -target.getX();
+        const E: float64 = -target.getY();
         /* Swap (leave the target coordinate untouched) */
         source.setX(E);
         source.setY(N);
         /* Do the reverse projection */
-        this.projection.reverse(sourceCRS, source, targetCRS, source/*target*/);
+        this.projection.reverse(sourceCRS, source, targetCRS, source/* target*/);
     }
 }

@@ -18,7 +18,7 @@ export abstract class ElectronRpcConfiguration extends RpcConfiguration {
   public static targetWindowId?: number;
 
   /** The protocol of the configuration. */
-  public abstract protocol: ElectronRpcProtocol;
+  public abstract override protocol: ElectronRpcProtocol;
 }
 
 /** Coordinates usage of RPC interfaces for an Electron-based application.

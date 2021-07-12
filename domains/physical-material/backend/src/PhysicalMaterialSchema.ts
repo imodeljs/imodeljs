@@ -16,7 +16,7 @@ import * as elementsModule from "./PhysicalMaterialElements";
  * @public
  */
 export class PhysicalMaterialSchema extends Schema {
-  public static get schemaName(): string { return "PhysicalMaterial"; }
+  public static override get schemaName(): string { return "PhysicalMaterial"; }
   public static get schemaFilePath(): string { return path.join(KnownLocations.nativeAssetsDir, "ECSchemas", "Domain", `${PhysicalMaterialSchema.schemaName}.ecschema.xml`); }
 
   public static registerSchema() {

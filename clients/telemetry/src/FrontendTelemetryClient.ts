@@ -44,7 +44,7 @@ export class ClientTelemetryEvent extends TelemetryEvent {
     this.clientUserOrgName = requestContext.accessToken.getUserInfo()?.organization?.id;
   }
 
-  public getProperties(): { [key: string]: any } {
+  public override getProperties(): { [key: string]: any } {
     const properties = super.getProperties();
 
     properties.activityId = this.activityId;

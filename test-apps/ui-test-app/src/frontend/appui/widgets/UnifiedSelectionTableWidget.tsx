@@ -47,11 +47,11 @@ class UnifiedSelectionTableWidget extends React.PureComponent<UnifiedSelectionTa
     return state;
   }
 
-  public componentWillUnmount() {
+  public override componentWillUnmount() {
     this.state.dataProvider.dispose();
   }
 
-  public componentDidUpdate(_prevProps: UnifiedSelectionTableWidgetProps, prevState: UnifiedSelectionTableWidgetState) {
+  public override componentDidUpdate(_prevProps: UnifiedSelectionTableWidgetProps, prevState: UnifiedSelectionTableWidgetState) {
     if (this.state.dataProvider !== prevState.dataProvider)
       prevState.dataProvider.dispose();
   }
@@ -120,7 +120,7 @@ class UnifiedSelectionTableWidget extends React.PureComponent<UnifiedSelectionTa
       </GlobalContextMenu>
     );
   }
-  public render() {
+  public override render() {
     if (this.props.iModelConnection && this.props.rulesetId) {
       return (
         <div style={{ height: "100%" }}>

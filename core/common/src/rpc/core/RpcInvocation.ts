@@ -130,6 +130,8 @@ export class RpcInvocation {
       (impl as any)[CURRENT_INVOCATION] = this;
       const op = this.lookupOperationFunction(impl);
 
+      // @typescript-eslint/return-await doesn't agree with awaiting values that *might* be a promise
+      // eslint-disable-next-line @typescript-eslint/return-await
       return await op.call(impl, ...parameters);
     } catch (error) {
       return this.reject(error);

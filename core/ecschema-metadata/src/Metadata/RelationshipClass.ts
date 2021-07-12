@@ -31,8 +31,8 @@ type AnyConstraintClass = EntityClass | Mixin | RelationshipClass;
  * @beta
  */
 export class RelationshipClass extends ECClass {
-  public readonly schema!: Schema; // eslint-disable-line
-  public readonly schemaItemType!: SchemaItemType.RelationshipClass; // eslint-disable-line
+  public override readonly schema!: Schema; // eslint-disable-line
+  public override readonly schemaItemType!: SchemaItemType.RelationshipClass; // eslint-disable-line
   protected _strength: StrengthType;
   protected _strengthDirection: StrengthDirection;
   protected _source: RelationshipConstraint;
@@ -85,7 +85,7 @@ export class RelationshipClass extends ECClass {
    * @param standalone Serialization includes only this object (as opposed to the full schema).
    * @param includeSchemaVersion Include the Schema's version information in the serialized object.
    */
-  public toJSON(standalone: boolean = false, includeSchemaVersion: boolean = false): RelationshipClassProps {
+  public override toJSON(standalone: boolean = false, includeSchemaVersion: boolean = false): RelationshipClassProps {
     const schemaJson = super.toJSON(standalone, includeSchemaVersion) as any;
     schemaJson.strength = strengthToString(this.strength);
     schemaJson.strengthDirection = strengthDirectionToString(this.strengthDirection);
@@ -95,7 +95,7 @@ export class RelationshipClass extends ECClass {
   }
 
   /** @internal */
-  public async toXml(schemaXml: Document): Promise<Element> {
+  public override async toXml(schemaXml: Document): Promise<Element> {
     const itemElement = await super.toXml(schemaXml);
     itemElement.setAttribute("strength", strengthToString(this.strength));
     itemElement.setAttribute("strengthDirection", strengthDirectionToString(this.strengthDirection));
@@ -104,7 +104,7 @@ export class RelationshipClass extends ECClass {
     return itemElement;
   }
 
-  public fromJSONSync(relationshipClassProps: RelationshipClassProps) {
+  public override fromJSONSync(relationshipClassProps: RelationshipClassProps) {
     super.fromJSONSync(relationshipClassProps);
 
     const strength = parseStrength(relationshipClassProps.strength);
@@ -119,7 +119,7 @@ export class RelationshipClass extends ECClass {
     this._strengthDirection = strengthDirection;
   }
 
-  public async fromJSON(relationshipClassProps: RelationshipClassProps) {
+  public override async fromJSON(relationshipClassProps: RelationshipClassProps) {
     this.fromJSONSync(relationshipClassProps);
   }
 }
@@ -378,7 +378,7 @@ export class RelationshipConstraint implements CustomAttributeContainerProps {
     const relationshipConstrait = object as RelationshipConstraint;
 
     return relationshipConstrait !== undefined && relationshipConstrait.polymorphic !== undefined && relationshipConstrait.multiplicity !== undefined
-            && relationshipConstrait.relationshipEnd !== undefined && relationshipConstrait._relationshipClass !== undefined;
+      && relationshipConstrait.relationshipEnd !== undefined && relationshipConstrait._relationshipClass !== undefined;
   }
 
   protected addCustomAttribute(customAttribute: CustomAttribute) {
@@ -395,7 +395,7 @@ export class RelationshipConstraint implements CustomAttributeContainerProps {
  * @internal
  */
 export abstract class MutableRelationshipConstraint extends RelationshipConstraint {
-  public abstract addCustomAttribute(customAttribute: CustomAttribute): void;
+  public abstract override addCustomAttribute(customAttribute: CustomAttribute): void;
 
 }
 
@@ -451,11 +451,11 @@ export class RelationshipMultiplicity {
  * An abstract class used for schema editing.
  */
 export abstract class MutableRelationshipClass extends RelationshipClass {
-  public get source() { return this._source as MutableRelationshipConstraint; }
-  public get target() { return this._target as MutableRelationshipConstraint; }
-  public abstract setStrength(strength: StrengthType): void;
-  public abstract setStrengthDirection(direction: StrengthDirection): void;
-  public abstract createNavigationProperty(name: string, relationship: string | RelationshipClass, direction: string | StrengthDirection): Promise<NavigationProperty>;
-  public abstract createNavigationPropertySync(name: string, relationship: string | RelationshipClass, direction: string | StrengthDirection): NavigationProperty;
-  public abstract setDisplayLabel(displayLabel: string): void;
+  public override get source() { return this._source as MutableRelationshipConstraint; }
+  public override get target() { return this._target as MutableRelationshipConstraint; }
+  public abstract override setStrength(strength: StrengthType): void;
+  public abstract override setStrengthDirection(direction: StrengthDirection): void;
+  public abstract override createNavigationProperty(name: string, relationship: string | RelationshipClass, direction: string | StrengthDirection): Promise<NavigationProperty>;
+  public abstract override createNavigationPropertySync(name: string, relationship: string | RelationshipClass, direction: string | StrengthDirection): NavigationProperty;
+  public abstract override setDisplayLabel(displayLabel: string): void;
 }

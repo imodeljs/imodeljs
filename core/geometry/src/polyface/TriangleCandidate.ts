@@ -32,7 +32,7 @@ export class TriangleCandidate extends BarycentricTriangle {
    * Copy all coordinate and label data from `other` to this.
    * @param other source triangle
    */
-  public setFrom(other: TriangleCandidate): TriangleCandidate {
+  public override setFrom(other: TriangleCandidate): TriangleCandidate {
     super.setFrom(other);
     this._isValid = other._isValid;
     this._quality = other._quality;
@@ -86,7 +86,7 @@ export class TriangleCandidate extends BarycentricTriangle {
    * Clone all coordinate and label data.
    * @param result optional preallocated `TriangleCandidate`
    */
-  public clone(result?: TriangleCandidate): TriangleCandidate {
+  public override clone(result?: TriangleCandidate): TriangleCandidate {
     if (result)
       return result.setFrom(this);
     return new TriangleCandidate(this.points[0].clone(), this.points[1].clone(), this.points[2].clone(), this.id, this._quality, this._isValid);

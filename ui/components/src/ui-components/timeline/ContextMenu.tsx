@@ -46,7 +46,7 @@ export class ContextMenuItem extends React.Component<MenuItem> {
   };
 
   // istanbul ignore next - WIP
-  public render() {
+  public override render() {
     const menuClassName = classnames(
       "contextmenu-item-wip",
       this.props.disabled && "disabled",
@@ -94,7 +94,7 @@ export interface ContextMenuProps extends CommonProps {
  */
 export class ContextMenu extends React.Component<ContextMenuProps> {
   // istanbul ignore next - WIP
-  public render() {
+  public override render() {
     const { items, parent, position, isOpened, onClickOutside } = this.props;
     return (
       <Popup isOpen={isOpened} target={parent} position={position} onClose={onClickOutside}>

@@ -24,7 +24,7 @@ export interface PrimitivePropertyLabelRendererProps extends PropertyLabelRender
  * @public
  */
 export class PrimitivePropertyLabelRenderer extends React.PureComponent<PrimitivePropertyLabelRendererProps> {
-  public render() {
+  public override render() {
     const { className, offset, children, ...rest } = this.props;
     return (
       <span

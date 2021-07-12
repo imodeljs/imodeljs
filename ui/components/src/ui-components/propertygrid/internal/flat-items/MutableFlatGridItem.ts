@@ -246,8 +246,8 @@ export abstract class MutableCategorizedProperty extends MutableFlatPropertyGrid
     this._isExpanded = !!record.autoExpand;
   }
 
-  public abstract type: CategorizedPropertyTypes;
-  public abstract getChildren(): IMutableCategorizedPropertyItem[];
+  public abstract override type: CategorizedPropertyTypes;
+  public abstract override getChildren(): IMutableCategorizedPropertyItem[];
 
   /**
    * Maps PropertyRecord valueFormat to FlatGridItemType
@@ -298,11 +298,11 @@ export abstract class MutableCategorizedProperty extends MutableFlatPropertyGrid
     return this;
   }
 
-  public get parentCategorySelectionKey() {
+  public override get parentCategorySelectionKey() {
     return super.parentCategorySelectionKey!;
   }
 
-  public get parentSelectionKey() {
+  public override get parentSelectionKey() {
     return super.parentSelectionKey!;
   }
 

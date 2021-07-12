@@ -94,12 +94,12 @@ function exercisePolyface(ck: Checker, polyface: Polyface,
         const paramIndexA = visitor1.clientParamIndex(i);
         const paramY = polyface.data.getParam(paramIndexA);
         polyface.data.copyParamTo(paramIndexA, paramZ);
-        if (ck.testPointer(paramY) && paramY)
+        if (ck.testPointer(paramY))
           ck.testPoint2d(paramY, paramZ, "polyface getParam, copyParamTo");
 
         const normalIndexA = visitor1.clientNormalIndex(i);
         const normalY = polyface.data.getNormal(normalIndexA);
-        if (ck.testPointer(normalY) && normalY) {
+        if (ck.testPointer(normalY)) {
           polyface.data.copyNormalTo(normalIndexA, normalZ);
           ck.testVector3d(normalY, normalZ, "polyface getPoint, copyPointTo");
         }

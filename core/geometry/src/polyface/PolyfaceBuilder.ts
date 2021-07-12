@@ -239,9 +239,9 @@ export class PolyfaceBuilder extends NullGeometryHandler {
       this._polyface.addPoint(transform.multiplyPoint3d(p));
     let faceCounter = 0;
     for (const facet of BoxTopology.cornerIndexCCW) {
-      if (!faceSelector || (faceCounter < faceSelector.length && faceSelector[faceCounter])){
-      for (const pointIndex of facet)
-        this._polyface.addPointIndex(pointIndex0 + pointIndex);
+      if (!faceSelector || (faceCounter < faceSelector.length && faceSelector[faceCounter])) {
+        for (const pointIndex of facet)
+          this._polyface.addPointIndex(pointIndex0 + pointIndex);
         this._polyface.terminateFacet();
       }
       faceCounter++;
@@ -1409,19 +1409,19 @@ export class PolyfaceBuilder extends NullGeometryHandler {
   }
 
   /** Double dispatch handler for Cone */
-  public handleCone(g: Cone): any { return this.addCone(g); }
+  public override handleCone(g: Cone): any { return this.addCone(g); }
   /** Double dispatch handler for TorusPipe */
-  public handleTorusPipe(g: TorusPipe): any { return this.addTorusPipe(g); }
+  public override handleTorusPipe(g: TorusPipe): any { return this.addTorusPipe(g); }
   /** Double dispatch handler for Sphere */
-  public handleSphere(g: Sphere): any { return this.addSphere(g); }
+  public override handleSphere(g: Sphere): any { return this.addSphere(g); }
   /** Double dispatch handler for Box */
-  public handleBox(g: Box): any { return this.addBox(g); }
+  public override handleBox(g: Box): any { return this.addBox(g); }
   /** Double dispatch handler for LinearSweep */
-  public handleLinearSweep(g: LinearSweep): any { return this.addLinearSweep(g); }
+  public override handleLinearSweep(g: LinearSweep): any { return this.addLinearSweep(g); }
   /** Double dispatch handler for RotationalSweep */
-  public handleRotationalSweep(g: RotationalSweep): any { return this.addRotationalSweep(g); }
+  public override handleRotationalSweep(g: RotationalSweep): any { return this.addRotationalSweep(g); }
   /** Double dispatch handler for RuledSweep */
-  public handleRuledSweep(g: RuledSweep): any { return this.addRuledSweep(g); }
+  public override handleRuledSweep(g: RuledSweep): any { return this.addRuledSweep(g); }
   /** add facets for a GeometryQuery object.   This is double dispatch through `dispatchToGeometryHandler(this)` */
   public addGeometryQuery(g: GeometryQuery) { g.dispatchToGeometryHandler(this); }
 

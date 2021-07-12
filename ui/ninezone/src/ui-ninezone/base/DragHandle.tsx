@@ -39,11 +39,11 @@ export class DragHandle extends React.PureComponent<DragHandleProps, DragHandleS
   private _initial: Point | undefined = undefined;
   private _isDragged = false;
 
-  public readonly state: DragHandleState = {
+  public override readonly state: DragHandleState = {
     isPointerDown: false,
   };
 
-  public render() {
+  public override render() {
     return (
       <PointerCaptor
         children={this.props.children} // eslint-disable-line react/no-children-prop

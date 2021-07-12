@@ -14,9 +14,9 @@ import { TextureHandle } from "../../../render/webgl/Texture";
 import { System } from "../../../render/webgl/System";
 
 describe("FrameBuffer tests", () => {
-  // eslint-disable-next-line no-return-await
+  // eslint-disable-next-line @typescript-eslint/return-await
   before(async () => await IModelApp.startup());
-  // eslint-disable-next-line no-return-await
+  // eslint-disable-next-line @typescript-eslint/return-await
   after(async () => await IModelApp.shutdown());
 
   it("should produce and bind a valid framebuffer with single color attachment", () => {

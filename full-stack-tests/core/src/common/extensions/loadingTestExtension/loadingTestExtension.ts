@@ -7,7 +7,7 @@ import { Extension, IModelApp } from "@bentley/imodeljs-frontend";
 
 export class LoadingTestExtension extends Extension {
   /** Invoked the first time this extension is loaded. */
-  public async onLoad(): Promise<void> {
+  public override async onLoad(): Promise<void> {
     (IModelApp as any).extensionLoaded = Date.now();
     await new Promise((resolve) => setTimeout(resolve, 1));
   }

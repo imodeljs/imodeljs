@@ -36,7 +36,7 @@ export class ImageCheckBoxEditor extends React.PureComponent<PropertyEditorProps
   private _inputElement: React.RefObject<HTMLInputElement> = React.createRef();
 
   /** @internal */
-  public readonly state: Readonly<ImageCheckBoxEditorState> = {
+  public override readonly state: Readonly<ImageCheckBoxEditorState> = {
     imageOff: "",
     imageOn: "",
     checkboxValue: false,
@@ -68,18 +68,18 @@ export class ImageCheckBoxEditor extends React.PureComponent<PropertyEditorProps
   }
 
   /** @internal */
-  public componentDidMount() {
+  public override componentDidMount() {
     this._isMounted = true;
     this.setStateFromProps();
   }
 
   /** @internal */
-  public componentWillUnmount() {
+  public override componentWillUnmount() {
     this._isMounted = false;
   }
 
   /** @internal */
-  public componentDidUpdate(prevProps: PropertyEditorProps) {
+  public override componentDidUpdate(prevProps: PropertyEditorProps) {
     if (this.props.propertyRecord !== prevProps.propertyRecord) {
       this.setStateFromProps();
     }
@@ -128,7 +128,7 @@ export class ImageCheckBoxEditor extends React.PureComponent<PropertyEditorProps
     });
   };
 
-  public render() {
+  public override render() {
     const className = classnames("components-cell-editor", "components-imagecheckbox-editor", this.props.className);
     const checked = this.state.checkboxValue;
     const isDisabled = !!this.state.isDisabled;

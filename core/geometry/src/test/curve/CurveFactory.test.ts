@@ -299,9 +299,9 @@ describe("PipeConnections", () => {
     const rectangleA = CurveFactory.createRectangleXY(x0, y0, x1, y1, 0, radiusA);
     const rectangleB1 = CurveFactory.createRectangleXY(x0, y0, x1, y1, 0, undefined);
     const rectangleB0 = CurveFactory.createRectangleXY(x0, y0, x1, y1, 0, 0.0);
-    ck.testType<Loop>(rectangleA);
-    ck.testType<Loop>(rectangleB0);
-    ck.testType<Loop>(rectangleB1);
+    ck.testType(rectangleA, Loop);
+    ck.testType(rectangleB0, Loop);
+    ck.testType(rectangleB1, Loop);
     const radii: (number | undefined)[] = [undefined, 0, 1, 2, 3];
     let yOut = 0.0;
     for (const yB of [4, -4]) {
@@ -309,7 +309,7 @@ describe("PipeConnections", () => {
       for (const xB of [6, -6]) {
         for (const radiusD of radii) {
           const rectangleD = CurveFactory.createRectangleXY(0, 0, xB, yB, 0, radiusD);
-          ck.testType<Loop>(rectangleD, "CurveFactory always returns a loop");
+          ck.testType(rectangleD, Loop, "CurveFactory always returns a loop");
           GeometryCoreTestIO.captureCloneGeometry(allGeometry, rectangleD, xOut, yOut);
           xOut += 10.0;
         }

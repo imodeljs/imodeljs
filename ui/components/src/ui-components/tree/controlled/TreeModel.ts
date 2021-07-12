@@ -382,12 +382,12 @@ export class MutableTreeModel implements TreeModel {
   }
 
   /** Removes children specified by id.
-   * @param parentId id of parent node or undefined to remove root node.
-   * @param childId id of node that should be removed.
+   * @param parentId id of the parent node.
+   * @param child child node id or index that should be removed.
    */
-  public removeChild(parentId: string | undefined, childId: string) {
+  public removeChild(parentId: string | undefined, child: string | number): void {
     const parentNode = parentId === undefined ? this._rootNode : this._tree.getNode(parentId);
-    this._tree.removeChild(parentId, childId);
+    this._tree.removeChild(parentId, child);
 
     // istanbul ignore else
     if (parentNode)

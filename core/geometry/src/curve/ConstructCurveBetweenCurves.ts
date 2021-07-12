@@ -37,7 +37,7 @@ export class ConstructCurveBetweenCurves extends NullGeometryHandler {
    * * Assumes this.geometry1 was set by calling context.
    * * Construct the interpolated curve between this.geometry1 and the supplied segment0.
    */
-  public handleLineSegment3d(segment0: LineSegment3d): any {
+  public override handleLineSegment3d(segment0: LineSegment3d): any {
     if (this._geometry1 instanceof LineSegment3d) {
       const segment1 = this._geometry1;
       return LineSegment3d.create(
@@ -51,7 +51,7 @@ export class ConstructCurveBetweenCurves extends NullGeometryHandler {
    * * Assumes this.geometry1 was set by calling context.
    * * Construct the interpolated curve between this.geometry1 and the supplied ls0.
    */
-  public handleLineString3d(ls0: LineString3d): any {
+  public override handleLineString3d(ls0: LineString3d): any {
     if (this._geometry1 instanceof LineString3d) {
       const ls1 = this._geometry1;
       if (ls0.numPoints() === ls1.numPoints()) {
@@ -98,7 +98,7 @@ export class ConstructCurveBetweenCurves extends NullGeometryHandler {
    * * Assumes this.geometry1 was set by calling context.
    * * Construct the interpolated curve between this.geometry1 and the supplied arc0.
    */
-  public handleArc3d(arc0: Arc3d): any {
+  public override handleArc3d(arc0: Arc3d): any {
     if (this._geometry1 instanceof Arc3d) {
       const arc1 = this._geometry1;
       return Arc3d.create(

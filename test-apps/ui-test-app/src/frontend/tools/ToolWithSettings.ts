@@ -44,7 +44,7 @@ class PointOnePopupSettingsProvider extends DialogLayoutDataProvider {
   public weightProperty = new DialogProperty<number>(PropertyDescriptionHelper.buildWeightPickerDescription("weight", IModelApp.i18n.translate("SampleApp:tools.ToolWithSettings.Prompts.Weight")), 3);
 
   /** Called by UI to inform data provider of changes.  */
-  public applyUiPropertyChange = (updatedValue: DialogPropertySyncItem): void => {
+  public override applyUiPropertyChange = (updatedValue: DialogPropertySyncItem): void => {
     if (updatedValue.propertyName === this.weightProperty.name) {
       this.weightProperty.value = updatedValue.value.value! as number;
       const msg = `Set Weight = ${this.weightProperty.value}`;
@@ -53,22 +53,22 @@ class PointOnePopupSettingsProvider extends DialogLayoutDataProvider {
   };
 
   /** Called by UI to request available properties when UI is manually created. */
-  public supplyDialogItems(): DialogItem[] | undefined {
+  public override supplyDialogItems(): DialogItem[] | undefined {
     return [
       this.weightProperty.toDialogItem({ rowPriority: 1, columnIndex: 1 }),
     ];
   }
 
   /** Get Sync UI Control Properties Event */
-  public onSyncPropertiesChangeEvent = new SyncPropertiesChangeEvent();
+  public override onSyncPropertiesChangeEvent = new SyncPropertiesChangeEvent();
 
   /** Called by UI to validate a property value */
-  public validateProperty(_item: DialogPropertyItem): PropertyChangeResult {
+  public override validateProperty(_item: DialogPropertyItem): PropertyChangeResult {
     return { status: PropertyChangeStatus.Success };
   }
 
   /** Called to sync properties synchronously if a UiDataProvider is active for the UI */
-  public syncProperties(_syncProperties: DialogPropertySyncItem[]) {
+  public override syncProperties(_syncProperties: DialogPropertySyncItem[]) {
     return;
   }
 }
@@ -80,7 +80,7 @@ class PointTwoPopupSettingsProvider extends DialogLayoutDataProvider {
     "unknown", undefined);
 
   /** Called by UI to inform data provider of changes.  */
-  public applyUiPropertyChange = (prop: DialogPropertySyncItem): void => {
+  public override applyUiPropertyChange = (prop: DialogPropertySyncItem): void => {
     if (prop.propertyName === this.sourceProperty.name) {
       this.sourceProperty.value = prop.value.value ? prop.value.value as string : "";
       const msg = `Set Source = ${this.sourceProperty.value}`;
@@ -89,22 +89,22 @@ class PointTwoPopupSettingsProvider extends DialogLayoutDataProvider {
   };
 
   /** Called by UI to request available properties when UI is manually created. */
-  public supplyDialogItems(): DialogItem[] | undefined {
+  public override supplyDialogItems(): DialogItem[] | undefined {
     return [
       this.sourceProperty.toDialogItem({ rowPriority: 1, columnIndex: 1 }),
     ];
   }
 
   /** Get Sync UI Control Properties Event */
-  public onSyncPropertiesChangeEvent = new SyncPropertiesChangeEvent();
+  public override onSyncPropertiesChangeEvent = new SyncPropertiesChangeEvent();
 
   /** Called by UI to validate a property value */
-  public validateProperty(_item: DialogPropertyItem): PropertyChangeResult {
+  public override validateProperty(_item: DialogPropertyItem): PropertyChangeResult {
     return { status: PropertyChangeStatus.Success };
   }
 
   /** Called to sync properties synchronously if a UiDataProvider is active for the UI */
-  public syncProperties(_syncProperties: DialogPropertySyncItem[]) {
+  public override syncProperties(_syncProperties: DialogPropertySyncItem[]) {
     return;
   }
 }
@@ -112,7 +112,7 @@ class PointTwoPopupSettingsProvider extends DialogLayoutDataProvider {
 export class ToolWithSettings extends PrimitiveTool {
   private _pointOnePopupSettingsProvider = new PointOnePopupSettingsProvider();
   private _pointTwoPopupSettingsProvider = new PointTwoPopupSettingsProvider();
-  public static toolId = "ToolWithSettings";
+  public static override toolId = "ToolWithSettings";
   public points: Point3d[] = [];
   private _showCoordinatesOnPointerMove = false;
 
@@ -297,13 +297,13 @@ export class ToolWithSettings extends PrimitiveTool {
 
   // -------- end of ToolSettings ----------
 
-  public requireWriteableTarget(): boolean { return false; }
-  public onPostInstall() {
+  public override requireWriteableTarget(): boolean { return false; }
+  public override onPostInstall() {
     super.onPostInstall();
     this.setupAndPromptForNextAction();
     this.points = [];
   }
-  public onUnsuspend(): void { this.provideToolAssistance(); }
+  public override onUnsuspend(): void { this.provideToolAssistance(); }
 
   /** Establish current tool state and initialize drawing aides following onPostInstall, onDataButtonDown, onUndoPreviousStep, or other events that advance or back up the current tool state.
    * Enable snapping or auto-locate for AccuSnap.
@@ -345,7 +345,7 @@ export class ToolWithSettings extends PrimitiveTool {
     IModelApp.notifications.outputMessage(new NotifyMessageDetails(OutputMessagePriority.Info, msg));
   }
 
-  public async onDataButtonDown(ev: BeButtonEvent): Promise<EventHandled> {
+  public override async onDataButtonDown(ev: BeButtonEvent): Promise<EventHandled> {
     // Used to test Cursor Menu
     if (ev.isAltKey) {
       const menuItems: MenuItemProps[] = [];
@@ -375,7 +375,7 @@ export class ToolWithSettings extends PrimitiveTool {
     return EventHandled.No;
   }
 
-  public async onResetButtonUp(_ev: BeButtonEvent): Promise<EventHandled> {
+  public override async onResetButtonUp(_ev: BeButtonEvent): Promise<EventHandled> {
     IModelApp.uiAdmin.closeToolSettingsPopup();
 
     /* Common reset behavior for primitive tools is calling onReinitialize to restart or exitTool to terminate. */
@@ -395,7 +395,7 @@ export class ToolWithSettings extends PrimitiveTool {
     this.syncToolSettingsProperties([this.coordinateProperty.syncItem, this.stationProperty.syncItem, this.surveyLengthProperty.syncItem]);
   }
 
-  public async onKeyTransition(wentDown: boolean, keyEvent: KeyboardEvent): Promise<EventHandled> {
+  public override async onKeyTransition(wentDown: boolean, keyEvent: KeyboardEvent): Promise<EventHandled> {
     if (wentDown && keyEvent.key === "1") {
       this.useLengthProperty.isDisabled = !this.useLengthProperty.isDisabled;
       // test updating color option and available colors by providing a new enum list
@@ -423,7 +423,7 @@ export class ToolWithSettings extends PrimitiveTool {
     return super.onKeyTransition(wentDown, keyEvent);
   }
 
-  public async onMouseMotion(ev: BeButtonEvent): Promise<void> {
+  public override async onMouseMotion(ev: BeButtonEvent): Promise<void> {
     if (!this._showCoordinatesOnPointerMove)
       return;
 
@@ -443,7 +443,7 @@ export class ToolWithSettings extends PrimitiveTool {
   }
 
   /** Used to supply DefaultToolSettingProvider with a list of properties to use to generate ToolSettings.  If undefined then no ToolSettings will be displayed */
-  public supplyToolSettingsProperties(): DialogItem[] | undefined {
+  public override supplyToolSettingsProperties(): DialogItem[] | undefined {
     const toolSettings = new Array<DialogItem>();
     toolSettings.push(this.colorOptionProperty.toDialogItem({ rowPriority: 1, columnIndex: 1 }));
     toolSettings.push(this.colorPickerProperty.toDialogItem({ rowPriority: 2, columnIndex: 2 }));
@@ -479,7 +479,7 @@ export class ToolWithSettings extends PrimitiveTool {
   }
 
   /** Used to send changes from UI back to Tool */
-  public applyToolSettingPropertyChange(updatedValue: DialogPropertySyncItem): boolean {
+  public override applyToolSettingPropertyChange(updatedValue: DialogPropertySyncItem): boolean {
     if (updatedValue.propertyName === this.lockProperty.name) {
       this.lockProperty.value = updatedValue.value.value as boolean;
       this.showInfoFromUi(updatedValue);
@@ -517,7 +517,7 @@ export class ToolWithSettings extends PrimitiveTool {
   /** Used to bump the value of a tool setting. If no `settingIndex` param is specified, the first setting is bumped.
    * @beta
    */
-  public async bumpToolSetting(settingIndex?: number): Promise<boolean> {
+  public override async bumpToolSetting(settingIndex?: number): Promise<boolean> {
     if (settingIndex === 0 || settingIndex === undefined) {
       const newValue = await PropertyDescriptionHelper.bumpEnumProperty(this.colorOptionProperty.description, this.colorOptionProperty.value);
 

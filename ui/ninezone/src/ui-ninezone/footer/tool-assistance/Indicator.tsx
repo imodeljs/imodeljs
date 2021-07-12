@@ -30,7 +30,7 @@ export interface ToolAssistanceProps extends FooterIndicatorProps {
  * @beta
  */
 export class ToolAssistance extends React.PureComponent<ToolAssistanceProps> {
-  public render() {
+  public override render() {
     const { children, className, icons, indicatorRef, onClick, title, ...props } = this.props;
     return (
       <FooterIndicator

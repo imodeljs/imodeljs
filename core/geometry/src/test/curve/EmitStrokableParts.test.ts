@@ -39,7 +39,7 @@ class StrokeVerifier implements IStrokeHandler {
     this.frameBuilder.announcePoint(xyz);
     this._ck.testTrue(this.frameBuilder.hasOrigin, "frameBuilder.hasOrigin after a point is announced");
     this.frameBuilder.announceVector(tangent);
-    if (this._ck.testPointer(this._myCP) && this._myCP) {
+    if (this._ck.testPointer(this._myCP)) {
       const ray = this._myCP.fractionToPointAndDerivative(fraction);
       this._ck.testPoint3d(xyz, ray.origin, "Stroke validator point");
       this._ck.testVector3d(tangent, ray.direction, "Stroke validator point");

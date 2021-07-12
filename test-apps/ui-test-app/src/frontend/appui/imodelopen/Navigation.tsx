@@ -80,7 +80,7 @@ export class NavigationItem extends React.Component<NavigationItemProps> {
     );
   }
 
-  public render() {
+  public override render() {
     if (this.props.highlightStyle === NavigationHighlightStyle.movingbar)
       return this.renderMoveBar();
     else
@@ -145,7 +145,7 @@ export class NavigationList extends React.Component<NavigationListProps, Navigat
     });
   }
 
-  public render() {
+  public override render() {
     const classNavbar = classnames("open-navbar", this.state.isPinned && "pinned");
     return (
       <div className={classNavbar}>

@@ -151,7 +151,7 @@ export class GrowLeft extends GrowStrategy {
     return this.manager.leftZones.getCurrent(zoneId, props);
   }
 
-  public getMaxResize(zoneId: WidgetZoneId, props: ZonesManagerProps) {
+  public override getMaxResize(zoneId: WidgetZoneId, props: ZonesManagerProps) {
     let maxResize = super.getMaxResize(zoneId, props);
     const zone = props.zones[zoneId];
     const widget = props.widgets[zoneId];
@@ -188,7 +188,7 @@ export class GrowRight extends GrowStrategy {
     return this.manager.rightZones.getCurrent(zoneId, props);
   }
 
-  public getMaxResize(zoneId: WidgetZoneId, props: ZonesManagerProps) {
+  public override getMaxResize(zoneId: WidgetZoneId, props: ZonesManagerProps) {
     let maxResize = super.getMaxResize(zoneId, props);
     const zone = props.zones[zoneId];
     const widget = props.widgets[zoneId];

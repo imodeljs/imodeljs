@@ -15,11 +15,11 @@ import { IModelApp, Tool } from "@bentley/imodeljs-frontend";
  * @beta
  */
 export class SelectElementsByIdTool extends Tool {
-  public static toolId = "SelectElementsById";
-  public static get minArgs() { return 1; }
-  public static get maxArgs() { return undefined; }
+  public static override toolId = "SelectElementsById";
+  public static override get minArgs() { return 1; }
+  public static override get maxArgs() { return undefined; }
 
-  public run(ids?: Id64Arg): boolean {
+  public override run(ids?: Id64Arg): boolean {
     const vp = IModelApp.viewManager.selectedView;
     if (undefined !== vp && undefined !== ids)
       vp.iModel.selectionSet.replace(ids);
@@ -27,7 +27,7 @@ export class SelectElementsByIdTool extends Tool {
     return true;
   }
 
-  public parseAndRun(...args: string[]): boolean {
+  public override parseAndRun(...args: string[]): boolean {
     return this.run(args);
   }
 }

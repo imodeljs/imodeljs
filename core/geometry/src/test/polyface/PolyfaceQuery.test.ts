@@ -484,7 +484,7 @@ describe("ReOrientFacets", () => {
         ck.testUndefined(mesh.data.normalIndex);
         ck.testUndefined(mesh.data.normal);
         let y0 = 0;
-        if (ck.testType<IndexedPolyface>(mesh)) {
+        if (ck.testType(mesh, IndexedPolyface)) {
           GeometryCoreTestIO.captureCloneGeometry(allGeometry, mesh, x0, y0, 0);
           y0 += 10.0;
           PolyfaceQuery.buildPerFaceNormals(mesh);
@@ -529,7 +529,7 @@ describe("ReOrientFacets", () => {
         builder.addGeometryQuery(solid);
         const mesh = builder.claimPolyface();
         let y0 = 0;
-        if (ck.testType<IndexedPolyface>(mesh)) {
+        if (ck.testType(mesh, IndexedPolyface)) {
           GeometryCoreTestIO.captureCloneGeometry(allGeometry, mesh, x0, y0, 0);
           for (const selector of [0, 1, 2]) {
             const edges = PolyfaceQuery.boundaryOfVisibleSubset(mesh, selector as (0 | 1 | 2), viewVector);

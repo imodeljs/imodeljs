@@ -59,7 +59,7 @@ export class ActiveSettingsComponent extends React.Component<{}, ActiveSettingsC
     this.updateState();
   }
 
-  public render() {
+  public override render() {
     if (ActiveSettingsManager.models === undefined || ActiveSettingsManager.categories === undefined)
       return <div>...</div>;
     return (

@@ -1,6 +1,6 @@
 {
   "name": "@bentley/build-tools",
-  "version": "2.19.0-dev.8",
+  "version": "2.19.0-dev.13",
   "description": "Bentley build tools",
   "license": "MIT",
   "repository": {
@@ -53,7 +53,7 @@
     "typedoc": "^0.16.8",
     "typedoc-plugin-external-module-name": "3.0.0",
     "typedoc-plugin-internal-external": "2.1.1",
-    "typescript": "~4.1.0",
+    "typescript": "~4.3.0",
     "yargs": "^16.0.0"
   },
   "devDependencies": {

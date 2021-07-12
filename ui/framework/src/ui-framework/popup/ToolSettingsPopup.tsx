@@ -34,7 +34,7 @@ interface ToolSettingsPopupState {
 export class ToolSettingsPopup extends React.PureComponent<ToolSettingsPopupProps, ToolSettingsPopupState> {
 
   /** @internal */
-  public readonly state = {
+  public override readonly state = {
     size: new Size(-1, -1),
   };
 
@@ -58,7 +58,7 @@ export class ToolSettingsPopup extends React.PureComponent<ToolSettingsPopupProp
     }
   };
 
-  public render() {
+  public override render() {
     const componentGenerator = new ComponentGenerator(this.props.dataProvider);
     let point = PopupManager.getPopupPosition(this.props.el, this.props.pt, new Point(), this.state.size);
     const popupRect = CursorPopup.getPopupRect(point, this.props.offset, this.state.size, this.props.relativePosition);

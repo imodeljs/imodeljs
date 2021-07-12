@@ -27,7 +27,7 @@ export interface MessageCenterTabProps extends CommonProps {
  * @beta
  */
 export class MessageCenterTab extends React.PureComponent<MessageCenterTabProps> {
-  public render() {
+  public override render() {
     const className = classnames(
       "nz-footer-messageCenter-tab",
       this.props.isActive && "nz-active",

@@ -86,7 +86,7 @@ export class NineZoneStagePanelsManager extends StagePanelsManager {
     return undefined;
   }
 
-  public getPanelManager(type: StagePanelType): NineZoneStagePanelManager {
+  public override getPanelManager(type: StagePanelType): NineZoneStagePanelManager {
     if (!this._nzManagers)
       this._nzManagers = new Map();
     let manager = this._nzManagers.get(type);

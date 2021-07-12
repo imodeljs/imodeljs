@@ -45,7 +45,7 @@ for (let i = 0; i < numBaseTestCases; i++) {
 
 export class FakeGMState extends GeometricModelState {
   public get is3d(): boolean { return true; }
-  public get is2d(): boolean { return !this.is3d; }
+  public override get is2d(): boolean { return !this.is3d; }
   public constructor(props: ModelProps, iModel: IModelConnection) { super(props, iModel); }
 }
 
@@ -562,13 +562,13 @@ describe("mirukuru TileTree", () => {
   let imodel: IModelConnection;
 
   class TestTarget extends MockRender.OnScreenTarget {
-    public setRenderToScreen(toScreen: boolean): HTMLCanvasElement | undefined {
+    public override setRenderToScreen(toScreen: boolean): HTMLCanvasElement | undefined {
       return toScreen ? document.createElement("canvas") : undefined;
     }
   }
 
   class TestSystem extends MockRender.System {
-    public createTarget(canvas: HTMLCanvasElement): TestTarget { return new TestTarget(this, canvas); }
+    public override createTarget(canvas: HTMLCanvasElement): TestTarget { return new TestTarget(this, canvas); }
   }
 
   before(async () => {

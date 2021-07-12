@@ -37,12 +37,12 @@ export class ActivityCenterField extends React.Component<StatusFieldProps, Activ
     };
   }
 
-  public componentDidMount() {
+  public override componentDidMount() {
     MessageManager.onActivityMessageUpdatedEvent.addListener(this._handleActivityMessageEvent);
     MessageManager.onActivityMessageCancelledEvent.addListener(this._handleActivityMessageCancelledEvent);
   }
 
-  public componentWillUnmount() {
+  public override componentWillUnmount() {
     MessageManager.onActivityMessageUpdatedEvent.removeListener(this._handleActivityMessageEvent);
     MessageManager.onActivityMessageCancelledEvent.removeListener(this._handleActivityMessageCancelledEvent);
   }
@@ -65,7 +65,7 @@ export class ActivityCenterField extends React.Component<StatusFieldProps, Activ
     MessageManager.setupActivityMessageValues(this.state.message, this.state.percentage, true);
   };
 
-  public render(): React.ReactNode {
+  public override render(): React.ReactNode {
     let footerMessages: React.ReactNode;
     const isPercentageValid = (this.state.percentage > 0 && this.state.percentage < 100);
     if (this.state.isActivityMessageVisible && isPercentageValid) {

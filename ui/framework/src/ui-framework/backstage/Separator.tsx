@@ -24,7 +24,7 @@ export class SeparatorBackstageItem extends React.PureComponent<BackstageItemPro
     this._key = SeparatorBackstageItem._sSeparatorBackstageItemKey;
   }
 
-  public render(): React.ReactNode {
+  public override render(): React.ReactNode {
     return (
       <NZ_BackstageSeparator key={this._key} />
     );

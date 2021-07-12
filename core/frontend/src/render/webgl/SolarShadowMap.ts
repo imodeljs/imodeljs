@@ -43,33 +43,33 @@ function createDrawArgs(sceneContext: SceneContext, solarShadowMap: SolarShadowM
 
     // The solar shadow projection is parallel - which can cause excessive tile selection if it is along an axis of an unbounded tile
     // tree such as the OSM buildings.  Rev limit the selection here.
-    public get maxRealityTreeSelectionCount(): undefined | number { return 500; }
+    public override get maxRealityTreeSelectionCount(): undefined | number { return 500; }
 
-    public processSelectedTiles(tiles: Tile[]): void {
+    public override processSelectedTiles(tiles: Tile[]): void {
       this._processTiles(tiles);
     }
 
-    public get frustumPlanes(): FrustumPlanes {
+    public override get frustumPlanes(): FrustumPlanes {
       if (true === this._useViewportMap)
         return super.frustumPlanes;
       else
         return this._mapFrustumPlanes;
     }
 
-    public get worldToViewMap(): Map4d {
+    public override get worldToViewMap(): Map4d {
       if (true === this._useViewportMap)
         return super.worldToViewMap;
       else
         return this._shadowMap.worldToViewMap;
     }
 
-    public drawGraphics(): void {
+    public override drawGraphics(): void {
       const graphics = this.produceGraphics();
       if (graphics)
         this._shadowMap.addGraphic(graphics);
     }
 
-    public getPixelSize(tile: Tile): number {
+    public override getPixelSize(tile: Tile): number {
       // For tiles that are part of the scene, size them based on the viewport frustum so that shadow map uses same resolution tiles as scene
       // - otherwise artifacts like shadow acne may result.
       // For tiles that are NOT part of the scene, size them based on the shadow frustum, not the viewport frustum

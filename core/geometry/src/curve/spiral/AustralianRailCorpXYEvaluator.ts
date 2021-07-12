@@ -51,7 +51,7 @@ export class AustralianRailCorpXYEvaluator extends CubicEvaluator {
 
     return Math.asin(expr1 * Math.cos(Math.acos(expr2) / 3. + expr3));
   }
-  public scaleInPlace(scaleFactor: number) {
+  public override scaleInPlace(scaleFactor: number) {
     // apply the scale factor to all contents.
     // all distances scale directly . . .
     this._nominalLength1 *= scaleFactor;

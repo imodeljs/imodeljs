@@ -20,7 +20,7 @@ import { TreeNodeItem } from "../../../../ui-components/tree/TreeDataProvider";
 /* eslint-disable deprecation/deprecation */
 
 class ClassComponent extends React.Component {
-  public render() {
+  public override render() {
     return <>{this.props.children}</>;
   }
 }

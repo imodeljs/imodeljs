@@ -1,0 +1,11 @@
+{
+  "changes": [
+    {
+      "packageName": "@bentley/ecschema-rpcinterface-impl",
+      "comment": "",
+      "type": "none"
+    }
+  ],
+  "packageName": "@bentley/ecschema-rpcinterface-impl",
+  "email": "33036725+wgoehrig@users.noreply.github.com"
+}

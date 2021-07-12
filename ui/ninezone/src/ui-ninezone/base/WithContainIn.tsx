@@ -74,7 +74,7 @@ export const withContainIn = <ComponentProps extends {}>(
       return Rectangle.create(bounds);
     }
 
-    public componentDidMount() {
+    public override componentDidMount() {
       if (!this.ref.current)
         return;
 
@@ -88,7 +88,7 @@ export const withContainIn = <ComponentProps extends {}>(
       this.ref.current.style.left = Css.toPx(offset.x);
     }
 
-    public render() {
+    public override render() {
       const { containFn, container, ...props } = this.props as WithContainInProps; // eslint-disable-line @typescript-eslint/no-unused-vars
       return (
         <div ref={this.ref}>

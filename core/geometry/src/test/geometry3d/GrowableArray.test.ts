@@ -503,7 +503,7 @@ describe("GrowablePoint3dArray", () => {
       const distance0 = xyzPoints.distanceIndexToPoint(i0, spacePoint);
       const distance1 = xyzPoints.getPoint3dAtCheckedPointIndex(i0)!.distance(spacePoint);
       const vectorI0 = xyzPoints.vectorXYAndZIndex(spacePoint, i0);
-      if (ck.testPointer(vectorI0) && vectorI0 && distance0 !== undefined) {
+      if (ck.testPointer(vectorI0) && distance0 !== undefined) {
         ck.testCoordinate(vectorI0.magnitude(), distance0)!;
         ck.testCoordinate(distance0, distance1);
       }
@@ -571,7 +571,7 @@ describe("GrowablePoint3dArray", () => {
         ck.testPoint3d(resultA, resultB, "compare interpolation paths");
         const crossA = array0.crossProductIndexIndexIndex(k, k1, k2);
         const crossB = array0.crossProductXYAndZIndexIndex(point0, k1, k2);
-        if (ck.testPointer(crossA) && crossA && ck.testPointer(crossB) && crossB) {
+        if (ck.testPointer(crossA) && ck.testPointer(crossB)) {
           ck.testVector3d(crossA, crossB, "cross products to indexed points");
         }
       }

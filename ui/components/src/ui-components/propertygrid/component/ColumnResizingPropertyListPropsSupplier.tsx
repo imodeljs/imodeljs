@@ -44,7 +44,7 @@ export class ColumnResizingPropertyListPropsSupplier extends React.Component<Col
   private _minRatio = this._defaultMinRatio;
   private _maxRatio = this._defaultMaxRatio;
 
-  public state: ColumnResizingPropertyListPropsSupplierState = {
+  public override state: ColumnResizingPropertyListPropsSupplierState = {
     columnRatio: this._initialRatio,
     isResizeHandleHovered: false,
     isResizeHandleBeingDragged: false,
@@ -101,7 +101,7 @@ export class ColumnResizingPropertyListPropsSupplier extends React.Component<Col
     return Geometry.clamp(this.state.columnRatio, this._minRatio, this._maxRatio);
   }
 
-  public render() {
+  public override render() {
     const listProps: ColumnResizeRelatedPropertyListProps = {
       orientation: this.props.orientation,
       onColumnChanged: this._onColumnRatioChanged,

@@ -25,7 +25,7 @@ export interface ExpansionToggleProps extends CommonProps {
  * @public
  */
 export class ExpansionToggle extends React.PureComponent<ExpansionToggleProps> {
-  public render() {
+  public override render() {
     const className = classnames(
       "core-tree-expansionToggle",
       this.props.isExpanded && "is-expanded",

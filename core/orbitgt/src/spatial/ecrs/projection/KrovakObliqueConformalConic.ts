@@ -6,7 +6,7 @@
  * @module OrbitGT
  */
 
-//package orbitgt.spatial.ecrs.projection;
+// package orbitgt.spatial.ecrs.projection;
 
 type int8 = number;
 type int16 = number;
@@ -69,9 +69,9 @@ export class KrovakObliqueConformalConic extends OperationMethod {
     private _rO: float64;
 
     /**
-     * Create a new projection.
-     * @param parameters the values of the parameters.
-     */
+       * Create a new projection.
+       * @param parameters the values of the parameters.
+       */
     public constructor(parameters: ParameterValueList) {
         super(KrovakObliqueConformalConic.METHOD_CODE, "Krovak Oblique Conic Conformal", parameters);
         /* Store the parameters */
@@ -85,22 +85,22 @@ export class KrovakObliqueConformalConic extends OperationMethod {
     }
 
     /**
-     * Get the square of a number.
-     */
+       * Get the square of a number.
+       */
     private static sqr(v: float64): float64 {
         return (v * v);
     }
 
     /**
-     * OperationMethod method.
-     * @see OperationMethod#initialize
-     */
-    public initialize(operation: Operation): void {
+       * OperationMethod method.
+       * @see OperationMethod#initialize
+       */
+    public override initialize(operation: Operation): void {
         /* Prepare the parameters */
-        let ellipsoid: Ellipsoid = operation.getSourceCRS().getEllipsoid();
-        let a: float64 = ellipsoid.getA();
-        let e: float64 = ellipsoid.getE();
-        let e2: float64 = e * e;
+        const ellipsoid: Ellipsoid = operation.getSourceCRS().getEllipsoid();
+        const a: float64 = ellipsoid.getA();
+        const e: float64 = ellipsoid.getE();
+        const e2: float64 = e * e;
         this._A = a * Math.sqrt(1.0 - e2) / (1.0 - KrovakObliqueConformalConic.sqr(e * Math.sin(this._latC)));
         this._B = Math.sqrt(1.0 + e2 * Math.pow(Math.cos(this._latC), 4) / (1.0 - e2));
         this._gO = Math.asin(Math.sin(this._latC) / this._B);
@@ -110,23 +110,23 @@ export class KrovakObliqueConformalConic extends OperationMethod {
     }
 
     /**
-     * OperationMethod interface method.
-     * @see OperationMethod#forward
-     */
+       * OperationMethod interface method.
+       * @see OperationMethod#forward
+       */
     public forward(sourceCRS: CRS, source: Coordinate, targetCRS: CRS, target: Coordinate): void {
         /* Get the parameters */
-        let lon: float64 = source.getX();
-        let lat: float64 = source.getY();
+        const lon: float64 = source.getX();
+        const lat: float64 = source.getY();
         /* Calculate easting and northing */
-        let e: float64 = sourceCRS.getEllipsoid().getE();
-        let U: float64 = 2 * (Math.atan(this._tO * Math.pow(Math.tan(lat / 2 + Math.PI / 4), this._B) / Math.pow((1 + e * Math.sin(lat)) / (1 - e * Math.sin(lat)), e * this._B / 2)) - Math.PI / 4);
-        let V: float64 = this._B * (this._lonO - lon);
-        let S: float64 = Math.asin(Math.cos(this._aziC) * Math.sin(U) + Math.sin(this._aziC) * Math.cos(U) * Math.cos(V));
-        let D: float64 = Math.asin(Math.cos(U) * Math.sin(V) / Math.cos(S));
-        let theta: float64 = this._n * D;
-        let r: float64 = this._rO * Math.pow(Math.tan(Math.PI / 4 + this._latP / 2), this._n) / Math.pow(Math.tan(S / 2 + Math.PI / 4), this._n);
-        let E: float64 = this._FE + r * Math.cos(theta);
-        let N: float64 = this._FN + r * Math.sin(theta);
+        const e: float64 = sourceCRS.getEllipsoid().getE();
+        const U: float64 = 2 * (Math.atan(this._tO * Math.pow(Math.tan(lat / 2 + Math.PI / 4), this._B) / Math.pow((1 + e * Math.sin(lat)) / (1 - e * Math.sin(lat)), e * this._B / 2)) - Math.PI / 4);
+        const V: float64 = this._B * (this._lonO - lon);
+        const S: float64 = Math.asin(Math.cos(this._aziC) * Math.sin(U) + Math.sin(this._aziC) * Math.cos(U) * Math.cos(V));
+        const D: float64 = Math.asin(Math.cos(U) * Math.sin(V) / Math.cos(S));
+        const theta: float64 = this._n * D;
+        const r: float64 = this._rO * Math.pow(Math.tan(Math.PI / 4 + this._latP / 2), this._n) / Math.pow(Math.tan(S / 2 + Math.PI / 4), this._n);
+        const E: float64 = this._FE + r * Math.cos(theta);
+        const N: float64 = this._FN + r * Math.sin(theta);
         /* Save the position */
         target.setX(E);
         target.setY(N);
@@ -134,28 +134,28 @@ export class KrovakObliqueConformalConic extends OperationMethod {
     }
 
     /**
-     * OperationMethod interface method.
-     * @see OperationMethod#reverse
-     */
+       * OperationMethod interface method.
+       * @see OperationMethod#reverse
+       */
     public reverse(sourceCRS: CRS, source: Coordinate, targetCRS: CRS, target: Coordinate): void {
         /* Get the easting and northing */
-        let E: float64 = target.getX();
-        let N: float64 = target.getY();
+        const E: float64 = target.getX();
+        const N: float64 = target.getY();
         /* Get the ellipsoid parameters */
-        let e: float64 = sourceCRS.getEllipsoid().getE();
+        const e: float64 = sourceCRS.getEllipsoid().getE();
         /* Calculate longitude and latitude */
-        let r: float64 = Math.sqrt(KrovakObliqueConformalConic.sqr(E - this._FE) + KrovakObliqueConformalConic.sqr(N - this._FN));
-        let theta: float64 = Math.atan2((N - this._FN), (E - this._FE));
-        let D: float64 = theta / Math.sin(this._latP);
-        let S: float64 = 2 * (Math.atan(Math.pow(this._rO / r, 1 / this._n) * Math.tan(Math.PI / 4 + this._latP / 2)) - Math.PI / 4);
-        let U: float64 = Math.asin(Math.cos(this._aziC) * Math.sin(S) - Math.sin(this._aziC) * Math.cos(S) * Math.cos(D));
-        let V: float64 = Math.asin(Math.cos(S) * Math.sin(D) / Math.cos(U));
+        const r: float64 = Math.sqrt(KrovakObliqueConformalConic.sqr(E - this._FE) + KrovakObliqueConformalConic.sqr(N - this._FN));
+        const theta: float64 = Math.atan2((N - this._FN), (E - this._FE));
+        const D: float64 = theta / Math.sin(this._latP);
+        const S: float64 = 2 * (Math.atan(Math.pow(this._rO / r, 1 / this._n) * Math.tan(Math.PI / 4 + this._latP / 2)) - Math.PI / 4);
+        const U: float64 = Math.asin(Math.cos(this._aziC) * Math.sin(S) - Math.sin(this._aziC) * Math.cos(S) * Math.cos(D));
+        const V: float64 = Math.asin(Math.cos(S) * Math.sin(D) / Math.cos(U));
         /* Iterate */
         let lat: float64 = U;
         for (let i: number = 1; i < 5; i++) {
             lat = 2 * (Math.atan(Math.pow(this._tO, -1 / this._B) * Math.pow(Math.tan(U / 2 + Math.PI / 4), 1 / this._B) * Math.pow((1 + e * Math.sin(lat)) / (1 - e * Math.sin(lat)), e / 2)) - Math.PI / 4);
         }
-        let lon: float64 = this._lonO - V / this._B;
+        const lon: float64 = this._lonO - V / this._B;
         /* Save the position */
         source.setX(lon);
         source.setY(lat);

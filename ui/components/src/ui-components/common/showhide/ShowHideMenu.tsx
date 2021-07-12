@@ -45,7 +45,7 @@ interface ShowHideMenuState<T extends ShowHideID> {
  */
 export class ShowHideMenu<T extends ShowHideID> extends React.PureComponent<ShowHideMenuProps<T>, ShowHideMenuState<T>> {
   /** @internal */
-  public readonly state: ShowHideMenuState<T>;
+  public override readonly state: ShowHideMenuState<T>;
 
   /** @internal */
   constructor(props: ShowHideMenuProps<T>) {
@@ -57,7 +57,7 @@ export class ShowHideMenu<T extends ShowHideID> extends React.PureComponent<Show
   }
 
   /** @internal */
-  public componentDidUpdate(oldProps: ShowHideMenuProps<T>) {
+  public override componentDidUpdate(oldProps: ShowHideMenuProps<T>) {
     if (this.props.initialHidden && oldProps.initialHidden !== this.props.initialHidden) {
       this.setState((_, props) => ({ hiddenColumns: props.initialHidden || /* istanbul ignore next */[] }));
     }
@@ -120,7 +120,7 @@ export class ShowHideMenu<T extends ShowHideID> extends React.PureComponent<Show
   };
 
   /** @internal */
-  public render(): React.ReactNode {
+  public override render(): React.ReactNode {
     const { items, x, y, opened, initialHidden, onClose, onShowHideChange, ...props } = this.props; // eslint-disable-line @typescript-eslint/no-unused-vars
     return (
       <GlobalContextMenu
