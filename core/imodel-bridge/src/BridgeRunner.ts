@@ -330,13 +330,18 @@ class BriefcaseDbBuilder extends IModelDbBuilder {
   }
 
   protected async _saveAndPushChanges(comment: string, changesType: ChangesType): Promise<void> {
+    await retryLoop(async () => {
+      assert(this._requestContext !== undefined);
+      assert(this._imodel instanceof BriefcaseDb);
+      await this._imodel.concurrencyControl.request(this._requestContext);
+    });
+    await retryLoop(async () => {
+      assert(this._requestContext !== undefined);
+      assert(this._imodel instanceof BriefcaseDb);
+      await this._imodel.pullAndMergeChanges(this._requestContext);
+    });
     assert(this._requestContext !== undefined);
     assert(this._imodel instanceof BriefcaseDb);
-
-    // TODO Each step below needs a retry loop
-
-    await this._imodel.concurrencyControl.request(this._requestContext);
-    await this._imodel.pullAndMergeChanges(this._requestContext);
     this._imodel.saveChanges();
     await this._pushChanges(comment, changesType);
   }
@@ -360,8 +365,11 @@ class BriefcaseDbBuilder extends IModelDbBuilder {
     this._imodel.concurrencyControl.channel.channelRoot = channelRootId;
     if (!lockRoot)
       return;
-    assert(this._requestContext !== undefined);
-    return this._imodel.concurrencyControl.channel.lockChannelRoot(this._requestContext);
+    await retryLoop(async () => {
+      assert(this._requestContext !== undefined);
+      assert(this._imodel instanceof BriefcaseDb);
+      await this._imodel.concurrencyControl.channel.lockChannelRoot(this._requestContext);
+    });
   }
 
   protected async _importDefinitions() {
@@ -457,17 +465,25 @@ class BriefcaseDbBuilder extends IModelDbBuilder {
 
   /** Pushes any pending transactions to the hub. */
   private async _pushChanges(pushComments: string, type: ChangesType) {
-    assert(this._requestContext !== undefined);
-    assert(this._imodel instanceof BriefcaseDb);
-    assert(this._imodel.txns !== undefined);
 
-    await this._imodel.pullAndMergeChanges(this._requestContext); // in case there are recent changes
+    await retryLoop(async () => {
+      assert(this._requestContext !== undefined);
+      assert(this._imodel instanceof BriefcaseDb);
+      assert(this._imodel.txns !== undefined);
+      await this._imodel.pullAndMergeChanges(this._requestContext); // in case there are recent changes
+    });
 
     // NB We must call BriefcaseDb.pushChanges to let it clear the locks, even if there are no pending changes.
     //    Also, we must not bypass that and call the BriefcaseManager API directly.
 
     const comment = this.getRevisionComment(pushComments);
-    return this._imodel.pushChanges(this._requestContext, comment, type);
+
+    await retryLoop(async () => { // could fail due to pushChanges is not an atomic txn
+      assert(this._requestContext !== undefined);
+      assert(this._imodel instanceof BriefcaseDb);
+      assert(this._imodel.txns !== undefined);
+      this._imodel.pushChanges(this._requestContext, comment, type);
+    });
   }
 
   public async initialize() {
@@ -588,3 +604,24 @@ class SnapshotDbBuilder extends IModelDbBuilder {
     this._imodel.saveChanges();
   }
 }
+
+export async function retryLoop(atomicOp: () => Promise<void>): Promise<void> {
+  while (true) {
+    try {
+      await atomicOp();
+    } catch(err) {
+      if ((err as any).status === 429) { // Too Many Request Error 
+        Logger.logInfo(BridgeLoggerCategory.Framework, "Requests are sent too frequent. Sleep for 1 minute.");
+        await new Promise(resolve => setTimeout(resolve, 60 * 1000));
+      } else if ((err as any).status === 403) { // out of call volumn quota
+        Logger.logInfo(BridgeLoggerCategory.Framework, "Out of call volumn quota. Sleep for 12 minutes.");
+        await new Promise(resolve => setTimeout(resolve, 12 * 60 * 1000));
+      } else {
+        throw err;
+      }
+    }
+    await new Promise(resolve => setTimeout(resolve, 10 * 1000)); // 10 seconds buffer
+    break;
+  }
+}
+
