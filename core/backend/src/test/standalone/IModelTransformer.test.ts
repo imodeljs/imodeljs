@@ -2,17 +2,17 @@
 * Copyright (c) Bentley Systems, Incorporated. All rights reserved.
 * See LICENSE.md in the project root for license terms and full copyright notice.
 *--------------------------------------------------------------------------------------------*/
-import { assert } from "chai";
+import { assert, expect } from "chai";
 import * as path from "path";
 import * as sinon from "sinon";
 import { DbResult, Id64, Id64String, Logger, LogLevel } from "@bentley/bentleyjs-core";
 import { Point3d, Range3d, StandardViewIndex, Transform, YawPitchRollAngles } from "@bentley/geometry-core";
 import {
-  AxisAlignedBox3d, Code, ColorDef, CreateIModelProps, ExternalSourceAspectProps, IModel, IModelError, PhysicalElementProps, Placement3d,
+  AxisAlignedBox3d, Code, CodeSpec, CodeScopeSpec, ColorDef, CreateIModelProps, DefinitionElementProps, ExternalSourceAspectProps, IModel, IModelError, PhysicalElementProps, Placement3d,
 } from "@bentley/imodeljs-common";
 import {
-  BackendLoggerCategory, BackendRequestContext, CategorySelector, DisplayStyle3d, ECSqlStatement, Element, ElementMultiAspect,
-  ElementOwnsExternalSourceAspects, ElementRefersToElements, ElementUniqueAspect, ExternalSourceAspect, IModelCloneContext, IModelDb, IModelExporter,
+  BackendLoggerCategory, BackendRequestContext, CategorySelector, DisplayStyle3d, DocumentListModel, Drawing, DrawingCategory, DrawingGraphic, DrawingModel, ECSqlStatement, Element, ElementMultiAspect,
+  ElementOwnsExternalSourceAspects, ElementRefersToElements, ElementUniqueAspect, ExternalSourceAspect, GenericPhysicalMaterial, IModelCloneContext, IModelDb, IModelExporter,
   IModelExportHandler, IModelJsFs, IModelSchemaLoader, IModelTransformer, InformationRecordModel, InformationRecordPartition, LinkElement, Model, ModelSelector,
   OrthographicViewDefinition, PhysicalModel, PhysicalObject, PhysicalPartition, PhysicalType, Relationship, RepositoryLink, SnapshotDb,
   SpatialCategory, Subject,
@@ -958,7 +958,7 @@ describe("IModelTransformer", () => {
     sourceDb.close();
     targetDb.close();
   });
-
+  
   it("processSchemas should wait for the schema import to finish to delete the export directory", async () => {
     const reqCtx = new BackendRequestContext();
     const cloneTestSchema100 = path.join(KnownTestLocations.assetsDir, "CloneTest.01.00.00.ecschema.xml");
@@ -988,8 +988,148 @@ describe("IModelTransformer", () => {
     assert(removeSyncSpy.calledAfter(importSchemasResolved));
 
     sinon.restore();
+    
+    sourceDb.close();
+    targetDb.close();
+  });
+  
+  it("handles definition element scoped by non-definitional element", async () => {
+    const sourceDbPath = IModelTestUtils.prepareOutputFile("IModelTransformer", "BadPredecessorsExampleSource.bim");
+    const sourceDb = SnapshotDb.createEmpty(sourceDbPath, { rootSubject: { name: "BadPredecessorExampleSource" } });
+    const requestContext = new BackendRequestContext();
+
+    // create a document partition in our iModel's root
+    const documentListModelId = DocumentListModel.insert(sourceDb, IModelDb.rootSubjectId, "DocumentList");
+
+    // add a drawing to the document partition's model
+    const drawingId = sourceDb.elements.insertElement({
+      classFullName: Drawing.classFullName,
+      model: documentListModelId,
+      code: Drawing.createCode(sourceDb, documentListModelId, "Drawing"),
+    });
+    expect(Id64.isValidId64(drawingId)).to.be.true;
+
+    // submodel our drawing with a DrawingModel
+    const model = sourceDb.models.createModel({
+      classFullName: DrawingModel.classFullName,
+      modeledElement: { id: drawingId },
+    });
+    sourceDb.models.insertModel(model);
+
+    const myCodeSpecId = sourceDb.codeSpecs.insert(CodeSpec.create(sourceDb, "MyCodeSpec", CodeScopeSpec.Type.RelatedElement));
+
+    // insert a definition element which is scoped by a non-definition element (the drawing)
+    const _physicalMaterialId = sourceDb.elements.insertElement({
+      classFullName: GenericPhysicalMaterial.classFullName,
+      model: IModel.dictionaryId,
+      code: new Code({spec: myCodeSpecId, scope: drawingId, value: "physical material"}),
+    } as DefinitionElementProps);
+
+    sourceDb.saveChanges();
+
+    const targetDbPath = IModelTestUtils.prepareOutputFile("IModelTransformer", "BadPredecessorExampleTarget.bim");
+    const targetDb = SnapshotDb.createEmpty(targetDbPath, { rootSubject: { name: sourceDb.rootSubject.name } });
+    const transformer = new IModelTransformer(sourceDb, targetDb);
+
+    await expect(transformer.processSchemas(requestContext)).to.eventually.be.fulfilled;
+    await expect(transformer.processAll()).to.eventually.be.fulfilled;
+
+    // check if target imodel has the elements that source imodel had
+    expect(targetDb.codeSpecs.hasName("MyCodeSpec")).to.be.true;
+    const drawingIdTarget = targetDb.elements.queryElementIdByCode(Drawing.createCode(targetDb, documentListModelId, "Drawing"));
+    expect(drawingIdTarget).to.not.be.undefined;
+    expect(Id64.isValidId64((drawingIdTarget as string))).to.be.true;
+    const physicalMaterialIdTarget = targetDb.elements.queryElementIdByCode(new Code({spec: myCodeSpecId, scope: drawingId, value: "physical material"}));
+    expect(physicalMaterialIdTarget).to.not.be.undefined;
+    expect(Id64.isValidId64((physicalMaterialIdTarget as string))).to.be.true;
+
     sourceDb.close();
     targetDb.close();
   });
 
+  it("handles backwards related-instance code in model", async () => {
+    const sourceDbPath = IModelTestUtils.prepareOutputFile("IModelTransformer", "BadPredecessorsExampleSource.bim");
+    const sourceDb = SnapshotDb.createEmpty(sourceDbPath, { rootSubject: { name: "BadPredecessorExampleSource" } });
+    const requestContext = new BackendRequestContext();
+
+    // create a document partition in our iModel's root
+    const documentListModelId = DocumentListModel.insert(sourceDb, IModelDb.rootSubjectId, "DocumentList");
+
+    // add a drawing to the document partition's model
+    const drawing1Id = sourceDb.elements.insertElement({
+      classFullName: Drawing.classFullName,
+      model: documentListModelId,
+      code: Drawing.createCode(sourceDb, documentListModelId, "Drawing1"),
+    });
+
+    const drawing2Id = sourceDb.elements.insertElement({
+      classFullName: Drawing.classFullName,
+      model: documentListModelId,
+      code: Drawing.createCode(sourceDb, documentListModelId, "Drawing2"),
+    });
+
+    const drawingModel1 = sourceDb.models.createModel({
+      classFullName: DrawingModel.classFullName,
+      modeledElement: { id: drawing1Id },
+    });
+    const drawingModel1Id = sourceDb.models.insertModel(drawingModel1);
+
+    const drawingModel2 = sourceDb.models.createModel({
+      classFullName: DrawingModel.classFullName,
+      modeledElement: { id: drawing2Id },
+    });
+    const drawingModel2Id = sourceDb.models.insertModel(drawingModel2);
+
+    const modelCodeSpec = sourceDb.codeSpecs.insert(CodeSpec.create(sourceDb, "ModelCodeSpec", CodeScopeSpec.Type.Model));
+    const relatedCodeSpecId = sourceDb.codeSpecs.insert(CodeSpec.create(sourceDb, "RelatedCodeSpec", CodeScopeSpec.Type.RelatedElement));
+
+    const categoryId = DrawingCategory.insert(sourceDb, IModel.dictionaryId, "DrawingCategory", { color: ColorDef.green.toJSON() });
+
+    // we make drawingGraphic2 in drawingModel2 first
+    const drawingGraphic2Id = new DrawingGraphic({
+      classFullName: DrawingGraphic.classFullName,
+      model: drawingModel2Id,
+      code: new Code({spec: modelCodeSpec, scope: drawingModel2Id, value: "drawing graphic 2"}),
+      category: categoryId,
+    }, sourceDb).insert();
+
+    const _drawingGraphic1Id = new DrawingGraphic({
+      classFullName: DrawingGraphic.classFullName,
+      model: drawingModel1Id,
+      code: new Code({spec: relatedCodeSpecId, scope: drawingGraphic2Id, value: "drawing graphic 1"}),
+      category: categoryId,
+    }, sourceDb).insert();
+
+    sourceDb.saveChanges();
+
+    const targetDbPath = IModelTestUtils.prepareOutputFile("IModelTransformer", "BadPredecessorExampleTarget.bim");
+    const targetDb = SnapshotDb.createEmpty(targetDbPath, { rootSubject: { name: sourceDb.rootSubject.name } });
+    const transformer = new IModelTransformer(sourceDb, targetDb);
+
+    await expect(transformer.processSchemas(requestContext)).to.eventually.be.fulfilled;
+    await expect(transformer.processAll()).to.eventually.be.fulfilled;
+
+    // check if target imodel has the elements that source imodel had
+    expect(targetDb.codeSpecs.hasName("ModelCodeSpec")).to.be.true;
+    expect(targetDb.codeSpecs.hasName("RelatedCodeSpec")).to.be.true;
+    const drawingIdTarget1 = targetDb.elements.queryElementIdByCode(Drawing.createCode(targetDb, documentListModelId, "Drawing1"));
+    expect(drawingIdTarget1).to.not.be.undefined;
+    expect(Id64.isValidId64((drawingIdTarget1 as string))).to.be.true;
+
+    const drawingIdTarget2 = targetDb.elements.queryElementIdByCode(Drawing.createCode(targetDb, documentListModelId, "Drawing2"));
+    expect(drawingIdTarget2).to.not.be.undefined;
+    expect(Id64.isValidId64((drawingIdTarget2 as string))).to.be.true;
+
+    const drawingGraphicIdTarget2Props = targetDb.elements.getElementProps(drawingGraphic2Id);
+    expect(targetDb.elements.queryElementIdByCode(new Code(drawingGraphicIdTarget2Props.code))).to.not.be.undefined;
+    expect(Id64.isValidId64((targetDb.elements.queryElementIdByCode(new Code(drawingGraphicIdTarget2Props.code)) as string))).to.be.true;
+
+    const drawingGraphicIdTarget1Props = targetDb.elements.getElementProps(_drawingGraphic1Id);
+    expect(targetDb.elements.queryElementIdByCode(new Code(drawingGraphicIdTarget1Props.code))).to.not.be.undefined;
+    expect(Id64.isValidId64((targetDb.elements.queryElementIdByCode(new Code(drawingGraphicIdTarget1Props.code)) as string))).to.be.true;
+    
+    sourceDb.close();
+    targetDb.close();
+  });
+  
 });
