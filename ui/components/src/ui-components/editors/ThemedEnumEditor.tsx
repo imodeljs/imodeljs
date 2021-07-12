@@ -173,7 +173,7 @@ export class ThemedEnumEditor extends React.PureComponent<ThemedEnumEditorProps,
     const selectValue = this.state.selectValue ? this.state.selectValue.toString() : undefined;
     const options = this.state.options === undefined ? [] : this.state.options;
     const selectedOption = options.find((e) => e.value === selectValue);
-    const { isSearchable, placeholder, noOptionsMessage } = this.props as any;
+    const { isSearchable, placeholder, noOptionsMessage } = this.props;
     // set min-width to show about 4 characters + down arrow
     const minWidthStyle: React.CSSProperties = {
       minWidth: `${6 * 0.75}em`,

@@ -11,7 +11,7 @@
 /**
  * Standard Type Names for converters and editors.
  * @beta
- * @deprecated Use [[StandardTypeNames]] in ui-abstract instead
+ * @deprecated Use [StandardTypeNames]($ui-abstract) in bentley/ui-abstract instead
  */
 export enum StandardTypeNames {
   Text = "text",
@@ -39,7 +39,7 @@ export enum StandardTypeNames {
 /**
  * StandardTypeConverterTypeNames.
  * @beta
- * @deprecated Use [[StandardTypeNames]] in ui-abstract instead
+ * @deprecated Use [StandardTypeNames]($ui-abstract) in bentley/ui-abstract instead
  */
 export enum StandardTypeConverterTypeNames {
   Text = "text",

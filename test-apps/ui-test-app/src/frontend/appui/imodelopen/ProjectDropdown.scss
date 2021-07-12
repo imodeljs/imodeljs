@@ -3,8 +3,8 @@
 * See LICENSE.md in the project root for license terms and full copyright notice.
 *--------------------------------------------------------------------------------------------*/
 @import "~@bentley/ui-core/lib/ui-core/style/colors";
-@import "~@bentley/ui-core/lib/ui-core/style/typography";
 @import "~@bentley/ui-core/lib/ui-core/scrollbar";
+@import "~@itwin/itwinui-css/scss/style/typography";
 
 $separator-background: #F0F0F0;
 $pp-highlight-size: 4px;
@@ -70,7 +70,7 @@ $pp-max-dropdown-width: 450px;
 
   /* current project number & name */
   > div {
-    font-size: $uicore-font-size-leading;
+    font-size: $iui-font-size-leading;
     display: flex;
     justify-content: center;
     flex-direction: column;
@@ -85,7 +85,7 @@ $pp-max-dropdown-width: 450px;
     /* project name font is smaller (and add some spacing between number and name) */
     .name {
       @extend .text-clip;
-      font-size: $uicore-font-size;
+      font-size: $iui-font-size;
       margin-top: .25em;
     }
   }
@@ -160,14 +160,14 @@ $pp-max-dropdown-width: 450px;
 
         /* number is a larger font size than name */
         span:first-child{
-          font-size: $uicore-font-size;
+          font-size: $iui-font-size;
           font-weight: 550;
         }
 
         /* name is a smaller font size and space the number/name */
         span:last-child{
           margin-top: .4em;
-          font-size: $uicore-font-size-small;
+          font-size: $iui-font-size-small;
           font-weight: 300;
         }
       }
@@ -184,7 +184,7 @@ $pp-max-dropdown-width: 450px;
 .pp-no-mru {
   display: block;
   color: $uicore-gray;
-  font-size: $uicore-font-size;
+  font-size: $iui-font-size;
   padding: .25em 1.25em;
 }
 

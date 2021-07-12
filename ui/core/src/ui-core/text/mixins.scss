@@ -2,53 +2,54 @@
 * Copyright (c) Bentley Systems, Incorporated. All rights reserved.
 * See LICENSE.md in the project root for license terms and full copyright notice.
 *--------------------------------------------------------------------------------------------*/
-@import "../style/index";
+@import "../style/themecolors";
+@import "~@itwin/itwinui-css/scss/style/baseline";
+@import "~@itwin/itwinui-css/scss/style/typography";
 
 @mixin uicore-text-block-spacing {
 
-  padding:        0;
-  margin:         0 0 $uicore-line-height;
+  @include iui-text-block-spacing;
 }
 
 @mixin uicore-text( $type: body ){
 
   $sizes: (
-    headline:       $uicore-font-size-headline,
-    title:          $uicore-font-size-title,
-    title-2:        $uicore-font-size-title,
-    subheading:     $uicore-font-size-subheading,
-    subheading-2:   $uicore-font-size-subheading,
-    leading:        $uicore-font-size-leading,
-    leading-2:      $uicore-font-size-leading,
-    body:           $uicore-font-size,
-    small:          $uicore-font-size-small,
-    caption:        $uicore-font-size-small,
+    headline:       $iui-font-size-headline,
+    title:          $iui-font-size-title,
+    title-2:        $iui-font-size-title,
+    subheading:     $iui-font-size-subheading,
+    subheading-2:   $iui-font-size-subheading,
+    leading:        $iui-font-size-leading,
+    leading-2:      $iui-font-size-leading,
+    body:           $iui-font-size,
+    small:          $iui-font-size-small,
+    caption:        $iui-font-size-small,
   );
 
   $weights: (
-    headline:       $uicore-font-weight-light,
-    title:          $uicore-font-weight-light,
-    title-2:        $uicore-font-weight-normal,
-    subheading:     $uicore-font-weight-normal,
-    subheading-2:   $uicore-font-weight-semibold,
-    leading:        $uicore-font-weight-normal,
-    leading-2:      $uicore-font-weight-bold,
-    body:           $uicore-font-weight-normal,
-    small:          $uicore-font-weight-normal,
-    caption:        $uicore-font-weight-normal,
+    headline:       $iui-font-weight-light,
+    title:          $iui-font-weight-light,
+    title-2:        $iui-font-weight-normal,
+    subheading:     $iui-font-weight-normal,
+    subheading-2:   $iui-font-weight-semibold,
+    leading:        $iui-font-weight-normal,
+    leading-2:      $iui-font-weight-bold,
+    body:           $iui-font-weight-normal,
+    small:          $iui-font-weight-normal,
+    caption:        $iui-font-weight-normal,
   );
 
   $line-heights: (
-    headline:       2 * $uicore-line-height,
-    title:          1.5 * $uicore-line-height,
-    title-2:        1.5 * $uicore-line-height,
-    subheading:     1.5 * $uicore-line-height,
-    subheading-2:   1.5 * $uicore-line-height,
-    leading:        $uicore-line-height,
-    leading-2:      $uicore-line-height,
-    body:           $uicore-line-height,
-    small:          $uicore-line-height,
-    caption:        $uicore-line-height,
+    headline:       2 * $iui-line-height,
+    title:          1.5 * $iui-line-height,
+    title-2:        1.5 * $iui-line-height,
+    subheading:     1.5 * $iui-line-height,
+    subheading-2:   1.5 * $iui-line-height,
+    leading:        $iui-line-height,
+    leading-2:      $iui-line-height,
+    body:           $iui-line-height,
+    small:          $iui-line-height,
+    caption:        $iui-line-height,
   );
 
   $type: if( map-has-key( $sizes, $type ), $type, body );

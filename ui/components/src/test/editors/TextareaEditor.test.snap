@@ -10,7 +10,7 @@ exports[`<TextareaEditor /> renders correctly 1`] = `
     label=""
   >
     <PopupContent>
-      <ForwardRef(ForwardRefTextarea)
+      <ForwardRef
         aria-label="editor.textarea"
         className="components-textarea-editor-textarea"
         data-testid="components-textarea-editor"
@@ -43,7 +43,7 @@ exports[`<TextareaEditor /> renders correctly with style 1`] = `
     label=""
   >
     <PopupContent>
-      <ForwardRef(ForwardRefTextarea)
+      <ForwardRef
         aria-label="editor.textarea"
         className="components-textarea-editor-textarea"
         data-testid="components-textarea-editor"

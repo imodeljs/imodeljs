@@ -10,15 +10,16 @@
 import * as React from "react";
 import { Draggable, DraggableChildrenFn, Droppable, DroppableProvided, DroppableStateSnapshot } from "react-beautiful-dnd";
 import { MapLayerImageryProviderStatus, ScreenViewport } from "@bentley/imodeljs-frontend";
-import { Button, Icon } from "@bentley/ui-core";
+import { Icon } from "@bentley/ui-core";
 import { assert } from "@bentley/bentleyjs-core";
+import { ModalDialogManager } from "@bentley/ui-framework";
+import { Button } from "@itwin/itwinui-react";
 import { SubLayersPopupButton } from "./SubLayersPopupButton";
 import { AttachLayerButtonType, AttachLayerPopupButton } from "./AttachLayerPopupButton";
 import { MapLayersUiItemsProvider } from "../MapLayersUiItemsProvider";
 import { MapTypesOptions, StyleMapLayerSettings } from "../Interfaces";
 import { MapLayerSettingsMenu } from "./MapLayerSettingsMenu";
 import { MapUrlDialog } from "./MapUrlDialog";
-import { ModalDialogManager } from "@bentley/ui-framework";
 import "./MapLayerManager.scss";
 
 /** @internal */

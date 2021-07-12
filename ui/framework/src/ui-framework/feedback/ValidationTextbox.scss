@@ -3,12 +3,14 @@
 * See LICENSE.md in the project root for license terms and full copyright notice.
 *--------------------------------------------------------------------------------------------*/
 @import "~@bentley/ui-core/lib/ui-core/icons/variables";
-@import "~@bentley/ui-core/lib/ui-core/inputs/input";
+@import "~@bentley/ui-core/lib/ui-core/inputs/variables";
 @import "~@bentley/ui-core/lib/ui-core/style/themecolors";
-@import "~@bentley/ui-core/lib/ui-core/style/typography";
+@import "~@bentley/ui-core/lib/ui-core/style/variables";
+@import "~@itwin/itwinui-css/scss/inputs/input";
+@import "~@itwin/itwinui-css/scss/style/typography";
 
 .uifw-ValidationTextbox {
-  @include uicore-font-family;
+  @include iui-font-family;
   position: relative;
   padding: $uicore-unbordered-padding;
   width: 12em;
@@ -16,7 +18,9 @@
 
   .ValidationTextbox-input {
     position: absolute;
-    @include uicore-inputs-input;
+    @include iui-input;
+    min-height: $uicore-component-height-normal;
+    padding: $uicore-iui-input-padding;
     width: 12em;
     left: 0px;
     top: 0px;

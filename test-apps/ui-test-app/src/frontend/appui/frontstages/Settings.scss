@@ -3,8 +3,8 @@
 * See LICENSE.md in the project root for license terms and full copyright notice.
 *--------------------------------------------------------------------------------------------*/
 @import "~@bentley/ui-core/lib/ui-core/style/themecolors";
-@import "~@bentley/ui-core/lib/ui-core/style/typography";
 @import "~@bentley/ui-core/lib/ui-core/base/base";
+@import "~@itwin/itwinui-css/scss/style/typography";
 
 // cspell:ignore leftpanel rightpanel
 
@@ -20,7 +20,7 @@ $settings-rightpanel-width: 220px;
   background: $buic-background-dialog;
   color: $buic-text-color;
   border-radius: 3px;
-  font-size: $uicore-font-size;
+  font-size: $iui-font-size;
   display: flex;
   flex-direction: column;
 }

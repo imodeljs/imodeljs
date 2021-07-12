@@ -110,6 +110,8 @@
     "@bentley/ui-ninezone": "workspace:*",
     "@bentley/ui-framework": "workspace:*",
     "@bentley/map-layers": "workspace:*",
+    "@itwin/itwinui-css": "^0.22.0",
+    "@itwin/itwinui-react": "^1.11.0",
     "classnames": "^2.3.1",
     "lorem-ipsum": "^2.0.3",
     "react": "^16.8.0",

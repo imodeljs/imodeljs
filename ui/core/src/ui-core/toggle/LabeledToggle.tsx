@@ -9,12 +9,13 @@
 import "./LabeledToggle.scss";
 import classnames from "classnames";
 import * as React from "react";
-import { Toggle, ToggleProps } from "./Toggle";
+import { ToggleSwitch, ToggleSwitchProps } from "@itwin/itwinui-react";
 
 /** Properties for [[LabeledToggle]]
  * @public
+ * @deprecated Use ToggleSwitchProps from itwinui-react instead
  */
-export interface LabeledToggleProps extends ToggleProps {
+export interface LabeledToggleProps extends ToggleSwitchProps {
   /** Text that will be shown next to the Toggle. */
   label?: string;
   /** Custom CSS class name for the label */
@@ -25,8 +26,9 @@ export interface LabeledToggleProps extends ToggleProps {
 
 /** Toggle component with a Label to the right
  * @public
+ * @deprecated Use ToggleSwitch from itwinui-react with `labelPosition="right"` instead
  */
-export class LabeledToggle extends React.PureComponent<LabeledToggleProps> {
+export class LabeledToggle extends React.PureComponent<LabeledToggleProps> {  // eslint-disable-line deprecation/deprecation
   public override render(): JSX.Element {
     const { label, labelClassName, className, style, ...props } = this.props;
 
@@ -36,7 +38,7 @@ export class LabeledToggle extends React.PureComponent<LabeledToggleProps> {
         this.props.disabled && "uicore-disabled",
         this.props.className,
       )}>
-        <Toggle className={className} style={style} {...props} />
+        <ToggleSwitch className={className} style={style} {...props} />
         {label &&
           <div className={classnames("uicore-label", labelClassName)}>{label}</div>
         }

@@ -7,8 +7,9 @@
  */
 
 import * as React from "react";
-import { CommonProps, Select, SelectOption } from "@bentley/ui-core";
+import { CommonProps } from "@bentley/ui-core";
 import { UiComponents } from "../../UiComponents";
+import { Select, SelectOption } from "@itwin/itwinui-react";
 
 /** Properties of [[StationSizeSelector]] component.
  * @internal
@@ -24,14 +25,13 @@ export interface StationSizeSelectorProps extends CommonProps {
  */
 export function StationSizeSelector(props: StationSizeSelectorProps) {
   const { value, disabled, onChange, ...otherProps } = props;
-  const separatorOptions = React.useRef<SelectOption[]>([
+  const separatorOptions = React.useRef<SelectOption<number>[]>([
     { value: 2, label: UiComponents.translate("QuantityFormat.station_size.two") },
     { value: 3, label: UiComponents.translate("QuantityFormat.station_size.three") },
   ]);
 
-  const handleOnChange = React.useCallback((e: React.ChangeEvent<HTMLSelectElement>) => {
-    e.preventDefault();
-    onChange && onChange(Number.parseInt(e.target.value, 10));
+  const handleOnChange = React.useCallback((newValue: number) => {
+    onChange && onChange(newValue);
   }, [onChange]);
 
   return (

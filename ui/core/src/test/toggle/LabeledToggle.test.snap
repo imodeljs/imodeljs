@@ -4,7 +4,7 @@ exports[`<LabeledToggle /> renders correctly 1`] = `
 <label
   className="core-inputs-labeled-toggle"
 >
-  <ForwardRef(ForwardRefToggle) />
+  <ForwardRef />
   <div
     className="uicore-label"
   >
@@ -17,7 +17,7 @@ exports[`<LabeledToggle /> renders disabled correctly 1`] = `
 <label
   className="core-inputs-labeled-toggle uicore-disabled"
 >
-  <ForwardRef(ForwardRefToggle)
+  <ForwardRef
     disabled={true}
   />
   <div

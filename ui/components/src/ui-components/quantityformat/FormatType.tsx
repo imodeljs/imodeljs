@@ -7,9 +7,10 @@
  */
 
 import * as React from "react";
-import { CommonProps, Select, SelectOption } from "@bentley/ui-core";
+import { CommonProps } from "@bentley/ui-core";
 import { UiComponents } from "../UiComponents";
 import { DecimalPrecision, Format, FormatProps, FormatType, FractionalPrecision, ScientificType } from "@bentley/imodeljs-quantity";
+import { Select, SelectOption } from "@itwin/itwinui-react";
 
 /** Properties of [[FormatTypeSelector]] component.
  * @alpha
@@ -24,17 +25,15 @@ interface FormatTypeSelectorProps extends CommonProps {
  */
 function FormatTypeSelector(props: FormatTypeSelectorProps) {
   const { type, onChange, ...otherProps } = props;
-  const formatOptions = React.useRef<SelectOption[]>([
+  const formatOptions = React.useRef<SelectOption<FormatType>[]>([
     { value: FormatType.Decimal, label: UiComponents.translate("QuantityFormat.decimal") },
     { value: FormatType.Scientific, label: UiComponents.translate("QuantityFormat.scientific") },
     { value: FormatType.Station, label: UiComponents.translate("QuantityFormat.station") },
     { value: FormatType.Fractional, label: UiComponents.translate("QuantityFormat.fractional") },
   ]);
 
-  const handleOnChange = React.useCallback((e: React.ChangeEvent<HTMLSelectElement>) => {
-    e.preventDefault();
-    const enumValue = parseInt(e.target.value, 10);
-    onChange && onChange(enumValue as FormatType);
+  const handleOnChange = React.useCallback((newValue: FormatType) => {
+    onChange && onChange(newValue);
   }, [onChange]);
 
   return (
@@ -81,7 +80,7 @@ export function FormatTypeOption(props: FormatTypeOptionProps) {
   }, [formatProps, onChange]);
 
   const formatType = Format.parseFormatType(formatProps.type, "format");
-  const label = React.useRef (UiComponents.translate("QuantityFormat.labels.type"));
+  const label = React.useRef(UiComponents.translate("QuantityFormat.labels.type"));
 
   return (
     <>

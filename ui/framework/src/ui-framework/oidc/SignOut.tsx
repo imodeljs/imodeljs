@@ -13,6 +13,7 @@ import { isFrontendAuthorizationClient } from "@bentley/frontend-authorization-c
 import { IModelApp } from "@bentley/imodeljs-frontend";
 import { UserInfo } from "@bentley/itwin-client";
 import { getUserColor } from "@bentley/ui-core";
+import { Button } from "@itwin/itwinui-react";
 import { FrontstageManager, ModalFrontstageInfo } from "../frontstage/FrontstageManager";
 import { UiFramework } from "../UiFramework";
 
@@ -88,7 +89,7 @@ export class SignOutModalFrontstage implements ModalFrontstageInfo {
         <div className="signout">
           <span>{this._signOut}</span>
           <span>{this._signOutPrompt}</span>
-          <button onClick={this._onSignOut}>{this._signOut}</button>
+          <Button size="large" styleType="cta" onClick={this._onSignOut}>{this._signOut}</Button>
         </div>
       </div>
     );

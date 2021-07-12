@@ -3,7 +3,7 @@
 * See LICENSE.md in the project root for license terms and full copyright notice.
 *--------------------------------------------------------------------------------------------*/
 @import "~@bentley/ui-core/lib/ui-core/style/themecolors";
-@import "~@bentley/ui-core/lib/ui-core/style/typography";
+@import "~@itwin/itwinui-css/scss/style/typography";
 
 $cube-outer-width: 96px;
 $button-width: 20px;
@@ -41,8 +41,8 @@ $arrow-margin: -3px;
         flex-direction: column;
         width: 100%;
         height: 100%;
-        font-size: $uicore-cap-size;
-        font-weight: $uicore-font-weight-semibold;
+        font-size: $iui-cap-size;
+        font-weight: $iui-font-weight-semibold;
         color: $buic-text-color;
         box-shadow: inset 0px 0px 1.0px 0.2px #000;
         .face-row {

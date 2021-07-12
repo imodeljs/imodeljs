@@ -2,10 +2,10 @@
 * Copyright (c) Bentley Systems, Incorporated. All rights reserved.
 * See LICENSE.md in the project root for license terms and full copyright notice.
 *--------------------------------------------------------------------------------------------*/
-@import "./mixins";
+@import "~@itwin/itwinui-css/scss/text/subheading";
 
 @mixin uicore-text-subheading {
 
-  @include uicore-text( subheading );
-  @include uicore-text-block-spacing;
+  @include iui-text-subheading;
+  ;
 }

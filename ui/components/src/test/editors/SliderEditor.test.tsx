@@ -8,8 +8,10 @@ import { mount, shallow } from "enzyme";
 import { cleanup, fireEvent, render, waitForElement } from "@testing-library/react";
 import sinon from "sinon";
 import * as React from "react";
-import { BasePropertyEditorParams, PropertyEditorParamTypes, PropertyRecord, PropertyValue,
-  SliderEditorParams, SpecialKey, StandardEditorNames } from "@bentley/ui-abstract";
+import {
+  BasePropertyEditorParams, PropertyEditorParamTypes, PropertyRecord, PropertyValue,
+  SliderEditorParams, SpecialKey, StandardEditorNames,
+} from "@bentley/ui-abstract";
 import { SliderEditor } from "../../ui-components/editors/SliderEditor";
 import TestUtils from "../TestUtils";
 import { EditorContainer } from "../../ui-components/editors/EditorContainer";
@@ -22,7 +24,8 @@ describe("<SliderEditor />", () => {
   });
 
   it("should render", () => {
-    mount(<SliderEditor />);
+    const wrapper = mount(<SliderEditor />);
+    wrapper.unmount();
   });
 
   it("renders correctly", () => {
@@ -232,7 +235,7 @@ describe("<SliderEditor />", () => {
 
   class MineDataController extends DataControllerBase {
     public override async validateValue(_newValue: PropertyValue, _record: PropertyRecord): Promise<AsyncValueProcessingResult> {
-      return { encounteredError: true, errorMessage: { priority: OutputMessagePriority.Error, briefMessage: "Test"} };
+      return { encounteredError: true, errorMessage: { priority: OutputMessagePriority.Error, briefMessage: "Test" } };
     }
   }
 

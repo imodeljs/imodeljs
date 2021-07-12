@@ -7,8 +7,8 @@
  */
 
 import * as React from "react";
-import { SpecialKey } from "@bentley/ui-abstract";
-import { CommonProps, ExpandableBlock } from "@bentley/ui-core";
+import { CommonProps } from "@bentley/ui-core";
+import { ExpandableBlock } from "@itwin/itwinui-react";
 import { HighlightedText } from "../../common/HighlightedText";
 import { HighlightingComponentProps } from "../../common/HighlightingComponentProps";
 import { PropertyCategory } from "../PropertyDataProvider";
@@ -42,35 +42,23 @@ export class PropertyCategoryBlock extends React.Component<PropertyCategoryBlock
       this.props.onExpansionToggled(this.props.category.name);
   }
 
-  private _onClick = () => {
+  private _handleToggle = (_isExpanding: boolean): void => {
     this.toggleExpansion();
-  };
-
-  private _onKeyPress = (evt: React.KeyboardEvent<HTMLDivElement>) => {
-    // Prevent page from scrolling when clicking [Space]:
-    if (evt.key === SpecialKey.Space) {
-      evt.preventDefault();
-    }
-    // [Space] and [Enter] toggle the block:
-    if (evt.key === SpecialKey.Space || evt.key === SpecialKey.Enter) {
-      this.toggleExpansion();
-    }
   };
 
   /** @internal */
   public override render() {
-    const { highlight, category, children, ...props} = this.props;
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const { highlight, category, children, onExpansionToggled, ...props } = this.props;
     const activeMatchIndex = this.props.category.name === highlight?.activeHighlight?.highlightedItemIdentifier ? highlight.activeHighlight.highlightIndex : undefined;
-    const label = highlight?
+    const label = highlight ?
       (<HighlightedText text={category.label} activeMatchIndex={activeMatchIndex} searchText={highlight.highlightedText} />) :
       category.label;
     return (
       <ExpandableBlock
         isExpanded={category.expand}
-        onClick={this._onClick}
-        onKeyPress={this._onKeyPress}
+        onToggle={this._handleToggle}
         title={label}
-        tooltip = {category.label}
         {...props}
       >
         {children}

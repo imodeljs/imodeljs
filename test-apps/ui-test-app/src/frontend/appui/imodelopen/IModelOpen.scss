@@ -3,7 +3,7 @@
 * See LICENSE.md in the project root for license terms and full copyright notice.
 *--------------------------------------------------------------------------------------------*/
 @import "~@bentley/ui-core/lib/ui-core/style/colors";
-@import "~@bentley/ui-core/lib/ui-core/style/typography";
+@import "~@itwin/itwinui-css/scss/style/typography";
 
 $appbar-height: 65px;
 $navbar-width: 72px;
@@ -51,7 +51,7 @@ $border-color: #e7e9ec;
     /* "Projects" label */
     .projects-label {
       margin-right: 1em;
-      font-size: $uicore-font-size-subheading;
+      font-size: $iui-font-size-subheading;
     }
 
     /* project picker */

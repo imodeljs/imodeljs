@@ -2,6 +2,8 @@
 * Copyright (c) Bentley Systems, Incorporated. All rights reserved.
 * See LICENSE.md in the project root for license terms and full copyright notice.
 *--------------------------------------------------------------------------------------------*/
+import { fireEvent } from "@testing-library/react";
+import { expect } from "chai";
 import { I18N } from "@bentley/imodeljs-i18n";
 import { UiCore } from "../ui-core/UiCore";
 
@@ -68,5 +70,48 @@ export const storageMock = () => {
     },
   };
 };
+
+/**
+ * Select component change value using text of menu item to find item
+ */
+export const selectChangeValueByText = (select: HTMLElement, label: string, onError?: (msg: string) => void): void => {
+  fireEvent.click(select.querySelector(".iui-select-button") as HTMLElement);
+
+  const menu = select.querySelector(".iui-menu") as HTMLUListElement;
+  if (!menu)
+    onError && onError(`Couldn't find menu`);
+  expect(menu).to.exist;
+
+  const menuItems = menu.querySelectorAll("li span.iui-content");
+  if (menuItems.length <= 0)
+    onError && onError("Couldn't find any menu items");
+  expect(menuItems.length).to.be.greaterThan(0);
+
+  const menuItem = [...menuItems].find((span) => span.textContent === label);
+  if (!menuItem)
+    onError && onError(`Couldn't find menu item with '${label}' label`);
+  expect(menuItem).to.not.be.undefined;
+
+  fireEvent.click(menuItem!);
+};
+
+/** Handle an error when attempting to get an element */
+export function handleError(msg: string) {
+  console.log(msg); // eslint-disable-line no-console
+}
+
+/** Stubs scrollIntoView. */
+export function stubScrollIntoView() {
+  const originalScrollIntoView = window.HTMLElement.prototype.scrollIntoView;
+  const scrollIntoViewMock = function () { };
+
+  beforeEach(() => {
+    window.HTMLElement.prototype.scrollIntoView = scrollIntoViewMock;
+  });
+
+  afterEach(() => {
+    window.HTMLElement.prototype.scrollIntoView = originalScrollIntoView;
+  });
+}
 
 export default TestUtils;   // eslint-disable-line: no-default-export

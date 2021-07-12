@@ -9,7 +9,7 @@
 import "./CheckListBox.scss";
 import classnames from "classnames";
 import * as React from "react";
-import { Checkbox } from "../checkbox/Checkbox";
+import { Checkbox } from "@itwin/itwinui-react";
 import { CommonProps } from "../utils/Props";
 
 /** Properties for the [[CheckListBoxItem]] component
@@ -37,7 +37,7 @@ export class CheckListBoxItem extends React.PureComponent<CheckListBoxItemProps>
     return (
       <li>
         <Checkbox checked={this.props.checked} disabled={this.props.disabled}
-          inputClassName={className} style={this.props.style}
+          className={className} style={this.props.style}
           label={this.props.label} onClick={this.props.onClick} onChange={this.props.onChange}
           data-testid="core-chk-listboxitem-checkbox" />
       </li>

@@ -10,10 +10,12 @@ import "./Calculator.scss";
 import classnames from "classnames";
 import * as React from "react";
 import { OnCancelFunc, OnNumberCommitFunc, SpecialKey } from "@bentley/ui-abstract";
-import { Button, ButtonType, CommonProps, Icon, IconInput, Input, Omit, SvgSprite } from "@bentley/ui-core";
-import backspaceIcon from "./backspace.svg?sprite";
+import { CommonProps, Icon, IconInput, Omit, SvgSprite } from "@bentley/ui-core";
+import { Button, Input } from "@itwin/itwinui-react";
 import { CalculatorEngine, CalculatorOperator } from "./CalculatorEngine";
 import { SquareButton, SquareButtonProps } from "./SquareButton";
+
+import backspaceIcon from "./backspace.svg?sprite";
 
 // cSpell:ignore plusmn
 
@@ -143,7 +145,7 @@ export class Calculator extends React.PureComponent<CalculatorProps, CalculatorS
         <div className="uifw-calculator-bottom-buttons">
           <Button
             className={classnames("uifw-calculator-large-button", "uifw-calculator-ok-button")}
-            buttonType={ButtonType.Primary}
+            styleType="cta"
             onClick={this._handleOk}
           >
             <Icon iconSpec="icon-checkmark" />

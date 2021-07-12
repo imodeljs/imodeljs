@@ -2,7 +2,7 @@
 * Copyright (c) Bentley Systems, Incorporated. All rights reserved.
 * See LICENSE.md in the project root for license terms and full copyright notice.
 *--------------------------------------------------------------------------------------------*/
-@import "../style/index.scss";
+@import "../style/themecolors";
 
 .core-lb {
   display: flex;
@@ -15,9 +15,6 @@
     > .fill {
       height: 100%;
       background-color: $buic-foreground-primary;
-      -webkit-transition: width .3s linear;
-      -moz-transition: width .3s linear;
-      -o-transition: width .3s linear;
       transition: width .3s linear;
     }
   }

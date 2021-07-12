@@ -2,10 +2,12 @@
 * Copyright (c) Bentley Systems, Incorporated. All rights reserved.
 * See LICENSE.md in the project root for license terms and full copyright notice.
 *--------------------------------------------------------------------------------------------*/
-@import "~@bentley/ui-core/lib/ui-core/inputs/variables";
-@import "~@bentley/ui-core/lib/ui-core/inputs/input";
 @import "~@bentley/ui-core/lib/ui-core/icons/variables";
-@import "~@bentley/ui-core/lib/ui-core/text/block";
+@import "~@bentley/ui-core/lib/ui-core/inputs/variables";
+@import "~@bentley/ui-core/lib/ui-core/style/variables";
+@import "~@itwin/itwinui-css/scss/inputs/input";
+@import "~@itwin/itwinui-css/scss/style/variables";
+@import "~@itwin/itwinui-css/scss/text/block";
 
 $breadcrumb-edge: 2 * ($uicore-inputs-padding-bordered + $uicore-inputs-margin);
 .components-breadcrumb {
@@ -17,7 +19,9 @@ $breadcrumb-edge: 2 * ($uicore-inputs-padding-bordered + $uicore-inputs-margin);
     position: relative;
     .components-breadcrumb-input-root {
       > .components-breadcrumb-input {
-        @include uicore-inputs-input;
+        @include iui-input;
+        min-height: $uicore-component-height-normal;
+        padding: $uicore-iui-input-padding;
 
         width: calc(100% - #{$breadcrumb-edge});
         height: $uicore-line-height;
@@ -59,7 +63,9 @@ $breadcrumb-edge: 2 * ($uicore-inputs-padding-bordered + $uicore-inputs-margin);
       }
     }
     .components-breadcrumb-dropdown {
-      @include uicore-inputs-input;
+      @include iui-input;
+      min-height: $uicore-component-height-normal;
+      padding: $uicore-iui-input-padding;
 
       display: flex;
       width: calc(100% - #{$breadcrumb-edge});
@@ -80,11 +86,11 @@ $breadcrumb-edge: 2 * ($uicore-inputs-padding-bordered + $uicore-inputs-margin);
         }
 
         &.root {
-          color: $buic-foreground-mediumgray;
+          color: $buic-foreground-muted;
           cursor: default;
 
           &:hover {
-            color: $buic-foreground-mediumgray;
+            color: $buic-foreground-muted;
           }
         }
 
@@ -124,7 +130,7 @@ $breadcrumb-edge: 2 * ($uicore-inputs-padding-bordered + $uicore-inputs-margin);
       }
 
       .components-breadcrumb-drop-target {
-        border-radius: $uicore-border-radius;
+        border-radius: $iui-border-radius;
         &.hover {
           background-color: $buic-row-hover;
         }
@@ -134,12 +140,12 @@ $breadcrumb-edge: 2 * ($uicore-inputs-padding-bordered + $uicore-inputs-margin);
       }
 
       .components-breadcrumb-end-node {
-        @include uicore-text-block;
+        @include iui-text-block;
 
         margin: 0;
         min-width: $uicore-line-height;
         text-align: center;
-        border-radius: $uicore-border-radius;
+        border-radius: $iui-border-radius;
 
         &:not(.static) {
          user-select: none;

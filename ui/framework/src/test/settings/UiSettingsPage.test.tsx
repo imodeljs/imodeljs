@@ -6,8 +6,9 @@ import { expect } from "chai";
 import * as React from "react";
 import { fireEvent, render } from "@testing-library/react";
 import { getUiSettingsManagerEntry, UiSettingsPage } from "../../ui-framework/settings/ui/UiSettingsPage";
-import TestUtils, { storageMock } from "../TestUtils";
+import TestUtils, { handleError, selectChangeValueByText, storageMock, stubScrollIntoView } from "../TestUtils";
 import { UiFramework } from "../../ui-framework/UiFramework";
+import { ColorTheme } from "../../ui-framework/theme/ThemeManager";
 
 describe("UiSettingsPage", () => {
   const localStorageToRestore = Object.getOwnPropertyDescriptor(window, "localStorage")!;
@@ -27,6 +28,8 @@ describe("UiSettingsPage", () => {
     Object.defineProperty(window, "localStorage", localStorageToRestore);
   });
 
+  stubScrollIntoView();
+
   function getInputBySpanTitle(titleSpan: HTMLElement) {
     const settingsItemDiv = titleSpan.parentElement?.parentElement;
     expect(settingsItemDiv).not.to.be.undefined;
@@ -34,33 +37,42 @@ describe("UiSettingsPage", () => {
   }
 
   it("renders using getUiSettingsManagerEntry (V1)", async () => {
-    const tabEntry = getUiSettingsManagerEntry (10, false);
+    const tabEntry = getUiSettingsManagerEntry(10, false);
     const wrapper = render(tabEntry.page);
     expect(wrapper).not.to.be.undefined;
     expect(wrapper.container.querySelectorAll("span.title").length).to.eq(3);
     wrapper.unmount();
   });
 
-  function getSelectBySpanTitle(titleSpan: HTMLElement) {
-    const settingsItemDiv = titleSpan.parentElement?.parentElement;
-    expect(settingsItemDiv).not.to.be.undefined;
-    return settingsItemDiv!.querySelector("select");
-  }
+  // function getSelectBySpanTitle(titleSpan: HTMLElement) {
+  //   const settingsItemDiv = titleSpan.parentElement?.parentElement;
+  //   expect(settingsItemDiv).not.to.be.undefined;
+  //   return settingsItemDiv!.querySelector("select");
+  // }
 
   it("renders without version option (V1) set theme", async () => {
     const wrapper = render(<UiSettingsPage allowSettingUiFrameworkVersion={false} />);
     expect(wrapper).not.to.be.undefined;
 
-    const themeSpan = wrapper.getByText("settings.uiSettingsPage.themeTitle");
-    const themeSelect = getSelectBySpanTitle (themeSpan);
-    expect(themeSelect).not.to.be.null;
+    // const themeSpan = wrapper.getByText("settings.uiSettingsPage.themeTitle");
+    // const themeSelect = getSelectBySpanTitle(themeSpan);
+    // expect(themeSelect).not.to.be.null;
+    // await TestUtils.flushAsyncOperations();
+    // fireEvent.change(themeSelect!, { target: { value: "dark" } });
+    // await TestUtils.flushAsyncOperations();
+    // expect(themeSelect!.value).to.be.eq("dark");
+    // fireEvent.change(themeSelect!, { target: { value: "light" } });
+    // await TestUtils.flushAsyncOperations();
+    // expect(themeSelect!.value).to.be.eq("light");
+
+    const selectButton = wrapper.getByTestId("select-theme");
+    selectChangeValueByText(selectButton, "settings.uiSettingsPage.dark", handleError);
     await TestUtils.flushAsyncOperations();
-    fireEvent.change(themeSelect!, { target: {value: "dark"}});
+    expect(UiFramework.getColorTheme()).to.eq(ColorTheme.Dark);
+    selectChangeValueByText(selectButton, "settings.uiSettingsPage.light", handleError);
     await TestUtils.flushAsyncOperations();
-    expect(themeSelect!.value).to.be.eq("dark");
-    fireEvent.change(themeSelect!, { target: {value: "light"}});
-    await TestUtils.flushAsyncOperations();
-    expect(themeSelect!.value).to.be.eq("light");
+    expect(UiFramework.getColorTheme()).to.eq(ColorTheme.Light);
+
     wrapper.unmount();
   });
 
@@ -82,7 +94,7 @@ describe("UiSettingsPage", () => {
     const wrapper = render(<UiSettingsPage allowSettingUiFrameworkVersion={false} />);
     expect(wrapper).not.to.be.undefined;
     const autoHideSpan = wrapper.getByText("settings.uiSettingsPage.autoHideTitle");
-    const checkbox = getInputBySpanTitle (autoHideSpan);
+    const checkbox = getInputBySpanTitle(autoHideSpan);
     expect(checkbox).not.to.be.null;
     fireEvent.click(checkbox!);
     await TestUtils.flushAsyncOperations();
@@ -100,7 +112,7 @@ describe("UiSettingsPage", () => {
     expect(wrapper.container.querySelectorAll("span.title").length).to.eq(4);
 
     const titleSpan = wrapper.getByText("settings.uiSettingsPage.newUiTitle");
-    const checkbox = getInputBySpanTitle (titleSpan);
+    const checkbox = getInputBySpanTitle(titleSpan);
     expect(checkbox).not.to.be.null;
     fireEvent.click(checkbox!);
     await TestUtils.flushAsyncOperations();
@@ -116,7 +128,7 @@ describe("UiSettingsPage", () => {
     expect(wrapper).not.to.be.undefined;
 
     const titleSpan = wrapper.getByText("settings.uiSettingsPage.dragInteractionTitle");
-    const checkbox = getInputBySpanTitle (titleSpan);
+    const checkbox = getInputBySpanTitle(titleSpan);
     fireEvent.click(checkbox!);
     await TestUtils.flushAsyncOperations();
     expect(checkbox?.checked).to.be.true;
@@ -133,7 +145,7 @@ describe("UiSettingsPage", () => {
     expect(wrapper).not.to.be.undefined;
 
     const titleSpan = wrapper.getByText("settings.uiSettingsPage.useProximityOpacityTitle");
-    const checkbox = getInputBySpanTitle (titleSpan);
+    const checkbox = getInputBySpanTitle(titleSpan);
     fireEvent.click(checkbox!);
     await TestUtils.flushAsyncOperations();
     expect(checkbox?.checked).to.be.false;
@@ -150,7 +162,7 @@ describe("UiSettingsPage", () => {
     expect(wrapper).not.to.be.undefined;
 
     const titleSpan = wrapper.getByText("settings.uiSettingsPage.snapWidgetOpacityTitle");
-    const checkbox = getInputBySpanTitle (titleSpan);
+    const checkbox = getInputBySpanTitle(titleSpan);
     fireEvent.click(checkbox!);
     await TestUtils.flushAsyncOperations();
     expect(checkbox?.checked).to.be.true;
@@ -167,7 +179,7 @@ describe("UiSettingsPage", () => {
     expect(wrapper).not.to.be.undefined;
     expect(wrapper.container.querySelectorAll("span.title").length).to.eq(7);
     const uiVersionSpan = wrapper.getByText("settings.uiSettingsPage.newUiTitle");
-    const checkbox = getInputBySpanTitle (uiVersionSpan);
+    const checkbox = getInputBySpanTitle(uiVersionSpan);
 
     fireEvent.click(checkbox!);
     await TestUtils.flushAsyncOperations();

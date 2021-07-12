@@ -17,17 +17,23 @@ public;BodyText(props: TextProps): JSX.Element
 beta;BoundsFunctionProp = number | (() => number | undefined)
 deprecated;BoundsFunctionProp = number | (() => number | undefined)
 public;Button 
+deprecated;Button 
 public;ButtonProps 
+deprecated;ButtonProps 
 public;ButtonSize
+deprecated;ButtonSize
 public;ButtonType
+deprecated;ButtonType
 internal;calculateBackdropFilterBlur: (proximityScale: number) => number
 internal;calculateBoxShadowOpacity: (proximityScale: number) => number
 internal;calculateProximityScale: (proximity: number, snap?: boolean, threshold?: number) => number
 internal;calculateToolbarOpacity: (proximityScale: number) => number
 public;Centered(props: CommonDivProps): JSX.Element
 public;Checkbox 
+deprecated;Checkbox 
 public;CheckBoxInfo
 public;CheckboxProps 
+deprecated;CheckboxProps 
 public;CheckBoxState
 public;CheckListBox 
 public;CheckListBoxItem 
@@ -55,8 +61,11 @@ public;CubeProps
 public;Dialog 
 public;DialogAlignment
 public;DialogButtonDef
+deprecated;DialogButtonDef
 public;DialogButtonStyle
+deprecated;DialogButtonStyle
 public;DialogButtonType
+deprecated;DialogButtonType
 public;DialogProps 
 public;DisabledText(props: TextProps): JSX.Element
 public;Div(props: DivProps): JSX.Element
@@ -67,13 +76,16 @@ public;ElementSeparator: (props: ElementSeparatorProps) => JSX.Element
 public;ElementSeparatorProps 
 public;ExecuteHandler = (this: void) => void
 public;ExpandableBlock 
+deprecated;ExpandableBlock 
 public;ExpandableBlockProps 
+deprecated;ExpandableBlockProps 
 public;ExpandableList 
 public;ExpandableListProps 
 public;ExpansionToggle 
 public;ExpansionToggleProps 
 public;Face
 beta;FeaturedTile(props: TileProps): JSX.Element
+deprecated;FeaturedTile(props: TileProps): JSX.Element
 beta;Field 
 beta;FieldDef
 beta;FieldDefinitions
@@ -92,6 +104,8 @@ beta;Form
 beta;FormContext: React.Context
 beta;FormContextState 
 beta;FormProps
+public;Gap(props: GapProps): JSX.Element
+public;GapProps 
 beta;GetAutoSuggestDataFunc = (value: string) => AutoSuggestData[]
 internal;getBestBWContrastColor(hexColor: string): "black" | "white"
 internal;getButtonTypeClassName(buttonType?: ButtonType): string
@@ -109,6 +123,7 @@ public;GlobalDialogProps
 public;GlobalDialogState
 internal;hasPointerEventsSupport(): boolean
 public;Headline(props: TextProps): JSX.Element
+deprecated;Headline(props: TextProps): JSX.Element
 public;HorizontalAlignment
 public;HorizontalTabs(props: TabsProps): JSX.Element
 public;Icon(props: IconProps): JSX.Element | null
@@ -120,9 +135,11 @@ public;IconSpec = string | ConditionalStringValue | React.ReactNode
 public;ImageCheckBox 
 public;ImageCheckBoxProps 
 public;Input: (props: InputProps) => JSX.Element | null
+deprecated;Input: (props: InputProps) => JSX.Element | null
 public;InputLabel 
 public;InputLabelProps 
 public;InputProps 
+deprecated;InputProps 
 public;InputStatus
 internal;isHTMLElement: (message: MessageType) => message is HTMLElement
 internal;isNavigationKey(key: string): boolean
@@ -131,17 +148,27 @@ internal;isReactMessage: (message: MessageType) => message is ReactMessage
 internal;ItemKeyboardNavigator
 public;LabeledComponentProps
 public;LabeledInput(props: LabeledInputProps): JSX.Element
+deprecated;LabeledInput(props: LabeledInputProps): JSX.Element
 public;LabeledInputProps 
+deprecated;LabeledInputProps 
 public;LabeledSelect 
+deprecated;LabeledSelect 
 public;LabeledSelectProps 
+deprecated;LabeledSelectProps 
 public;LabeledTextarea(props: LabeledTextareaProps): JSX.Element
+deprecated;LabeledTextarea(props: LabeledTextareaProps): JSX.Element
 public;LabeledTextareaProps 
+deprecated;LabeledTextareaProps 
 beta;LabeledThemedSelect(props: LabeledThemedSelectProps): JSX.Element
 beta;LabeledThemedSelectProps 
 public;LabeledToggle 
+deprecated;LabeledToggle 
 public;LabeledToggleProps 
+deprecated;LabeledToggleProps 
 public;LeadingText(props: TextProps): JSX.Element
+deprecated;LeadingText(props: TextProps): JSX.Element
 public;LeadingText2(props: TextProps): JSX.Element
+deprecated;LeadingText2(props: TextProps): JSX.Element
 internal;Line
 alpha;Listbox(props: ListboxProps): JSX.Element
 alpha;ListboxContext: React.Context
@@ -173,7 +200,9 @@ beta;MessageRendererProps
 public;MessageSeverity
 public;MessageType = string | HTMLElement | ReactMessage
 beta;MinimalFeaturedTile(props: TileProps): JSX.Element
+deprecated;MinimalFeaturedTile(props: TileProps): JSX.Element
 beta;MinimalTile(props: TileProps): JSX.Element
+deprecated;MinimalTile(props: TileProps): JSX.Element
 public;MutedText(props: TextProps): JSX.Element
 internal;NewBadge(props: CommonProps): JSX.Element
 public;NoChildrenProps
@@ -207,16 +236,23 @@ beta;ProcessSettingsContainerCloseEventArgs
 beta;ProcessSettingsTabActivationEvent 
 beta;ProcessSettingsTabActivationEventArgs
 beta;ProgressBar(props: ProgressBarProps): JSX.Element
+deprecated;ProgressBar(props: ProgressBarProps): JSX.Element
 beta;ProgressBarProps 
+deprecated;ProgressBarProps 
 beta;ProgressSpinner(props: ProgressSpinnerProps): JSX.Element
+deprecated;ProgressSpinner(props: ProgressSpinnerProps): JSX.Element
 beta;ProgressSpinnerProps 
+deprecated;ProgressSpinnerProps 
 internal;PROXIMITY_THRESHOLD_DEFAULT = 100
 beta;RadialButton 
 beta;RadialButtonProps 
 beta;RadialMenu 
 beta;RadialMenuProps 
+public;RadialSizeType = ProgressRadialProps["size"]
 public;Radio 
+deprecated;Radio 
 public;RadioProps 
+deprecated;RadioProps 
 public;RatioChangeResult
 public;ReactMessage
 internal;ReactNumericInput 
@@ -236,8 +272,11 @@ public;ScrollView(props: CommonDivProps): JSX.Element
 public;SearchBox 
 public;SearchBoxProps 
 public;Select: (props: SelectProps) => JSX.Element | null
+deprecated;Select: (props: SelectProps) => JSX.Element | null
 public;SelectOption
+deprecated;SelectOption
 public;SelectProps 
+deprecated;SelectProps 
 public;SessionSettingsStorage 
 beta;SessionUiSettings 
 deprecated;SessionUiSettings 
@@ -254,18 +293,26 @@ public;SizeProps
 public;Slider(props: SliderProps): JSX.Element
 public;SliderProps 
 public;SmallText(props: TextProps): JSX.Element
+deprecated;SmallText(props: TextProps): JSX.Element
 public;SortDirection
 public;Spinner 
+deprecated;Spinner 
 public;SpinnerProps
+deprecated;SpinnerProps
 public;SpinnerSize
+deprecated;SpinnerSize
 public;SplitButton 
+deprecated;SplitButton 
 internal;SplitButtonActionType
 public;SplitButtonProps 
+deprecated;SplitButtonProps 
 beta;StepFunctionProp = number | ((direction: string) => number | undefined)
 public;StyledText(props: StyledTextProps): JSX.Element
 public;StyledTextProps 
 public;Subheading(props: TextProps): JSX.Element
+deprecated;Subheading(props: TextProps): JSX.Element
 public;Subheading2(props: TextProps): JSX.Element
+deprecated;Subheading2(props: TextProps): JSX.Element
 public;SvgPath 
 public;SvgPathProps 
 public;SvgSprite 
@@ -274,26 +321,38 @@ beta;TabLabel
 public;Tabs 
 public;TabsProps 
 public;Textarea: (props: TextareaProps) => JSX.Element | null
+deprecated;Textarea: (props: TextareaProps) => JSX.Element | null
 public;TextareaProps 
+deprecated;TextareaProps 
 public;TextProps 
 beta;ThemedSelect(props: ThemedSelectProps): JSX.Element
 beta;ThemedSelectProps =
 beta;Tile 
+deprecated;Tile 
 internal;TileDefaultProps = Pick
 beta;TileProps 
+deprecated;TileProps 
 public;TimeFormat
 public;Timer
 public;Title(props: TextProps): JSX.Element
+deprecated;Title(props: TextProps): JSX.Element
 public;Title2(props: TextProps): JSX.Element
+deprecated;Title2(props: TextProps): JSX.Element
 public;Toggle: (props: ToggleProps) => JSX.Element | null
+deprecated;Toggle: (props: ToggleProps) => JSX.Element | null
 public;ToggleButtonType
+deprecated;ToggleButtonType
 public;ToggleProps 
+deprecated;ToggleProps 
 internal;TOOLBAR_BACKDROP_FILTER_BLUR_DEFAULT = 10
 internal;TOOLBAR_BOX_SHADOW_OPACITY_DEFAULT = 0.35
 internal;TOOLBAR_OPACITY_DEFAULT = 0.5
 beta;Tooltip(props: TooltipProps): JSX.Element
+deprecated;Tooltip(props: TooltipProps): JSX.Element
 beta;TooltipPlacement = "bottom" | "left" | "right" | "top"
+deprecated;TooltipPlacement = "bottom" | "left" | "right" | "top"
 beta;TooltipProps 
+deprecated;TooltipProps 
 public;Tree 
 public;TreeBranch 
 public;TreeBranchProps 

@@ -46,7 +46,7 @@ export class ExpandableList extends React.PureComponent<ExpandableListProps, Exp
   };
 
   // set active block
-  private _handleBlockClick = (index: number, onClick: () => any) => {
+  private _handleBlockToggle = (index: number, onToggle: (isExpanding: boolean) => any) => {
     let activeBlock = index;
 
     if (this.props.singleIsCollapsible && index === this.state.activeBlock)
@@ -55,8 +55,8 @@ export class ExpandableList extends React.PureComponent<ExpandableListProps, Exp
     this.setState({ activeBlock });
 
     // istanbul ignore else
-    if (onClick) {
-      onClick(); // fire the ExpandableBlock onClick
+    if (onToggle) {
+      onToggle(activeBlock === index); // fire the ExpandableBlock onToggle
     }
   };
 
@@ -65,7 +65,7 @@ export class ExpandableList extends React.PureComponent<ExpandableListProps, Exp
       return React.cloneElement(child, {
         key: i,
         isExpanded: (this.props.singleExpandOnly) ? i === this.state.activeBlock : child.props.isExpanded,
-        onClick: this._handleBlockClick.bind(this, i, child.props.onClick),
+        onToggle: this._handleBlockToggle.bind(this, i, child.props.onToggle),
       });
     });
   }

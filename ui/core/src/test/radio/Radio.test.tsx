@@ -6,6 +6,8 @@ import { mount, shallow } from "enzyme";
 import * as React from "react";
 import { InputStatus, Radio } from "../../ui-core";
 
+/* eslint-disable deprecation/deprecation */
+
 describe("<Radio />", () => {
   it("should render", () => {
     mount(<Radio label="radio test" />);

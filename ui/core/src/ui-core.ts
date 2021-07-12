@@ -17,6 +17,7 @@ export * from "./ui-core/base/DivWithOutsideClick";
 export * from "./ui-core/base/Centered";
 export * from "./ui-core/base/FillCentered";
 export * from "./ui-core/base/FlexWrapContainer";
+export * from "./ui-core/base/Gap";
 export * from "./ui-core/base/PointerEvents";
 export * from "./ui-core/base/ScrollView";
 
@@ -36,6 +37,7 @@ export * from "./ui-core/contextmenu/PopupContextMenu";
 export * from "./ui-core/cube/Cube";
 
 export * from "./ui-core/dialog/Dialog";
+export * from "./ui-core/dialog/DialogButtonDef";
 export * from "./ui-core/dialog/GlobalDialog";
 
 export * from "./ui-core/elementseparator/ElementSeparator";

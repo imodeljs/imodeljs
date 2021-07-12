@@ -18,7 +18,8 @@ import { UserProfileBackstageItem } from "./UserProfile";
 // cSpell:ignore safearea
 
 /** [[BackstageEvent]] arguments.
- * @public @deprecated use BackstageComposer.
+ * @public
+ * @deprecated use [BackstageComposer]($ui-framework) instead.
  */
 export interface BackstageEventArgs {
   isVisible: boolean;
@@ -30,7 +31,8 @@ export interface BackstageEventArgs {
 export class BackstageEvent extends UiEvent<BackstageEventArgs> { } // eslint-disable-line deprecation/deprecation
 
 /** Properties for the [[Backstage]] React component.
- * @public @deprecated use BackstageComposer.
+ * @public
+ * @deprecated use [BackstageComposer]($ui-framework) instead.
  */
 export interface BackstageProps extends CommonProps {
   userInfo?: UserInfo;
@@ -48,7 +50,8 @@ interface BackstageState {
 }
 
 /** Backstage React component.
- * @public @deprecated use BackstageComposer.
+ * @public
+ * @deprecated use [BackstageComposer]($ui-framework) instead.
  */
 export class Backstage extends React.Component<BackstageProps, BackstageState> { // eslint-disable-line deprecation/deprecation
 

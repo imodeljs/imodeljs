@@ -6,11 +6,12 @@
  * @module Date
  */
 
+import "./DateField.scss";
 import * as React from "react";
 import classnames from "classnames";
 import { AlternateDateFormats, DateFormatter, TimeDisplay } from "@bentley/ui-abstract";
-import { CommonProps, Input } from "@bentley/ui-core";
-import "./DateField.scss";
+import { CommonProps } from "@bentley/ui-core";
+import { Input } from "@itwin/itwinui-react";
 import { Logger } from "@bentley/bentleyjs-core";
 
 /** Props for [[DateField]] Component.

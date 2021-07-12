@@ -24,6 +24,7 @@ export enum SplitButtonActionType {
 
 /** Properties for [[SplitButton]] component
  * @public
+ * @deprecated Use SplitButtonProps in itwinui-react instead
  */
 export interface SplitButtonProps extends CommonProps {
   /** Label to display in click area. */
@@ -41,7 +42,7 @@ export interface SplitButtonProps extends CommonProps {
   /** Direction relative to the button to which the popup is expanded (defaults to Bottom) */
   popupPosition?: RelativePosition;
   /** 4 styles to tweak the content of the button */
-  buttonType?: ButtonType;
+  buttonType?: ButtonType;  // eslint-disable-line deprecation/deprecation
 
   /** @internal */
   initialExpanded?: boolean;
@@ -55,8 +56,9 @@ interface SplitButtonState {
 /**
  * SplitButton with an action button on the left and an arrow button that displays a context menu on the right.
  * @public
+ * @deprecated Use SplitButton in itwinui-react instead
  */
-export class SplitButton extends React.Component<SplitButtonProps, SplitButtonState> {
+export class SplitButton extends React.Component<SplitButtonProps, SplitButtonState> {    // eslint-disable-line deprecation/deprecation
   private _arrowElement = React.createRef<HTMLDivElement>();
   private _buttonRef = React.createRef<HTMLDivElement>();
   private _closing: boolean = false;
@@ -64,7 +66,7 @@ export class SplitButton extends React.Component<SplitButtonProps, SplitButtonSt
   /** @internal */
   public override readonly state: Readonly<SplitButtonState> = { expanded: false };
 
-  constructor(props: SplitButtonProps) {
+  constructor(props: SplitButtonProps) {    // eslint-disable-line deprecation/deprecation
     super(props);
 
     this.state = {

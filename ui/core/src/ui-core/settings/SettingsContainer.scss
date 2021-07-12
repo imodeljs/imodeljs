@@ -3,9 +3,8 @@
 * See LICENSE.md in the project root for license terms and full copyright notice.
 *--------------------------------------------------------------------------------------------*/
 
-@import "../style/themecolors.scss";
-@import "../style/typography";
-@import "../style/variables";
+@import "../style/themecolors";
+@import "~@itwin/itwinui-css/scss/style/typography";
 
 div.core-settings-container {
   display: flex;
@@ -37,9 +36,9 @@ div.core-settings-container {
     .core-settings-container-right-header {
       display: flex;
       width: 100%;
-      height: ($uicore-font-size-title * 2);
-      font-size: $uicore-font-size-title;
-      font-weight: $uicore-font-weight-semibold;
+      height: ($iui-font-size-title * 2);
+      font-size: $iui-font-size-title;
+      font-weight: $iui-font-weight-semibold;
       padding-left: 15px;
       align-items: center;
 

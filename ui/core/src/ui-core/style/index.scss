@@ -6,9 +6,11 @@
 @import "./breakpoints";
 @import "./themecolors";
 @import "./colors";
-@import "./data-viz";
 @import "./mixins";
 @import "./opacity";
+
+// Deprecated
+@import "./data-viz";
 @import "./space";
 @import "./speed";
 @import "./typography";

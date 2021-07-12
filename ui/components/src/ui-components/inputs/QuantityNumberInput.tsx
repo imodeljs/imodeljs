@@ -9,10 +9,11 @@
 import "./QuantityNumberInput.scss";
 import classnames from "classnames";
 import * as React from "react";
-import { Input, InputProps, WebFontIcon } from "@bentley/ui-core";
+import { WebFontIcon } from "@bentley/ui-core";
 import { SpecialKey } from "@bentley/ui-abstract";
 import { IModelApp, QuantityFormatsChangedArgs, QuantityTypeArg } from "@bentley/imodeljs-frontend";
 import { DecimalPrecision, FormatterSpec, FormatTraits, FormatType, Parser, ParserSpec, UnitConversionSpec, UnitProps } from "@bentley/imodeljs-quantity";
+import { Input, InputProps } from "@itwin/itwinui-react";
 
 /** Step function prototype for [[NumberInput]] component
  * @beta

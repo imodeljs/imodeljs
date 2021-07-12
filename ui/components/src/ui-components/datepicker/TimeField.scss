@@ -2,6 +2,7 @@
 * Copyright (c) Bentley Systems, Incorporated. All rights reserved.
 * See LICENSE.md in the project root for license terms and full copyright notice.
 *--------------------------------------------------------------------------------------------*/
+@import "~@bentley/ui-core/lib/ui-core/inputs/variables";
 @import "~@bentley/ui-core/lib/ui-core/style/themecolors";
 
 .components-time {
@@ -26,8 +27,11 @@
     border: none;
     box-shadow: none;
     margin: 0;
-    padding-left: 0;
-    padding-right: 0;
+
+    &.iui-input {
+      padding-left: 0;
+      padding-right: 0;
+    }
 
     &:focus {
       outline: 0px;
@@ -61,5 +65,9 @@
   .component-time-separator {
     margin: 0;
     padding: 0 1px;
+  }
+
+  .iui-input {
+    padding: $uicore-iui-input-padding;
   }
 }

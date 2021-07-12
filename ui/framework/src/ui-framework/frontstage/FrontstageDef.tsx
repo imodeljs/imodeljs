@@ -105,7 +105,8 @@ export class FrontstageDef {
 
   /** @beta */
   public get topPanel(): StagePanelDef | undefined { return this._topPanel; }
-  /** @beta @deprecated Only topPanel is supported in UI 2.0 */
+  /** @beta
+   * @deprecated Only topPanel is supported in UI 2.0 */
   public get topMostPanel(): StagePanelDef | undefined { return this._topMostPanel; }
   /** @beta */
   public get leftPanel(): StagePanelDef | undefined { return this._leftPanel; }
@@ -113,7 +114,8 @@ export class FrontstageDef {
   public get rightPanel(): StagePanelDef | undefined { return this._rightPanel; }
   /** @beta */
   public get bottomPanel(): StagePanelDef | undefined { return this._bottomPanel; }
-  /** @beta @deprecated Only bottomPanel is supported in UI 2.0  */
+  /** @beta
+   * @deprecated Only bottomPanel is supported in UI 2.0  */
   public get bottomMostPanel(): StagePanelDef | undefined { return this._bottomMostPanel; }
 
   public get defaultLayout(): ContentLayoutDef | undefined { return this._defaultLayout; }
@@ -509,14 +511,23 @@ export class FrontstageDef {
     this._usage = props.usage;
     this._version = props.version || 0;
 
+    // eslint-disable-next-line deprecation/deprecation
     this._topLeft = Frontstage.createZoneDef(props.contentManipulationTools ? props.contentManipulationTools : props.topLeft, ZoneLocation.TopLeft, props);
+    // eslint-disable-next-line deprecation/deprecation
     this._topCenter = Frontstage.createZoneDef(props.toolSettings ? props.toolSettings : props.topCenter, ZoneLocation.TopCenter, props);
+    // eslint-disable-next-line deprecation/deprecation
     this._topRight = Frontstage.createZoneDef(props.viewNavigationTools ? /* istanbul ignore next */ props.viewNavigationTools : props.topRight, ZoneLocation.TopRight, props);
+    // eslint-disable-next-line deprecation/deprecation
     this._centerLeft = Frontstage.createZoneDef(props.centerLeft, ZoneLocation.CenterLeft, props);
+    // eslint-disable-next-line deprecation/deprecation
     this._centerRight = Frontstage.createZoneDef(props.centerRight, ZoneLocation.CenterRight, props);
+    // eslint-disable-next-line deprecation/deprecation
     this._bottomLeft = Frontstage.createZoneDef(props.bottomLeft, ZoneLocation.BottomLeft, props);
+    // eslint-disable-next-line deprecation/deprecation
     this._bottomCenter = Frontstage.createZoneDef(props.statusBar ? props.statusBar : props.bottomCenter, ZoneLocation.BottomCenter, props);
+    // eslint-disable-next-line deprecation/deprecation
     this._bottomRight = Frontstage.createZoneDef(props.bottomRight, ZoneLocation.BottomRight, props);
+    // eslint-disable-next-line deprecation/deprecation
 
     this._topPanel = Frontstage.createStagePanelDef(StagePanelLocation.Top, props);
     this._topMostPanel = Frontstage.createStagePanelDef(StagePanelLocation.TopMost, props);

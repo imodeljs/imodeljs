@@ -11,12 +11,13 @@
 import widowSettingsIconSvg from "@bentley/icons-generic/icons/window-settings.svg?sprite";
 import "./UiSettingsPage.scss";
 import * as React from "react";
-import { Select, SelectOption, SettingsTabEntry, Slider, Toggle } from "@bentley/ui-core";
+import { SettingsTabEntry, Slider } from "@bentley/ui-core";
 import { UiFramework } from "../../UiFramework";
 import { ColorTheme, SYSTEM_PREFERRED_COLOR_THEME } from "../../theme/ThemeManager";
 import { UiShowHideManager } from "../../utils/UiShowHideManager";
 import { SyncUiEventArgs, SyncUiEventDispatcher, SyncUiEventId } from "../../syncui/SyncUiEventDispatcher";
 import { IconSpecUtilities } from "@bentley/ui-abstract";
+import { Select, SelectOption, ToggleSwitch } from "@itwin/itwinui-react";
 
 /** UiSettingsPage displaying the active UI settings. This page lets users set the following settings.
  *
@@ -32,7 +33,7 @@ import { IconSpecUtilities } from "@bentley/ui-abstract";
  *
  * @beta
  */
-export function UiSettingsPage({allowSettingUiFrameworkVersion}: {allowSettingUiFrameworkVersion: boolean}) {
+export function UiSettingsPage({ allowSettingUiFrameworkVersion }: { allowSettingUiFrameworkVersion: boolean }) {
   const themeTitle = React.useRef(UiFramework.translate("settings.uiSettingsPage.themeTitle"));
   const themeDescription = React.useRef(UiFramework.translate("settings.uiSettingsPage.themeDescription"));
   const autoHideTitle = React.useRef(UiFramework.translate("settings.uiSettingsPage.autoHideTitle"));
@@ -51,17 +52,17 @@ export function UiSettingsPage({allowSettingUiFrameworkVersion}: {allowSettingUi
   const widgetOpacityTitle = React.useRef(UiFramework.translate("settings.uiSettingsPage.widgetOpacityTitle"));
   const widgetOpacityDescription = React.useRef(UiFramework.translate("settings.uiSettingsPage.widgetOpacityDescription"));
 
-  const [theme, setTheme] = React.useState(()=>UiFramework.getColorTheme());
-  const [uiVersion, setUiVersion] = React.useState(()=>UiFramework.uiVersion);
-  const [useDragInteraction, setUseDragInteraction] = React.useState(()=>UiFramework.useDragInteraction);
-  const [widgetOpacity, setWidgetOpacity] = React.useState(()=>UiFramework.getWidgetOpacity());
-  const [autoHideUi, setAutoHideUi] = React.useState(()=>UiShowHideManager.autoHideUi);
-  const [useProximityOpacity, setUseProximityOpacity] = React.useState(()=>UiShowHideManager.useProximityOpacity);
-  const [snapWidgetOpacity, setSnapWidgetOpacity] = React.useState(()=>UiShowHideManager.snapWidgetOpacity);
+  const [theme, setTheme] = React.useState(() => UiFramework.getColorTheme());
+  const [uiVersion, setUiVersion] = React.useState(() => UiFramework.uiVersion);
+  const [useDragInteraction, setUseDragInteraction] = React.useState(() => UiFramework.useDragInteraction);
+  const [widgetOpacity, setWidgetOpacity] = React.useState(() => UiFramework.getWidgetOpacity());
+  const [autoHideUi, setAutoHideUi] = React.useState(() => UiShowHideManager.autoHideUi);
+  const [useProximityOpacity, setUseProximityOpacity] = React.useState(() => UiShowHideManager.useProximityOpacity);
+  const [snapWidgetOpacity, setSnapWidgetOpacity] = React.useState(() => UiShowHideManager.snapWidgetOpacity);
 
   React.useEffect(() => {
     const syncIdsOfInterest = ["configurableui:set_theme", "configurableui:set_widget_opacity",
-      "configurableui:set-drag-interaction","configurableui:set-framework-version", SyncUiEventId.ShowHideManagerSettingChange ];
+      "configurableui:set-drag-interaction", "configurableui:set-framework-version", SyncUiEventId.ShowHideManagerSettingChange];
 
     const handleSyncUiEvent = (args: SyncUiEventArgs) => {
       // istanbul ignore else
@@ -88,42 +89,41 @@ export function UiSettingsPage({allowSettingUiFrameworkVersion}: {allowSettingUi
   }, [autoHideUi, snapWidgetOpacity, theme, uiVersion, useDragInteraction, useProximityOpacity, widgetOpacity]);
 
   const defaultThemeOption = { label: systemPreferredLabel.current, value: SYSTEM_PREFERRED_COLOR_THEME };
-  const themeOptions: Array<SelectOption> = [
+  const themeOptions: SelectOption<string>[] = [
     defaultThemeOption,
     { label: lightLabel.current, value: ColorTheme.Light },
     { label: darkLabel.current, value: ColorTheme.Dark },
   ];
 
-  const onThemeChange = React.useCallback((e: React.ChangeEvent<HTMLSelectElement>) => {
-    e.preventDefault();
-    UiFramework.setColorTheme(e.target.value);
+  const onThemeChange = React.useCallback((newValue: string) => {
+    UiFramework.setColorTheme(newValue);
   }, []);
 
   const onAutoHideChange = React.useCallback(async () => {
     UiShowHideManager.autoHideUi = !UiShowHideManager.autoHideUi;
-  },[]);
+  }, []);
 
   const onUseProximityOpacityChange = React.useCallback(async () => {
     UiShowHideManager.useProximityOpacity = !UiShowHideManager.useProximityOpacity;
-  },[]);
+  }, []);
 
   const onSnapWidgetOpacityChange = React.useCallback(async () => {
     UiShowHideManager.snapWidgetOpacity = !UiShowHideManager.snapWidgetOpacity;
-  },[]);
+  }, []);
 
   const onWidgetOpacityChange = React.useCallback(async (values: readonly number[]) => {
     // istanbul ignore else
     if (values.length > 0) {
       UiFramework.setWidgetOpacity(values[0]);
     }
-  },[]);
-  const onToggleFrameworkVersion =  React.useCallback(async () => {
-    UiFramework.setUiVersion(UiFramework.uiVersion === "2"?"1":"2");
-  },[]);
+  }, []);
+  const onToggleFrameworkVersion = React.useCallback(async () => {
+    UiFramework.setUiVersion(UiFramework.uiVersion === "2" ? "1" : "2");
+  }, []);
 
-  const onToggleDragInteraction =  React.useCallback(async () => {
+  const onToggleDragInteraction = React.useCallback(async () => {
     UiFramework.setUseDragInteraction(!UiFramework.useDragInteraction);
-  },[]);
+  }, []);
 
   const currentTheme = UiFramework.getColorTheme();
 
@@ -136,33 +136,34 @@ export function UiSettingsPage({allowSettingUiFrameworkVersion}: {allowSettingUi
               value={currentTheme}
               onChange={onThemeChange}
               options={themeOptions}
+              data-testid="select-theme"
             />
           </div>
         }
       />
       <SettingsItem title={autoHideTitle.current} description={autoHideDescription.current}
-        settingUi={ <Toggle isOn={UiShowHideManager.autoHideUi} showCheckmark={false} onChange={onAutoHideChange} /> }
+        settingUi={<ToggleSwitch checked={UiShowHideManager.autoHideUi} onChange={onAutoHideChange} />}
       />
       {allowSettingUiFrameworkVersion && <SettingsItem title={useNewUiTitle.current} description={useNewUiDescription.current}
-        settingUi={ <Toggle isOn={UiFramework.uiVersion === "2"} showCheckmark={false} onChange={onToggleFrameworkVersion} /> }
+        settingUi={<ToggleSwitch checked={UiFramework.uiVersion === "2"} onChange={onToggleFrameworkVersion} />}
       />}
       {UiFramework.uiVersion === "2" && <>
         <SettingsItem title={dragInteractionTitle.current} description={dragInteractionDescription.current}
-          settingUi={ <Toggle isOn={UiFramework.useDragInteraction} showCheckmark={false} onChange={onToggleDragInteraction} /> }
+          settingUi={<ToggleSwitch checked={UiFramework.useDragInteraction} onChange={onToggleDragInteraction} />}
         />
         <SettingsItem title={useProximityOpacityTitle.current} description={useProximityOpacityDescription.current}
-          settingUi={ <Toggle isOn={UiShowHideManager.useProximityOpacity} showCheckmark={false} onChange={onUseProximityOpacityChange} /> }
+          settingUi={<ToggleSwitch checked={UiShowHideManager.useProximityOpacity} onChange={onUseProximityOpacityChange} />}
         />
         <SettingsItem title={snapWidgetOpacityTitle.current} description={snapWidgetOpacityDescription.current}
-          settingUi={ <Toggle isOn={UiShowHideManager.snapWidgetOpacity} showCheckmark={false} onChange={onSnapWidgetOpacityChange} /> }
+          settingUi={<ToggleSwitch checked={UiShowHideManager.snapWidgetOpacity} onChange={onSnapWidgetOpacityChange} />}
         />
       </>
       }
       <SettingsItem title={widgetOpacityTitle.current} description={widgetOpacityDescription.current}
         settingUi={
-          <Slider  values={[UiFramework.getWidgetOpacity()]} step={0.05} showTooltip onChange={onWidgetOpacityChange}
+          <Slider values={[UiFramework.getWidgetOpacity()]} step={0.05} showTooltip onChange={onWidgetOpacityChange}
             min={0.20} max={1.0} showMinMax formatMax={(v: number) => v.toFixed(1)}
-            showTicks getTickValues={() => [.20,.40,.60,.80,1]} />
+            showTicks getTickValues={() => [.20, .40, .60, .80, 1]} />
         }
       />
     </div>

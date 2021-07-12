@@ -26,6 +26,16 @@
 
       $bar-size: 2px;
 
+      .uicore-tabs-inline-label {
+        display: grid;
+        grid-template-columns: auto auto;
+        align-items: center;
+      }
+
+      .uicore-tabs-subLabel {
+        white-space: nowrap;
+      }
+
       &::after {
 
         width: 100%;

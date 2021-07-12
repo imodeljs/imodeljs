@@ -3,16 +3,17 @@
 * See LICENSE.md in the project root for license terms and full copyright notice.
 *--------------------------------------------------------------------------------------------*/
 @import "~@bentley/ui-core/lib/ui-core/style/breakpoints";
-@import "~@bentley/ui-core/lib/ui-core/style/typography";
+@import "~@itwin/itwinui-css/scss/style/typography";
 @import "~@bentley/ui-ninezone/lib/ui-ninezone/footer/variables";
 
 .uifw-statusFields-displayStyle {
-  $font-size-medium: $uicore-font-size-small;
-  $font-size-small: $uicore-font-size-smaller;
+  $font-size-medium: $iui-font-size-small;
+  $font-size-small: $iui-font-size-small - 1px;
   overflow: hidden;
   padding-right: 0px;
 
   .uifw-statusFields-displayStyle-selector {
+    min-width: 10em;
     max-width: 20em;
   }
 

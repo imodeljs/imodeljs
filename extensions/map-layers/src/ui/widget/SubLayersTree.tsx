@@ -5,7 +5,7 @@
 import * as React from "react";
 import { IModelApp, ScreenViewport } from "@bentley/imodeljs-frontend";
 import { PropertyValueFormat } from "@bentley/ui-abstract";
-import { CheckBoxState, ImageCheckBox, Input, NodeCheckboxRenderProps, useDisposable, WebFontIcon } from "@bentley/ui-core";
+import { CheckBoxState, ImageCheckBox, NodeCheckboxRenderProps, useDisposable, WebFontIcon } from "@bentley/ui-core";
 import {
   AbstractTreeNodeLoaderWithProvider, ControlledTree, DelayLoadedTreeNodeItem, HighlightableTreeProps, ITreeDataProvider,
   MutableTreeModel,
@@ -14,6 +14,7 @@ import {
   TreeNodeRenderer, TreeNodeRendererProps, TreeRenderer, TreeRendererProps, useVisibleTreeNodes,
 } from "@bentley/ui-components";
 import { MapLayerSettings, MapSubLayerProps, MapSubLayerSettings } from "@bentley/imodeljs-common";
+import { Input } from "@itwin/itwinui-react";
 import { StyleMapLayerSettings } from "../Interfaces";
 import { SubLayersDataProvider } from "./SubLayersDataProvider";
 import { MapLayersUiItemsProvider } from "../MapLayersUiItemsProvider";

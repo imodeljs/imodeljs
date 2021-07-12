@@ -10,6 +10,8 @@ import { fireEvent, render } from "@testing-library/react";
 import { Checkbox } from "../../ui-core/checkbox/Checkbox";
 import { InputStatus } from "../../ui-core/inputs/InputStatus";
 
+/* eslint-disable deprecation/deprecation */
+
 describe("Checkbox", () => {
   it("renders", () => {
     const checkbox = render(<Checkbox />);

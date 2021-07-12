@@ -66,7 +66,7 @@ describe("Node", () => {
         }}
       />);
 
-    const checkbox = renderedNode.container.querySelector(".core-checkbox > input");
+    const checkbox = renderedNode.container.querySelector(".iui-checkbox > input");
 
     expect(checkbox).to.not.be.null;
     fireEvent.click(checkbox!);

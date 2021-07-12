@@ -5,8 +5,8 @@
 
 @import "~@bentley/ui-ninezone/lib/ui-ninezone/footer/variables";
 @import "~@bentley/ui-core/lib/ui-core/style/colors";
-@import "~@bentley/ui-core/lib/ui-core/style/space";
-@import "~@bentley/ui-core/lib/ui-core/style/typography";
+@import "~@itwin/itwinui-css/scss/style/space";
+@import "~@itwin/itwinui-css/scss/style/typography";
 
 $outline-size: 2px;
 
@@ -14,9 +14,9 @@ $border-color: #eee;
 
 /* A single item (view) in list view */
 .view-list-item {
-  font-size: $uicore-font-size;
-  margin: 0 6px 0 $uicore-m;
-  padding: $uicore-s 0;
+  font-size: $iui-font-size;
+  margin: 0 6px 0 $iui-m;
+  padding: $iui-s 0;
   color: rgba($uicore-text-color, 0.85);
   display: flex;
   align-items: center;
@@ -42,7 +42,7 @@ $border-color: #eee;
   /* view name (wrap) */
   > span {
     flex: 1;
-    margin-left: $uicore-s;
+    margin-left: $iui-s;
   }
 
   /* hover gets a white background and text with full opacity */
@@ -79,7 +79,7 @@ $border-color: #eee;
     align-items: center;
     font-size: 12px;
     box-sizing: border-box;
-    padding-top: $uicore-s;
+    padding-top: $iui-s;
 
     > span {
       flex: 1;
@@ -165,7 +165,7 @@ $border-color: #eee;
 .thumbnail-container-small {
   height: 57px; // arbitrary height
   width: 85px;  // arbitrary width
-  margin-left: $uicore-xs;
+  margin-left: $iui-xs;
 }
 
 /* More (...) icon */
@@ -184,7 +184,7 @@ $border-color: #eee;
 .view-list-item-thumbnail .view-item-thumbnail-container .open {
   display: inline-block;
   text-decoration: none;
-  font-size: $uicore-font-size;
+  font-size: $iui-font-size;
   z-index: 2;
   padding: 7px 14px;
   border: 1px solid #fff;

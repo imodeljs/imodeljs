@@ -2,8 +2,12 @@
 * Copyright (c) Bentley Systems, Incorporated. All rights reserved.
 * See LICENSE.md in the project root for license terms and full copyright notice.
 *--------------------------------------------------------------------------------------------*/
-@import "~@bentley/ui-core/lib/ui-core/button/hollow";
-@import "~@bentley/ui-core/lib/ui-core/inputs/input";
+@import "~@bentley/ui-core/lib/ui-core/inputs/variables";
+@import "~@bentley/ui-core/lib/ui-core/style/themecolors";
+@import "~@bentley/ui-core/lib/ui-core/style/variables";
+@import "~@itwin/itwinui-css/scss/button/button";
+@import "~@itwin/itwinui-css/scss/button/default";
+@import "~@itwin/itwinui-css/scss/inputs/input";
 
 .components-filtering-input {
   display: flex;
@@ -19,7 +23,8 @@
 
   // The input itself
   input {
-    @include uicore-inputs-input;
+    min-height: $uicore-component-height-normal;
+    padding: $uicore-iui-input-padding;
     box-sizing:border-box;
   }
 
@@ -43,7 +48,8 @@
 }
 
 @mixin filtering-button-base {
-  @include uicore-buttons-hollow;
+  @include iui-button;
+  @include iui-button-default;
   margin-left: 6px;
 }
 
@@ -53,7 +59,7 @@
 
 .components-filtering-input-clear {
   @include filtering-button-base;
-  color: $uicore-gray-5;
+  color: $buic-text-color-muted;
   font-size: "12px";
 }
 

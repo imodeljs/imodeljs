@@ -3,15 +3,16 @@
 * See LICENSE.md in the project root for license terms and full copyright notice.
 *--------------------------------------------------------------------------------------------*/
 @import "../../base/base";
+@import "../variables";
 
 .core-iconInput-container {
   position: relative;
   padding:  0;
   margin:   0;
 
-  input {
+  .iui-input {
     margin:       0;
-    padding-left: 32px;
+    padding-left: 30px;
   }
 
   .core-iconInput-icon {

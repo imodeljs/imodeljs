@@ -11,7 +11,6 @@
   position: relative;
 
   > li > .core-chk-listboxitem-checkbox {
-    @include uicore-inputs-checkbox;
     margin: 4px 0;
   }
 

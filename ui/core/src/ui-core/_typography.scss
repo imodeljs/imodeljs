@@ -3,18 +3,18 @@
 * See LICENSE.md in the project root for license terms and full copyright notice.
 *--------------------------------------------------------------------------------------------*/
 @import "./style/opacity.scss";
-@import "./style/typography.scss";
+@import "~@itwin/itwinui-css/scss/style/typography";
 
-$title-weight: $uicore-font-weight-normal;
-$title-size: $uicore-font-size-leading;
+$title-weight: $iui-font-weight-normal;
+$title-size: $iui-font-size-leading;
 $title-opacity: $uicore-opacity-1;
 
-$body-weight: $uicore-font-weight-light;
-$body-size: $uicore-font-size;
+$body-weight: $iui-font-weight-light;
+$body-size: $iui-font-size;
 $body-opacity: $uicore-opacity-2;
 
-$body1-weight: $uicore-font-weight-normal;
-$body1-size: $uicore-font-size;
+$body1-weight: $iui-font-weight-normal;
+$body1-size: $iui-font-size;
 $body1-opacity: $uicore-opacity-2;
 
 @mixin title($rgb: unset) {

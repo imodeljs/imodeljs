@@ -4,6 +4,7 @@
 *--------------------------------------------------------------------------------------------*/
 @import "../style/index.scss";
 @import "../icons/variables.scss";
+@import "~@itwin/itwinui-css/scss/style/variables";
 
 .core-image-checkbox {
   display: inline-block;
@@ -49,6 +50,6 @@
 .image-checkbox-border {
   border: 1px solid $buic-foreground-disabled;
   background-color:  $buic-background-control;
-  border-radius: $uicore-border-radius;
+  border-radius: $iui-border-radius;
   padding: 1px 3px 0 2px;
 }

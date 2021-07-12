@@ -3,10 +3,11 @@
 * See LICENSE.md in the project root for license terms and full copyright notice.
 *--------------------------------------------------------------------------------------------*/
 @import "~@bentley/ui-core/lib/ui-core/index";
+@import "~@itwin/itwinui-css/scss/style/typography";
 
 .components-quantity-format-popup-button {
   color: $buic-foreground-body;
-  font-size: $uicore-font-size;
+  font-size: $iui-font-size;
   background-color: transparent;
   height: 2.2em;
   border: none;

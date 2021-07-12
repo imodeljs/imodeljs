@@ -2,6 +2,7 @@
 * Copyright (c) Bentley Systems, Incorporated. All rights reserved.
 * See LICENSE.md in the project root for license terms and full copyright notice.
 *--------------------------------------------------------------------------------------------*/
+@import "../style/opacity";
 @import "../style/themecolors";
 @import "../button/button";
 @import "../z-index";
@@ -19,7 +20,7 @@ $uicore-slider-minmax-margin:   6px;
   align-items: center;
   width: 100%;
 
-  span.uicore-text-body[data-testid="core-slider-min"] {
+  span.core-slider-minmax[data-testid="core-slider-min"] {
     margin-right: 4px;
   }
 

@@ -58,43 +58,63 @@ export interface FrontstageProps extends CommonProps {
    */
   version?: number;
 
-  /** The Zone in the top-left corner. @deprecated Use 'contentManipulationTools' property. */
+  /** The Zone in the top-left corner.
+   * @deprecated Use 'contentManipulationTools' property. */
   topLeft?: React.ReactElement<ZoneProps>;
-  /** The Zone along the top-center edge. @deprecated Use 'toolSettings' property. */
+  /** The Zone along the top-center edge.
+   * @deprecated Use 'toolSettings' property. */
   topCenter?: React.ReactElement<ZoneProps>;
-  /** The Zone in the top-right corner. @deprecated Use 'viewNavigationTools' property. */
+  /** The Zone in the top-right corner.
+   * @deprecated Use 'viewNavigationTools' property. */
   topRight?: React.ReactElement<ZoneProps>;
-  /** The Zone along the center-left edge. @deprecated Place widgets in appropriate stage panel zone. */
+  /** The Zone along the center-left edge.
+   * @deprecated Place widgets in appropriate stage panel zone. */
   centerLeft?: React.ReactElement<ZoneProps>;
-  /** The Zone along the center-right edge.  @deprecated  Place widgets in appropriate stage panel zone. */
+  /** The Zone along the center-right edge.
+   * @deprecated  Place widgets in appropriate stage panel zone. */
   centerRight?: React.ReactElement<ZoneProps>;
-  /** The Zone in the bottom-left corner.  @deprecated Place widgets in appropriate stage panel zone.  */
+  /** The Zone in the bottom-left corner.
+   * @deprecated Place widgets in appropriate stage panel zone.  */
   bottomLeft?: React.ReactElement<ZoneProps>;
-  /** The Zone along the bottom-center edge. @deprecated use statusBar property */
+  /** The Zone along the bottom-center edge.
+   * @deprecated use statusBar property */
   bottomCenter?: React.ReactElement<ZoneProps>;
-  /** The Zone in the bottom-right corner.  @deprecated Place widgets in appropriate stage panel zone. */
+  /** The Zone in the bottom-right corner.
+   * @deprecated Place widgets in appropriate stage panel zone. */
   bottomRight?: React.ReactElement<ZoneProps>;
 
-  /** The Zone in the top-left corner that shows tools typically used to query and modify content. To be used in place of deprecated topLeft zone definition.  @beta */
+  /** The Zone in the top-left corner that shows tools typically used to query and modify content. To be used in place of deprecated topLeft zone definition.
+   * @beta */
   contentManipulationTools?: React.ReactElement<ZoneProps>;
-  /** The Zone the that shows settings for the active tool. To be used in place of deprecated topCenter zone definition. @beta */
+  /** The Zone the that shows settings for the active tool. To be used in place of deprecated topCenter zone definition.
+   * @beta */
   toolSettings?: React.ReactElement<ZoneProps>;
-  /** The Zone in the top-right corner that shows view navigation tools. To be used in place of deprecated topRight zone definition.  @beta */
+  /** The Zone in the top-right corner that shows view navigation tools. To be used in place of deprecated topRight zone definition.
+   * @beta */
   viewNavigationTools?: React.ReactElement<ZoneProps>;
-  /** The status bar Zone shown as the application footer. To be used in place of deprecated bottomCenter zone definition.  @beta */
+  /** The status bar Zone shown as the application footer. To be used in place of deprecated bottomCenter zone definition.
+   * @beta */
   statusBar?: React.ReactElement<ZoneProps>;
 
-  /** The StagePanel on the top of the 9-zone area. @beta */
+  /** The StagePanel on the top of the 9-zone area.
+   * @beta */
   topPanel?: React.ReactElement<StagePanelProps>;
-  /** The StagePanel on the very top across the full width. @beta @deprecated Only topPanel is supported in UI 2.0 */
+  /** The StagePanel on the very top across the full width.
+   * @beta
+   * @deprecated Only topPanel is supported in UI 2.0 */
   topMostPanel?: React.ReactElement<StagePanelProps>;
-  /** The StagePanel on the left. @beta  */
+  /** The StagePanel on the left.
+   * @beta  */
   leftPanel?: React.ReactElement<StagePanelProps>;
-  /** The StagePanel on the right. @beta  */
+  /** The StagePanel on the right.
+   * @beta  */
   rightPanel?: React.ReactElement<StagePanelProps>;
-  /** The StagePanel on the bottom of the 9-zone area. @beta  */
+  /** The StagePanel on the bottom of the 9-zone area.
+   * @beta  */
   bottomPanel?: React.ReactElement<StagePanelProps>;
-  /** The StagePanel on the very bottom across the full width. @beta @deprecated Only bottomPanel is supported in UI 2.0  */
+  /** The StagePanel on the very bottom across the full width.
+   * @beta
+   * @deprecated Only bottomPanel is supported in UI 2.0  */
   bottomMostPanel?: React.ReactElement<StagePanelProps>;
 
   /** @internal */
@@ -217,21 +237,21 @@ export class Frontstage extends React.Component<FrontstageProps, FrontstageState
   private static getZoneElement(zoneId: WidgetZoneId, props: FrontstageProps): React.ReactElement<ZoneProps> | undefined {
     switch (zoneId) {
       case ZoneLocation.TopLeft:
-        return props.contentManipulationTools ? props.contentManipulationTools : props.topLeft;
+        return props.contentManipulationTools ? props.contentManipulationTools : props.topLeft;   // eslint-disable-line deprecation/deprecation
       case ZoneLocation.TopCenter:
-        return props.toolSettings ? props.toolSettings : props.topCenter;
+        return props.toolSettings ? props.toolSettings : props.topCenter; // eslint-disable-line deprecation/deprecation
       case ZoneLocation.TopRight:
-        return props.viewNavigationTools ? /* istanbul ignore next */ props.viewNavigationTools : props.topRight;
+        return props.viewNavigationTools ? /* istanbul ignore next */ props.viewNavigationTools : props.topRight; // eslint-disable-line deprecation/deprecation
       case ZoneLocation.CenterLeft:
-        return props.centerLeft;
+        return props.centerLeft;  // eslint-disable-line deprecation/deprecation
       case ZoneLocation.CenterRight:
-        return props.centerRight;
+        return props.centerRight; // eslint-disable-line deprecation/deprecation
       case ZoneLocation.BottomLeft:
-        return props.bottomLeft;
+        return props.bottomLeft;  // eslint-disable-line deprecation/deprecation
       case ZoneLocation.BottomCenter:
-        return props.statusBar ? props.statusBar : props.bottomCenter;
+        return props.statusBar ? props.statusBar : props.bottomCenter;  // eslint-disable-line deprecation/deprecation
       case ZoneLocation.BottomRight:
-        return props.bottomRight;
+        return props.bottomRight; // eslint-disable-line deprecation/deprecation
     }
 
     // Zones can be undefined in a Frontstage
@@ -257,7 +277,7 @@ export class Frontstage extends React.Component<FrontstageProps, FrontstageState
         panelElement = props.topPanel;
         break;
       case StagePanelLocation.TopMost:
-        panelElement = props.topMostPanel;
+        panelElement = props.topMostPanel;  // eslint-disable-line deprecation/deprecation
         break;
       case StagePanelLocation.Left:
         panelElement = props.leftPanel;
@@ -269,7 +289,7 @@ export class Frontstage extends React.Component<FrontstageProps, FrontstageState
         panelElement = props.bottomPanel;
         break;
       case StagePanelLocation.BottomMost:
-        panelElement = props.bottomMostPanel;
+        panelElement = props.bottomMostPanel; // eslint-disable-line deprecation/deprecation
         break;
       // istanbul ignore next
       default:

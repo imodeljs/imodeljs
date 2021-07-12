@@ -1,0 +1,21 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<Gap /> renders correctly 1`] = `
+<span
+  style={
+    Object {
+      "paddingLeft": "10px",
+    }
+  }
+/>
+`;
+
+exports[`<Gap /> renders correctly with size 1`] = `
+<span
+  style={
+    Object {
+      "paddingLeft": "20px",
+    }
+  }
+/>
+`;

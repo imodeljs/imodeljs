@@ -17,8 +17,9 @@ import { ToolWidgetProps, WidgetType } from "./WidgetDef";
 import { UiFramework } from "../UiFramework";
 
 /** Definition of a Tool Widget normally displayed in the top left zone in the 9-Zone Layout system.
- *  @public @deprecated use ToolWidgetComposer instead
- */
+ * @public
+ * @deprecated use [ToolWidgetComposer]($ui-framework) instead
+ */
 export class ToolWidgetDef extends ToolbarWidgetDefBase {
   private _appButton: CommandItemDef | undefined;
   private _reactNode: React.ReactNode;
@@ -44,7 +45,7 @@ export class ToolWidgetDef extends ToolbarWidgetDefBase {
     return this._reactNode;
   }
 
-  /** @deprecated use reactNode */
+  /** @deprecated use reactNode instead */
   // istanbul ignore next
   public override get reactElement(): React.ReactNode {
     return this.reactNode;
@@ -68,8 +69,9 @@ export class ToolWidgetDef extends ToolbarWidgetDefBase {
 }
 
 /** Properties for the [[ToolWidget]] React component.
- *  @public @deprecated use ToolWidgetComposer instead
- */
+ * @public
+ * @deprecated use [ToolWidgetComposer]($ui-framework) instead
+ */
 export interface ToolWidgetPropsEx extends ToolWidgetProps, CommonProps {
   button?: React.ReactNode;
   horizontalToolbar?: React.ReactNode;
@@ -78,14 +80,15 @@ export interface ToolWidgetPropsEx extends ToolWidgetProps, CommonProps {
 
 /** State for the [[ToolWidget]] React component.
  * @internal
- */
+ */
 interface ToolWidgetState {
   toolWidgetDef: ToolWidgetDef; // eslint-disable-line deprecation/deprecation
 }
 
 /** ToolWidget React component.
- *  @public @deprecated use ToolWidgetComposer instead
- */
+ * @public
+ * @deprecated use [ToolWidgetComposer]($ui-framework) instead
+ */
 export class ToolWidget extends React.Component<ToolWidgetPropsEx, ToolWidgetState> { // eslint-disable-line deprecation/deprecation
 
   /** @internal */
@@ -118,7 +121,7 @@ export class ToolWidget extends React.Component<ToolWidgetPropsEx, ToolWidgetSta
 }
 
 /** Properties for the Tool Widget React component.
- */
+ */
 interface Props extends CommonProps {
   toolWidgetDef: ToolWidgetDef; // eslint-disable-line deprecation/deprecation
   button?: React.ReactNode;
@@ -133,7 +136,7 @@ interface ToolWidgetWithDefState {
 }
 
 /** Tool Widget React component.
- */
+ */
 class ToolWidgetWithDef extends React.Component<Props, ToolWidgetWithDefState> {
   constructor(props: Props) {
     super(props);

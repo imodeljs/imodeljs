@@ -57,6 +57,10 @@ export abstract class PropertyEditorBase implements DataController {
   public get containerHandlesTab(): boolean {
     return true;
   }
+  public get containerStopsKeydownPropagation(): boolean {
+    return true;
+  }
+
   public customDataController: DataController | undefined = undefined;
 
   public abstract get reactNode(): React.ReactNode;

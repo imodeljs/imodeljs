@@ -2,8 +2,21 @@
 * Copyright (c) Bentley Systems, Incorporated. All rights reserved.
 * See LICENSE.md in the project root for license terms and full copyright notice.
 *--------------------------------------------------------------------------------------------*/
+@import "~@bentley/ui-core/lib/ui-core/style/variables";
+@import "./variables";
+
 .components-customnumber-editor {
   width: 100%;
   height: 100%;
   margin: 0;
+}
+
+.components-smallEditor-host {
+  .components-customnumber-editor {
+    &.iui-input {
+      min-height: $uicore-component-height-small;
+      padding-top: 1px;
+      padding-bottom: 1px;
+    }
+  }
 }

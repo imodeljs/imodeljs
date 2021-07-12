@@ -2,10 +2,11 @@
 * Copyright (c) Bentley Systems, Incorporated. All rights reserved.
 * See LICENSE.md in the project root for license terms and full copyright notice.
 *--------------------------------------------------------------------------------------------*/
+import { DialogButtonStyle, DialogButtonType } from "@bentley/ui-abstract";
 import { expect } from "chai";
 import { mount, shallow } from "enzyme";
 import * as React from "react";
-import { DialogButtonStyle, DialogButtonType, MessageBox, MessageSeverity } from "../../ui-core";
+import { MessageBox, MessageSeverity } from "../../ui-core";
 import { MessageContainer } from "../../ui-core/messagebox/MessageBox";
 import TestUtils from "../TestUtils";
 

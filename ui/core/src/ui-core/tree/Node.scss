@@ -3,9 +3,9 @@
 * See LICENSE.md in the project root for license terms and full copyright notice.
 *--------------------------------------------------------------------------------------------*/
 @import "../style/themecolors.scss";
-@import "../style/typography.scss";
+@import "~@itwin/itwinui-css/scss/style/typography";
 
-$node-font-size: $uicore-font-size;
+$node-font-size: $iui-font-size;
 
 .core-tree-node {
   /* Rules applied to the <be-tree-node> itself */
@@ -13,7 +13,7 @@ $node-font-size: $uicore-font-size;
   box-sizing: border-box;
   width: fit-content;
   min-width: 100%;
-  font-family: $uicore-sans;
+  font-family: $iui-sans;
   font-size: $node-font-size;
   color: $buic-text-color;
   white-space: nowrap;

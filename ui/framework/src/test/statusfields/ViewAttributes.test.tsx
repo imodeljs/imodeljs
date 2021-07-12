@@ -7,7 +7,7 @@ import * as React from "react";
 import { Provider } from "react-redux";
 import { MockRender } from "@bentley/imodeljs-frontend";
 import { WidgetState } from "@bentley/ui-abstract";
-import { Checkbox } from "@bentley/ui-core";
+import { Checkbox } from "@itwin/itwinui-react";
 import { ConfigurableCreateInfo, ConfigurableUiControlType } from "../../ui-framework/configurableui/ConfigurableUiControl";
 import { StatusBar } from "../../ui-framework/statusbar/StatusBar";
 import { StatusBarWidgetControl, StatusBarWidgetControlArgs } from "../../ui-framework/statusbar/StatusBarWidgetControl";

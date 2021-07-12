@@ -50,7 +50,7 @@ export class LineWeightSwatch extends React.PureComponent<LineWeightSwatchProps>
       onClick, colorDef, weight, hideLabel, className, // do not pass on color swatch specific props
       // eslint-disable-next-line comma-dangle
       disabled, readonly, ...otherProps // pass-through props
-    } = this.props as any;
+    } = this.props;
 
     let rgbaString = "";
 

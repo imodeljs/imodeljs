@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`<Textarea /> renders correctly 1`] = `
-<textarea
+<ForwardRef
   className="uicore-inputs-textarea"
   onFocus={[Function]}
   rows={3}
@@ -9,7 +9,7 @@ exports[`<Textarea /> renders correctly 1`] = `
 `;
 
 exports[`<Textarea /> renders rows correctly 1`] = `
-<textarea
+<ForwardRef
   className="uicore-inputs-textarea"
   onFocus={[Function]}
   rows={30}

@@ -9,8 +9,9 @@ import * as sinon from "sinon";
 import { Logger } from "@bentley/bentleyjs-core";
 import { MockRender, ToolAssistance, ToolAssistanceImage, ToolAssistanceInputMethod } from "@bentley/imodeljs-frontend";
 import { WidgetState } from "@bentley/ui-abstract";
-import { LocalSettingsStorage, Toggle } from "@bentley/ui-core";
+import { LocalSettingsStorage } from "@bentley/ui-core";
 import { FooterPopup, TitleBarButton } from "@bentley/ui-ninezone";
+import { ToggleSwitch } from "@itwin/itwinui-react";
 import {
   AppNotificationManager, ConfigurableCreateInfo, ConfigurableUiControlType, CursorPopupManager, FrontstageManager, StatusBar, StatusBarWidgetControl,
   StatusBarWidgetControlArgs, ToolAssistanceField, WidgetDef,
@@ -387,7 +388,7 @@ describe("ToolAssistanceField", () => {
 
     clickIndicator(wrapper);
 
-    const toggle = wrapper.find(Toggle);
+    const toggle = wrapper.find(ToggleSwitch);
     expect(toggle.length).to.eq(1);
     toggle.find("input").simulate("change", { target: { checked: false } });
 

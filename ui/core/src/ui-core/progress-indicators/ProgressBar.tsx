@@ -13,6 +13,7 @@ import { percentInRange } from "../loading/LoadingBar";
 
 /** Properties for [[ProgressBar]] component
  * @beta
+ * @deprecated Use ProgressLinearProps in itwinui-react instead.
  */
 export interface ProgressBarProps extends CommonProps {
   /** Height (in pixels) of the progress bar. (defaults to 4px) */
@@ -31,8 +32,9 @@ export interface ProgressBarProps extends CommonProps {
  * ProgressBar React component shows a horizontal progress bar.
  * The determinate bar reflects a percentage and the indeterminate bar continuously animates.
  * @beta
+ * @deprecated Use ProgressLinear in itwinui-react instead.
  */
-export function ProgressBar(props: ProgressBarProps) {
+export function ProgressBar(props: ProgressBarProps) {    // eslint-disable-line deprecation/deprecation
   const percent = props.percent !== undefined ? percentInRange(props.percent) : 0;
   const outerStyle: React.CSSProperties = {
     ...props.style,

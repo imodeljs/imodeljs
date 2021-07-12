@@ -9,9 +9,8 @@
 import "./Node.scss";
 import classnames from "classnames";
 import * as React from "react";
-import { Checkbox, CheckboxProps } from "../checkbox/Checkbox";
+import { Checkbox, CheckboxProps, ProgressRadial } from "@itwin/itwinui-react";
 import { CheckBoxState } from "../enums/CheckBoxState";
-import { Spinner, SpinnerSize } from "../loading/Spinner";
 import { CommonProps } from "../utils/Props";
 import { Omit } from "../utils/typeUtils";
 import { ExpansionToggle } from "./ExpansionToggle";
@@ -55,7 +54,8 @@ export interface TreeNodeProps extends CommonProps {
   label: React.ReactNode;
   level: number;
   icon?: React.ReactChild;
-  /** Properties for the checkbox. @beta */
+  /** Properties for the checkbox.
+   * @beta */
   checkboxProps?: NodeCheckboxProps;
   isLeaf?: boolean;
   isLoading?: boolean;
@@ -73,7 +73,8 @@ export interface TreeNodeProps extends CommonProps {
 
   /** Contains render overrides for different pieces of the node component. */
   renderOverrides?: {
-    /** Callback to render a checkbox. Only called when checkbox is displayed. @beta */
+    /** Callback to render a checkbox. Only called when checkbox is displayed.
+     * @beta */
     renderCheckbox?: NodeCheckboxRenderer;
   };
   ["data-testid"]?: string;
@@ -98,7 +99,7 @@ export class TreeNode extends React.Component<TreeNodeProps> {
     if (!this.props.isLoading && this.props.isLeaf)
       offset += EXPANSION_TOGGLE_WIDTH; // Add expansion toggle/loader width if they're not rendered
 
-    const loader = this.props.isLoading ? (<div className="loader"><Spinner size={SpinnerSize.Small} /></div>) : undefined;
+    const loader = this.props.isLoading ? (<div className="loader"><ProgressRadial size="x-small" indeterminate /></div>) : undefined;
 
     let checkbox: React.ReactNode;
     if (this.props.checkboxProps) {
@@ -114,7 +115,11 @@ export class TreeNode extends React.Component<TreeNodeProps> {
       if (this.props.renderOverrides && this.props.renderOverrides.renderCheckbox) {
         checkbox = this.props.renderOverrides.renderCheckbox(props);
       } else {
-        checkbox = (<Checkbox {...props} onChange={(e) => this._onCheckboxChange(e.target.checked)} data-testid={this.createSubComponentTestId("checkbox")} />);
+        checkbox = (
+          <Checkbox {...props}
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) => this._onCheckboxChange(e.target.checked)} data-testid={this.createSubComponentTestId("checkbox")}
+          />
+        );
       }
     }
 

@@ -4,8 +4,8 @@
 *--------------------------------------------------------------------------------------------*/
 @import "../z-index";
 @import "../style/themecolors";
-@import "../style/typography";
 @import "../icons/variables";
+@import "~@itwin/itwinui-css/scss/style/typography";
 
 .core-radial-menu {
   visibility: hidden;
@@ -47,7 +47,7 @@
         .core-radial-menu-button-content {
           cursor: default;
           color: $buic-text-color;
-          font-size: $uicore-font-size-small;
+          font-size: $iui-font-size-small;
           user-select: none;
         }
       }

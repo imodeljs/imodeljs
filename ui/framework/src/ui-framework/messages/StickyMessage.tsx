@@ -9,12 +9,12 @@
 import "./StickyMessage.scss";
 import * as React from "react";
 import classnames from "classnames";
-import { Icon, MessageContainer, MessageSeverity } from "@bentley/ui-core";
-import { Message, MessageButton, MessageLayout } from "@bentley/ui-ninezone";
+import { MessageSeverity } from "@bentley/ui-core";
+import { MessageLayout } from "@bentley/ui-ninezone";
+import { ToastPresentation } from "@itwin/itwinui-react/cjs/core/Toast/Toast";
 import { NotifyMessageDetailsType } from "../messages/ReactNotifyMessageDetails";
-import { StatusBar } from "../statusbar/StatusBar";
 import { MessageLabel } from "./MessageLabel";
-import { HollowIcon } from "./HollowIcon";
+import { getToastCategory } from "./getToastCategory";
 
 /** Properties for a [[StickyMessage]]
  * @beta
@@ -31,6 +31,7 @@ export interface StickyMessageProps {
  */
 export function StickyMessage(props: StickyMessageProps) {
   const { id, messageDetails, severity, closeMessage } = props;
+  const category = getToastCategory(severity);
   const [closing, setClosing] = React.useState(false);
 
   const handleClose = () => {
@@ -45,25 +46,19 @@ export function StickyMessage(props: StickyMessageProps) {
 
   return (
     <div className={classNames}>
-      <Message
-        status={StatusBar.severityToStatus(severity)}
-        icon={
-          <HollowIcon iconSpec={MessageContainer.getIconClassName(severity, true)} />
+      <ToastPresentation
+        category={category}
+        hasCloseButton={true}
+        onClose={handleClose}
+        content={
+          <MessageLayout>
+            <MessageLabel message={messageDetails.briefMessage} className="uifw-statusbar-message-brief" />
+            {messageDetails.detailedMessage &&
+              <MessageLabel message={messageDetails.detailedMessage} className="uifw-statusbar-message-detailed" />
+            }
+          </MessageLayout>
         }
-      >
-        <MessageLayout
-          buttons={
-            <MessageButton onClick={handleClose} className="uifw-statusbar-sticky-close">
-              <Icon iconSpec="icon-close" />
-            </MessageButton>
-          }
-        >
-          <MessageLabel message={messageDetails.briefMessage} className="uifw-statusbar-message-brief" />
-          {messageDetails.detailedMessage &&
-            <MessageLabel message={messageDetails.detailedMessage} className="uifw-statusbar-message-detailed" />
-          }
-        </MessageLayout>
-      </Message>
+      />
     </div>
   );
 }

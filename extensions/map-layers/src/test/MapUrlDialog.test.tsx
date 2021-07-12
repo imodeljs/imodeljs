@@ -12,6 +12,7 @@ import { MapUrlDialog } from "../ui/widget/MapUrlDialog";
 import { TestUtils } from "./TestUtils";
 import * as moq from "@bentley/presentation-common/lib/test/_helpers/Mocks";
 import { MapLayerSettings, MapSubLayerProps } from "@bentley/imodeljs-common";
+import { Select } from "@itwin/itwinui-react";
 
 describe("MapUrlDialog", () => {
   const sandbox = sinon.createSandbox();
@@ -20,7 +21,7 @@ describe("MapUrlDialog", () => {
   const displayStyleMock = moq.Mock.ofType<DisplayStyle3dState>();
   const imodelMock = moq.Mock.ofType<IModelConnection>();
 
-  const sampleWmsSubLayers: MapSubLayerProps[] = [{name: "subLayer1"}, {name: "subLayer1"}];
+  const sampleWmsSubLayers: MapSubLayerProps[] = [{ name: "subLayer1" }, { name: "subLayer1" }];
   const sampleWmsLayerSettings = MapLayerSettings.fromJSON({
     formatId: "WMS",
     name: "Test Map",
@@ -51,7 +52,7 @@ describe("MapUrlDialog", () => {
 
   beforeEach(() => {
     displayStyleMock.reset();
-    displayStyleMock.setup((ds) => ds.attachMapLayerSettings( moq.It.isAny(),  moq.It.isAny(),  moq.It.isAny()) );
+    displayStyleMock.setup((ds) => ds.attachMapLayerSettings(moq.It.isAny(), moq.It.isAny(), moq.It.isAny()));
     viewMock.reset();
     viewMock.setup((view) => view.iModel).returns(() => imodelMock.object);
     viewportMock.reset();
@@ -62,7 +63,7 @@ describe("MapUrlDialog", () => {
   const mockModalUrlDialogOk = () => {
   };
 
-  it("renders",  () => {
+  it("renders", () => {
     const wrapper = enzyme.mount(<MapUrlDialog activeViewport={viewportMock.object} isOverlay={false} onOkResult={mockModalUrlDialogOk} />);
     wrapper.unmount();
   });
@@ -72,19 +73,19 @@ describe("MapUrlDialog", () => {
     const spyMessage = sandbox.spy(IModelApp.notifications, "outputMessage");
 
     sandbox.stub(MapLayerSource.prototype, "validateSource").callsFake(async function (_ignoreCache?: boolean) {
-      return Promise.resolve({ status: MapLayerSourceStatus.Valid, subLayers:sampleWmsSubLayers });
+      return Promise.resolve({ status: MapLayerSourceStatus.Valid, subLayers: sampleWmsSubLayers });
     });
 
-    const component = enzyme.mount(<MapUrlDialog isOverlay={false}  activeViewport={viewportMock.object} onOkResult={mockModalUrlDialogOk} />);
-    const layerTypeSelect = component.find("select");
-    await (layerTypeSelect.props()as any).onChange({ preventDefault: () => {}, target: { value: "WMS"  }} as any);
+    const component = enzyme.mount(<MapUrlDialog isOverlay={false} activeViewport={viewportMock.object} onOkResult={mockModalUrlDialogOk} />);
+    const layerTypeSelect = component.find(Select);
+    await (layerTypeSelect.props() as any).onChange("WMS");
 
     const allInputs = component.find("input");
     expect(allInputs.length).to.equals(4);
-    allInputs.at(0).simulate("change", {target: { value: sampleWmsLayerSettings?.name} });
-    allInputs.at(1).simulate("change", {target: { value: sampleWmsLayerSettings?.url } });
-    allInputs.at(2).simulate("change", {target: { value: sampleWmsLayerSettings?.userName } });
-    allInputs.at(3).simulate("change", {target: { value: sampleWmsLayerSettings?.password } });
+    allInputs.at(0).simulate("change", { target: { value: sampleWmsLayerSettings?.name } });
+    allInputs.at(1).simulate("change", { target: { value: sampleWmsLayerSettings?.url } });
+    allInputs.at(2).simulate("change", { target: { value: sampleWmsLayerSettings?.userName } });
+    allInputs.at(3).simulate("change", { target: { value: sampleWmsLayerSettings?.password } });
 
     const allButtons = component.find("button");
     expect(allButtons.length).to.equals(3);
@@ -92,7 +93,7 @@ describe("MapUrlDialog", () => {
 
     await TestUtils.flushAsyncOperations();
 
-    if(!sampleWmsLayerSettings)
+    if (!sampleWmsLayerSettings)
       assert.fail("Invalid layer  settings");
     displayStyleMock.verify((x) => x.attachMapLayerSettings(sampleWmsLayerSettings, false, undefined), moq.Times.once());
 
@@ -112,16 +113,16 @@ describe("MapUrlDialog", () => {
     const component = enzyme.mount(<MapUrlDialog
       isOverlay={false}
       activeViewport={viewportMock.object}
-      mapTypesOptions= {{supportTileUrl: false, supportWmsAuthentication:true}}
+      mapTypesOptions={{ supportTileUrl: false, supportWmsAuthentication: true }}
       onOkResult={mockModalUrlDialogOk} />);
-    const layerTypeSelect = component.find("select");
-    await (layerTypeSelect.props()as any).onChange({ preventDefault: () => {}, target: { value: "WMS"  }} as any);
+    const layerTypeSelect = component.find(Select);
+    await (layerTypeSelect.props() as any).onChange("WMS");
     await TestUtils.flushAsyncOperations();
 
     let allInputs = component.find("input");
     expect(allInputs.length).to.equals(4);
-    allInputs.at(0).simulate("change", {target: { value: sampleWmsLayerSettings?.name} });
-    allInputs.at(1).simulate("change", {target: { value: sampleWmsLayerSettings?.url } });
+    allInputs.at(0).simulate("change", { target: { value: sampleWmsLayerSettings?.name } });
+    allInputs.at(1).simulate("change", { target: { value: sampleWmsLayerSettings?.url } });
 
     let allButtons = component.find("button");
     expect(allButtons.length).to.equals(3);
@@ -129,7 +130,7 @@ describe("MapUrlDialog", () => {
     // Click the OK button
     allButtons.at(1).simulate("click");
     await TestUtils.flushAsyncOperations();
-    let warnMessage= component.find("div.map-layer-source-warnMessage");
+    let warnMessage = component.find("div.map-layer-source-warnMessage");
     expect(warnMessage.html().includes("CustomAttach.MissingCredentials")).to.be.true;
 
     // Make validateSource returns validateSource returns InvalidCredentials now
@@ -141,8 +142,8 @@ describe("MapUrlDialog", () => {
     // Set username/password
     allInputs = component.find("input");
     expect(allInputs.length).to.equals(4);
-    allInputs.at(2).simulate("change", {target: { value: sampleWmsLayerSettings?.userName } });
-    allInputs.at(3).simulate("change", {target: { value: sampleWmsLayerSettings?.password } });
+    allInputs.at(2).simulate("change", { target: { value: sampleWmsLayerSettings?.userName } });
+    allInputs.at(3).simulate("change", { target: { value: sampleWmsLayerSettings?.password } });
 
     // Click again the same button
     allButtons = component.find("button");

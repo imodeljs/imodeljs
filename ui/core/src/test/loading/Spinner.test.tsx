@@ -6,6 +6,8 @@ import { mount, shallow } from "enzyme";
 import * as React from "react";
 import { Spinner, SpinnerSize } from "../../ui-core";
 
+/* eslint-disable deprecation/deprecation */
+
 describe("<Spinner />", () => {
   it("should render", () => {
     const wrapper = mount(

@@ -7,6 +7,8 @@ import { fireEvent, render } from "@testing-library/react";
 import { RelativePosition } from "@bentley/ui-abstract";
 import { placementToPosition, Tooltip } from "../../ui-core";
 
+/* eslint-disable deprecation/deprecation */
+
 describe("<Tooltip />", () => {
   it("should not render", () => {
     const target = document.createElement("div");

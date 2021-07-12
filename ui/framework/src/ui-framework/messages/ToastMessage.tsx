@@ -7,12 +7,12 @@
  */
 
 import * as React from "react";
-import { MessageContainer, MessageSeverity } from "@bentley/ui-core";
-import { Message, MessageLayout, Toast } from "@bentley/ui-ninezone";
+import { MessageSeverity } from "@bentley/ui-core";
+import { MessageLayout, Toast } from "@bentley/ui-ninezone";
+import { ToastPresentation } from "@itwin/itwinui-react/cjs/core/Toast/Toast";
 import { NotifyMessageDetailsType } from "../messages/ReactNotifyMessageDetails";
-import { StatusBar } from "../statusbar/StatusBar";
-import { HollowIcon } from "./HollowIcon";
 import { MessageLabel } from "./MessageLabel";
+import { getToastCategory } from "./getToastCategory";
 
 /** Properties for a [[ToastMessage]]
  * @beta
@@ -30,6 +30,7 @@ export interface ToastMessageProps {
  */
 export function ToastMessage(props: ToastMessageProps) {
   const { id, messageDetails, severity, toastTarget, closeMessage } = props;
+  const category = getToastCategory(severity);
 
   return (
     <Toast
@@ -37,19 +38,17 @@ export function ToastMessage(props: ToastMessageProps) {
       onAnimatedOut={() => closeMessage(id)}
       timeout={messageDetails.displayTime.milliseconds}
       content={
-        <Message
-          status={StatusBar.severityToStatus(severity)}
-          icon={
-            <HollowIcon iconSpec={MessageContainer.getIconClassName(severity, true)} />
+        <ToastPresentation
+          category={category}
+          content={
+            <MessageLayout>
+              <MessageLabel message={messageDetails.briefMessage} className="uifw-statusbar-message-brief" />
+              {messageDetails.detailedMessage &&
+                <MessageLabel message={messageDetails.detailedMessage} className="uifw-statusbar-message-detailed" />
+              }
+            </MessageLayout>
           }
-        >
-          <MessageLayout>
-            <MessageLabel message={messageDetails.briefMessage} className="uifw-statusbar-message-brief" />
-            {messageDetails.detailedMessage &&
-              <MessageLabel message={messageDetails.detailedMessage} className="uifw-statusbar-message-detailed" />
-            }
-          </MessageLayout>
-        </Message>
+        />
       }
     />
   );

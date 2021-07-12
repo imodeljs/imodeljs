@@ -3,6 +3,7 @@
 * See LICENSE.md in the project root for license terms and full copyright notice.
 *--------------------------------------------------------------------------------------------*/
 @import "~@bentley/ui-core/lib/ui-core/style/index";
+@import "~@itwin/itwinui-css/scss/style/typography";
 
 $components-desktop-item-width: 40px;
 $components-desktop-item-height: 40px;
@@ -19,7 +20,7 @@ $components-desktop-toolbar-height: 42px;
 $desktop-tool-stripe-width: 2px;
 $desktop-tool-stripe-height: 30px;
 
-$font-size: $uicore-font-size;
+$font-size: $iui-font-size;
 $icon-size: 16px;
 $icon-color: $buic-icon-color;
 $hovered-icon-color: $buic-foreground-activehover;

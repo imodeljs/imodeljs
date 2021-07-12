@@ -10,8 +10,8 @@ import "./SectionsField.scss";
 import classnames from "classnames";
 import * as React from "react";
 import { ClipEventType, IModelApp, ViewClipClearTool, ViewClipDecoration, ViewClipDecorationProvider, Viewport } from "@bentley/imodeljs-frontend";
-import { Button, ButtonType, Toggle } from "@bentley/ui-core";
 import { Dialog, FooterPopup, TitleBar } from "@bentley/ui-ninezone";
+import { Button, ToggleSwitch } from "@itwin/itwinui-react";
 import { useActiveViewport } from "../hooks/useActiveViewport";
 import { UiFramework } from "../UiFramework";
 import { Indicator } from "./Indicator";
@@ -61,9 +61,9 @@ export function SectionsStatusField(props: SectionsStatusFieldProps) {
   }, [activeViewport, props.hideWhenUnused, isPopupOpen]);
 
   // istanbul ignore next
-  const toggleManipulators = (checked: boolean) => {
+  const toggleManipulators = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (activeViewport) {
-      setHasManipulatorsShown(checked);
+      setHasManipulatorsShown(e.target.checked);
       ViewClipDecorationProvider.create().toggleDecoration(activeViewport);
     }
   };
@@ -93,10 +93,10 @@ export function SectionsStatusField(props: SectionsStatusFieldProps) {
             <TitleBar title={toolTip} />
           }>
           <div className="uifw-sections-footer-contents">
-            <Button buttonType={ButtonType.Hollow} onClick={handleClear}>{clearLabel}</Button>
+            <Button onClick={handleClear}>{clearLabel}</Button>
             <div className="uifw-uifw-sections-toggle-container">
               <div className={classnames("uifw-sections-label")}>{showHandlesLabel}</div>
-              <Toggle className="uifw-sections-toggle" onChange={toggleManipulators} isOn={hasManipulatorsShown} showCheckmark={false} />
+              <ToggleSwitch className="uifw-sections-toggle" onChange={toggleManipulators} checked={hasManipulatorsShown} />
             </div>
           </div>
         </Dialog>

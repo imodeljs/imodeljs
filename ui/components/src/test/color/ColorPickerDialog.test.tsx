@@ -46,7 +46,7 @@ describe("ColorPickerDialog", () => {
       const spyOnCancel = sinon.spy();
 
       const wrapper = render(<ColorPickerDialog dialogTitle="-texting-title-" color={ColorDef.blue} onOkResult={(_selectedColor: ColorDef) => { }} onCancelResult={spyOnCancel} />);
-      const cancelButton = wrapper.container.querySelector("button.core-dialog-button.dialog-button-cancel.uicore-buttons-hollow") as HTMLElement;
+      const cancelButton = wrapper.container.querySelector("button.core-dialog-button.dialog-button-cancel") as HTMLElement;
       expect(cancelButton).not.to.be.null;
       fireEvent.click(cancelButton);
       expect(spyOnCancel).to.be.calledOnce;
@@ -61,7 +61,7 @@ describe("ColorPickerDialog", () => {
       }
 
       const wrapper = render(<ColorPickerDialog dialogTitle="-texting-title-" color={ColorDef.blue} onOkResult={handleOK} onCancelResult={() => { }} />);
-      const okButton = wrapper.container.querySelector("button.core-dialog-button.dialog-button-ok.uicore-buttons-primary") as HTMLElement;
+      const okButton = wrapper.container.querySelector("button.core-dialog-button.dialog-button-ok.iui-cta") as HTMLElement;
       expect(okButton).not.to.be.null;
       fireEvent.click(okButton);
       expect(spyOnOK).to.be.calledOnce;
@@ -91,7 +91,7 @@ describe("ColorPickerDialog", () => {
       const colorButton = panel.querySelector("button.components-color-swatch.components-colorpicker-panel-swatch") as HTMLElement;
       fireEvent.click(colorButton);
 
-      const okButton = wrapper.container.querySelector("button.core-dialog-button.dialog-button-ok.uicore-buttons-primary") as HTMLElement;
+      const okButton = wrapper.container.querySelector("button.core-dialog-button.dialog-button-ok.iui-cta") as HTMLElement;
       fireEvent.click(okButton);
       expect(spyOnOK).to.be.calledOnce;
     });

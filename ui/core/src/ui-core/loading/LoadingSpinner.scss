@@ -2,7 +2,8 @@
 * Copyright (c) Bentley Systems, Incorporated. All rights reserved.
 * See LICENSE.md in the project root for license terms and full copyright notice.
 *--------------------------------------------------------------------------------------------*/
-@import "../style/index.scss";
+@import "../style/themecolors";
+@import "~@itwin/itwinui-css/scss/style/space";
 
  .core-ls{
   display: flex;
@@ -16,11 +17,11 @@
 
   .ls-message-top {
     @extend .ls-message;
-    margin-bottom: $uicore-sm;
+    margin-bottom: $iui-sm;
   }
 
   .ls-message-bottom {
     @extend .ls-message;
-    margin-top: $uicore-sm;
+    margin-top: $iui-sm;
   }
 }

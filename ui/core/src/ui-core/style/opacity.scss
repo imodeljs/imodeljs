@@ -5,12 +5,13 @@
 
 /// Opacity stops:
 
-$uicore-opacity-1: 1.0;
-$uicore-opacity-2: 0.85;
-$uicore-opacity-3: 0.65;
-$uicore-opacity-4: 0.45;
-$uicore-opacity-5: 0.25;
-$uicore-opacity-6: 0.1;
+$uicore-opacity-1:          var(--iui-opacity-1);
+$uicore-opacity-2:          var(--iui-opacity-2);
+$uicore-opacity-3:          var(--iui-opacity-3);
+$uicore-opacity-4:          var(--iui-opacity-4);
+$uicore-opacity-5:          var(--iui-opacity-5);
+$uicore-opacity-6:          var(--iui-opacity-6);
 
-$uicore-opacity-muted:    $uicore-opacity-3;
-$uicore-opacity-disabled: $uicore-opacity-4;
+$uicore-opacity-muted:      $uicore-opacity-3;
+$uicore-opacity-disabled:   $uicore-opacity-4;
+$uicore-opacity-boxshadow:  $uicore-opacity-4;

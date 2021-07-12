@@ -6,7 +6,7 @@
  * @module Popup
  */
 
-// cSpell:ignore focusvalue
+// cSpell:ignore focusvalue uiadmin
 
 import * as React from "react";
 import "./KeyinPalettePanel.scss";
@@ -17,6 +17,7 @@ import { matchesWords, OnItemExecutedFunc, SpecialKey } from "@bentley/ui-abstra
 import { ClearKeyinPaletteHistoryTool } from "../tools/KeyinPaletteTools";
 import { useUiSettingsStorageContext } from "../uisettings/useUiSettings";
 import { KeyinEntry } from "../uiadmin/FrameworkUiAdmin";
+import { Input } from "@itwin/itwinui-react";
 
 const KEYIN_PALETTE_NAMESPACE = "KeyinPalettePanel";
 const KEYIN_HISTORY_KEY = "historyArray";
@@ -53,7 +54,7 @@ export function KeyinPalettePanel({ keyins, onKeyinExecuted, historyLength: allo
       const settingsResult = await uiSettingsStorage.getSetting(KEYIN_PALETTE_NAMESPACE, KEYIN_HISTORY_KEY);
       // istanbul ignore else
       if (UiSettingsStatus.Success === settingsResult.status) {
-        const filteredHistory = (settingsResult.setting as string[]).filter((keyin)=>{
+        const filteredHistory = (settingsResult.setting as string[]).filter((keyin) => {
           const result = IModelApp.tools.parseKeyin(keyin);
           return result.ok;
         });
@@ -251,8 +252,8 @@ export function KeyinPalettePanel({ keyins, onKeyinExecuted, historyLength: allo
   const lastHistoryIndex = filteredKeyins.findIndex((entry) => (true !== entry.isHistory)) - 1;
 
   return <div className="uifw-command-palette-panel">
-    <input ref={inputRef} type="text" onKeyDown={onInputValueKeyDown}
-      className={"uicore-inputs-input uifw-command-palette-input"} data-testid="command-palette-input" onChange={onInputValueChange}
+    <Input ref={inputRef} type="text" onKeyDown={onInputValueKeyDown}
+      className={"uifw-command-palette-input"} data-testid="command-palette-input" onChange={onInputValueChange}
       placeholder={placeholderLabel.current} value={currentKeyin}
     />
     {(filteredKeyins.length > 0) &&

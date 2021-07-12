@@ -8,7 +8,7 @@
 
 /** Available Stage Panel locations.
  * @alpha
- * Deprecated - Use [StagePanelLocation]($ui-abstract) in bentley/ui-abstract instead.
+ * @deprecated - Use [StagePanelLocation]($ui-abstract) in bentley/ui-abstract instead.
  */
 export enum StagePanelLocation {
   Top = 101,
@@ -21,7 +21,7 @@ export enum StagePanelLocation {
 
 /** Enum for Stage Panel Sections
  * @alpha
- * Deprecated - Use [StagePanelSection]($ui-abstract) in bentley/ui-abstract instead.
+ * @deprecated - Use [StagePanelSection]($ui-abstract) in bentley/ui-abstract instead.
  */
 export enum StagePanelSection {
   Start,

@@ -2,7 +2,7 @@
 * Copyright (c) Bentley Systems, Incorporated. All rights reserved.
 * See LICENSE.md in the project root for license terms and full copyright notice.
 *--------------------------------------------------------------------------------------------*/
-@import "~@bentley/ui-core/lib/ui-core/button/hollow";
+@import "~@bentley/ui-core/lib/ui-core/style/themecolors";
 
 .popup-test {
   width: 100%;
@@ -30,7 +30,6 @@
   }
 
   button {
-    @include uicore-buttons-hollow;
     width: 110px;
   }
 }

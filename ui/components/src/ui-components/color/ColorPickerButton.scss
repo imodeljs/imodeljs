@@ -3,11 +3,11 @@
 * See LICENSE.md in the project root for license terms and full copyright notice.
 *--------------------------------------------------------------------------------------------*/
 @import "~@bentley/ui-core/lib/ui-core/style/themecolors";
-@import "~@bentley/ui-core/lib/ui-core/style/typography";
+@import "~@itwin/itwinui-css/scss/style/typography";
 
 button.components-colorpicker-button {
-  font-family: $uicore-font-family;
-  font-size: $uicore-font-size;
+  font-family: $iui-font-family;
+  font-size: $iui-font-size;
   color: $buic-foreground-body;
   box-sizing: border-box;
   border: 1px solid transparent;
@@ -21,7 +21,7 @@ button.components-colorpicker-button {
     flex-direction: row;
     align-items: center;
     border-radius: 3px;
-  
+
     >.components-colorpicker-button-color-swatch {
       border: 1px solid $buic-inputs-border;
       border-radius: 3px;

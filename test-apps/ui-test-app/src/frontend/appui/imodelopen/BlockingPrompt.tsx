@@ -5,7 +5,7 @@
 import "./BlockingPrompt.scss";
 import "./Common.scss";
 import * as React from "react";
-import { Spinner, SpinnerSize } from "@bentley/ui-core";
+import { ProgressRadial } from "@itwin/itwinui-react";
 
 interface BlockingPromptProps {
   prompt: string;
@@ -19,7 +19,7 @@ export class BlockingPrompt extends React.Component<BlockingPromptProps> {
     return (
       <div className="blocking-modal-background fade-in-fast">
         <div className="blocking-prompt fade-in">
-          <Spinner size={SpinnerSize.Large} />
+          <ProgressRadial size="large" indeterminate />
           <span>{this.props.prompt}</span>
         </div>
       </div>

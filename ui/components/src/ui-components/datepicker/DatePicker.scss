@@ -2,10 +2,10 @@
 * Copyright (c) Bentley Systems, Incorporated. All rights reserved.
 * See LICENSE.md in the project root for license terms and full copyright notice.
 *--------------------------------------------------------------------------------------------*/
-@import "~@bentley/ui-core/lib/ui-core/style/variables";
 @import "~@bentley/ui-core/lib/ui-core/style/themecolors";
 @import "~@bentley/ui-core/lib/ui-core/style/opacity";
-@import "~@bentley/ui-core/lib/ui-core/style/typography";
+@import "~@itwin/itwinui-css/scss/style/typography";
+@import "~@itwin/itwinui-css/scss/style/variables";
 @import "~@bentley/ui-core/lib/ui-core/icons/variables";
 @import "~@bentley/ui-core/lib/ui-core/button/variables";
 
@@ -61,7 +61,7 @@ $outline-size: 2px;
 
     .components-month-year {
       flex: 2;
-      font-weight: $uicore-font-weight-bold;
+      font-weight: $iui-font-weight-bold;
       text-align: center;
     }
   }
@@ -77,7 +77,7 @@ $outline-size: 2px;
     .components-date-picker-calendar-header-day-short {
       text-align: center;
       text-decoration: none;
-      font-weight: $uicore-font-weight-bold;
+      font-weight: $iui-font-weight-bold;
       height:32px;
       width:32px;
       display: inline-flex;
@@ -132,15 +132,15 @@ $outline-size: 2px;
 
       &:hover:not(.selected) {
         background-color: $buic-row-hover;
-        border-radius: $uicore-border-radius;
-        font-weight: $uicore-font-weight-semibold;
+        border-radius: $iui-border-radius;
+        font-weight: $iui-font-weight-semibold;
       }
 
       &.selected {
         background-color: $buic-background-primary;
         color: $buic-foreground-accessory;
-        font-weight: $uicore-font-weight-semibold;
-        border-radius: $uicore-border-radius;
+        font-weight: $iui-font-weight-semibold;
+        border-radius: $iui-border-radius;
         &:hover {
           background-color: $buic-row-hover;
           color: $buic-foreground-body;
@@ -149,14 +149,14 @@ $outline-size: 2px;
 
       &.today {
         background-color: rgba($buic-foreground-body, $uicore-opacity-6);
-        font-weight: $uicore-font-weight-semibold;
+        font-weight: $iui-font-weight-semibold;
         border-radius: 50%;
       }
 
       &.notCurrentMonth {
         &:not(.selected) {
           color: $date-picker-outside-month-color;
-          font-weight: $uicore-font-weight-light;
+          font-weight: $iui-font-weight-light;
         }
       }
     }

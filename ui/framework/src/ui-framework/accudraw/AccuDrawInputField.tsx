@@ -9,11 +9,12 @@
 import "./AccuDrawInputField.scss";
 import classnames from "classnames";
 import * as React from "react";
-import { CommonProps, Icon, IconSpec, Input, useRefs } from "@bentley/ui-core";
+import { CommonProps, Icon, IconSpec, useRefs } from "@bentley/ui-core";
 import {
   AccuDrawField, AccuDrawSetFieldFocusEventArgs, AccuDrawSetFieldValueToUiEventArgs,
   AccuDrawUiAdmin, isLetter, SpecialKey,
 } from "@bentley/ui-abstract";
+import { Input } from "@itwin/itwinui-react";
 import { KeyboardShortcutManager } from "../keyboardshortcut/KeyboardShortcut";
 import { FrameworkAccuDraw } from "./FrameworkAccuDraw";
 

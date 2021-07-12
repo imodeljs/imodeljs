@@ -47,6 +47,8 @@
     "@bentley/ui-core": "workspace:*",
     "@bentley/ui-components": "workspace:*",
     "@bentley/ui-abstract": "workspace:*",
+    "@itwin/itwinui-css": "^0.22.0",
+    "@itwin/itwinui-react": "^1.11.0",
     "react": "^16.8.0",
     "react-dom": "^16.8.0",
     "react-select": "3.1.0",

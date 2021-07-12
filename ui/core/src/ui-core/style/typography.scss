@@ -2,60 +2,42 @@
 * Copyright (c) Bentley Systems, Incorporated. All rights reserved.
 * See LICENSE.md in the project root for license terms and full copyright notice.
 *--------------------------------------------------------------------------------------------*/
+@import "~@itwin/itwinui-css/scss/style/typography";
 
-@import "./baseline";
+// @warn "typography.scss is deprecated. Use '~@itwin/itwinui-css/scss/style/typography' instead.";
 
 /// Constants ------------------------------------------------------------------
 
-$uicore-sans:                      'Open Sans','Helvetica Neue',Helvetica,Arial,sans-serif;
-$uicore-monospace:                 Consolas, "Liberation Mono", Menlo, Courier, monospace;
+$uicore-sans:                      $iui-sans;
+$uicore-monospace:                 $iui-monospace;
 
-$uicore-font-family:               $uicore-sans;
+$uicore-font-family:               $iui-font-family;
 
-$uicore-font-size:                 14px;
-$uicore-font-size-small:           12px;
-$uicore-font-size-smaller:         11px;
-$uicore-font-size-leading:         16px;
-$uicore-font-size-subheading:      18px;
-$uicore-font-size-title:           24px;
-$uicore-font-size-headline:        32px;
+$uicore-font-size:                 $iui-font-size;
+$uicore-font-size-small:           $iui-font-size-small;
+$uicore-font-size-leading:         $iui-font-size-leading;
+$uicore-font-size-subheading:      $iui-font-size-subheading;
+$uicore-font-size-title:           $iui-font-size-title;
+$uicore-font-size-headline:        $iui-font-size-headline;
 
-$uicore-cap-size:                  10px;
-$uicore-cap-size-small:            9px;
-$uicore-cap-size-leading:          12px;
-$uicore-cap-size-subheading:       13px;
-$uicore-cap-size-title:            17px;
-$uicore-cap-size-headline:         23px;
+$uicore-cap-size:                  $iui-cap-size;
+$uicore-cap-size-small:            $iui-cap-size-small;
+$uicore-cap-size-leading:          $iui-cap-size-leading;
+$uicore-cap-size-subheading:       $iui-cap-size-subheading;
+$uicore-cap-size-title:            $iui-cap-size-title;
+$uicore-cap-size-headline:         $iui-cap-size-headline;
 
-$uicore-font-weight-light:         300;
-$uicore-font-weight-normal:        400;
-$uicore-font-weight-semibold:      600;
-$uicore-font-weight-bold:          700;
+$uicore-font-weight-light:         $iui-font-weight-light;
+$uicore-font-weight-normal:        $iui-font-weight-normal;
+$uicore-font-weight-semibold:      $iui-font-weight-semibold;
+$uicore-font-weight-bold:          $iui-font-weight-bold;
 
 /// Font loading helpers -------------------------------------------------------
 /// See: https://www.zachleat.com/web/comprehensive-webfonts
 
-$uicore-font-loaded-class:         null !default;
+$uicore-font-loaded-class:         $iui-font-loaded-class;
 
 @mixin uicore-font-family {
 
-  @if $uicore-font-loaded-class {
-
-    font-family:            sans-serif;
-
-    &.#{ $uicore-font-loaded-class } {
-
-      font-family:        $uicore-font-family;
-    }
-
-    @at-root {
-      body.#{ $uicore-font-loaded-class } & {
-
-        font-family:    $uicore-font-family;
-      }
-    }
-  } @else {
-
-    font-family:            $uicore-font-family;
-  }
+  @include iui-font-family;
 }

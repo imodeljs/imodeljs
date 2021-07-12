@@ -4,8 +4,9 @@
 *--------------------------------------------------------------------------------------------*/
 import * as React from "react";
 import { IModelApp, NotifyMessageDetails, OutputMessagePriority } from "@bentley/imodeljs-frontend";
-import { Icon, Input, Slider } from "@bentley/ui-core";
+import { Icon, Slider } from "@bentley/ui-core";
 import { ConfigurableCreateInfo, ConfigurableUiManager, ToolSettingsEntry, ToolSettingsGrid, ToolUiProvider } from "@bentley/ui-framework";
+import { Input } from "@itwin/itwinui-react";
 
 function showSliderValues(values: ReadonlyArray<number>) {
   const msg = `Slider values: ${values}`;

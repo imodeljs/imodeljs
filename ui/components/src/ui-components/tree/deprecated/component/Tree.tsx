@@ -16,7 +16,7 @@ import { AutoSizer, Size, List as VirtualizedList, ListRowProps as VirtualizedLi
 // bentley imports
 import { Guid, using } from "@bentley/bentleyjs-core";
 import {
-  CheckBoxInfo, CheckBoxState, CommonProps, NodeCheckboxRenderer, shallowDiffers, Spinner, SpinnerSize, Tree as TreeBase, TreeNodePlaceholder,
+  CheckBoxInfo, CheckBoxState, CommonProps, NodeCheckboxRenderer, shallowDiffers, Tree as TreeBase, TreeNodePlaceholder,
 } from "@bentley/ui-core";
 import { getPropertyRecordAsString } from "../../../common/getPropertyRecordAsString";
 import {
@@ -41,19 +41,23 @@ import {
   BeInspireTree, BeInspireTreeEvent, BeInspireTreeNode, BeInspireTreeNodeConfig, BeInspireTreeNodes, MapPayloadToInspireNodeCallback, toNode, toNodes,
 } from "./BeInspireTree";
 import { TreeNode, TreeNodeProps } from "./Node";
+import { ProgressRadial } from "@itwin/itwinui-react";
 
 /* eslint-disable deprecation/deprecation */
 
 /** Type for nodesSelected callback
- * @internal @deprecated
+ * @internal
+ * @deprecated
  */
 export type NodesSelectedCallback = OnItemsSelectedCallback<TreeNodeItem>;
 /** Type for nodesDeselected callback
- * @internal @deprecated
+ * @internal
+ * @deprecated
  */
 export type NodesDeselectedCallback = OnItemsDeselectedCallback<TreeNodeItem>;
 /** Type for node renderer
- * @internal @deprecated
+ * @internal
+ * @deprecated
  */
 export type NodeRenderer = (item: BeInspireTreeNode<TreeNodeItem>, props: TreeNodeProps) => React.ReactNode;
 
@@ -151,7 +155,8 @@ export interface TreeProps extends CommonProps {
 
   /** Contains render overrides for different pieces of the tree component */
   renderOverrides?: {
-    /** Callback to render a node @internal */
+    /** Callback to render a node
+     * @internal */
     renderNode?: NodeRenderer;
     /** Callback to render a node checkbox. When a custom node renderer is used, it's responsible for calling this callback. */
     renderCheckbox?: NodeCheckboxRenderer;
@@ -162,10 +167,12 @@ export interface TreeProps extends CommonProps {
   /** @internal */
   onNodesRender?: () => void;
 
-  /** Properties for node highlighting logic. If not provided, node highlighting is disabled. @internal */
+  /** Properties for node highlighting logic. If not provided, node highlighting is disabled.
+   * @internal */
   nodeHighlightingProps?: HighlightableTreeProps;
 
-  /** Properties for cell editing logic. If not provided, cell editing is disabled. @beta */
+  /** Properties for cell editing logic. If not provided, cell editing is disabled.
+   * @beta */
   cellEditing?: EditableTreeProps;
 
   /**
@@ -202,7 +209,8 @@ export interface TreeProps extends CommonProps {
 }
 
 /** State for the [[DEPRECATED_Tree]] component
- * @internal @deprecated
+ * @internal
+ * @deprecated
  */
 interface TreeState {
   prev: {
@@ -882,7 +890,7 @@ export class DEPRECATED_Tree extends React.Component<TreeProps, TreeState> {
     if (!this.state.modelReady) {
       return (
         <div className="components-tree-loader">
-          <Spinner size={SpinnerSize.Large} />
+          <ProgressRadial size="large" indeterminate />
         </div>
       );
     }
@@ -952,7 +960,12 @@ export class DEPRECATED_Tree extends React.Component<TreeProps, TreeState> {
 
     return (
       <TreeBase ref={this._treeRef} onMouseDown={this._onMouseDown}
-        className={classnames("components-tree", this.props.className)} style={this.props.style}
+        className={classnames(
+          "components-tree",
+          "components-smallEditor-host",
+          this.props.className
+        )}
+        style={this.props.style}
       >
         <AutoSizer>
           {({ width, height }: Size) => (

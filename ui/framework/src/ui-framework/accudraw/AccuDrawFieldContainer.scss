@@ -2,10 +2,15 @@
 * Copyright (c) Bentley Systems, Incorporated. All rights reserved.
 * See LICENSE.md in the project root for license terms and full copyright notice.
 *--------------------------------------------------------------------------------------------*/
+@import "~@bentley/ui-core/lib/ui-core/inputs/variables";
 @import "~@bentley/ui-core/lib/ui-core/style/themecolors";
 
 .uifw-accudraw-field-container {
   padding: 6px;
+
+  .iui-input {
+    padding: $uicore-iui-input-padding;
+  }
 }
 
 .uifw-accudraw-field-container-horizontal {

@@ -8,7 +8,8 @@
 
 import * as React from "react";
 import { UnitProps, UnitsProvider } from "@bentley/imodeljs-quantity";
-import { CommonProps, Input, Select, SelectOption } from "@bentley/ui-core";
+import { CommonProps } from "@bentley/ui-core";
+import { Input, Select, SelectOption } from "@itwin/itwinui-react";
 
 /** Properties of [[UnitDescr]] component.
  * @internal
@@ -60,7 +61,7 @@ function getUnitName(fullUnitName: string) {
  */
 export function UnitDescr(props: UnitDescrProps) {
   const { name, label, parentUnitName, index, onUnitChange, onLabelChange, readonly, unitsProvider } = props;
-  const [unitOptions, setUnitOptions] = React.useState<SelectOption[]>([{ value: name, label: getUnitName(name) }]);
+  const [unitOptions, setUnitOptions] = React.useState<SelectOption<string>[]>([{ value: name, label: getUnitName(name) }]);
   const [currentUnit, setCurrentUnit] = React.useState({ name, label });
   const isMounted = React.useRef(false);
 
@@ -95,11 +96,11 @@ export function UnitDescr(props: UnitDescrProps) {
 
         if (potentialSubUnit) {
           // construct an entry that will provide the name and label of the unit to add
-          options.push({ value: `ADDSUBUNIT:${potentialSubUnit.name}:${potentialSubUnit.label}`, label: "Add sub-unit" });
+          options.push({ value: `ADDSUBUNIT:${potentialSubUnit.name}:${potentialSubUnit.label}`, label: "Add sub-unit" });  // NEEDSWORK - i18n
         }
 
         if (index !== 0)
-          options.push({ value: "REMOVEUNIT", label: "Remove" });
+          options.push({ value: "REMOVEUNIT", label: "Remove" }); // NEEDSWORK - i18n
 
         // istanbul ignore else
         if (isMounted.current) {
@@ -111,9 +112,8 @@ export function UnitDescr(props: UnitDescrProps) {
     fetchAllowableUnitSelections(); // eslint-disable-line @typescript-eslint/no-floating-promises
   }, [index, label, name, parentUnitName, unitsProvider]);
 
-  const handleOnUnitChange = React.useCallback((e: React.ChangeEvent<HTMLSelectElement>) => {
-    e.preventDefault();
-    onUnitChange && onUnitChange(e.target.value, index);
+  const handleOnUnitChange = React.useCallback((newValue: string) => {
+    onUnitChange && onUnitChange(newValue, index);
   }, [index, onUnitChange]);
 
   const handleOnLabelChange = React.useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
@@ -123,7 +123,8 @@ export function UnitDescr(props: UnitDescrProps) {
 
   return (
     <>
-      <Select options={unitOptions} data-testid={`unit-${currentUnit.name}`} value={`${currentUnit.name}:${currentUnit.label}`} onChange={handleOnUnitChange} disabled={readonly} />
+      <Select options={unitOptions} data-testid={`unit-${currentUnit.name}`} value={`${currentUnit.name}:${currentUnit.label}`}
+        onChange={handleOnUnitChange} disabled={readonly} />
       <Input data-testid={`unit-label-${currentUnit.name}`} value={label} onChange={handleOnLabelChange} />
     </>
   );

@@ -2,5 +2,12 @@
 * Copyright (c) Bentley Systems, Incorporated. All rights reserved.
 * See LICENSE.md in the project root for license terms and full copyright notice.
 *--------------------------------------------------------------------------------------------*/
-$uicore-border-radius:    3px;
-$uicore-icon-size:        16px;
+@import "~@itwin/itwinui-css/scss/style/variables";
+
+// @warn "variables.scss is deprecated. Use '~@itwin/itwinui-css/scss/style/variables' instead.";
+
+$uicore-border-radius:    $iui-border-radius;
+
+$uicore-component-height-small:   24px;
+$uicore-component-height-normal:  28px;
+$uicore-component-height-large:   32px;

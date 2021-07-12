@@ -20,7 +20,8 @@ interface NodeEventManagerCallbacks {
   onCheckboxStateChanged: (stateChanges: Array<{ node: BeInspireTreeNode<TreeNodeItem>, newState: CheckBoxState }>) => void;
 }
 
-/** @internal @deprecated */
+/** @internal
+ * @deprecated */
 export class NodeEventManager {
   private _loadingOrchestrator: NodeLoadingOrchestrator;
   private _bulkCheckboxActionsEnabled: boolean;

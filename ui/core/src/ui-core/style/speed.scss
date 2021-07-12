@@ -2,10 +2,12 @@
 * Copyright (c) Bentley Systems, Incorporated. All rights reserved.
 * See LICENSE.md in the project root for license terms and full copyright notice.
 *--------------------------------------------------------------------------------------------*/
+@import "~@itwin/itwinui-css/scss/style/speed";
+
+// @warn "speed.scss is deprecated. Use '~@itwin/itwinui-css/scss/style/space' instead.";
 
 /// Animation speed:
 
-$uicore-speed-none:   0;
-$uicore-speed-fast:   0.2s;
-$uicore-speed:        0.4s;
-$uicore-speed-slow:   0.6s;
+$uicore-speed-fast:   $iui-speed-fast;
+$uicore-speed:        $iui-speed;
+$uicore-speed-slow:   $iui-speed-slow;

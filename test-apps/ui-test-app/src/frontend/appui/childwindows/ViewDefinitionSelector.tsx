@@ -7,6 +7,7 @@ import * as React from "react";
 import { Id64String } from "@bentley/bentleyjs-core";
 import { IModelConnection } from "@bentley/imodeljs-frontend";
 import { ViewQueryParams } from "@bentley/imodeljs-common";
+import { Select, SelectOption } from "@itwin/itwinui-react";
 
 export async function getViewDefinitions(imodel: IModelConnection): Promise<{ id: string, class: string, label: string }[]> {
   const viewQueryParams: ViewQueryParams = { wantPrivate: false };
@@ -36,18 +37,18 @@ export default function ViewDefinitionSelector(props: ViewDefinitionSelectorProp
     getViewDefinitions(props.imodel).then(setAvailableViewDefinitions);
   }, [props.imodel]);
   const onViewDefinitionSelected = props.onViewDefinitionSelected;
-  const memoizedOnViewDefinitionSelected = React.useCallback((evt: React.ChangeEvent<HTMLSelectElement>) => {
-    const selectedId = evt.target.value || undefined;
+  const memoizedOnViewDefinitionSelected = React.useCallback((selectedId: string) => {
     if (onViewDefinitionSelected)
       onViewDefinitionSelected(selectedId);
   }, [onViewDefinitionSelected]);
+  const selectOptions = React.useMemo<SelectOption<string>[]>(() => {
+    return (availableViewDefinitions ?? []).map((definition) => (
+      { value: definition.id, label: definition.label }
+    ));
+  }, [availableViewDefinitions]);
   return (
     <div className="ViewDefinitionSelector">
-      <select onChange={memoizedOnViewDefinitionSelected} value={props.selectedViewDefinition}>
-        {(availableViewDefinitions ?? []).map((definition) => (
-          <option value={definition.id} key={definition.id}>{definition.label}</option>
-        ))}
-      </select>
+      <Select onChange={memoizedOnViewDefinitionSelected} value={props.selectedViewDefinition} options={selectOptions} />
     </div>
   );
 }

@@ -35,6 +35,7 @@ export function UnitSystemSelector(props: UnitSystemSelectorProps) {
 
   return (
     <div className="UnitSystemSelector">
+      {/* eslint-disable-next-line deprecation/deprecation */}
       <Select
         options={availableUnitSystems}
         defaultValue={selectedUnitSystem}
@@ -46,7 +47,7 @@ export function UnitSystemSelector(props: UnitSystemSelectorProps) {
 }
 
 const availableUnitSystems = [{
-  value: "",
+  value: undefined,
   label: "",
 }, {
   value: PresentationUnitSystem.Metric,

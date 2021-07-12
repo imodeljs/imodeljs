@@ -3,6 +3,7 @@
 * See LICENSE.md in the project root for license terms and full copyright notice.
 *--------------------------------------------------------------------------------------------*/
 @import "~@bentley/ui-core/lib/ui-core/index";
+@import "~@itwin/itwinui-css/scss/style/typography";
 
 .map-transparency-popup-panel {
   z-index: 14000;
@@ -21,7 +22,7 @@
 
 .map-transparency-popup-button {
   color: $buic-foreground-body;
-  font-size: $uicore-font-size;
+  font-size: $iui-font-size;
   background-color: transparent;
   height: 2.2em;
   border: none;

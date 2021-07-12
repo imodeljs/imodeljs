@@ -367,8 +367,6 @@ public;MessageAddedEventArgs
 public;MessageCenterField 
 public;MessageCenterFieldProps 
 public;MessageManager
-beta;MessageRenderer(props: MessageRendererProps): JSX.Element | null
-beta;MessageRendererProps 
 public;MessagesUpdatedEvent 
 public;ModalDialogChangedEvent 
 public;ModalDialogManager
@@ -530,10 +528,12 @@ public;StagePanelDefaultProps = Pick
 alpha;StagePanelHeader 
 alpha;StagePanelHeaderProps 
 alpha;StagePanelLocation
+deprecated;StagePanelLocation
 public;StagePanelMaxSizeSpec = number |
 public;StagePanelProps
 internal;StagePanelRuntimeProps
 alpha;StagePanelSection
+deprecated;StagePanelSection
 public;StagePanelState
 internal;StagePanelZoneDef 
 internal;StagePanelZoneDefKeys = keyof Pick
@@ -566,6 +566,8 @@ public;StatusBarWidgetControlArgs
 internal;StatusBarZone 
 internal;StatusBarZoneProps 
 public;StatusFieldProps 
+beta;StatusMessageRenderer(props: StatusMessageRendererProps): JSX.Element | null
+beta;StatusMessageRendererProps 
 beta;StickyMessage(props: StickyMessageProps): JSX.Element
 beta;StickyMessageProps
 public;SupportsViewSelectorChange

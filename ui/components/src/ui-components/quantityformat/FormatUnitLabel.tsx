@@ -8,8 +8,9 @@
 
 import classnames from "classnames";
 import * as React from "react";
-import { Checkbox, CommonProps, Select, SelectOption } from "@bentley/ui-core";
+import { CommonProps } from "@bentley/ui-core";
 import { Format, FormatProps, FormatTraits } from "@bentley/imodeljs-quantity";
+import { Checkbox, Select, SelectOption } from "@itwin/itwinui-react";
 import { UiComponents } from "../UiComponents";
 
 interface UomSeparatorSelectorProps extends CommonProps {
@@ -20,21 +21,20 @@ interface UomSeparatorSelectorProps extends CommonProps {
 
 function UomSeparatorSelector(props: UomSeparatorSelectorProps) {
   const { separator, onChange, ...otherProps } = props;
-  const uomDefaultEntries = React.useRef<SelectOption[]>([
+  const uomDefaultEntries = React.useRef<SelectOption<string>[]>([
     { value: "", label: UiComponents.translate("QuantityFormat.none") },
     { value: " ", label: UiComponents.translate("QuantityFormat.space") },
     { value: "-", label: UiComponents.translate("QuantityFormat.dash") },
   ]);
 
-  const handleOnChange = React.useCallback((e: React.ChangeEvent<HTMLSelectElement>) => {
-    e.preventDefault();
-    onChange && onChange(e.target.value);
+  const handleOnChange = React.useCallback((newValue: string) => {
+    onChange && onChange(newValue);
   }, [onChange]);
 
   const separatorOptions = React.useMemo(() => {
-    const completeListOfEntries: SelectOption[] = [];
+    const completeListOfEntries: SelectOption<string>[] = [];
     // istanbul ignore next (only used if format already has a character that does not match standard options)
-    if (undefined === uomDefaultEntries.current.find((option) => option.value as string === separator)) {
+    if (undefined === uomDefaultEntries.current.find((option) => option.value === separator)) {
       completeListOfEntries.push({ value: separator, label: separator });
     }
     completeListOfEntries.push(...uomDefaultEntries.current);
@@ -106,7 +106,7 @@ export function FormatUnitLabel(props: FormatUnitLabelProps) {
   return (
     <>
       <span className={"uicore-label"}>{appendUnitLabel.current}</span>
-      <Checkbox data-testid="show-unit-label-checkbox"  checked={isFormatTraitSet(FormatTraits.ShowUnitLabel)} onChange={handleShowUnitLabelChange} />
+      <Checkbox data-testid="show-unit-label-checkbox" checked={isFormatTraitSet(FormatTraits.ShowUnitLabel)} onChange={handleShowUnitLabelChange} />
       <span className={classnames("uicore-label", !isFormatTraitSet(FormatTraits.ShowUnitLabel) && "uicore-disabled")}>{labelSeparator.current}</span>
       <UomSeparatorSelector data-testid="uom-separator-select" separator={formatProps.uomSeparator ?? ""} onChange={handleUomSeparatorChange} disabled={!isFormatTraitSet(FormatTraits.ShowUnitLabel)} />
     </>

@@ -12,7 +12,8 @@ import * as React from "react";
 import {
   IconEditorParams, InputEditorSizeParams, PrimitiveValue, PropertyEditorParams, PropertyEditorParamTypes, PropertyValue, PropertyValueFormat,
 } from "@bentley/ui-abstract";
-import { Icon, IconInput, Input, InputProps } from "@bentley/ui-core";
+import { Icon, IconInput } from "@bentley/ui-core";
+import { Input, InputProps } from "@itwin/itwinui-react";
 import { TypeConverterManager } from "../converters/TypeConverterManager";
 import { PropertyEditorProps, TypeEditor } from "./EditorContainer";
 import { UiComponents } from "../UiComponents";
@@ -140,13 +141,11 @@ export class TextEditor extends React.PureComponent<PropertyEditorProps, TextEdi
       style: this.props.style ? this.props.style : minWidthStyle,
       readOnly: this.state.readonly,
       disabled: this.state.isDisabled,
-      size: this.state.size,
       maxLength: this.state.maxLength,
       value: this.state.inputValue,
       onBlur: this.props.onBlur,
       onChange: this._updateInputValue,
       setFocus: this.props.setFocus && !this.state.isDisabled,
-      ref: this._inputElement,
     };
 
     inputProps["aria-label"] = this._ariaLabel;
@@ -157,6 +156,7 @@ export class TextEditor extends React.PureComponent<PropertyEditorProps, TextEdi
       reactNode = (
         <IconInput
           {...inputProps}
+          ref={this._inputElement}
           icon={icon}
           data-testid="components-text-editor"
         />
@@ -165,6 +165,7 @@ export class TextEditor extends React.PureComponent<PropertyEditorProps, TextEdi
       reactNode = (
         <Input
           {...inputProps}
+          ref={this._inputElement}
           data-testid="components-text-editor"
         />
       );

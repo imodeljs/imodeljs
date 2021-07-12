@@ -7,6 +7,7 @@ import classnames from "classnames";
 import * as React from "react";
 import { SpecialKey } from "@bentley/ui-abstract";
 import { CommonProps } from "@bentley/ui-core";
+import { Input } from "@itwin/itwinui-react";
 
 interface InlineEditProps extends CommonProps {
   defaultValue: string;
@@ -73,7 +74,7 @@ export class InlineEdit extends React.Component<InlineEditProps, InlineEditState
 
   public override render() {
     return (
-      <input
+      <Input
         data-testid="timeline-duration-edit-input"
         className={classnames("inline-edit-input", this.props.className)}
         ref={this._inputRef}

@@ -145,7 +145,8 @@ export class EditorContainer extends React.PureComponent<EditorContainerProps> {
         this.onPressTab(e);
         break;
       default:
-        e.stopPropagation();
+        if (this._propertyEditor && this._propertyEditor.containerStopsKeydownPropagation)
+          e.stopPropagation();
     }
   };
 

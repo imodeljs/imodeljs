@@ -8,7 +8,8 @@ import { mount, shallow } from "enzyme";
 import sinon from "sinon";
 import { fireEvent, render } from "@testing-library/react";
 import * as React from "react";
-import { IconEditorParams, InputEditorSizeParams, PropertyConverterInfo, PropertyEditorInfo, PropertyEditorParamTypes,
+import {
+  IconEditorParams, InputEditorSizeParams, PropertyConverterInfo, PropertyEditorInfo, PropertyEditorParamTypes,
   PropertyRecord, PropertyValue, SpecialKey,
 } from "@bentley/ui-abstract";
 import { MockRender, OutputMessagePriority } from "@bentley/imodeljs-frontend";
@@ -18,6 +19,10 @@ import { EditorContainer, PropertyUpdatedArgs } from "../../ui-components/editor
 import { AsyncValueProcessingResult, DataControllerBase, PropertyEditorManager } from "../../ui-components/editors/PropertyEditorManager";
 
 describe("<TextEditor />", () => {
+  before(async () => {
+    await TestUtils.initializeUiComponents();
+  });
+
   it("should render", () => {
     mount(<TextEditor />);
   });
@@ -165,7 +170,7 @@ describe("<TextEditor />", () => {
 
     class MineDataController extends DataControllerBase {
       public override async validateValue(_newValue: PropertyValue, _record: PropertyRecord): Promise<AsyncValueProcessingResult> {
-        return { encounteredError: true, errorMessage: { priority: OutputMessagePriority.Error, briefMessage: "Test"} };
+        return { encounteredError: true, errorMessage: { priority: OutputMessagePriority.Error, briefMessage: "Test" } };
       }
     }
 
@@ -190,7 +195,7 @@ describe("<TextEditor />", () => {
 
     class MineDataController2 extends DataControllerBase {
       public override async commitValue(_newValue: PropertyValue, _record: PropertyRecord): Promise<AsyncValueProcessingResult> {
-        return { encounteredError: true, errorMessage: { priority: OutputMessagePriority.Error, briefMessage: "Test"} };
+        return { encounteredError: true, errorMessage: { priority: OutputMessagePriority.Error, briefMessage: "Test" } };
       }
     }
 

@@ -11,6 +11,7 @@ import { ContextMenuDivider, ContextMenuItem, GlobalContextMenu, GlobalContextMe
 import { UiComponents } from "../../UiComponents";
 import { ShowHideDialog } from "./ShowHideDialog";
 import { ShowHideID, ShowHideItem } from "./ShowHideItem";
+import { Checkbox } from "@itwin/itwinui-react";
 
 /** Properties for the [[ShowHideMenu]] component
  * @public
@@ -140,7 +141,7 @@ export class ShowHideMenu<T extends ShowHideID> extends React.PureComponent<Show
           return (
             <ContextMenuItem key={index}
               onSelect={sel}
-              icon={<input type="checkbox" data-testid={id} id={id} checked={visible} onChange={() => undefined} />} >
+              icon={<Checkbox data-testid={id} id={id} checked={visible} onChange={() => undefined} />} >
               {label}
             </ContextMenuItem>
           );

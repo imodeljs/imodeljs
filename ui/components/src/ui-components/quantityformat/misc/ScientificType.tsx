@@ -7,9 +7,10 @@
  */
 
 import * as React from "react";
-import { CommonProps, Select, SelectOption } from "@bentley/ui-core";
+import { CommonProps } from "@bentley/ui-core";
 import { UiComponents } from "../../UiComponents";
 import { ScientificType } from "@bentley/imodeljs-quantity";
+import { Select, SelectOption } from "@itwin/itwinui-react";
 
 /** Properties of [[ScientificTypeSelector]] component.
  * @internal
@@ -25,15 +26,13 @@ export interface ScientificTypeSelectorProps extends CommonProps {
  */
 export function ScientificTypeSelector(props: ScientificTypeSelectorProps) {
   const { type, onChange, ...otherProps } = props;
-  const formatOptions = React.useRef<SelectOption[]>([
+  const formatOptions = React.useRef<SelectOption<ScientificType>[]>([
     { value: ScientificType.Normalized, label: UiComponents.translate("QuantityFormat.scientific-type.normalized") },
     { value: ScientificType.ZeroNormalized, label: UiComponents.translate("QuantityFormat.scientific-type.zero-normalized") },
   ]);
 
-  const handleOnChange = React.useCallback((e: React.ChangeEvent<HTMLSelectElement>) => {
-    e.preventDefault();
-    const enumValue = parseInt(e.target.value, 10);
-    onChange && onChange(enumValue as ScientificType);
+  const handleOnChange = React.useCallback((newValue: ScientificType) => {
+    onChange && onChange(newValue);
   }, [onChange]);
 
   return (

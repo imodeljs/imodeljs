@@ -6,8 +6,10 @@
 import { expect } from "chai";
 import React from "react";
 import sinon from "sinon";
-import { AlternateDateFormats, PrimitiveValue, PropertyDescription, PropertyRecord, PropertyValue, PropertyValueFormat,
-  SpecialKey, StandardTypeNames, TimeDisplay } from "@bentley/ui-abstract";
+import {
+  AlternateDateFormats, PrimitiveValue, PropertyDescription, PropertyRecord, PropertyValue, PropertyValueFormat,
+  SpecialKey, StandardTypeNames, TimeDisplay,
+} from "@bentley/ui-abstract";
 import { cleanup, fireEvent, render, waitForElement } from "@testing-library/react";
 import { EditorContainer /* PropertyUpdatedArgs */ } from "../../ui-components/editors/EditorContainer";
 import { DateTimeEditor } from "../../ui-components/editors/DateTimeEditor";
@@ -132,7 +134,7 @@ describe("<DateTimeEditor />", () => {
     const popupButton = await waitForElement(() => renderedComponent.getByTestId("components-popup-button"));
     fireEvent.click(popupButton);
     const timeDiv = await waitForElement(() => renderedComponent.getByTestId("components-time-input"));
-    const hrInput = timeDiv.querySelector(".uicore-inputs-input.components-time-input") as HTMLInputElement;
+    const hrInput = timeDiv.querySelector(".iui-input.components-time-input") as HTMLInputElement;
     expect(hrInput).not.to.be.null;
     hrInput.focus();
     fireEvent.change(hrInput, { target: { value: "09" } });
@@ -152,7 +154,7 @@ describe("<DateTimeEditor />", () => {
     const popupButton = await waitForElement(() => renderedComponent.getByTestId("components-popup-button"));
     fireEvent.click(popupButton);
     const timeDiv = await waitForElement(() => renderedComponent.getByTestId("components-time-input"));
-    const hrInput = timeDiv.querySelector(".uicore-inputs-input.components-time-input") as HTMLInputElement;
+    const hrInput = timeDiv.querySelector(".iui-input.components-time-input") as HTMLInputElement;
     expect(hrInput).not.to.be.null;
     hrInput.focus();
     fireEvent.change(hrInput, { target: { value: "09" } });
@@ -235,7 +237,7 @@ describe("<DateTimeEditor />", () => {
 
   class MineDataController extends DataControllerBase {
     public override async validateValue(_newValue: PropertyValue, _record: PropertyRecord): Promise<AsyncValueProcessingResult> {
-      return { encounteredError: true, errorMessage: { priority: OutputMessagePriority.Error, briefMessage: "Test"} };
+      return { encounteredError: true, errorMessage: { priority: OutputMessagePriority.Error, briefMessage: "Test" } };
     }
   }
 

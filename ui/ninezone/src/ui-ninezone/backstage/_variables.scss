@@ -3,14 +3,14 @@
 * See LICENSE.md in the project root for license terms and full copyright notice.
 *--------------------------------------------------------------------------------------------*/
 @import "~@bentley/ui-core/lib/ui-core/style/themecolors";
-@import "~@bentley/ui-core/lib/ui-core/style/typography";
+@import "~@itwin/itwinui-css/scss/style/typography";
 
 // backstage common values
 $nz-backstage-width: 300px;
 $nz-backstage-overlay-background: rgba(#222, 0.60);
 
-$nz-backstage-item-font-size: $uicore-font-size-leading;
-$nz-backstage-subtitle-font-size: $uicore-font-size;
+$nz-backstage-item-font-size: $iui-font-size-leading;
+$nz-backstage-subtitle-font-size: $iui-font-size;
 
 $nz-backstage-item-spacing: 24px;
 $nz-backstage-item-spacing-medium: 20px;

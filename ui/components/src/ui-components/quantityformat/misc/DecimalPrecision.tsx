@@ -7,8 +7,9 @@
  */
 
 import * as React from "react";
-import { CommonProps, Select, SelectOption } from "@bentley/ui-core";
+import { CommonProps } from "@bentley/ui-core";
 import { UiComponents } from "../../UiComponents";
+import { Select, SelectOption } from "@itwin/itwinui-react";
 
 /** Properties of [[DecimalPrecisionSelector]] component.
  * @internal
@@ -24,7 +25,7 @@ export interface DecimalPrecisionSelectorProps extends CommonProps {
  */
 export function DecimalPrecisionSelector(props: DecimalPrecisionSelectorProps) {
   const { precision, onChange, ...otherProps } = props;
-  const options = React.useRef<SelectOption[]>([
+  const options = React.useRef<SelectOption<number>[]>([
     { value: 0, label: UiComponents.translate("QuantityFormat.decimal_precision.zero") },
     { value: 1, label: UiComponents.translate("QuantityFormat.decimal_precision.one") },
     { value: 2, label: UiComponents.translate("QuantityFormat.decimal_precision.two") },
@@ -40,9 +41,7 @@ export function DecimalPrecisionSelector(props: DecimalPrecisionSelectorProps) {
     { value: 12, label: UiComponents.translate("QuantityFormat.decimal_precision.twelve") },
   ]);
 
-  const handleOnChange = React.useCallback((e: React.ChangeEvent<HTMLSelectElement>) => {
-    e.preventDefault();
-    const newValue = Number.parseInt(e.target.value, 10);
+  const handleOnChange = React.useCallback((newValue: number) => {
     onChange && onChange(newValue);
   }, [onChange]);
 

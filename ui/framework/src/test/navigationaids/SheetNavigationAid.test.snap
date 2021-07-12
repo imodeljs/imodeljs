@@ -7,8 +7,9 @@ exports[`SheetNavigationAid <SheetNavigationAid /> renders correctly 1`] = `
   <div
     className="gradient"
   />
-  <Spinner
-    size={0}
+  <ProgressRadial
+    indeterminate={true}
+    size="x-small"
   />
 </div>
 `;

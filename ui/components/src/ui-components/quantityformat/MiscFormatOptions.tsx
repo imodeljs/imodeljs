@@ -9,7 +9,8 @@
 import classnames from "classnames";
 import * as React from "react";
 import { SpecialKey } from "@bentley/ui-abstract";
-import { Checkbox, CommonProps } from "@bentley/ui-core";
+import { CommonProps } from "@bentley/ui-core";
+import { Checkbox } from "@itwin/itwinui-react";
 import { Format, FormatProps, FormatTraits, FormatType, ScientificType, ShowSignOption } from "@bentley/imodeljs-quantity";
 import { SignOptionSelector } from "./misc/SignOption";
 import { ThousandsSeparator } from "./misc/ThousandsSeparator";
@@ -99,7 +100,7 @@ export function MiscFormatOptions(props: MiscFormatOptionsProps) {
     // make sure 1000 and decimal separator do not match
     // istanbul ignore else
     if (isFormatTraitSet(FormatTraits.Use1000Separator)) {
-      switch(decimalSeparator) {
+      switch (decimalSeparator) {
         case ".":
           thousandSeparator = ",";
           break;
@@ -184,19 +185,19 @@ export function MiscFormatOptions(props: MiscFormatOptionsProps) {
           <DecimalSeparatorSelector data-testid="decimal-separator-selector" separator={formatProps.decimalSeparator ?? "."} onChange={handleDecimalSeparatorChange} disabled={formatType === FormatType.Fractional} />
 
           <span className={"uicore-label"}>{showTrailZerosLabel.current}</span>
-          <Checkbox data-testid="show-trail-zeros"  checked={isFormatTraitSet(FormatTraits.TrailZeroes)} onChange={handleShowTrailingZeroesChange} />
+          <Checkbox data-testid="show-trail-zeros" checked={isFormatTraitSet(FormatTraits.TrailZeroes)} onChange={handleShowTrailingZeroesChange} />
 
           <span className={classnames("uicore-label", formatType === FormatType.Fractional && "uicore-disabled")}>{keepDecimalPointLabel.current}</span>
-          <Checkbox data-testid="keep-decimal-point"  checked={isFormatTraitSet(FormatTraits.KeepDecimalPoint)} onChange={handleKeepDecimalPointChange} />
+          <Checkbox data-testid="keep-decimal-point" checked={isFormatTraitSet(FormatTraits.KeepDecimalPoint)} onChange={handleKeepDecimalPointChange} />
 
           <span className={"uicore-label"}>{keepSingleZeroLabel.current}</span>
-          <Checkbox data-testid="keep-single-zero"  checked={isFormatTraitSet(FormatTraits.KeepSingleZero)} onChange={handleKeepSingleZeroChange} />
+          <Checkbox data-testid="keep-single-zero" checked={isFormatTraitSet(FormatTraits.KeepSingleZero)} onChange={handleKeepSingleZeroChange} />
 
           <span className={"uicore-label"}>{zeroEmptyLabel.current}</span>
-          <Checkbox data-testid="zero-empty"  checked={isFormatTraitSet(FormatTraits.ZeroEmpty)} onChange={handleZeroEmptyChange} />
+          <Checkbox data-testid="zero-empty" checked={isFormatTraitSet(FormatTraits.ZeroEmpty)} onChange={handleZeroEmptyChange} />
 
           <span className={classnames("uicore-label", formatType !== FormatType.Fractional && "uicore-disabled")}>{fractionDashLabel.current}</span>
-          <Checkbox data-testid="fraction-dash"  checked={isFormatTraitSet(FormatTraits.FractionDash)} onChange={handleUseFractionDashChange} disabled={formatType !== FormatType.Fractional} />
+          <Checkbox data-testid="fraction-dash" checked={isFormatTraitSet(FormatTraits.FractionDash)} onChange={handleUseFractionDashChange} disabled={formatType !== FormatType.Fractional} />
 
           <span className={classnames("uicore-label", formatType !== FormatType.Scientific && "uicore-disabled")}>{scientificTypeLabel.current}</span>
           <ScientificTypeSelector data-testid="scientific-type-selector" type={(formatProps.scientificType && formatProps.scientificType.length > 0) ? Format.parseScientificType(formatProps.scientificType, "custom") : ScientificType.Normalized}

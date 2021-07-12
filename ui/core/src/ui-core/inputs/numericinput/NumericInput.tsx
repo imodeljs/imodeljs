@@ -19,19 +19,22 @@ import { StepFunctionProp } from "../numberinput/NumberInput";
 // cSpell:ignore nostyle
 
 /** Properties for the [[NumericInput]] component
- * @beta @deprecated use NumberInput
+ * @beta
+ * @deprecated use NumberInput
  */
 export interface NumericInputProps extends Omit<ReactNumericInputProps, "step">, CommonProps {
   step?: StepFunctionProp;
 }
 
 /** Default properties of [[NumericInput]] component.
- * @internal @deprecated use NumberInput
+ * @internal
+ * @deprecated use NumberInput
  */
 export type NumericInputDefaultProps = Pick<NumericInputProps, "strict">;
 
 /** Numeric Input React component.
- * @beta @deprecated use NumberInput
+ * @beta
+ * @deprecated use NumberInput
  */
 export class NumericInput extends React.Component<NumericInputProps> {
 

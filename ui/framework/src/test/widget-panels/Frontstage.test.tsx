@@ -10,13 +10,13 @@ import produce from "immer";
 import { render } from "@testing-library/react";
 import { act, renderHook } from "@testing-library/react-hooks";
 import { Logger } from "@bentley/bentleyjs-core";
-import { AbstractWidgetProps, StagePanelLocation, UiItemsManager, UiItemsProvider, WidgetState } from "@bentley/ui-abstract";
+import { AbstractWidgetProps, StagePanelLocation, StagePanelSection, UiItemsManager, UiItemsProvider, WidgetState } from "@bentley/ui-abstract";
 import { Size, UiSettingsResult, UiSettingsStatus } from "@bentley/ui-core";
 import { addFloatingWidget, addPanelWidget, addTab, createDraggedTabState, createNineZoneState, NineZone, NineZoneState, toolSettingsTabId } from "@bentley/ui-ninezone";
 import {
   ActiveFrontstageDefProvider, addMissingWidgets, addPanelWidgets, addWidgets, CoreTools, expandWidget, Frontstage, FrontstageDef,
   FrontstageManager, FrontstageProvider, getWidgetId, initializeNineZoneState, initializePanel, isFrontstageStateSettingResult, ModalFrontstageComposer,
-  packNineZoneState, restoreNineZoneState, setWidgetState, showWidget, StagePanel, StagePanelDef, StagePanelSection, StagePanelState, StagePanelZoneDef, StagePanelZonesDef,
+  packNineZoneState, restoreNineZoneState, setWidgetState, showWidget, StagePanel, StagePanelDef, StagePanelState, StagePanelZoneDef, StagePanelZonesDef,
   UiSettingsProvider, useActiveModalFrontstageInfo, useFrontstageManager, useNineZoneDispatch, useNineZoneState, useSavedFrontstageState,
   useSaveFrontstageSettings, useSyncDefinitions, useUpdateNineZoneSize, Widget, WidgetDef, WidgetPanelsFrontstage, WidgetPanelsFrontstageState, Zone, ZoneDef,
 } from "../../ui-framework";

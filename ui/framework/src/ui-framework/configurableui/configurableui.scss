@@ -3,9 +3,14 @@
 * See LICENSE.md in the project root for license terms and full copyright notice.
 *--------------------------------------------------------------------------------------------*/
 @import "~@bentley/ui-core/lib/ui-core/base/base";
-@import "~@bentley/ui-core/lib/ui-core/style/typography";
+@import "~@bentley/ui-core/lib/ui-core/icons/variables";
+@import "~@bentley/ui-core/lib/ui-core/inputs/variables";
+@import "~@bentley/ui-core/lib/ui-core/style/themecolors";
+@import "~@bentley/ui-core/lib/ui-core/style/variables";
 @import "~@bentley/ui-core/lib/ui-core/z-index";
 @import "~@bentley/ui-ninezone/lib/ui-ninezone/footer/variables";
+@import "~@itwin/itwinui-css/scss/style/space";
+@import "~@itwin/itwinui-css/scss/style/typography";
 @import "../variables";
 
 #uifw-configurableui-wrapper {
@@ -15,7 +20,7 @@
   width: 100%;
   height: 100%;
   overflow: hidden;
-  font-size: $uicore-font-size;
+  font-size: $iui-font-size;
 }
 
 #uifw-frontstage-composer {
@@ -24,10 +29,6 @@
 }
 
 .uifw-unselectable {
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  -khtml-user-select: none;
   user-select: none;
 }
 
@@ -58,7 +59,7 @@
 
   >.uifw-element-tooltip {
     width: max-content;
-    font-size: $uicore-font-size;
+    font-size: $iui-font-size;
   }
 
   >.nz-popup-tooltip {
@@ -73,4 +74,50 @@
 
 .uifw-app-button-small {
   margin-bottom: 6px;
+}
+
+// Override some iTwinUI-css padding and minimums
+.iui-input {
+  min-height: $uicore-component-height-normal;
+  padding: $uicore-iui-input-padding;
+}
+
+.iui-select {
+  >.iui-select-button {
+    min-height: $uicore-component-height-normal;
+    padding-top: 2px;
+    padding-bottom: 2px;
+    padding-right: 24px;
+  }
+
+  >.iui-select-button::after {
+    right: 6px;
+  }
+}
+
+.iui-toggle-switch {
+  padding: 1px 0;
+}
+
+.iui-expandable-block {
+  > .iui-header {
+    padding: $iui-xs $iui-xs;
+
+    > .iui-icon {
+      width: $uicore-icons-x-small;
+      height: $uicore-icons-x-small;
+      margin-top: $iui-xs;
+    }
+  }
+
+  &.iui-expanded {
+    > .iui-content {
+      padding: 0;
+    }
+  }
+}
+
+.iui-toast {
+  margin: 0;
+  width: 100%;
 }

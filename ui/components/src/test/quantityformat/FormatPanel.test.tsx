@@ -9,7 +9,7 @@ import { render } from "@testing-library/react";
 import { IModelApp, MockRender } from "@bentley/imodeljs-frontend";
 import TestUtils from "../TestUtils";
 import { Format, FormatProps, FormatterSpec, FormatTraits, UnitProps, UnitsProvider } from "@bentley/imodeljs-quantity";
-import { Checkbox } from "@bentley/ui-core";
+import { Checkbox } from "@itwin/itwinui-react";
 import { FormatPanel, FormatPrecision, FormatSample } from "../../ui-components";
 
 function setFormatTrait(formatProps: FormatProps, trait: FormatTraits, setActive: boolean) {

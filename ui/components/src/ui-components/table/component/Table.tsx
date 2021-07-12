@@ -43,7 +43,7 @@ import { ReactDataGridColumn, TableColumn } from "./TableColumn";
 // https://github.com/Microsoft/TypeScript-Handbook/blob/master/pages/Modules.md#export--and-import--require
 import ReactDataGrid = require("react-data-grid");
 
-// cspell:ignore Overscan columnfiltering
+// cspell:ignore Overscan columnfiltering Dedupe popout
 
 const TABLE_ROW_HEIGHT = 27;
 const TABLE_FILTER_ROW_HEIGHT = 32;
@@ -115,9 +115,11 @@ export interface TableProps extends CommonProps {
   /** Specifies the selection mode. The default is Single. */
   selectionMode?: SelectionMode;
 
-  /** Callback for when properties are being edited @beta */
+  /** Callback for when properties are being edited
+   * @beta */
   onPropertyEditing?: (args: TableCellEditorState) => void;
-  /** Callback for when properties are updated @beta */
+  /** Callback for when properties are updated
+   * @beta */
   onPropertyUpdated?: (propertyArgs: PropertyUpdatedArgs, cellArgs: TableCellUpdatedArgs) => Promise<boolean>;
 
   /** @internal */
@@ -152,7 +154,8 @@ export interface TableProps extends CommonProps {
   /** @internal */
   onApplyFilter?: () => void;
 
-  /** Called to show a context menu when a cell is right-clicked. @beta */
+  /** Called to show a context menu when a cell is right-clicked.
+   * @beta */
   onCellContextMenu?: (args: TableCellContextMenuArgs) => void;
   /** Maximum number of distinct values for filtering */
   maximumDistinctValues?: number;
@@ -1679,6 +1682,7 @@ export class Table extends React.Component<TableProps, TableState> {
     const visibleColumns = this._getVisibleColumns();
     const tableClassName = classnames(
       "components-table",
+      "components-smallEditor-host",
       this.props.className,
       {
         "hide-header": this.props.hideHeader,

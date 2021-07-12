@@ -21,7 +21,7 @@ import "./tooluiproviders/Tool2UiProvider";
 import "./statusbars/AppStatusBar";
 import "./navigationaids/CubeExampleNavigationAid";
 import * as React from "react";
-import { BadgeType, FunctionKey, StagePanelLocation, StageUsage, WidgetState } from "@bentley/ui-abstract";
+import { BadgeType, FunctionKey, StagePanelLocation, StagePanelSection, StageUsage, WidgetState } from "@bentley/ui-abstract";
 import { FillCentered } from "@bentley/ui-core";
 import {
   AccuDrawCommandItems,
@@ -35,7 +35,6 @@ import {
   FrontstageManager,
   KeyboardShortcutManager,
   KeyboardShortcutProps,
-  StagePanelSection,
   TaskPropsList,
   UiFramework,
   WidgetDef,

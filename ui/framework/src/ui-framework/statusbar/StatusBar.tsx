@@ -8,8 +8,8 @@
 
 import "./StatusBar.scss";
 import * as React from "react";
-import { CommonDivProps, CommonProps, Div, MessageSeverity } from "@bentley/ui-core";
-import { Footer, Status } from "@bentley/ui-ninezone";
+import { CommonDivProps, CommonProps, Div } from "@bentley/ui-core";
+import { Footer } from "@bentley/ui-ninezone";
 import { ActivityMessageEventArgs, MessageAddedEventArgs, MessageManager } from "../messages/MessageManager";
 import { SafeAreaContext } from "../safearea/SafeAreaContext";
 import { UiShowHideManager } from "../utils/UiShowHideManager";
@@ -42,28 +42,6 @@ export interface StatusBarProps extends CommonProps {
  * @public
  */
 export class StatusBar extends React.Component<StatusBarProps, StatusBarState> {
-
-  public static severityToStatus(severity: MessageSeverity): Status {
-    let status = Status.Information;
-
-    switch (severity) {
-      case MessageSeverity.None:
-        status = Status.Success;
-        break;
-      case MessageSeverity.Information:
-        status = Status.Information;
-        break;
-      case MessageSeverity.Warning:
-        status = Status.Warning;
-        break;
-      case MessageSeverity.Error:
-      case MessageSeverity.Fatal:
-        status = Status.Error;
-        break;
-    }
-
-    return status;
-  }
 
   /** @internal */
   constructor(props: StatusBarProps) {

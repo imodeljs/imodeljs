@@ -11,7 +11,7 @@ import {
 } from "./demodataproviders/demoTableDataProvider";
 import { TreeDragTypes } from "./demodataproviders/demoTreeDataProvider";
 import { RowDragLayer } from "./draglayers/RowDragLayer";
-import { Checkbox } from "@bentley/ui-core";
+import { Checkbox } from "@itwin/itwinui-react";
 
 export class TableDemoWidgetControl extends WidgetControl {
   constructor(info: ConfigurableCreateInfo, options: any) {

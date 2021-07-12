@@ -9,12 +9,12 @@ import { IModelApp } from "@bentley/imodeljs-frontend";
 import { Presentation } from "@bentley/presentation-frontend";
 import { initialize as initializePresentationTesting, terminate as terminatePresentationTesting } from "@bentley/presentation-testing";
 import { WidgetState } from "@bentley/ui-abstract";
-import { fireEvent, render } from "@testing-library/react";
+import { render } from "@testing-library/react";
 import {
   ConfigurableCreateInfo, ConfigurableUiControlType, PresentationSelectionScope, SelectionScopeField, SessionStateActionId, StatusBar,
   StatusBarWidgetControl, StatusBarWidgetControlArgs, UiFramework, WidgetDef,
 } from "../../ui-framework";
-import TestUtils from "../TestUtils";
+import TestUtils, { handleError, selectChangeValueByText, stubScrollIntoView } from "../TestUtils";
 
 class AppStatusBarWidgetControl extends StatusBarWidgetControl {
   constructor(info: ConfigurableCreateInfo, options: any) {
@@ -57,7 +57,7 @@ describe("SelectionScopeField", () => {
     expect(component).not.to.be.undefined;
     const selectElement = component.getByTestId("components-selectionScope-selector") as HTMLSelectElement;
     expect(selectElement).not.to.be.null;
-    expect(selectElement.value).to.be.equal("element");
+    expect(UiFramework.getActiveSelectionScope()).to.be.equal("element");
   });
 
   it("SelectionScopeField with multiple scopes", async () => {
@@ -76,8 +76,8 @@ describe("SelectionScopeField", () => {
     expect(component).not.to.be.undefined;
     const selectElement = component.getByTestId("components-selectionScope-selector") as HTMLSelectElement;
     expect(selectElement).not.to.be.null;
-    expect(selectElement.value).to.be.equal("top-assembly");
-    expect(selectElement.selectedIndex).to.be.equal(2);
+    expect(UiFramework.getActiveSelectionScope()).to.be.equal("top-assembly");
+    // expect(selectElement.selectedIndex).to.be.equal(2);
   });
 });
 
@@ -112,7 +112,9 @@ describe("Test that requires Presentation", () => {
     await terminatePresentationTesting();
   });
 
-  it("SelectionScopeField with specific scopes", () => {
+  stubScrollIntoView();
+
+  it("SelectionScopeField with specific scopes", async () => {
     UiFramework.dispatchActionToStore(SessionStateActionId.SetAvailableSelectionScopes, [
       { id: "element", label: "Element" } as PresentationSelectionScope,
       { id: "assembly", label: "Assembly" } as PresentationSelectionScope,
@@ -128,15 +130,9 @@ describe("Test that requires Presentation", () => {
     expect(component).not.to.be.undefined;
     const selectElement = component.getByTestId("components-selectionScope-selector") as HTMLSelectElement;
     expect(selectElement).not.to.be.null;
-    expect(selectElement.value).to.be.equal("top-assembly");
-    expect(selectElement.selectedIndex).to.be.equal(2);
-    fireEvent.click(selectElement);
-
-    // Clicking on an option during test is not working - so trigger change instead
-    // const assemblyEntry = component.getByValue("assembly");
-    // fireEvent.select(assemblyEntry);
-    // fireEvent.click(assemblyEntry);
-    fireEvent.change(selectElement, { target: { value: "assembly" } });
-    expect(selectElement.selectedIndex).to.be.equal(1);
+    selectChangeValueByText(selectElement, "Assembly", handleError);
+    await TestUtils.flushAsyncOperations();
+    expect(UiFramework.getActiveSelectionScope()).to.be.equal("assembly");
+    // expect(selectElement.selectedIndex).to.be.equal(1);
   });
 });

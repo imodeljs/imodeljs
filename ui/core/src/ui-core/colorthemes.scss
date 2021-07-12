@@ -2,7 +2,7 @@
 * Copyright (c) Bentley Systems, Incorporated. All rights reserved.
 * See LICENSE.md in the project root for license terms and full copyright notice.
 *--------------------------------------------------------------------------------------------*/
-@import "./colorvariables.scss";
+@import "~@itwin/itwinui-css/scss/style/theme";
 
 // cspell:ignore colorvariables
 
@@ -11,79 +11,21 @@
  */
 
 @mixin light-theme {
-  --buic-background-1-rgb:            255, 255, 255;
-  --buic-background-2-rgb:            248, 249, 251;
-  --buic-background-3-rgb:            234, 237, 239;
-  --buic-background-4-rgb:            220, 224, 227;
-  --buic-background-5-rgb:            199, 204, 209;
+  --buic-button-gradient1:            rgba(var(--iui-color-foreground-body-invert-rgb), 0.65);
+  --buic-button-gradient2:            rgba(var(--iui-color-foreground-body-invert-rgb), 0.00);
 
-  --buic-background-tooltip:          rgba(199, 204, 209, 0.90);
-  --buic-background-scrollbar:        rgb(155, 165, 174);
-
-  --buic-foreground-body-rgb:         000, 000, 000;
-  --buic-foreground-body-reverse-rgb: 255, 255, 255;
-  --buic-foreground-body-gradient-rgb:010, 010, 010;
-
-  --buic-foreground-primary-rgb:      000, 139, 225;
-  --buic-foreground-primary-tone-rgb: 000, 128, 206;
-
-  --buic-foreground-accessory:        rgb(255, 255, 255);
-  --buic-foreground-success:          rgb(086, 169, 028);
-  --buic-foreground-alert:            rgb(211, 010, 010);
-  --buic-foreground-warning:          rgb(241, 139, 018);
-  --buic-foreground-primary-tint:     rgb(165, 215, 245);
-  --buic-foreground-success-tint:     rgb(195, 225, 175);
-  --buic-foreground-alert-tint:       rgb(239, 169, 169);
-  --buic-foreground-warning-tint:     rgb(249, 215, 171);
-
-  --buic-background-editable:         rgb(184, 221, 245);
-  --buic-row-selection:               rgb(204, 232, 249); // mix --buic-background-1-rgb, --buic-foreground-primary, 0.2 opacity
-  --buic-row-hover:                   rgb(229, 243, 252); // mix --buic-background-1-rgb, --buic-foreground-primary, 0.1 opacity
-
-  --buic-inputs-border:               rgba(128, 133, 136, 0.85);
-  --buic-inputs-boxshadow:            rgba(000, 000, 000, 0.075);
-  --buic-popup-boxshadow:             rgba(000, 000, 000, 0.075);
-
-  --buic-button-gradient1:            rgba(255, 255, 255, 0.65);
-  --buic-button-gradient2:            rgba(255, 255, 255, 0.00);
+  --buic-background-editable:         #{mix($iui-color-background-1--light, $iui-color-background-primary--light, 70%)};
+  --buic-row-selection:               #{mix($iui-color-background-1--light, $iui-color-background-primary--light, 80%)};
+  --buic-row-hover:                   #{mix($iui-color-background-1--light, $iui-color-background-primary--light, 90%)};
 }
 
 @mixin dark-theme {
-  --buic-background-1-rgb:            090, 105, 115;
-  --buic-background-2-rgb:            079, 093, 101;
-  --buic-background-3-rgb:            068, 080, 088;
-  --buic-background-4-rgb:            056, 068, 074;
-  --buic-background-5-rgb:            045, 055, 060;
+  --buic-button-gradient1:            rgba(var(--iui-color-foreground-body-invert-rgb), 0.00);
+  --buic-button-gradient2:            rgba(var(--iui-color-foreground-body-invert-rgb), 0.25);
 
-  --buic-background-tooltip:          rgba(045, 055, 060, 0.90);
-  --buic-background-scrollbar:        rgb(155, 165, 174);
-
-  --buic-foreground-body-rgb:         255, 255, 255;
-  --buic-foreground-body-reverse-rgb: 000, 000, 000;
-  --buic-foreground-body-gradient-rgb:245, 245, 245;
-
-  --buic-foreground-primary-rgb:      165, 215, 245;
-  --buic-foreground-primary-tone-rgb: 69, 165, 224;
-
-  --buic-foreground-accessory:        rgb(255, 255, 255);
-  --buic-foreground-success:          rgb(153, 224, 105);
-  --buic-foreground-alert:            rgb(236, 111, 111);
-  --buic-foreground-warning:          rgb(235, 177, 101);
-  --buic-foreground-primary-tint:     rgb(165, 215, 245);
-  --buic-foreground-success-tint:     rgb(195, 225, 175);
-  --buic-foreground-alert-tint:       rgb(239, 169, 169);
-  --buic-foreground-warning-tint:     rgb(249, 215, 171);
-
-  --buic-background-editable:         rgb(112, 138, 155);
-  --buic-row-selection:               rgb(105, 127, 141); // mix --buic-background-1-rgb, --buic-foreground-primary, 0.2 opacity
-  --buic-row-hover:                   rgb(098, 116, 128); // mix --buic-background-1-rgb, --buic-foreground-primary, 0.1 opacity
-
-  --buic-inputs-border:               rgba(199, 204, 209, 0.85);
-  --buic-inputs-boxshadow:            rgba(199, 204, 209, 0.075);
-  --buic-popup-boxshadow:             rgba(199, 204, 209, 0.075);
-
-  --buic-button-gradient1:            rgba(0, 0, 0, 0.00);
-  --buic-button-gradient2:            rgba(0, 0, 0, 0.25);
+  --buic-background-editable:         #{mix($iui-color-background-1--dark, $iui-color-background-primary--dark, 70%)};
+  --buic-row-selection:               #{mix($iui-color-background-1--dark, $iui-color-background-primary--dark, 80%)};
+  --buic-row-hover:                   #{mix($iui-color-background-1--dark, $iui-color-background-primary--dark, 90%)};
 }
 
 html,

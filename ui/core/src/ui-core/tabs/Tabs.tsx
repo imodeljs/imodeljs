@@ -27,11 +27,11 @@ export interface TabLabel {
   disabled?: boolean;
 }
 
-function isTabLabelWithIcon(item: string|TabLabel): item is TabLabel {
-  return (typeof item !== "string") && !!(item ).icon;
+function isTabLabelWithIcon(item: string | TabLabel): item is TabLabel {
+  return (typeof item !== "string") && !!(item).icon;
 }
 
-function isTabLabel(item: string|TabLabel): item is TabLabel {
+function isTabLabel(item: string | TabLabel): item is TabLabel {
   return (typeof item !== "string");
 }
 
@@ -39,8 +39,9 @@ function isTabLabel(item: string|TabLabel): item is TabLabel {
  * @public
  */
 export interface TabsProps extends React.AllHTMLAttributes<HTMLUListElement>, CommonProps {
-  /** Text shown for each tab @beta */
-  labels: Array <string|TabLabel>;
+  /** Text shown for each tab
+   * @beta */
+  labels: Array<string | TabLabel>;
   /** Handler for activating a tab */
   onActivateTab?: (index: number) => any;
   /** Index of the initial active tab */
@@ -168,7 +169,7 @@ export class Tabs extends React.PureComponent<MainTabsProps, TabsState> {
       this.props.className,
     );
 
-    const anyIconsPresent = (this.props.labels.reduce ((a, b) => a + (isTabLabelWithIcon(b) ? 1 : 0), 0)) > 0;
+    const anyIconsPresent = (this.props.labels.reduce((a, b) => a + (isTabLabelWithIcon(b) ? 1 : 0), 0)) > 0;
 
     return (
       <ul className={ulClassNames} style={this.props.style}
@@ -177,13 +178,13 @@ export class Tabs extends React.PureComponent<MainTabsProps, TabsState> {
       >
         {this.props.labels.map((label, index) => {
           let disabled;
-          let tooltipElement: JSX.Element|undefined;
-          let title: string|undefined;
-          let subLabel: string|undefined;
+          let tooltipElement: JSX.Element | undefined;
+          let title: string | undefined;
+          let subLabel: string | undefined;
           let tabId = "";
           let icon;
           if (isTabLabel(label)) {
-            icon = IconHelper.getIconReactNode (label.icon);
+            icon = IconHelper.getIconReactNode(label.icon);
             subLabel = label.subLabel;
             disabled = label.disabled;
             tabId = label.tabId;

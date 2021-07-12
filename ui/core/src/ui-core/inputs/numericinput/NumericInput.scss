@@ -3,6 +3,11 @@
 * See LICENSE.md in the project root for license terms and full copyright notice.
 *--------------------------------------------------------------------------------------------*/
 @import "../variables";
+@import "../../style/opacity";
+@import "../../style/variables";
+@import "~@itwin/itwinui-css/scss/style/speed";
+@import "~@itwin/itwinui-css/scss/style/typography";
+@import "~@itwin/itwinui-css/scss/style/variables";
 
 .core-numeric-input {
 
@@ -14,17 +19,18 @@
       width:                  100% !important;
       padding:                $uicore-inputs-padding-bordered $uicore-bordered-padding !important;
       margin:                 0 0 !important;
-      font-family:            $uicore-font-family !important;
-      font-size:              $uicore-font-size !important;
+      font-family:            $iui-font-family !important;
+      font-size:              $iui-font-size !important;
       line-height:            normal !important;
       color:                  $buic-text-color !important;
       background-color:       $buic-background-control !important;
       background-image:       none !important;
       border:                 1px solid $buic-inputs-border !important;
-      border-radius:          $uicore-border-radius !important;
+      border-radius:          $iui-border-radius !important;
       box-shadow:             $buic-inputs-boxshadow 0px 1px 1px inset !important;
       box-sizing:             border-box;
-      transition:             border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out !important;
+      transition:             border-color $iui-speed-fast ease-in-out, box-shadow $iui-speed-fast ease-in-out !important;
+      min-height:             $uicore-component-height-normal;
 
       &:-ms-input-placeholder {       color: $buic-foreground-disabled; }
       &::-webkit-input-placeholder {  color: $buic-foreground-disabled; }
@@ -48,7 +54,7 @@
       &:focus {
         border-color:       $buic-foreground-focus-border !important;
         outline:            0px !important;
-        box-shadow:         $uicore-inputs-focus-gradient !important;
+        box-shadow:         $uicore-inputs-focus-boxshadow !important;
       }
 
     }

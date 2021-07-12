@@ -3,11 +3,11 @@
 * See LICENSE.md in the project root for license terms and full copyright notice.
 *--------------------------------------------------------------------------------------------*/
 @import "~@bentley/ui-core/lib/ui-core/style/breakpoints";
-@import "~@bentley/ui-core/lib/ui-core/style/typography";
+@import "~@itwin/itwinui-css/scss/style/typography";
 
 .uifw-tile-loading-bar {
-  $font-size-medium: $uicore-font-size-small;
-  $font-size-small: $uicore-font-size-smaller;
+  $font-size-medium: $iui-font-size-small;
+  $font-size-small: $iui-font-size-small - 1px;
 
   transition: opacity 1s ease-in;
   opacity: 0;
@@ -21,9 +21,8 @@
     position: relative;
   }
 
-  > .core-lb {
+  > .iui-progress-indicator-linear {
     width: 100%;
-    height: 100%;
     flex: 1;
   }
 

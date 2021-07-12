@@ -1,54 +1,61 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`<Button /> disabled renders correctly 1`] = `
-<button
-  className="uicore-buttons-primary"
+<ForwardRef
   disabled={true}
+  size="small"
+  styleType="cta"
 >
   Label
-</button>
+</ForwardRef>
 `;
 
 exports[`<Button /> renders correctly 1`] = `
-<button
-  className="uicore-buttons-primary"
+<ForwardRef
+  size="small"
+  styleType="cta"
 />
 `;
 
 exports[`<Button /> should render blue 1`] = `
-<button
-  className="uicore-buttons-blue"
+<ForwardRef
+  size="small"
+  styleType="high-visibility"
 />
 `;
 
 exports[`<Button /> should render disabled 1`] = `
-<button
-  className="uicore-buttons-disabled"
+<ForwardRef
+  size="small"
+  styleType="cta"
 />
 `;
 
 exports[`<Button /> should render hollow 1`] = `
-<button
-  className="uicore-buttons-hollow"
+<ForwardRef
+  size="small"
+  styleType="default"
 />
 `;
 
 exports[`<Button /> should render large 1`] = `
-<button
-  className="uicore-buttons-primary-large"
+<ForwardRef
+  styleType="cta"
 />
 `;
 
 exports[`<Button /> should render primary 1`] = `
-<button
-  className="uicore-buttons-primary"
+<ForwardRef
+  size="small"
+  styleType="cta"
 />
 `;
 
 exports[`<Button /> with children renders correctly 1`] = `
-<button
-  className="uicore-buttons-primary"
+<ForwardRef
+  size="small"
+  styleType="cta"
 >
   children
-</button>
+</ForwardRef>
 `;

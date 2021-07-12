@@ -2,9 +2,9 @@
 * Copyright (c) Bentley Systems, Incorporated. All rights reserved.
 * See LICENSE.md in the project root for license terms and full copyright notice.
 *--------------------------------------------------------------------------------------------*/
-@import "~@bentley/ui-core/lib/ui-core/button/primary";
 @import "~@bentley/ui-core/lib/ui-core/icons/variables";
 @import "~@bentley/ui-core/lib/ui-core/scrollbar";
+@import "~@itwin/itwinui-css/scss/style/typography";
 
 .cards-content {
   height: 100%;
@@ -95,7 +95,6 @@
 		flex-direction: column;
 
 		> button {
-			@include uicore-buttons-primary;
 			margin-top: 1em;
 		}
 	}
@@ -134,7 +133,7 @@
     font-weight: 500;
     text-align: left;
     padding: .75em;
-    font-size: $uicore-font-size-leading;
+    font-size: $iui-font-size-leading;
     color: dimgray;
     background: $buic-background-table-header;
   }
@@ -142,7 +141,7 @@
   td {
     text-align: left;
     padding: .75em;
-    font-size: $uicore-font-size;
+    font-size: $iui-font-size;
     color: dimgray;
   }
 

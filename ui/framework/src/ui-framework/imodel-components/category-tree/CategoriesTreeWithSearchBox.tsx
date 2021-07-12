@@ -14,7 +14,8 @@ import { IPresentationTreeDataProvider } from "@bentley/presentation-components"
 import { FilteringInput } from "@bentley/ui-components";
 import { CategoryTree, CategoryTreeProps, toggleAllCategories } from "./CategoriesTree";
 
-/** @internal @deprecated */
+/** @internal
+ * @deprecated */
 export interface CategoryTreeWithSearchBoxProps extends CategoryTreeProps {
   showSearchBox?: boolean;
   showAll?: BeUiEvent<void>;
@@ -22,7 +23,8 @@ export interface CategoryTreeWithSearchBoxProps extends CategoryTreeProps {
 }
 
 /**
- * @internal @deprecated for backwards compatibility with visibility widget
+ * @internal
+ * @deprecated for backwards compatibility with visibility widget
  */
 export function CategoryTreeWithSearchBox(props: CategoryTreeWithSearchBoxProps) { // eslint-disable-line deprecation/deprecation
   const { showSearchBox, showAll, hideAll, ...strippedProps } = props;

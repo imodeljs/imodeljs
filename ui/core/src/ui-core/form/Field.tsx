@@ -7,10 +7,7 @@
  */
 
 import * as React from "react";
-import { Checkbox } from "../checkbox/Checkbox";
-import { Input } from "../inputs/Input";
-import { Textarea } from "../inputs/Textarea";
-import { Select } from "../select/Select";
+import { Checkbox, Input, Select, SelectOption, Textarea } from "@itwin/itwinui-react";
 import { FieldDef, FormContext, FormContextState } from "./Form";
 
 // cSpell:ignore multilinetextbox
@@ -23,6 +20,8 @@ export interface FieldProps extends FieldDef {
   id: string;
 }
 
+type FieldDefOptions = FieldDef["options"];
+
 /** Component that represents a single field in an input form. Only four type of editors are supported. Field gets/sets state data from/to the context control by the form.
  * @beta
  */
@@ -31,7 +30,25 @@ export class Field extends React.Component<FieldProps> {
     super(props);
   }
 
+  private _generateSelectOptions = (propOptions: FieldDefOptions): SelectOption<string>[] => {
+    let selectOptions: SelectOption<string>[] = [];
+
+    if (propOptions instanceof Array) {
+      selectOptions = propOptions.map((option: string) => (
+        { value: option, label: option }
+      ));
+    } else if (propOptions !== undefined) {
+      selectOptions = Object.keys(propOptions).map((key) => (
+        { value: key, label: propOptions[key] }
+      ));
+    }
+
+    return selectOptions;
+  };
+
   public override render() {
+    const selectOptions = this._generateSelectOptions(this.props.options);
+
     return (
       <FormContext.Consumer>
         {(context: FormContextState | undefined) => (
@@ -42,7 +59,7 @@ export class Field extends React.Component<FieldProps> {
               <Input
                 id={this.props.id}
                 value={context!.values[this.props.id]}
-                onChange={(event) => context!.setValues({ [this.props.id]: event.currentTarget.value })}
+                onChange={(event: React.ChangeEvent<HTMLInputElement>) => context!.setValues({ [this.props.id]: event.currentTarget.value })}
                 className="core-form-input"
               />
             )}
@@ -58,17 +75,17 @@ export class Field extends React.Component<FieldProps> {
               <Textarea
                 id={this.props.id}
                 value={context!.values[this.props.id]}
-                onChange={(event) => context!.setValues({ [this.props.id]: event.currentTarget.value })}
+                onChange={(event: React.ChangeEvent<HTMLTextAreaElement>) => context!.setValues({ [this.props.id]: event.currentTarget.value })}
                 className="core-form-textarea"
               />
             )}
             {this.props.editor!.toLowerCase() === "dropdown" && this.props.options && (
               <Select
                 id={this.props.id}
-                name={this.props.id}
+                // name={this.props.id}
                 value={context!.values[this.props.id]}
-                onChange={(event) => context!.setValues({ [this.props.id]: event.currentTarget.value })}
-                options={this.props.options}
+                onChange={(newValue: any) => context!.setValues({ [this.props.id]: newValue })}
+                options={selectOptions}
                 className="core-form-select"
               />
             )}

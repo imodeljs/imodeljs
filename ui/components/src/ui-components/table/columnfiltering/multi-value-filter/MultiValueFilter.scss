@@ -3,21 +3,21 @@
 * See LICENSE.md in the project root for license terms and full copyright notice.
 *--------------------------------------------------------------------------------------------*/
 @import "~@bentley/ui-core/lib/ui-core/base/base";
-@import "~@bentley/ui-core/lib/ui-core/style/space";
+@import "~@itwin/itwinui-css/scss/style/space";
 
 .components-multi-value-buttons {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
-  column-gap: $uicore-s;
-  margin-top: $uicore-s;
+  column-gap: $iui-s;
+  margin-top: $iui-s;
 }
 
 .components-multi-value-filter-selectAll {
-  margin-bottom: $uicore-xs;
+  margin-bottom: $iui-xs;
 }
 
 .components-multi-value-filter-searchbox {
-  margin-bottom: $uicore-s;
+  margin-bottom: $iui-s;
 
   > .core-searchbox {
     width: 100%;

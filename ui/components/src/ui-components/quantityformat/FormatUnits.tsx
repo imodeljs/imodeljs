@@ -7,8 +7,9 @@
  */
 
 import * as React from "react";
-import { CommonProps, Input } from "@bentley/ui-core";
+import { CommonProps } from "@bentley/ui-core";
 import { FormatProps, UnitProps, UnitsProvider } from "@bentley/imodeljs-quantity";
+import { Input } from "@itwin/itwinui-react";
 import { UnitDescr } from "./misc/UnitDescr";
 import { UiComponents } from "../UiComponents";
 
@@ -73,7 +74,7 @@ export function FormatUnits(props: FormatUnitsProps) {
     } else if (unitParts[0] === "ADDSUBUNIT") {
       const units = formatProps.composite && formatProps.composite.units.length ?
         [...formatProps.composite.units, { name: unitParts[1], label: unitParts[2] }] :
-        /* istanbul ignore next*/ [{ name: unitParts[1], label: unitParts[2] }];
+        /* istanbul ignore next*/[{ name: unitParts[1], label: unitParts[2] }];
       const composite = { ...formatProps.composite, units };
       const newFormatProps = { ...formatProps, composite };
       handleSetFormatProps(newFormatProps);
@@ -108,7 +109,7 @@ export function FormatUnits(props: FormatUnitsProps) {
     }
   }, [formatProps, handleSetFormatProps]);
 
-  const compositeSpacer = React.useRef (UiComponents.translate("QuantityFormat.labels.compositeSpacer"));
+  const compositeSpacer = React.useRef(UiComponents.translate("QuantityFormat.labels.compositeSpacer"));
 
   return (
     <>

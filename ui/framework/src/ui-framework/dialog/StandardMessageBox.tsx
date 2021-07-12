@@ -8,8 +8,9 @@
 
 import * as React from "react";
 import { MessageBoxIconType, MessageBoxType, MessageBoxValue } from "@bentley/imodeljs-frontend";
-import { CommonProps, DialogButtonDef, DialogButtonType, MessageBox, MessageSeverity } from "@bentley/ui-core";
+import { CommonProps, MessageBox, MessageSeverity } from "@bentley/ui-core";
 import { ModalDialogManager } from "./ModalDialogManager";
+import { DialogButtonDef, DialogButtonType } from "@bentley/ui-abstract";
 
 /** Properties for [[StandardMessageBox]] React component
  * @public

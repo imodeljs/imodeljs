@@ -11,8 +11,8 @@ import { PropsHelper } from "../utils/PropsHelper";
 import { BackstageItemProps, BackstageItemState } from "./BackstageItemProps";
 
 /** Used to specify the item type added to the backstage menu.
- * Deprecated - Use [BackstageItemType]($ui-abstract) in bentley/ui-abstract instead.
- * @beta @deprecated Use BackstageItemType in bentley/ui-abstract instead
+ * @beta
+ * @deprecated Use [BackstageItemType]($ui-abstract) in bentley/ui-abstract instead
  */
 export enum BackstageItemType {
   /** Item that executes an action function */
@@ -22,16 +22,16 @@ export enum BackstageItemType {
 }
 
 /** Describes the data needed to insert an action button into the backstage menu.
- * Deprecated - Use [BackstageActionItem]($ui-abstract) in bentley/ui-abstract instead.
- * @beta @deprecated Use BackstageActionItem in bentley/ui-abstract instead
+ * @beta
+ * @deprecated Use [BackstageActionItem]($ui-abstract) in bentley/ui-abstract instead
  */
 export interface BackstageActionItem extends UIA_BackstageActionItem {
   readonly type: BackstageItemType.ActionItem; // eslint-disable-line deprecation/deprecation
 }
 
 /** Describes the data needed to insert an action button into the backstage menu.
- * Deprecated - Use [BackstageStageLauncher]($ui-abstract) in bentley/ui-abstract instead.
- * @beta @deprecated Use BackstageStageLauncher in bentley/ui-abstract instead
+ * @beta
+ * @deprecated Use [BackstageStageLauncher]($ui-abstract) in bentley/ui-abstract instead
  */
 export interface BackstageStageLauncher extends UIA_BackstageStageLauncher {
   readonly type: BackstageItemType.StageLauncher; // eslint-disable-line deprecation/deprecation
@@ -42,7 +42,8 @@ export interface BackstageStageLauncher extends UIA_BackstageStageLauncher {
  */
 export class BackstageItemUtilities {
   /** Creates a stage launcher backstage item
-   * @beta @deprecated Use BackstageItemUtilities.createStageLauncher in bentley/ui-abstract instead
+   * @beta
+   * @deprecated Use BackstageItemUtilities.createStageLauncher in bentley/ui-abstract instead
    */
   public static createStageLauncher = (frontstageId: string, groupPriority: number, itemPriority: number, label: string, subtitle?: string, iconSpec?: string, overrides?: Partial<BackstageStageLauncher>): BackstageStageLauncher => ({ // eslint-disable-line deprecation/deprecation
     groupPriority,
@@ -57,7 +58,8 @@ export class BackstageItemUtilities {
   });
 
   /** Creates an action backstage item
-   * @beta @deprecated Use BackstageItemUtilities.createActionItem in bentley/ui-abstract instead
+   * @beta
+   * @deprecated Use BackstageItemUtilities.createActionItem in bentley/ui-abstract instead
    */
   public static createActionItem = (itemId: string, groupPriority: number, itemPriority: number, execute: () => void, label: string, subtitle?: string, iconSpec?: string, overrides?: Partial<BackstageActionItem>): BackstageActionItem => ({ // eslint-disable-line deprecation/deprecation
     execute,

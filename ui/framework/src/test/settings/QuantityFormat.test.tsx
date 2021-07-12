@@ -8,7 +8,7 @@ import * as sinon from "sinon";
 import * as React from "react";
 import { fireEvent, render } from "@testing-library/react";
 import { IModelApp, MockRender, QuantityType, QuantityTypeKey, UnitSystemKey } from "@bentley/imodeljs-frontend";
-import TestUtils from "../TestUtils";
+import TestUtils, { getButtonWithText, handleError, selectChangeValueByText, stubScrollIntoView } from "../TestUtils";
 // import { getQuantityFormatsSettingsManagerEntry, ModalDialogRenderer} from "../../ui-framework";
 import { Presentation, PresentationManager } from "@bentley/presentation-frontend";
 import { PresentationUnitSystem } from "@bentley/presentation-common";
@@ -36,7 +36,7 @@ describe("QuantityFormatSettingsPage", () => {
   });
 
   beforeEach(async () => {
-    await IModelApp.quantityFormatter.reinitializeFormatAndParsingsMaps (new Map<UnitSystemKey, Map<QuantityTypeKey, FormatProps>>(), "imperial" );
+    await IModelApp.quantityFormatter.reinitializeFormatAndParsingsMaps(new Map<UnitSystemKey, Map<QuantityTypeKey, FormatProps>>(), "imperial");
     presentationManagerMock = mockPresentationManager().presentationManager;
     presentationManagerMock.setup((x) => x.activeUnitSystem).returns(() => PresentationUnitSystem.BritishImperial);
     Presentation.setPresentationManager(presentationManagerMock.object);
@@ -46,9 +46,11 @@ describe("QuantityFormatSettingsPage", () => {
     sandbox.restore();
   });
 
+  stubScrollIntoView();
+
   it("will handle internal unit system change", async () => {
-    const settingsEntry = getQuantityFormatsSettingsManagerEntry (10 );
-    expect (settingsEntry.itemPriority).to.eql(10);
+    const settingsEntry = getQuantityFormatsSettingsManagerEntry(10);
+    expect(settingsEntry.itemPriority).to.eql(10);
 
     const unitSystemSpy = sandbox.spy();
 
@@ -60,34 +62,39 @@ describe("QuantityFormatSettingsPage", () => {
     const selectButton = wrapper.getByTestId("unitSystemSelector");
 
     // initial unit system value should be imperial so no change expected for initial change.
-    fireEvent.change(selectButton, { target: { value: "imperial" } });
-    expect (unitSystemSpy.calledOnce).to.be.false;
+    // fireEvent.change(selectButton, { target: { value: "imperial" } });
+    selectChangeValueByText(selectButton, "presentationUnitSystem.BritishImperial", handleError);
+    expect(unitSystemSpy.calledOnce).to.be.false;
 
-    fireEvent.change(selectButton, { target: { value: "metric" } });
-    expect (unitSystemSpy.calledOnce).to.be.true;
+    // fireEvent.change(selectButton, { target: { value: "metric" } });
+    selectChangeValueByText(selectButton, "presentationUnitSystem.Metric", handleError);
+    expect(unitSystemSpy.calledOnce).to.be.true;
     unitSystemSpy.resetHistory();
     await TestUtils.flushAsyncOperations();
 
-    fireEvent.change(selectButton, { target: { value: "usCustomary" } });
-    expect (unitSystemSpy.calledOnce).to.be.true;
+    // fireEvent.change(selectButton, { target: { value: "usCustomary" } });
+    selectChangeValueByText(selectButton, "presentationUnitSystem.USCustomary", handleError);
+    expect(unitSystemSpy.calledOnce).to.be.true;
     unitSystemSpy.resetHistory();
     await TestUtils.flushAsyncOperations();
 
-    fireEvent.change(selectButton, { target: { value: "usSurvey" } });
-    expect (unitSystemSpy.calledOnce).to.be.true;
+    // fireEvent.change(selectButton, { target: { value: "usSurvey" } });
+    selectChangeValueByText(selectButton, "presentationUnitSystem.USSurvey", handleError);
+    expect(unitSystemSpy.calledOnce).to.be.true;
     unitSystemSpy.resetHistory();
     await TestUtils.flushAsyncOperations();
 
-    fireEvent.change(selectButton, { target: { value: "imperial" } });
-    expect (unitSystemSpy.calledOnce).to.be.true;
+    // fireEvent.change(selectButton, { target: { value: "imperial" } });
+    selectChangeValueByText(selectButton, "presentationUnitSystem.BritishImperial", handleError);
+    expect(unitSystemSpy.calledOnce).to.be.true;
     await TestUtils.flushAsyncOperations();
 
     wrapper.unmount();
   });
 
   it("will listen for external unit system changes", async () => {
-    const settingsEntry = getQuantityFormatsSettingsManagerEntry (10, {initialQuantityType:QuantityType.Length } );
-    expect (settingsEntry.itemPriority).to.eql(10);
+    const settingsEntry = getQuantityFormatsSettingsManagerEntry(10, { initialQuantityType: QuantityType.Length });
+    expect(settingsEntry.itemPriority).to.eql(10);
 
     const unitSystemSpy = sandbox.spy();
 
@@ -99,7 +106,7 @@ describe("QuantityFormatSettingsPage", () => {
     await TestUtils.flushAsyncOperations();
 
     const exampleFormat = wrapper.getByTestId("format-sample-formatted");
-    expect (exampleFormat.textContent).to.eql("1234.56 m");
+    expect(exampleFormat.textContent).to.eql("1234.56 m");
 
     wrapper.unmount();
   });
@@ -108,8 +115,8 @@ describe("QuantityFormatSettingsPage", () => {
     await IModelApp.quantityFormatter.setActiveUnitSystem("imperial", false);
 
     const availableUnitSystems = new Set<UnitSystemKey>(["metric", "imperial", "usSurvey"]);
-    const settingsEntry = getQuantityFormatsSettingsManagerEntry (10, {initialQuantityType:QuantityType.LengthEngineering, availableUnitSystems } );
-    expect (settingsEntry.itemPriority).to.eql(10);
+    const settingsEntry = getQuantityFormatsSettingsManagerEntry(10, { initialQuantityType: QuantityType.LengthEngineering, availableUnitSystems });
+    expect(settingsEntry.itemPriority).to.eql(10);
 
     const wrapper = render(settingsEntry.page);
     await TestUtils.flushAsyncOperations();
@@ -130,17 +137,17 @@ describe("QuantityFormatSettingsPage", () => {
 
   it("save prop changes", async () => {
     const availableUnitSystems = new Set<UnitSystemKey>(["metric", "imperial", "usSurvey"]);
-    const settingsEntry = getQuantityFormatsSettingsManagerEntry (10, {initialQuantityType:QuantityType.LengthEngineering, availableUnitSystems } );
-    expect (settingsEntry.itemPriority).to.eql(10);
+    const settingsEntry = getQuantityFormatsSettingsManagerEntry(10, { initialQuantityType: QuantityType.LengthEngineering, availableUnitSystems });
+    expect(settingsEntry.itemPriority).to.eql(10);
 
     const wrapper = render(<div>
       <ModalDialogRenderer />
       {settingsEntry.page}
     </div>);
 
-    const setButton = wrapper.container.querySelector(".uicore-buttons-blue");
+    const setButton = getButtonWithText(wrapper.container, "settings.quantity-formatting.setButtonLabel", handleError);
     expect(setButton!.hasAttribute("disabled")).to.be.true;
-    const clearButton = wrapper.container.querySelector(".uicore-buttons-hollow");
+    const clearButton = getButtonWithText(wrapper.container, "settings.quantity-formatting.clearButtonLabel", handleError);
     expect(clearButton!.hasAttribute("disabled")).to.be.true;
 
     const checkbox = wrapper.getByTestId("show-unit-label-checkbox");
@@ -161,17 +168,17 @@ describe("QuantityFormatSettingsPage", () => {
 
   it("will trigger modal and save prop changes", async () => {
     const availableUnitSystems = new Set<UnitSystemKey>(["metric", "imperial", "usSurvey"]);
-    const settingsEntry = getQuantityFormatsSettingsManagerEntry (10, {initialQuantityType:QuantityType.LengthEngineering, availableUnitSystems } );
-    expect (settingsEntry.itemPriority).to.eql(10);
+    const settingsEntry = getQuantityFormatsSettingsManagerEntry(10, { initialQuantityType: QuantityType.LengthEngineering, availableUnitSystems });
+    expect(settingsEntry.itemPriority).to.eql(10);
 
     const wrapper = render(<div>
       <ModalDialogRenderer />
       {settingsEntry.page}
     </div>);
 
-    const setButton = wrapper.container.querySelector(".uicore-buttons-blue");
+    const setButton = getButtonWithText(wrapper.container, "settings.quantity-formatting.setButtonLabel", handleError);
     expect(setButton!.hasAttribute("disabled")).to.be.true;
-    const clearButton = wrapper.container.querySelector(".uicore-buttons-hollow");
+    const clearButton = getButtonWithText(wrapper.container, "settings.quantity-formatting.clearButtonLabel", handleError);
     expect(clearButton!.hasAttribute("disabled")).to.be.true;
 
     const checkbox = wrapper.getByTestId("show-unit-label-checkbox");
@@ -186,7 +193,7 @@ describe("QuantityFormatSettingsPage", () => {
     fireEvent.click(categoryEntry!);
     await TestUtils.flushAsyncOperations();
 
-    const yesButton = wrapper.container.querySelector("button.dialog-button-yes.uicore-buttons-primary");
+    const yesButton = wrapper.container.querySelector("button.dialog-button-yes");
     fireEvent.click(yesButton!);
     await TestUtils.flushAsyncOperations();
     wrapper.unmount();
@@ -194,17 +201,17 @@ describe("QuantityFormatSettingsPage", () => {
 
   it("will trigger modal and don't save prop changes", async () => {
     const availableUnitSystems = new Set<UnitSystemKey>(["metric", "imperial", "usSurvey"]);
-    const settingsEntry = getQuantityFormatsSettingsManagerEntry (10, {initialQuantityType:QuantityType.LengthEngineering, availableUnitSystems } );
-    expect (settingsEntry.itemPriority).to.eql(10);
+    const settingsEntry = getQuantityFormatsSettingsManagerEntry(10, { initialQuantityType: QuantityType.LengthEngineering, availableUnitSystems });
+    expect(settingsEntry.itemPriority).to.eql(10);
 
     const wrapper = render(<div>
       <ModalDialogRenderer />
       {settingsEntry.page}
     </div>);
 
-    const setButton = wrapper.container.querySelector(".uicore-buttons-blue");
+    const setButton = getButtonWithText(wrapper.container, "settings.quantity-formatting.setButtonLabel", handleError);
     expect(setButton!.hasAttribute("disabled")).to.be.true;
-    const clearButton = wrapper.container.querySelector(".uicore-buttons-hollow");
+    const clearButton = getButtonWithText(wrapper.container, "settings.quantity-formatting.clearButtonLabel", handleError);
     expect(clearButton!.hasAttribute("disabled")).to.be.true;
     await TestUtils.flushAsyncOperations();
 
@@ -220,7 +227,7 @@ describe("QuantityFormatSettingsPage", () => {
     fireEvent.click(categoryEntry!);
     await TestUtils.flushAsyncOperations();
 
-    const noButton = wrapper.container.querySelector("button.dialog-button-no.uicore-buttons-hollow");
+    const noButton = wrapper.container.querySelector("button.dialog-button-no");
     fireEvent.click(noButton!);
     await TestUtils.flushAsyncOperations();
 
@@ -229,17 +236,17 @@ describe("QuantityFormatSettingsPage", () => {
 
   it("will trigger modal by event from settings manager and don't save prop changes", async () => {
     const availableUnitSystems = new Set<UnitSystemKey>(["metric", "imperial", "usSurvey"]);
-    const settingsEntry = getQuantityFormatsSettingsManagerEntry (10, {initialQuantityType:QuantityType.LengthEngineering, availableUnitSystems } );
-    expect (settingsEntry.itemPriority).to.eql(10);
+    const settingsEntry = getQuantityFormatsSettingsManagerEntry(10, { initialQuantityType: QuantityType.LengthEngineering, availableUnitSystems });
+    expect(settingsEntry.itemPriority).to.eql(10);
 
     const wrapper = render(<div>
       <ModalDialogRenderer />
       {settingsEntry.page}
     </div>);
 
-    const setButton = wrapper.container.querySelector(".uicore-buttons-blue");
+    const setButton = getButtonWithText(wrapper.container, "settings.quantity-formatting.setButtonLabel", handleError);
     expect(setButton!.hasAttribute("disabled")).to.be.true;
-    const clearButton = wrapper.container.querySelector(".uicore-buttons-hollow");
+    const clearButton = getButtonWithText(wrapper.container, "settings.quantity-formatting.clearButtonLabel", handleError);
     expect(clearButton!.hasAttribute("disabled")).to.be.true;
     await TestUtils.flushAsyncOperations();
 
@@ -249,10 +256,10 @@ describe("QuantityFormatSettingsPage", () => {
 
     expect(setButton!.hasAttribute("disabled")).to.be.false;
 
-    UiFramework.settingsManager.onProcessSettingsTabActivation.emit ({requestedSettingsTabId: "unknown", tabSelectionFunc: ()=>{}});
+    UiFramework.settingsManager.onProcessSettingsTabActivation.emit({ requestedSettingsTabId: "unknown", tabSelectionFunc: () => { } });
     await TestUtils.flushAsyncOperations();
 
-    const noButton = wrapper.container.querySelector("button.dialog-button-no.uicore-buttons-hollow");
+    const noButton = wrapper.container.querySelector("button.dialog-button-no");
     fireEvent.click(noButton!);
     await TestUtils.flushAsyncOperations();
 

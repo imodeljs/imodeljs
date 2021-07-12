@@ -4,10 +4,11 @@
 *--------------------------------------------------------------------------------------------*/
 @import "~@bentley/ui-core/lib/ui-core/select/select";
 @import "~@bentley/ui-ninezone/lib/ui-ninezone/footer/variables";
+@import "~@itwin/itwinui-css/scss/style/typography";
 
 .uifw-statusFields-selectionScope {
-  $font-size-medium: $uicore-font-size-small;
-  $font-size-small: $uicore-font-size-smaller;
+  $font-size-medium: $iui-font-size-small;
+  $font-size-small: $iui-font-size-small - 1px;
   overflow: hidden;
   padding-right: 0px;
 
@@ -22,7 +23,7 @@
   }
 
   > .uifw-statusFields-selectionScope-selector {
-    @include uicore-inputs-select;
+    min-width: 130px;
 
     @include for-tablet-portrait-down {
       font-size: $font-size-medium;

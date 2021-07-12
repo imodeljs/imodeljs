@@ -12,6 +12,7 @@ import { TextProps } from "./TextProps";
 
 /** Styled title text React functional component
  * @public
+ * @deprecated Use Title in itwinui-react instead
  */
 export function Title2(props: TextProps) {
   return <StyledText {...props} mainClassName="uicore-text-title-2" />;

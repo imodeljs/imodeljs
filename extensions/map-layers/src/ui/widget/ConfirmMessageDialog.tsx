@@ -5,9 +5,10 @@
 // cSpell:ignore Modeless WMTS
 
 import * as React from "react";
-import { CommonProps, Dialog, DialogButtonType } from "@bentley/ui-core";
+import { CommonProps, Dialog } from "@bentley/ui-core";
 
 import "./MapUrlDialog.scss";
+import { DialogButtonType } from "@bentley/ui-abstract";
 
 interface ConfirmMessageDialogProps extends CommonProps {
 
@@ -31,8 +32,8 @@ interface ConfirmMessageDialogProps extends CommonProps {
 export function ConfirmMessageDialog(props: ConfirmMessageDialogProps) {
 
   const buttonCluster = React.useMemo(() => [
-    { type: DialogButtonType.Yes, onClick: props.onYesResult ?? (()=> {}) },
-    { type: DialogButtonType.No, onClick: props.onNoResult ?? (()=> {})},
+    { type: DialogButtonType.Yes, onClick: props.onYesResult ?? (() => { }) },
+    { type: DialogButtonType.No, onClick: props.onNoResult ?? (() => { }) },
   ], [props.onYesResult, props.onNoResult]);
 
   return (

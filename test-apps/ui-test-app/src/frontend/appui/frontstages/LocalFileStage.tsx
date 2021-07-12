@@ -10,7 +10,7 @@ import { IModelConnection } from "@bentley/imodeljs-frontend";
 import { ElectronApp } from "@bentley/electron-manager/lib/ElectronFrontend";
 import { OpenDialogOptions } from "electron";
 
-import { Button, ButtonSize, ButtonType, FillCentered, Headline } from "@bentley/ui-core";
+import { FillCentered } from "@bentley/ui-core";
 import {
   ConfigurableCreateInfo, ContentControl, ContentGroup, CoreTools, Frontstage, FrontstageManager,
   FrontstageProps, FrontstageProvider, ToolWidget, UiFramework, Widget, Zone,
@@ -19,6 +19,7 @@ import { SampleAppIModelApp } from "../..";
 import { AppTools } from "../../tools/ToolSpecifications";
 import { IModelViewPicker } from "../imodelopen/IModelViewPicker";
 import { LocalFileSupport } from "../LocalFileSupport";
+import { Button, Headline } from "@itwin/itwinui-react";
 
 class LocalFileOpenControl extends ContentControl {
   constructor(info: ConfigurableCreateInfo, options: any) {
@@ -193,7 +194,7 @@ class LocalFilePage extends React.Component<LocalFilePageProps, LocalFilePageSta
                 type="file" accept=".bim,.ibim" onChange={this._handleFileInputChange}
                 style={{ display: "none" }} />
             }
-            <Button size={ButtonSize.Large} buttonType={ButtonType.Primary} onClick={this._handleButtonClick}>
+            <Button size="large" styleType="cta" onClick={this._handleButtonClick}>
               {UiFramework.i18n.translate("SampleApp:localFileStage.selectFile")}
             </Button>
           </FillCentered >

@@ -3,13 +3,13 @@
 * See LICENSE.md in the project root for license terms and full copyright notice.
 *--------------------------------------------------------------------------------------------*/
 @import "~@bentley/ui-core/lib/ui-core/style/themecolors";
-@import "~@bentley/ui-core/lib/ui-core/style/typography";
+@import "~@itwin/itwinui-css/scss/style/typography";
 
 body {
   margin: 0;
   padding: 0;
-  font-family: $uicore-sans;
-  font-size: $uicore-font-size;
+  font-family: $iui-sans;
+  font-size: $iui-font-size;
   color: $buic-foreground-body;
 }
 

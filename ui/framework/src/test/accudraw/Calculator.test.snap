@@ -22,7 +22,7 @@ exports[`Calculator renders correctly 1`] = `
   <div
     className="uifw-calculator-top"
   >
-    <ForwardRef(ForwardRefInput)
+    <ForwardRef
       readOnly={true}
       value="0"
     />
@@ -34,23 +34,23 @@ exports[`Calculator renders correctly 1`] = `
   <div
     className="uifw-calculator-bottom-buttons"
   >
-    <Button
-      buttonType="primary"
+    <ForwardRef
       className="uifw-calculator-large-button uifw-calculator-ok-button"
       onClick={[Function]}
+      styleType="cta"
     >
       <Icon
         iconSpec="icon-checkmark"
       />
-    </Button>
-    <Button
+    </ForwardRef>
+    <ForwardRef
       className="uifw-calculator-large-button uifw-calculator-cancel-button"
       onClick={[Function]}
     >
       <Icon
         iconSpec="icon-remove"
       />
-    </Button>
+    </ForwardRef>
   </div>
 </div>
 `;

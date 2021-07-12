@@ -1,7 +1,9 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`CategoryTree <CategoryTree /> should match snapshot 1`] = `
-<body>
+<body
+  class="iui-body"
+>
   <div>
     <div
       class="ui-fw-categories-tree"
@@ -10,7 +12,7 @@ exports[`CategoryTree <CategoryTree /> should match snapshot 1`] = `
         style="overflow: visible; height: 0px; width: 0px;"
       >
         <div
-          class="core-tree components-controlledTree"
+          class="core-tree components-controlledTree components-smallEditor-host"
           role="tree"
           tabindex="-1"
         >

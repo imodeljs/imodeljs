@@ -3,7 +3,7 @@
 * See LICENSE.md in the project root for license terms and full copyright notice.
 *--------------------------------------------------------------------------------------------*/
 @import "~@bentley/ui-core/lib/ui-core/style/colors";
-@import "~@bentley/ui-core/lib/ui-core/style/typography";
+@import "~@itwin/itwinui-css/scss/style/typography";
 
  $iModel-card-width: 275px;
  $iModel-thumbnail-height: 200px;
@@ -144,7 +144,7 @@
 // iModel name
 .imodel-card .imodel-card-name {
   padding: .8em 14px;
-  font-size: $uicore-font-size;
+  font-size: $iui-font-size;
   display: flex;
   align-items: center;
   box-sizing: border-box;
@@ -178,7 +178,7 @@
 .imodel-card-options-dropdown {
   margin: 0;
   padding: .5em 0;
-  font-size: $uicore-font-size;
+  font-size: $iui-font-size;
   list-style: none;
   background-color: $uicore-white;
 }
@@ -212,6 +212,6 @@
   white-space: wrap;
   overflow: hidden;
   box-sizing: border-box;
-  font-size: $uicore-font-size-small;
-  font-weight: $uicore-font-weight-light;
+  font-size: $iui-font-size-small;
+  font-weight: $iui-font-weight-light;
 }

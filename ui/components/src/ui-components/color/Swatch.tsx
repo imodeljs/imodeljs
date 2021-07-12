@@ -52,7 +52,7 @@ export function ColorSwatch(props: ColorSwatchProps) {
     onColorPick, colorDef, round, // do not pass on color swatch specific props
     // eslint-disable-next-line comma-dangle
     ...otherProps // pass-through props
-  } = props as any;
+  } = props;
 
   return <button {...otherProps} style={colorStyle} className={classes} onClick={handleClick} />;
 }

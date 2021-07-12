@@ -4,9 +4,11 @@
 *--------------------------------------------------------------------------------------------*/
 import "./ComponentExamples.scss";
 import * as React from "react";
-import { CommonProps, Toggle, VerticalTabs } from "@bentley/ui-core";
-import { ColorTheme, MessageManager, MessageRenderer, ModalFrontstageInfo, UiFramework } from "@bentley/ui-framework";
+import { CommonProps, VerticalTabs } from "@bentley/ui-core";
+import { ColorTheme, MessageManager, ModalFrontstageInfo, StatusMessageRenderer, UiFramework } from "@bentley/ui-framework";
+import { ToggleSwitch } from "@itwin/itwinui-react";
 import { ComponentExamplesProvider } from "./ComponentExamplesProvider";
+import { ITwinUIExamplesProvider } from "./ITwinUIExamplesProvider";
 
 export interface ComponentExampleCategory {
   title: string;
@@ -17,7 +19,7 @@ export interface ComponentExampleCategory {
  */
 export class ComponentExamplesModalFrontstage implements ModalFrontstageInfo {
   public title: string = UiFramework.i18n.translate("SampleApp:componentExamplesStage.examples");
-  public categories: ComponentExampleCategory[] = ComponentExamplesProvider.categories;
+  public categories: ComponentExampleCategory[] = [...ComponentExamplesProvider.categories, ...ITwinUIExamplesProvider.categories];
   public get content(): React.ReactNode {
     MessageManager.maxDisplayedStickyMessages = 6;
     return (<ComponentExamplesPage categories={this.categories} />);
@@ -69,9 +71,9 @@ export const ComponentExamplesPage: React.FC<ComponentExamplesPageProps> = (prop
             content={
               <>
                 {darkLabel}
-              &nbsp;
-                <Toggle isOn={isChecked} showCheckmark={false} onChange={onThemeChange} />
-              &nbsp;
+                &nbsp;
+                <ToggleSwitch checked={isChecked} onChange={onThemeChange} />
+                &nbsp;
                 {lightLabel}
               </>
             }
@@ -86,7 +88,7 @@ export const ComponentExamplesPage: React.FC<ComponentExamplesPageProps> = (prop
           );
         })}
       </div>
-      <MessageRenderer />
+      <StatusMessageRenderer />
     </div>
   );
 };

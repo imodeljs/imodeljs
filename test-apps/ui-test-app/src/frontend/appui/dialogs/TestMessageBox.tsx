@@ -4,8 +4,10 @@
 *--------------------------------------------------------------------------------------------*/
 import * as React from "react";
 import { IModelApp, MessageBoxIconType, MessageBoxType } from "@bentley/imodeljs-frontend";
-import { Button, ButtonType, DialogButtonStyle, DialogButtonType, MessageBox, MessageSeverity } from "@bentley/ui-core";
+import { DialogButtonStyle, DialogButtonType } from "@bentley/ui-abstract";
+import { MessageBox, MessageSeverity } from "@bentley/ui-core";
 import { ModalDialogManager } from "@bentley/ui-framework";
+import { Button } from "@itwin/itwinui-react";
 
 export interface TestMessageBoxProps {
   opened: boolean;
@@ -45,7 +47,7 @@ export class TestMessageBox extends React.Component<TestMessageBoxProps, TestMes
       >
         Lorem ipsum dolor sit amet, posse imperdiet ius in, mundi cotidieque ei per. Vel scripta ornatus assentior cu. Duo nonumy equidem te, per ad malis deserunt consetetur. In per invidunt conceptam. Ea pri aeque corrumpit. Eum ea ipsum perfecto vulputate, an cum oblique ornatus.
         <div>
-          <Button buttonType={ButtonType.Hollow} onClick={() => { IModelApp.notifications.openMessageBox(MessageBoxType.Ok, "This is a box opened using IModelApp.notifications.openMessageBox.", MessageBoxIconType.Information); }}>
+          <Button styleType="default" onClick={() => { IModelApp.notifications.openMessageBox(MessageBoxType.Ok, "This is a box opened using IModelApp.notifications.openMessageBox.", MessageBoxIconType.Information); }}>
             Open Another Modal
           </Button>
         </div>

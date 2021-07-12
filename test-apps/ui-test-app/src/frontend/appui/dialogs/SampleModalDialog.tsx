@@ -4,7 +4,8 @@
 *--------------------------------------------------------------------------------------------*/
 import * as React from "react";
 import { IModelApp } from "@bentley/imodeljs-frontend";
-import { Dialog, DialogButtonType } from "@bentley/ui-core";
+import { Dialog } from "@bentley/ui-core";
+import { DialogButtonType } from "@bentley/ui-abstract";
 
 export interface SampleModalDialogProps {
   opened: boolean;

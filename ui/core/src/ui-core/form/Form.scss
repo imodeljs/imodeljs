@@ -2,13 +2,13 @@
 * Copyright (c) Bentley Systems, Incorporated. All rights reserved.
 * See LICENSE.md in the project root for license terms and full copyright notice.
 *--------------------------------------------------------------------------------------------*/
-@import "../style/typography";
 @import "../style/themecolors";
 @import "../inputs/variables";
+@import "~@itwin/itwinui-css/scss/style/typography";
 
-$text-font-size: $uicore-font-size;
+$text-font-size: $iui-font-size;
 $text-font-color: $buic-text-color;
-$button-font-size: $uicore-font-size-leading;
+$button-font-size: $iui-font-size-leading;
 
 .core-form-wrapper {
   padding: 8px;

@@ -2,8 +2,8 @@
 * Copyright (c) Bentley Systems, Incorporated. All rights reserved.
 * See LICENSE.md in the project root for license terms and full copyright notice.
 *--------------------------------------------------------------------------------------------*/
-@import "~@bentley/ui-core/lib/ui-core/style/typography";
-@import "~@bentley/ui-core/lib/ui-core/style/space";
+@import "~@itwin/itwinui-css/scss/style/space";
+@import "~@itwin/itwinui-css/scss/style/typography";
 @import "~@bentley/ui-core/lib/ui-core/style/themecolors";
 
 .uifw-sections-footer-contents {
@@ -15,21 +15,21 @@
 
 .uifw-uifw-sections-toggle-container {
   display: flex;
-  margin: $uicore-xs;
+  margin: $iui-xs;
   justify-content: center;
 }
 
 .uifw-sections-toggle {
   align-self: center;
-  margin-right: $uicore-s;
+  margin-right: $iui-s;
 }
 
 .uifw-sections-label {
-  @include uicore-font-family;
+  @include iui-font-family;
   color: $buic-text-color;
-  font-size: $uicore-font-size;
+  font-size: $iui-font-size;
   align-self: center;
-  margin: $uicore-s;
+  margin: $iui-s;
 
   &.disabled {
     color: $buic-text-color-disabled;

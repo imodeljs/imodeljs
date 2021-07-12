@@ -16,7 +16,7 @@ import { FormatProps, FormatterSpec } from "@bentley/imodeljs-quantity";
 import { DialogButtonType } from "@bentley/ui-abstract";
 import { FormatSample, QuantityFormatPanel } from "@bentley/ui-components";
 import {
-  Button, ButtonType, Dialog, Listbox, ListboxItem, SettingsTabEntry,
+  Dialog, Listbox, ListboxItem, SettingsTabEntry,
   useSaveBeforeActivatingNewSettingsTab, useSaveBeforeClosingSettingsContainer,
 } from "@bentley/ui-core";
 import { ModalDialogManager } from "../../dialog/ModalDialogManager";
@@ -24,6 +24,7 @@ import { UiFramework } from "../../UiFramework";
 import { PresentationUnitSystem } from "@bentley/presentation-common";
 import { UnitSystemSelector } from "./UnitSystemSelector";
 import { Presentation } from "@bentley/presentation-frontend";
+import { Button } from "@itwin/itwinui-react";
 
 function formatAreEqual(obj1: FormatProps, obj2: FormatProps) {
   const compare = new DeepCompare();
@@ -45,13 +46,13 @@ export interface QuantityFormatterSettingsOptions {
  * @beta
  */
 export function getQuantityFormatsSettingsManagerEntry(itemPriority: number, opts?: Partial<QuantityFormatterSettingsOptions>): SettingsTabEntry {
-  const {availableUnitSystems, initialQuantityType} = {...opts};
+  const { availableUnitSystems, initialQuantityType } = { ...opts };
   return {
     itemPriority, tabId: "uifw:Quantity",
     label: UiFramework.translate("settings.quantity-formatting.label"),
     subLabel: UiFramework.translate("settings.quantity-formatting.subLabel"),
-    page: <QuantityFormatSettingsPage initialQuantityType={initialQuantityType??QuantityType.Length}
-      availableUnitSystems={availableUnitSystems??new Set(["metric","imperial","usCustomary","usSurvey"])} />,
+    page: <QuantityFormatSettingsPage initialQuantityType={initialQuantityType ?? QuantityType.Length}
+      availableUnitSystems={availableUnitSystems ?? new Set(["metric", "imperial", "usCustomary", "usSurvey"])} />,
     isDisabled: false,
     icon: "icon-measure",
     tooltip: UiFramework.translate("settings.quantity-formatting.tooltip"),
@@ -62,7 +63,7 @@ export function getQuantityFormatsSettingsManagerEntry(itemPriority: number, opt
 /** UI Component shown in settings page to set the active Presentation Unit System and to set format overrides.
  * @beta
  */
-export function QuantityFormatSettingsPage({initialQuantityType, availableUnitSystems}: QuantityFormatterSettingsOptions) {
+export function QuantityFormatSettingsPage({ initialQuantityType, availableUnitSystems }: QuantityFormatterSettingsOptions) {
   const [activeUnitSystemKey, setActiveUnitSystemKey] = React.useState(IModelApp.quantityFormatter.activeUnitSystem);
   const [activeQuantityType, setActiveQuantityType] = React.useState(getQuantityTypeKey(initialQuantityType));
   const [activeFormatterSpec, setActiveFormatterSpec] =
@@ -78,7 +79,7 @@ export function QuantityFormatSettingsPage({initialQuantityType, availableUnitSy
     const handleUnitSystemChanged = ((): void => {
       // istanbul ignore else
       if (activeUnitSystemKey !== IModelApp.quantityFormatter.activeUnitSystem) {
-        setActiveUnitSystemKey (IModelApp.quantityFormatter.activeUnitSystem);
+        setActiveUnitSystemKey(IModelApp.quantityFormatter.activeUnitSystem);
         setActiveFormatterSpec(IModelApp.quantityFormatter.findFormatterSpecByQuantityType(activeQuantityType));
         setSaveEnabled(false);
         setClearEnabled(IModelApp.quantityFormatter.hasActiveOverride(activeQuantityType, true));
@@ -174,7 +175,7 @@ export function QuantityFormatSettingsPage({initialQuantityType, availableUnitSy
     setClearEnabled(false);
   }, [activeQuantityType]);
 
-  const processNewUnitSystem = React.useCallback(async (unitSystem: UnitSystemKey ) => {
+  const processNewUnitSystem = React.useCallback(async (unitSystem: UnitSystemKey) => {
     switch (unitSystem) {
       case "imperial":
         Presentation.presentation.activeUnitSystem = PresentationUnitSystem.BritishImperial;
@@ -193,13 +194,13 @@ export function QuantityFormatSettingsPage({initialQuantityType, availableUnitSy
         await IModelApp.quantityFormatter.setActiveUnitSystem(unitSystem);
         break;
     }
-  },[]);
+  }, []);
 
-  const handleUnitSystemSelected = React.useCallback(async (unitSystem: UnitSystemKey ) => {
+  const handleUnitSystemSelected = React.useCallback(async (unitSystem: UnitSystemKey) => {
     if (unitSystem === activeUnitSystemKey)
       return;
-    saveChanges (processNewUnitSystem, unitSystem);
-  },[activeUnitSystemKey, processNewUnitSystem, saveChanges]);
+    saveChanges(processNewUnitSystem, unitSystem);
+  }, [activeUnitSystemKey, processNewUnitSystem, saveChanges]);
 
   return (
     <div className="quantity-formatting-container">
@@ -235,8 +236,8 @@ export function QuantityFormatSettingsPage({initialQuantityType, availableUnitSy
                 <QuantityFormatPanel onFormatChange={handleOnFormatChanged} quantityType={activeQuantityType} />
               </div>
               <div className="components-button-panel">
-                <Button buttonType={ButtonType.Blue} onClick={handleOnFormatSave} disabled={!saveEnabled}>{setButtonLabel.current}</Button>
-                <Button buttonType={ButtonType.Hollow} onClick={handleOnFormatReset} disabled={!clearEnabled}>{clearButtonLabel.current}</Button>
+                <Button styleType="cta" onClick={handleOnFormatSave} disabled={!saveEnabled}>{setButtonLabel.current}</Button>
+                <Button styleType="default" onClick={handleOnFormatReset} disabled={!clearEnabled}>{clearButtonLabel.current}</Button>
               </div>
             </>
           }

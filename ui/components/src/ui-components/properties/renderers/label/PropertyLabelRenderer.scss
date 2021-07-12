@@ -2,6 +2,7 @@
 * Copyright (c) Bentley Systems, Incorporated. All rights reserved.
 * See LICENSE.md in the project root for license terms and full copyright notice.
 *--------------------------------------------------------------------------------------------*/
+@import "~@itwin/itwinui-css/scss/style/speed";
 @import "~@bentley/ui-core/lib/ui-core/style/themecolors";
 
 @mixin rotate($amount) {
@@ -59,7 +60,7 @@
   font-size: 14px;
   height: 100%;
   width: 100%;
-  transition: transform 0.15s ease-in-out, -webkit-transform 0.15s ease-in-out;
+  transition: transform $iui-speed-fast ease-in-out, -webkit-transform $iui-speed-fast ease-in-out;
 
   > .components-property-label-renderer {
     flex: 1;
@@ -74,7 +75,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    @include transition(0.15s, ease-in-out);
+    @include transition($iui-speed-fast, ease-in-out);
 
     &.components-expanded {
       @include rotate(90deg);

@@ -7,7 +7,7 @@
  */
 
 import * as React from "react";
-import { CommonProps, FillCentered, SpinnerSize } from "@bentley/ui-core";
+import { CommonProps, FillCentered } from "@bentley/ui-core";
 import { DelayedSpinner } from "../../../common/DelayedSpinner";
 import { SelectionMode } from "../../../common/selection/SelectionModes";
 import { UiComponents } from "../../../UiComponents";
@@ -143,7 +143,7 @@ function Loader(props: LoaderProps) {
       ? props.spinnerRenderer()
       : (
         <div className="components-controlledTree-loader">
-          <DelayedSpinner size={SpinnerSize.Large} />
+          <DelayedSpinner size="large" />
         </div>
       );
   }

@@ -6,8 +6,9 @@ import "./Common.scss";
 import "./ProjectDialog.scss";
 import classnames from "classnames";
 import * as React from "react";
-import { SearchBox, Spinner, SpinnerSize } from "@bentley/ui-core";
+import { SearchBox } from "@bentley/ui-core";
 import { ProjectInfo, ProjectScope, UiFramework } from "@bentley/ui-framework";
+import { ProgressRadial } from "@itwin/itwinui-react";
 import { ProjectTab, ProjectTabs } from "./ProjectTabs";
 
 /** Properties for the [[ProjectDialog]] component */
@@ -166,7 +167,7 @@ export class ProjectDialog extends React.Component<ProjectDialogProps, ProjectDi
               </table>
               {this.state.isLoading &&
                 <div className="projects-loading">
-                  <Spinner size={SpinnerSize.Large} />
+                  <ProgressRadial size="large" indeterminate />
                 </div>
               }
               {(!this.state.isLoading && (!this.state.projects || this.state.projects.length === 0)) && <div className="projects-none">{this.getNoProjectsPrompt()}</div>}

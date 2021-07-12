@@ -2,13 +2,17 @@
 * Copyright (c) Bentley Systems, Incorporated. All rights reserved.
 * See LICENSE.md in the project root for license terms and full copyright notice.
 *--------------------------------------------------------------------------------------------*/
-@import "../style/index";
+// @import "../style/index";
+@import "~@itwin/itwinui-css/scss/style/space";
+@import "~@itwin/itwinui-css/scss/style/speed";
+@import "~@itwin/itwinui-css/scss/style/typography";
+@import "~@itwin/itwinui-css/scss/style/variables";
 
 @mixin uicore-inputs-checkbox {
 
   display: block;
   position: relative;
-  font-size: $uicore-font-size;
+  font-size: $iui-font-size;
   line-height: normal;
   cursor: pointer;
   user-select: none;
@@ -29,7 +33,7 @@
   }
 
   .core-checkbox-label {
-    padding-left: $uicore-l;
+    padding-left: $iui-l;
   }
 
   .core-checkbox-checkmark,
@@ -41,13 +45,13 @@
     width: 1em;
     border: 1px solid $buic-foreground-disabled;
     background-color:  $buic-background-control;
-    border-radius: $uicore-border-radius;
+    border-radius: $iui-border-radius;
   }
 
   &:hover:not(.core-disabled) input ~ .core-checkbox-checkmark,
   &:hover:not(.core-disabled) input ~ .core-checkbox-indeterminate {
     border-color:     $buic-foreground-activehover;
-    transition:       all $uicore-speed-fast ease-out;
+    transition:       all $iui-speed-fast ease-out;
   }
 
   & input:checked ~ .core-checkbox-checkmark,
@@ -60,7 +64,7 @@
   & input:focus ~ .core-checkbox-checkmark,
   & input:focus ~ .core-checkbox-indeterminate {
     border-color:     $buic-foreground-focus-border;
-    box-shadow:       $uicore-inputs-focus-gradient;
+    box-shadow:       $uicore-inputs-focus-boxshadow;
   }
 
   .core-checkbox-checkmark::after,

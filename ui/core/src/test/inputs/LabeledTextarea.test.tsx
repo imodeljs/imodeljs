@@ -6,6 +6,8 @@ import { mount, shallow } from "enzyme";
 import * as React from "react";
 import { InputStatus, LabeledTextarea } from "../../ui-core";
 
+/* eslint-disable deprecation/deprecation */
+
 describe("<LabeledTextarea />", () => {
   it("should render", () => {
     mount(<LabeledTextarea label="textarea test" />);

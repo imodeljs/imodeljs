@@ -4,11 +4,11 @@
 *--------------------------------------------------------------------------------------------*/
 @import "~@bentley/ui-core/lib/ui-core/style/baseline";
 @import "~@bentley/ui-core/lib/ui-core/style/themecolors";
-@import "~@bentley/ui-core/lib/ui-core/style/variables";
+@import "~@itwin/itwinui-css/scss/style/variables";
 
 .components-column-drag-layer {
   border: 1px solid $buic-foreground-disabled;
-  border-radius: $uicore-border-radius;
+  border-radius: $iui-border-radius;
   padding: 0px;
   margin: 0px;
   line-height: $uicore-line-height;

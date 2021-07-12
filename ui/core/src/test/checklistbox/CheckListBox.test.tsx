@@ -5,7 +5,7 @@
 import { mount, shallow } from "enzyme";
 import * as React from "react";
 import * as sinon from "sinon";
-import { Checkbox, CheckListBox, CheckListBoxItem, CheckListBoxSeparator } from "../../ui-core";
+import { CheckListBox, CheckListBoxItem, CheckListBoxSeparator } from "../../ui-core";
 
 describe("<CheckListBox />", () => {
   it("should render", () => {
@@ -33,7 +33,7 @@ describe("<CheckListBox />", () => {
       <CheckListBoxItem label="label" onClick={spyMethod} />,
     );
 
-    const cb = wrapper.find(Checkbox);
+    const cb = wrapper.find("input");
     cb.length.should.eq(1);
     cb.simulate("click");
     spyMethod.calledOnce.should.true;

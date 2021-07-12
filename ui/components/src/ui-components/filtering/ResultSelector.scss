@@ -2,14 +2,17 @@
 * Copyright (c) Bentley Systems, Incorporated. All rights reserved.
 * See LICENSE.md in the project root for license terms and full copyright notice.
 *--------------------------------------------------------------------------------------------*/
-@import "~@bentley/ui-core/lib/ui-core/button/hollow";
+@import "~@bentley/ui-core/lib/ui-core/style/themecolors";
+@import "~@itwin/itwinui-css/scss/button/button";
+@import "~@itwin/itwinui-css/scss/button/default";
+@import "~@itwin/itwinui-css/scss/style/typography";
 
 .components-result-selector {
   display: flex;
   align-items: center;
   font-size: 12px;
 
-  @include uicore-font-family;
+  @include iui-font-family;
   color: $buic-text-color;
 }
 
@@ -37,7 +40,8 @@
 }
 
 .components-result-selector-button {
-  @include uicore-buttons-hollow;
+  @include iui-button;
+  @include iui-button-default;
   font-size: 12px;
   height: 20px;
   width: 20px;
@@ -47,11 +51,11 @@
 }
 
 .components-result-selector-button:hover {
-  background-color: $buic-row-hover; // $uicore-gray-b;
+  background-color: $buic-row-hover;
   border-radius: 2px;
 }
 
-/* Overriding uicore-buttons-hollow defaults */
+/* Overriding iui-button defaults */
 .components-result-selector-button,
 .components-result-selector-button:active,
 .components-result-selector-button:focus,
@@ -63,6 +67,6 @@
 
 .components-result-selector-button:disabled,
 .components-result-selector-button[disabled]:hover {
-  background-color: $buic-background-control-disabled; // $uicore-gray-9;
+  background-color: $buic-background-control-disabled;
   cursor: default;
 }

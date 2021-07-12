@@ -33,9 +33,9 @@ export enum DialogButtonType {
  */
 export enum DialogButtonStyle {
   None = "",
-  Primary = "uicore-buttons-primary",
-  Hollow = "uicore-buttons-hollow",
-  Blue = "uicore-buttons-blue",
+  Primary = "iui-cta",
+  Hollow = "iui-default",
+  Blue = "iui-high-visibility",
 }
 
 /** Interface for a dialog button in a button cluster

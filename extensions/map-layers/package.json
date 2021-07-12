@@ -50,6 +50,8 @@
     "@bentley/ui-core": "workspace:*",
     "@bentley/ui-framework": "workspace:*",
     "@bentley/ui-ninezone": "workspace:*",
+    "@itwin/itwinui-css": "^0.22.0",
+    "@itwin/itwinui-react": "^1.11.0",
     "@testing-library/react": "^8.0.1",
     "@testing-library/react-hooks": "^3.2.1",
     "@types/chai": "^4.1.4",

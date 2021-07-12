@@ -6,6 +6,8 @@ import { mount, shallow } from "enzyme";
 import * as React from "react";
 import { ProgressSpinner, SpinnerSize } from "../../ui-core";
 
+/* eslint-disable deprecation/deprecation */
+
 describe("<ProgressSpinner />", () => {
   it("should render", () => {
     const wrapper = mount(

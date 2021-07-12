@@ -6,6 +6,8 @@ import { mount, shallow } from "enzyme";
 import * as React from "react";
 import { LabeledToggle } from "../../ui-core";
 
+/* eslint-disable deprecation/deprecation */
+
 describe("<LabeledToggle />", () => {
   it("should render", () => {
     mount(<LabeledToggle label="toggle test" />);

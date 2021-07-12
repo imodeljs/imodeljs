@@ -14,7 +14,7 @@ import { ConfigurableCreateInfo, ConfigurableUiControl, ConfigurableUiControlTyp
 
 /** ControlControl Activated Event Args interface.
  * @public
- */
+ */
 export interface ContentControlActivatedEventArgs {
   activeContentControl: ContentControl;
   oldContentControl?: ContentControl;
@@ -22,7 +22,7 @@ export interface ContentControlActivatedEventArgs {
 
 /** ContentControl Activated Event class.
  * @public
- */
+ */
 export class ContentControlActivatedEvent extends UiEvent<ContentControlActivatedEventArgs> { }
 
 /** Interface to be implemented when the ContentControl supports ViewSelector changes
@@ -89,7 +89,7 @@ export class ContentControl extends ConfigurableUiControl {
   public set reactNode(r: React.ReactNode) { this._reactNode = r; }
 
   /** The React element associated with this control.
-   * @deprecated ues reactNode
+   * @deprecated use `reactNode` instead
    */
   // istanbul ignore next
   public get reactElement(): React.ReactNode {

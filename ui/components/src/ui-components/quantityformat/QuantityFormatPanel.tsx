@@ -12,7 +12,8 @@ import {
   isTextInputFormatPropEditorSpec, isTextSelectFormatPropEditorSpec, QuantityTypeArg,
 } from "@bentley/imodeljs-frontend";
 import { FormatProps, UnitProps, UnitsProvider } from "@bentley/imodeljs-quantity";
-import { Checkbox, CommonProps, Input, Select } from "@bentley/ui-core";
+import { CommonProps, Select } from "@bentley/ui-core";
+import { Checkbox, Input } from "@itwin/itwinui-react";
 import { FormatPanel } from "./FormatPanel";
 import { DeepCompare } from "@bentley/geometry-core";
 
@@ -39,6 +40,8 @@ function createSelectFormatPropEditor(key: string, label: string, options: { lab
   return (
     <React.Fragment key={`${key}`}>
       <span key={`${key}-label`} className={"uicore-label"}>{label}</span>
+      {/* NEEDSWORK - unable to migrate this Select to iTwinUI because no menu items were found */}
+      {/* eslint-disable-next-line deprecation/deprecation */}
       <Select data-testid={`${key}-editor`} key={`${key}-editor`}
         value={value}
         options={options}

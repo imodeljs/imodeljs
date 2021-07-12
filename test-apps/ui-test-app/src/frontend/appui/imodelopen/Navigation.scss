@@ -3,6 +3,7 @@
 * See LICENSE.md in the project root for license terms and full copyright notice.
 *--------------------------------------------------------------------------------------------*/
 @import "~@bentley/ui-core/lib/ui-core/style/index";
+@import "~@itwin/itwinui-css/scss/style/typography";
 
 //$separator-background: #F0F0F0;
 $navbar-itemheight: 54px;
@@ -89,7 +90,7 @@ $navbar-hovercolor: $uicore-blue;
   padding-left: 24px;
   text-decoration: none;
   user-select: none;
-  font-size: $uicore-font-size-leading;
+  font-size: $iui-font-size-leading;
   cursor: pointer;
   position: relative;
   box-sizing: border-box;

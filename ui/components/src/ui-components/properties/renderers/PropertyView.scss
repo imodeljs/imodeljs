@@ -3,9 +3,9 @@
 * See LICENSE.md in the project root for license terms and full copyright notice.
 *--------------------------------------------------------------------------------------------*/
 @import "~@bentley/ui-core/lib/ui-core/style/themecolors";
-@import "~@bentley/ui-core/lib/ui-core/style/typography";
+@import "~@itwin/itwinui-css/scss/style/typography";
 
-$text-font-size: $uicore-font-size;
+$text-font-size: $iui-font-size;
 $text-font-color: $buic-text-color;
 
 .components-property-record--horizontal {
@@ -15,7 +15,7 @@ $text-font-color: $buic-text-color;
   padding: 1px 9px;
 
   .components-property-record-label {
-    font-size: $uicore-font-size-small;
+    font-size: $iui-font-size-small;
     color: $buic-foreground-muted;
     margin-right: 5px;
   }
@@ -32,7 +32,7 @@ $text-font-color: $buic-text-color;
   display: grid;
 
   .components-property-record-label {
-    font-size: $uicore-font-size-small;
+    font-size: $iui-font-size-small;
     color: $buic-foreground-muted;
     margin: 0 9px;
     padding-top: 5px;

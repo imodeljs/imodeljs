@@ -11,7 +11,8 @@ import { Tile, TileProps } from "./Tile";
 
 /** Featured [[Tile]] component
  * @beta
+ * @deprecated
  */
-export function FeaturedTile(props: TileProps) {
-  return <Tile {...props} featured={true} />;
+export function FeaturedTile(props: TileProps) {    // eslint-disable-line deprecation/deprecation
+  return <Tile {...props} featured={true} />; // eslint-disable-line deprecation/deprecation
 }

@@ -5,6 +5,9 @@
 import { mount, shallow } from "enzyme";
 import * as React from "react";
 import { LoadingSpinner } from "../../ui-core";
+import { SpinnerSize } from "../../ui-core/loading/Spinner";
+
+/* eslint-disable deprecation/deprecation */
 
 describe("<LoadingSpinner />", () => {
   it("should render", () => {
@@ -26,6 +29,20 @@ describe("<LoadingSpinner />", () => {
 
   it("renders with message and position correctly", () => {
     shallow(<LoadingSpinner message="test" messageOnTop={true} />).should.matchSnapshot();
+  });
+
+  // Tests for Deprecated SpinnerSize
+  it("renders with Small size correctly", () => {
+    shallow(<LoadingSpinner size={SpinnerSize.Small} />).should.matchSnapshot();
+  });
+  it("renders with Medium size correctly", () => {
+    shallow(<LoadingSpinner size={SpinnerSize.Medium} />).should.matchSnapshot();
+  });
+  it("renders with Large size correctly", () => {
+    shallow(<LoadingSpinner size={SpinnerSize.Large} />).should.matchSnapshot();
+  });
+  it("renders with XLarge size correctly", () => {
+    shallow(<LoadingSpinner size={SpinnerSize.XLarge} />).should.matchSnapshot();
   });
 
 });

@@ -14,6 +14,7 @@ import { useRefs } from "../utils/hooks/useRefs";
 
 /** Toggle display types
  * @public
+ * @deprecated
  */
 export enum ToggleButtonType {
   /** Primary (green) background */
@@ -24,6 +25,7 @@ export enum ToggleButtonType {
 
 /** Properties for [[Toggle]] component
  * @public
+ * @deprecated Use ToggleSwitchProps in itwinui-react instead
  */
 export interface ToggleProps extends CommonProps {
   /** Indicates whether the Toggle is disabled (default is false) */
@@ -34,8 +36,9 @@ export interface ToggleProps extends CommonProps {
   rounded?: boolean;
   /** Show a check mark icon when the toggle is "on" (false is default) */
   showCheckmark?: boolean;
-  /** Button type, either Primary or Blue (Blue is default) */
-  buttonType?: ToggleButtonType;
+  /** Button type, either Primary or Blue (Blue is default).
+   * @deprecated */
+  buttonType?: ToggleButtonType;  // eslint-disable-line deprecation/deprecation
   /** Function called when the toggle state is changed */
   onChange?: (checked: boolean) => any;
   /** Function called when the toggle loses focus  */
@@ -50,7 +53,7 @@ export interface ToggleProps extends CommonProps {
   ref?: React.Ref<HTMLInputElement>;
 }
 
-const ForwardRefToggle = React.forwardRef<HTMLInputElement, ToggleProps>(
+const ForwardRefToggle = React.forwardRef<HTMLInputElement, ToggleProps>(   // eslint-disable-line deprecation/deprecation
   function ForwardRefToggle(props, ref) {
     const inputElement = React.useRef<HTMLInputElement>(null);
     const refs = useRefs(inputElement, ref);  // combine ref needed for target with the forwardRef needed by the Parent when parent is a Type Editor.
@@ -81,14 +84,14 @@ const ForwardRefToggle = React.forwardRef<HTMLInputElement, ToggleProps>(
         props.onChange(newChecked);
 
       setTimeout(() => {
-      // istanbul ignore else
+        // istanbul ignore else
         if (inputElement.current)
           setToggling(false);
       }, 250);
     }, [props, checked]);
 
     const handleBlur = React.useCallback((event: React.FocusEvent) => {
-    // istanbul ignore else
+      // istanbul ignore else
       if (props.onBlur)
         props.onBlur(event);
     }, [props]);
@@ -99,7 +102,7 @@ const ForwardRefToggle = React.forwardRef<HTMLInputElement, ToggleProps>(
 
     const setHeightFromRef = React.useCallback((el: HTMLLabelElement | null) => {
       if (el !== null) {
-      // istanbul ignore next
+        // istanbul ignore next
         if (el.clientHeight > 0 && el.clientWidth > 0) {
           setHeight(el.clientHeight);
           setWidth(el.clientWidth);
@@ -114,7 +117,7 @@ const ForwardRefToggle = React.forwardRef<HTMLInputElement, ToggleProps>(
     /** Default props */
     const rounded = props.rounded !== undefined ? props.rounded : true;
     const showCheckmark = props.showCheckmark !== undefined ? props.showCheckmark : false;
-    const buttonType = props.buttonType !== undefined ? props.buttonType : ToggleButtonType.Blue;
+    const buttonType = props.buttonType !== undefined ? props.buttonType : ToggleButtonType.Blue; // eslint-disable-line deprecation/deprecation
 
     const halfHeight = height / 2;
     const checkmarkClassName = classnames(
@@ -126,7 +129,7 @@ const ForwardRefToggle = React.forwardRef<HTMLInputElement, ToggleProps>(
     const toggleStyle: React.CSSProperties = { borderRadius: rounded ? halfHeight : 3, fontSize: halfHeight, ...props.style };
     const toggleClassName = classnames(
       "core-toggle",
-      buttonType === ToggleButtonType.Primary && "core-toggle-primary",
+      buttonType === ToggleButtonType.Primary && "core-toggle-primary", // eslint-disable-line deprecation/deprecation
       props.large && "core-toggle-large",
       rounded && "core-toggle-rounded",
       props.disabled && "uicore-disabled",
@@ -160,5 +163,6 @@ const ForwardRefToggle = React.forwardRef<HTMLInputElement, ToggleProps>(
 /**
  * Toggle React component to show an "on" or "off" state
  * @public
+ * @deprecated Use ToggleSwitch in itwinui-react instead
  */
-export const Toggle: (props: ToggleProps) => JSX.Element | null = ForwardRefToggle;
+export const Toggle: (props: ToggleProps) => JSX.Element | null = ForwardRefToggle;   // eslint-disable-line deprecation/deprecation

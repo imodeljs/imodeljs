@@ -3,11 +3,11 @@
 * See LICENSE.md in the project root for license terms and full copyright notice.
 *--------------------------------------------------------------------------------------------*/
 @import "~@bentley/ui-core/lib/ui-core/style/themecolors";
-@import "~@bentley/ui-core/lib/ui-core/style/typography";
+@import "~@itwin/itwinui-css/scss/style/typography";
 
 .components-controlledTree-node-description {
   color: $buic-foreground-muted;
-  font-size: $uicore-font-size-small;
+  font-size: $iui-font-size-small;
   margin-top: 4px;
 
   &.with-editor {
@@ -18,7 +18,7 @@
 
 .components-controlledTree-node-content {
   height: 24px;
-  line-height: $uicore-font-size-small;
+  line-height: $iui-font-size-small;
   display: flex;
   flex-direction: column;
   justify-content: center;

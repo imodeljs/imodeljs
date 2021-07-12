@@ -4,7 +4,7 @@
 *--------------------------------------------------------------------------------------------*/
 @import "~@bentley/ui-core/lib/ui-core/z-index";
 @import "~@bentley/ui-core/lib/ui-core/style/breakpoints";
-@import "~@bentley/ui-core/lib/ui-core/style/typography";
+@import "~@itwin/itwinui-css/scss/style/typography";
 @import "../prefix";
 @import "../safearea";
 @import "../scrollbar";
@@ -32,10 +32,10 @@
   }
 
   @include for-tablet-landscape-down {
-    font-size: $uicore-font-size;
+    font-size: $iui-font-size;
   }
   @include for-phone-only {
-    font-size: $uicore-font-size-small;
+    font-size: $iui-font-size-small;
   }
 
   > ul {

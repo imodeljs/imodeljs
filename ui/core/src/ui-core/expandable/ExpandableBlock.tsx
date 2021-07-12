@@ -13,10 +13,11 @@ import { CommonProps } from "../utils/Props";
 
 /** Properties for the [[ExpandableBlock]] React component
  * @public
+ * @deprecated Use ExpandableBlockProps from itwinui-react instead
  */
 export interface ExpandableBlockProps extends CommonProps {
   /** Label */
-  title: string|JSX.Element;
+  title: string | JSX.Element;
   /** Indicates whether the ExpandableBlock is expanded */
   isExpanded: boolean;
   /** Callback function for click event */
@@ -35,8 +36,9 @@ export interface ExpandableBlockProps extends CommonProps {
 
 /** ExpandableBlock React component is a container that shows and hides child content.
  * @public
+ * @deprecated Use ExpandableBlock from itwinui-react instead
  */
-export class ExpandableBlock extends React.PureComponent<ExpandableBlockProps> {
+export class ExpandableBlock extends React.PureComponent<ExpandableBlockProps> {  // eslint-disable-line deprecation/deprecation
 
   public override render() {
     const cName = classnames(

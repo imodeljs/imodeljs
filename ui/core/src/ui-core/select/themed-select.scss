@@ -6,6 +6,9 @@
 @import "../inputs/variables";
 @import "../scrollbar";
 @import "../z-index";
+@import "~@itwin/itwinui-css/scss/style/speed";
+@import "~@itwin/itwinui-css/scss/style/typography";
+@import "~@itwin/itwinui-css/scss/style/variables";
 
 //HACK
 // there is an issue in react-select where generated styles have higher
@@ -15,14 +18,14 @@
 .uicore-reactSelectTop {
   $uicore-select-padding-bordered:  $uicore-inputs-padding-bordered;
 
-  font-size:          $uicore-font-size;
+  font-size:          $iui-font-size;
   font-weight:        normal;
   color:              $buic-text-color;
   background-image:   none;
-  border-radius:      $uicore-border-radius;
+  border-radius:      $iui-border-radius;
   box-sizing:         border-box;
   box-shadow:         $buic-inputs-boxshadow 0px 1px 1px inset;
-  transition:         border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+  transition:         border-color $iui-speed-fast ease-in-out, box-shadow $iui-speed-fast ease-in-out;
 
   @include firefox-only {
     padding-top:      $uicore-select-padding-bordered - 1px;
@@ -44,7 +47,7 @@
       &--is-focused {
         outline: 0px;
         border-color: $buic-foreground-focus-border;
-        box-shadow: $uicore-inputs-focus-gradient;
+        box-shadow: $uicore-inputs-focus-boxshadow;
 
         &:hover {
           border-color: $buic-foreground-focus-border;

@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`<TextEditor /> renders correctly 1`] = `
-<ForwardRef(ForwardRefInput)
+<ForwardRef
   aria-label="editor.text"
   className="components-cell-editor components-text-editor"
   data-testid="components-text-editor"
@@ -18,7 +18,7 @@ exports[`<TextEditor /> renders correctly 1`] = `
 `;
 
 exports[`<TextEditor /> renders correctly with style 1`] = `
-<ForwardRef(ForwardRefInput)
+<ForwardRef
   aria-label="editor.text"
   className="components-cell-editor components-text-editor"
   data-testid="components-text-editor"

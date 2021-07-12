@@ -143,6 +143,8 @@
     "@bentley/icons-generic": "^1.0.15",
     "@bentley/icons-generic-webfont": "^1.0.15",
     "@bentley/presentation-components": "workspace:*",
+    "@itwin/itwinui-css": "^0.22.0",
+    "@itwin/itwinui-react": "^1.11.0",
     "classnames": "^2.3.1",
     "immer": "^9.0.1",
     "lodash": "^4.17.10",

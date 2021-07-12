@@ -3,8 +3,8 @@
 * See LICENSE.md in the project root for license terms and full copyright notice.
 *--------------------------------------------------------------------------------------------*/
 @import "~@bentley/ui-core/lib/ui-core/style/colors";
-@import "~@bentley/ui-core/lib/ui-core/style/space";
-@import "~@bentley/ui-core/lib/ui-core/style/typography";
+@import "~@itwin/itwinui-css/scss/style/space";
+@import "~@itwin/itwinui-css/scss/style/typography";
 @import "~@bentley/ui-ninezone/lib/ui-ninezone/scrollbar";
 
 /* frontstage */
@@ -12,7 +12,7 @@
   background-color: $uicore-gray-b;
   color: $uicore-text-color;
   height: 100%;
-  padding: $uicore-l 55px;
+  padding: $iui-l 55px;
   display: flex;
   flex-direction: column;
   box-sizing: border-box;
@@ -30,7 +30,7 @@
 
     /* thumbnail container */
     .thumbnail {
-      margin: $uicore-m;
+      margin: $iui-m;
       width: 150px;
       height: 100px;
       border: 1px solid $uicore-gray-a;
@@ -59,7 +59,7 @@
       flex: 1;
       display: flex;
       flex-direction: column;
-      padding: $uicore-m;
+      padding: $iui-m;
       box-sizing: border-box;
       border-left: 1px;
       border-right: 1px;
@@ -68,16 +68,16 @@
       border-style: solid;
       border-color: $uicore-gray-a;
       color: rgba($uicore-text-color,.85);
-      font-size: $uicore-font-size;
+      font-size: $iui-font-size;
 
       /* imodel name */
       > span:first-child {
-        font-size: $uicore-font-size-title;
+        font-size: $iui-font-size-title;
         opacity: .85;
       }
 
       > span:nth-child(2) {
-        margin: $uicore-s 0;
+        margin: $iui-s 0;
       }
     }
 
@@ -87,11 +87,11 @@
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      padding: 0 $uicore-xl;
+      padding: 0 $iui-xl;
       min-width: 260px;
       box-sizing: border-box;
       color: rgba($uicore-text-color,.65);
-      font-size: $uicore-font-size;
+      font-size: $iui-font-size;
 
       .checkmark-circle {
         stroke-dasharray: 166;
@@ -153,7 +153,7 @@
 
   .imodelindex-container {
     flex: 1;
-    margin-top: $uicore-xl;
+    margin-top: $iui-xl;
     display: flex;
     flex-direction: column;
     background: $uicore-gray-c;
@@ -165,12 +165,12 @@
     .imodelindex-tabheader {
       display: flex;
       align-items: center;
-      margin-top: $uicore-sm;
+      margin-top: $iui-sm;
 
       .header-content {
         display: flex;
         margin-left: auto;
-        margin-right: $uicore-m;
+        margin-right: $iui-m;
       }
     }
 

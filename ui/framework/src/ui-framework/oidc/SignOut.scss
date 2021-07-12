@@ -2,9 +2,8 @@
 * Copyright (c) Bentley Systems, Incorporated. All rights reserved.
 * See LICENSE.md in the project root for license terms and full copyright notice.
 *--------------------------------------------------------------------------------------------*/
-@import "~@bentley/ui-core/lib/ui-core/button/primary-large";
 @import "~@bentley/ui-core/lib/ui-core/style/themecolors";
-@import "~@bentley/ui-core/lib/ui-core/style/typography";
+@import "~@itwin/itwinui-css/scss/style/typography";
 
 $user-profile-circle-size: 60px;
 
@@ -19,7 +18,7 @@ $user-profile-circle-size: 60px;
   display: flex;
   padding: 30px;
   border-radius: 3px;
-  font-size: $uicore-font-size;
+  font-size: $iui-font-size;
   box-shadow: 2px 4px 8px 2px rgba(0,0,0,0.25);
 
   > .profile-info {
@@ -66,7 +65,7 @@ $user-profile-circle-size: 60px;
     align-items: center;
 
     > span:first-of-type {
-      font-size: $uicore-font-size-title;
+      font-size: $iui-font-size-title;
       color: $buic-foreground-body;
       margin-top: 10px;
     }
@@ -78,7 +77,6 @@ $user-profile-circle-size: 60px;
     }
 
     > button {
-      @include uicore-buttons-primary-large;
       width: 75%;
       margin: auto 0 0 0;
      }

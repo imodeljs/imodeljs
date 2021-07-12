@@ -3,6 +3,7 @@
 * See LICENSE.md in the project root for license terms and full copyright notice.
 *--------------------------------------------------------------------------------------------*/
 @import '../style/index';
+@import "~@itwin/itwinui-css/scss/style/typography";
 
 @mixin uicore-progress-spinner() {
   position: relative;
@@ -71,7 +72,7 @@
     top: 0;
     align-items: center;
     justify-content: center;
-    font-size: $uicore-font-size-small;
+    font-size: $iui-font-size-small;
     user-select: none;
 
     svg,

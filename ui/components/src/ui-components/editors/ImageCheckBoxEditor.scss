@@ -2,7 +2,7 @@
 * Copyright (c) Bentley Systems, Incorporated. All rights reserved.
 * See LICENSE.md in the project root for license terms and full copyright notice.
 *--------------------------------------------------------------------------------------------*/
-@import "~@bentley/ui-core/lib/ui-core/style/typography";
+@import "~@itwin/itwinui-css/scss/style/typography";
 
 $image-checkbox-size: 32px;
 
@@ -18,6 +18,6 @@ $image-checkbox-size: 32px;
 
 .components-property-list--horizontal {
   .components-image-checkbox-editor {
-    margin-left: $uicore-font-size;    // Clear the resizer in the PropertyGrid
+    margin-left: $iui-font-size;    // Clear the resizer in the PropertyGrid
   }
 }

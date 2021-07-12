@@ -8,8 +8,11 @@
   color: $buic-foreground-body;
   background: inherit;
   border: 1px solid transparent;
-  padding: 0px;
   box-sizing: border-box;
+
+  &.iui-input {
+    padding: 0px;
+  }
 
   &:hover {
     border: 1px solid $buic-background-5;

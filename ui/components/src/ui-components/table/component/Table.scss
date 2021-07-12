@@ -3,8 +3,8 @@
 * See LICENSE.md in the project root for license terms and full copyright notice.
 *--------------------------------------------------------------------------------------------*/
 @import "~@bentley/ui-core/lib/ui-core/style/themecolors";
-@import "~@bentley/ui-core/lib/ui-core/style/typography";
 @import "~@bentley/ui-core/lib/ui-core/scrollbar";
+@import "~@itwin/itwinui-css/scss/style/typography";
 
 .components-table {
   height: 100%;
@@ -55,7 +55,7 @@
     border: none;
     background: transparent;
     outline: none;
-    font-size: $uicore-font-size;
+    font-size: $iui-font-size;
   }
 
   .react-grid-Row {
@@ -88,7 +88,7 @@
     padding: 4px 0 4px 8px;
     box-sizing: border-box;
     background: $buic-background-table-header;
-    font-size: $uicore-font-size;
+    font-size: $iui-font-size;
     border: none;
   }
 
@@ -149,7 +149,6 @@
   }
 
   .components-cell-editor {
-    // background: $buic-background-control !important;
     height: 100%;
   }
 }

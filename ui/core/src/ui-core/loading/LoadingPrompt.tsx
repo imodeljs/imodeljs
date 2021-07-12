@@ -9,10 +9,10 @@
 import "./LoadingPrompt.scss";
 import classnames from "classnames";
 import * as React from "react";
+import { Button, ProgressLinear } from "@itwin/itwinui-react";
 import { LoadingBar } from "./LoadingBar";
 import { LoadingSpinner } from "./LoadingSpinner";
 import { LoadingStatus } from "./LoadingStatus";
-import { ProgressBar } from "../progress-indicators/ProgressBar";
 import { CommonProps } from "../utils/Props";
 
 // cspell:ignore loadingprompt
@@ -74,8 +74,8 @@ export class LoadingPrompt extends React.PureComponent<LoadingPromptProps> {
         {isDeterminate && <LoadingBar style={{ width: "100%" }} percent={this.props.percent} showPercentage={this.props.showPercentage} />}
         {(isDeterminate && this.props.showStatus) &&
           <LoadingStatus style={{ marginTop: ".5em", width: "100%", fontSize: ".75em" }} percent={this.props.percent} message={this.props.status} />}
-        {!isDeterminate && (this.props.showIndeterminateBar ? <ProgressBar indeterminate /> : <LoadingSpinner />)}
-        {this.props.showCancel && <button className="loading-prompt-cancel" type="button" onClick={this.props.onCancel}>Cancel</button>}
+        {!isDeterminate && (this.props.showIndeterminateBar ? <ProgressLinear indeterminate /> : <LoadingSpinner />)}
+        {this.props.showCancel && <Button className="loading-prompt-cancel" onClick={this.props.onCancel}>Cancel</Button>}
       </div>
     );
   }

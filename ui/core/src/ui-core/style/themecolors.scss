@@ -20,6 +20,7 @@ $buic-background-5:                       var(--buic-background-5);
 /* Backgrounds and strokes */
 $buic-background-primary:                 var(--buic-background-primary);
 $buic-background-scrollbar:               var(--buic-background-scrollbar);
+$buic-background-scrollbar-hover:         var(--buic-background-scrollbar-hover);
 
 $buic-background-titlebar:                var(--buic-background-titlebar);
 $buic-background-dialog-stroke:           var(--buic-background-dialog-stroke);
@@ -89,8 +90,7 @@ $buic-button-gradient2:                   var(--buic-button-gradient2);
 
 $buic-foreground-focus-border:            var(--buic-foreground-focus-border);
 $buic-inputs-border:                      var(--buic-inputs-border);
-$buic-focus-boxshadow-gradient1:          var(--buic-focus-boxshadow-gradient1);
-$buic-focus-boxshadow-gradient2:          var(--buic-focus-boxshadow-gradient2);
+$buic-focus-boxshadow:                    var(--buic-focus-boxshadow);
 $buic-inputs-boxshadow:                   var(--buic-inputs-boxshadow);
 $buic-popup-boxshadow:                    var(--buic-popup-boxshadow);
 
@@ -98,19 +98,20 @@ $buic-popup-boxshadow:                    var(--buic-popup-boxshadow);
 $buic-foreground-accessory:               var(--buic-foreground-accessory);
 $buic-foreground-primary-rgb:             var(--buic-foreground-primary-rgb);
 $buic-foreground-primary:                 var(--buic-foreground-primary);
-$buic-foreground-primary-tone-rgb:        var(--buic-foreground-primary-tone-rgb);
 $buic-foreground-primary-tone:            var(--buic-foreground-primary-tone);
-$buic-foreground-primary-tint:            var(--buic-foreground-primary-tint);
-$buic-foreground-success:                 var(--buic-foreground-success);
-$buic-foreground-success-tint:            var(--buic-foreground-success-tint);
-$buic-foreground-alert:                   var(--buic-foreground-alert);
-$buic-foreground-error:                   var(--buic-foreground-alert);
-$buic-foreground-alert-tint:              var(--buic-foreground-alert-tint);
+$buic-foreground-positive:                var(--buic-foreground-positive);
+$buic-foreground-positive-rgb:            var(--buic-foreground-positive-rgb);
+$buic-foreground-success:                 var(--buic-foreground-positive);
+$buic-foreground-negative:                var(--buic-foreground-negative);
+$buic-foreground-negative-rgb:            var(--buic-foreground-negative-rgb);
+$buic-foreground-alert:                   var(--buic-foreground-negative);
+$buic-foreground-error:                   var(--buic-foreground-negative);
 $buic-foreground-warning:                 var(--buic-foreground-warning);
-$buic-foreground-warning-tint:            var(--buic-foreground-warning-tint);
+$buic-foreground-warning-rgb:             var(--buic-foreground-warning-rgb);
 $buic-foreground-focus:                   var(--buic-foreground-focus);
 
 /** Static colors */
+// NEEDSWORK - Need to deprecate
 $buic-accessory-hollow:                   var(--buic-accessory-hollow);
 $buic-accessory-primary:                  var(--buic-accessory-primary);
 $buic-accessory-success:                  var(--buic-accessory-success);
@@ -120,7 +121,6 @@ $buic-accessory-primary-tint:             var(--buic-accessory-primary-tint);
 $buic-accessory-success-tint:             var(--buic-accessory-success-tint);
 $buic-accessory-alert-tint:               var(--buic-accessory-alert-tint);
 $buic-accessory-warning-tint:             var(--buic-accessory-warning-tint);
-$buic-foreground-mediumgray:              var(--buic-foreground-mediumgray);
 
 /** Widget Opacity */
 $buic-widget-opacity:                     var(--buic-widget-opacity, 0.90);

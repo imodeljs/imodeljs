@@ -3,12 +3,12 @@
 * See LICENSE.md in the project root for license terms and full copyright notice.
 *--------------------------------------------------------------------------------------------*/
 @import "~@bentley/ui-core/lib/ui-core/style/colors";
-@import "~@bentley/ui-core/lib/ui-core/style/typography";
+@import "~@itwin/itwinui-css/scss/style/typography";
 
 .tabstrip {
 	position: relative;
   color: $uicore-text-color;
-  font-size: $uicore-font-size;
+  font-size: $iui-font-size;
 }
 
 .tabstrip nav {

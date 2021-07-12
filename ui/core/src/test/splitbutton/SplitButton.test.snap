@@ -44,9 +44,141 @@ exports[`<SplitButton /> renders correctly 1`] = `
 </div>
 `;
 
-exports[`<SplitButton /> renders with buttonType correctly 1`] = `
+exports[`<SplitButton /> renders with buttonType=Blue correctly 1`] = `
 <div
   className="core-split-button uicore-buttons-blue"
+  data-testid="core-split-button-root"
+  onKeyUp={[Function]}
+  role="button"
+  tabIndex={0}
+>
+  <div
+    className="core-split-button-label"
+    data-testid="core-split-button-label"
+    role="button"
+    tabIndex={-1}
+  >
+     
+    test
+  </div>
+  <div
+    className="core-split-button-divider"
+  />
+  <div
+    className="core-split-button-arrow"
+    onClick={[Function]}
+    role="button"
+    tabIndex={-1}
+  >
+    <div
+      className="core-split-button-arrow-icon icon icon-chevron-down"
+    />
+    <PopupContextMenu
+      animate={false}
+      autoflip={false}
+      isOpen={false}
+      onEsc={[Function]}
+      onOutsideClick={[Function]}
+      onSelect={[Function]}
+      position={6}
+      selectedIndex={0}
+      target={null}
+    />
+  </div>
+</div>
+`;
+
+exports[`<SplitButton /> renders with buttonType=Disabled correctly 1`] = `
+<div
+  className="core-split-button uicore-buttons-disabled"
+  data-testid="core-split-button-root"
+  onKeyUp={[Function]}
+  role="button"
+  tabIndex={0}
+>
+  <div
+    className="core-split-button-label"
+    data-testid="core-split-button-label"
+    role="button"
+    tabIndex={-1}
+  >
+     
+    test
+  </div>
+  <div
+    className="core-split-button-divider"
+  />
+  <div
+    className="core-split-button-arrow"
+    onClick={[Function]}
+    role="button"
+    tabIndex={-1}
+  >
+    <div
+      className="core-split-button-arrow-icon icon icon-chevron-down"
+    />
+    <PopupContextMenu
+      animate={false}
+      autoflip={false}
+      isOpen={false}
+      onEsc={[Function]}
+      onOutsideClick={[Function]}
+      onSelect={[Function]}
+      position={6}
+      selectedIndex={0}
+      target={null}
+    />
+  </div>
+</div>
+`;
+
+exports[`<SplitButton /> renders with buttonType=Hollow correctly 1`] = `
+<div
+  className="core-split-button uicore-buttons-hollow"
+  data-testid="core-split-button-root"
+  onKeyUp={[Function]}
+  role="button"
+  tabIndex={0}
+>
+  <div
+    className="core-split-button-label"
+    data-testid="core-split-button-label"
+    role="button"
+    tabIndex={-1}
+  >
+     
+    test
+  </div>
+  <div
+    className="core-split-button-divider"
+  />
+  <div
+    className="core-split-button-arrow"
+    onClick={[Function]}
+    role="button"
+    tabIndex={-1}
+  >
+    <div
+      className="core-split-button-arrow-icon icon icon-chevron-down"
+    />
+    <PopupContextMenu
+      animate={false}
+      autoflip={false}
+      isOpen={false}
+      onEsc={[Function]}
+      onOutsideClick={[Function]}
+      onSelect={[Function]}
+      position={6}
+      selectedIndex={0}
+      target={null}
+    />
+  </div>
+</div>
+`;
+
+exports[`<SplitButton /> renders with buttonType=Primary correctly 1`] = `
+<div
+  className="core-split-button uicore-buttons-primary"
   data-testid="core-split-button-root"
   onKeyUp={[Function]}
   role="button"

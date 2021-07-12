@@ -38,6 +38,7 @@ export class RulesetSelector extends React.Component<RulesetSelectorProps, Rules
       return (<div className="RulesetSelector">{IModelApp.i18n.translate("Sample:controls.notifications.no-available-rulesets")}</div>);
     return (
       <div className="RulesetSelector">
+        {/* eslint-disable-next-line deprecation/deprecation */}
         <Select
           options={this.state.availableRulesets}
           defaultValue={this.props.activeRulesetId}

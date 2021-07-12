@@ -25,6 +25,12 @@
 
       $bar-size: 2px;
 
+      .uicore-tabs-inline-label {
+        display: grid;
+        grid-template-columns: auto 1fr;
+        align-items: center;
+      }
+
       &::after {
 
         height:             100%;

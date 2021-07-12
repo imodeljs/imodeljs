@@ -2,11 +2,17 @@
 * Copyright (c) Bentley Systems, Incorporated. All rights reserved.
 * See LICENSE.md in the project root for license terms and full copyright notice.
 *--------------------------------------------------------------------------------------------*/
+@import "~@itwin/itwinui-css/scss/style/theme";
 
 // cspell:ignore mediumgray titlebar toolbutton outoffocus
 
+/** @note: This file should only be imported by UiCore.ts.
+ *  It should NOT be imported by any *.scss or other ui-core files.
+ */
+
 :root {
 
+  // NEEDSWORK - Need to deprecate these accessory colors
   --buic-accessory-hollow:                    rgb(255, 255, 255);
   --buic-accessory-primary:                   rgb(000, 139, 225);
   --buic-accessory-success:                   rgb(083, 162, 026);
@@ -17,35 +23,57 @@
   --buic-accessory-alert-tint:                rgb(239, 169, 169);
   --buic-accessory-warning-tint:              rgb(249, 215, 171);
 
-  --buic-foreground-mediumgray:               rgb(155, 165, 174);
+  --buic-background-1-rgb:                    var(--iui-color-background-1-rgb);
+  --buic-background-2-rgb:                    var(--iui-color-background-2-rgb);
+  --buic-background-3-rgb:                    var(--iui-color-background-3-rgb);
+  --buic-background-4-rgb:                    var(--iui-color-background-4-rgb);
+  --buic-background-5-rgb:                    var(--iui-color-background-5-rgb);
 
-  --buic-background-1:                        rgb(var(--buic-background-1-rgb));
-  --buic-background-2:                        rgb(var(--buic-background-2-rgb));
-  --buic-background-3:                        rgb(var(--buic-background-3-rgb));
-  --buic-background-4:                        rgb(var(--buic-background-4-rgb));
-  --buic-background-5:                        rgb(var(--buic-background-5-rgb));
-  --buic-background-primary:                  rgb(var(--buic-foreground-primary-rgb));
+  --buic-background-1:                        var(--iui-color-background-1);
+  --buic-background-2:                        var(--iui-color-background-2);
+  --buic-background-3:                        var(--iui-color-background-3);
+  --buic-background-4:                        var(--iui-color-background-4);
+  --buic-background-5:                        var(--iui-color-background-5);
+  --buic-background-primary:                  var(--iui-color-background-primary);
+  --buic-background-tooltip:                  rgba(var(--iui-color-background-5-rgb), 0.90);
+  --buic-background-scrollbar:                rgba(var(--iui-color-foreground-body-rgb), var(--iui-opacity-4));
+  --buic-background-scrollbar-hover:          rgba(var(--iui-color-foreground-body-rgb), var(--iui-opacity-3));
 
-  --buic-foreground-body:                     rgba(var(--buic-foreground-body-rgb), 0.85);
-  --buic-foreground-body-reverse:             rgba(var(--buic-foreground-body-reverse-rgb), 0.85);
-  --buic-foreground-muted:                    rgba(var(--buic-foreground-body-rgb), 0.65);
-  --buic-foreground-disabled:                 rgba(var(--buic-foreground-body-rgb), 0.45);
-  --buic-foreground-activehover:              rgba(var(--buic-foreground-body-rgb), 1.00);
+  --buic-foreground-body-rgb:                 var(--iui-text-color-rgb);
+  --buic-foreground-body:                     var(--iui-text-color);
+  --buic-foreground-body-reverse-rgb:         var(--iui-color-foreground-body-invert-rgb);
+  --buic-foreground-body-reverse:             rgba(var(--iui-color-foreground-body-invert-rgb), var(--iui-opacity-2));
+  --buic-foreground-muted:                    var(--iui-text-color-muted);
+  --buic-foreground-disabled:                 var(--iui-text-color-placeholder);
+  --buic-foreground-activehover:              var(--iui-icons-color-actionable-hover);
 
-  --buic-foreground-primary:                  rgb(var(--buic-foreground-primary-rgb));
-  --buic-foreground-primary-tone:             rgb(var(--buic-foreground-primary-tone-rgb));
-  --buic-foreground-focus:                    rgb(var(--buic-foreground-primary-tone-rgb));
+  --buic-inputs-border:                       rgba(var(--iui-color-foreground-body-rgb), var(--iui-opacity-4));
+  --buic-inputs-boxshadow:                    var(--iui-focus-box-shadow);
+  --buic-popup-boxshadow:                     var(--buic-inputs-boxshadow);
+
+  --buic-foreground-primary:                  var(--iui-icons-color-primary);
+  --buic-foreground-primary-tone:             var(--iui-color-foreground-primary-overlay);
+  --buic-foreground-focus:                    var(--iui-color-foreground-primary-overlay);
   --buic-foreground-focus-border:             var(--buic-inputs-border);
-  --buic-focus-boxshadow-gradient1:           rgba(var(--buic-foreground-primary-tone-rgb), 0);
-  --buic-focus-boxshadow-gradient2:           rgba(var(--buic-foreground-primary-rgb), 0.65);
+  --buic-focus-boxshadow:                     rgba(var(--iui-color-foreground-primary-rgb), var(--iui-opacity-4));
 
-  --buic-background-focus-overlay:            rgba(var(--buic-foreground-primary-rgb), 0.1);
-  --buic-background-hover-overlay:            rgba(var(--buic-foreground-primary-rgb), 0.2);
-  --buic-background-active-overlay:           rgba(var(--buic-foreground-primary-rgb), 0.2);
-  --buic-background-pressed-overlay:          rgba(var(--buic-foreground-primary-rgb), 0.3);
+  --buic-foreground-accessory:                var(--iui-color-foreground-accessory);
+  --buic-foreground-success:                  var(--iui-color-foreground-positive);
+  --buic-foreground-positive:                 var(--iui-color-foreground-positive);
+  --buic-foreground-positive-rgb:             var(--iui-color-foreground-positive-rgb);
+  --buic-foreground-alert:                    var(--iui-color-foreground-negative);
+  --buic-foreground-negative:                 var(--iui-color-foreground-negative);
+  --buic-foreground-negative-rgb:             var(--iui-color-foreground-negative-rgb);
+  --buic-foreground-warning:                  var(--iui-color-foreground-warning);
+  --buic-foreground-warning-rgb:              var(--iui-color-foreground-warning-rgb);
+
+  --buic-background-focus-overlay:            rgba(var(--iui-color-foreground-primary-rgb), var(--iui-opacity-6));
+  --buic-background-hover-overlay:            rgba(var(--iui-color-foreground-primary-rgb), var(--iui-opacity-5));
+  --buic-background-active-overlay:           rgba(var(--iui-color-foreground-primary-rgb), var(--iui-opacity-5));
+  --buic-background-pressed-overlay:          rgba(var(--iui-color-foreground-primary-rgb), 0.3);
 
   --buic-background-card:                     var(--buic-background-tooltip);
-  --buic-background-striped_row:              rgba(var(--buic-background-3-rgb), 0.65);
+  --buic-background-striped_row:              rgba(var(--iui-color-foreground-body-rgb), 0.03);
 
   /** background.5 */
   --buic-background-titlebar:                 var(--buic-background-5);

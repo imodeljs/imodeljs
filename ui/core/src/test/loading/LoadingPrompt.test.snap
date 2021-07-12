@@ -20,7 +20,7 @@ exports[`<LoadingPrompt /> renders with indeterminate ProgressBar 1`] = `
   <span
     className="title"
   />
-  <ProgressBar
+  <ProgressLinear
     indeterminate={true}
   />
 </div>
@@ -124,12 +124,11 @@ exports[`<LoadingPrompt /> renders with text and message, and deterministic 3`] 
       }
     }
   />
-  <button
+  <ForwardRef
     className="loading-prompt-cancel"
-    type="button"
   >
     Cancel
-  </button>
+  </ForwardRef>
 </div>
 `;
 

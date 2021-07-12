@@ -4,8 +4,8 @@
 *--------------------------------------------------------------------------------------------*/
 import "./IModelCard.scss";
 import * as React from "react";
-import { Spinner, SpinnerSize } from "@bentley/ui-core";
 import { IModelInfo, UiFramework } from "@bentley/ui-framework";
+import { ProgressRadial } from "@itwin/itwinui-react";
 
 // import { IModelViewPicker } from "./IModelViewPicker";
 
@@ -70,7 +70,7 @@ export class IModelCard extends React.Component<IModelCardProps, IModelCardState
     if (this.state.waitingForThumbnail) {
       return (
         <div className="preview-loader">
-          <Spinner size={SpinnerSize.Large} />
+          <ProgressRadial size="large" indeterminate />
         </div>
       );
     } else if (this.props.iModel.thumbnail) {

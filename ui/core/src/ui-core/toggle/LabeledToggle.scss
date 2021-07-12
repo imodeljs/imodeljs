@@ -3,6 +3,7 @@
 * See LICENSE.md in the project root for license terms and full copyright notice.
 *--------------------------------------------------------------------------------------------*/
 @import "../style/index.scss";
+@import "~@itwin/itwinui-css/scss/style/typography";
 
 .core-inputs-labeled-toggle {
   flex:         1;
@@ -12,7 +13,7 @@
 
   >.uicore-label {
     padding-left: .5em;
-    font-size:    $uicore-font-size;
+    font-size:    $iui-font-size;
   }
 
   &.uicore-disabled > .uicore-label {   color: $buic-text-color-disabled; }

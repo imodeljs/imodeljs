@@ -52,11 +52,11 @@ export interface ItemProps extends IconProps {
   tooltipKey?: string;
 
   /** Function called to get the new items state
-   *  @deprecated - use ConditionalStringValue or ConditionalBooleanValue instead
+   * @deprecated - use ConditionalStringValue or ConditionalBooleanValue instead
    */
   stateFunc?: (state: Readonly<BaseItemState>) => BaseItemState;
   /** Synchronize Ids to listen for
-   *  @deprecated - use ConditionalStringValue or ConditionalBooleanValue instead
+   * @deprecated - use ConditionalStringValue or ConditionalBooleanValue instead
    */
   stateSyncIds?: string[];
 }

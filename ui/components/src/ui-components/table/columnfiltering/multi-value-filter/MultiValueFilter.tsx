@@ -8,7 +8,8 @@
 
 import "./MultiValueFilter.scss";
 import React from "react";
-import { Button, ButtonType, Checkbox, CheckBoxState, CheckListBox, CheckListBoxItem, SearchBox, UiCore } from "@bentley/ui-core";
+import { CheckBoxState, CheckListBox, CheckListBoxItem, SearchBox, UiCore } from "@bentley/ui-core";
+import { Button, Checkbox } from "@itwin/itwinui-react";
 import { PopupButton, PopupContent } from "../../../editors/PopupButton";
 import { ReactDataGridColumn } from "../../component/TableColumn";
 import { UiComponents } from "../../../UiComponents";
@@ -43,6 +44,7 @@ export function MultiValueFilter(props: MultiValueFilterProps) {
   const [selectAllLabel] = React.useState(() => UiComponents.translate("button.label.selectAll"));
   const [distinctFilter] = React.useState(() => props.column.filterableColumn!.columnFilterDescriptor.distinctFilter);
   const [buttonLabel, setButtonLabel] = React.useState<string | undefined>(undefined);
+  const [buttonTooltip, setButtonTooltip] = React.useState<string | undefined>(undefined);
   const [searchText, setSearchText] = React.useState("");
   const [selectAllState, setSelectAllState] = React.useState(CheckBoxState.Off);
   const [filterCaseSensitive] = React.useState(() => !!props.column.filterableColumn!.filterCaseSensitive);
@@ -109,6 +111,21 @@ export function MultiValueFilter(props: MultiValueFilterProps) {
     else if (checkedDistinctValues.length > 1)
       label = `${checkedDistinctValues[0].label} (+${checkedDistinctValues.length - 1})`;
     setButtonLabel(label);
+
+    let tooltip: string | undefined;
+    if (checkedDistinctValues.length > 1) {
+      const lineBreak = "\u000d\u000a";
+      const maxTooltipValues = 10;
+      const shownTooltipValues = Math.min(10, checkedDistinctValues.length);
+      tooltip = checkedDistinctValues[0].label;
+      for (let index = 1; index < shownTooltipValues; index++) {
+        tooltip += `${lineBreak}${checkedDistinctValues[index].label}`;
+      }
+      if (checkedDistinctValues.length > shownTooltipValues) {
+        tooltip += `${lineBreak}(+${checkedDistinctValues.length - maxTooltipValues})`;
+      }
+    }
+    setButtonTooltip(tooltip);
 
     props.onChange({ filterTerm: filterData, column: props.column });
   }, [props, checkedDistinctValues]);
@@ -180,6 +197,7 @@ export function MultiValueFilter(props: MultiValueFilterProps) {
     <div data-testid="components-multi-value-filter">
       <PopupButton placeholder={props.placeholder || filterLabel}
         label={buttonLabel}
+        title={buttonTooltip}
         closeOnEnter={false}
         setFocus={false}
         moveFocus={false}
@@ -205,9 +223,9 @@ export function MultiValueFilter(props: MultiValueFilterProps) {
             </div>
           }
           <div className="components-multi-value-buttons">
-            <Button onClick={handleClear} data-testid="components-multi-value-button-clear">{clearLabel}</Button>
-            <Button onClick={handleApplyFilter} data-testid="components-multi-value-button-filter">{filterLabel}</Button>
-            <Button buttonType={ButtonType.Hollow} onClick={handleCancel} data-testid="components-multi-value-button-cancel">{cancelLabel}</Button>
+            <Button size="small" onClick={handleClear} data-testid="components-multi-value-button-clear">{clearLabel}</Button>
+            <Button size="small" styleType="cta" onClick={handleApplyFilter} data-testid="components-multi-value-button-filter">{filterLabel}</Button>
+            <Button size="small" onClick={handleCancel} data-testid="components-multi-value-button-cancel">{cancelLabel}</Button>
           </div>
         </PopupContent>
       </PopupButton>

@@ -6,6 +6,8 @@ import { mount, shallow } from "enzyme";
 import * as React from "react";
 import { Headline } from "../../ui-core";
 
+/* eslint-disable deprecation/deprecation */
+
 describe("<Headline />", () => {
   it("should render", () => {
     mount(<Headline />);

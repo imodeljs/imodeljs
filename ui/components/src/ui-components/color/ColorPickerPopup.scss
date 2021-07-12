@@ -3,11 +3,11 @@
 * See LICENSE.md in the project root for license terms and full copyright notice.
 *--------------------------------------------------------------------------------------------*/
 @import "~@bentley/ui-core/lib/ui-core/style/themecolors";
-@import "~@bentley/ui-core/lib/ui-core/style/typography";
+@import "~@itwin/itwinui-css/scss/style/typography";
 
 button.components-colorpicker-popup-button {
-  font-family: $uicore-font-family;
-  font-size: $uicore-font-size;
+  font-family: $iui-font-family;
+  font-size: $iui-font-size;
   color: $buic-foreground-body;
   background-color: transparent;
   box-sizing: border-box;

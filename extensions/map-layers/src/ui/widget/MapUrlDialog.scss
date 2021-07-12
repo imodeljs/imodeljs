@@ -3,6 +3,7 @@
 * See LICENSE.md in the project root for license terms and full copyright notice.
 *--------------------------------------------------------------------------------------------*/
 @import "~@bentley/ui-core/lib/ui-core/index";
+@import "~@itwin/itwinui-css/scss/style/typography";
 
 $divider-color: $buic-background-toolbutton-stroke;
 $hovered-icon-color: $buic-foreground-primary-tone;
@@ -27,7 +28,7 @@ $hovered-icon-color: $buic-foreground-primary-tone;
   align-items: center;
 
   .map-layer-source-label{
-    font-size: $uicore-font-size;
+    font-size: $iui-font-size;
     color: $buic-foreground-body;
     padding-right: 6px;
     flex: initial;

@@ -7,8 +7,8 @@
  */
 
 import * as React from "react";
-import { Dialog, DialogButtonDef, DialogButtonType } from "@bentley/ui-core";
-import { DialogLayoutDataProvider } from "@bentley/ui-abstract";
+import { Dialog } from "@bentley/ui-core";
+import { DialogButtonDef, DialogButtonType, DialogLayoutDataProvider } from "@bentley/ui-abstract";
 import { getUniqueId } from "@bentley/ui-ninezone";
 import { ModalDialogManager } from "./ModalDialogManager";
 import { ModelessDialogManager } from "./ModelessDialogManager";

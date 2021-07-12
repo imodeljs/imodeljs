@@ -229,7 +229,8 @@ describe("TreeRenderer", () => {
     const verticalScrollSpy = sinon.spy();
     sinon.replace(VariableSizeList.prototype, "scrollToItem", verticalScrollSpy);
     const horizontalScrollSpy = sinon.spy();
-    sinon.replace(Element.prototype, "scrollIntoView", horizontalScrollSpy);
+    // sinon.replace(Element.prototype, "scrollIntoView", horizontalScrollSpy);
+    window.HTMLElement.prototype.scrollIntoView = horizontalScrollSpy;
 
     const { rerender } = render(<TreeRenderer {...defaultProps} />);
 

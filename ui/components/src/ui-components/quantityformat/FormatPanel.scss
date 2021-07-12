@@ -2,7 +2,9 @@
 * Copyright (c) Bentley Systems, Incorporated. All rights reserved.
 * See LICENSE.md in the project root for license terms and full copyright notice.
 *--------------------------------------------------------------------------------------------*/
+@import "~@bentley/ui-core/lib/ui-core/inputs/variables";
 @import "~@bentley/ui-core/lib/ui-core/select/select";
+@import "~@itwin/itwinui-css/scss/style/typography";
 
 .components-quantityFormat-panel {
   display: grid;
@@ -12,7 +14,7 @@
   align-items: center;
 
   >.uicore-label {
-    font-size:    $uicore-font-size;
+    font-size:    $iui-font-size;
     margin: 4.4px 0; /* match margin on other select controls so it spaces properly in grid */
     &.uicore-disabled {   color: $buic-text-color-disabled; }
   }
@@ -40,7 +42,7 @@
   }
 
   > a.components-quantityFormat-more-less {
-    font-size: $uicore-font-size;
+    font-size: $iui-font-size;
     color: $buic-foreground-alert;
     -webkit-transition: text-decoration 1s ease;
     -moz-transition: text-decoration 1s ease;
@@ -51,5 +53,9 @@
       text-decoration: underline;
       cursor: pointer;
     }
+  }
+
+  .iui-input {
+    padding: $uicore-iui-input-padding;
   }
 }

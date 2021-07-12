@@ -5,9 +5,8 @@ exports[`TileLoadingIndicator should render correctly footer 1`] = `
   className="uifw-tile-loading-bar nz-footer-mode"
 >
   <span />
-  <LoadingBar
-    barHeight={5}
-    percent={0}
+  <ProgressLinear
+    value={0}
   />
 </div>
 `;
@@ -17,9 +16,8 @@ exports[`TileLoadingIndicator should render correctly not footer 1`] = `
   className="uifw-tile-loading-bar"
 >
   <span />
-  <LoadingBar
-    barHeight={5}
-    percent={0}
+  <ProgressLinear
+    value={0}
   />
 </div>
 `;

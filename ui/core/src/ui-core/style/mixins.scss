@@ -2,17 +2,12 @@
 * Copyright (c) Bentley Systems, Incorporated. All rights reserved.
 * See LICENSE.md in the project root for license terms and full copyright notice.
 *--------------------------------------------------------------------------------------------*/
-@import "./themecolors";
-
-@mixin no-border {
-
-  border:         0 none transparent;
-}
+@import "~@itwin/itwinui-css/scss/style/mixins";
 
 @mixin no-link {
 
-  text-decoration:        none;
-  color:                  $buic-text-color;
+  text-decoration:      none;
+  color:                $buic-text-color;
 
   &:link,
   &:visited,

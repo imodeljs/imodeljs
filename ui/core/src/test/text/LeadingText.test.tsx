@@ -6,6 +6,8 @@ import { mount, shallow } from "enzyme";
 import * as React from "react";
 import { LeadingText } from "../../ui-core";
 
+/* eslint-disable deprecation/deprecation */
+
 describe("<LeadingText />", () => {
   it("should render", () => {
     mount(<LeadingText />);

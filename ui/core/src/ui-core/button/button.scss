@@ -3,6 +3,9 @@
 * See LICENSE.md in the project root for license terms and full copyright notice.
 *--------------------------------------------------------------------------------------------*/
 @import "./variables";
+@import "~@itwin/itwinui-css/scss/style/speed";
+@import "~@itwin/itwinui-css/scss/style/typography";
+@import "~@itwin/itwinui-css/scss/style/variables";
 
 // cspell:ignore unbordered
 
@@ -14,17 +17,17 @@
 
   padding:                $uicore-button-padding $uicore-unbordered-padding;
   margin:                 $uicore-inputs-margin 0;
-  border-radius:          $uicore-border-radius;
+  border-radius:          $iui-border-radius;
   line-height:            $uicore-button-line-height;
   outline:                none;
-  font-family:            $uicore-font-family;
-  font-size:              $uicore-font-size;
+  font-family:            $iui-font-family;
+  font-size:              $iui-font-size;
   text-decoration:        none;
   cursor:                 pointer;
   box-sizing:             border-box;
   box-shadow:             transparent 0px 1px 1px inset;
   border:                 1px solid transparent;
-  transition:             all 0.15s ease-in-out;
+  transition:             all $iui-speed-fast ease-in-out;
 
   &:active,
   &:focus {
@@ -65,14 +68,14 @@
 
   padding:                $uicore-inputs-padding-large $uicore-unbordered-padding-large;
   margin:                 $uicore-inputs-margin-large 0;
-  font-size:              $uicore-font-size-leading;
-  font-weight:            $uicore-font-weight-normal;
+  font-size:              $iui-font-size-leading;
+  font-weight:            $iui-font-weight-normal;
 }
 
 @mixin uicore-buttons-large-bordered-size {
 
   padding:                $uicore-button-padding-bordered-large $uicore-bordered-padding-large;
   margin:                 $uicore-inputs-margin-large 0;
-  font-size:              $uicore-font-size-leading;
-  font-weight:            $uicore-font-weight-normal;
+  font-size:              $iui-font-size-leading;
+  font-weight:            $iui-font-weight-normal;
 }

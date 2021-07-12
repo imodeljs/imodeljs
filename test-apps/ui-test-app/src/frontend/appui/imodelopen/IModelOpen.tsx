@@ -14,7 +14,7 @@ import { NavigationItem, NavigationList } from "./Navigation";
 import { ProjectDropdown } from "./ProjectDropdown";
 import { ActivityMessageDetails, ActivityMessageEndReason, IModelApp } from "@bentley/imodeljs-frontend";
 import { BeDuration } from "@bentley/bentleyjs-core";
-import { Button } from "@bentley/ui-core";
+import { Button } from "@itwin/itwinui-react";
 
 /** Properties for the [[IModelOpen]] component */
 export interface IModelOpenProps {
@@ -164,7 +164,7 @@ export class IModelOpen extends React.Component<IModelOpenProps, IModelOpenState
                 <ProjectDropdown currentProject={this.state.currentProject} recentProjects={this.state.recentProjects} onProjectClicked={this._selectProject.bind(this)} />
               </div>
             </div>
-            <Button style={{ display: "none" }} className="activity-button" onClick={this._activityTool}>Activity Message</Button>
+            <Button styleType="cta" style={{ display: "none" }} className="activity-button" onClick={this._activityTool}>Activity Message</Button>
           </div>
           <NavigationList defaultTab={0} onExpandChanged={this._onNavigationChanged}>
             <NavigationItem label="Recent" icon="icon-placeholder" />

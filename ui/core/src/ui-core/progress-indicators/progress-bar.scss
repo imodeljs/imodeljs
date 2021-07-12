@@ -3,6 +3,8 @@
 * See LICENSE.md in the project root for license terms and full copyright notice.
 *--------------------------------------------------------------------------------------------*/
 @import '../style/index';
+@import "~@itwin/itwinui-css/scss/style/space";
+@import "~@itwin/itwinui-css/scss/style/typography";
 
 @mixin uicore-progress-bar($height: 4px) {
   text-align: left;
@@ -73,9 +75,9 @@
     text-align: center;
     width: 100%;
     overflow: hidden;
-    margin-top: $uicore-xs;
+    margin-top: $iui-xs;
     display: block;
-    font-size: $uicore-font-size-small;
+    font-size: $iui-font-size-small;
 
     > :first-child {
       float: left;

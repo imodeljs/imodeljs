@@ -9,9 +9,10 @@
 // cSpell:ignore colorpicker
 
 import * as React from "react";
-import { Dialog, DialogButtonType } from "@bentley/ui-core";
+import { Dialog } from "@bentley/ui-core";
 import { ColorDef } from "@bentley/imodeljs-common";
 import { ColorPickerPanel } from "./ColorPickerPanel";
+import { DialogButtonType } from "@bentley/ui-abstract";
 
 /** Properties for the [[ColorPickerDialog]] React component
  * @beta

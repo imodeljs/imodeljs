@@ -2,9 +2,9 @@
 * Copyright (c) Bentley Systems, Incorporated. All rights reserved.
 * See LICENSE.md in the project root for license terms and full copyright notice.
 *--------------------------------------------------------------------------------------------*/
-@import "~@bentley/ui-core/lib/ui-core/style/variables";
 @import "~@bentley/ui-core/lib/ui-core/style/themecolors";
 @import "~@bentley/ui-core/lib/ui-core/z-index";
+@import "~@itwin/itwinui-css/scss/style/variables";
 
 // 40px is used to ensure scrubber is not drawn behind a widget tab
 .uifw-view-overlay {
@@ -33,7 +33,7 @@ $widget-transparency: 0.90;
   height: auto;
   background: $buic-background-dialog;
   border: 1px solid $buic-background-dialog-stroke;
-  border-radius: $uicore-border-radius;
+  border-radius: $iui-border-radius;
   // overflow: hidden;
   opacity: $widget-transparency;
   pointer-events: auto;

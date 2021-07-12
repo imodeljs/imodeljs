@@ -6,14 +6,17 @@
  * @module Utilities
  */
 
-/** Import color themes, layout variables and Sass classes barrel file */
+/** Import color variables, layout variables and Sass classes barrel file */
 import "./colorthemes.scss";
+import "./colorvariables.scss";
 import "./layout-variables.scss";
 import "./classes.scss";
 
 import { Logger } from "@bentley/bentleyjs-core";
 import { I18N } from "@bentley/imodeljs-i18n";
 import { getClassName, UiAbstract, UiError } from "@bentley/ui-abstract";
+
+// cSpell:ignore colorthemes colorvariables
 
 /**
  * Manages the I18N service for the ui-core package.

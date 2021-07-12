@@ -19,7 +19,8 @@ import {
   PropertyData, PropertyGridContextMenuArgs, useAsyncValue, useDebouncedAsyncValue, VirtualizedPropertyGridWithDataProvider,
 } from "@bentley/ui-components";
 import { HighlightInfo } from "@bentley/ui-components/lib/ui-components/common/HighlightingComponentProps";
-import { ContextMenuItem, ContextMenuItemProps, FillCentered, GlobalContextMenu, Orientation, Toggle, useDisposable } from "@bentley/ui-core";
+import { ContextMenuItem, ContextMenuItemProps, FillCentered, GlobalContextMenu, Orientation, useDisposable } from "@bentley/ui-core";
+import { ToggleSwitch } from "@itwin/itwinui-react";
 import { DiagnosticsSelector } from "../diagnostics-selector/DiagnosticsSelector";
 
 const FAVORITES_SCOPE = FavoritePropertiesScope.IModel;
@@ -72,9 +73,9 @@ export function PropertiesWidget(props: Props) {
             resultSelectorProps={resultSelectorProps}
             status={filterText.length !== 0 ? FilteringInputStatus.FilteringFinished : FilteringInputStatus.ReadyToFilter}
           />
-          <Toggle
+          <ToggleSwitch
             title="Favorites"
-            onChange={(on) => setIsFavoritesFilterActive(on)}
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) => setIsFavoritesFilterActive(e.target.checked)}
           />
         </div>)
         : null}

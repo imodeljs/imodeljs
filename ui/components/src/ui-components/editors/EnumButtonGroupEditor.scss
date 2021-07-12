@@ -3,7 +3,7 @@
 * See LICENSE.md in the project root for license terms and full copyright notice.
 *--------------------------------------------------------------------------------------------*/
 @import "~@bentley/ui-core/lib/ui-core/style/themecolors";
-@import "~@bentley/ui-core/lib/ui-core/style/typography";
+@import "~@itwin/itwinui-css/scss/style/typography";
 
 $desktop-tool-stripe-width: 2px;
 $desktop-tool-stripe-height: 22px;
@@ -25,8 +25,8 @@ $components-enumbuttongroup-editor-item-border-width: 1px;
 $components-enumbuttongroup-editor-space-between-toolbar-items: 1px;
 
 .components-enumbuttongroup-editor {
-  font-family: $uicore-font-family;
-  font-size: $uicore-font-size;
+  font-family: $iui-font-family;
+  font-size: $iui-font-size;
   background: $buic-background-control;
   width: fit-content;
 

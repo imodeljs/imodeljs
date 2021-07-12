@@ -18,11 +18,7 @@
     padding: 6px 0;
 
     .uifw-visibility-tree-select {
-      @include uicore-inputs-select;
-
       flex: 1;
-      padding: 5px;
-      border: 1px solid #ccc;
       width: 50%;
       margin-right: 10px;
     }

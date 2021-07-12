@@ -20,6 +20,10 @@ $uicore-scrollbar-padding: 2px;
     border-style: solid;
     border-color: transparent;
     border-width: $padding;
+
+    &:hover {
+      background-color: $buic-background-scrollbar-hover;
+    }
   }
 
   &::-webkit-scrollbar-corner {

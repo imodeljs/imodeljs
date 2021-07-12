@@ -10,6 +10,8 @@ import { SpecialKey } from "@bentley/ui-abstract";
 import { ExpandableBlock } from "../../ui-core";
 import TestUtils from "../TestUtils";
 
+/* eslint-disable deprecation/deprecation */
+
 describe("ExpandableBlock", () => {
 
   before(async () => {

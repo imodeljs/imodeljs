@@ -15,6 +15,7 @@ import { mergeRefs } from "../utils/hooks/useRefs";
 
 /** Properties for [[Checkbox]] React component
  * @public
+ * @deprecated Use CheckboxProps in itwinui-react instead
  */
 export interface CheckboxProps extends Omit<React.InputHTMLAttributes<HTMLInputElement>, "type" | "onClick" | "onBlur">, CommonProps {
   /** Text that will be shown next to the checkbox. */
@@ -47,13 +48,14 @@ export interface CheckboxProps extends Omit<React.InputHTMLAttributes<HTMLInputE
 /** A React component that renders a simple checkbox with label.
  * It is a wrapper for the `<input type="checkbox">` HTML element.
  * @public
+ * @deprecated Use Checkbox in itwinui-react instead
  */
-export class Checkbox extends React.PureComponent<CheckboxProps> {
+export class Checkbox extends React.PureComponent<CheckboxProps> {  // eslint-disable-line deprecation/deprecation
   private _checkboxInput = React.createRef<HTMLInputElement>();
   private _refs = mergeRefs(this._checkboxInput);
 
   /** @internal */
-  constructor(props: CheckboxProps) {
+  constructor(props: CheckboxProps) { // eslint-disable-line deprecation/deprecation
     super(props);
 
     if (props.inputRef)
@@ -83,7 +85,7 @@ export class Checkbox extends React.PureComponent<CheckboxProps> {
   }
 
   /** @internal */
-  public override componentDidUpdate(_prevProps: CheckboxProps) {
+  public override componentDidUpdate(_prevProps: CheckboxProps) {  // eslint-disable-line deprecation/deprecation
     if (this.props.indeterminate !== undefined)
       this._setIndeterminate(this.props.indeterminate);
   }

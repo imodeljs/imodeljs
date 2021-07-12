@@ -4,13 +4,13 @@
 *--------------------------------------------------------------------------------------------*/
 @import "~@bentley/ui-core/lib/ui-core/style/baseline";
 @import "~@bentley/ui-core/lib/ui-core/style/colors";
-@import "~@bentley/ui-core/lib/ui-core/style/variables";
-@import "~@bentley/ui-core/lib/ui-core/style/typography";
+@import "~@itwin/itwinui-css/scss/style/typography";
+@import "~@itwin/itwinui-css/scss/style/variables";
 
 .drag-layer {
   font-family: 'Open Sans','Helvetica Neue',Helvetica,Arial,sans-serif;
   border: 1px solid rgba($uicore-black, 0.5);
-  border-radius: $uicore-border-radius;
+  border-radius: $iui-border-radius;
   padding: 0px;
   margin: 0px;
   line-height: $uicore-line-height;
@@ -19,7 +19,7 @@
 
 .drag-layer-type {
   padding: 0px 7px;
-  font-size: $uicore-font-size-leading;
+  font-size: $iui-font-size-leading;
   &.parent {
     background: rgba($uicore-red, 0.5);
     color: rgba($uicore-red-highlight, 0.5);
@@ -38,15 +38,15 @@
   padding: 5px 7px;
   background: rgba($uicore-white, 0.5);
   &.label {
-    font-size: $uicore-font-size;
+    font-size: $iui-font-size;
   }
   &.description {
-    font-size: $uicore-font-size-small;
+    font-size: $iui-font-size-small;
   }
 }
 .column-drag-layer {
   border: 1px solid rgba($uicore-black, 0.5);
-  border-radius: $uicore-border-radius;
+  border-radius: $iui-border-radius;
   padding: 0px;
   margin: 0px;
   line-height: $uicore-line-height;

@@ -3,42 +3,43 @@
 * See LICENSE.md in the project root for license terms and full copyright notice.
 *--------------------------------------------------------------------------------------------*/
 @import "../style/index";
+@import "~@itwin/itwinui-css/scss/style/speed";
 
 @mixin uicore-expandable-blocks-list {
 
-    > div {
+  > div {
 
-        transition:                 margin 0.15s ease-in-out;
+    transition:               margin $iui-speed-fast ease-in-out;
 
-        > .header {
+    > .iui-header {
 
-            border-color:           $uicore-gray-a transparent transparent;
-        }
-
-        &:first-child {
-
-            > .header {
-
-                border-top-color:   transparent;
-            }
-        }
+      border-color:           $uicore-gray-a transparent transparent;
     }
 
-    > .is-expanded + div {
+    &:first-child {
 
-        > .header {
+      > .iui-header {
 
-            border-top-color:       transparent;
-        }
+        border-top-color:   transparent;
+      }
+    }
+  }
 
-        &.is-expanded  > .header {
+  > .iui-expanded + div {
 
-            border-top-color:       $uicore-blue;
-        }
+    > .iui-header {
+
+      border-top-color:       transparent;
     }
 
-    > .is-expanded + .is-expanded {
+    &.iui-expanded  > .iui-header {
 
-        margin-top:                 0; // $uicore-unbordered-padding;
+        border-top-color:       $uicore-blue;
     }
+  }
+
+  > .iui-expanded + .iui-expanded {
+
+    margin-top:                 0; // $uicore-unbordered-padding;
+  }
 }

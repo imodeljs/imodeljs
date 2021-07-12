@@ -12,6 +12,7 @@ import * as React from "react";
 import { SpecialKey } from "@bentley/ui-abstract";
 import { CommonProps } from "@bentley/ui-core";
 import { UiComponents } from "../UiComponents";
+import { Button } from "@itwin/itwinui-react";
 
 // cspell:ignore signingin
 
@@ -95,10 +96,10 @@ export class SignIn extends React.PureComponent<SignInProps, SignInState> {
             <span className="components-signin-prompt">{this.props.signingInMessage}</span> :
             <span className="components-signin-prompt">{this.state.prompt}</span>
           }
-          <button className="components-signin-button" disabled={this.state.isSigningIn && disableSignInOnClick}
+          <Button className="components-signin-button" styleType="cta" disabled={this.state.isSigningIn && disableSignInOnClick}
             onClick={this._onSignInClick} onKeyUp={(e) => this._handleKeyUp(e, this._onSigningIn)}>
             {this.state.signInButton}
-          </button>
+          </Button>
           {this.props.onRegister !== undefined &&
             <span className="components-signin-register">
               {this.state.profilePrompt}

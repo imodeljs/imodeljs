@@ -7,7 +7,8 @@ import React from "react";
 import { DiagnosticsLoggerSeverity } from "@bentley/presentation-common";
 import { DiagnosticsProps } from "@bentley/presentation-components";
 import { consoleDiagnosticsHandler } from "@bentley/presentation-frontend";
-import { ContextMenuDirection, GlobalContextMenu, LabeledSelect, LabeledToggle, PointProps } from "@bentley/ui-core";
+import { ContextMenuDirection, GlobalContextMenu, PointProps } from "@bentley/ui-core";
+import { LabeledSelect, ToggleSwitch } from "@itwin/itwinui-react";
 
 export interface DiagnosticsSelectorProps {
   onDiagnosticsOptionsChanged: (diagnosticsOptions: DiagnosticsProps) => void;
@@ -42,6 +43,9 @@ export function DiagnosticsSelector(props: DiagnosticsSelectorProps) {
     setPosition(undefined);
     onDiagnosticsOptionsChanged(result);
   }, [onDiagnosticsOptionsChanged, result]);
+  const handleMeasurePerformanceChange = React.useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+    toggleMeasurePerformance(e.target.checked);
+  }, []);
 
   return (
     <React.Fragment>
@@ -57,9 +61,25 @@ export function DiagnosticsSelector(props: DiagnosticsSelectorProps) {
         direction={ContextMenuDirection.BottomLeft}
         autoflip={false}
       >
-        <LabeledSelect label="Editor severity" options={["error", "warning", "info"]} value={editorSeverity} onChange={(e) => setEditorSeverity(e.currentTarget.value)}></LabeledSelect>
-        <LabeledSelect label="Dev severity" options={["error", "warning", "info", "debug", "trace"]} value={devSeverity} onChange={(e) => setDevSeverity(e.currentTarget.value)}></LabeledSelect>
-        <LabeledToggle label="Measure performance" isOn={shouldMeasurePerformance} onChange={toggleMeasurePerformance} />
+        <LabeledSelect label="Editor severity"
+          options={[
+            { value: "error", label: "Error" },
+            { value: "warning", label: "Warning" },
+            { value: "info", label: "Info" },
+          ]}
+          value={editorSeverity}
+          onChange={(newValue: string) => setEditorSeverity(newValue)} />
+        <LabeledSelect label="Dev severity"
+          options={[
+            { value: "error", label: "Error" },
+            { value: "warning", label: "Warning" },
+            { value: "info", label: "Info" },
+            { value: "debug", label: "Debug" },
+            { value: "trace", label: "Trace" },
+          ]}
+          value={devSeverity}
+          onChange={(newValue: string) => setDevSeverity(newValue)} />
+        <ToggleSwitch label="Measure performance" labelPosition="right" checked={shouldMeasurePerformance} onChange={handleMeasurePerformanceChange} />
       </GlobalContextMenu>
     </React.Fragment>
   );

@@ -99,7 +99,8 @@ export interface StagePanelProps {
    */
   widgets?: Array<React.ReactElement<WidgetProps>>;
 
-  /** Properties for the Panel Zones in this Panel. @beta */
+  /** Properties for the Panel Zones in this Panel.
+   * @beta */
   panelZones?: StagePanelZonesProps;
 
   /** @internal */

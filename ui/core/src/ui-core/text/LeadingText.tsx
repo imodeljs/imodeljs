@@ -12,6 +12,7 @@ import { TextProps } from "./TextProps";
 
 /** Styled leading text React functional component
  * @public
+ * @deprecated Use Leading in itwinui-react instead
  */
 export function LeadingText(props: TextProps) {
   return <StyledText {...props} mainClassName="uicore-text-leading" />;

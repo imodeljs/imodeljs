@@ -10,7 +10,8 @@ import "./PopupButton.scss";
 import classnames from "classnames";
 import * as React from "react";
 import { RelativePosition, SpecialKey } from "@bentley/ui-abstract";
-import { Button, ButtonType, CommonDivProps, CommonProps, Div, Icon, Popup, UiCore } from "@bentley/ui-core";
+import { CommonDivProps, CommonProps, Div, Icon, Popup, UiCore } from "@bentley/ui-core";
+import { Button } from "@itwin/itwinui-react";
 
 /** Properties for [[PopupButton]] component
  * @alpha
@@ -183,7 +184,7 @@ export function PopupOkCancelButtons(props: OkCancelProps) {
       <Button
         className={classnames("components-popup-large-button", "components-popup-ok-button")}
         data-testid="components-popup-ok-button"
-        buttonType={ButtonType.Primary}
+        styleType="cta"
         title={UiCore.translate("dialog.ok")}
         onClick={props.onOk}
       >

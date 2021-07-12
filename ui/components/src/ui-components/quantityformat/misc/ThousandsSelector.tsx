@@ -7,8 +7,9 @@
  */
 
 import * as React from "react";
-import { CommonProps, Select, SelectOption } from "@bentley/ui-core";
+import { CommonProps } from "@bentley/ui-core";
 import { UiComponents } from "../../UiComponents";
+import { Select, SelectOption } from "@itwin/itwinui-react";
 
 /** Properties of [[ThousandsSelector]] component.
  * @internal
@@ -24,20 +25,19 @@ export interface ThousandsSelectorProps extends CommonProps {
  */
 export function ThousandsSelector(props: ThousandsSelectorProps) {
   const { separator, disabled, onChange, ...otherProps } = props;
-  const uomDefaultEntries = React.useRef<SelectOption[]>([
+  const uomDefaultEntries = React.useRef<SelectOption<string>[]>([
     { value: ",", label: UiComponents.translate("QuantityFormat.thousand_separator.comma") },
     { value: ".", label: UiComponents.translate("QuantityFormat.thousand_separator.point") },
   ]);
 
-  const handleOnChange = React.useCallback((e: React.ChangeEvent<HTMLSelectElement>) => {
-    e.preventDefault();
-    onChange && onChange(e.target.value);
+  const handleOnChange = React.useCallback((newValue: string) => {
+    onChange && onChange(newValue);
   }, [onChange]);
 
   const separatorOptions = React.useMemo(() => {
-    const completeListOfEntries: SelectOption[] = [];
+    const completeListOfEntries: SelectOption<string>[] = [];
     // istanbul ignore next (only used if format already has a character that does not match standard options)
-    if (undefined === uomDefaultEntries.current.find((option) => option.value as string === separator)) {
+    if (undefined === uomDefaultEntries.current.find((option) => option.value === separator)) {
       completeListOfEntries.push({ value: separator, label: separator });
     }
     completeListOfEntries.push(...uomDefaultEntries.current);

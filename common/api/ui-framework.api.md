@@ -27,7 +27,7 @@ import { BeButtonEvent } from '@bentley/imodeljs-frontend';
 import { BeDuration } from '@bentley/bentleyjs-core';
 import { BeEvent } from '@bentley/bentleyjs-core';
 import { BeUiEvent } from '@bentley/bentleyjs-core';
-import { ButtonProps } from '@bentley/ui-core';
+import { ButtonProps } from '@itwin/itwinui-react';
 import { ColorDef } from '@bentley/imodeljs-common';
 import { CommandHandler } from '@bentley/ui-abstract';
 import { CommonDivProps } from '@bentley/ui-core';
@@ -134,7 +134,6 @@ import { StagePanelLocation as StagePanelLocation_2 } from '@bentley/ui-abstract
 import { StagePanelSection as StagePanelSection_2 } from '@bentley/ui-abstract';
 import { StagePanelType } from '@bentley/ui-ninezone';
 import { StandardViewId } from '@bentley/imodeljs-frontend';
-import { Status } from '@bentley/ui-ninezone';
 import { StatusBarItemsManager as StatusBarItemsManager_2 } from '@bentley/ui-abstract';
 import { StatusBarSection } from '@bentley/ui-abstract';
 import { Store } from 'redux';
@@ -3785,19 +3784,6 @@ export class MessageManager {
     static updateMessages(): void;
 }
 
-// @beta
-export function MessageRenderer(props: MessageRendererProps): JSX.Element | null;
-
-// @beta
-export interface MessageRendererProps extends CommonProps {
-    // (undocumented)
-    cancelActivityMessage?: () => void;
-    // (undocumented)
-    closeMessage?: (id: string) => void;
-    // (undocumented)
-    dismissActivityMessage?: () => void;
-}
-
 // @public
 export class MessagesUpdatedEvent extends UiEvent<{}> {
 }
@@ -5649,7 +5635,7 @@ export interface StagePanelHeaderProps extends CommonProps {
     title?: string;
 }
 
-// @alpha
+// @alpha @deprecated
 export enum StagePanelLocation {
     // (undocumented)
     Bottom = 105,
@@ -5714,7 +5700,7 @@ export interface StagePanelRuntimeProps {
     zoneDefProvider: ZoneDefProvider;
 }
 
-// @alpha
+// @alpha @deprecated
 export enum StagePanelSection {
     // (undocumented)
     End = 2,
@@ -5829,8 +5815,6 @@ export class StatusBar extends React.Component<StatusBarProps, StatusBarState> {
     componentWillUnmount(): void;
     // (undocumented)
     render(): React.ReactNode;
-    // (undocumented)
-    static severityToStatus(severity: MessageSeverity): Status;
 }
 
 // @public
@@ -5936,6 +5920,19 @@ export interface StatusFieldProps extends CommonProps {
     isInFooterMode: boolean;
     onOpenWidget: (widget: StatusBarFieldId) => void;
     openWidget: StatusBarFieldId;
+}
+
+// @beta
+export function StatusMessageRenderer(props: StatusMessageRendererProps): JSX.Element | null;
+
+// @beta
+export interface StatusMessageRendererProps extends CommonProps {
+    // (undocumented)
+    cancelActivityMessage?: () => void;
+    // (undocumented)
+    closeMessage?: (id: string) => void;
+    // (undocumented)
+    dismissActivityMessage?: () => void;
 }
 
 // @beta
@@ -6131,7 +6128,7 @@ export interface TaskPropsList {
 }
 
 // @public
-export const ThemeManager: import("react-redux").ConnectedComponent<typeof ThemeManagerComponent, import("react-redux").Omit<React.ClassAttributes<ThemeManagerComponent> & ThemeProps, "theme" | "widgetOpacity">>;
+export const ThemeManager: import("react-redux").ConnectedComponent<typeof ThemeManagerComponent, import("react-redux").Omit<React.ClassAttributes<ThemeManagerComponent> & ThemeManagerProps, "theme" | "widgetOpacity">>;
 
 // @beta
 export class TileLoadingIndicator extends React.PureComponent<StatusFieldProps, TileLoadingIndicatorState> {
@@ -6215,12 +6212,12 @@ export interface ToolAssistanceFieldProps extends StatusFieldProps {
 }
 
 // @internal
-export class Toolbar extends React.Component<ToolbarProps, State> {
+export class Toolbar extends React.Component<ToolbarProps, ToolbarState> {
     constructor(props: ToolbarProps);
     // (undocumented)
     componentDidMount(): void;
     // (undocumented)
-    componentDidUpdate(prevProps: ToolbarProps, _prevState: State): void;
+    componentDidUpdate(prevProps: ToolbarProps, _prevState: ToolbarState): void;
     // (undocumented)
     componentWillUnmount(): void;
     // (undocumented)

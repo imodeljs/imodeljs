@@ -9,7 +9,7 @@ exports[`ModelsTree #integration renders component with real data and no active 
       style="overflow: visible; height: 0px; width: 0px;"
     >
       <div
-        class="core-tree components-controlledTree"
+        class="core-tree components-controlledTree components-smallEditor-host"
         role="tree"
         tabindex="-1"
       >
@@ -3190,7 +3190,9 @@ Array [
 `;
 
 exports[`ModelsTree #unit <ModelsTree /> should match snapshot 1`] = `
-<body>
+<body
+  class="iui-body"
+>
   <div>
     <div
       class="ui-fw-models-tree"
@@ -3199,7 +3201,7 @@ exports[`ModelsTree #unit <ModelsTree /> should match snapshot 1`] = `
         style="overflow: visible; height: 0px; width: 0px;"
       >
         <div
-          class="core-tree components-controlledTree"
+          class="core-tree components-controlledTree components-smallEditor-host"
           role="tree"
           tabindex="-1"
         >

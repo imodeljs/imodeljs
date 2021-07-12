@@ -7,7 +7,8 @@ import {
   FrontstageManager, StagePanelState, useActiveFrontstageDef,
 } from "@bentley/ui-framework";
 import { SpecialKey, StagePanelLocation, WidgetState } from "@bentley/ui-abstract";
-import { Button, ButtonType, Input, NumberInput, Select } from "@bentley/ui-core";
+import { NumberInput, Select } from "@bentley/ui-core";
+import { Button, Input } from "@itwin/itwinui-react";
 
 function usePanelDef(location: StagePanelLocation) {
   const frontstageDef = useActiveFrontstageDef();
@@ -90,6 +91,7 @@ function PanelSelect({
     StagePanelLocation[StagePanelLocation.Bottom],
   ]);
   return (
+    // eslint-disable-next-line deprecation/deprecation
     <Select
       options={options}
       defaultValue={StagePanelLocation[location]}
@@ -125,6 +127,7 @@ function WidgetSelect({
     setOptions(newOptions);
   }, [frontstageDef]);
   return (
+    // eslint-disable-next-line deprecation/deprecation
     <Select
       options={options}
       defaultValue={id}
@@ -245,10 +248,10 @@ function WidgetInfo({
           <span>Y:</span>
           <NumberInput style={{ width: "60px" }} disabled={isFloating} value={yPos} step={5} onChange={handleYChanged} />
         </div>
-        <Button buttonType={ButtonType.Hollow} disabled={isFloating} onClick={handleFloatClick} >Float</Button>
-        <Button buttonType={ButtonType.Hollow} disabled={isPopout || !widgetDef?.canPopout} onClick={handlePopoutClick} >Pop Out</Button>
+        <Button disabled={isFloating} onClick={handleFloatClick} >Float</Button>
+        <Button disabled={isPopout || !widgetDef?.canPopout} onClick={handlePopoutClick} >Pop Out</Button>
       </div>
-      <Button buttonType={ButtonType.Hollow} disabled={!(isFloating || isPopout)} onClick={handleDockClick} >Dock</Button>
+      <Button disabled={!(isFloating || isPopout)} onClick={handleDockClick} >Dock</Button>
     </>
   );
 }
@@ -279,6 +282,7 @@ function PanelStateSelect({
     StagePanelState[StagePanelState.Off],
   ]);
   return (
+    // eslint-disable-next-line deprecation/deprecation
     <Select
       placeholder="State"
       options={options}
@@ -305,6 +309,7 @@ function WidgetStateSelect({
     WidgetState[WidgetState.Unloaded],
   ]);
   return (
+    // eslint-disable-next-line deprecation/deprecation
     <Select
       placeholder="State"
       options={options}

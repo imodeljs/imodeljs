@@ -461,6 +461,12 @@ export class ToolWithSettings extends PrimitiveTool {
     return toolSettings;
   }
 
+  private showColorOptionSelectionInfo(updatedValue: DialogPropertySyncItem) {
+    const colorStrings = ["none", "Red", "White", "Blue", "Yellow", "Purple", "Pink", "Green"];
+    const msg = `Property '${updatedValue.propertyName}' updated to value ${colorStrings[updatedValue.value.value as number]}`;
+    IModelApp.notifications.outputMessage(new NotifyMessageDetails(OutputMessagePriority.Info, msg));
+  }
+
   private showColorInfoFromUi(updatedValue: DialogPropertySyncItem) {
     const colorDef = ColorDef.create(this.colorPickerProperty.value);
     const msg = `Property '${updatedValue.propertyName}' updated to value ${colorDef.toRgbString()}`;
@@ -483,6 +489,9 @@ export class ToolWithSettings extends PrimitiveTool {
     if (updatedValue.propertyName === this.lockProperty.name) {
       this.lockProperty.value = updatedValue.value.value as boolean;
       this.showInfoFromUi(updatedValue);
+    } else if (updatedValue.propertyName === this.colorOptionProperty.name) {
+      this.colorOptionProperty.value = updatedValue.value.value as number;
+      this.showColorOptionSelectionInfo(updatedValue);
     } else if (updatedValue.propertyName === this.imageCheckBoxProperty.name) {
       this.imageCheckBoxProperty.value = updatedValue.value.value as boolean;
       this.showInfoFromUi(updatedValue);

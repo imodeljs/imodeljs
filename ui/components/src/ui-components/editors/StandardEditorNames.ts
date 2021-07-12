@@ -10,8 +10,8 @@
 
 /**
  * Standard Editor Names for property editors.
- * @deprecated Use [[StandardEditorNames]] in ui-abstract instead
  * @beta
+ * @deprecated Use [StandardEditorNames]($ui-abstract) in bentley/ui-abstract instead
  */
 export enum StandardEditorNames {
   ColorPicker = "color-picker",

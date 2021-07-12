@@ -2,11 +2,9 @@
 * Copyright (c) Bentley Systems, Incorporated. All rights reserved.
 * See LICENSE.md in the project root for license terms and full copyright notice.
 *--------------------------------------------------------------------------------------------*/
-@import "./mixins";
+@import "~@itwin/itwinui-css/scss/text/small";
 
 @mixin uicore-text-small {
 
-  @include uicore-text( small );
-  padding:        0;
-  margin:         0;
+  @include iui-text-small;
 }

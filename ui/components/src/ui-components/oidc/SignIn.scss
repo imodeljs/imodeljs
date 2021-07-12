@@ -2,8 +2,8 @@
 * Copyright (c) Bentley Systems, Incorporated. All rights reserved.
 * See LICENSE.md in the project root for license terms and full copyright notice.
 *--------------------------------------------------------------------------------------------*/
-@import "~@bentley/ui-core/lib/ui-core/button/primary-large";
-@import "~@bentley/ui-core/lib/ui-core/style/typography";
+@import "~@bentley/ui-core/lib/ui-core/style/themecolors";
+@import "~@itwin/itwinui-css/scss/style/typography";
 
 $signin-height: 315px; // 250px;
 $signin-width:  275px;
@@ -11,7 +11,7 @@ $signin-width:  275px;
 $signin-background: $buic-background-dialog;
 $signin-logo-color: $buic-foreground-primary;
 $signin-text-color: $buic-text-color;
-$signin-font-size:  $uicore-font-size;
+$signin-font-size:  $iui-font-size;
 $signin-hyperlink-color: $buic-foreground-primary;
 $signin-hyperlink-hover-color: $buic-foreground-primary-tone;
 
@@ -59,7 +59,6 @@ $signin-hyperlink-hover-color: $buic-foreground-primary-tone;
 
   /* sign in button */
   .components-signin-button {
-    @include uicore-buttons-primary-large;
   }
 
   /* "Register" container */

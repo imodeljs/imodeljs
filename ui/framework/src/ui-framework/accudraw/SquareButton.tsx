@@ -9,10 +9,11 @@
 import "./SquareButton.scss";
 import classnames from "classnames";
 import * as React from "react";
-import { Button, ButtonProps, ButtonType, Omit } from "@bentley/ui-core";
+import { Omit } from "@bentley/ui-core";
+import { Button, ButtonProps } from "@itwin/itwinui-react";
 
 /** @alpha */
-export interface SquareButtonProps extends Omit<ButtonProps, "size" | "buttonType"> { } // eslint-disable-line @typescript-eslint/no-empty-interface
+export interface SquareButtonProps extends Omit<ButtonProps, "size" | "styleType"> { } // eslint-disable-line @typescript-eslint/no-empty-interface
 
 /** @alpha */
 export class SquareButton extends React.PureComponent<SquareButtonProps> {
@@ -28,7 +29,7 @@ export class SquareButton extends React.PureComponent<SquareButtonProps> {
     };
 
     return (
-      <Button {...buttonProps} buttonType={ButtonType.Hollow} className={buttonClassNames} style={buttonStyle} />
+      <Button {...buttonProps} size="small" className={buttonClassNames} style={buttonStyle} />
     );
   }
 }

@@ -6,9 +6,9 @@
 @import "../icons/variables";
 @import "../style/baseline";
 @import "../style/opacity";
-@import "../style/typography";
 @import "../style/themecolors";
 @import "../text/mixins";
+@import "~@itwin/itwinui-css/scss/style/typography";
 
 // cspell:ignore themecolors unbordered
 
@@ -17,7 +17,7 @@ $split-button-padding:  4px;
 .core-split-button {
   flex-shrink: 1;
 
-  @include uicore-font-family;
+  @include iui-font-family;
   @include uicore-buttons-button;
 
   padding:        $uicore-button-padding;

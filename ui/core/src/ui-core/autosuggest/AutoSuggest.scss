@@ -2,15 +2,20 @@
 * Copyright (c) Bentley Systems, Incorporated. All rights reserved.
 * See LICENSE.md in the project root for license terms and full copyright notice.
 *--------------------------------------------------------------------------------------------*/
-@import "../inputs/input";
 @import "../scrollbar";
+@import "~@bentley/ui-core/lib/ui-core/inputs/variables";
+@import "~@bentley/ui-core/lib/ui-core/style/variables";
+@import "~@itwin/itwinui-css/scss/inputs/input";
+@import "~@itwin/itwinui-css/scss/style/typography";
 
 .uicore-autosuggest__container {
   position: relative;
 }
 
 .uicore-autosuggest__input {
-  @include uicore-inputs-input;
+  @include iui-input;
+  min-height: $uicore-component-height-normal;
+  padding: $uicore-iui-input-padding;
 }
 
 .uicore-autosuggest__input--focused {
@@ -73,6 +78,6 @@
 
 .uicore-autosuggest__section-title {
   padding: 10px 0 0 10px;
-  font-size: $uicore-font-size-small;
+  font-size: $iui-font-size-small;
   color: $buic-background-table-header;
 }

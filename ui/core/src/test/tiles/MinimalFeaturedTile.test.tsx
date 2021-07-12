@@ -6,6 +6,8 @@ import { mount, shallow } from "enzyme";
 import * as React from "react";
 import { MinimalFeaturedTile } from "../../ui-core";
 
+/* eslint-disable deprecation/deprecation */
+
 describe("<MinimalFeaturedTile />", () => {
   const icon = <i className="icon icon-placeholder" />;
 

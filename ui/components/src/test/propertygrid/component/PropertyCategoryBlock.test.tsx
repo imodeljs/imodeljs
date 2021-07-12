@@ -24,7 +24,7 @@ describe("PropertyCategoryBlock", () => {
         <div className="test-content" />
       </PropertyCategoryBlock>);
 
-    expect(categoryBlock.find(".test-content").exists()).to.be.false;
+    expect(categoryBlock.find(".iui-expanded").exists()).to.be.false;
   });
 
   it("renders content correctly when expanded", () => {
@@ -35,7 +35,7 @@ describe("PropertyCategoryBlock", () => {
         <div className="test-content" />
       </PropertyCategoryBlock>);
 
-    expect(categoryBlock.find(".test-content").exists()).to.be.true;
+    expect(categoryBlock.find(".iui-expanded").exists()).to.be.true;
   });
 
   it("does not expand if header gets clicked, but callback is not provided", () => {
@@ -43,7 +43,7 @@ describe("PropertyCategoryBlock", () => {
 
     const prevProps = categoryBlock.props();
 
-    categoryBlock.find(".header").simulate("click");
+    categoryBlock.find(".iui-header").simulate("click");
     expect(categoryBlock.props().category).to.be.eq(prevProps.category);
   });
 
@@ -53,7 +53,7 @@ describe("PropertyCategoryBlock", () => {
     const categoryBlock = mount(<PropertyCategoryBlock category={category} onExpansionToggled={() => { toggled = true; }} />);
 
     toggled = false;
-    categoryBlock.find(".header").simulate("click");
+    categoryBlock.find(".iui-header").simulate("click");
     expect(toggled).to.be.true;
   });
 
@@ -62,14 +62,14 @@ describe("PropertyCategoryBlock", () => {
 
     const categoryBlock = mount(<PropertyCategoryBlock category={category} onExpansionToggled={() => { toggled = true; }} />);
 
-    const header = categoryBlock.find(".header");
+    const header = categoryBlock.find(".iui-header");
 
     toggled = false;
-    header.simulate("keyPress", { key: SpecialKey.Space });
+    header.simulate("keydown", { key: SpecialKey.Space });
     expect(toggled).to.be.true;
 
     toggled = false;
-    header.simulate("keyPress", { key: SpecialKey.Enter });
+    header.simulate("keydown", { key: SpecialKey.Enter });
     expect(toggled).to.be.true;
   });
 
@@ -78,10 +78,10 @@ describe("PropertyCategoryBlock", () => {
 
     const categoryBlock = mount(<PropertyCategoryBlock category={category} onExpansionToggled={() => { toggled = true; }} />);
 
-    const header = categoryBlock.find(".header");
+    const header = categoryBlock.find(".iui-header");
 
     toggled = false;
-    header.simulate("keyPress", { keyCode: 42 });
+    header.simulate("keydown", { keyCode: 42 });
     expect(toggled).to.be.false;
   });
 });

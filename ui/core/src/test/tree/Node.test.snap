@@ -167,8 +167,9 @@ exports[`<Node /> renders loader correctly 1`] = `
     <div
       className="loader"
     >
-      <Spinner
-        size={0}
+      <ProgressRadial
+        indeterminate={true}
+        size="x-small"
       />
     </div>
     a

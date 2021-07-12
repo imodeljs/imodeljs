@@ -4,11 +4,12 @@
 *--------------------------------------------------------------------------------------------*/
 @import "~@bentley/ui-core/lib/ui-core/style/index";
 @import "~@bentley/ui-core/lib/ui-core/z-index";
+@import "~@itwin/itwinui-css/scss/style/typography";
 @import "variables";
 
 .nz-footer-popup {
   border: unset;
-  font-size: $uicore-font-size;
+  font-size: $iui-font-size;
 
   @include uicore-z-index(status-popup);
 

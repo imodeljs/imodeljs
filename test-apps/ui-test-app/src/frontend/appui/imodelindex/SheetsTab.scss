@@ -2,20 +2,19 @@
 * Copyright (c) Bentley Systems, Incorporated. All rights reserved.
 * See LICENSE.md in the project root for license terms and full copyright notice.
 *--------------------------------------------------------------------------------------------*/
-@import "~@bentley/ui-core/lib/ui-core/button/blue";
 @import "~@bentley/ui-core/lib/ui-core/icons/variables";
 @import "~@bentley/ui-core/lib/ui-core/style/colors";
-@import "~@bentley/ui-core/lib/ui-core/style/space";
-@import "~@bentley/ui-core/lib/ui-core/style/typography";
+@import "~@itwin/itwinui-css/scss/style/space";
+@import "~@itwin/itwinui-css/scss/style/typography";
 
 /* 3D Models tab */
 .viewstab-container {
   display: flex;
   flex-direction: column;
   height: 100%;
-  padding-bottom: $uicore-m;
+  padding-bottom: $iui-m;
   box-sizing: border-box;
-  font-size: $uicore-font-size;
+  font-size: $iui-font-size;
   background: $uicore-gray-c;
   position: relative;
   overflow: hidden;
@@ -32,7 +31,7 @@
   }
 
   .searchbox {
-    margin-right: $uicore-sm;
+    margin-right: $iui-sm;
     width: 220px;
   }
 
@@ -57,8 +56,7 @@
 
   /* enter iModel button */
   .open-button {
-    margin: $uicore-l $uicore-m 0 auto !important;
-    @include uicore-buttons-blue;
+    margin: $iui-l $iui-m 0 auto !important;
   }
 }
 

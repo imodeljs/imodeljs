@@ -2,10 +2,9 @@
 * Copyright (c) Bentley Systems, Incorporated. All rights reserved.
 * See LICENSE.md in the project root for license terms and full copyright notice.
 *--------------------------------------------------------------------------------------------*/
-@import "./mixins";
+@import "~@itwin/itwinui-css/scss/text/mixins";
 
 @mixin uicore-text-body {
 
-  @include uicore-text( body );
-
+  @include iui-text( body );
 }

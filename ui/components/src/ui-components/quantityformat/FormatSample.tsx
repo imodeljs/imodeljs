@@ -9,7 +9,8 @@
 import * as React from "react";
 import { FormatterSpec } from "@bentley/imodeljs-quantity";
 import { SpecialKey } from "@bentley/ui-abstract";
-import { CommonProps, Input, WebFontIcon } from "@bentley/ui-core";
+import { CommonProps, WebFontIcon } from "@bentley/ui-core";
+import { Input } from "@itwin/itwinui-react";
 import { UiComponents } from "../UiComponents";
 
 /** Properties of [[FormatSample]] component.
@@ -26,7 +27,7 @@ export interface FormatSampleProps extends CommonProps {
  */
 export function FormatSample(props: FormatSampleProps) {
   const { initialMagnitude, formatSpec, hideLabels } = props;
-  const initialValue = initialMagnitude??0;
+  const initialValue = initialMagnitude ?? 0;
   const [magnitude, setMagnitude] = React.useState(initialValue);
   const [sampleValue, setSampleValue] = React.useState(initialValue.toString());
 
@@ -63,8 +64,8 @@ export function FormatSample(props: FormatSampleProps) {
   const activePersistenceUnitLabel = formatSpec ? formatSpec.persistenceUnit.label : "";
   const formattedValue = formatSpec ? formatSpec.applyFormatting(magnitude) : "";
 
-  const valueLabel = React.useRef (UiComponents.translate("QuantityFormat.labels.value"));
-  const formattedLabel = React.useRef (UiComponents.translate("QuantityFormat.labels.formatted"));
+  const valueLabel = React.useRef(UiComponents.translate("QuantityFormat.labels.value"));
+  const formattedLabel = React.useRef(UiComponents.translate("QuantityFormat.labels.formatted"));
 
   return (
     <>

@@ -4,7 +4,7 @@
 *--------------------------------------------------------------------------------------------*/
 import { expect } from "chai";
 import * as React from "react";
-import { Icon, Input, Slider } from "@bentley/ui-core";
+import { Icon, Slider } from "@bentley/ui-core";
 import {
   ConfigurableCreateInfo, ConfigurableUiManager, ContentControl, CoreTools, Frontstage, FrontstageManager, FrontstageProps, FrontstageProvider,
   SyncToolSettingsPropertiesEventArgs,
@@ -13,6 +13,7 @@ import {
 import { ToolInformation } from "../../../ui-framework/zones/toolsettings/ToolInformation";
 import TestUtils from "../../TestUtils";
 import { DialogItemValue, DialogPropertySyncItem, UiLayoutDataProvider } from "@bentley/ui-abstract";
+import { Input } from "@itwin/itwinui-react";
 
 describe("ToolUiProvider", () => {
 

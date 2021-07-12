@@ -41,4 +41,5 @@ export class TestUtils {
   }
 
 }
+
 export default TestUtils;   // eslint-disable-line: no-default-export

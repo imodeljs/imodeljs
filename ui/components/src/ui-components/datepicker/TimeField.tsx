@@ -7,7 +7,7 @@
  */
 
 import * as React from "react";
-import { Input } from "@bentley/ui-core";
+import { Input } from "@itwin/itwinui-react";
 import { SpecialKey, TimeDisplay } from "@bentley/ui-abstract";
 import { UiComponents } from "../UiComponents";
 import "./TimeField.scss";

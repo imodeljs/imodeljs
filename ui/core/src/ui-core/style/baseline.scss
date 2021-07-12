@@ -2,8 +2,10 @@
 * Copyright (c) Bentley Systems, Incorporated. All rights reserved.
 * See LICENSE.md in the project root for license terms and full copyright notice.
 *--------------------------------------------------------------------------------------------*/
-$uicore-baseline:                  11px;
-$uicore-line-height:               $uicore-baseline * 2;    ///  22px; /// ~1.618;
+@import "~@itwin/itwinui-css/scss/style/baseline";
+
+$uicore-baseline:                  $iui-baseline;
+$uicore-line-height:               $iui-line-height;    ///  22px; /// ~1.618;
 
 $uicore-bordered-padding:          $uicore-baseline - 1px;
 $uicore-bordered-padding-large:    $uicore-baseline * 2 - 1px;

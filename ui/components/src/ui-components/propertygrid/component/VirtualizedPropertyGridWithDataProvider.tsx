@@ -8,7 +8,6 @@
  */
 
 import React from "react";
-import { SpinnerSize } from "@bentley/ui-core";
 import { DelayedSpinner } from "../../common/DelayedSpinner";
 import { HighlightingComponentProps } from "../../common/HighlightingComponentProps";
 import { FilteredType } from "../dataproviders/filterers/PropertyDataFiltererBase";
@@ -45,7 +44,7 @@ export function VirtualizedPropertyGridWithDataProvider(props: VirtualizedProper
   if (!model) {
     return (
       <div className="components-virtualized-property-grid-loader">
-        <DelayedSpinner size={SpinnerSize.Large} />
+        <DelayedSpinner size="large" />
       </div>
     );
   }

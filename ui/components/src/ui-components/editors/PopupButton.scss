@@ -6,16 +6,18 @@
 @import "~@bentley/ui-core/lib/ui-core/inputs/variables";
 @import "~@bentley/ui-core/lib/ui-core/style/baseline";
 @import "~@bentley/ui-core/lib/ui-core/style/themecolors";
+@import "~@bentley/ui-core/lib/ui-core/style/variables";
+@import "~@itwin/itwinui-css/scss/style/variables";
 
 .components-popup-button {
   min-width:          100%;
-  min-height:         23px;
+  min-height:         $uicore-component-height-normal;
   height:             100%;
   margin:             0;
   padding:            0;
   background-color:   $buic-background-control;
   border:             1px solid $buic-inputs-border;
-  border-radius:      $uicore-border-radius;
+  border-radius:      $iui-border-radius;
   box-shadow:         $buic-inputs-boxshadow 0px 1px 1px inset;
   box-sizing:         border-box;
   cursor:             pointer;
@@ -58,7 +60,7 @@
   &:focus, &.components-popup-expanded {
     border-color: $buic-foreground-focus;
     outline: 0px;
-    box-shadow: $uicore-inputs-focus-gradient;
+    box-shadow: $uicore-inputs-focus-boxshadow;
 
     > .components-popup-button-arrow {
       border: none;
@@ -71,6 +73,12 @@
     }
   }
 
+}
+
+.components-smallEditor-host {
+  .components-popup-button {
+    min-height:         $uicore-component-height-small;
+  }
 }
 
 .components-popup-button-popup {

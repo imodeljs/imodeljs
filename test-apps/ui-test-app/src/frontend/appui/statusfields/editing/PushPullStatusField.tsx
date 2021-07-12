@@ -10,9 +10,10 @@ import {
   AuthorizedFrontendRequestContext, BriefcaseConnection, IModelApp, IModelHubFrontend, NotifyMessageDetails, OutputMessageAlert,
   OutputMessagePriority, OutputMessageType,
 } from "@bentley/imodeljs-frontend";
-import { Icon, Spinner, SpinnerSize } from "@bentley/ui-core";
+import { Icon } from "@bentley/ui-core";
 import { StatusFieldProps, UiFramework } from "@bentley/ui-framework";
 import { FooterIndicator } from "@bentley/ui-ninezone";
+import { ProgressRadial } from "@itwin/itwinui-react";
 import { ErrorHandling } from "../../../api/ErrorHandling";
 
 function translate(prompt: string) {
@@ -170,7 +171,7 @@ export class PushPullStatusField extends React.Component<StatusFieldProps, PushP
         >
           <div id="simple-editor-app-statusFields-pushPull-buttons" title="Synchronizing...">
             <div>
-              <Spinner size={SpinnerSize.Small} />
+              <ProgressRadial size="x-small" indeterminate />
             </div>
             <span> </span>
             <div>

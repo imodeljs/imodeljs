@@ -40,7 +40,8 @@ export class LocalSettingsStorage implements UiSettingsStorage {
 }
 
 /** Alias for [[LocalSettingsStorage]]
- * @beta @deprecated use LocalSettingsStorage
+ * @beta
+ * @deprecated use [LocalSettingsStorage]($ui-core) instead
  */
 export class LocalUiSettings extends LocalSettingsStorage {
   constructor(w: Window = window) { super (w);}

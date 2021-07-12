@@ -11,13 +11,14 @@ import classnames from "classnames";
 import * as React from "react";
 import { IModelApp, IModelConnection, ScreenViewport, SelectedViewportChangedArgs } from "@bentley/imodeljs-frontend";
 import { UiComponents, ViewIdChangedEventArgs, ViewportComponentEvents } from "@bentley/ui-components";
-import { CommonProps, Spinner, SpinnerSize } from "@bentley/ui-core";
+import { CommonProps } from "@bentley/ui-core";
 import { ConfigurableCreateInfo } from "../configurableui/ConfigurableUiControl";
 import { FrontstageManager, ModalFrontstageInfo } from "../frontstage/FrontstageManager";
 import { UiFramework } from "../UiFramework";
 import { ViewUtilities } from "../utils/ViewUtilities";
 import { NavigationAidControl } from "./NavigationAidControl";
 import { CardContainer, CardSelectedEventArgs, SheetsModalFrontstage } from "./SheetsModalFrontstage";
+import { ProgressRadial } from "@itwin/itwinui-react";
 
 /** A Sheet Navigation Aid control.
  * @alpha
@@ -163,7 +164,7 @@ export class SheetNavigationAid extends React.Component<SheetNavigationProps, Sh
         </>
       );
     } else {
-      content = <Spinner size={SpinnerSize.Small} />;
+      content = <ProgressRadial size="x-small" indeterminate />;
     }
 
     return (

@@ -2,6 +2,7 @@
 * Copyright (c) Bentley Systems, Incorporated. All rights reserved.
 * See LICENSE.md in the project root for license terms and full copyright notice.
 *--------------------------------------------------------------------------------------------*/
+@import "~@bentley/ui-core/lib/ui-core/style/variables";
 
 .components-slider-editor {
   min-width:          100%;
@@ -9,5 +10,5 @@
 
 .components-slider-editor-slider {
   min-width:          100px;
-  min-height:         24px;
+  min-height:         $uicore-component-height-small;
 }

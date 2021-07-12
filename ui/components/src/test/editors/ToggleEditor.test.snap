@@ -1,11 +1,11 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`<ToggleEditor /> renders correctly 1`] = `
-<ForwardRef(ForwardRefToggle)
-  className="components-cell-editor"
+<ForwardRef
+  checked={false}
+  className="components-cell-editor components-toggle-editor"
   data-testid="components-toggle-editor"
   disabled={false}
-  isOn={false}
   onChange={[Function]}
 />
 `;

@@ -3,8 +3,8 @@
 * See LICENSE.md in the project root for license terms and full copyright notice.
 *--------------------------------------------------------------------------------------------*/
 @import "~@bentley/ui-core/lib/ui-core/style/themecolors";
-@import "~@bentley/ui-core/lib/ui-core/style/typography";
 @import "~@bentley/ui-core/lib/ui-core/scrollbar";
+@import "~@itwin/itwinui-css/scss/style/typography";
 
 $component-examples-leftpanel-width: 225px;
 $component-examples-rightpanel-width: 200px;
@@ -14,7 +14,7 @@ $component-examples-rightpanel-width: 200px;
   height: 100%;
 
   color: $buic-text-color;
-  font-size: $uicore-font-size;
+  font-size: $iui-font-size;
 
   display: grid;
   grid-template-columns: 280px auto;
@@ -83,6 +83,13 @@ $component-examples-rightpanel-width: 200px;
       width: 100%;
       color: $buic-inputs-border;
     }
+
+    .component-examples-horizontal-tabs {
+      > li {
+        width: 33%;
+      }
+    }
+
   }
 }
 

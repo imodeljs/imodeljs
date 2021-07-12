@@ -10,7 +10,7 @@ import "./BooleanEditor.scss";
 import classnames from "classnames";
 import * as React from "react";
 import { PropertyValue, PropertyValueFormat, StandardTypeNames } from "@bentley/ui-abstract";
-import { Checkbox } from "@bentley/ui-core";
+import { Checkbox } from "@itwin/itwinui-react";
 import { PropertyEditorProps, TypeEditor } from "./EditorContainer";
 import { PropertyEditorBase, PropertyEditorManager } from "./PropertyEditorManager";
 
@@ -132,7 +132,7 @@ export class BooleanEditor extends React.PureComponent<PropertyEditorProps, Bool
 
     return (
       <Checkbox
-        inputRef={this._inputElement}
+        ref={this._inputElement}
         onBlur={this.props.onBlur}
         className={className}
         style={this.props.style}
@@ -151,6 +151,11 @@ export class BooleanEditor extends React.PureComponent<PropertyEditorProps, Bool
  * @beta
  */
 export class BooleanPropertyEditor extends PropertyEditorBase {
+  // istanbul ignore next
+  public override get containerHandlesBlur(): boolean {
+    return false;
+  }
+
   public get reactNode(): React.ReactNode {
     return <BooleanEditor />;
   }

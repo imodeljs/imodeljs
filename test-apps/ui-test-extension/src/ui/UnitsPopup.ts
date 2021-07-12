@@ -3,9 +3,8 @@
 * See LICENSE.md in the project root for license terms and full copyright notice.
 *--------------------------------------------------------------------------------------------*/
 
-import { DialogButtonType } from "@bentley/ui-core";
 import {
-  DialogButtonDef,
+  DialogButtonDef, DialogButtonType,
   DialogItem, DialogItemValue,
   DialogLayoutDataProvider, DialogPropertySyncItem, PropertyDescription,
 } from "@bentley/ui-abstract";

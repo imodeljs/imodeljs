@@ -6,6 +6,8 @@ import { mount, shallow } from "enzyme";
 import * as React from "react";
 import { InputStatus, LabeledSelect } from "../../ui-core";
 
+/* eslint-disable deprecation/deprecation */
+
 describe("<LabeledSelect />", () => {
   it("should render", () => {
     mount(<LabeledSelect label="select test" options={[]} />);

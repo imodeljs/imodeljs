@@ -3,13 +3,16 @@
 * See LICENSE.md in the project root for license terms and full copyright notice.
 *--------------------------------------------------------------------------------------------*/
 @import "../style/index";
+@import "~@itwin/itwinui-css/scss/style/space";
+@import "~@itwin/itwinui-css/scss/style/speed";
+@import "~@itwin/itwinui-css/scss/style/typography";
 
 @mixin uicore-inputs-radio {
 
   display: block;
   position: relative;
-  padding-left: $uicore-l;
-  font-size: $uicore-font-size;
+  padding-left: $iui-l;
+  font-size: $iui-font-size;
   cursor: pointer;
   user-select: none;
   color: $buic-foreground-body;
@@ -35,7 +38,7 @@
 
   &:hover:not(.core-disabled) input ~ .core-radio-checkmark {
     border-color:     $buic-foreground-activehover;
-    transition:       all $uicore-speed-fast ease-out;
+    transition:       all $iui-speed-fast ease-out;
   }
 
   & input:checked ~ .core-radio-checkmark {
@@ -45,7 +48,7 @@
   & input:active ~ .core-radio-checkmark,
   & input:focus ~ .core-radio-checkmark {
     border-color:     $buic-foreground-focus-border;
-    box-shadow:       $uicore-inputs-focus-gradient;
+    box-shadow:       $uicore-inputs-focus-boxshadow;
   }
 
   .core-radio-checkmark::after {

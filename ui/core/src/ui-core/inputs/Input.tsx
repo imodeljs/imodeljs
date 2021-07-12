@@ -8,22 +8,25 @@
 
 import classnames from "classnames";
 import * as React from "react";
+import { Input as ITwinUI_Input } from "@itwin/itwinui-react";
 import { useRefs } from "../utils/hooks/useRefs";
 import { CommonProps } from "../utils/Props";
 
 /** Properties for the [[Input]] component
  * @public
+ * @deprecated Use InputProps in itwinui-react instead
  */
 export interface InputProps extends React.InputHTMLAttributes<HTMLInputElement>, CommonProps {
   /** Indicates whether to set focus to the input element */
   setFocus?: boolean;
+  /** Native keydown event handler */
   nativeKeyHandler?: (e: KeyboardEvent) => void;
   /** Provides ability to return reference to HTMLInputElement */
   ref?: React.Ref<HTMLInputElement>;
 }
 
 // Defined using following pattern (const Input at bottom) to ensure useful API documentation is extracted
-const ForwardRefInput = React.forwardRef<HTMLInputElement, InputProps>(
+const ForwardRefInput = React.forwardRef<HTMLInputElement, InputProps>(   // eslint-disable-line deprecation/deprecation
   function ForwardRefInput(props, ref) {
     const { className, style, setFocus, nativeKeyHandler, ...otherProps } = props; // eslint-disable-line @typescript-eslint/no-unused-vars
     const inputElementRef = React.useRef<HTMLInputElement>();
@@ -53,7 +56,7 @@ const ForwardRefInput = React.forwardRef<HTMLInputElement, InputProps>(
     }, []);
 
     return (
-      <input ref={refs} type="text" {...otherProps} onFocus={handleFocus}
+      <ITwinUI_Input ref={refs} type="text" {...otherProps} onFocus={handleFocus}
         className={classnames("uicore-inputs-input", className)} style={style} />
     );
   }
@@ -61,5 +64,6 @@ const ForwardRefInput = React.forwardRef<HTMLInputElement, InputProps>(
 
 /** Basic text input, is a wrapper for the `<input type="text">` HTML element.
  * @public
+ * @deprecated Use Input in itwinui-react instead
  */
-export const Input: (props: InputProps) => JSX.Element | null = ForwardRefInput;
+export const Input: (props: InputProps) => JSX.Element | null = ForwardRefInput;  // eslint-disable-line deprecation/deprecation

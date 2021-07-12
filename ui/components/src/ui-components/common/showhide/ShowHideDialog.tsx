@@ -7,9 +7,11 @@
  */
 
 import * as React from "react";
-import { DialogButtonType, GlobalDialog, GlobalDialogProps } from "@bentley/ui-core";
+import { GlobalDialog, GlobalDialogProps } from "@bentley/ui-core";
 import { UiComponents } from "../../UiComponents";
 import { ShowHideID, ShowHideItem } from "./ShowHideItem";
+import { DialogButtonType } from "@bentley/ui-abstract";
+import { Checkbox } from "@itwin/itwinui-react";
 
 /** Properties for the [[ShowHideDialog]] component
  * @public
@@ -102,7 +104,7 @@ export class ShowHideDialog<T extends ShowHideID> extends React.PureComponent<Sh
           const id = `show-hide-dialog-input-${index}`;
           return (
             <div key={index}>
-              <input data-testid={id} id={id} type="checkbox" checked={visible} onChange={() => undefined} onClick={sel} />
+              <Checkbox data-testid={id} id={id} checked={visible} onChange={() => undefined} onClick={sel} />
               <label htmlFor={id}>{label}</label>
             </div>
           );

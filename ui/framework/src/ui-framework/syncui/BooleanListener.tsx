@@ -90,7 +90,7 @@ export class BooleanSyncUiListener extends React.Component<BooleanListenerProps,
       children, eventIds, boolFunc, defaultValue, // eslint-disable-line @typescript-eslint/no-unused-vars
       // eslint-disable-next-line comma-dangle
       ...otherProps // pass-through props
-    } = this.props as any;
+    } = this.props;
     const boolValue = this.state.boolValue;
 
     return (

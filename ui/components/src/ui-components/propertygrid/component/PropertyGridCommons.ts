@@ -55,11 +55,14 @@ export interface CommonPropertyGridProps extends CommonProps {
   /** Callback to property selection */
   onPropertySelectionChanged?: (property: PropertyRecord) => void;
 
-  /** Enables/disables property editing @beta */
+  /** Enables/disables property editing
+   * @beta */
   isPropertyEditingEnabled?: boolean;
-  /** Callback for when properties are being edited @beta */
+  /** Callback for when properties are being edited
+   * @beta */
   onPropertyEditing?: (args: PropertyEditingArgs, category: PropertyCategory) => void;
-  /** Callback for when properties are updated @beta */
+  /** Callback for when properties are updated
+   * @beta */
   onPropertyUpdated?: (args: PropertyUpdatedArgs, category: PropertyCategory) => Promise<boolean>;
 
   /** Callback for when links in properties are being clicked
@@ -71,9 +74,11 @@ export interface CommonPropertyGridProps extends CommonProps {
   /** Custom property value renderer manager */
   propertyValueRendererManager?: PropertyValueRendererManager;
 
-  /** Indicates whether the orientation is fixed and does not auto-switch to Vertical when the width is too narrow. Defaults to false. @beta */
+  /** Indicates whether the orientation is fixed and does not auto-switch to Vertical when the width is too narrow. Defaults to false.
+   * @beta */
   isOrientationFixed?: boolean;
-  /** The minimum width before the auto-switch to Vertical when the width is too narrow. Defaults to 300. @beta */
+  /** The minimum width before the auto-switch to Vertical when the width is too narrow. Defaults to 300.
+   * @beta */
   horizontalOrientationMinWidth?: number;
 
   /** Minimum allowed label column width, after which resizing stops */

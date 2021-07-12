@@ -7,10 +7,12 @@
 import { ActionMeta } from 'react-select/src/types';
 import { BadgeType } from '@bentley/ui-abstract';
 import { BeUiEvent } from '@bentley/bentleyjs-core';
+import { CheckboxProps as CheckboxProps_2 } from '@itwin/itwinui-react';
 import Component from 'react-select';
 import { ConditionalBooleanValue } from '@bentley/ui-abstract';
 import { ConditionalStringValue } from '@bentley/ui-abstract';
 import * as CSS from 'csstype';
+import { DialogButtonDef as DialogButtonDef_2 } from '@bentley/ui-abstract';
 import { FocusEventHandler } from 'react-select/src/types';
 import { formatGroupLabel } from 'react-select/src/builtins';
 import { getOptionLabel } from 'react-select/src/builtins';
@@ -19,14 +21,17 @@ import { I18N } from '@bentley/imodeljs-i18n';
 import { IDisposable } from '@bentley/bentleyjs-core';
 import { IMatch } from '@bentley/ui-abstract';
 import { InputActionMeta } from 'react-select/src/types';
+import { InputProps as InputProps_2 } from '@itwin/itwinui-react';
 import { KeyboardEventHandler } from 'react-select/src/types';
 import { Matrix3d } from '@bentley/geometry-core';
+import { ProgressRadialProps } from '@itwin/itwinui-react';
 import * as PropTypes from 'prop-types';
 import * as React from 'react';
 import * as ReactAutosuggest from 'react-autosuggest';
 import { RelativePosition } from '@bentley/ui-abstract';
 import { SelectComponentsConfig } from 'react-select/src/components/index';
 import { SliderModeFunction } from 'react-compound-slider';
+import { ToggleSwitchProps } from '@itwin/itwinui-react';
 import { ValueType } from 'react-select/src/types';
 
 // @beta
@@ -147,13 +152,13 @@ export function BodyText(props: TextProps): JSX.Element;
 // @beta @deprecated
 export type BoundsFunctionProp = number | (() => number | undefined);
 
-// @public
+// @public @deprecated
 export class Button extends React.PureComponent<ButtonProps> {
     // (undocumented)
     render(): JSX.Element;
 }
 
-// @public
+// @public @deprecated
 export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement>, CommonProps {
     buttonType?: ButtonType;
     id?: string;
@@ -161,7 +166,7 @@ export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElemen
     size?: ButtonSize;
 }
 
-// @public
+// @public @deprecated
 export enum ButtonSize {
     // (undocumented)
     Default = "",
@@ -169,7 +174,7 @@ export enum ButtonSize {
     Large = "large"
 }
 
-// @public
+// @public @deprecated
 export enum ButtonType {
     // (undocumented)
     Blue = "blue",
@@ -196,7 +201,7 @@ export const calculateToolbarOpacity: (proximityScale: number) => number;
 // @public
 export function Centered(props: CommonDivProps): JSX.Element;
 
-// @public
+// @public @deprecated
 export class Checkbox extends React.PureComponent<CheckboxProps> {
     // @internal
     constructor(props: CheckboxProps);
@@ -220,7 +225,7 @@ export interface CheckBoxInfo {
     tooltip?: string;
 }
 
-// @public
+// @public @deprecated
 export interface CheckboxProps extends Omit<React.InputHTMLAttributes<HTMLInputElement>, "type" | "onClick" | "onBlur">, CommonProps {
     indeterminate?: boolean;
     inputClassName?: string;
@@ -522,7 +527,7 @@ export enum DialogAlignment {
     TopRight = "top-right"
 }
 
-// @public
+// @public @deprecated
 export interface DialogButtonDef {
     buttonStyle?: DialogButtonStyle;
     className?: string;
@@ -532,19 +537,19 @@ export interface DialogButtonDef {
     type: DialogButtonType;
 }
 
-// @public
+// @public @deprecated
 export enum DialogButtonStyle {
     // (undocumented)
-    Blue = "uicore-buttons-blue",
+    Blue = "iui-high-visibility",
     // (undocumented)
-    Hollow = "uicore-buttons-hollow",
+    Hollow = "iui-default",
     // (undocumented)
     None = "",
     // (undocumented)
-    Primary = "uicore-buttons-primary"
+    Primary = "iui-cta"
 }
 
-// @public
+// @public @deprecated
 export enum DialogButtonType {
     // (undocumented)
     Cancel = "cancel",
@@ -570,7 +575,7 @@ export enum DialogButtonType {
 export interface DialogProps extends Omit<React.AllHTMLAttributes<HTMLDivElement>, "title">, CommonProps {
     alignment?: DialogAlignment;
     backgroundStyle?: React.CSSProperties;
-    buttonCluster?: DialogButtonDef[];
+    buttonCluster?: DialogButtonDef_2[];
     contentClassName?: string;
     contentStyle?: React.CSSProperties;
     footer?: string | JSX.Element;
@@ -709,13 +714,13 @@ export interface ElementSeparatorProps extends CommonProps {
 // @public
 export type ExecuteHandler = (this: void) => void;
 
-// @public
+// @public @deprecated
 export class ExpandableBlock extends React.PureComponent<ExpandableBlockProps> {
     // (undocumented)
     render(): JSX.Element;
 }
 
-// @public
+// @public @deprecated
 export interface ExpandableBlockProps extends CommonProps {
     caption?: string;
     isExpanded: boolean;
@@ -779,7 +784,7 @@ export enum Face {
     Top = "top"
 }
 
-// @beta
+// @beta @deprecated
 export function FeaturedTile(props: TileProps): JSX.Element;
 
 // @beta
@@ -881,6 +886,15 @@ export interface FormProps {
     submitButtonLabel?: string;
 }
 
+// @public
+export function Gap(props: GapProps): JSX.Element;
+
+// @public
+export interface GapProps extends CommonProps {
+    // (undocumented)
+    size?: string;
+}
+
 // @beta
 export type GetAutoSuggestDataFunc = (value: string) => AutoSuggestData[];
 
@@ -956,7 +970,7 @@ export interface GlobalDialogState {
 // @internal
 export function hasPointerEventsSupport(): boolean;
 
-// @public
+// @public @deprecated
 export function Headline(props: TextProps): JSX.Element;
 
 // @public
@@ -989,10 +1003,11 @@ export class IconHelper {
 export const IconInput: (props: IconInputProps) => JSX.Element | null;
 
 // @public
-export interface IconInputProps extends InputProps {
+export interface IconInputProps extends Omit<InputProps, "size"> {
     containerClassName?: string;
     icon: React.ReactNode;
     ref?: React.Ref<HTMLInputElement>;
+    size?: "small" | "large";
 }
 
 // @public
@@ -1023,7 +1038,7 @@ export interface ImageCheckBoxProps extends CommonProps {
     tooltip?: string;
 }
 
-// @public
+// @public @deprecated
 export const Input: (props: InputProps) => JSX.Element | null;
 
 // @public
@@ -1038,9 +1053,8 @@ export interface InputLabelProps extends LabeledComponentProps, MessagedComponen
     disabled?: boolean;
 }
 
-// @public
+// @public @deprecated
 export interface InputProps extends React.InputHTMLAttributes<HTMLInputElement>, CommonProps {
-    // (undocumented)
     nativeKeyHandler?: (e: KeyboardEvent) => void;
     ref?: React.Ref<HTMLInputElement>;
     setFocus?: boolean;
@@ -1097,27 +1111,27 @@ export interface LabeledComponentProps {
     status?: InputStatus;
 }
 
-// @public
+// @public @deprecated
 export function LabeledInput(props: LabeledInputProps): JSX.Element;
 
-// @public
+// @public @deprecated
 export interface LabeledInputProps extends InputProps, LabeledComponentProps, MessagedComponentProps {
 }
 
-// @public
+// @public @deprecated
 export class LabeledSelect extends React.PureComponent<LabeledSelectProps> {
     // (undocumented)
     render(): JSX.Element;
 }
 
-// @public
+// @public @deprecated
 export interface LabeledSelectProps extends SelectProps, LabeledComponentProps, MessagedComponentProps {
 }
 
-// @public
+// @public @deprecated
 export function LabeledTextarea(props: LabeledTextareaProps): JSX.Element;
 
-// @public
+// @public @deprecated
 export interface LabeledTextareaProps extends TextareaProps, LabeledComponentProps, MessagedComponentProps {
 }
 
@@ -1128,23 +1142,23 @@ export function LabeledThemedSelect(props: LabeledThemedSelectProps): JSX.Elemen
 export interface LabeledThemedSelectProps extends ThemedSelectProps, LabeledComponentProps, MessagedComponentProps {
 }
 
-// @public
+// @public @deprecated
 export class LabeledToggle extends React.PureComponent<LabeledToggleProps> {
     // (undocumented)
     render(): JSX.Element;
 }
 
-// @public
-export interface LabeledToggleProps extends ToggleProps {
+// @public @deprecated
+export interface LabeledToggleProps extends ToggleSwitchProps {
     label?: string;
     labelClassName?: string;
     labelStyle?: React.CSSProperties;
 }
 
-// @public
+// @public @deprecated
 export function LeadingText(props: TextProps): JSX.Element;
 
-// @public
+// @public @deprecated
 export function LeadingText2(props: TextProps): JSX.Element;
 
 // @internal
@@ -1251,9 +1265,10 @@ export class LoadingSpinner extends React.PureComponent<LoadingSpinnerProps> {
 }
 
 // @public
-export interface LoadingSpinnerProps extends SpinnerProps {
+export interface LoadingSpinnerProps extends Omit<ProgressRadialProps, "size"> {
     message?: string;
     messageOnTop?: boolean;
+    size?: RadialSizeType | SpinnerSize;
 }
 
 // @public
@@ -1307,7 +1322,7 @@ export class MessageBox extends React.PureComponent<MessageBoxProps> {
 
 // @public
 export interface MessageBoxProps extends CommonProps {
-    buttonCluster: DialogButtonDef[];
+    buttonCluster: DialogButtonDef_2[];
     contentClassName?: string;
     contentStyle?: React.CSSProperties;
     height?: string | number;
@@ -1371,10 +1386,10 @@ export enum MessageSeverity {
 // @public
 export type MessageType = string | HTMLElement | ReactMessage;
 
-// @beta
+// @beta @deprecated
 export function MinimalFeaturedTile(props: TileProps): JSX.Element;
 
-// @beta
+// @beta @deprecated
 export function MinimalTile(props: TileProps): JSX.Element;
 
 // @public
@@ -1401,7 +1416,7 @@ export interface NodeCheckboxProps {
 export type NodeCheckboxRenderer = (props: NodeCheckboxRenderProps) => React.ReactNode;
 
 // @beta
-export type NodeCheckboxRenderProps = Omit<CheckboxProps, "onChange" | "onClick"> & {
+export type NodeCheckboxRenderProps = Omit<CheckboxProps_2, "onChange" | "onClick"> & {
     onChange: (checked: boolean) => void;
     onClick: (e: React.MouseEvent) => void;
 };
@@ -1410,7 +1425,7 @@ export type NodeCheckboxRenderProps = Omit<CheckboxProps, "onChange" | "onClick"
 export const NumberInput: (props: NumberInputProps) => JSX.Element | null;
 
 // @beta
-export interface NumberInputProps extends Omit<InputProps, "min" | "max" | "step" | "onChange"> {
+export interface NumberInputProps extends Omit<InputProps_2, "min" | "max" | "step" | "onChange"> {
     containerClassName?: string;
     format?: (num: number | null | undefined, formattedValue: string) => string;
     max?: number;
@@ -1608,10 +1623,10 @@ export interface ProcessSettingsTabActivationEventArgs {
     readonly tabSelectionFunc: (tabId: string) => void;
 }
 
-// @beta
+// @beta @deprecated
 export function ProgressBar(props: ProgressBarProps): JSX.Element;
 
-// @beta
+// @beta @deprecated
 export interface ProgressBarProps extends CommonProps {
     barHeight?: number;
     indeterminate?: boolean;
@@ -1620,10 +1635,10 @@ export interface ProgressBarProps extends CommonProps {
     percent?: number;
 }
 
-// @beta
+// @beta @deprecated
 export function ProgressSpinner(props: ProgressSpinnerProps): JSX.Element;
 
-// @beta
+// @beta @deprecated
 export interface ProgressSpinnerProps extends CommonProps {
     children?: React.ReactNode;
     error?: boolean;
@@ -1688,12 +1703,15 @@ export interface RadialMenuProps extends CommonProps {
 }
 
 // @public
+export type RadialSizeType = ProgressRadialProps["size"];
+
+// @public @deprecated
 export class Radio extends React.PureComponent<RadioProps> {
     // (undocumented)
     render(): JSX.Element;
 }
 
-// @public
+// @public @deprecated
 export interface RadioProps extends React.InputHTMLAttributes<HTMLInputElement>, CommonProps, LabeledComponentProps {
 }
 
@@ -1909,17 +1927,17 @@ export interface SearchBoxProps extends CommonProps {
     valueChangedDelay?: number;
 }
 
-// @public
+// @public @deprecated
 export const Select: (props: SelectProps) => JSX.Element | null;
 
-// @public
+// @public @deprecated
 export interface SelectOption {
     disabled?: boolean;
     label: string;
     value?: string | number | readonly string[];
 }
 
-// @public
+// @public @deprecated
 export interface SelectProps extends React.SelectHTMLAttributes<HTMLSelectElement>, CommonProps {
     options: (string | SelectOption)[] | {
         [key: string]: (string | SelectOption);
@@ -2072,7 +2090,7 @@ export interface SliderProps extends CommonProps {
     values: number[];
 }
 
-// @public
+// @public @deprecated
 export function SmallText(props: TextProps): JSX.Element;
 
 // @public
@@ -2085,19 +2103,19 @@ export enum SortDirection {
     NoSort = 0
 }
 
-// @public
+// @public @deprecated
 export class Spinner extends React.PureComponent<SpinnerProps> {
     // (undocumented)
     render(): JSX.Element;
 }
 
-// @public
+// @public @deprecated
 export interface SpinnerProps {
     size?: SpinnerSize;
     sizeClass?: string;
 }
 
-// @public
+// @public @deprecated
 export enum SpinnerSize {
     Large = 2,
     Medium = 1,
@@ -2105,7 +2123,7 @@ export enum SpinnerSize {
     XLarge = 3
 }
 
-// @public
+// @public @deprecated
 export class SplitButton extends React.Component<SplitButtonProps, SplitButtonState> {
     constructor(props: SplitButtonProps);
     // (undocumented)
@@ -2122,7 +2140,7 @@ export enum SplitButtonActionType {
     List = 1
 }
 
-// @public
+// @public @deprecated
 export interface SplitButtonProps extends CommonProps {
     buttonType?: ButtonType;
     drawBorder?: boolean;
@@ -2147,10 +2165,10 @@ export interface StyledTextProps extends TextProps {
     mainClassName: string;
 }
 
-// @public
+// @public @deprecated
 export function Subheading(props: TextProps): JSX.Element;
 
-// @public
+// @public @deprecated
 export function Subheading2(props: TextProps): JSX.Element;
 
 // @public
@@ -2214,10 +2232,10 @@ export interface TabsProps extends React.AllHTMLAttributes<HTMLUListElement>, Co
     onClickLabel?: (index: number) => any;
 }
 
-// @public
+// @public @deprecated
 export const Textarea: (props: TextareaProps) => JSX.Element | null;
 
-// @public
+// @public @deprecated
 export interface TextareaProps extends React.TextareaHTMLAttributes<HTMLTextAreaElement>, CommonProps {
     ref?: React.Ref<HTMLTextAreaElement>;
     rows?: number;
@@ -2296,7 +2314,7 @@ export type ThemedSelectProps = {
     value?: ValueType<OptionType>;
 };
 
-// @beta
+// @beta @deprecated
 export class Tile extends React.Component<TileProps> {
     // @internal (undocumented)
     static readonly defaultProps: TileDefaultProps;
@@ -2307,7 +2325,7 @@ export class Tile extends React.Component<TileProps> {
 // @internal (undocumented)
 export type TileDefaultProps = Pick<TileProps, "stepNum">;
 
-// @beta
+// @beta @deprecated
 export interface TileProps extends CommonDivProps {
     // (undocumented)
     featured?: boolean;
@@ -2345,23 +2363,24 @@ export class Timer {
     stop(): void;
     }
 
-// @public
+// @public @deprecated
 export function Title(props: TextProps): JSX.Element;
 
-// @public
+// @public @deprecated
 export function Title2(props: TextProps): JSX.Element;
 
-// @public
+// @public @deprecated
 export const Toggle: (props: ToggleProps) => JSX.Element | null;
 
-// @public
+// @public @deprecated
 export enum ToggleButtonType {
     Blue = 1,
     Primary = 0
 }
 
-// @public
+// @public @deprecated
 export interface ToggleProps extends CommonProps {
+    // @deprecated
     buttonType?: ToggleButtonType;
     disabled?: boolean;
     isOn?: boolean;
@@ -2384,13 +2403,13 @@ export const TOOLBAR_BOX_SHADOW_OPACITY_DEFAULT = 0.35;
 // @internal
 export const TOOLBAR_OPACITY_DEFAULT = 0.5;
 
-// @beta
+// @beta @deprecated
 export function Tooltip(props: TooltipProps): JSX.Element;
 
-// @beta
+// @beta @deprecated
 export type TooltipPlacement = "bottom" | "left" | "right" | "top";
 
-// @beta
+// @beta @deprecated
 export interface TooltipProps extends CommonProps {
     children?: React.ReactNode;
     placement?: TooltipPlacement;

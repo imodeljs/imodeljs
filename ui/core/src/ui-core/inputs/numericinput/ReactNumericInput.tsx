@@ -78,16 +78,19 @@ function access(object: any, prop: string, defaultValue: any, ...args: any): any
 }
 
 /** Bounds function prototype for [[NumericInput]] component
- * @beta @deprecated use NumberInput
+ * @beta
+ * @deprecated use [NumberInput]($ui-core) instead
  */
 export type BoundsFunctionProp = number | (() => number | undefined);
 
-/** @internal @deprecated use NumberInput */
+/** @internal
+ * @deprecated use [NumberInput]($ui-core) instead */
 // eslint-disable-next-line deprecation/deprecation
 export type ReactStepFunctionProp = number | ((component: ReactNumericInput, direction: string) => number | undefined);
 
 /** Base properties for the [[NumericInput]] component
- * @beta @deprecated use NumberInput
+ * @beta
+ * @deprecated use [NumberInput]($ui-core) instead
  */
 export interface ReactNumericInputProps extends Omit<React.InputHTMLAttributes<HTMLInputElement>, "min" | "max" | "step" | "onChange" | "defaultValue" | "onInvalid">, CommonProps {
   componentClass?: string;
@@ -135,7 +138,8 @@ interface ReactNumericInputState {
 }
 /* eslint-enable */
 
-/** @internal @deprecated use NumberInput */
+/** @internal
+ * @deprecated use [NumberInput]($ui-core) instead */
 // istanbul ignore next
 // eslint-disable-next-line deprecation/deprecation
 export class ReactNumericInput extends React.Component<ReactNumericInputProps, ReactNumericInputState> {

@@ -14,8 +14,11 @@ import TestUtils from "../TestUtils";
 import { AsyncValueProcessingResult, DataControllerBase, PropertyEditorManager } from "../../ui-components/editors/PropertyEditorManager";
 import { PropertyRecord, PropertyValue, SpecialKey } from "@bentley/ui-abstract";
 import { OutputMessagePriority } from "@bentley/imodeljs-frontend";
+import { handleError, selectChangeValueByIndex, stubScrollIntoView } from "../test-helpers/misc";
 
 describe("<EnumEditor />", () => {
+  stubScrollIntoView();
+
   it("should render", () => {
     mount(<EnumEditor />);
   });
@@ -25,7 +28,7 @@ describe("<EnumEditor />", () => {
   });
 
   it("renders correctly with style", () => {
-    shallow(<EnumEditor style={{color: "red"}} />).should.matchSnapshot();
+    shallow(<EnumEditor style={{ color: "red" }} />).should.matchSnapshot();
   });
 
   it("getValue returns proper value after componentDidMount & setState", async () => {
@@ -45,19 +48,14 @@ describe("<EnumEditor />", () => {
     function handleCommit(_commit: PropertyUpdatedArgs): void {
       spyOnCommit();
     }
-    const wrapper = mount(<EnumEditor propertyRecord={record} onCommit={handleCommit} />);
-    const editor = wrapper.instance() as EnumEditor;
-    const selectNode = wrapper.find("select");
+    const wrapper = render(<EnumEditor propertyRecord={record} onCommit={handleCommit} />);
+    await TestUtils.flushAsyncOperations();
+    const selectNode = wrapper.getByTestId("components-select-editor");
+    expect(selectNode).not.to.be.null;
 
-    expect(selectNode.length).to.eq(1);
-    if (selectNode) {
-      const testValue = "1";
-      selectNode.simulate("change", { target: { value: testValue } });
-      wrapper.update();
-      expect(editor.state.selectValue).to.equal(testValue);
-      await TestUtils.flushAsyncOperations();
-      expect(spyOnCommit.calledOnce).to.be.true;
-    }
+    selectChangeValueByIndex(selectNode, 1, handleError);
+    await TestUtils.flushAsyncOperations();
+    expect(spyOnCommit.calledOnce).to.be.true;
   });
 
   it("HTML select onChange updates numeric value", async () => {
@@ -66,19 +64,14 @@ describe("<EnumEditor />", () => {
     function handleCommit(_commit: PropertyUpdatedArgs): void {
       spyOnCommit();
     }
-    const wrapper = mount(<EnumEditor propertyRecord={record} onCommit={handleCommit} />);
-    const editor = wrapper.instance() as EnumEditor;
-    const selectNode = wrapper.find("select");
+    const wrapper = render(<EnumEditor propertyRecord={record} onCommit={handleCommit} />);
+    await TestUtils.flushAsyncOperations();
+    const selectNode = wrapper.getByTestId("components-select-editor");
+    expect(selectNode).not.to.be.null;
 
-    expect(selectNode.length).to.eq(1);
-    if (selectNode) {
-      const testValue = 1;
-      selectNode.simulate("change", { target: { value: testValue } });
-      wrapper.update();
-      expect(editor.state.selectValue).to.equal(testValue);
-      await TestUtils.flushAsyncOperations();
-      expect(spyOnCommit.calledOnce).to.be.true;
-    }
+    selectChangeValueByIndex(selectNode, 1, handleError);
+    await TestUtils.flushAsyncOperations();
+    expect(spyOnCommit.calledOnce).to.be.true;
   });
 
   it("onCommit should not be called for escape", async () => {
@@ -87,16 +80,17 @@ describe("<EnumEditor />", () => {
     function handleCommit(_commit: PropertyUpdatedArgs): void {
       spyOnCommit();
     }
-    const wrapper = mount(<EditorContainer propertyRecord={propertyRecord} title="abc" onCommit={handleCommit} onCancel={() => { }} />);
-    const selectNode = wrapper.find("select");
-    expect(selectNode.length).to.eq(1);
+    const wrapper = render(<EditorContainer propertyRecord={propertyRecord} title="abc" onCommit={handleCommit} onCancel={() => { }} />);
+    await TestUtils.flushAsyncOperations();
+    const selectNode = wrapper.getByTestId("components-select-editor");
+    expect(selectNode).not.to.be.null;
 
-    selectNode.simulate("keyDown", { key: "Escape" });
+    fireEvent.keyDown(selectNode, { key: SpecialKey.Escape });
     await TestUtils.flushAsyncOperations();
     expect(spyOnCommit.called).to.be.false;
   });
 
-  it("onCommit should be called for blur", async () => {
+  it.skip("onCommit should be called for blur", async () => {
     const propertyRecord = TestUtils.createEnumProperty("Test", 0);
     const spyOnCommit = sinon.spy();
     function handleCommit(_commit: PropertyUpdatedArgs): void {
@@ -130,7 +124,7 @@ describe("<EnumEditor />", () => {
 
   class MineDataController extends DataControllerBase {
     public override async validateValue(_newValue: PropertyValue, _record: PropertyRecord): Promise<AsyncValueProcessingResult> {
-      return { encounteredError: true, errorMessage: { priority: OutputMessagePriority.Error, briefMessage: "Test"} };
+      return { encounteredError: true, errorMessage: { priority: OutputMessagePriority.Error, briefMessage: "Test" } };
     }
   }
 
@@ -144,18 +138,35 @@ describe("<EnumEditor />", () => {
     const renderedComponent = render(<EditorContainer propertyRecord={record} title="abc" onCommit={spyOnCommit} onCancel={spyOnCancel} />);
     expect(renderedComponent).not.to.be.undefined;
 
-    const selectNode = renderedComponent.container.querySelector("select");
+    const selectNode = renderedComponent.getByTestId("components-select-editor");
     expect(selectNode).not.to.be.null;
 
-    fireEvent.blur(selectNode as HTMLElement);
+    fireEvent.blur(selectNode);
     await TestUtils.flushAsyncOperations();
     expect(spyOnCommit.called).to.be.false;
 
-    fireEvent.keyDown(selectNode as HTMLElement, { key: SpecialKey.Escape });
+    fireEvent.keyDown(selectNode, { key: SpecialKey.Escape });
     await TestUtils.flushAsyncOperations();
     expect(spyOnCancel.called).to.be.true;
 
     PropertyEditorManager.deregisterDataController("myData");
+  });
+
+  it("keyDown should propagate up", async () => {
+    const propertyRecord = TestUtils.createEnumProperty("Test", 0);
+    const spyParent = sinon.spy();
+    const wrapper = render(
+      <div onKeyDown={spyParent} role="presentation">
+        <EditorContainer propertyRecord={propertyRecord} title="abc" onCommit={() => { }} onCancel={() => { }} />
+      </div>
+    );
+    await TestUtils.flushAsyncOperations();
+    const selectNode = wrapper.getByTestId("components-select-editor");
+    expect(selectNode).not.to.be.null;
+
+    fireEvent.keyDown(selectNode, { key: SpecialKey.PageDown });
+    await TestUtils.flushAsyncOperations();
+    expect(spyParent.called).to.be.true;
   });
 
 });

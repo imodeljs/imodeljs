@@ -12,6 +12,7 @@ import { TextProps } from "./TextProps";
 
 /** Styled subheading text React functional component
  * @public
+ * @deprecated Use Subheading in itwinui-react instead
  */
 export function Subheading(props: TextProps) {
   return <StyledText {...props} mainClassName="uicore-text-subheading" />;

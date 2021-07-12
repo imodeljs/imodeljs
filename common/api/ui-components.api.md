@@ -38,7 +38,7 @@ import { Id64String } from '@bentley/bentleyjs-core';
 import { IDisposable } from '@bentley/bentleyjs-core';
 import { immerable } from 'immer';
 import { IModelConnection } from '@bentley/imodeljs-frontend';
-import { InputProps } from '@bentley/ui-core';
+import { InputProps } from '@itwin/itwinui-react';
 import * as Inspire from 'inspire-tree';
 import { LinkElementsInfo } from '@bentley/ui-abstract';
 import { Matrix3d } from '@bentley/geometry-core';
@@ -67,6 +67,7 @@ import * as React from 'react';
 import ReactDataGrid = require('react-data-grid');
 import { RelativePosition } from '@bentley/ui-abstract';
 import { ScreenViewport } from '@bentley/imodeljs-frontend';
+import { SelectOption } from '@itwin/itwinui-react';
 import { SortDirection } from '@bentley/ui-core';
 import { StandardViewId } from '@bentley/imodeljs-frontend';
 import { TentativePoint } from '@bentley/imodeljs-frontend';
@@ -522,6 +523,8 @@ export class BooleanEditor extends React.PureComponent<PropertyEditorProps, Bool
 
 // @beta
 export class BooleanPropertyEditor extends PropertyEditorBase {
+    // (undocumented)
+    get containerHandlesBlur(): boolean;
     // (undocumented)
     get reactNode(): React.ReactNode;
 }
@@ -1749,6 +1752,8 @@ export class EnumPropertyButtonGroupEditor extends PropertyEditorBase {
 export class EnumPropertyEditor extends PropertyEditorBase {
     // (undocumented)
     get containerHandlesEnter(): boolean;
+    // (undocumented)
+    get containerStopsKeydownPropagation(): boolean;
     // (undocumented)
     get reactNode(): React.ReactNode;
 }
@@ -3531,6 +3536,8 @@ export abstract class PropertyEditorBase implements DataController {
     // (undocumented)
     get containerHandlesTab(): boolean;
     // (undocumented)
+    get containerStopsKeydownPropagation(): boolean;
+    // (undocumented)
     customDataController: DataController | undefined;
     // (undocumented)
     abstract get reactNode(): React.ReactNode;
@@ -4948,6 +4955,8 @@ export class ToggleEditor extends React.PureComponent<PropertyEditorProps, Toggl
 
 // @beta
 export class TogglePropertyEditor extends PropertyEditorBase {
+    // (undocumented)
+    get containerHandlesBlur(): boolean;
     // (undocumented)
     get reactNode(): React.ReactNode;
 }

@@ -10,7 +10,9 @@ import { BeUiEvent, Logger } from "@bentley/bentleyjs-core";
 import { ConditionalBooleanValue } from "@bentley/ui-abstract";
 import { UiCore } from "../UiCore";
 
-/** Interface used to populate a tab entry in the SettingContainer control @beta */
+/** Interface used to populate a tab entry in the SettingContainer control
+ * @beta
+ */
 export interface SettingsTabEntry {
   /** unique id for entry */
   readonly tabId: string;

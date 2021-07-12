@@ -8,8 +8,8 @@
 @import "../style/colors";
 @import "../style/opacity";
 @import "../style/themecolors";
-@import "../style/typography";
 @import "../z-index";
+@import "~@itwin/itwinui-css/scss/style/typography";
 
 // cspell:ignore themecolors unbordered
 
@@ -144,7 +144,7 @@ $uicore-menu-top-bottom-padding: $uicore-menu-padding * 0.6667;
       > .core-context-menu-content {
         flex-shrink: 0;
         flex-grow: 1;
-        font-size: $uicore-font-size;
+        font-size: $iui-font-size;
         text-align: left;
       }
 

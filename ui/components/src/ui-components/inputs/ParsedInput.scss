@@ -3,6 +3,7 @@
 * See LICENSE.md in the project root for license terms and full copyright notice.
 *--------------------------------------------------------------------------------------------*/
 @import "~@bentley/ui-core/lib/ui-core/style/themecolors";
+@import "~@bentley/ui-core/lib/ui-core/inputs/variables";
 
 .components-parsed-input {
   width: auto;
@@ -13,5 +14,8 @@
   &.components-parsed-input[disabled] {
     color: $buic-foreground-body;
     opacity: 0.65;
+  }
+  &.iui-input {
+    padding: $uicore-iui-input-padding;
   }
 }

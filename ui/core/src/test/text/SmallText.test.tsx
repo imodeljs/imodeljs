@@ -6,6 +6,8 @@ import { mount, shallow } from "enzyme";
 import * as React from "react";
 import { SmallText } from "../../ui-core";
 
+/* eslint-disable deprecation/deprecation */
+
 describe("<SmallText />", () => {
   it("should render", () => {
     mount(<SmallText />);

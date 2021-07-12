@@ -11,6 +11,7 @@ import { useSourceMapContext } from "./MapLayerManager";
 import { MapUrlDialog } from "./MapUrlDialog";
 import { MapLayersUiItemsProvider } from "../MapLayersUiItemsProvider";
 import { ConfirmMessageDialog } from "./ConfirmMessageDialog";
+import { Button, Input } from "@itwin/itwinui-react";
 
 // cSpell:ignore droppable Sublayer
 
@@ -255,14 +256,14 @@ function AttachLayerPanel({ isOverlay, onLayerAttached }: AttachLayerPanelProps)
 
   return (
     <div className="map-manager-header">
-      {(loading || loadingSources) && <UiCore.LoadingSpinner size={UiCore.SpinnerSize.Medium} message={loadingMapSources} />}
+      {(loading || loadingSources) && <UiCore.LoadingSpinner message={loadingMapSources} />}
       <div className="map-manager-source-listbox-header">
-        <UiCore.Input type="text" className="map-manager-source-list-filter"
+        <Input type="text" className="map-manager-source-list-filter"
           placeholder={placeholderLabel}
           value={sourceFilterString}
           onChange={handleFilterTextChanged} />
-        <UiCore.Button className="map-manager-add-source-button" buttonType={UiCore.ButtonType.Hollow} title={addCustomLayerToolTip} onClick={handleAddNewMapSource}>
-          {addCustomLayerLabel}</UiCore.Button>
+        <Button className="map-manager-add-source-button" title={addCustomLayerToolTip} onClick={handleAddNewMapSource}>
+          {addCustomLayerLabel}</Button>
       </div>
       <div className="map-manager-sources">
         <UiCore.Listbox
@@ -285,18 +286,18 @@ function AttachLayerPanel({ isOverlay, onLayerAttached }: AttachLayerPanelProps)
                   // otherwise list feels cluttered.
                   (!!contextId && !!iModelId && layerNameUnderCursor && layerNameUnderCursor === source.name) &&
                   <>
-                    <UiCore.Button
+                    <Button
                       className="map-source-list-entry-button"
                       title={editLayerDefButtonTitle}
                       onClick={onItemEditButtonClicked}>
                       <UiCore.Icon iconSpec="icon-edit" />
-                    </UiCore.Button>
-                    <UiCore.Button
+                    </Button>
+                    <Button
                       className="map-source-list-entry-button"
                       title={removeLayerDefButtonTitle}
-                      onClick={(event) => {onItemRemoveButtonClicked(source, event);}}>
+                      onClick={(event: React.MouseEvent) => { onItemRemoveButtonClicked(source, event); }}>
                       <UiCore.Icon iconSpec="icon-delete" />
-                    </UiCore.Button>
+                    </Button>
                   </>}
 
               </UiCore.ListboxItem>
@@ -403,19 +404,19 @@ export function AttachLayerPopupButton(props: AttachLayerPopupButtonProps) {
         </button>
       );
     } else {
-      let typeClassName: string;
-      switch (props.buttonType) {
-        case AttachLayerButtonType.Blue:
-          typeClassName = "uicore-buttons-blue";
-          break;
-        case AttachLayerButtonType.Primary:
-        default:
-          typeClassName = "uicore-buttons-primary";
-          break;
-      }
+      const determineStyleType = () => {
+        switch (props.buttonType) {
+          case AttachLayerButtonType.Blue:
+            return "high-visibility";
+          case AttachLayerButtonType.Primary:
+          default:
+            return "cta";
+        }
+      };
+      const styleType = determineStyleType();
       button = (
-        <button ref={buttonRef} className={typeClassName} title={popupOpen ? hideAttachLayerLabel : showAttachLayerLabel}
-          onClick={togglePopup}>{addCustomLayerButtonLabel}</button>
+        <Button ref={buttonRef} styleType={styleType} title={popupOpen ? hideAttachLayerLabel : showAttachLayerLabel}
+          onClick={togglePopup}>{addCustomLayerButtonLabel}</Button>
       );
     }
 

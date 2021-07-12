@@ -11,6 +11,7 @@ import classnames from "classnames";
 import * as React from "react";
 import { Key } from "ts-key-enum";
 import { CommonProps, UiCore } from "@bentley/ui-core";
+import { Input } from "@itwin/itwinui-react";
 import { UiComponents } from "../UiComponents";
 import { ResultSelector, ResultSelectorProps } from "./ResultSelector";
 
@@ -226,7 +227,7 @@ export class FilteringInput extends React.PureComponent<FilteringInputProps, Fil
         role="presentation"
       >
         <span className="components-filtering-input-input">
-          <input type="text"
+          <Input type="text"
             placeholder={UiComponents.translate("filteringInput:placeholder")}
             // eslint-disable-next-line jsx-a11y/no-autofocus
             autoFocus={this.props.autoFocus}

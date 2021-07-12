@@ -2,11 +2,11 @@
 * Copyright (c) Bentley Systems, Incorporated. All rights reserved.
 * See LICENSE.md in the project root for license terms and full copyright notice.
 *--------------------------------------------------------------------------------------------*/
-@import "~@bentley/ui-core/lib/ui-core/style/typography";
 @import "~@bentley/ui-core/lib/ui-core/style/themecolors";
+@import "~@itwin/itwinui-css/scss/style/typography";
 
 .components-color-swatch {
-  font-size: $uicore-font-size;
+  font-size: $iui-font-size;
   height: 1em * 1.2;
   width: 1em * 1.2;
   border-width: 1px;

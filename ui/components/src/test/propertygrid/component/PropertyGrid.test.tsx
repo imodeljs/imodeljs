@@ -177,7 +177,7 @@ describe("PropertyGrid", () => {
       const categoryBlock = wrapper.find(PropertyCategoryBlock).at(0);
       expect(categoryBlock.exists(), "Category block does not exist").to.be.true;
 
-      categoryBlock.find(".header").simulate("click");
+      categoryBlock.find(".iui-header").simulate("click");
 
       const isExpanded = wrapper.state().categories[0].category.expand;
       expect(isExpanded, "Category did not get collapsed").to.be.false;
@@ -220,9 +220,9 @@ describe("PropertyGrid", () => {
       const childCategoryBlock = wrapper.find(PropertyCategoryBlock).at(1);
       const rootCategoryBlock2 = wrapper.find(PropertyCategoryBlock).at(2);
 
-      rootCategoryBlock1.find(".header").first().simulate("click");
-      childCategoryBlock.find(".header").simulate("click");
-      rootCategoryBlock2.find(".header").simulate("click");
+      rootCategoryBlock1.find(".iui-header").first().simulate("click");
+      childCategoryBlock.find(".iui-header").simulate("click");
+      rootCategoryBlock2.find(".iui-header").simulate("click");
 
       expect(wrapper.state().categories[0].category.expand, "First root category did not get collapsed").to.be.false;
       expect(wrapper.state().categories[0].children[0].category.expand, "Child category did not get expanded").to.be.true;
@@ -644,15 +644,15 @@ describe("PropertyGrid", () => {
 
   describe("property hover", () => {
     it("enables property hovering", async () => {
-      const { findByText, getByRole } = render(
+      const wrapper = render(
         <PropertyGrid
           orientation={Orientation.Horizontal}
           dataProvider={dataProvider}
           isPropertyHoverEnabled={true}
         />);
 
-      await findByText("Group 1");
-      expect([...getByRole("presentation").classList.values()]).to.contain("components--hoverable");
+      await wrapper.findByText("Group 1");
+      expect(wrapper.container.querySelector(".components--hoverable")).not.to.be.null;
     });
   });
 

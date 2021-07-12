@@ -2,8 +2,10 @@
 * Copyright (c) Bentley Systems, Incorporated. All rights reserved.
 * See LICENSE.md in the project root for license terms and full copyright notice.
 *--------------------------------------------------------------------------------------------*/
-@import "~@bentley/ui-core/lib/ui-core/inputs/input";
 @import "~@bentley/ui-core/lib/ui-core/scrollbar";
+@import "~@bentley/ui-core/lib/ui-core/inputs/variables";
+@import "~@bentley/ui-core/lib/ui-core/style/variables";
+@import "~@itwin/itwinui-css/scss/inputs/input";
 
 .components-table {
 
@@ -18,12 +20,15 @@
       display: none;
     }
 
-    $filter-height: 24px;
+    $filter-height: $uicore-component-height-small;
 
     .form-control.input-sm {
-      @include uicore-inputs-input;
+      @include iui-input;
+      display: inline;
+      padding: $uicore-iui-input-padding;
       margin: 0;
       max-width: calc(100% - 10px);
+      min-height: $filter-height;
       height: $filter-height;
     }
 

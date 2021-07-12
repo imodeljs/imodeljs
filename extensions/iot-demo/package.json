@@ -1,0 +1,64 @@
+{
+  "name": "iot-demo",
+  "version": "1.0.0",
+  "description": "IoT Demonstration",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "compile": "npm run build",
+    "prebuild": "npm run pseudolocalize && npm run copy:assets",
+    "build": "npm run prebuild && extension-webpack-tools build -s ./src/iotDemo.ts -o ./lib/extension",
+    "clean": "rimraf lib .rush/temp/package-deps*.json",
+    "copy:assets": "cpx \"./src/public/**/*\" ./lib/extension/",
+    "cover": "",
+    "docs": "",
+    "lint": "eslint -f visualstudio \"./src/**/*.ts\" 1>&2",
+    "pseudolocalize": "betools pseudolocalize --englishDir=./src/public/locales/en --out=./lib/extension/locales/en-PSEUDO",
+    "test": ""
+  },
+  "keywords": [
+    "iModel",
+    "BIM",
+    "iot",
+    "extension"
+  ],
+  "author": {
+    "name": "Bentley Systems, Inc.",
+    "url": "http://www.bentley.com"
+  },
+  "devDependencies": {
+    "@bentley/build-tools": "2.16.0-dev.14",
+    "@bentley/eslint-plugin": "2.16.0-dev.14",
+    "@bentley/extension-webpack-tools": "2.16.0-dev.14",
+    "@types/react": "16.9.43",
+    "@types/classnames": "^2.2.3",
+    "cpx": "^1.5.0",
+    "eslint": "^6.8.0",
+    "rimraf": "^3.0.2",
+    "typescript": "~4.1.0"
+  },
+  "dependencies": {
+    "@bentley/bentleyjs-core": "2.16.0-dev.14",
+    "@bentley/geometry-core": "2.16.0-dev.14",
+    "@bentley/itwin-client": "2.16.0-dev.14",
+    "@bentley/imodeljs-common": "2.16.0-dev.14",
+    "@bentley/imodeljs-i18n": "2.16.0-dev.14",
+    "@bentley/imodeljs-frontend": "2.16.0-dev.14",
+    "@bentley/imodeljs-quantity": "2.16.0-dev.14",
+    "@bentley/ui-abstract": "2.16.0-dev.14",
+    "@bentley/ui-components": "2.16.0-dev.14",
+    "@bentley/ui-core": "2.16.0-dev.14",
+    "@bentley/ui-framework": "2.16.0-dev.14",
+    "@bentley/ui-ninezone": "2.16.0-dev.14",
+    "@itwin/itwinui-css": "^0.22.0",
+    "classnames": "2.2.6",
+    "react": "^16.8.0",
+    "svg-sprite-loader": "4.2.1"
+  },
+  "eslintConfig": {
+    "plugins": [
+      "@bentley"
+    ],
+    "extends": "plugin:@bentley/imodeljs-recommended"
+  }
+}

@@ -6,7 +6,8 @@ import { expect } from "chai";
 import { mount, shallow } from "enzyme";
 import * as React from "react";
 import * as sinon from "sinon";
-import { ExpandableBlock, ExpandableList } from "../../ui-core";
+import { ExpandableBlock } from "@itwin/itwinui-react";
+import { ExpandableList } from "../../ui-core";
 import TestUtils from "../TestUtils";
 
 describe("ExpandableList", () => {
@@ -26,35 +27,35 @@ describe("ExpandableList", () => {
   it("should support singleExpandOnly & defaultActiveBlock props", () => {
     const wrapper = mount(
       <ExpandableList singleExpandOnly={true} defaultActiveBlock={1}>
-        <ExpandableBlock title="Test0" isExpanded={true} onClick={() => { }}>
+        <ExpandableBlock title="Test0" isExpanded={true} >
           Hello0
         </ExpandableBlock>
-        <ExpandableBlock title="Test1" isExpanded={true} onClick={() => { }}>
+        <ExpandableBlock title="Test1" isExpanded={true} >
           Hello1
         </ExpandableBlock>
       </ExpandableList>);
 
-    const blocks = wrapper.find("div.uicore-expandable-blocks-block");
-    const expanded = wrapper.find("div.is-expanded");
+    const blocks = wrapper.find("div.iui-expandable-block");
+    const expanded = wrapper.find("div.iui-expanded");
 
     expect(expanded.length).to.eq(1);
     expect(blocks.length).to.eq(2);
-    expect(expanded.find("div.content").text()).to.eq("Hello1");
+    expect(expanded.find("div.iui-expandable-content").text()).to.eq("Hello1");
 
     wrapper.unmount();
   });
 
   it("should handle block click", () => {
-    const clickSpy = sinon.spy();
+    const toggleSpy = sinon.spy();
     const wrapper = mount(
       <ExpandableList>
-        <ExpandableBlock title="Test" isExpanded={true} onClick={clickSpy}>
+        <ExpandableBlock title="Test" isExpanded={true} onToggle={toggleSpy}>
           <div>Hello</div>
         </ExpandableBlock>
       </ExpandableList>);
 
-    wrapper.find("div.uicore-expandable-blocks-block > .header").simulate("click");
-    expect(clickSpy.calledOnce).to.be.true;
+    wrapper.find("div.iui-expandable-block > .iui-header").simulate("click");
+    expect(toggleSpy.calledOnce).to.be.true;
 
     wrapper.unmount();
   });
@@ -62,31 +63,31 @@ describe("ExpandableList", () => {
   it("should support singleExpandOnly & singleIsCollapsible props", () => {
     const wrapper = mount(
       <ExpandableList singleExpandOnly={true} singleIsCollapsible={true} defaultActiveBlock={1}>
-        <ExpandableBlock title="Test0" isExpanded={true} onClick={() => { }}>
+        <ExpandableBlock title="Test0" isExpanded={true} >
           Hello0
         </ExpandableBlock>
-        <ExpandableBlock title="Test1" isExpanded={true} onClick={() => { }}>
+        <ExpandableBlock title="Test1" isExpanded={true} >
           Hello1
         </ExpandableBlock>
       </ExpandableList>);
 
-    let blocks = wrapper.find("div.uicore-expandable-blocks-block");
-    let expanded = wrapper.find("div.is-expanded");
+    let blocks = wrapper.find("div.iui-expandable-block");
+    let expanded = wrapper.find("div.iui-expanded");
 
     expect(expanded.length).to.eq(1);
     expect(blocks.length).to.eq(2);
-    expect(expanded.find("div.content").text()).to.eq("Hello1");
+    expect(expanded.find("div.iui-expandable-content").text()).to.eq("Hello1");
 
-    blocks.at(0).find(".header").simulate("click");
+    blocks.at(0).find(".iui-header").simulate("click");
     wrapper.update();
-    expanded = wrapper.find("div.is-expanded");
+    expanded = wrapper.find("div.iui-expanded");
     expect(expanded.length).to.eq(1);
-    expect(expanded.find("div.content").text()).to.eq("Hello0");
+    expect(expanded.find("div.iui-expandable-content").text()).to.eq("Hello0");
 
-    blocks = wrapper.find("div.uicore-expandable-blocks-block");
-    blocks.at(0).find(".header").simulate("click");
+    blocks = wrapper.find("div.iui-expandable-block");
+    blocks.at(0).find(".iui-header").simulate("click");
     wrapper.update();
-    expanded = wrapper.find("div.is-expanded");
+    expanded = wrapper.find("div.iui-expanded");
     expect(expanded.length).to.eq(0);
 
     wrapper.unmount();
@@ -95,32 +96,32 @@ describe("ExpandableList", () => {
   it("should support changing defaultActiveBlock in update", () => {
     const wrapper = mount(
       <ExpandableList singleExpandOnly={true} singleIsCollapsible={true} defaultActiveBlock={1}>
-        <ExpandableBlock title="Test0" isExpanded={true} onClick={() => { }}>
+        <ExpandableBlock title="Test0" isExpanded={true} >
           Hello0
         </ExpandableBlock>
-        <ExpandableBlock title="Test1" isExpanded={true} onClick={() => { }}>
+        <ExpandableBlock title="Test1" isExpanded={true} >
           Hello1
         </ExpandableBlock>
       </ExpandableList>);
 
-    const blocks = wrapper.find("div.uicore-expandable-blocks-block");
-    let expanded = wrapper.find("div.is-expanded");
+    const blocks = wrapper.find("div.iui-expandable-block");
+    let expanded = wrapper.find("div.iui-expanded");
 
     expect(expanded.length).to.eq(1);
     expect(blocks.length).to.eq(2);
-    expect(expanded.find("div.content").text()).to.eq("Hello1");
+    expect(expanded.find("div.iui-expandable-content").text()).to.eq("Hello1");
 
     wrapper.setProps({ defaultActiveBlock: 0 });
     wrapper.update();
-    expanded = wrapper.find("div.is-expanded");
+    expanded = wrapper.find("div.iui-expanded");
     expect(expanded.length).to.eq(1);
-    expect(expanded.find("div.content").text()).to.eq("Hello0");
+    expect(expanded.find("div.iui-expandable-content").text()).to.eq("Hello0");
 
     wrapper.setProps({ defaultActiveBlock: 1 });
     wrapper.update();
-    expanded = wrapper.find("div.is-expanded");
+    expanded = wrapper.find("div.iui-expanded");
     expect(expanded.length).to.eq(1);
-    expect(expanded.find("div.content").text()).to.eq("Hello1");
+    expect(expanded.find("div.iui-expandable-content").text()).to.eq("Hello1");
 
     wrapper.unmount();
   });

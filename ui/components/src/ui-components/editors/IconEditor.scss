@@ -2,14 +2,14 @@
 * Copyright (c) Bentley Systems, Incorporated. All rights reserved.
 * See LICENSE.md in the project root for license terms and full copyright notice.
 *--------------------------------------------------------------------------------------------*/
-@import "~@bentley/ui-core/lib/ui-core/style/typography";
 @import "~@bentley/ui-core/lib/ui-core/style/themecolors";
+@import "~@itwin/itwinui-css/scss/style/typography";
 
 $components-color-editor-item-height: 100%;
 
 .components-icon-editor {
-  font-family: $uicore-font-family;
-  font-size: $uicore-font-size;
+  font-family: $iui-font-family;
+  font-size: $iui-font-size;
   color: $buic-foreground-body;
   border: none;
   box-sizing: border-box;

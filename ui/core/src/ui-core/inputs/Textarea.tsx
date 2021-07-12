@@ -8,11 +8,13 @@
 
 import classnames from "classnames";
 import * as React from "react";
+import { Textarea as ITwinUI_Textarea } from "@itwin/itwinui-react";
 import { useRefs } from "../utils/hooks/useRefs";
 import { CommonProps } from "../utils/Props";
 
 /** Properties for [[Textarea]] component
  * @public
+ * @deprecated Use TextareaProps in itwinui-react instead
  */
 export interface TextareaProps extends React.TextareaHTMLAttributes<HTMLTextAreaElement>, CommonProps {
   /** Number of textarea rows. Default is 3. */
@@ -24,7 +26,7 @@ export interface TextareaProps extends React.TextareaHTMLAttributes<HTMLTextArea
 }
 
 // Defined using following pattern (const Input at bottom) to ensure useful API documentation is extracted
-const ForwardRefTextarea = React.forwardRef<HTMLTextAreaElement, TextareaProps>(
+const ForwardRefTextarea = React.forwardRef<HTMLTextAreaElement, TextareaProps>(    // eslint-disable-line deprecation/deprecation
   function ForwardRefTextarea(props, ref) {
     const { className, style, rows, setFocus, ...otherProps } = props; // eslint-disable-line @typescript-eslint/no-unused-vars
     const textRows = undefined !== rows ? rows : 3;
@@ -41,7 +43,7 @@ const ForwardRefTextarea = React.forwardRef<HTMLTextAreaElement, TextareaProps>(
     }, []);
 
     return (
-      <textarea {...otherProps}
+      <ITwinUI_Textarea {...otherProps}
         ref={refs}
         rows={textRows}
         onFocus={handleFocus}
@@ -52,5 +54,6 @@ const ForwardRefTextarea = React.forwardRef<HTMLTextAreaElement, TextareaProps>(
 
 /** Basic textarea component
  * @public
+ * @deprecated Use Textarea in itwinui-react instead
  */
-export const Textarea: (props: TextareaProps) => JSX.Element | null = ForwardRefTextarea;
+export const Textarea: (props: TextareaProps) => JSX.Element | null = ForwardRefTextarea;   // eslint-disable-line deprecation/deprecation

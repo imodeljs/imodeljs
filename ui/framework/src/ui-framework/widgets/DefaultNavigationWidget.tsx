@@ -14,7 +14,8 @@ import { UiFramework } from "../UiFramework";
 import { NavigationWidget } from "./NavigationWidget";
 
 /** Properties that can be used to append items to the default set of toolbar items of [[DefaultNavigationWidget]].
- * @beta @deprecated use BasicNavigationWidget instead
+ * @beta
+ * @deprecated use [BasicNavigationWidget]($ui-framework) instead
  */
 export interface DefaultNavigationProps {
   /** Item to add before the default items in the horizontal toolbar */
@@ -29,7 +30,8 @@ export interface DefaultNavigationProps {
 
 /** Default Navigation Widget for zone 3. Provides standard view manipulation tools and displays registered Navigation Aids as corner item.
  * This definition will also show a overflow button if there is not enough room to display all the toolbar buttons.
- * @beta @deprecated use BasicNavigationWidget instead
+ * @beta
+ * @deprecated use [BasicNavigationWidget]($ui-framework) instead
  */
 export class DefaultNavigationWidget extends React.Component<DefaultNavigationProps> { // eslint-disable-line deprecation/deprecation
 
@@ -72,6 +74,7 @@ export class DefaultNavigationWidget extends React.Component<DefaultNavigationPr
 }
 
 /** DefaultNavigationWidget that is connected to the IModelConnection property in the Redux store. The application must set up the Redux store and include the FrameworkReducer.
- * @beta @deprecated use BasicNavigationWidget instead
+ * @beta
+ * @deprecated use [BasicNavigationWidget]($ui-framework) instead
  */
 export const IModelConnectedNavigationWidget = connectIModelConnection(null, null)(DefaultNavigationWidget); // eslint-disable-line @typescript-eslint/naming-convention, deprecation/deprecation

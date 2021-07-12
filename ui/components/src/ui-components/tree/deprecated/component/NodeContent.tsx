@@ -22,7 +22,8 @@ import { BeInspireTreeNode } from "./BeInspireTree";
 /* eslint-disable deprecation/deprecation */
 
 /** Properties for [[TreeNodeContent]] component
- * @internal @deprecated
+ * @internal
+ * @deprecated
  */
 export interface TreeNodeContentProps extends CommonProps {
   node: BeInspireTreeNode<TreeNodeItem>;
@@ -46,7 +47,8 @@ export interface TreeNodeContentProps extends CommonProps {
   renderId?: string;
 }
 
-/** @internal @deprecated */
+/** @internal
+ * @deprecated */
 export interface TreeNodeContentState {
   label: React.ReactNode;
   renderInfo?: {
@@ -56,7 +58,8 @@ export interface TreeNodeContentState {
 }
 
 /** React component for displaying [[TreeNode]] label
- * @internal @deprecated
+ * @internal
+ * @deprecated
  */
 export class TreeNodeContent extends React.Component<TreeNodeContentProps, TreeNodeContentState> {
   public constructor(props: TreeNodeContentProps) {

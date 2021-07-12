@@ -3,6 +3,7 @@
 * See LICENSE.md in the project root for license terms and full copyright notice.
 *--------------------------------------------------------------------------------------------*/
 @import "~@bentley/ui-core/lib/ui-core/style/index";
+@import "~@itwin/itwinui-css/scss/style/typography";
 
 /*****************************/
 /* Tab bar */
@@ -13,7 +14,7 @@
 	overflow: hidden;
 	width: 100%;
   color: $uicore-text-color;
-  font-size: $uicore-font-size-leading;
+  font-size: $iui-font-size-leading;
 }
 
 .tabs nav {

@@ -110,7 +110,8 @@ export interface FilterDescriptor {
   /** Determines if this filter is for a particular column. */
   isFilterForColumn(columnKey: string): boolean;
 
-  /** Returns filter as ECExpression. @alpha */
+  /** Returns filter as ECExpression.
+   * @alpha */
   getFilterExpression(): string;
 }
 
@@ -250,7 +251,8 @@ export interface CompositeFilterDescriptorCollection {
   /** Clears the filter descriptor. */
   clear(): void;
 
-  /** Returns filter as ECExpression. @alpha */
+  /** Returns filter as ECExpression.
+   * @alpha */
   getFilterExpression(): string;
 }
 

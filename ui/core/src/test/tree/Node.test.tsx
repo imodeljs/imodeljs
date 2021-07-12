@@ -6,10 +6,10 @@ import { expect } from "chai";
 import { mount, shallow } from "enzyme";
 import * as React from "react";
 import * as sinon from "sinon";
-import { Checkbox } from "../../ui-core/checkbox/Checkbox";
 import { CheckBoxState } from "../../ui-core/enums/CheckBoxState";
 import { ExpansionToggle } from "../../ui-core/tree/ExpansionToggle";
 import { TreeNode as Node } from "../../ui-core";
+import { Checkbox } from "@itwin/itwinui-react";
 
 describe("<Node />", () => {
   it("should render", () => {

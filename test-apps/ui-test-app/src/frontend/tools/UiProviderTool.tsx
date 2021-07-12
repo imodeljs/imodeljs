@@ -29,6 +29,7 @@ import { PopupTestPanel } from "./PopupTestPanel";
 import { PopupTestView } from "./PopupTestView";
 import { ComponentExamplesPage } from "../appui/frontstages/component-examples/ComponentExamples";
 import { ComponentExamplesProvider } from "../appui/frontstages/component-examples/ComponentExamplesProvider";
+import { ITwinUIExamplesProvider } from "../appui/frontstages/component-examples/ITwinUIExamplesProvider";
 
 // Simulate redux state being added via a extension
 interface SampleExtensionState {
@@ -224,7 +225,9 @@ export class OpenComponentExamplesPopoutTool extends Tool {
     };
     const connection = UiFramework.getIModelConnection();
     if (connection)
-      UiFramework.childWindowManager.openChildWindow("ComponentExamples", "Component Examples", <ComponentExamplesPage categories={ComponentExamplesProvider.categories} hideThemeOption />, location, UiFramework.useDefaultPopoutUrl);
+      UiFramework.childWindowManager.openChildWindow("ComponentExamples", "Component Examples",
+        <ComponentExamplesPage categories={[...ComponentExamplesProvider.categories, ...ITwinUIExamplesProvider.categories]} hideThemeOption />,
+        location, UiFramework.useDefaultPopoutUrl);
   }
 
   public static override get flyover(): string {

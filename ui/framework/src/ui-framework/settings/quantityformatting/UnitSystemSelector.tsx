@@ -8,8 +8,8 @@
 
 import * as React from "react";
 import { UiFramework } from "../../UiFramework";
-import { Select } from "@bentley/ui-core";
 import { UnitSystemKey } from "@bentley/imodeljs-frontend";
+import { Select, SelectOption } from "@itwin/itwinui-react";
 
 /** Props for [[UnitSystemSelector]]
  * @beta
@@ -24,13 +24,13 @@ export interface UnitSystemSelectorProps {
  * @alpha
  */
 export function UnitSystemSelector(props: UnitSystemSelectorProps) { // eslint-disable-line @typescript-eslint/naming-convention
-  const label = React.useRef (UiFramework.translate("presentationUnitSystem.selector-label"));
+  const label = React.useRef(UiFramework.translate("presentationUnitSystem.selector-label"));
   const { selectedUnitSystemKey, onUnitSystemSelected, availableUnitSystems } = props;
-  const handleUnitSystemSelected = React.useCallback((evt: React.ChangeEvent<HTMLSelectElement>) => {
-    onUnitSystemSelected && onUnitSystemSelected(evt.target.value as UnitSystemKey);
+  const handleUnitSystemSelected = React.useCallback((newValue: UnitSystemKey) => {
+    onUnitSystemSelected && onUnitSystemSelected(newValue);
   }, [onUnitSystemSelected]);
 
-  const displayUnitSystems = [...availableUnitSystems.values()].map ((sys) => {
+  const displayUnitSystems: SelectOption<UnitSystemKey>[] = [...availableUnitSystems.values()].map((sys) => {
     switch (sys) {
       case "imperial":
         return {
@@ -51,12 +51,12 @@ export function UnitSystemSelector(props: UnitSystemSelectorProps) { // eslint-d
       default:
         return {
           value: "metric",
-          label:UiFramework.translate("presentationUnitSystem.Metric"),
+          label: UiFramework.translate("presentationUnitSystem.Metric"),
         };
     }
   });
 
-  const unitSystemKey = availableUnitSystems.has(selectedUnitSystemKey)?selectedUnitSystemKey:displayUnitSystems[0].value;
+  const unitSystemKey = availableUnitSystems.has(selectedUnitSystemKey) ? selectedUnitSystemKey : displayUnitSystems[0].value;
 
   return (
     <div className="quantity-unit-system-selector-container">

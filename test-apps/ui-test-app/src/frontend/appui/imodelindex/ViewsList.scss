@@ -5,7 +5,7 @@
 @import "~@bentley/ui-ninezone/lib/ui-ninezone/footer/variables";
 @import "~@bentley/ui-ninezone/lib/ui-ninezone/scrollbar";
 @import "~@bentley/ui-core/lib/ui-core/style/colors";
-@import "~@bentley/ui-core/lib/ui-core/style/space";
+@import "~@itwin/itwinui-css/scss/style/space";
 @import "~@bentley/ui-core/lib/ui-core/style/themecolors";
 
 $outline-size: 2px;
@@ -21,7 +21,7 @@ $outline-size: 2px;
     @include nz-scrollbar($color: $buic-background-4);
     flex: 1;
     padding: $outline-size 0;
-    margin-bottom: $uicore-xs;
+    margin-bottom: $iui-xs;
     box-sizing: border-box;
     overflow-y: auto;
     overflow-x: hidden;
@@ -30,7 +30,7 @@ $outline-size: 2px;
   /* Container for all views in thumbnail view */
   .view-container-thumbnailview {
     @include nz-scrollbar($color: $buic-background-4);
-    padding: $uicore-xs 0 $uicore-xs 10px;
+    padding: $iui-xs 0 $iui-xs 10px;
     display: flex;
     align-items: flex-start;
     align-content: flex-start;

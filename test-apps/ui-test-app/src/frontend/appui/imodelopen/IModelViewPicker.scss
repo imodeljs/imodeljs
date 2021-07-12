@@ -2,9 +2,9 @@
 * Copyright (c) Bentley Systems, Incorporated. All rights reserved.
 * See LICENSE.md in the project root for license terms and full copyright notice.
 *--------------------------------------------------------------------------------------------*/
-@import "~@bentley/ui-core/lib/ui-core/button/blue";
 @import "~@bentley/ui-core/lib/ui-core/scrollbar";
 @import "~@bentley/ui-core/lib/ui-core/style/colors";
+@import "~@itwin/itwinui-css/scss/style/typography";
 
  $view-card-width: 215px;
  $view-card-height: 150px;
@@ -117,7 +117,6 @@
   }
 */
   > button {
-    @include uicore-buttons-blue;
     margin-left: auto;
     padding-left: 3em;
     padding-right: 5em;
@@ -200,7 +199,7 @@ $view-card-width: 190px;
   flex: initial;
   padding: .5em;
   background: $uicore-white;
-  font-size: $uicore-font-size-small;
+  font-size: $iui-font-size-small;
   text-overflow: ellipsis;
   white-space: nowrap;
   overflow: hidden;

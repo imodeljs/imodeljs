@@ -4,8 +4,10 @@
 *--------------------------------------------------------------------------------------------*/
 @import "../style/index";
 @import "../button/button";
+@import "~@itwin/itwinui-css/scss/style/speed";
+@import "~@itwin/itwinui-css/scss/style/typography";
 
-$toggle-height-small: $uicore-font-size * 1.5;
+$toggle-height-small: $iui-font-size * 1.5;
 $toggle-width-small:  $toggle-height-small * 2;
 $toggle-padding:      2;
 
@@ -24,12 +26,12 @@ $toggle-handle-large: $toggle-height-large - ($toggle-padding * 2);
   color: $uicore-white;
   vertical-align: middle;
   overflow: hidden;
-  font-size: $uicore-font-size;
+  font-size: $iui-font-size;
   cursor: pointer;
   outline:        none;
   margin:         2px;
   box-shadow:     $buic-inputs-boxshadow 0px 1px 1px inset;
-  transition:     all 0.15s ease-in-out;
+  transition:     all $iui-speed-fast ease-in-out;
 
   &:active,
   &:focus-within {
@@ -61,7 +63,7 @@ $toggle-handle-large: $toggle-height-large - ($toggle-padding * 2);
   background:     $uicore-gray-6;
   color:          $uicore-white;
   border-radius:  inherit;
-  transition:     box-shadow 0.15s ease-in-out;
+  transition:     box-shadow $iui-speed-fast ease-in-out;
 }
 
 /* Blue (default) */
@@ -80,7 +82,7 @@ $toggle-handle-large: $toggle-height-large - ($toggle-padding * 2);
   border-radius: 3px;
   box-sizing:     border-box;
   border:         1px solid $buic-accessory-hollow;
-  transition:     border-color 0.15s ease-in-out;
+  transition:     border-color $iui-speed-fast ease-in-out;
 
   min-width:  $toggle-handle-small;
   min-height: $toggle-handle-small;

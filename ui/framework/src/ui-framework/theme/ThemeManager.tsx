@@ -8,6 +8,7 @@
 
 import * as React from "react";
 import { connect } from "react-redux";
+import { ThemeProvider, ThemeType } from "@itwin/itwinui-react";
 import { FrameworkState } from "../redux/FrameworkState";
 import { UiFramework } from "../UiFramework";
 
@@ -37,7 +38,7 @@ export const WIDGET_OPACITY_DEFAULT = 0.90;
 
 /** Properties of [[ThemeManagerComponent]].
  */
-interface ThemeProps {
+interface ThemeManagerProps {
   /** theme ("light", "dark", etc.) */
   theme: string;
   /* Widget Opacity */
@@ -57,15 +58,24 @@ function mapStateToProps(state: any) {
   };
 }
 
+/** @internal */
+interface ThemeManagerState {
+  ownerDocument: Document | undefined;
+}
+
 /** ThemeManagerComponent handles setting themes.
  */
-class ThemeManagerComponent extends React.Component<ThemeProps> {
+class ThemeManagerComponent extends React.Component<ThemeManagerProps, ThemeManagerState> {
+
+  public override readonly state: ThemeManagerState = {
+    ownerDocument: undefined,
+  };
 
   public override componentDidMount() {
     this._setTheme(this.props.theme);
   }
 
-  public override componentDidUpdate(prevProps: ThemeProps) {
+  public override componentDidUpdate(prevProps: ThemeManagerProps) {
     if (this.props.theme !== prevProps.theme)
       this._setTheme(this.props.theme);
     if (this.props.widgetOpacity !== prevProps.widgetOpacity)
@@ -82,8 +92,23 @@ class ThemeManagerComponent extends React.Component<ThemeProps> {
     document.documentElement.style.setProperty("--buic-widget-opacity", opacity.toString());
   };
 
+  private _handleRefSet = (popupDiv: HTMLElement | null) => {
+    const ownerDocument = popupDiv?.ownerDocument ?? undefined;
+    if (ownerDocument) {
+      this.setState({ ownerDocument });
+    }
+  };
+
   public override render(): React.ReactNode {
-    return this.props.children;
+    const theme: ThemeType = (this.props.theme === SYSTEM_PREFERRED_COLOR_THEME) ? "os" : this.props.theme as ThemeType;
+
+    return (
+      <div style={{ height: "100%" }} ref={this._handleRefSet}>
+        <ThemeProvider theme={theme} themeOptions={{ ownerDocument: this.state.ownerDocument }}>
+          {this.props.children}
+        </ThemeProvider>
+      </div>
+    );
   }
 }
 

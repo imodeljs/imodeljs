@@ -3,10 +3,10 @@
 * See LICENSE.md in the project root for license terms and full copyright notice.
 *--------------------------------------------------------------------------------------------*/
 @import "~@bentley/ui-core/lib/ui-core/style/themecolors";
-@import "~@bentley/ui-core/lib/ui-core/style/typography";
+@import "~@itwin/itwinui-css/scss/style/typography";
 
 .components-lineweight-swatch {
-  font-size: $uicore-font-size;
+  font-size: $iui-font-size;
   color: $buic-foreground-body;
   border: none;
   background: inherit;

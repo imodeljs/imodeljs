@@ -2,10 +2,24 @@
 * Copyright (c) Bentley Systems, Incorporated. All rights reserved.
 * See LICENSE.md in the project root for license terms and full copyright notice.
 *--------------------------------------------------------------------------------------------*/
-@import "~@bentley/ui-core/lib/ui-core/style/typography";
+@import "~@itwin/itwinui-css/scss/style/space";
 
 .components-property-list--horizontal {
   .components-toggle-editor {
-    margin-left:        $uicore-font-size;    // Clear the resizer in the PropertyGrid
+    margin-left:    $iui-xs;    // Clear the resizer in the PropertyGrid
+
+    &.iui-toggle-switch {
+      padding:      1px 0;
+    }
+  }
+}
+
+.components-property-list--vertical {
+  .components-toggle-editor {
+    margin-left:    $iui-xxs;
+
+    &.iui-toggle-switch {
+      padding:      1px 0;
+    }
   }
 }

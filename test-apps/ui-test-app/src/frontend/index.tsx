@@ -67,7 +67,7 @@ import { OpenComponentExamplesPopoutTool, OpenCustomPopoutTool, OpenViewPopoutTo
 // Initialize my application gateway configuration for the frontend
 RpcConfiguration.developmentMode = true;
 
-// cSpell:ignore setTestProperty sampleapp uitestapp setisimodellocal projectwise mobx hypermodeling testapp urlps
+// cSpell:ignore setTestProperty sampleapp uitestapp setisimodellocal projectwise hypermodeling testapp urlps
 // cSpell:ignore toggledraginteraction toggleframeworkversion set-drag-interaction set-framework-version
 
 /** Action Ids used by redux and to send sync UI components. Typically used to refresh visibility or enable state of control.

@@ -15,6 +15,7 @@ import { SpinnerSize } from "../loading/Spinner";
 /**
  * Properties for [[ProgressSpinner]] component
  * @beta
+ * @deprecated Use ProgressRadialProps in itwinui-react instead.
  */
 export interface ProgressSpinnerProps extends CommonProps {
   /**
@@ -41,7 +42,7 @@ export interface ProgressSpinnerProps extends CommonProps {
    * Size of spinner
    * @default width/height of 40px
    */
-  size?: SpinnerSize;
+  size?: SpinnerSize; // eslint-disable-line deprecation/deprecation
   /**
    * Child components
    */
@@ -51,8 +52,9 @@ export interface ProgressSpinnerProps extends CommonProps {
 /**
  * Circular Progress Indicator that supports determinate and indeterminate modes.
  * @beta
+ * @deprecated Use ProgressRadial in itwinui-react instead.
  */
-export function ProgressSpinner(props: ProgressSpinnerProps) {
+export function ProgressSpinner(props: ProgressSpinnerProps) {    // eslint-disable-line deprecation/deprecation
   const {
     value = 0,
     indeterminate = false,
@@ -106,21 +108,21 @@ export function ProgressSpinner(props: ProgressSpinnerProps) {
   );
 }
 
-const setDefaultDimensions = (style: React.CSSProperties, inSize?: SpinnerSize) => {
+const setDefaultDimensions = (style: React.CSSProperties, inSize?: SpinnerSize) => {  // eslint-disable-line deprecation/deprecation
   let size = 40;
 
   if (inSize !== undefined) {
     switch (inSize) {
-      case SpinnerSize.Small:
+      case SpinnerSize.Small:   // eslint-disable-line deprecation/deprecation
         size = 16;
         break;
-      case SpinnerSize.Medium:
+      case SpinnerSize.Medium:  // eslint-disable-line deprecation/deprecation
         size = 32;
         break;
-      case SpinnerSize.Large:
+      case SpinnerSize.Large:   // eslint-disable-line deprecation/deprecation
         size = 64;
         break;
-      case SpinnerSize.XLarge:
+      case SpinnerSize.XLarge:  // eslint-disable-line deprecation/deprecation
         size = 96;
         break;
     }

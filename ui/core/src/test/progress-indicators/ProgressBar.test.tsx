@@ -6,6 +6,8 @@ import { shallow } from "enzyme";
 import * as React from "react";
 import { ProgressBar } from "../../ui-core";
 
+/* eslint-disable deprecation/deprecation */
+
 describe("ProgressBar", () => {
   it("renders correctly with percent=50", () => {
     shallow(<ProgressBar percent={50} />).should.matchSnapshot();

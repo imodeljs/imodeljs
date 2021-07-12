@@ -8,6 +8,8 @@ import { Textarea } from "../../ui-core";
 import { render } from "@testing-library/react";
 import { expect } from "chai";
 
+/* eslint-disable deprecation/deprecation */
+
 describe("<Textarea />", () => {
   it("should render", () => {
     mount(<Textarea />);

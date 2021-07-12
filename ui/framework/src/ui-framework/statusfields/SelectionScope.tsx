@@ -11,6 +11,7 @@ import classnames from "classnames";
 import * as React from "react";
 import { connect } from "react-redux";
 import { FooterIndicator } from "@bentley/ui-ninezone";
+import { Select, SelectOption } from "@itwin/itwinui-react";
 import { PresentationSelectionScope } from "../redux/SessionState";
 import { UiFramework } from "../UiFramework";
 import { StatusFieldProps } from "./StatusFieldProps";
@@ -40,14 +41,18 @@ class SelectionScopeFieldComponent extends React.Component<SelectionScopeFieldPr
     super(props);
   }
 
-  private _updateSelectValue = (e: React.ChangeEvent<HTMLSelectElement>) => {
+  private _updateSelectValue = (newValue: string) => {
     // istanbul ignore else
-    if (e.target.value) {
-      UiFramework.setActiveSelectionScope(e.target.value);
+    if (newValue) {
+      UiFramework.setActiveSelectionScope(newValue);
     }
   };
 
   public override render(): React.ReactNode {
+    const scopeOptions: SelectOption<string>[] = this.props.availableSelectionScopes.map((scope: PresentationSelectionScope) => {
+      return { value: scope.id, label: scope.label };
+    });
+
     return (
       <FooterIndicator
         className={classnames("uifw-statusFields-selectionScope", this.props.className)}
@@ -55,30 +60,17 @@ class SelectionScopeFieldComponent extends React.Component<SelectionScopeFieldPr
         isInFooterMode={this.props.isInFooterMode}
       >
         {this.props.isInFooterMode &&
-          <label className="uifw-statusFields-selectionScope-label" htmlFor="components-selectionScope-selector">
+          <label className="uifw-statusFields-selectionScope-label">
             {this._label}:
           </label>
         }
-        {/* eslint-disable-next-line jsx-a11y/no-onchange */}
-        <select
+        <Select
           className="uifw-statusFields-selectionScope-selector"
           value={this.props.activeSelectionScope}
+          options={scopeOptions}
           onChange={this._updateSelectValue}
           data-testid="components-selectionScope-selector"
-          id="components-selectionScope-selector"
-          title={this._toolTip}>
-
-          {this.props.availableSelectionScopes && this.props.availableSelectionScopes.map((scope: PresentationSelectionScope, index: number) => {
-            return (
-              <option key={index} value={scope.id}>
-                {scope.label}
-              </option>
-            );
-          })
-          }
-
-        </select>
-
+          title={this._toolTip} />
       </FooterIndicator >
     );
   }

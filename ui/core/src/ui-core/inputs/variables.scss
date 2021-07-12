@@ -2,7 +2,9 @@
 * Copyright (c) Bentley Systems, Incorporated. All rights reserved.
 * See LICENSE.md in the project root for license terms and full copyright notice.
 *--------------------------------------------------------------------------------------------*/
-@import "../style/index";
+@import "../style/baseline";
+@import "../style/themecolors";
+@import "~@itwin/itwinui-css/scss/style/space";
 
 // cspell:ignore unbordered
 
@@ -26,5 +28,6 @@ $uicore-inputs-margin-large: (
 
 $uicore-inputs-border-color: $buic-inputs-border;
 
-$uicore-inputs-focus-gradient: $buic-focus-boxshadow-gradient1 0px 1px 1px,
-  $buic-focus-boxshadow-gradient2 0px 0px 0px 2px;
+$uicore-inputs-focus-boxshadow: $buic-focus-boxshadow 0px 0px 0px 2px;
+
+$uicore-iui-input-padding: $iui-xxs $iui-s;
