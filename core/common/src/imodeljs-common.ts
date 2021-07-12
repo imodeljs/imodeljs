@@ -126,6 +126,8 @@ export * from "./rpc/core/RpcRoutingToken";
 export * from "./rpc/core/RpcPush";
 export * from "./rpc/web/BentleyCloudRpcManager";
 export * from "./rpc/web/BentleyCloudRpcProtocol";
+export * from "./rpc/web/ITwinCloudRpcManager";
+export * from "./rpc/web/ITwinCloudRpcProtocol";
 export * from "./rpc/web/OpenAPI";
 export * from "./rpc/web/RpcMultipart";
 export * from "./rpc/web/WebAppRpcProtocol";

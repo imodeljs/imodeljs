@@ -147,6 +147,9 @@ export abstract class WebAppRpcProtocol extends RpcProtocol {
   /** An optional prefix for RPC operation URI paths. */
   public pathPrefix: string = "";
 
+  /** An optional api name for RPC operation URI paths */
+  public apiName: string = "";
+
   /** The RPC request class for this protocol. */
   public readonly requestType = WebAppRpcRequest;
 
