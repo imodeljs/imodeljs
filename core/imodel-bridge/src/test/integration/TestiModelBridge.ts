@@ -87,6 +87,7 @@ class TestBridge extends IModelBridge {
   }
 
   public async updateExistingData() {
+    this.issueReporter?.reportIssue("instanceId", "source", "Error", "Cat", "Message", "Type");
     const groupModelId = this.queryGroupModel();
     const physicalModelId = this.queryPhysicalModel();
     const definitionModelId = this.queryDefinitionModel();

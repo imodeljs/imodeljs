@@ -13,6 +13,7 @@ import { KnownTestLocations } from "../KnownTestLocations";
 import { BridgeJobDefArgs, BridgeRunner } from "../../BridgeRunner";
 
 import * as path from "path";
+import { BadgersIssueReporter } from "../../BadgersIssueReporter";
 
 describe("IModelBridgeFwkStandAlone", () => {
 
@@ -46,6 +47,9 @@ describe("IModelBridgeFwkStandAlone", () => {
     const runner = new BridgeRunner(bridgeJobDef);
     const fileName = `${path.basename(assetFile, path.extname(assetFile))}.bim`;
     const filePath = path.join(KnownTestLocations.outputDir, fileName);
+    const issueReporter = new BadgersIssueReporter("", "", "", "TestBridge.json", KnownTestLocations.outputDir, undefined, assetFile);
+    issueReporter.recordSourceFileInfo("TestBridge.json", "TestBridge", "TestBridge", "itemType", "dataSource", "state", "failureReason", true, 200, true);
+    runner.setIssueReporter(issueReporter);
     const status = await runner.synchronize();
     expect(status === BentleyStatus.SUCCESS);
     const imodel = SnapshotDb.openFile(filePath);

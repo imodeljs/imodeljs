@@ -9,6 +9,7 @@
 import { assert, BentleyStatus, ClientRequestContext } from "@bentley/bentleyjs-core";
 import { Subject } from "@bentley/imodeljs-backend";
 import { AuthorizedClientRequestContext } from "@bentley/itwin-client";
+import { BridgeIssueReporter } from "./BridgeIssueReporter";
 import { BridgeJobDefArgs } from "./BridgeRunner";
 import { Synchronizer } from "./Synchronizer";
 
@@ -17,6 +18,7 @@ import { Synchronizer } from "./Synchronizer";
  */
 export abstract class IModelBridge {
   private _synchronizer: Synchronizer | undefined;
+  private _issueReporter?: BridgeIssueReporter;
   private _jobSubject?: Subject;
 
   /** Any initialization steps that the bridge must do in order to begin synchronization. */
@@ -75,6 +77,14 @@ export abstract class IModelBridge {
   public get synchronizer(): Synchronizer {
     assert(this._synchronizer !== undefined);
     return this._synchronizer;
+  }
+
+  public set issueReporter(reporter: BridgeIssueReporter | undefined) {
+    this._issueReporter = reporter;
+  }
+
+  public get issueReporter(): BridgeIssueReporter | undefined {
+    return this._issueReporter;
   }
 
   public set jobSubject(subject: Subject) {
