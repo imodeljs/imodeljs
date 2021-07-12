@@ -1,0 +1,11 @@
+{
+  "changes": [
+    {
+      "packageName": "@bentley/extension-webpack-tools",
+      "comment": "",
+      "type": "none"
+    }
+  ],
+  "packageName": "@bentley/extension-webpack-tools",
+  "email": "66480813+paulius-valiunas@users.noreply.github.com"
+}

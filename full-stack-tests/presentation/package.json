@@ -56,7 +56,7 @@
     "chai-as-promised": "^7",
     "chai-jest-snapshot": "^2.0.0",
     "chai-subset": "1.6.0",
-    "cpx": "^1.5.0",
+    "cpx2": "^3.0.0",
     "deep-equal": "^1",
     "faker": "^4.1.0",
     "immer": "^9.0.1",

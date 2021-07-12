@@ -67,7 +67,7 @@
     "chai-as-promised": "^7",
     "chai-jest-snapshot": "^2.0.0",
     "chai-subset": "1.6.0",
-    "cpx": "^1.5.0",
+    "cpx2": "^3.0.0",
     "cross-env": "^5.1.4",
     "deep-equal": "^1",
     "eslint": "^7.11.0",

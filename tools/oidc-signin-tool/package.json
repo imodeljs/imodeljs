@@ -36,7 +36,7 @@
     "@bentley/config-loader": "workspace:*",
     "@bentley/frontend-authorization-client": "workspace:*",
     "@bentley/itwin-client": "workspace:*",
-    "openid-client": "^3.15.3",
+    "openid-client": "^4.7.4",
     "puppeteer": "chrome-86"
   },
   "devDependencies": {

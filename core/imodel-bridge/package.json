@@ -72,7 +72,7 @@
     "@types/node": "10.14.1",
     "@types/object-hash": "^1.3.0",
     "chai": "^4.1.2",
-    "cpx": "^1.5.0",
+    "cpx2": "^3.0.0",
     "eslint": "^7.11.0",
     "internal-tools": "workspace:*",
     "mocha": "^8.3.2",

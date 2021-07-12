@@ -33,7 +33,7 @@
     "@bentley/extension-webpack-tools": "workspace:*",
     "@types/react": "16.9.43",
     "@types/react-select": "3.0.26",
-    "cpx": "^1.5.0",
+    "cpx2": "^3.0.0",
     "rimraf": "^3.0.2",
     "eslint": "^7.11.0",
     "typescript": "~4.3.0",

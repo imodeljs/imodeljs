@@ -34,7 +34,7 @@
     "test": "mocha -r ignore-styles -r jsdom-global/register --config ../.mocharc.json \"./lib/test/**/*.test.js\""
   },
   "devDependencies": {
-    "cpx": "^1.5.0",
+    "cpx2": "^3.0.0",
     "ignore-styles": "^5.0.1"
   },
   "dependencies": {

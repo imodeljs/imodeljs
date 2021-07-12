@@ -1,0 +1,11 @@
+{
+  "changes": [
+    {
+      "packageName": "@bentley/ecschema-rpcinterface-tests",
+      "comment": "",
+      "type": "none"
+    }
+  ],
+  "packageName": "@bentley/ecschema-rpcinterface-tests",
+  "email": "66480813+paulius-valiunas@users.noreply.github.com"
+}

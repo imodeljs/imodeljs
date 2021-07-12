@@ -30,7 +30,7 @@
     "@bentley/eslint-plugin": "workspace:*",
     "@bentley/extension-webpack-tools": "workspace:*",
     "@types/node": "10.14.1",
-    "cpx": "^1.5.0",
+    "cpx2": "^3.0.0",
     "eslint": "^7.11.0",
     "rimraf": "^3.0.2",
     "typescript": "~4.3.0"

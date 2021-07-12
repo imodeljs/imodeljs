@@ -61,7 +61,7 @@
     "@types/fs-extra": "^4.0.7",
     "@types/js-base64": "^2.3.1",
     "@types/mocha": "^8.2.2",
-    "cpx": "^1.5.0",
+    "cpx2": "^3.0.0",
     "eslint": "^7.11.0",
     "internal-tools": "workspace:*",
     "nyc": "^15.1.0",
