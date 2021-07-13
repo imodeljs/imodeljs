@@ -7,7 +7,7 @@
  * @module BrowserAuthorization
  */
 
-import { UserManager, UserManagerSettings } from "oidc-client";
+import { UserManager, UserManagerSettings, WebStorageStateStore } from "oidc-client";
 import { AuthStatus, BentleyError } from "@bentley/bentleyjs-core";
 import { BrowserAuthorizationBase } from "./BrowserAuthorizationBase";
 import { BrowserAuthorizationClientRedirectState } from "./BrowserAuthorizationClientRedirectState";
@@ -66,6 +66,7 @@ export class BrowserAuthorizationCallbackHandler extends BrowserAuthorizationBas
   protected async getUserManagerSettings(basicSettings: BrowserAuthorizationCallbackHandlerConfiguration, advancedSettings?: UserManagerSettings): Promise<UserManagerSettings> {
     let userManagerSettings: UserManagerSettings = {
       response_mode: basicSettings.responseMode, // eslint-disable-line @typescript-eslint/naming-convention
+      userStore: new WebStorageStateStore({ store: window.localStorage }),
     };
 
     if (advancedSettings) {

@@ -1,0 +1,11 @@
+{
+  "changes": [
+    {
+      "packageName": "@bentley/frontend-authorization-client",
+      "comment": "match default BrowserAuthorizationCallbackHandler userstore to value of BrowserAuthorizationClient's userstore",
+      "type": "none"
+    }
+  ],
+  "packageName": "@bentley/frontend-authorization-client",
+  "email": "54330647+evanpreslar-bentley@users.noreply.github.com"
+}

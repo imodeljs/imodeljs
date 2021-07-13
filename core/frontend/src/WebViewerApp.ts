@@ -42,7 +42,6 @@ export class WebViewerApp {
       const params = opts.webViewerApp;
       BentleyCloudRpcManager.initializeClient(params.rpcParams, opts.iModelApp?.rpcInterfaces ?? [], params.routing);
     }
-    await IModelApp.startup(opts.iModelApp);
 
     if (opts.webViewerApp.authConfig) {
       /** Handle any redirects as part of the signIn process
@@ -55,7 +54,11 @@ export class WebViewerApp {
         await BrowserAuthorizationCallbackHandler.handleSigninCallback(redirectUrl);
         return;
       }
+    }
 
+    await IModelApp.startup(opts.iModelApp);
+
+    if (opts.webViewerApp.authConfig) {
       const auth = new BrowserAuthorizationClient(opts.webViewerApp.authConfig);
       IModelApp.authorizationClient = auth;
 

@@ -1,0 +1,11 @@
+{
+  "changes": [
+    {
+      "packageName": "@bentley/imodeljs-frontend",
+      "comment": "move check for redirect callback handling in WebViewerApp to before IModelApp.startup call",
+      "type": "none"
+    }
+  ],
+  "packageName": "@bentley/imodeljs-frontend",
+  "email": "54330647+evanpreslar-bentley@users.noreply.github.com"
+}
